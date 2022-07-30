@@ -27,7 +27,7 @@
 }
 
 @font-face {
-  font-family: "Space Grotesk";
+  font-family: "SpaceGrotesk";
   src: url("/fonts/SpaceGrotesk/SpaceGrotesk-VariableFont_wght.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
@@ -50,7 +50,7 @@ body {
 }
 
 .font-space {
-  font-family: "Space Grotesk", sans-serif !important;
+  font-family: "SpaceGrotesk", sans-serif !important;
 }
 
 .font-nova {
