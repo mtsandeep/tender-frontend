@@ -124,9 +124,7 @@ export default function TwoPanes() {
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        {toShortCryptoString(
-                          Number(m.marketData.marketSize)
-                        )}{" "}
+                        {toShortCryptoString(Number(m.marketData.marketSize))}{" "}
                         {m.tokenPair.token.symbol}
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
@@ -193,9 +191,7 @@ export default function TwoPanes() {
                           </div>
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          {toShortCryptoString(
-                            Number(m.marketData.marketSize)
-                          )}{" "}
+                          {toShortCryptoString(Number(m.marketData.marketSize))}{" "}
                           {m.tokenPair.token.symbol}
                         </td>
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
@@ -271,7 +267,8 @@ export default function TwoPanes() {
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        {toShortCryptoString(m.marketData.totalBorrowed)}{" "}
+                        {m?.marketData?.totalBorrowed &&
+                          toShortCryptoString(m.marketData.totalBorrowed)}{" "}
                         {m.tokenPair.token.symbol}
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
@@ -337,7 +334,10 @@ export default function TwoPanes() {
                           </div>
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova text-sm font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          {toShortCryptoString(m.marketData.totalBorrowed)}{" "}
+                          {m?.marketData?.totalBorrowed &&
+                            toShortCryptoString(
+                              m.marketData.totalBorrowed
+                            )}{" "}
                           {m.tokenPair.token.symbol}
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
