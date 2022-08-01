@@ -239,6 +239,7 @@ body {
   margin: auto;
   max-height: 900px;
   overflow: hidden !important;
+  zoom: 1 !important;
 }
 
 .textSize22 {
