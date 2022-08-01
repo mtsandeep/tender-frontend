@@ -125,16 +125,20 @@ export default function TwoPanes() {
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(
-                            Number(m.marketData.marketSize.toFixed(6))
-                          )}{" "}
+                          {m.marketData.marketSize &&
+                            toShortCryptoString(
+                              Number(m.marketData.marketSize.toFixed(6))
+                            )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
-                          {`$${toShortFiatString(
-                            m.marketData.marketSize *
-                              m.tokenPair.token.priceInUsd
-                          )} USD`}
+                          {`$${
+                            m.marketData.marketSize &&
+                            toShortFiatString(
+                              m.marketData.marketSize *
+                                m.tokenPair.token.priceInUsd
+                            )
+                          } USD`}
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
@@ -204,16 +208,20 @@ export default function TwoPanes() {
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {toShortCryptoString(
-                              Number(m.marketData.marketSize.toFixed(6))
-                            )}{" "}
+                            {m.marketData.marketSize &&
+                              toShortCryptoString(
+                                Number(m.marketData.marketSize.toFixed(6))
+                              )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
                           <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
-                            {`$${toShortFiatString(
-                              m.marketData.marketSize *
-                                m.tokenPair.token.priceInUsd
-                            )} USD`}
+                            {`$${
+                              m.marketData.marketSize &&
+                              toShortFiatString(
+                                m.marketData.marketSize *
+                                  m.tokenPair.token.priceInUsd
+                              )
+                            } USD`}
                           </div>
                         </td>
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
@@ -292,16 +300,20 @@ export default function TwoPanes() {
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(
-                            Number(m.marketData.totalBorrowed.toFixed(6))
-                          )}{" "}
+                          {m.marketData?.totalBorrowed &&
+                            toShortCryptoString(
+                              Number(m.marketData.totalBorrowed.toFixed(6))
+                            )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
-                          {`$${toShortFiatString(
-                            m.marketData.totalBorrowed *
-                              m.tokenPair.token.priceInUsd
-                          )} USD`}
+                          {`$${
+                            m.marketData?.totalBorrowed &&
+                            toShortFiatString(
+                              m.marketData.totalBorrowed *
+                                m.tokenPair.token.priceInUsd
+                            )
+                          } USD`}
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
@@ -371,16 +383,20 @@ export default function TwoPanes() {
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {toShortCryptoString(
-                              Number(m.marketData.totalBorrowed.toFixed(6))
-                            )}{" "}
+                            {m.marketData?.totalBorrowed &&
+                              toShortCryptoString(
+                                Number(m.marketData.totalBorrowed.toFixed(6))
+                              )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
                           <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
-                            {`$${toShortFiatString(
-                              m.marketData.totalBorrowed *
-                                m.tokenPair.token.priceInUsd
-                            )} USD`}
+                            {`$${
+                              m.marketData?.totalBorrowed &&
+                              toShortFiatString(
+                                m.marketData.totalBorrowed *
+                                  m.tokenPair.token.priceInUsd
+                              )
+                            } USD`}
                           </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
