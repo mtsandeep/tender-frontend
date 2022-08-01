@@ -10,9 +10,8 @@ export default function Ring({ percent }: { percent: number }) {
     if (!percent) {
       return;
     }
-    let offsetOffest =
-      (NEAR_HUNDRED_PERCENT - NEAR_ZERO_PERCENT) * (percent / 100);
-    setTimeout(() => setStrokeOffset(NEAR_ZERO_PERCENT + offsetOffest), 300);
+    let offset = -(NEAR_HUNDRED_PERCENT - NEAR_ZERO_PERCENT) * (percent / 100);
+    setTimeout(() => setStrokeOffset(NEAR_ZERO_PERCENT + offset), 300);
   }, [percent]);
 
   return (
@@ -20,7 +19,7 @@ export default function Ring({ percent }: { percent: number }) {
       <div
         className="w-[109px] h-[108px] md:w-[164.96px] md:h-[164.23px]"
         style={{
-          transform: "rotate(80deg) scale(1.05)",
+          transform: "rotate(270deg) scale(1.05)",
         }}
       >
         <svg viewBox="0 0 128 128">
@@ -33,9 +32,7 @@ export default function Ring({ percent }: { percent: number }) {
               strokeLinecap: "round",
               transition: "stroke-dashoffset 0.2s ease",
             }}
-            stroke={`${
-              percent >= 0 ? "url('#myGradientLight')" : "rgba(9, 11, 21, 0.32)"
-            }`}
+            stroke={`${percent >= 0 ? "url('#myGradientLight')" : "#EA3F3F"}`}
             cx="64"
             cy="64"
             r="60"

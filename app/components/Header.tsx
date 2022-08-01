@@ -16,29 +16,14 @@ export default function Header() {
           </a>
         </div>
         <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
-          <a
-            className="pr-[15px] cursor-pointer hover:text-white"
-            href="https://docs.tender.fi/introduction/what-is-tender.fi"
-          >
-            About
+          <a className="px-[15px] cursor-pointer hover:text-white" href="/">
+            Dashboard
           </a>
           <a
             className="px-[15px] cursor-pointer hover:text-white"
-            href="https://www.tender.fi/#roadmap"
+            href="/markets"
           >
-            Roadmap
-          </a>
-          <a
-            className="px-[15px] cursor-pointer hover:text-white"
-            href="https://www.tender.fi/#partners"
-          >
-            Partners
-          </a>
-          <a
-            className="px-[15px] cursor-pointer hover:text-white"
-            href="https://www.tender.fi/#team"
-          >
-            Team
+            Markets
           </a>
           <a
             className="px-[15px] cursor-pointer hover:text-white"
