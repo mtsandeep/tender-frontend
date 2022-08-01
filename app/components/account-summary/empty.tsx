@@ -24,7 +24,7 @@ export default function AccountSummary() {
             0%
           </div>
           <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
-            <Ring percent={0} />
+            <Ring />
           </div>
         </div>
       </div>

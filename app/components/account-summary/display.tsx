@@ -46,14 +46,7 @@ export default function Display({
             {netApy != null &&
               totalSupplyBalanceInUsd /
                 (totalBorrowedInUsd + totalSupplyBalanceInUsd) >
-                0 && (
-                <Ring
-                  percent={
-                    totalSupplyBalanceInUsd /
-                    (totalBorrowedInUsd + totalSupplyBalanceInUsd)
-                  }
-                />
-              )}
+                0 && <Ring />}
           </div>
         </div>
       </div>

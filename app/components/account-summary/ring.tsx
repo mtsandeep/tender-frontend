@@ -1,19 +1,4 @@
-import { useEffect, useState } from "react";
-
-const NEAR_ZERO_PERCENT = 385;
-const NEAR_HUNDRED_PERCENT = 760;
-
-export default function Ring({ percent }: { percent: number }) {
-  let [strokeOffset, setStrokeOffset] = useState<number>(NEAR_ZERO_PERCENT);
-
-  useEffect(() => {
-    if (!percent) {
-      return;
-    }
-    let offset = -(NEAR_HUNDRED_PERCENT - NEAR_ZERO_PERCENT) * (percent / 100);
-    setTimeout(() => setStrokeOffset(NEAR_ZERO_PERCENT + offset), 300);
-  }, [percent]);
-
+export default function Ring({ percent }: { percent?: number }) {
   return (
     <div className="flex">
       <div
@@ -24,15 +9,13 @@ export default function Ring({ percent }: { percent: number }) {
       >
         <svg viewBox="0 0 128 128">
           <circle
-            strokeDashoffset={strokeOffset}
             style={{
-              strokeDasharray: "380",
               fill: "transparent",
               strokeWidth: 5,
               strokeLinecap: "round",
               transition: "stroke-dashoffset 0.2s ease",
             }}
-            stroke={`${percent >= 0 ? "url('#myGradientLight')" : "#EA3F3F"}`}
+            stroke="url('#myGradientLight')"
             cx="64"
             cy="64"
             r="60"

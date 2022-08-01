@@ -9,21 +9,15 @@ export default function Header() {
       <div className="flex w-full c items-center justify-between max-w-[1400px] relative">
         <div
           className="w-[104px] block md:w-[196px]"
-          onClick={() => setActivePopupMenu(true)}
+          onClick={() => setActivePopupMenu(false)}
         >
-          <a href="/">
+          <a href="https://www.tender.fi/">
             <img src="/images/logo1.svg" alt="Tender Finance" />
           </a>
         </div>
         <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
           <a className="px-[15px] cursor-pointer hover:text-white" href="/">
             Dashboard
-          </a>
-          <a
-            className="px-[15px] cursor-pointer hover:text-white"
-            href="/markets"
-          >
-            Markets
           </a>
           <a
             className="px-[15px] cursor-pointer hover:text-white"
