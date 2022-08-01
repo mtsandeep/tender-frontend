@@ -164,7 +164,7 @@ export default function TwoPanes() {
         )}
         {marketsWithoutSupply.length > 0 && (
           <div>
-            <div className="mb-[20px] font-nova text-white text-[18px] font-semibold md:mb-[15px] md:text-x">
+            <div className="mb-[20px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
               All Markets
             </div>
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
@@ -339,7 +339,7 @@ export default function TwoPanes() {
         )}
         {marketsWithoutBorrow.length > 0 && (
           <div>
-            <div className="mb-[20px] font-nova text-white text-[18px] font-semibold md:mb-[15px] md:text-x">
+            <div className="mb-[20px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
               All Markets
             </div>
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
