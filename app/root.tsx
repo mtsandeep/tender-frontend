@@ -45,6 +45,17 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG42N603J5"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-YG42N603J5');
+        </script>
+
       </head>
       <body>
         <div id="m"></div>
