@@ -108,7 +108,7 @@ export default function Header() {
               </a>
               <a
                 className="font-nova text-[18px] text-white cursor-pointer"
-                href="https://discord.com/invite/aKZ8hDBvYG"
+                href="https://discord.com/invite/Tender-Fi"
               >
                 Community
               </a>
