@@ -34,7 +34,7 @@ export default function AccountSummary() {
             Supply Balance
           </div>
           <div className="text-2xl font-space md:text-3xl">
-            ${formatCurrency(totalSupplyBalanceInUsd)}
+            {formatCurrency(totalSupplyBalanceInUsd)}
           </div>
         </div>
         <div className="w-full md:max-w-[487px] text-right  flex flex-col justify-center items-center">
@@ -42,7 +42,7 @@ export default function AccountSummary() {
             Borrow Balance
           </div>
           <div className="text-2xl font-space md:text-3xl">
-            ${formatCurrency(totalBorrowedInUsd)}
+            {formatCurrency(totalBorrowedInUsd)}
           </div>
         </div>
       </div>
