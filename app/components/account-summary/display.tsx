@@ -47,7 +47,7 @@ export default function Display({
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center mt-16 pt-[85px] md:flex-row justify-between my-6 mb-[42px] md:mb-[25px] md:pt-[146px] md:my-6">
+      <div className="flex flex-col items-center pt-[85px] md:flex-row justify-between mb-[42px] md:mb-[25px] md:pt-[146px]">
         <div className="w-full md:max-w-[491px] flex flex-col justify-center items-center mb-[34px] md:mb-0">
           <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
             Supply Balance

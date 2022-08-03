@@ -29,7 +29,7 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: globalStyles },
 ];
 export const meta: MetaFunction = () => {
-  return { title: "Tender.Finance" };
+  return { title: "Tender.fi" };
 };
 
 if (process.env.NODE_ENV === "production")

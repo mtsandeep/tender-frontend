@@ -162,7 +162,10 @@ export default function Borrow({
           <div className="mt-5">
             <div className="py-6 px-4 sm:px-12 bg-[#0D0D0D]">
               <div className="flex flex-col items-center mb-3 text-gray-400  pb-6">
-                <div className="flex w-full sm:w-full items-center py-8">
+                <div className="font-bold font-nova text-sm sm:text-xl w-full text-[#fff]">
+                  Borrow Rates
+                </div>
+                <div className="flex w-full sm:w-full items-center py-[24px]">
                   <img
                     src={market.tokenPair.token.icon}
                     style={{ width: ICON_SIZE }}

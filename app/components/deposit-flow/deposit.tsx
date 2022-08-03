@@ -189,7 +189,10 @@ export default function Deposit({
           {/* Sub Navigation */}
           <div className="px-4 py-6 sm:px-12" style={{ background: "#0D0D0D" }}>
             <div className="flex flex-col items-center mb-3 text-gray-400 pb-6">
-              <div className="flex w-full sm:w-full items-center py-8">
+              <div className="font-bold font-nova text-sm sm:text-xl w-full text-[#fff]">
+                Borrow Rates
+              </div>
+              <div className="flex w-full sm:w-full items-center py-[24px]">
                 <div className="w-6 mr-3 sm:w-12">
                   <img
                     src={market.tokenPair.token.icon}
@@ -203,7 +206,7 @@ export default function Deposit({
                 </div>
                 <div>{market.marketData.depositApy}</div>
               </div>
-              {/* <div className="flex w-full sm:w-full items-center py-8">
+              {/* <div className="flex w-full sm:w-full items-center py-[24px]">
                 <div className="w-6 mr-3 sm:w-12">
                   <img
                     src={market.tokenPair.token.icon}
@@ -247,13 +250,7 @@ export default function Deposit({
                       setIsEnabling(false);
                     }
                   }}
-                  className={clsx(
-                    "py-4 text-center text-black font-bold uppercase rounded bg-[#14F195] w-full max-w-[250px] font-space",
-                    {
-                      "bg-brand-green": !isEnabling,
-                      "bg-gray-200": isEnabling,
-                    }
-                  )}
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
                 >
                   {isEnabling ? "Enabling..." : "Enable"}
                 </button>

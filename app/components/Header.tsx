@@ -15,9 +15,12 @@ export default function Header() {
             <img src="/images/logo1.svg" alt="Tender Finance" />
           </a>
         </div>
-        <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
+        <div className="text-[#ADB5B3] hidden md:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
           <a className="px-[15px] cursor-pointer hover:text-white" href="/">
             Dashboard
+          </a>
+          <a className="px-[15px] cursor-pointer hover:text-white" href="/earn">
+            Earn
           </a>
           <a
             className="px-[15px] cursor-pointer hover:text-white"
@@ -33,19 +36,19 @@ export default function Header() {
           </a>
         </div>
         <div className="flex items-center">
-          <div className="lg:inline-block">
+          <div className="md:inline-block">
             <ConnectWallet />
           </div>
 
           <div
-            className={`flex pt-[2px] pr-[2.6px] gap-[5px] md:gap-[6px] lg:hidden header__burg ${
+            className={`flex pt-[2px] pr-[2.6px] gap-[5px] md:gap-[6px] md:hidden header__burg ${
               activePopupMenu ? "active" : ""
             }`}
             onClick={() => setActivePopupMenu(!activePopupMenu)}
           >
-            <span className="w-[17px] h-[1.3px] lg:w-[30px] lg:h-[3px]"></span>
-            <span className="w-[17px] h-[1.3px] lg:w-[30px] lg:h-[3px]"></span>
-            <span className="w-[10px] h-[1.3px] lg:w-[18px] lg:h-[3px]"></span>
+            <span className="w-[17px] h-[1.3px]"></span>
+            <span className="w-[17px] h-[1.3px]"></span>
+            <span className="w-[10px] h-[1.3px]"></span>
           </div>
         </div>
         <div className={`aside__menu__wrap ${activePopupMenu ? "act" : ""}`}>
@@ -57,27 +60,15 @@ export default function Header() {
             <div className="relative flex justify-center items-center flex-col text-[#ADB5B3] font-nova-400 text-xl translate-y-[-45px]">
               <a
                 className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
-                href="https://docs.tender.fi/introduction/what-is-tender.fi"
+                href="/"
               >
-                About
+                Dashboard
               </a>
               <a
                 className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
-                href="https://www.tender.fi/#roadmap"
+                href="/earn"
               >
-                Roadmap
-              </a>
-              <a
-                className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
-                href="https://www.tender.fi/#partners"
-              >
-                Partners
-              </a>
-              <a
-                className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
-                href="https://www.tender.fi/#team"
-              >
-                Team
+                Earn
               </a>
               <a
                 className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
