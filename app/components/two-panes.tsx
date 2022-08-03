@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { useContext, useState } from "react";
 import ReactModal from "react-modal";
 import { TenderContext } from "~/contexts/tender-context";

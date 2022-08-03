@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import WalletDropdown from "./walletDropdown";
-const { useAccounts, useError, useIsActive } = hooks;
+const { useAccounts, useIsActive } = hooks;
 
 export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   const accounts = useAccounts();
-  const error = useError();
   const isActive = useIsActive();
   const [onClient, setOnClient] = useState<boolean>(false);
 

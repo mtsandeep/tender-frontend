@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -108,7 +109,7 @@ export default function Deposit({
           <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
               <button onClick={() => closeModal()} className="">
-                <img src="/images/ico/close.svg" />
+                <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
 
