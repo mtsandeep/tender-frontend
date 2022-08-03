@@ -64,7 +64,7 @@ export default function Disconnected() {
     >
       <div className="relative text-center flex items-center justify-center w-full">
         <div className="text-center flex items-center justify-center text-[#121111] text-[14px] mb:text-[18px] py-[18px] py-[12px] pr-[40px] mb:py-[18px] px-4 font-bold font-nova leading-[130%] mb:leading-[18px]">
-          {isActive && (
+          {isActive ? (
             <div>
               Warning! Unsupported network.{" "}
               <button
@@ -74,8 +74,7 @@ export default function Disconnected() {
                 Switch to Metis
               </button>
             </div>
-          )}
-          {!isActive && (
+          ) : (
             <div>
               Warning: Unsupported network. Connect Wallet and we can help you
               switch.
