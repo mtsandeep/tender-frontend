@@ -71,11 +71,11 @@ const WalletDropdown = (props: Props) => {
           {truncateAccount(props.addresses[0])}
         </div>
         <svg
-          className={`arrow__custom ${
+          className={`arrow__custom rotate-180 ${
             !props.inMenu
               ? "absolute right-[9px] top-[50%] translate-y-[-50%]"
               : ""
-          }  ${isOpen ? "rotate-180" : ""}`}
+          }  ${isOpen ? "rotate-0" : ""}`}
           width="10"
           height="6"
           viewBox="0 0 10 6"
