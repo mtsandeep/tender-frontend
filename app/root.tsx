@@ -8,7 +8,6 @@ import {
 } from "remix";
 
 import LogRocket from "logrocket";
-// import TagManager from "react-gtm-module";
 
 import { Toaster } from "react-hot-toast";
 import type { MetaFunction, LinksFunction } from "remix";
@@ -39,12 +38,6 @@ if (process.env.NODE_ENV === "production")
 const connectors: [MetaMask, Web3ReactHooks][] = [[metaMask, metaMaskHooks]];
 
 export default function App() {
-  // const tagManagerArgs = {
-  //   gtmId: "G-9CFSCBJ73N",
-  // };
-
-  // TagManager.initialize(tagManagerArgs);
-
   return (
     <html lang="en">
       <head>
@@ -52,6 +45,16 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+
+        {/* <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CFSCBJ73N"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-9CFSCBJ73N');
+      </script> */}
       </head>
       <body>
         <div id="m"></div>
