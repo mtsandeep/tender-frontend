@@ -8,7 +8,7 @@ import {
 } from "remix";
 
 import LogRocket from "logrocket";
-import TagManager from "react-gtm-module";
+// import TagManager from "react-gtm-module";
 
 import { Toaster } from "react-hot-toast";
 import type { MetaFunction, LinksFunction } from "remix";
@@ -39,11 +39,11 @@ if (process.env.NODE_ENV === "production")
 const connectors: [MetaMask, Web3ReactHooks][] = [[metaMask, metaMaskHooks]];
 
 export default function App() {
-  const tagManagerArgs = {
-    gtmId: "G-9CFSCBJ73N",
-  };
+  // const tagManagerArgs = {
+  //   gtmId: "G-9CFSCBJ73N",
+  // };
 
-  TagManager.initialize(tagManagerArgs);
+  // TagManager.initialize(tagManagerArgs);
 
   return (
     <html lang="en">
