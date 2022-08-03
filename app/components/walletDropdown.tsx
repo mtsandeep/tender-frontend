@@ -42,7 +42,7 @@ const WalletDropdown = (props: Props) => {
       >
         <img
           className={`${isOpen || props.inMenu ? "hidden" : "block md:hidden"}`}
-          src="images/ico/wallet.svg"
+          src="/images/ico/wallet.svg"
           alt="..."
         />
         <div
@@ -67,7 +67,7 @@ const WalletDropdown = (props: Props) => {
               ? "absolute right-[9px] top-[50%] translate-y-[-50%]"
               : ""
           }  ${isOpen ? "rotate-180" : ""}`}
-          src="images/ico/arrow-down.svg"
+          src="/images/ico/arrow-down.svg"
           alt="..."
         />
       </div>

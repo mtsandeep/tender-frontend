@@ -11,7 +11,7 @@ function TokenChart() {
         <div className="flex items-center mb-[30px] sm:w-[30%]">
           <img
             className="w-10 h-10 mr-[15px] sm:w-[55px] sm:h-[55px] sm:mr-[21px]"
-            src="images\coin-icons\usdc.svg"
+            src="/images\coin-icons\usdc.svg"
             alt=""
           />
           <p className="font-[ProximaNova] font-medium text-lg leading-[25px] sm:text-[22px] whitespace-nowrap sm:leading-[31px]">
@@ -31,7 +31,7 @@ function TokenChart() {
             <div className="flex">
               <img
                 className="w-3.5 h-3.5 mr-[4px] sm:w-[20px] sm:h-[20px]"
-                src="images\coin-icons\usdc.svg"
+                src="/images\coin-icons\usdc.svg"
                 alt=""
               />
               <span className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap sm:text-sm sm:leading-[19px]">
@@ -46,7 +46,7 @@ function TokenChart() {
             <div className="flex">
               <img
                 className="w-3.5 h-3.5 mr-[4px] sm:w-[20px] sm:h-[20px]"
-                src="images\tenderLogoSmall.svg"
+                src="/images\tenderLogoSmall.svg"
                 alt=""
               />
               <span className="text-[10px] text-[#818987] leading-[14px] font-semibold pr-[1px] mb-[4px] whitespace-nowrap sm:text-sm sm:leading-[19px]">

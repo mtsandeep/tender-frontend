@@ -55,10 +55,6 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
           )}
         </>
       )}
-
-      {error?.message && (
-        <div className="text-xs text-gray-500">{error.message}</div>
-      )}
     </div>
   );
 }

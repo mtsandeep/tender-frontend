@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import { useState } from "react";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
-import { TooltipProps } from "recharts";
 import {
   ValueType,
   NameType,
@@ -9,6 +8,7 @@ import {
 import {
   BarChart,
   Bar,
+  TooltipProps,
   LineChart,
   Line,
   Tooltip,
@@ -293,8 +293,7 @@ const Chart = () => {
     </svg>
   );
 
-  const СustomDot = (props: any) => {
-    console.log(props);
+  const CustomDot = (props: any) => {
     setDotY(props.cy);
     setDotX(props.cx);
     return (
@@ -332,7 +331,7 @@ const Chart = () => {
             stroke={chartColor}
             strokeWidth={3}
             dot={false}
-            activeDot={<СustomDot />}
+            activeDot={<CustomDot />}
           />
         </LineChart>
       </ResponsiveContainer>
