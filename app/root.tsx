@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import {
   Links,
   LiveReload,
@@ -5,12 +6,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  MetaFunction,
+  LinksFunction,
 } from "remix";
 
 import LogRocket from "logrocket";
 
 import { Toaster } from "react-hot-toast";
-import type { MetaFunction, LinksFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
 import globalStyles from "./styles/global.css";
 
@@ -23,6 +25,7 @@ import type { MetaMask } from "@web3-react/metamask";
 
 import { hooks as metaMaskHooks, metaMask } from "~/connectors/meta-mask";
 import DisconnectedWarning from "./components/disconnected-warning";
+import TagManager from "react-gtm-module";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -36,6 +39,11 @@ if (process.env.NODE_ENV === "production")
   LogRocket.init("6bquwn/tender-frontend");
 
 const connectors: [MetaMask, Web3ReactHooks][] = [[metaMask, metaMaskHooks]];
+const tagManagerArgs = {
+  gtmId: "G-9CFSCBJ73N",
+};
+
+TagManager.initialize(tagManagerArgs);
 
 export default function App() {
   return (
@@ -45,18 +53,6 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        
-
-      <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CFSCBJ73N"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9CFSCBJ73N');
-      </script>
-        
       </head>
       <body>
         <div id="m"></div>
