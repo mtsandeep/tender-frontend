@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
 import {
   Links,
   LiveReload,
@@ -6,9 +5,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  MetaFunction,
-  LinksFunction,
 } from "remix";
+import type { MetaFunction, LinksFunction } from "remix";
 
 import LogRocket from "logrocket";
 
