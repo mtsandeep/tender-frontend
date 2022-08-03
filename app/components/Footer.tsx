@@ -36,7 +36,7 @@ export default function Footer() {
     {
       label: "Discord",
       ico: "/images/ico/discord.svg",
-      url: "https://discord.gg/TenderFi",
+      url: "https://discord.com/invite/Tender-Fi",
     },
   ];
 
