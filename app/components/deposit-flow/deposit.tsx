@@ -129,8 +129,8 @@ export default function Deposit({
                     alt="icon"
                   />
                   <div className="max-w-sm text-center my-10 mt-5 mb-5 font-normal font-nova text-white text-sm">
-                    To Supply or Repay {market.tokenPair.token.symbol} to the
-                    Compound Protocol, you need to enable it first.
+                    To supply or withdraw {market.tokenPair.token.symbol} to the
+                    Tender.fi protocol, you need to enable it first.
                   </div>
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function Deposit({
           {/* Sub Navigation */}
           <div className="px-4 py-6 sm:px-12" style={{ background: "#0D0D0D" }}>
             <div className="flex flex-col items-center mb-3 text-gray-400 pb-6">
-              <div className="flex w-full sm:w-full items-center border-b border-[#282C2B] py-8">
+              <div className="flex w-full sm:w-full items-center py-8">
                 <div className="w-6 mr-3 sm:w-12">
                   <img
                     src={market.tokenPair.token.icon}
@@ -332,7 +332,9 @@ export default function Deposit({
                 Currently Supplying
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(walletBalance)} {market.tokenPair.token.symbol}
+                {toCryptoString(walletBalance) +
+                  " " +
+                  market.tokenPair.token.symbol}
               </div>
             </div>
           </div>

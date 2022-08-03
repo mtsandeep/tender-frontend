@@ -84,20 +84,20 @@ export default function TwoPanes() {
             <table className="w-full h-full table-fixed">
               <thead>
                 <tr
-                  className={`w-full text-xs text-[#818987] font-nova font-semibold ${
+                  className={`w-full text-xs text-[#818987] font-nova font-[500] ${
                     marketsWithSupply.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="pr-[80px] pt-[13px] font-nova font-semibold p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[80px] pt-[13px] font-nova font-[500] p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Asset
                   </th>
-                  <th className="pr-[51px]  pt-[13px] font-nova font-semibold whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[51px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Total Supply
                   </th>
-                  <th className="pr-[50px]  pt-[13px] font-nova font-semibold whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[50px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Supply APY
                   </th>
-                  <th className="py-[20px] pt-[13px] font-nova font-semibold px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                  <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
                     Your Supply
                   </th>
                 </tr>
@@ -170,17 +170,17 @@ export default function TwoPanes() {
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
               <table className="w-full h-full table-fixed">
                 <thead>
-                  <tr className="w-full text-xs text-[#818987] font-nova font-semibold border-b border-[#282C2B] ">
+                  <tr className="w-full text-xs text-[#818987] font-nova font-[500] border-b border-[#282C2B] ">
                     <th className="pr-[80px] pt-[15px] p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Asset
                     </th>
-                    <th className="whitespace-nowrap font-nova font-semibold md:whitespace-normal pr-[51px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[51px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Total Supply
                     </th>
-                    <th className="whitespace-nowrap font-nova font-semibold md:whitespace-normal pr-[50px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[50px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Supply APY
                     </th>
-                    <th className="py-[20px] pt-[13px] font-nova font-semibold px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                    <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
                       Wallet Balance
                     </th>
                   </tr>
@@ -259,20 +259,20 @@ export default function TwoPanes() {
             <table className="w-full h-full table-fixed">
               <thead>
                 <tr
-                  className={`w-full text-xs text-[#818987] font-nova font-semibold ${
+                  className={`w-full text-xs text-[#818987] font-nova font-[500] ${
                     marketsWithBorrow.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="pr-[80px] pt-[13px] font-nova font-semibold  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[80px] pt-[13px] font-nova font-[500]  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Asset
                   </th>
-                  <th className="pr-[51px]  pt-[13px] font-nova font-semibold whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[51px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Total Borrow
                   </th>
-                  <th className="pr-[50px]  pt-[13px] font-nova font-semibold whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[50px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Borrow APY
                   </th>
-                  <th className="py-[20px] pt-[13px] font-nova font-semibold px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                  <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
                     Your Borrow
                   </th>
                 </tr>
@@ -345,17 +345,17 @@ export default function TwoPanes() {
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
               <table className="w-full h-full table-fixed !pb-[23px] md:pb-[0px]  md:pt-[0px]">
                 <thead>
-                  <tr className="w-full text-xs text-[#818987] font-nova font-semibold border-b border-[#282C2B] ">
-                    <th className="pl-[15px] pt-[15px] font-nova font-semibold pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <tr className="w-full text-xs text-[#818987] font-nova font-[500] border-b border-[#282C2B] ">
+                    <th className="pl-[15px] pt-[15px] font-nova font-[500] pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Asset
                     </th>
-                    <th className="whitespace-nowrap font-nova font-semibold md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Total Borrow
                     </th>
-                    <th className="whitespace-nowrap font-nova font-semibold md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Borrow APY
                     </th>
-                    <th className="py-[20px] pt-[13px] font-nova font-semibold px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                    <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
                       Available Borrow
                     </th>
                   </tr>
@@ -413,7 +413,7 @@ export default function TwoPanes() {
                             {`$${toShortFiatString(
                               m.maxBorrowLiquidity *
                                 m.tokenPair.token.priceInUsd
-                            )}`}
+                            )} USD`}
                           </div>
                         </td>
                       </MarketRow>

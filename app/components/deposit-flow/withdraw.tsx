@@ -149,7 +149,7 @@ export default function Withdraw({
           <div className="mt-5">
             <div className="py-6 px-4 sm:px-12 bg-[#0D0D0D]">
               <div className="flex flex-col items-center mb-3 text-gray-400  pb-6">
-                <div className="flex w-full sm:w-full items-center border-b border-[#282C2B] py-8">
+                <div className="flex w-full sm:w-full items-center py-8">
                   <div className="w-6 mr-3 sm:w-12">
                     <img
                       src={market.tokenPair.token.icon}
@@ -247,8 +247,9 @@ export default function Withdraw({
                   Currently Supplying
                 </div>
                 <div className="font-nova text-base">
-                  {toCryptoString(market.supplyBalance)}
-                  {market.tokenPair.token.symbol}
+                  {toCryptoString(market.supplyBalance) +
+                    " " +
+                    market.tokenPair.token.symbol}
                 </div>
               </div>
             </div>

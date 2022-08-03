@@ -23,7 +23,7 @@ export default function Display({
   return (
     <div className="mb-[90px] md:mb-20 border-custom px-4 relative top__custom">
       <div
-        className={`absolute w-[130px] h-[130px] top-[-64px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] md:top-[-80px] md:top-[-67px] top__custom__value green }`}
+        className={`absolute w-[130px] h-[130px] top-[-64px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] md:top-[20px] top__custom__value green }`}
       >
         <div className="flex flex-col h-full justify-center items-center">
           <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm transform-custom">
@@ -31,32 +31,29 @@ export default function Display({
           </div>
 
           {netApy != null && (
-            <div className="text-[24px] md:text-4xl font-space font-normal">
+            <div className="text-[24px] md:text-[35px] font-space font-normal">
               {netApy.toFixed(2)}%
             </div>
           )}
           <div className="absolute top-0 right-0"></div>
           <div className="absolute top-0 right-0"></div>
           {netApy == null && (
-            <div className="text-[24px] md:text-4xl font-space font-normal">
+            <div className="text-[24px] md:text-[35px] font-space font-normal">
               0%
             </div>
           )}
           <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
-            {netApy != null &&
-              totalSupplyBalanceInUsd /
-                (totalBorrowedInUsd + totalSupplyBalanceInUsd) >
-                0 && <Ring />}
+            <Ring />
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center mt-16 pt-[85px] md:flex-row justify-between my-6 mb-[42px] md:mb-[25px] md:pt-[56px] md:my-6">
+      <div className="flex flex-col items-center mt-16 pt-[85px] md:flex-row justify-between my-6 mb-[42px] md:mb-[25px] md:pt-[146px] md:my-6">
         <div className="w-full md:max-w-[491px] flex flex-col justify-center items-center mb-[34px] md:mb-0">
           <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
             Supply Balance
           </div>
           <div className="mt-[2px] text-2xl font-space md:text-3xl">
-            {toFiatString(totalSupplyBalanceInUsd)}
+            ${toFiatString(totalSupplyBalanceInUsd)}
           </div>
         </div>
         <div className="w-full md:max-w-[487px] text-right  flex flex-col justify-center items-center">
@@ -64,7 +61,7 @@ export default function Display({
             Borrow Balance
           </div>
           <div className="text-2xl font-space md:text-3xl">
-            {toFiatString(totalBorrowedInUsd)}
+            ${toFiatString(totalBorrowedInUsd)}
           </div>
         </div>
       </div>

@@ -161,7 +161,7 @@ export default function Borrow({
           <div className="mt-5">
             <div className="py-6 px-4 sm:px-12 bg-[#0D0D0D]">
               <div className="flex flex-col items-center mb-3 text-gray-400  pb-6">
-                <div className="flex w-full sm:w-full items-center border-b border-[#282C2B] py-8">
+                <div className="flex w-full sm:w-full items-center py-8">
                   <img
                     src={market.tokenPair.token.icon}
                     style={{ width: ICON_SIZE }}
@@ -254,19 +254,19 @@ export default function Borrow({
 
               <div className="flex mt-8">
                 <div className="flex-grow text-[#ADB5B3] font-nova text-base">
-                  Currently Borrowing
+                  Your Borrow
                 </div>
                 <div className="font-nova text-base">
-                  {toCryptoString(market.borrowBalance)}
+                  {toCryptoString(market.borrowBalance)}{" "}
                   {market.tokenPair.token.symbol}
                 </div>
               </div>
               <div className="flex mt-8">
                 <div className="flex-grow text-[#ADB5B3] font-nova text-base">
-                  Market Liquidity
+                  Available Borrow
                 </div>
                 <div className="font-nova text-base">
-                  {toCryptoString(market.maxBorrowLiquidity)}
+                  {toCryptoString(market.maxBorrowLiquidity)}{" "}
                   {market.tokenPair.token.symbol}
                 </div>
               </div>
