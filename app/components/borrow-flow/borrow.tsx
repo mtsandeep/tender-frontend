@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext } from "react";
@@ -109,7 +110,7 @@ export default function Borrow({
           <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
               <button onClick={() => closeModal()} className="">
-                <img src="/images/ico/close.svg" />
+                <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
             <div className="flex w-full align-middle justify-center items-center">
@@ -161,7 +162,10 @@ export default function Borrow({
           <div className="mt-5">
             <div className="py-6 px-4 sm:px-12 bg-[#0D0D0D]">
               <div className="flex flex-col items-center mb-3 text-gray-400  pb-6">
-                <div className="flex w-full sm:w-full items-center border-b border-[#282C2B] py-8">
+                <div className="font-bold font-nova text-sm sm:text-xl w-full text-[#fff]">
+                  Borrow Rates
+                </div>
+                <div className="flex w-full sm:w-full items-center py-[24px]">
                   <img
                     src={market.tokenPair.token.icon}
                     style={{ width: ICON_SIZE }}
@@ -254,19 +258,19 @@ export default function Borrow({
 
               <div className="flex mt-8">
                 <div className="flex-grow text-[#ADB5B3] font-nova text-base">
-                  Currently Borrowing
+                  Your Borrow
                 </div>
                 <div className="font-nova text-base">
-                  {toCryptoString(market.borrowBalance)}
+                  {toCryptoString(market.borrowBalance)}{" "}
                   {market.tokenPair.token.symbol}
                 </div>
               </div>
               <div className="flex mt-8">
                 <div className="flex-grow text-[#ADB5B3] font-nova text-base">
-                  Market Liquidity
+                  Available Borrow
                 </div>
                 <div className="font-nova text-base">
-                  {toCryptoString(market.maxBorrowLiquidity)}
+                  {toCryptoString(market.maxBorrowLiquidity)}{" "}
                   {market.tokenPair.token.symbol}
                 </div>
               </div>

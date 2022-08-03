@@ -1,5 +1,5 @@
 import type { cToken, Token } from "~/types/global";
-import {  Signer, Contract, utils } from "ethers";
+import { Signer, Contract, utils } from "ethers";
 import { ethers, BigNumber } from "ethers";
 
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
@@ -25,10 +25,10 @@ function formatBigNumber(value: BigNumber, decimals: number): number {
   // and it needs to be made a float.
   let formattedUnit = formatUnits(value, decimals);
   let val = parseFloat(formattedUnit);
-  return val
+  return val;
 }
 
-export function roundNumber(val: number) : number{
+export function roundNumber(val: number): number {
   // toFixed(2) rounds the float to two decimals, and returns a string,
   // so we need to make it a float again. :(
   return val > 1 ? parseFloat(val.toFixed(2)) : parseFloat(val.toFixed(6));
@@ -401,28 +401,33 @@ async function borrow(
   // }
 }
 
-async function getTotalSupply(
-  signer: Signer,
-  tp: TokenPair
-): Promise<number> {
-  let contract = new ethers.Contract(tp.cToken.address, SampleCTokenAbi, signer);
+async function getTotalSupply(signer: Signer, tp: TokenPair): Promise<number> {
+  let contract = new ethers.Contract(
+    tp.cToken.address,
+    SampleCTokenAbi,
+    signer
+  );
 
   let cash: ethers.BigNumber = await contract.getCash();
   let borrows: ethers.BigNumber = await contract.totalBorrows();
   let reserves: ethers.BigNumber = await contract.totalReserves();
-  let value = cash.add(borrows).sub(reserves)
+  let value = cash.add(borrows).sub(reserves);
 
-  return formatBigNumber(value, tp.token.decimals)
+  return formatBigNumber(value, tp.token.decimals);
 }
 
 async function getTotalBorrowed(
   signer: Signer,
   tp: TokenPair
 ): Promise<number> {
-  let contract = new ethers.Contract(tp.cToken.address, SampleCTokenAbi, signer);
+  let contract = new ethers.Contract(
+    tp.cToken.address,
+    SampleCTokenAbi,
+    signer
+  );
   let value: ethers.BigNumber = await contract.totalBorrows();
 
-  return formatBigNumber(value, tp.token.decimals)
+  return formatBigNumber(value, tp.token.decimals);
 }
 
 async function hasSufficientAllowance(
@@ -452,8 +457,6 @@ async function getAssetPriceInUsd(
   let answer: BigNumber = await contract.getUnderlyingPrice(cToken.address);
 
   let priceInUsd = parseFloat(formatUnits(answer, token.priceDecimals));
-
-  console.log(priceInUsd, cToken.name, cToken.address);
 
   return priceInUsd;
 }

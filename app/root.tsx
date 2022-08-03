@@ -29,7 +29,7 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: globalStyles },
 ];
 export const meta: MetaFunction = () => {
-  return { title: "Tender.Finance" };
+  return { title: "Tender.fi" };
 };
 
 if (process.env.NODE_ENV === "production")
@@ -45,9 +45,8 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        
 
-      <!-- Google tag (gtag.js) -->
+        {/* <!-- Google tag (gtag.js) -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CFSCBJ73N"></script>
       <script>
         window.dataLayer = window.dataLayer || [];
@@ -55,8 +54,7 @@ export default function App() {
         gtag('js', new Date());
 
         gtag('config', 'G-9CFSCBJ73N');
-      </script>
-        
+      </script> */}
       </head>
       <body>
         <div id="m"></div>

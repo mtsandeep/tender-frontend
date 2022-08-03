@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import WalletDropdown from "./walletDropdown";
-const { useAccounts, useError, useIsActive } = hooks;
+const { useAccounts, useIsActive } = hooks;
 
 export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   const accounts = useAccounts();
-  const error = useError();
   const isActive = useIsActive();
   const [onClient, setOnClient] = useState<boolean>(false);
 
@@ -32,11 +31,10 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
           {/* Prompt to Install Metamask if window.ethereum is not available */}
           {!window.ethereum && (
             <a
-              className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[30px] md:w-[163px] md:h-[50px] text-[10px]"
+              className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[30px] md:w-[163px] border-[#14f195] md:h-[50px] text-[10px] hover:text-white hover:border-[#fff]"
               target="_blank"
               rel="noreferrer"
               href="https://metamask.io/"
-              style={{ border: "solid #14f195 1px" }}
             >
               Connect wallet
             </a>
@@ -46,18 +44,13 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
           {window.ethereum && !isActive && (
             <button
               data-testid="connect-wallet"
-              style={{ border: "solid #14f195 1px" }}
-              className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[30px] md:w-[163px] md:h-[50px] text-[10px]"
+              className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[30px] border-[#14f195] md:w-[163px] md:h-[50px] text-[10px] hover:text-white hover:border-[#fff]"
               onClick={() => metaMask.activate()}
             >
               Connect Wallet
             </button>
           )}
         </>
-      )}
-
-      {error?.message && (
-        <div className="text-xs text-gray-500">{error.message}</div>
       )}
     </div>
   );

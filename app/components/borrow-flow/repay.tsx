@@ -114,7 +114,7 @@ export default function Repay({
           <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
               <button onClick={() => closeModal()} className="">
-                <img src="/images/ico/close.svg" />
+                <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
 
@@ -136,7 +136,7 @@ export default function Repay({
                   />
                   <div className="max-w-sm text-center my-10 mt-5 mb-5 font-normal font-nova text-white text-sm px-4">
                     To borrow or repay {market.tokenPair.token.symbol} to the
-                    Tender Protocol, you need to enable it first.
+                    Tender.fi protocol, you need to enable it first.
                   </div>
                 </div>
               </div>
@@ -193,7 +193,10 @@ export default function Repay({
           </div>
           <div className="px-4 py-6 sm:px-12" style={{ background: "#0D0D0D" }}>
             <div className="flex flex-col items-center mb-3 text-gray-400  pb-6">
-              <div className="flex w-full sm:w-full items-center border-b border-[#282C2B] py-8">
+              <div className="font-bold font-nova text-sm sm:text-xl w-full text-[#fff]">
+                Borrow Rates
+              </div>
+              <div className="flex w-full sm:w-full items-center py-[24px]">
                 <img
                   src={market.tokenPair.token.icon}
                   style={{ width: ICON_SIZE }}
@@ -234,13 +237,7 @@ export default function Repay({
                       setIsEnabling(false);
                     }
                   }}
-                  className={clsx(
-                    "py-4 text-center text-black font-bold uppercase rounded bg-[#14F195] w-full max-w-[250px] font-space",
-                    {
-                      "bg-brand-green": !isEnabling,
-                      "bg-gray-200": isEnabling,
-                    }
-                  )}
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
                 >
                   {isEnabling ? "Enabling..." : "Enable"}
                 </button>
@@ -309,8 +306,9 @@ export default function Repay({
                 Wallet Balance
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(walletBalance)}
-                {market.tokenPair.token.symbol}
+                {toCryptoString(walletBalance) +
+                  " " +
+                  market.tokenPair.token.symbol}
               </div>
             </div>
           </div>

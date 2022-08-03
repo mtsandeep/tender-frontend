@@ -209,6 +209,7 @@ body {
 }
 
 .pane-custom table::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   background-color: #262D2A;
 }
@@ -227,8 +228,6 @@ body {
 
 .modal .ReactModal__Overlay--after-open {
   background: rgba(0, 0, 0, 0.8) !important;
-  display: flex;
-  align-items: center;
 }
 
 .modal .ReactModal__Content--after-open {
@@ -445,18 +444,6 @@ body {
   border-radius: 50%;
 }
 
-.dropdown__wallet__custom .arrow__custom path {
-  fill: #fff;
-}
-
-.dropdown__wallet__custom:hover .arrow__custom path {
-  fill: #14f195;
-}
-
-
-.close__custom:hover path {
-  fill: #fff;
-}
 
 @media screen and (max-width: 768px) {
   .panel-top-wallet svg {

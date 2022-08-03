@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -108,7 +109,7 @@ export default function Deposit({
           <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
               <button onClick={() => closeModal()} className="">
-                <img src="/images/ico/close.svg" />
+                <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
 
@@ -129,8 +130,8 @@ export default function Deposit({
                     alt="icon"
                   />
                   <div className="max-w-sm text-center my-10 mt-5 mb-5 font-normal font-nova text-white text-sm">
-                    To Supply or Repay {market.tokenPair.token.symbol} to the
-                    Compound Protocol, you need to enable it first.
+                    To supply or withdraw {market.tokenPair.token.symbol} to the
+                    Tender.fi protocol, you need to enable it first.
                   </div>
                 </div>
               </div>
@@ -188,7 +189,10 @@ export default function Deposit({
           {/* Sub Navigation */}
           <div className="px-4 py-6 sm:px-12" style={{ background: "#0D0D0D" }}>
             <div className="flex flex-col items-center mb-3 text-gray-400 pb-6">
-              <div className="flex w-full sm:w-full items-center border-b border-[#282C2B] py-8">
+              <div className="font-bold font-nova text-sm sm:text-xl w-full text-[#fff]">
+                Borrow Rates
+              </div>
+              <div className="flex w-full sm:w-full items-center py-[24px]">
                 <div className="w-6 mr-3 sm:w-12">
                   <img
                     src={market.tokenPair.token.icon}
@@ -202,7 +206,7 @@ export default function Deposit({
                 </div>
                 <div>{market.marketData.depositApy}</div>
               </div>
-              {/* <div className="flex w-full sm:w-full items-center py-8">
+              {/* <div className="flex w-full sm:w-full items-center py-[24px]">
                 <div className="w-6 mr-3 sm:w-12">
                   <img
                     src={market.tokenPair.token.icon}
@@ -246,13 +250,7 @@ export default function Deposit({
                       setIsEnabling(false);
                     }
                   }}
-                  className={clsx(
-                    "py-4 text-center text-black font-bold uppercase rounded bg-[#14F195] w-full max-w-[250px] font-space",
-                    {
-                      "bg-brand-green": !isEnabling,
-                      "bg-gray-200": isEnabling,
-                    }
-                  )}
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
                 >
                   {isEnabling ? "Enabling..." : "Enable"}
                 </button>
@@ -332,7 +330,9 @@ export default function Deposit({
                 Currently Supplying
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(walletBalance)} {market.tokenPair.token.symbol}
+                {toCryptoString(walletBalance) +
+                  " " +
+                  market.tokenPair.token.symbol}
               </div>
             </div>
           </div>
