@@ -86,7 +86,7 @@ const WalletDropdown = (props: Props) => {
       </div>
 
       <div
-        className={`w-[220px] md:w-[219px] rounded-[6px] ${
+        className={`overflow-hidden w-[220px] md:w-[219px] rounded-[6px] ${
           props.inMenu
             ? "bottom-[60px]"
             : "right-[0px] top-[calc(100%+5px)] md:right-[0px] md:top-[calc(100%+8px)]"
