@@ -11,7 +11,7 @@ interface Props {
 
 const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [textButton, setTextButton] = useState<string>("COPY ADDRESS");
+  const [textButton, setTextButton] = useState<string>("Copy Address");
   const dropdownRef = useRef<any>(null);
 
   function truncateAccount(account: string): string {
@@ -31,22 +31,22 @@ const WalletDropdown = (props: Props) => {
   }, []);
 
   const handleCopy = useCallback((text: string) => {
-    setTextButton("COPIED!");
+    setTextButton("Copied");
     navigator.clipboard.writeText(text);
     setTimeout(() => {
-      setTextButton("COPY ADDRESS");
+      setTextButton("Copy Address");
     }, 1000);
   }, []);
 
   return (
     <div
-      className="relative z-40 max-w-[220px] max-h-[245px] m-auto"
+      className="relative z-40 max-w-[220px] m-auto h-[34px] md:h-[44px]"
       ref={dropdownRef}
     >
       <div
         className={`dropdown__wallet__custom ${
           props.inMenu ? "dropdown__button-inMenu" : ""
-        } relative flex pr-[9px] pb-[10px] pt-[11px] pl-[14px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] cursor-pointer rounded-[6px] flex items-center md:w-[157px] md:h-[38px]`}
+        } relative flex pr-[9px] pb-[10px] pt-[11px] pl-[14px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
@@ -86,7 +86,7 @@ const WalletDropdown = (props: Props) => {
       </div>
 
       <div
-        className={`w-[220px] h-[200px] md:w-[219px] md:h-[200px] rounded-[6px] ${
+        className={`w-[220px] md:w-[219px] rounded-[6px] ${
           props.inMenu
             ? "bottom-[60px]"
             : "right-[0px] top-[calc(100%+5px)] md:right-[0px] md:top-[calc(100%+8px)]"
@@ -117,13 +117,44 @@ const WalletDropdown = (props: Props) => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col items-center py-[15px]">
-          <button
-            onClick={() => handleCopy(props.addresses[0])}
-            className="flex items-center justify-center mb-3 leading-[20.4px] text-xs text-center text-dark-green font-bold rounded-[6px] border border-[#14f195] w-[189px] h-[38px] font-space hover:text-white hover:border-[#FFF]"
-          >
-            {textButton}
-          </button>
+        <div
+          onClick={() => handleCopy(props.addresses[0])}
+          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+        >
+          <div className="flex items-center">
+            <img
+              className="w-[16px] h-[16px] mr-[15px]"
+              src="/images/wallet-icons/wallet-copy.svg"
+              alt="..."
+            />
+            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+              {textButton}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
+          <div className="flex items-center">
+            <img
+              className="w-[16px] h-[16px] mr-[15px]"
+              src="/images/wallet-icons/balance-link.svg"
+              alt="..."
+            />
+            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+              View Explorer
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
+          <div className="flex items-center">
+            <img
+              className="w-[16px] h-[16px] mr-[15px]"
+              src="/images/wallet-icons/wallet-disconnect.svg"
+              alt="..."
+            />
+            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+              Disconnect Wallet
+            </p>
+          </div>
         </div>
       </div>
     </div>

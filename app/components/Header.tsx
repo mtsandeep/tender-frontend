@@ -1,21 +1,22 @@
 import { useState } from "react";
+import BalanceDropdown from "./BalanceDropdown";
 import ConnectWallet from "./connect-wallet";
 
 export default function Header() {
   const [activePopupMenu, setActivePopupMenu] = useState(false);
 
   return (
-    <div className="bg-black z-10 inset-x-0 top-0 h-[71px] md:h-[110px] flex items-center justify-between items-center">
+    <div className="bg-black z-10 inset-x-0 top-0 h-[71px] lg:h-[110px] flex items-center justify-between items-center">
       <div className="flex w-full c items-center justify-between max-w-[1400px] relative">
         <div
-          className="w-[104px] block md:w-[196px]"
+          className="w-[104px] block lg:w-[196px]"
           onClick={() => setActivePopupMenu(false)}
         >
           <a href="https://www.tender.fi/">
             <img src="/images/logo1.svg" alt="Tender Finance" />
           </a>
         </div>
-        <div className="text-[#ADB5B3] hidden md:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
+        <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
           <a className="px-[15px] cursor-pointer hover:text-white" href="/">
             Dashboard
           </a>
@@ -36,12 +37,11 @@ export default function Header() {
           </a>
         </div>
         <div className="flex items-center">
-          <div className="md:inline-block">
-            <ConnectWallet />
-          </div>
+          <BalanceDropdown />
+          <ConnectWallet />
 
           <div
-            className={`flex pt-[2px] pr-[2.6px] gap-[5px] md:gap-[6px] md:hidden header__burg ${
+            className={`flex pt-[2px] pr-[2.6px] gap-[5px] lg:gap-[6px] lg:hidden header__burg ${
               activePopupMenu ? "active" : ""
             }`}
             onClick={() => setActivePopupMenu(!activePopupMenu)}

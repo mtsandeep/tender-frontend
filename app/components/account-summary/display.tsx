@@ -17,60 +17,84 @@ export default function Display({
   percentUsed,
   borrowLimit,
 }: props) {
-  console.log(
-    totalSupplyBalanceInUsd / (totalBorrowedInUsd + totalSupplyBalanceInUsd)
-  );
   return (
-    <div className="mb-[90px] md:mb-20 border-custom px-4 relative top__custom">
-      <div
-        className={`absolute w-[130px] h-[130px] top-[-64px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] md:top-[20px] top__custom__value green }`}
-      >
-        <div className="flex flex-col h-full justify-center items-center">
-          <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm transform-custom">
-            Net APY
-          </div>
+    <div className="mb-[90px] md:mb-[62px] border-custom px-4 relative top__custom">
+      <div className="pt-[101px] md:pt-[46px] relative">
+        <div
+          className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] top__custom__value green }`}
+        >
+          <div className="flex flex-col h-full justify-center items-center">
+            <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm">
+              Net APY
+            </div>
 
-          {netApy != null && (
-            <div className="text-[24px] md:text-[35px] font-space font-normal">
-              {netApy.toFixed(2)}%
+            {netApy != null && (
+              <div className="text-[24px] md:text-[35px] font-space font-normal">
+                {netApy.toFixed(2)}%
+              </div>
+            )}
+            <div className="absolute top-0 right-0"></div>
+            <div className="absolute top-0 right-0"></div>
+            {netApy == null && (
+              <div className="text-[24px] md:text-[35px] font-space font-normal">
+                0%
+              </div>
+            )}
+            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
+              <Ring />
             </div>
-          )}
-          <div className="absolute top-0 right-0"></div>
-          <div className="absolute top-0 right-0"></div>
-          {netApy == null && (
-            <div className="text-[24px] md:text-[35px] font-space font-normal">
-              0%
-            </div>
-          )}
-          <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
-            <Ring />
           </div>
         </div>
-      </div>
-      <div className="flex flex-col items-center pt-[85px] md:flex-row justify-between mb-[42px] md:mb-[25px] md:pt-[146px]">
-        <div className="w-full md:max-w-[491px] flex flex-col justify-center items-center mb-[34px] md:mb-0">
-          <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
-            Supply Balance
+        <div className="flex items-center justify-between flex-col md:flex-row mb-[48px] md:mb-[11px] relative">
+          <div className="flex flex-col items-center justify-center w-[260px] ml-[0] md:ml-[50px] lg:ml-[116px]">
+            <div className="w-full md:max-w-[491px] flex flex-col justify-center items-center mb-[32px] md:mb-[40px]">
+              <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
+                Total Supply
+              </div>
+              <div className="text-2xl font-space md:text-[26px] font-normal">
+                ${toFiatString(totalSupplyBalanceInUsd)}
+              </div>
+            </div>
+            <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center mb-[36px] md:mb-[0px]">
+              <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
+                Supply Balance
+              </div>
+              <div className="text-2xl font-space md:text-[26px] font-normal">
+                ${toFiatString(totalBorrowedInUsd)}
+              </div>
+            </div>
           </div>
-          <div className="mt-[2px] text-2xl font-space md:text-3xl">
-            ${toFiatString(totalSupplyBalanceInUsd)}
-          </div>
-        </div>
-        <div className="w-full md:max-w-[487px] text-right  flex flex-col justify-center items-center">
-          <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
-            Borrow Balance
-          </div>
-          <div className="text-2xl font-space md:text-3xl">
-            ${toFiatString(totalBorrowedInUsd)}
+          <img
+            src="/images/top-line.png"
+            alt=""
+            className="hidden z-[2] md:block width-[auto] m-width-[100%] absolute top-[50%] left-[50%] translate__3"
+          />
+          <div className="flex flex-col items-center justify-center w-[260px] mr-[0] md:mr-[50px] lg:mr-[116px] ">
+            <div className="w-full md:max-w-[491px] flex flex-col justify-center items-center mb-[32px] md:mb-[40px]">
+              <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
+                Total Borrow
+              </div>
+              <div className="text-2xl font-space md:text-[26px] font-normal">
+                ${toFiatString(totalSupplyBalanceInUsd)}
+              </div>
+            </div>
+            <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center">
+              <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
+                Borrow Balance
+              </div>
+              <div className="text-2xl font-space md:text-[26px] font-normal">
+                ${toFiatString(totalBorrowedInUsd)}
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div className="gap-[5px] md:gap-0 flex flex-col text-xs justify-center font-nova pb-[15px] md:pb-[12px]">
         <div className="flex justify-between items-center">
-          <div className="justify-self-start text-xs text-[#818987] pb-[6px] font-nova font-normal">
+          <div className="justify-self-start text-xs text-[#818987] p-[0px] md:pb-[6px] font-nova font-normal">
             Borrow Used
           </div>
-          <div className="justify-self-start text-xs text-[#818987] pb-[6px] font-nova font-normal">
+          <div className="justify-self-start text-xs text-[#818987] p-[0px] md:pb-[6px] font-nova font-normal">
             Borrow Max
           </div>
         </div>

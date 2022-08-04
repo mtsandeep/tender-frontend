@@ -15,8 +15,8 @@ export default function AccountSummary() {
   let { tokenPairs, networkData } = useContext(TenderContext);
 
   let totalSupplyBalanceInUsd = useTotalSupplyBalanceInUsd(signer, tokenPairs);
-  let netApy = useNetApy(signer, tokenPairs);
   let totalBorrowedInUsd = useTotalBorrowedInUsd(signer, tokenPairs);
+  let netApy = useNetApy(signer, tokenPairs);
   let borrowLimit = useBorrowLimit(
     signer,
     networkData.Contracts.Comptroller,
