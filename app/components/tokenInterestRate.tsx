@@ -1,54 +1,43 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 
-import { LineChart, TooltipProps, Line, Tooltip } from "recharts";
-import {
-  ValueType,
-  NameType,
-} from "recharts/src/component/DefaultTooltipContent";
+import { LineChart, Line, Tooltip } from "recharts";
 
 function TokenInterestRate() {
   const data = [
     {
-      name: "Page A",
-      aa: 15000,
-      ss: 3000,
-      dd: 2000,
+      aa: 90,
+      ss: 15,
+      dd: 10,
     },
     {
-      name: "Page B",
-      aa: 15000,
-      ss: 3000,
-      dd: 2000,
+      aa: 90,
+      ss: 15,
+      dd: 10,
     },
     {
-      name: "Page C",
-      aa: 15000,
-      ss: 3000,
-      dd: 2000,
+      aa: 90,
+      ss: 15,
+      dd: 10,
     },
     {
-      name: "Page D",
-      aa: 15000,
-      ss: 7500,
-      dd: 6000,
+      aa: 90,
+      ss: 38,
+      dd: 50,
     },
     {
-      name: "Page E",
-      aa: 15000,
-      ss: 10000,
-      dd: 9000,
+      aa: 90,
+      ss: 70,
+      dd: 60,
     },
     {
-      name: "Page F",
-      aa: 15000,
-      ss: 12500,
-      dd: 12000,
+      aa: 90,
+      ss: 80,
+      dd: 85,
     },
     {
-      name: "Page G",
-      aa: 15000,
-      ss: 15000,
-      dd: 15000,
+      aa: 90,
+      ss: 90,
+      dd: 89,
     },
   ];
 
@@ -64,17 +53,20 @@ function TokenInterestRate() {
   );
 
   const CustomDot = (props: any) => {
-    const { cx, cy, borderColor } = props;
+    const { cx, cy, borderColor, value } = props;
     return (
-      <circle
-        cx={cx}
-        cy={cy}
-        r={6}
-        stroke={borderColor}
-        style={{ opacity: "1" }}
-        strokeWidth={4}
-        fill={"#FFFFFF"}
-      />
+      <>
+        <circle
+          cx={cx}
+          cy={cy}
+          r={6}
+          stroke={borderColor}
+          style={{ opacity: "1" }}
+          strokeWidth={4}
+          fill={"#FFFFFF"}
+        />
+        <span className="absolute text-[red]">{value}</span>
+      </>
     );
   };
 
@@ -92,13 +84,14 @@ function TokenInterestRate() {
             width={550}
             height={300}
             data={data}
-            margin={{ top: 20, right: 0, left: 0, bottom: 5 }}
+            margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
           >
             <Line
               type="monotone"
               dataKey="aa"
               stroke="#FFFFFF"
               strokeWidth={2}
+              dot={false}
               activeDot={<CustomDot borderColor="#282C2B" />}
             />
             <Line
@@ -106,14 +99,16 @@ function TokenInterestRate() {
               dataKey="ss"
               stroke="#14F195"
               strokeWidth={2}
-              activeDot={<CustomDot borderColor="#000" />}
+              dot={false}
+              activeDot={<CustomDot borderColor="#0D0D0D" />}
             />
             <Line
               type="monotone"
               dataKey="dd"
               stroke="#00E0FF"
               strokeWidth={2}
-              activeDot={<CustomDot borderColor="#000" />}
+              dot={false}
+              activeDot={<CustomDot borderColor="#0D0D0D" />}
             />
             <Tooltip
               content={<></>}
