@@ -14,8 +14,8 @@ const dummyData = [
 
 function TokenMarketDetails() {
   return (
-    <div className="font-[ProximaNova] w-full max-w-[600px]">
-      <div className="leading-[22px] font-semibold mb-[20px] md:text-lg md:leading-[25px]">
+    <div className="font-[ProximaNova] w-full">
+      <div className="leading-[22px] font-semibold mb-[16px] text-[18px] font-nova">
         Market Details
       </div>
       <div className="flex-col pane-custom ">
