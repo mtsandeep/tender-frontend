@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import { useContext, useState } from "react";
 import ReactModal from "react-modal";
 import { TenderContext } from "~/contexts/tender-context";
@@ -84,21 +85,21 @@ export default function TwoPanes() {
             <table className="w-full h-full table-fixed">
               <thead>
                 <tr
-                  className={`w-full text-xs text-[#818987] font-nova font-semibolt ${
+                  className={`w-full text-xs text-[#818987] ${
                     marketsWithSupply.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="pr-[80px] pt-[13px]  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[80px] pt-[13px] font-nova font-[500] p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Asset
                   </th>
-                  <th className="pr-[51px]  pt-[13px] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[51px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Total Supply
                   </th>
-                  <th className="pr-[50px]  pt-[13px] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[50px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Supply APY
                   </th>
-                  <th className="py-[20px] pt-[13px] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
-                    Deposits
+                  <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                    Your Supply
                   </th>
                 </tr>
               </thead>
@@ -124,19 +125,35 @@ export default function TwoPanes() {
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        {toShortCryptoString(Number(m.marketData.marketSize))}{" "}
-                        {m.tokenPair.token.symbol}
+                        <div className="custom__hidden">
+                          {m.marketData.marketSize &&
+                            toShortCryptoString(
+                              Number(m.marketData.marketSize.toFixed(6))
+                            )}{" "}
+                          {m.tokenPair.token.symbol}
+                        </div>
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          {`$${
+                            m.marketData.marketSize &&
+                            toShortFiatString(
+                              m.marketData.marketSize *
+                                m.tokenPair.token.priceInUsd
+                            )
+                          } USD`}
+                        </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         {m.marketData.depositApy}
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(m.supplyBalance)}{" "}
+                          {toShortCryptoString(
+                            Number(m.supplyBalance.toFixed(2))
+                          )}{" "}
+                          {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[10px]">
-                          {m.supplyBalanceInUsd.toFixed(2)}
-                          {" USD"}
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                          {`$${m.supplyBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
                     </MarketRow>
@@ -148,24 +165,24 @@ export default function TwoPanes() {
         )}
         {marketsWithoutSupply.length > 0 && (
           <div>
-            <div className="mb-[20px] font-nova text-white text-[14px] font-semibold tracking-[0.1em] md:mb-[15px] md:text-x">
+            <div className="mb-[20px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
               All Markets
             </div>
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
               <table className="w-full h-full table-fixed">
                 <thead>
-                  <tr className="w-full text-xs text-[#818987] font-nova font-semibolt border-b border-[#282C2B] ">
-                    <th className="pr-[80px] pt-[15px] p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
+                    <th className="pr-[80px] pt-[15px] p-[15px] font-nova font-[500] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Asset
                     </th>
-                    <th className="whitespace-nowrap md:whitespace-normal pr-[51px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[51px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Total Supply
                     </th>
-                    <th className="whitespace-nowrap md:whitespace-normal pr-[50px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[50px] pt-[15px] p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Supply APY
                     </th>
-                    <th className="py-[20px] pt-[13px] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
-                      Wallet
+                    <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                      Wallet Balance
                     </th>
                   </tr>
                 </thead>
@@ -191,21 +208,37 @@ export default function TwoPanes() {
                           </div>
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          {toShortCryptoString(Number(m.marketData.marketSize))}{" "}
-                          {m.tokenPair.token.symbol}
+                          <div className="custom__hidden">
+                            {m.marketData.marketSize &&
+                              toShortCryptoString(
+                                Number(m.marketData.marketSize.toFixed(6))
+                              )}{" "}
+                            {m.tokenPair.token.symbol}
+                          </div>
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                            {`$${
+                              m.marketData.marketSize &&
+                              toShortFiatString(
+                                m.marketData.marketSize *
+                                  m.tokenPair.token.priceInUsd
+                              )
+                            } USD`}
+                          </div>
                         </td>
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                           {m.marketData.depositApy}
                         </td>
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                           <div className="custom__hidden">
-                            {toShortCryptoString(m.walletBalance)}{" "}
+                            {toShortCryptoString(
+                              Number(m.walletBalance.toFixed(2))
+                            )}{" "}
+                            {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[10px]">
-                            {toShortFiatString(
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                            {`$${toShortFiatString(
                               m.walletBalance * m.tokenPair.token.priceInUsd
-                            )}
-                            USD
+                            )} USD`}
                           </div>
                         </td>
                       </MarketRow>
@@ -227,21 +260,21 @@ export default function TwoPanes() {
             <table className="w-full h-full table-fixed">
               <thead>
                 <tr
-                  className={`w-full text-xs text-[#818987] font-nova font-semibolt ${
+                  className={`w-full text-xs text-[#818987] ${
                     marketsWithBorrow.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="pr-[80px] pt-[13px]  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[80px] pt-[13px] font-nova font-[500]  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Asset
                   </th>
-                  <th className="pr-[51px]  pt-[13px] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[51px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Total Borrow
                   </th>
-                  <th className="pr-[50px]  pt-[13px] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <th className="pr-[50px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                     Borrow APY
                   </th>
-                  <th className="py-[20px] pt-[13px] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
-                    Withdrawals
+                  <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                    Your Borrow
                   </th>
                 </tr>
               </thead>
@@ -267,19 +300,35 @@ export default function TwoPanes() {
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        {m?.marketData?.totalBorrowed &&
-                          toShortCryptoString(m.marketData.totalBorrowed)}{" "}
-                        {m.tokenPair.token.symbol}
+                        <div className="custom__hidden">
+                          {m.marketData?.totalBorrowed &&
+                            toShortCryptoString(
+                              Number(m.marketData.totalBorrowed.toFixed(6))
+                            )}{" "}
+                          {m.tokenPair.token.symbol}
+                        </div>
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          {`$${
+                            m.marketData?.totalBorrowed &&
+                            toShortFiatString(
+                              m.marketData.totalBorrowed *
+                                m.tokenPair.token.priceInUsd
+                            )
+                          } USD`}
+                        </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         {m.marketData.borrowApy}
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(m.borrowBalance)}{" "}
+                          {toShortCryptoString(
+                            Number(m.borrowBalance.toFixed(2))
+                          )}{" "}
+                          {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[10px]">
-                          {m.borrowBalanceInUsd.toFixed(2)} {"USD"}
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                          {`$${m.borrowBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
                     </MarketRow>
@@ -291,23 +340,23 @@ export default function TwoPanes() {
         )}
         {marketsWithoutBorrow.length > 0 && (
           <div>
-            <div className="mb-[20px] font-nova text-white text-[14px] font-semibold tracking-[0.1em] md:mb-[15px] md:text-x">
+            <div className="mb-[20px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
               All Markets
             </div>
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
               <table className="w-full h-full table-fixed !pb-[23px] md:pb-[0px]  md:pt-[0px]">
                 <thead>
-                  <tr className="w-full text-xs text-[#818987] font-nova font-semibolt border-b border-[#282C2B] ">
-                    <th className="pl-[15px] pt-[15px] pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                  <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
+                    <th className="pl-[15px] pt-[15px] font-nova font-[500] pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Asset
                     </th>
-                    <th className="whitespace-nowrap md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Total Borrow
                     </th>
-                    <th className="whitespace-nowrap md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
+                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal p-[15px] pr-[51px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
                       Borrow APY
                     </th>
-                    <th className="py-[20px] pt-[13px] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
+                    <th className="py-[20px] pt-[13px] font-nova font-[500] px-[15px] md:py-[20px] text-start text-[12px] md:text-[14px] md:pl-[10px] md:pr-[10px]">
                       Available Borrow
                     </th>
                   </tr>
@@ -333,26 +382,39 @@ export default function TwoPanes() {
                             </span>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova text-sm font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          {m?.marketData?.totalBorrowed &&
-                            toShortCryptoString(
-                              m.marketData.totalBorrowed
-                            )}{" "}
-                          {m.tokenPair.token.symbol}
+                        <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
+                          <div className="custom__hidden">
+                            {m.marketData?.totalBorrowed &&
+                              toShortCryptoString(
+                                Number(m.marketData.totalBorrowed.toFixed(6))
+                              )}{" "}
+                            {m.tokenPair.token.symbol}
+                          </div>
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                            {`$${
+                              m.marketData?.totalBorrowed &&
+                              toShortFiatString(
+                                m.marketData.totalBorrowed *
+                                  m.tokenPair.token.priceInUsd
+                              )
+                            } USD`}
+                          </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                           {m.marketData.borrowApy}
                         </td>
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                           <div className="custom__hidden">
-                            {toShortCryptoString(m.maxBorrowLiquidity)}{" "}
+                            {toShortCryptoString(
+                              Number(m.maxBorrowLiquidity.toFixed(2))
+                            )}{" "}
+                            {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[10px]">
-                            {toShortFiatString(
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                            {`$${toShortFiatString(
                               m.maxBorrowLiquidity *
                                 m.tokenPair.token.priceInUsd
-                            )}
-                            USD
+                            )} USD`}
                           </div>
                         </td>
                       </MarketRow>

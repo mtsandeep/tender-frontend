@@ -27,7 +27,7 @@
 }
 
 @font-face {
-  font-family: "SpaceGrotesk";
+  font-family: "Space Grotesk";
   src: url("/fonts/SpaceGrotesk/SpaceGrotesk-VariableFont_wght.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
@@ -149,7 +149,7 @@ body {
 }
 
 .font-space {
-  font-family: "SpaceGrotesk", sans-serif !important;
+  font-family: "Space Grotesk", sans-serif !important;
 }
 
 .font-nova {
@@ -227,8 +227,6 @@ body {
 
 .modal .ReactModal__Overlay--after-open {
   background: rgba(0, 0, 0, 0.8) !important;
-  display: flex;
-  align-items: center;
 }
 
 .modal .ReactModal__Content--after-open {
@@ -250,20 +248,8 @@ body {
   transform: translate(0, -4px);
 }
 
-.current__line {
-  position: relative;
-}
 
-.current__line:after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 10px;
-  height: 10px;
-  background: red;
-  top: 10px;
-  left: 10px;
-}
+
 
 .aside__menu__wrap {
   position: fixed;
@@ -457,18 +443,6 @@ body {
   border-radius: 50%;
 }
 
-.dropdown__wallet__custom .arrow__custom path {
-  fill: #fff;
-}
-
-.dropdown__wallet__custom:hover .arrow__custom path {
-  fill: #14f195;
-}
-
-
-.close__custom:hover path {
-  fill: #fff;
-}
 
 @media screen and (max-width: 768px) {
   .panel-top-wallet svg {

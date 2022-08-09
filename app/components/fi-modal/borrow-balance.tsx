@@ -39,7 +39,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
       </div>
 
       <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base pb-4 sm:pb-5">
-        <div className="flex-grow py-4 sm:py-5">Borrow Limit Used</div>
+        <div className="flex-grow py-4 sm:py-5">Borrow Used</div>
         <div className="text-white text-sm sm:text-base font-nova">
           {(value == "0" || !isValid) && <>{borrowLimitUsed}%</>}
           {isValid && value != "0" && (

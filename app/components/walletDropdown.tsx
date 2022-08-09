@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 interface Props {
   inMenu?: boolean;
@@ -11,6 +11,7 @@ interface Props {
 
 const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [textButton, setTextButton] = useState<string>("COPY ADDRESS");
   const dropdownRef = useRef<any>(null);
 
   function truncateAccount(account: string): string {
@@ -29,13 +30,21 @@ const WalletDropdown = (props: Props) => {
     window.addEventListener("click", closeDropdown);
   }, []);
 
+  const handleCopy = useCallback((text: string) => {
+    setTextButton("COPIED!");
+    navigator.clipboard.writeText(text);
+    setTimeout(() => {
+      setTextButton("COPY ADDRESS");
+    }, 1000);
+  }, []);
+
   return (
     <div
       className="relative z-40 max-w-[220px] max-h-[245px] m-auto"
       ref={dropdownRef}
     >
       <div
-        className={`${
+        className={`dropdown__wallet__custom ${
           props.inMenu ? "dropdown__button-inMenu" : ""
         } relative flex pr-[9px] pb-[10px] pt-[11px] pl-[14px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] cursor-pointer rounded-[6px] flex items-center md:w-[157px] md:h-[38px]`}
         onClick={() => setIsOpen(!isOpen)}
@@ -61,15 +70,19 @@ const WalletDropdown = (props: Props) => {
         >
           {truncateAccount(props.addresses[0])}
         </div>
-        <img
-          className={`${
+        <svg
+          className={`arrow__custom rotate-180 ${
             !props.inMenu
               ? "absolute right-[9px] top-[50%] translate-y-[-50%]"
               : ""
-          }  ${isOpen ? "rotate-180" : ""}`}
-          src="/images/ico/arrow-down.svg"
-          alt="..."
-        />
+          }  ${isOpen ? "rotate-0" : ""}`}
+          width="10"
+          height="6"
+          viewBox="0 0 10 6"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M5.00003 0.149816C5.17925 0.149816 5.35845 0.218246 5.49508 0.354819L9.79486 4.65464C10.0684 4.92816 10.0684 5.37163 9.79486 5.64504C9.52145 5.91845 9.07807 5.91845 8.80452 5.64504L5.00003 1.84032L1.19551 5.64491C0.921987 5.91832 0.478651 5.91832 0.205262 5.64491C-0.0683924 5.37149 -0.0683923 4.92803 0.205262 4.6545L4.50497 0.354686C4.64168 0.218091 4.82087 0.149816 5.00003 0.149816Z" />
+        </svg>
       </div>
 
       <div
@@ -106,19 +119,11 @@ const WalletDropdown = (props: Props) => {
         </div>
         <div className="flex flex-col items-center py-[15px]">
           <button
-            onClick={() => {
-              navigator.clipboard.writeText(props.addresses[0]);
-            }}
-            className="flex items-center justify-center mb-3 leading-[20.4px] text-xs text-center text-dark-green font-bold rounded-[6px] border border-[#14f195] w-[189px] h-[38px] font-space"
+            onClick={() => handleCopy(props.addresses[0])}
+            className="flex items-center justify-center mb-3 leading-[20.4px] text-xs text-center text-dark-green font-bold rounded-[6px] border border-[#14f195] w-[189px] h-[38px] font-space hover:text-white hover:border-[#FFF]"
           >
-            COPY ADDRESS
+            {textButton}
           </button>
-          {/* <button
-            onClick={props.handlerDisconnect}
-            className="flex items-center justify-center leading-[20.4px] text-xs text-center text-dark-green font-bold rounded-[6px] border border-[#14f195] w-[189px] h-[38px] font-space"
-          >
-            DISCONNECT WALLET
-          </button> */}
         </div>
       </div>
     </div>
