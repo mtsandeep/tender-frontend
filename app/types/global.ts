@@ -32,10 +32,13 @@ export interface NetworkData {
   };
 }
 
+
+
 export enum NetworkName {
   rinkeby = "rinkeby",
   metisStartdust = "metisStartdust",
   metisMainnet = "metisMainnet",
+  arbitrum = "Arbitrum"
 }
 
 export type Networks = {
