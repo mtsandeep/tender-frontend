@@ -4,7 +4,7 @@ export default {
   blockExplorerUrl: "https://arbiscan.io//tx",
   Contracts: {
     Comptroller: "0x84A57414910FBfE9f5503bFCA2F1e31B6Ad0981A",
-    PriceOracle: "0x61706d8e55A41Ef1a652c2Aba2D072D27Bf21B41",
+    PriceOracle: "0x8aA402BFA7ec284dEcfa8bf5e7F8B65f568d7B81",
   },
   Tokens: {
     DAI: {
@@ -49,36 +49,36 @@ export default {
     //     address: "0x08EE3541EEB3ba1d519EF4848D8B2A7d75BCE688",
     //   },
     // },
-    // GLP: {
-    //   name: "fsGLP",
-    //   symbol: "fsGLP",
-    //   decimals: 18,
-    //   address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
-    //   icon: "/images/coin-icons/metis.png",
-    //   priceDecimals: 18,
-    //   cToken: {
-    //     name: "tGLP",
-    //     symbol: "tGLP",
-    //     decimals: 8,
-    //     address: "0x0D830E0012eCD47652ED1C2b0d9DbB5C93c4d3Ff",
-    //   },
-    // },
-    WBTC: {
-      name: "wBTC",
-      symbol: "WBTC",
-      decimals: 8,
-      address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-      icon: "/images/coin-icons/bitcoin.svg",
-      priceDecimals: 28,
+    GLP: {
+      name: "fsGLP",
+      symbol: "fsGLP",
+      decimals: 18,
+      address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+      icon: "/images/coin-icons/metis.png",
+      priceDecimals: 18,
       cToken: {
-        name: "tWBTC",
-        symbol: "tWBTC",
+        name: "tGLP",
+        symbol: "tGLP",
         decimals: 8,
-        address: "0x549580b92fBf534277Bc328bd8C12f0e9C2bA344",
+        address: "0x61b7CE00112116660C59fdDb5CBF79489fF3E191",
       },
     },
-  },
-};
+//     WBTC: {
+//       name: "wBTC",
+//       symbol: "WBTC",
+//       decimals: 8,
+//       address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+//       icon: "/images/coin-icons/bitcoin.svg",
+//       priceDecimals: 28,
+//       cToken: {
+//         name: "tWBTC",
+//         symbol: "tWBTC",
+//         decimals: 8,
+//         address: "0x549580b92fBf534277Bc328bd8C12f0e9C2bA344",
+//       },
+//     },
+//   },
+// };
 
 
 // {
@@ -94,3 +94,5 @@ export default {
 //     "tWBTC": "0x549580b92fBf534277Bc328bd8C12f0e9C2bA344",
 //     "fsGLP": "0x0D830E0012eCD47652ED1C2b0d9DbB5C93c4d3Ff"
 //   }
+  }
+}
