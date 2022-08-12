@@ -15,7 +15,7 @@ const dummyData = [
 function TokenMarketDetails() {
   return (
     <div className="font-[ProximaNova] w-full">
-      <div className="leading-[22px] font-semibold mb-[16px] text-[18px] font-nova">
+      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-[16px] md:text-[18px] font-nova">
         Market Details
       </div>
       <div className="flex-col pane-custom ">
@@ -23,12 +23,12 @@ function TokenMarketDetails() {
           return (
             <div
               key={index}
-              className="last:border-none h-[50px] pt-[15px] px-[15px] border-[#282C2B] flex justify-between border-b-[1px] font-normal text-sm leading-5"
+              className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-[14px] md:text-sm leading-5"
             >
-              <p className="font-normal text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]">
+              <p className="font-normal text-[14px] md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]">
                 {item.itemName}
               </p>
-              <p className="font-normal text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+              <p className="font-normal text-[14px] md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
                 {item.itemData}
               </p>
             </div>

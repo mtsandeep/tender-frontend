@@ -16,7 +16,7 @@ export default function Header() {
           </a>
         </div>
         <div className="text-[#ADB5B3] hidden md:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
-          <a className="px-[15px] cursor-pointer hover:text-white" href="/">
+          <a className="pr-[15px] cursor-pointer hover:text-white" href="/">
             Dashboard
           </a>
           <a className="px-[15px] cursor-pointer hover:text-white" href="/earn">

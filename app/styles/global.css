@@ -185,30 +185,29 @@ body {
 }
 
 
-.pane-custom table {
+.custom__scroll {
   overflow-x: auto;
 }
 
-
-.pane-custom table::-webkit-scrollbar {
+.custom__scroll::-webkit-scrollbar {
   height: 4px;
   background-color: #0D0D0D;
 }
 
-.pane-custom table::-webkit-scrollbar-button {
+.custom__scroll::-webkit-scrollbar-button {
   display: block;
   width: 7px;
   background-color: #0D0D0D;
   outline: none;
 }
 
-.pane-custom table::-webkit-scrollbar-thumb {
+.custom__scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: linear-gradient(84.96deg, #14F195 0%, #14F1D6 83.28%);
 
 }
 
-.pane-custom table::-webkit-scrollbar-track {
+.custom__scroll::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #262D2A;
 }
@@ -415,6 +414,14 @@ body {
   transform: translate(0px, -50%);
 }
 
+.translate__0__50 {
+  transform: translate(0, -50%);
+}
+
+.right__custom {
+  right: calc(100% + 10px);
+}
+
 .translate__50 {
   transform: translate(-50%, -50%);
 }
@@ -474,6 +481,14 @@ body {
   .panel-top-wallet svg {
     right: 12px;
     top: 12px;
+    transform: none;
+  }
+
+  .right__custom {
+    right: auto;
+    left: -14px;
+    bottom: auto;
+    top: 20px;
     transform: none;
   }
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 
-import { LineChart, Line, Tooltip } from "recharts";
+import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 
 function TokenInterestRate() {
   const data = [
@@ -89,47 +89,47 @@ function TokenInterestRate() {
 
   return (
     <div className="font-[ProximaNova] w-full mb-[60px]">
-      <div className="leading-[22px] font-semibold mb-[16px] text-[18px] font-nova">
+      <div className="leading-[22px] font-semibold mb-[20px] text-[16px] md:text-[18px] font-nova">
         Interest Rate Model
       </div>
       <div className="flex-col pane-custom">
-        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[30px] md:text-base  md:leading-[22px]">
+        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] md:p-[30px] md:text-base  md:leading-[22px]">
           Utilization vs. APY
         </p>
-        <div className="min-h-[253px] pb-[0px] pl-[25px] pr-[25px] flex items-end justify-start">
-          <LineChart
-            width={550}
-            height={300}
-            data={data}
-            margin={{ top: -30, right: 8, left: 8, bottom: 0 }}
-          >
-            <Line
-              type="monotone"
-              dataKey="aa"
-              stroke="#FFFFFF"
-              strokeWidth={2}
-              className="current__line"
-              dot={false}
-              activeDot={<CustomDot borderColor="#282C2B" />}
-            />
-            <Line
-              type="monotone"
-              dataKey="ss"
-              stroke="#14F195"
-              strokeWidth={2}
-              dot={false}
-              activeDot={<CustomDot borderColor="#0D0D0D" />}
-            />
-            <Line
-              type="monotone"
-              dataKey="dd"
-              stroke="#00E0FF"
-              strokeWidth={2}
-              dot={false}
-              activeDot={<CustomDot borderColor="#0D0D0D" />}
-            />
-            <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
-          </LineChart>
+        <div className="h-[200px] md:h-[390px] pb-[0px] pr-[10px] pl-[10px] md:pl-[25px]  md:pr-[25px] flex items-end justify-start">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={data}
+              margin={{ top: -10, right: 8, left: 8, bottom: 0 }}
+            >
+              <Line
+                type="monotone"
+                dataKey="aa"
+                stroke="#FFFFFF"
+                strokeWidth={2}
+                className="current__line"
+                dot={false}
+                activeDot={<CustomDot borderColor="#282C2B" />}
+              />
+              <Line
+                type="monotone"
+                dataKey="ss"
+                stroke="#14F195"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
+              <Line
+                type="monotone"
+                dataKey="dd"
+                stroke="#00E0FF"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
+              <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

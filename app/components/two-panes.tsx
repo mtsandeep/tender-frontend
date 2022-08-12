@@ -82,7 +82,7 @@ export default function TwoPanes() {
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-[18px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Supply
             </div>
-            <table className="w-full h-full table-fixed">
+            <table className="custom__scroll w-full h-full table-fixed">
               <thead>
                 <tr
                   className={`w-full text-xs text-[#818987] ${
@@ -169,7 +169,7 @@ export default function TwoPanes() {
               All Markets
             </div>
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
-              <table className="w-full h-full table-fixed">
+              <table className="custom__scroll w-full h-full table-fixed">
                 <thead>
                   <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
                     <th className="pr-[80px] pt-[15px] p-[15px] font-nova font-[500] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
@@ -257,7 +257,7 @@ export default function TwoPanes() {
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-[18px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Borrow
             </div>
-            <table className="w-full h-full table-fixed">
+            <table className="custom__scroll w-full h-full table-fixed">
               <thead>
                 <tr
                   className={`w-full text-xs text-[#818987] ${
@@ -344,7 +344,7 @@ export default function TwoPanes() {
               All Markets
             </div>
             <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
-              <table className="w-full h-full table-fixed !pb-[23px] md:pb-[0px]  md:pt-[0px]">
+              <table className="custom__scroll w-full h-full table-fixed !pb-[23px] md:pb-[0px]  md:pt-[0px]">
                 <thead>
                   <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
                     <th className="pl-[15px] pt-[15px] font-nova font-[500] pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-[12px] md:text-[14px]">
