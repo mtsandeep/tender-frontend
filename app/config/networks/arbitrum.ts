@@ -35,49 +35,53 @@ export default {
     //     address: "0x18320599eA58B19B3FE12d383F2969C61C1B43F4",
     //   },
     // },
-    // ETH: {
-    //   name: "ETH",
-    //   symbol: "WETH",
-    //   decimals: 18,
-    //   address: "0x420000000000000000000000000000000000000a",
-    //   icon: "/images/coin-icons/ethereum.svg",
-    //   priceDecimals: 18,
-    //   cToken: {
-    //     name: "tETH",
-    //     symbol: "tETH",
-    //     decimals: 8,
-    //     address: "0x08EE3541EEB3ba1d519EF4848D8B2A7d75BCE688",
-    //   },
-    // },
+    ETH: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+//   address: eth has no address
+      icon: "/images/coin-icons/ethereum.svg",
+      priceDecimals: 18,
+      cToken: {
+        name: "tETH",
+        symbol: "tETH",
+        decimals: 8,
+        address: "0x4c250eC4858B32aA0e11E199C55922E63F41aF12",
+      },
+    },
     GLP: {
       name: "fsGLP",
       symbol: "fsGLP",
       decimals: 18,
+      // staked glp is has approve and transfer
+      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+
+      // fsGLP has balance of
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+
       icon: "/images/coin-icons/metis.png",
       priceDecimals: 18,
       cToken: {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0x61b7CE00112116660C59fdDb5CBF79489fF3E191",
+        address: "0xdd1091206EcA48dfc08315242AE4a0b4b0AAA740",
       },
     },
-//     WBTC: {
-//       name: "wBTC",
-//       symbol: "WBTC",
-//       decimals: 8,
-//       address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-//       icon: "/images/coin-icons/bitcoin.svg",
-//       priceDecimals: 28,
-//       cToken: {
-//         name: "tWBTC",
-//         symbol: "tWBTC",
-//         decimals: 8,
-//         address: "0x549580b92fBf534277Bc328bd8C12f0e9C2bA344",
-//       },
-//     },
-//   },
+    WBTC: {
+      name: "wBTC",
+      symbol: "WBTC",
+      decimals: 8,
+      address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+      icon: "/images/coin-icons/bitcoin.svg",
+      priceDecimals: 28,
+      cToken: {
+        name: "tWBTC",
+        symbol: "tWBTC",
+        decimals: 8,
+        address: "0x549580b92fBf534277Bc328bd8C12f0e9C2bA344",
+      },
+    },
 // };
 
 

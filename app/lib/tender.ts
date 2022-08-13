@@ -5,6 +5,7 @@ import { ethers, BigNumber } from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
+import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SamplePriceOracleAbi from "~/config/sample-price-oracle-abi";
 
 import type { TokenPair } from "~/types/global";
@@ -37,7 +38,7 @@ export function roundNumber(val: number): number {
 /**
  * Enable
  *
- * @param signer E
+ * @param signer
  * @param token
  * @param cToken
  */
@@ -46,13 +47,13 @@ async function enable(
   token: Token,
   cToken: cToken
 ): Promise<void> {
-  // const isCEth = token.address ? false : true;
-  // if (isCEth) {
-  //   throw "Don't need to approve ETH";
-  // }
+  // Eth is always enabled
+  if (token.symbol === "ETH") return
 
   // @ts-ignore
-  let contract = new ethers.Contract(token.address, SampleErc20Abi, signer);
+  console.log(token, token.sGLPAddress)
+  // @ts-ignore
+  let contract = new ethers.Contract(token.sGLPAddress || token.address, SampleErc20Abi, signer);
   let approvalVal = BigNumber.from(2).pow(256).sub(1).toString(); // Max approval value, 2^256 - 1
   await contract.approve(cToken.address, approvalVal);
 }
@@ -64,6 +65,13 @@ async function enable(
  * @returns
  */
 async function getWalletBalance(signer: Signer, token: Token): Promise<number> {
+  // ETH is a special case
+  if (token.symbol === "ETH")  {
+    const balance = await signer.getBalance();
+    const balanceInEth = ethers.utils.formatEther(balance);
+    return parseFloat(balanceInEth);
+  }
+
   let contract = new ethers.Contract(token.address, SampleErc20Abi, signer);
   let address: string = await signer.getAddress();
   let balance: BigNumber = await contract.balanceOf(address);
@@ -90,29 +98,24 @@ async function deposit(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
-  // if (isCEth) {
-  //   console.log("supply() w/ cEth");
+  let formattedValue;
+  
+  
+  if (token.symbol === "ETH") {
+    let contract = new ethers.Contract(cToken.address, SampleCEtherAbi, signer);
+    console.log("supply() w/ cEth");
+    formattedValue = ethers.utils.parseEther(value);
+    console.log(formattedValue.toString())
+    console.log("input value:", value, "formattedValue:", formattedValue.toString());
+    return await contract.mint({value: formattedValue});
 
-  //   const formattedValue = ethers.utils.parseEther(value);
-  //   console.log("input value:", value, "formattedValue:", formattedValue.toString());
-
-  //   let contract = new ethers.Contract(address, sampleAbi, web3React.library?.getSigner());
-  //   let tx = await contract.mint({ value: ethers.utils.parseEther(value) });
-  // }
-  // else {
-  console.log("supply() with cToken", cToken.symbol, cToken.address);
-
-  const formattedValue = ethers.utils.parseUnits(value, token.decimals);
-  console.log(
-    "input value:",
-    value,
-    "formattedValue:",
-    formattedValue.toString()
-  );
-
-  let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
-  return await contract.mint(formattedValue);
-  // }
+  } else {
+    let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
+    console.log("supply() with Token", cToken.symbol, cToken.address);
+    formattedValue = ethers.utils.parseUnits(value, token.decimals);
+    console.log("input value:", value, "formattedValue:", formattedValue.toString());
+    return await contract.mint(formattedValue);
+  }
 }
 
 /**
@@ -164,14 +167,17 @@ async function getCurrentlySupplying(
   cToken: cToken,
   token: Token
 ): Promise<number> {
-  let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
+  let abi = cToken.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi;
+  let contract = new ethers.Contract(cToken.address, abi, signer);
   let address = await signer.getAddress();
 
-  const balance: BigNumber = await contract.callStatic.balanceOfUnderlying(
-    address
-  );
+  const balance: BigNumber = await contract.callStatic.balanceOf(address);
 
-  return formatBigNumber(balance, token.decimals);
+  let exchangeRateCurrent = await contract.exchangeRateStored();
+  let tokens = balance.mul(exchangeRateCurrent)
+
+  // the exchange rate is scaled by 18 decimals
+  return formatBigNumber(tokens, token.decimals + 18);
 }
 
 /**
@@ -448,6 +454,11 @@ async function getAssetPriceInUsd(
   cToken: cToken,
   token: Token
 ): Promise<number> {
+  // @TODO: get the real eth price
+  if (token.symbol === "ETH") {
+    return 100;
+  }
+
   let contract = new ethers.Contract(
     priceOracleAddress,
     SamplePriceOracleAbi,
