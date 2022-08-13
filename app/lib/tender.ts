@@ -307,6 +307,7 @@ async function projectBorrowLimit(
   let borrowLimitChangeInUsd: number =
     tokenAmount * tp.token.priceInUsd * collateralFactor;
 
+    console.log("CF", collateralFactor, tp.token.symbol)
   return currentBorrowLimitInUsd + borrowLimitChangeInUsd;
 }
 
@@ -456,7 +457,7 @@ async function getAssetPriceInUsd(
 ): Promise<number> {
   // @TODO: get the real eth price
   if (token.symbol === "ETH") {
-    return 100;
+    return 1e4;
   }
 
   let contract = new ethers.Contract(
