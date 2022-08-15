@@ -1,6 +1,6 @@
-import TokenInterestRate from "~/components/tokenInterestRate";
-import TokenMarketDetails from "~/components/tokenMarketDetails";
-import TokenChart from "~/components/tokenChart";
+import TokenChart from "~/components/token-page/tokenChart";
+import TokenInterestRate from "~/components/token-page/tokenInterestRate";
+import TokenMarketDetails from "~/components/token-page/tokenMarketDetails";
 
 export default function App() {
   return (
