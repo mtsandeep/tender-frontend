@@ -14,6 +14,7 @@ import type {
   TransactionReceipt,
   JsonRpcSigner,
 } from "@ethersproject/providers";
+import sampleCEtherAbi from "~/config/sample-CEther-abi";
 
 const MINIMUM_REQUIRED_APPROVAL_BALANCE = BigNumber.from("1");
 interface Txn {
@@ -50,8 +51,6 @@ async function enable(
   // Eth is always enabled
   if (token.symbol === "ETH") return
 
-  // @ts-ignore
-  console.log(token, token.sGLPAddress)
   // @ts-ignore
   let contract = new ethers.Contract(token.sGLPAddress || token.address, SampleErc20Abi, signer);
   let approvalVal = BigNumber.from(2).pow(256).sub(1).toString(); // Max approval value, 2^256 - 1
@@ -100,7 +99,6 @@ async function deposit(
 ): Promise<Txn> {
   let formattedValue;
   
-  
   if (token.symbol === "ETH") {
     let contract = new ethers.Contract(cToken.address, SampleCEtherAbi, signer);
     console.log("supply() w/ cEth");
@@ -130,19 +128,16 @@ async function redeem(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
-  // if (isCEth) {
-  //   console.log("redeem() with cEth");
+  if (token.symbol === "ETH") {
+    console.log("redeem() with cEth");
+    let contract = new ethers.Contract(cToken.address, SampleCEtherAbi, signer);
+  
+    const formattedValue = ethers.utils.parseEther(value);
+    console.log("input value:", value, "formattedValue:", formattedValue);
 
-  //   const formattedValue = ethers.utils.parseEther(value);
-  //   console.log("input value:", value, "formattedValue:", formattedValue);
+    return await contract.redeemUnderlying(formattedValue);
+  }
 
-  //   let contract = new ethers.Contract(
-  //     address,
-  //     sampleAbi,
-  //     web3React.library?.getSigner()
-  //   );
-  //   let tx = await contract.redeemUnderlying(formattedValue);
-  // } else {
   const formattedValue = ethers.utils.parseUnits(value, token.decimals);
 
   let cTokenContract = new ethers.Contract(
@@ -151,16 +146,13 @@ async function redeem(
     signer
   );
   return await cTokenContract.redeemUnderlying(formattedValue);
-  // }
 }
 
-// TODO: Is this a USD amount or a token amount? We've been using DAI as the example so it's basically 1:1,
-// but for things like ether this likely won't work and need to separate supplying vs USD value of supplying
 /**
  *
  * @param signer
  * @param cToken
- * @returns
+ * @returns number the amount of underlying asset being supplied
  */
 async function getCurrentlySupplying(
   signer: Signer,
@@ -186,7 +178,6 @@ async function getCurrentlySupplying(
  * @param cToken
  * @returns string
  */
-// TODO: this and getBorrowedAmount are basically the same, minus formatting.
 async function getCurrentlyBorrowing(
   signer: Signer,
   cToken: cToken,
@@ -311,28 +302,6 @@ async function projectBorrowLimit(
   return currentBorrowLimitInUsd + borrowLimitChangeInUsd;
 }
 
-/**
- *
- * @param signer
- * @param cToken
- * @returns
- */
-// TODO: this and getCurrentlyBorrowing are basically the same, minus formatting.
-async function getBorrowedAmount(
-  signer: Signer,
-  cToken: cToken,
-  token: Token
-): Promise<number> {
-  let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
-  let address = await signer.getAddress();
-  let borrowedAmount: BigNumber = await contract.borrowBalanceStored(address);
-
-  let borrowed: number = parseFloat(
-    ethers.utils.formatUnits(borrowedAmount, token.decimals)
-  );
-
-  return borrowed;
-}
 
 /**
  *
@@ -388,24 +357,25 @@ async function borrow(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
-  //  if (isCEth) {
-  //   console.log("borrow() with cEth");
+  if (token.symbol === "ETH") {
+      console.log("borrow() with cEth");
 
-  //   const formattedValue = ethers.utils.parseEther(value);
-  //   console.log("input value:", value, "formattedValue:", formattedValue);
+      const formattedValue = ethers.utils.parseEther(value);
+      console.log("input value:", value, "formattedValue:", formattedValue);
 
-  //   let contract = new ethers.Contract(address, sampleAbi, web3React.library?.getSigner());
-  //   let tx = await contract.borrow(formattedValue);
-  // }
-  // else {
+      let contract = new ethers.Contract(cToken.address, sampleCEtherAbi, signer);
+      return await contract.borrow(formattedValue);
+    }
+  else {
 
-  const formattedValue: BigNumber = ethers.utils.parseUnits(
-    value,
-    token.decimals
-  );
-  let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
-  return await contract.borrow(formattedValue);
-  // }
+    const formattedValue: BigNumber = ethers.utils.parseUnits(
+      value,
+      token.decimals
+    );
+
+    let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
+    return await contract.borrow(formattedValue);
+  }
 }
 
 async function getTotalSupply(signer: Signer, tp: TokenPair): Promise<number> {
@@ -455,9 +425,11 @@ async function getAssetPriceInUsd(
   cToken: cToken,
   token: Token
 ): Promise<number> {
-  // @TODO: get the real eth price
+  // get the real eth price
   if (token.symbol === "ETH") {
-    return 1e4;
+    let res = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/sell")
+    let json = await res.json()
+    return parseFloat(json.data.amount)
   }
 
   let contract = new ethers.Contract(
@@ -565,7 +537,6 @@ export {
   getCurrentlySupplying,
   getCurrentlyBorrowing,
   getAccountBorrowLimitInUsd,
-  getBorrowedAmount,
   getBorrowLimitUsed,
   getTotalSupplyBalanceInUsd,
   repay,

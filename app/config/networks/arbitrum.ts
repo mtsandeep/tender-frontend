@@ -53,10 +53,10 @@ export default {
       name: "fsGLP",
       symbol: "fsGLP",
       decimals: 18,
-      // staked glp is has approve and transfer
-      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
 
-      // fsGLP has balance of
+      // staked glp is for approve
+      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+      // fsGLP has balanceOf
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
 
       icon: "/images/coin-icons/metis.png",
@@ -65,7 +65,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xdd1091206EcA48dfc08315242AE4a0b4b0AAA740",
+        address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8",
       },
     },
     WBTC: {
