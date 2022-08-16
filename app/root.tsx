@@ -65,7 +65,6 @@ export default function App() {
           <Outlet />
         </Web3ReactProvider>
         <Footer />
-
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

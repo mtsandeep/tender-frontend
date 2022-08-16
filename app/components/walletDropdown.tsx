@@ -51,7 +51,7 @@ const WalletDropdown = (props: Props) => {
       >
         <img
           className={`${isOpen || props.inMenu ? "hidden" : "block md:hidden"}`}
-          src="images/ico/wallet.svg"
+          src="/images/ico/wallet.svg"
           alt="..."
         />
         <div
