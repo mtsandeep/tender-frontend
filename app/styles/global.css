@@ -395,6 +395,7 @@ body {
 
 .panel-top-wallet {
   transform: translate(-50%, 0);
+  background: linear-gradient(84.96deg, #01C071 0%, #01C275 83.28%);
 }
 
 .panel-top-wallet svg {
@@ -405,6 +406,10 @@ body {
 
 .translate__50 {
   transform: translate(-50%, -50%);
+}
+
+.translate__3 {
+  transform: translate(-50%, 3px);
 }
 
 .custom__hidden {
@@ -455,7 +460,19 @@ body {
 
 
 .close__custom:hover path {
-  fill: #fff;
+  opacity: 0.4;
+}
+
+.borrow__link__custom {
+  cursor: pointer;
+}
+
+.borrow__link__custom:hover {
+  color: #14f195;
+}
+
+.borrow__link__custom:hover path {
+  fill: #14f195;
 }
 
 @media screen and (max-width: 768px) {

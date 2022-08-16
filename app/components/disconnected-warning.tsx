@@ -38,7 +38,7 @@ export default function Disconnected() {
                     chainName: "Metis Network",
                     nativeCurrency: {
                       name: "Metis",
-                      symbol: "METIS", // 2-6 characters long
+                      symdol: "METIS", // 2-6 characters long
                       decimals: 18,
                     },
                     rpcUrls: ["https://andromeda.metis.io/?owner=1088"],
@@ -55,20 +55,17 @@ export default function Disconnected() {
   };
   return !onSupportedChain ? (
     <div
-      style={{
-        background: "linear-gradient(84.96deg, #01C071 0%, #01C275 83.28%);",
-      }}
       className={`panel-top-wallet items-center justify-center absolute top-[71px] left-[50%] w-[100%] md:top-[111px] ${
         show ? "flex" : "hidden"
       }`}
     >
       <div className="relative text-center flex items-center justify-center w-full">
-        <div className="text-center flex items-center justify-center text-[#121111] text-[14px] mb:text-[18px] py-[18px] py-[12px] pr-[40px] mb:py-[18px] px-4 font-bold font-nova leading-[130%] mb:leading-[18px]">
+        <div className="text-center flex items-center justify-center text-[#121111] text-[14px] md:text-[18px] py-[18px] py-[12px] pr-[40px] md:py-[18px] px-4 font-bold font-nova leading-[130%] md:leading-[18px]">
           {isActive ? (
             <div>
               Warning! Unsupported network.{" "}
               <button
-                className="underline"
+                className="underline cursor-pointer hover:opacity-[0.6]"
                 onClick={() => tryConnectingToMetis(provider)}
               >
                 Switch to Metis
