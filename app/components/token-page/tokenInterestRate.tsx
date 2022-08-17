@@ -92,7 +92,7 @@ function TokenInterestRate() {
       <div className="leading-[22px] font-semibold mb-[20px] text-[16px] md:text-[18px] font-nova">
         Interest Rate Model
       </div>
-      <div className="flex-col pane-custom">
+      <div className="flex-col panel-custom">
         <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] md:p-[30px] md:text-base  md:leading-[22px]">
           Utilization vs. APY
         </p>

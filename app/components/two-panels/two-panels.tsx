@@ -4,11 +4,11 @@ import ReactModal from "react-modal";
 import { TenderContext } from "~/contexts/tender-context";
 import { Market } from "~/types/global";
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
-import MarketRow from "~/components/two-panes/market-row";
-import BorrowFlow from "./borrow-flow";
-import DepositFlow from "./deposit-flow";
+import MarketRow from "~/components/two-panels/market-row";
+import DepositFlow from "../deposit-flow";
+import BorrowFlow from "../borrow-flow";
 
-export default function TwoPanes() {
+export default function TwoPanels() {
   let { markets } = useContext(TenderContext);
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
   let [action, setAction] = useState<"depositing" | "borrowing">("depositing");
@@ -43,7 +43,7 @@ export default function TwoPanes() {
   );
 
   return (
-    <div className="flex flex-col md:grid grid-cols-2 gap-[20px] mb-14">
+    <div className="flex flex-col md:grid grid-cols-2 gap-[60px] md:gap-[20px] mb-14">
       <ReactModal
         shouldCloseOnOverlayClick={true}
         isOpen={openMarket !== null}
@@ -78,7 +78,7 @@ export default function TwoPanes() {
 
       <div>
         {marketsWithSupply.length > 0 && (
-          <div className="pb-[5px]  pane-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+          <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-[18px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Supply
             </div>
@@ -168,7 +168,7 @@ export default function TwoPanes() {
             <div className="mb-[20px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
               All Markets
             </div>
-            <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
+            <div className="pb-[5px] md:pb-[0px] panel-custom border-custom">
               <table className="custom__scroll w-full h-full table-fixed">
                 <thead>
                   <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
@@ -253,7 +253,7 @@ export default function TwoPanes() {
 
       <div>
         {marketsWithBorrow.length > 0 && (
-          <div className="pb-[5px] md:pb-[0px] pane-custom border-custom mb-[20px] md:mb-[40px]">
+          <div className="pb-[5px] md:pb-[0px] panel-custom border-custom mb-[20px] md:mb-[40px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-[18px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Borrow
             </div>
@@ -343,7 +343,7 @@ export default function TwoPanes() {
             <div className="mb-[20px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
               All Markets
             </div>
-            <div className="pb-[5px] md:pb-[0px] pane-custom border-custom">
+            <div className="pb-[5px] md:pb-[0px] panel-custom border-custom">
               <table className="custom__scroll w-full h-full table-fixed !pb-[23px] md:pb-[0px]  md:pt-[0px]">
                 <thead>
                   <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">

@@ -160,13 +160,13 @@ body {
   color: #14f195;
 }
 
-.pane-custom {
+.panel-custom {
   position: relative;
   background: #0d0d0d;
   border-radius: 15px;
 }
 
-.pane-custom:after {
+.panel-custom:after {
   content: "";
   position: absolute;
   top: 0;
@@ -536,7 +536,7 @@ body {
 }
 
 @media screen and (max-width: 520px) {
-  .pane-custom table {
+  .panel-custom table {
     overflow-x: auto;
     overflow-y: hidden;
     margin-bottom: 15px;

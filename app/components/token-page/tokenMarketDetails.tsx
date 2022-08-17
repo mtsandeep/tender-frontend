@@ -18,7 +18,7 @@ function TokenMarketDetails() {
       <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-[16px] md:text-[18px] font-nova">
         Market Details
       </div>
-      <div className="flex-col pane-custom ">
+      <div className="flex-col panel-custom ">
         {dummyData.map((item, index) => {
           return (
             <div

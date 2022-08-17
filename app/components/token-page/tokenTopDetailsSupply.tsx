@@ -18,7 +18,7 @@ function TokenTopDetailsSupply() {
               Net Rate
             </p>
             <div className="hidden md::flex absolute right__custom top-[50%] translate__0__50 items-center hidden group-hover:flex rounded-[15px]">
-              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] pane-custom">
+              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[20px]">
                   <span className="mb-[8px] block text-[#FFF] text-[16px] text-left">
                     Net Rate
