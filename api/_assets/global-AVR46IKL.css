@@ -160,13 +160,13 @@ body {
   color: #14f195;
 }
 
-.pane-custom {
+.panel-custom {
   position: relative;
   background: #0d0d0d;
   border-radius: 15px;
 }
 
-.pane-custom:after {
+.panel-custom:after {
   content: "";
   position: absolute;
   top: 0;
@@ -185,30 +185,30 @@ body {
 }
 
 
-.pane-custom table {
+.panel-custom table {
   overflow-x: auto;
 }
 
 
-.pane-custom table::-webkit-scrollbar {
+.panel-custom table::-webkit-scrollbar {
   height: 4px;
   background-color: #0D0D0D;
 }
 
-.pane-custom table::-webkit-scrollbar-button {
+.panel-custom table::-webkit-scrollbar-button {
   display: block;
   width: 7px;
   background-color: #0D0D0D;
   outline: none;
 }
 
-.pane-custom table::-webkit-scrollbar-thumb {
+.panel-custom table::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: linear-gradient(84.96deg, #14F195 0%, #14F1D6 83.28%);
 
 }
 
-.pane-custom table::-webkit-scrollbar-track {
+.panel-custom table::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #262D2A;
 }
@@ -478,7 +478,7 @@ body {
 }
 
 @media screen and (max-width: 520px) {
-  .pane-custom table {
+  .panel-custom table {
     overflow-x: auto;
     overflow-y: hidden;
     margin-bottom: 15px;

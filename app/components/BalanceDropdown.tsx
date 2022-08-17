@@ -26,11 +26,11 @@ const BalanceDropdown = () => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
-          className="w-[16px] h-[16px] mr-[10px]"
+          className="w-[16px] h-[16px] mr-[0px] md:mr-[10px]"
           src="/images/wallet-icons/balance-icon.svg"
           alt="..."
         />
-        <div className="text-sm font-semibold text-right leading-[14px] font-nova">
+        <div className="text-sm font-semibold text-right leading-[14px] font-nova hidden md:flex">
           $23.56
         </div>
       </div>

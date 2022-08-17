@@ -27,7 +27,7 @@
 }
 
 @font-face {
-  font-family: "Space Grotesk";
+  font-family: "SpaceGrotesk";
   src: url("/fonts/SpaceGrotesk/SpaceGrotesk-VariableFont_wght.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
@@ -149,7 +149,7 @@ body {
 }
 
 .font-space {
-  font-family: "Space Grotesk", sans-serif !important;
+  font-family: "SpaceGrotesk", sans-serif !important;
 }
 
 .font-nova {
@@ -160,13 +160,13 @@ body {
   color: #14f195;
 }
 
-.pane-custom {
+.panel-custom {
   position: relative;
   background: #0d0d0d;
   border-radius: 15px;
 }
 
-.pane-custom:after {
+.panel-custom:after {
   content: "";
   position: absolute;
   top: 0;
@@ -185,30 +185,29 @@ body {
 }
 
 
-.pane-custom table {
+.custom__scroll {
   overflow-x: auto;
 }
 
-
-.pane-custom table::-webkit-scrollbar {
+.custom__scroll::-webkit-scrollbar {
   height: 4px;
   background-color: #0D0D0D;
 }
 
-.pane-custom table::-webkit-scrollbar-button {
+.custom__scroll::-webkit-scrollbar-button {
   display: block;
   width: 7px;
   background-color: #0D0D0D;
   outline: none;
 }
 
-.pane-custom table::-webkit-scrollbar-thumb {
+.custom__scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: linear-gradient(84.96deg, #14F195 0%, #14F1D6 83.28%);
 
 }
 
-.pane-custom table::-webkit-scrollbar-track {
+.custom__scroll::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #262D2A;
 }
@@ -250,8 +249,20 @@ body {
   transform: translate(0, -4px);
 }
 
+.current__line {
+  position: relative;
+}
 
-
+.current__line:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: red;
+  top: 10px;
+  left: 10px;
+}
 
 .aside__menu__wrap {
   position: fixed;
@@ -404,6 +415,14 @@ body {
   transform: translate(0px, -50%);
 }
 
+.translate__0__50 {
+  transform: translate(0, -50%);
+}
+
+.right__custom {
+  right: calc(100% + 10px);
+}
+
 .translate__50 {
   transform: translate(-50%, -50%);
 }
@@ -482,6 +501,14 @@ body {
     transform: none;
   }
 
+  .right__custom {
+    right: auto;
+    left: -14px;
+    bottom: auto;
+    top: 20px;
+    transform: none;
+  }
+
   .modal .ReactModal__Content--after-open {
     background: #0d0d0d !important;
     border: 1px solid #b5cfcc2b !important;
@@ -509,7 +536,7 @@ body {
 }
 
 @media screen and (max-width: 520px) {
-  .pane-custom table {
+  .panel-custom table {
     overflow-x: auto;
     overflow-y: hidden;
     margin-bottom: 15px;
@@ -527,4 +554,27 @@ body {
   .header__burg.active span:nth-child(2n) {
     margin-top: -6px !important;
   }
+}
+
+
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -500px 0;
+  }
+
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+.switch__to__network .animate {
+  border-radius: 4px;
+  color: transparent;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
+  background-size: 800px 104px;
+  background: linear-gradient(to right, #191b1cb3 30%, #191B1C 50%, #191b1cb6 70%);
 }
