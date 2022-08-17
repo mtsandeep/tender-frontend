@@ -24,6 +24,11 @@ import type { MetaMask } from "@web3-react/metamask";
 import { hooks as metaMaskHooks, metaMask } from "~/connectors/meta-mask";
 import DisconnectedWarning from "./components/disconnected-warning";
 
+import { hooks } from "~/connectors/meta-mask";
+import { useOnSupportedNetwork } from "./hooks/use-on-supported-network";
+
+const { useIsActive } = hooks;
+
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
   { rel: "stylesheet", href: globalStyles },
@@ -38,6 +43,10 @@ if (process.env.NODE_ENV === "production")
 const connectors: [MetaMask, Web3ReactHooks][] = [[metaMask, metaMaskHooks]];
 
 export default function App() {
+  const isActive = useIsActive();
+  const chainId = hooks.useChainId();
+  let onSupportedChain = useOnSupportedNetwork(chainId);
+
   return (
     <html lang="en">
       <head>
@@ -56,7 +65,11 @@ export default function App() {
         gtag('config', 'G-9CFSCBJ73N');
       </script> */}
       </head>
-      <body>
+      <body
+        className={`${
+          !onSupportedChain && isActive ? "switch__to__network" : ""
+        }`}
+      >
         <div id="m"></div>
         <Toaster />
         <Web3ReactProvider connectors={connectors}>

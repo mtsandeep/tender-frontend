@@ -5,27 +5,23 @@ const formatCurrency = (v: number): string => {
 };
 
 export default function AccountSummary() {
-  let totalSupplyBalanceInUsd = 0;
-  let totalBorrowedInUsd = 0;
   let borrowLimit = 0;
   let borrowLimitUsed = 0;
 
   return (
-    <div className="mb-[90px] md:mb-[62px] border-custom px-4 relative top__custom">
+    <div className="mb-[90px] md:mb-[62px] border-custom px-4 relative rounded-t-[16px] bg-[#111111]">
       <div className="pt-[101px] md:pt-[46px] relative">
         <div
-          className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] top__custom__value green }`}
+          className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] bg-[#111111] green }`}
         >
           <div className="flex flex-col h-full justify-center items-center">
-            <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm">
+            <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm mb-[5px] md:mb-[10px]">
               Net APY
             </div>
 
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
-            <div className="text-[24px] md:text-[35px] font-space font-normal">
-              0%
-            </div>
+            <div className="animate  w-[70px] md:w-[90px] h-[34px] text-[24px] md:text-[35px] font-space font-normal"></div>
             <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
               <Ring />
             </div>
@@ -38,17 +34,13 @@ export default function AccountSummary() {
               <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
                 Total Supply
               </div>
-              <div className="text-2xl font-space md:text-[26px] font-normal">
-                {formatCurrency(totalSupplyBalanceInUsd)}
-              </div>
+              <div className="animate w-[180px] h-[32px] text-2xl font-space md:text-[26px] font-normal"></div>
             </div>
             <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center mb-[36px] md:mb-[0px]">
               <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
                 Supply Balance
               </div>
-              <div className="text-2xl font-space md:text-[26px] font-normal">
-                {formatCurrency(totalBorrowedInUsd)}
-              </div>
+              <div className="animate w-[180px] h-[32px] text-2xl font-space md:text-[26px] font-normal"></div>
             </div>
           </div>
           <img
@@ -61,17 +53,13 @@ export default function AccountSummary() {
               <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
                 Total Borrow
               </div>
-              <div className="text-2xl font-space md:text-[26px] font-normal">
-                {formatCurrency(totalSupplyBalanceInUsd)}
-              </div>
+              <div className="animate w-[180px] h-[32px] text-2xl font-space md:text-[26px] font-normal"></div>
             </div>
             <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center">
               <div className="text-dark-green font-nova font-semibold text-sm mb-[8px] md:mb-[9px]">
                 Borrow Balance
               </div>
-              <div className="text-2xl font-space md:text-[26px] font-normal">
-                {formatCurrency(totalBorrowedInUsd)}
-              </div>
+              <div className="animate w-[180px] h-[32px] text-2xl font-space md:text-[26px] font-normal"></div>
             </div>
           </div>
         </div>
