@@ -7,20 +7,20 @@ export default {
     PriceOracle: "0x8aA402BFA7ec284dEcfa8bf5e7F8B65f568d7B81",
   },
   Tokens: {
-    DAI: {
-      name: "DAI",
-      symbol: "DAI",
-      decimals: 6,
-      address: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
-      icon: "/images/coin-icons/dai.svg",
-      priceDecimals: 30,
-      cToken: {
-        name: "tUSDC",
-        symbol: "tUSDC",
-        decimals: 8,
-        address: "0xaa604683c10eF6BE9fbA2add769442224Ef3cB20",
-      },
-    },
+    // DAI: {
+    //   name: "DAI",
+    //   symbol: "DAI",
+    //   decimals: 6,
+    //   address: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
+    //   icon: "/images/coin-icons/dai.svg",
+    //   priceDecimals: 30,
+    //   cToken: {
+    //     name: "tUSDC",
+    //     symbol: "tUSDC",
+    //     decimals: 8,
+    //     address: "0xaa604683c10eF6BE9fbA2add769442224Ef3cB20",
+    //   },
+    // },
     // USDC: {
     //   name: "USDC",
     //   symbol: "m.USDC",
@@ -35,20 +35,20 @@ export default {
     //     address: "0x18320599eA58B19B3FE12d383F2969C61C1B43F4",
     //   },
     // },
-    ETH: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-//   address: eth has no address
-      icon: "/images/coin-icons/ethereum.svg",
-      priceDecimals: 18,
-      cToken: {
-        name: "tETH",
-        symbol: "tETH",
-        decimals: 8,
-        address: "0x4c250eC4858B32aA0e11E199C55922E63F41aF12",
-      },
-    },
+//     ETH: {
+//       name: "ETH",
+//       symbol: "ETH",
+//       decimals: 18,
+// //   address: eth has no address
+//       icon: "/images/coin-icons/ethereum.svg",
+//       priceDecimals: 18,
+//       cToken: {
+//         name: "tETH",
+//         symbol: "tETH",
+//         decimals: 8,
+//         address: "0x4c250eC4858B32aA0e11E199C55922E63F41aF12",
+//       },
+//     },
     GLP: {
       name: "fsGLP",
       symbol: "fsGLP",
@@ -65,7 +65,8 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8",
+        address: "0xa5B876e903C5151Db70515F3A5CAb987484F5e2B"
+        // address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8", old
       },
     },
     WBTC: {
@@ -79,7 +80,7 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
-        address: "0x549580b92fBf534277Bc328bd8C12f0e9C2bA344",
+        address: "0xB746493966a5FCF45cB513caaE4E54CD5247B983",
       },
     },
 // };
