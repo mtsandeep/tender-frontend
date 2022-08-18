@@ -412,7 +412,8 @@ async function hasSufficientAllowance(
   token: Token,
   cToken: cToken
 ): Promise<boolean> {
-  let contract = new ethers.Contract(token.address, SampleErc20Abi, signer);
+  // @ts-ignore
+  let contract = new ethers.Contract(token.sGLPAddress || token.address, SampleErc20Abi, signer);
   let address = await signer.getAddress();
   let allowance: BigNumber = await contract.allowance(address, cToken.address);
 
