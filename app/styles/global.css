@@ -281,6 +281,7 @@ body.body__fixed {
   border-top: none;
   opacity: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .aside__menu__wrap.act {
