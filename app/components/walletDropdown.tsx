@@ -51,7 +51,7 @@ const WalletDropdown = (props: Props) => {
       >
         <img
           className={`${isOpen || props.inMenu ? "hidden" : "block md:hidden"}`}
-          src="images/ico/wallet.svg"
+          src="/images/ico/wallet.svg"
           alt="..."
         />
         <div
@@ -71,11 +71,15 @@ const WalletDropdown = (props: Props) => {
           {truncateAccount(props.addresses[0])}
         </div>
         <svg
-          className={`arrow__custom rotate-180 ${
-            !props.inMenu
-              ? "absolute right-[9px] top-[50%] translate-y-[-50%]"
-              : ""
-          }  ${isOpen ? "rotate-0" : ""}`}
+          className={`arrow__custom ${
+            props.inMenu
+              ? isOpen
+                ? "rotate-180"
+                : "rotate-0"
+              : isOpen
+              ? "absolute right-[9px] top-[50%] translate-y-[-50%] rotate-0"
+              : "absolute right-[9px] top-[50%] translate-y-[-50%] rotate-180 hidden md:flex"
+          }`}
           width="10"
           height="6"
           viewBox="0 0 10 6"

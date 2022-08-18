@@ -46,7 +46,7 @@ export default function Footer() {
         <a href="/">
           <img
             className="w-[120px] h-[20px]"
-            src="images/ico/smallLogo.svg"
+            src="/images/ico/smallLogo.svg"
             alt="..."
           />
         </a>

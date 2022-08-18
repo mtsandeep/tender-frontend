@@ -29,11 +29,13 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
         <div className="text-white text-base font-nova ">
           {(value == "0" || !isValid) && <>{toFiatString(borrowBalance)}</>}
           {isValid && value != "0" && (
-            <>
-              {toFiatString(borrowBalance)}
-              <span className="text-brand-green">→</span> $
-              {toFiatString(newBorrowBalance)}
-            </>
+            <div className="flex">
+              ${toFiatString(borrowBalance)}
+              <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
+                <img className="mx-3" src="/images/ico/arrow.svg" alt="" />
+              </span>
+              ${toFiatString(newBorrowBalance)}
+            </div>
           )}
         </div>
       </div>
@@ -43,10 +45,13 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
         <div className="text-white text-sm sm:text-base font-nova">
           {(value == "0" || !isValid) && <>{borrowLimitUsed}%</>}
           {isValid && value != "0" && (
-            <>
-              {borrowLimitUsed}% <span className="text-brand-green">→ </span>
+            <div className="flex">
+              {borrowLimitUsed}%
+              <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
+                <img className="mx-3" src="/images/ico/arrow.svg" alt="" />
+              </span>
               {newBorrowLimitUsed}%
-            </>
+            </div>
           )}
         </div>
       </div>
