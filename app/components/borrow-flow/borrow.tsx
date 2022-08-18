@@ -8,7 +8,6 @@ import type {
 } from "@ethersproject/providers";
 import * as math from "mathjs";
 
-import clsx from "clsx";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
@@ -91,7 +90,6 @@ export default function Borrow({
   );
 
   let inputTextClass = shrinkyInputClass(value.length);
-  // Highlights value input
   useEffect(() => {
     inputEl && inputEl.current && inputEl.current.select();
   }, []);

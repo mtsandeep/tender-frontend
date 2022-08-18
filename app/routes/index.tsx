@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <div
-      className="c mt-[180px] md:mt-[155px] mb-[107px]"
+      className="c mt-[80px] md:mt-[30px] mb-[100px] md:mb-[100px]"
       data-testid="app-frame"
     >
       {tenderContextData && onSupportedChain ? (

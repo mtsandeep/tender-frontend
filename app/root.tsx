@@ -22,7 +22,6 @@ import { Web3ReactProvider } from "@web3-react/core";
 import type { MetaMask } from "@web3-react/metamask";
 
 import { hooks as metaMaskHooks, metaMask } from "~/connectors/meta-mask";
-import DisconnectedWarning from "./components/disconnected-warning";
 
 import { useOnSupportedNetwork } from "./hooks/use-on-supported-network";
 
@@ -65,7 +64,6 @@ export default function App() {
         <div id="m"></div>
         <Toaster />
         <Web3ReactProvider connectors={connectors}>
-          <DisconnectedWarning />
           <Header />
           <Outlet />
         </Web3ReactProvider>

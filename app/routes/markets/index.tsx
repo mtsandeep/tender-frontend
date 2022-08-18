@@ -1,7 +1,7 @@
 export default function App() {
   return (
     <div
-      className="c mt-[172px] md:mt-[240px] mb-[107px]"
+      className="c mt-[30px] mb-[60px] md:mb-[100px]"
       data-testid="app-frame"
     >
       Markets
