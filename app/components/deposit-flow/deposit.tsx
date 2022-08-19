@@ -308,16 +308,13 @@ export default function Deposit({
                       setIsWaitingToBeMined(true);
                       let tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
-
                       displayTransactionResult(
                         tr.transactionHash,
                         "Deposit successful"
                       );
-
                       setValue("");
                     } catch (e: any) {
                       toast.dismiss();
-                      console.log(e);
                       if (e.transaction?.hash) {
                         toast.error(() => (
                           <p>
@@ -333,7 +330,6 @@ export default function Deposit({
                         toast.error("Deposit unsuccessful.");
                       }
                     } finally {
-                      console.log("finally");
                       setIsWaitingToBeMined(false);
                       setIsDepositing(false);
                     }

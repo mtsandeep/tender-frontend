@@ -240,7 +240,6 @@ export default function Withdraw({
                           market.tokenPair.token
                         );
                         setTxnHash(txn.hash);
-
                         setIsWaitingToBeMined(true);
                         let tr = await txn.wait(); // TODO: error handle if transaction fails
                         setValue("");
@@ -249,7 +248,6 @@ export default function Withdraw({
                         closeModal();
                       } catch (e) {
                         toast.error("Withdraw unsuccessful");
-                        console.error(e);
                       } finally {
                         setIsWaitingToBeMined(false);
                         setIsWithdrawing(false);

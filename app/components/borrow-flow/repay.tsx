@@ -258,7 +258,6 @@ export default function Repay({
                       );
                       setIsEnabled(true);
                     } catch (e) {
-                      console.error(e);
                     } finally {
                       setIsEnabling(false);
                     }
@@ -285,7 +284,6 @@ export default function Repay({
                         });
                         return;
                       }
-
                       setIsRepayingTxn(true);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await repay(
@@ -295,7 +293,6 @@ export default function Repay({
                         market.tokenPair.token
                       );
                       setTxnHash(txn.hash);
-
                       setIsWaitingToBeMined(true);
                       let tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
                       displayTransactionResult(
@@ -308,7 +305,6 @@ export default function Repay({
                       closeModal();
                     } catch (e) {
                       toast.error("Repayment unsuccessful");
-                      console.error(e);
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsRepayingTxn(false);

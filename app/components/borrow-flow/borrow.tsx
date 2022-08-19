@@ -8,6 +8,7 @@ import type {
 } from "@ethersproject/providers";
 import * as math from "mathjs";
 
+import clsx from "clsx";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
@@ -90,6 +91,7 @@ export default function Borrow({
   );
 
   let inputTextClass = shrinkyInputClass(value.length);
+  // Highlights value input
   useEffect(() => {
     inputEl && inputEl.current && inputEl.current.select();
   }, []);
@@ -224,14 +226,12 @@ export default function Borrow({
                           return;
                         }
                         setIsBorrowing(true);
-
                         let txn = await borrow(
                           value,
                           signer,
                           market.tokenPair.cToken,
                           market.tokenPair.token
                         );
-
                         setTxnHash(txn.hash);
                         setIsWaitingToBeMined(true);
                         let tr: TransactionReceipt = await txn.wait(2);
@@ -245,7 +245,6 @@ export default function Borrow({
                       } catch (e: any) {
                         toast.error("Borrow unsuccessful");
                         toast.dismiss();
-                        console.log(e);
                         if (e.transaction?.hash) {
                           toast.error(() => (
                             <p>

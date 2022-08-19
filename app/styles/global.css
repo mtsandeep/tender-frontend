@@ -453,6 +453,22 @@ body.body__fixed {
   right: calc(100% + 10px);
 }
 
+.bottom__custom {
+  right: 50%;
+  transform: translate(45%, 0px);
+  z-index: 5;
+  bottom: 53px;
+}
+
+.custom__arrow__tooltip {
+  border-bottom: 1px solid #282C2B;
+  border-right: 1px solid #282C2B;
+  margin: 0;
+  margin-top: -5px;
+  position: relative;
+  z-index: 11;
+}
+
 .translate__50 {
   transform: translate(-50%, -50%);
 }
@@ -462,7 +478,8 @@ body.body__fixed {
 }
 
 .custom__hidden {
-  display: block;
+  display: flex;
+  align-items: center;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -539,6 +556,20 @@ body.body__fixed {
     transform: none;
   }
 
+  .bottom__custom {
+    right: 100%;
+    transform: translate(0%, 0px);
+    bottom: -20px;
+  }
+
+  .custom__arrow__tooltip {
+    border-bottom: 0;
+    border-right: 0;
+    margin: 0;
+    margin-top: 0;
+    margin-left: -6px;
+  }
+
   .modal .ReactModal__Content--after-open {
     background: #0d0d0d !important;
     border: 1px solid #b5cfcc2b !important;
@@ -548,8 +579,8 @@ body.body__fixed {
     height: fit-content;
     margin: 0 20px 0 20px;
     inset: 0;
-    right: 3% !important;
-    left: 3% !important;
+    right: auto;
+    left: auto;
   }
 
   .transform-custom {

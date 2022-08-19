@@ -14,7 +14,7 @@ export default function ConfirmingTransaction({
 }: Props) {
   let { isWaitingToBeMined } = useContext(TenderContext);
   let { blockExplorerUrl, blockExplorerName } = useBlockchainExplorer();
-
+  console.log("asd");
   return (
     <div className="flex flex-col items-center overflow-hidden pb-[30px] md:pb-[80px] pr-[15px] pl-[15px] md:pr-[88px] md:pl-[88px]">
       <svg

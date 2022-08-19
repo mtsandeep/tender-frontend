@@ -40,7 +40,7 @@ export default function Display({
                 0%
               </div>
             )}
-            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
+            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>
           </div>

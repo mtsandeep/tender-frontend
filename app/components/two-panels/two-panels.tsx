@@ -113,7 +113,7 @@ export default function TwoPanels() {
                       key={m.id}
                     >
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        <div className="flex items-center jusstify-left">
+                        <div className="flex items-center justify-left">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={m.tokenPair.token.icon}
@@ -132,7 +132,7 @@ export default function TwoPanels() {
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                           {`$${
                             m.marketData.marketSize &&
                             toShortFiatString(
@@ -143,7 +143,48 @@ export default function TwoPanels() {
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        {m.marketData.depositApy}
+                        <div className="custom__hidden">
+                          {m.marketData.depositApy}
+                        </div>
+                        <div
+                          className="group"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                            <img
+                              className="w-[13px] h-[13px] mr-[4px]"
+                              src="/images/wallet-icons/balance-icon.svg"
+                              alt="..."
+                            />
+                            2.34%
+                          </div>
+                          <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[15px]">
+                            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
+                              <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[16px] pb-[20px]">
+                                <p className="text-[#818987] text-[12px] md:text-[14px] text-left leading-[140%] font-nova mb-[14px]">
+                                  Participating in this DAI.e reserve gives
+                                  annualized rewards.
+                                </p>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center">
+                                    <img
+                                      className="w-[18px] h-[18px] mr-[8px]"
+                                      src="/images/wallet-icons/balance-icon.svg"
+                                      alt="..."
+                                    />
+                                    <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
+                                      TENDIES
+                                    </span>
+                                  </div>
+                                  <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
+                                    0.10 % APR
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="custom__arrow__tooltip w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                          </div>
+                        </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                         <div className="custom__hidden">
@@ -152,7 +193,7 @@ export default function TwoPanels() {
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                           {`$${m.supplyBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
@@ -196,7 +237,7 @@ export default function TwoPanels() {
                         key={m.id}
                       >
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          <div className="flex items-center jusstify-left">
+                          <div className="flex items-center justify-left">
                             <img
                               className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                               src={m.tokenPair.token.icon}
@@ -215,7 +256,7 @@ export default function TwoPanels() {
                               )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                             {`$${
                               m.marketData.marketSize &&
                               toShortFiatString(
@@ -226,7 +267,48 @@ export default function TwoPanels() {
                           </div>
                         </td>
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          {m.marketData.depositApy}
+                          <div className="custom__hidden">
+                            {m.marketData.depositApy}
+                          </div>
+                          <div
+                            className="group"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                              <img
+                                className="w-[13px] h-[13px] mr-[4px]"
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
+                              />
+                              2.34%
+                            </div>
+                            <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[15px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
+                                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[16px] pb-[20px]">
+                                  <p className="text-[#818987] text-[12px] md:text-[14px] text-left leading-[140%] font-nova mb-[14px]">
+                                    Participating in this DAI.e reserve gives
+                                    annualized rewards.
+                                  </p>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center">
+                                      <img
+                                        className="w-[18px] h-[18px] mr-[8px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
+                                        alt="..."
+                                      />
+                                      <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
+                                        TENDIES
+                                      </span>
+                                    </div>
+                                    <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
+                                      0.10 % APR
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="custom__arrow__tooltip w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                            </div>
+                          </div>
                         </td>
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                           <div className="custom__hidden">
@@ -235,7 +317,7 @@ export default function TwoPanels() {
                             )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                             {`$${toShortFiatString(
                               m.walletBalance * m.tokenPair.token.priceInUsd
                             )} USD`}
@@ -288,7 +370,7 @@ export default function TwoPanels() {
                       key={m.id}
                     >
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        <div className="flex items-center jusstify-left">
+                        <div className="flex items-center justify-left">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={m.tokenPair.token.icon}
@@ -307,7 +389,7 @@ export default function TwoPanels() {
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                           {`$${
                             m.marketData?.totalBorrowed &&
                             toShortFiatString(
@@ -318,7 +400,48 @@ export default function TwoPanels() {
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                        {m.marketData.borrowApy}
+                        <div className="custom__hidden">
+                          {m.marketData.borrowApy}
+                        </div>
+                        <div
+                          className="group"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                            <img
+                              className="w-[13px] h-[13px] mr-[4px]"
+                              src="/images/wallet-icons/balance-icon.svg"
+                              alt="..."
+                            />
+                            2.34%
+                          </div>
+                          <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[15px]">
+                            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
+                              <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[16px] pb-[20px]">
+                                <p className="text-[#818987] text-[12px] md:text-[14px] text-left leading-[140%] font-nova mb-[14px]">
+                                  Participating in this DAI.e reserve gives
+                                  annualized rewards.
+                                </p>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center">
+                                    <img
+                                      className="w-[18px] h-[18px] mr-[8px]"
+                                      src="/images/wallet-icons/balance-icon.svg"
+                                      alt="..."
+                                    />
+                                    <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
+                                      TENDIES
+                                    </span>
+                                  </div>
+                                  <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
+                                    0.10 % APR
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="custom__arrow__tooltip w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                          </div>
+                        </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                         <div className="custom__hidden">
@@ -327,7 +450,7 @@ export default function TwoPanels() {
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                           {`$${m.borrowBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
@@ -371,7 +494,7 @@ export default function TwoPanels() {
                         key={m.id}
                       >
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          <div className="flex items-center jusstify-left">
+                          <div className="flex items-center justify-left">
                             <img
                               className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                               src={m.tokenPair.token.icon}
@@ -390,7 +513,7 @@ export default function TwoPanels() {
                               )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                             {`$${
                               m.marketData?.totalBorrowed &&
                               toShortFiatString(
@@ -401,7 +524,48 @@ export default function TwoPanels() {
                           </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
-                          {m.marketData.borrowApy}
+                          <div className="custom__hidden">
+                            {m.marketData.borrowApy}
+                          </div>
+                          <div
+                            className="group"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                              <img
+                                className="w-[13px] h-[13px] mr-[4px]"
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
+                              />
+                              2.34%
+                            </div>
+                            <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[15px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
+                                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[16px] pb-[20px]">
+                                  <p className="text-[#818987] text-[12px] md:text-[14px] text-left leading-[140%] font-nova mb-[14px]">
+                                    Participating in this DAI.e reserve gives
+                                    annualized rewards.
+                                  </p>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center">
+                                      <img
+                                        className="w-[18px] h-[18px] mr-[8px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
+                                        alt="..."
+                                      />
+                                      <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
+                                        TENDIES
+                                      </span>
+                                    </div>
+                                    <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
+                                      0.10 % APR
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="custom__arrow__tooltip w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                            </div>
+                          </div>
                         </td>
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[10px]">
                           <div className="custom__hidden">
@@ -410,7 +574,7 @@ export default function TwoPanels() {
                             )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-xs text-center py-1 px-2 absolute top-[40px] md:top-[57px] md:left-[10px]">
+                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                             {`$${toShortFiatString(
                               m.maxBorrowLiquidity *
                                 m.tokenPair.token.priceInUsd
