@@ -116,7 +116,7 @@ export default function Display({
           transition: "width 1s ease-out",
         }}
       >
-        {borrowLimitUsed && (
+        {Number(borrowLimitUsed) > 0 && (
           <span className="span-value">{borrowLimitUsed}%</span>
         )}
       </div>
