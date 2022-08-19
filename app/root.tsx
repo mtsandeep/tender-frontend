@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Links,
   LiveReload,
@@ -8,6 +9,7 @@ import {
 } from "remix";
 
 import LogRocket from "logrocket";
+import TagManager from "react-gtm-module";
 
 import { Toaster } from "react-hot-toast";
 import type { MetaFunction, LinksFunction } from "remix";
@@ -42,6 +44,10 @@ export default function App() {
   const chainId = metaMaskHooks.useChainId();
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
+  useEffect(() => {
+    TagManager.initialize({ gtmId: "G-9CFSCBJ73N" });
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -49,16 +55,6 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-
-        {/* <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CFSCBJ73N"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9CFSCBJ73N');
-      </script> */}
       </head>
       <body className={`${!onSupportedChain ? "switch__to__network" : ""}`}>
         <div id="m"></div>
