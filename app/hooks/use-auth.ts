@@ -1,12 +1,12 @@
 import {useCallback} from "react";
 import {metaMask} from "~/connectors/meta-mask";
 
-const DISCONNECTED_LOCAL_STORAGE_KEY = 'tenderWalletDisconnected'
+const DISCONNECTED_LOCAL_STORAGE_KEY = 'tenderWalletDisconnected';
 
 const useAuth = () => {
     const connect = useCallback(() => {
         metaMask.activate().then(() => {
-            window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, '0')
+            window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, '0');
         });
     }, []);
 
@@ -19,7 +19,7 @@ const useAuth = () => {
         return window.localStorage.getItem(DISCONNECTED_LOCAL_STORAGE_KEY) === '1';
     }, []);
 
-    return {connect, disconnect, isDisconnected}
+    return {connect, disconnect, isDisconnected};
 };
 
 export default useAuth;
