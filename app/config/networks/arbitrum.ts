@@ -1,9 +1,9 @@
 export default {
   ChainId: 42161,
   blockExplorerName: "Arbiscan",
-  blockExplorerUrl: "https://arbiscan.io//tx",
+  blockExplorerUrl: "https://arbiscan.io/tx",
   Contracts: {
-    Comptroller: "0x84A57414910FBfE9f5503bFCA2F1e31B6Ad0981A",
+    Comptroller: "0x1813554dc1F68cF54f71449db298DAf9Ab75F4F3",
     PriceOracle: "0x8aA402BFA7ec284dEcfa8bf5e7F8B65f568d7B81",
   },
   Tokens: {
@@ -21,36 +21,39 @@ export default {
     //     address: "0xaa604683c10eF6BE9fbA2add769442224Ef3cB20",
     //   },
     // },
-    // USDC: {
-    //   name: "USDC",
-    //   symbol: "m.USDC",
-    //   decimals: 6,
-    //   address: "0xEA32A96608495e54156Ae48931A7c20f0dcc1a21",
-    //   icon: "/images/coin-icons/usdc.svg",
-    //   priceDecimals: 30,
-    //   cToken: {
-    //     name: "tUSDC",
-    //     symbol: "tUSDC",
-    //     decimals: 8,
-    //     address: "0x18320599eA58B19B3FE12d383F2969C61C1B43F4",
-    //   },
-    // },
-//     ETH: {
-//       name: "ETH",
-//       symbol: "ETH",
-//       decimals: 18,
-// //   address: eth has no address
-//       icon: "/images/coin-icons/ethereum.svg",
-//       priceDecimals: 18,
-//       cToken: {
-//         name: "tETH",
-//         symbol: "tETH",
-//         decimals: 8,
-//         address: "0x4c250eC4858B32aA0e11E199C55922E63F41aF12",
-//       },
-//     },
+    
+    USDC: {
+      name: "USDC",
+      symbol: "USDC",
+      decimals: 6,
+      address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+      icon: "/images/coin-icons/usdc.svg",
+      priceDecimals: 30,
+      cToken: {
+        name: "tUSDC",
+        symbol: "tUSDC",
+        decimals: 8,
+        address: "0x118D18a71Aa53DA259609c36725A4558d3CFB1cE",
+      },
+    },
+
+    ETH: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+      //   address: eth has no address
+      icon: "/images/coin-icons/ethereum.svg",
+      priceDecimals: 18,
+      cToken: {
+        name: "tETH",
+        symbol: "tETH",
+        decimals: 8,
+        address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
+      },
+    },
+
     GLP: {
-      name: "fsGLP",
+      name: "GLP",
       symbol: "fsGLP",
       decimals: 18,
 
@@ -65,10 +68,11 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xa5B876e903C5151Db70515F3A5CAb987484F5e2B"
+        address: "0xA26E01Bf45bf31C52DAF1a6C6B3192BC611F64A6"
         // address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8", old
       },
     },
+
     WBTC: {
       name: "wBTC",
       symbol: "WBTC",
@@ -80,7 +84,7 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
-        address: "0xB746493966a5FCF45cB513caaE4E54CD5247B983",
+        address: "0xc10e5F87D7D7dD718b088D217b3Efc228737c8fa",
       },
     },
 // };
