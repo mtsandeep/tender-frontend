@@ -298,7 +298,7 @@ async function projectBorrowLimit(
   let borrowLimitChangeInUsd: number =
     tokenAmount * tp.token.priceInUsd * collateralFactor;
 
-    console.log("CF", collateralFactor, tp.token.symbol)
+    console.log("CF", collateralFactor, tp.token.symbol, "price", tp.token.priceInUsd)
   return currentBorrowLimitInUsd + borrowLimitChangeInUsd;
 }
 

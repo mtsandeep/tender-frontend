@@ -21,7 +21,7 @@ export default {
     //     address: "0xaa604683c10eF6BE9fbA2add769442224Ef3cB20",
     //   },
     // },
-    
+
     USDC: {
       name: "USDC",
       symbol: "USDC",
@@ -68,7 +68,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xA26E01Bf45bf31C52DAF1a6C6B3192BC611F64A6"
+        address: "0xA84Bc6717644b43A4893e0863d60e5857d3DaD11"
         // address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8", old
       },
     },
