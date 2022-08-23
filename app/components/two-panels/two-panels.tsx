@@ -132,7 +132,7 @@ export default function TwoPanels() {
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                        <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                           {`$${
                             m.marketData.marketSize &&
                             toShortFiatString(
@@ -150,7 +150,7 @@ export default function TwoPanels() {
                           className="group"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                             <img
                               className="w-[13px] h-[13px] mr-[4px]"
                               src="/images/wallet-icons/balance-icon.svg"
@@ -193,7 +193,7 @@ export default function TwoPanels() {
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
+                        <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                           {`$${m.supplyBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
@@ -256,7 +256,7 @@ export default function TwoPanels() {
                               )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                             {`$${
                               m.marketData.marketSize &&
                               toShortFiatString(
@@ -274,7 +274,7 @@ export default function TwoPanels() {
                             className="group"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                            <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                               <img
                                 className="w-[13px] h-[13px] mr-[4px]"
                                 src="/images/wallet-icons/balance-icon.svg"
@@ -317,7 +317,7 @@ export default function TwoPanels() {
                             )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
+                          <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                             {`$${toShortFiatString(
                               m.walletBalance * m.tokenPair.token.priceInUsd
                             )} USD`}
@@ -389,7 +389,7 @@ export default function TwoPanels() {
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                        <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                           {`$${
                             m.marketData?.totalBorrowed &&
                             toShortFiatString(
@@ -407,7 +407,7 @@ export default function TwoPanels() {
                           className="group"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                             <img
                               className="w-[13px] h-[13px] mr-[4px]"
                               src="/images/wallet-icons/balance-icon.svg"
@@ -450,7 +450,7 @@ export default function TwoPanels() {
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
-                        <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
+                        <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                           {`$${m.borrowBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
@@ -513,7 +513,7 @@ export default function TwoPanels() {
                               )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                          <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                             {`$${
                               m.marketData?.totalBorrowed &&
                               toShortFiatString(
@@ -531,7 +531,7 @@ export default function TwoPanels() {
                             className="group"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <div className="custom__hidden break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
+                            <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] left-[14px] md:left-[30px]">
                               <img
                                 className="w-[13px] h-[13px] mr-[4px]"
                                 src="/images/wallet-icons/balance-icon.svg"
@@ -574,7 +574,7 @@ export default function TwoPanels() {
                             )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
-                          <div className="custom__hidden break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
+                          <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[57px] md:left-[10px]">
                             {`$${toShortFiatString(
                               m.maxBorrowLiquidity *
                                 m.tokenPair.token.priceInUsd

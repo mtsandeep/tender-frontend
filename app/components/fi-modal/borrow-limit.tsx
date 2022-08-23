@@ -21,11 +21,11 @@ export default function BorrowLimit(props: BorrowLimitProps) {
 
   return (
     <div>
-      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-[14px] w-full pb-4 sm:pb-5">
+      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-xl w-full pb-4 sm:pb-5">
         Borrow Limit
       </div>
 
-      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-[16px] border-b border-[#282C2B]">
+      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base border-b border-[#282C2B]">
         <div className="flex-grow py-4 sm:py-5 ">Borrow Limit</div>
         <div className="text-white text-base font-nova">
           {(value == "0" || !isValid) && <>{toFiatString(borrowLimit)}</>}

@@ -192,7 +192,7 @@ export default function Repay({
                 Borrow
               </button>
               <button
-                className="flex-grow py-2 text-[#14F195] border-b-4 uppercase border-b-[#14F195] font-space font-bold text-xs sm:text-base"
+                className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
                 onClick={() => setIsRepaying(true)}
               >
                 Repay
@@ -264,14 +264,14 @@ export default function Repay({
                       setIsEnabling(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
                 >
                   {isEnabling ? "Enabling..." : "Enable"}
                 </button>
               )}
 
               {signer && isEnabled && !isValid && (
-                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]">
+                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]">
                   {validationDetail}
                 </button>
               )}
@@ -312,7 +312,7 @@ export default function Repay({
                       setIsRepayingTxn(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
                 >
                   {isRepayingTxn ? "Repaying..." : "Repay"}
                 </button>
