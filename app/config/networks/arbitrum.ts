@@ -7,20 +7,20 @@ export default {
     PriceOracle: "0x8aA402BFA7ec284dEcfa8bf5e7F8B65f568d7B81",
   },
   Tokens: {
-    // DAI: {
-    //   name: "DAI",
-    //   symbol: "DAI",
-    //   decimals: 6,
-    //   address: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
-    //   icon: "/images/coin-icons/dai.svg",
-    //   priceDecimals: 30,
-    //   cToken: {
-    //     name: "tUSDC",
-    //     symbol: "tUSDC",
-    //     decimals: 8,
-    //     address: "0xaa604683c10eF6BE9fbA2add769442224Ef3cB20",
-    //   },
-    // },
+    DAI: {
+      name: "DAI",
+      symbol: "DAI",
+      decimals: 6,
+      address: "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
+      icon: "/images/coin-icons/dai.svg",
+      priceDecimals: 30,
+      cToken: {
+        name: "tDAI",
+        symbol: "tDAI",
+        decimals: 8,
+        address: "0xeA4D2fF197fDf5d74554C17aCb720b9fA25D7cB7",
+      },
+    },
 
     USDC: {
       name: "USDC",
@@ -48,7 +48,8 @@ export default {
         name: "tETH",
         symbol: "tETH",
         decimals: 8,
-        address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
+        address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
+        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
       },
     },
 
