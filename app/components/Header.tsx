@@ -130,12 +130,6 @@ export default function Header() {
             </a>
             <a
               className="px-[15px] cursor-pointer hover:text-white"
-              href="/markets/m.USDC"
-            >
-              Dashboard
-            </a>
-            <a
-              className="px-[15px] cursor-pointer hover:text-white"
               href="/earn"
             >
               Earn
