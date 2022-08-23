@@ -569,17 +569,6 @@ body.body__fixed {
   opacity: 0.4;
 }
 
-.borrow__link__custom {
-  cursor: pointer;
-}
-
-.borrow__link__custom:hover {
-  color: #14f195;
-}
-
-.borrow__link__custom:hover path {
-  fill: #14f195;
-}
 
 @media screen and (max-width: 768px) {
   .panel-top-wallet svg {

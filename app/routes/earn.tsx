@@ -9,12 +9,12 @@ export default function App() {
           Earn
         </p>
         <p className="leading-[22px] font-normal mb-[16px] md:mb-[31px] text-base md:text-[16px] font-nova">
-          Stake <span className="uppercase">TendieS</span> to earn rewards.
+          Stake <span className="uppercase">TND</span> to earn rewards.
         </p>
         <div className="font-[ProximaNova] w-full">
           <div key="1" className="panel-custom">
             <div className="font-space text-[20px] leading-[26px] px-[30px] pt-[23px] pb-[20px] uppercase border-b-[1px] border-[#282C2B] border-solid px-[15px]">
-              TendieS
+              TND
             </div>
             <div key="1" className="px-[30px] pt-[24px] pb-[30px]">
               <div
@@ -135,7 +135,7 @@ export default function App() {
               >
                 <div className="btn-custom-border rounded-[6px]">
                   <button className=" px-[16px] py-[8px] text-[#14F195] uppercase text-[13px] font-medium leading-[22px]  rounded-[6px] bg-[#0e3625] relative z-[2] ">
-                    Buy tendieS
+                    Buy TND
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
@@ -159,7 +159,7 @@ export default function App() {
 
           <div key="2" className="panel-custom mt-[31px]">
             <div className="font-space text-[20px] leading-[26px] px-[30px] pt-[24px] pb-[21px] uppercase border-b-[1px] border-[#282C2B] border-solid px-[15px]">
-              Escrowed TendieS
+              Escrowed TND
             </div>
             <div key="1" className="px-[30px] pt-[23px] pb-[30px]">
               <div
@@ -370,7 +370,7 @@ export default function App() {
           Vest
         </p>
         <p className="leading-[22px] font-normal mb-[16px] md:mb-[30px] text-base md:text-[16px] font-nova">
-          Convert esTENDIES tokens to TENDIES tokens. Please read the{" "}
+          Convert esTND tokens to TND tokens. Please read the{" "}
           <a className="underline" href="/">
             vesting details
           </a>{" "}

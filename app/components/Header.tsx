@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BalanceDropdown from "./BalanceDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
@@ -14,7 +14,16 @@ export default function Header() {
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!onSupportedChain) {
+      console.log(!onSupportedChain);
+      setTimeout(() => {
+        setShow(true);
+      }, 500);
+    }
+  }, [onSupportedChain]);
 
   let tryConnectingToMetis = async (p: typeof provider) => {
     if (!p) {
@@ -111,12 +120,18 @@ export default function Header() {
             className="w-[104px] block lg:w-[196px]"
             onClick={() => handleClickBurger(false)}
           >
-            <a href="https://www.tender.fi/">
+            <a href="https://home.tender.fi">
               <img src="/images/logo1.svg" alt="Tender Finance" />
             </a>
           </div>
           <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
             <a className="px-[15px] cursor-pointer hover:text-white" href="/">
+              Dashboard
+            </a>
+            <a
+              className="px-[15px] cursor-pointer hover:text-white"
+              href="/markets/m.USDC"
+            >
               Dashboard
             </a>
             <a

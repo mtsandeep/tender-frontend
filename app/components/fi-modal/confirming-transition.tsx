@@ -13,7 +13,7 @@ export default function ConfirmingTransaction({
   txnHash,
 }: Props) {
   let { isWaitingToBeMined } = useContext(TenderContext);
-  let { blockExplorerUrl, blockExplorerName } = useBlockchainExplorer();
+  let { blockExplorerUrl } = useBlockchainExplorer();
 
   return (
     <div className="flex flex-col items-center overflow-hidden pb-[30px] md:pb-[80px] pr-[15px] pl-[15px] md:pr-[88px] md:pl-[88px]">
@@ -56,7 +56,7 @@ export default function ConfirmingTransaction({
         target="_blank"
         className="uppercase font-space font-bold text-base w-full max-w-[375px] flex justify-center items-center bg-[#14F195] text-[#000] rounded-[6px] h-[60px] md:h-[60px]"
       >
-        View on {blockExplorerName}
+        VIEW ON EXPLORER
       </a>
     </div>
   );

@@ -173,7 +173,7 @@ export default function TwoPanels() {
                                       alt="..."
                                     />
                                     <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
-                                      TENDIES
+                                      TND
                                     </span>
                                   </div>
                                   <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
@@ -297,7 +297,7 @@ export default function TwoPanels() {
                                         alt="..."
                                       />
                                       <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
-                                        TENDIES
+                                        TND
                                       </span>
                                     </div>
                                     <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
@@ -430,7 +430,7 @@ export default function TwoPanels() {
                                       alt="..."
                                     />
                                     <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
-                                      TENDIES
+                                      TND
                                     </span>
                                   </div>
                                   <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">
@@ -554,7 +554,7 @@ export default function TwoPanels() {
                                         alt="..."
                                       />
                                       <span className="font-nova font-semibold text-[14px] leading-[17px] text-[#FFFFFF]">
-                                        TENDIES
+                                        TND
                                       </span>
                                     </div>
                                     <span className="font-nova font-normal text-[14px] leading-[17px] text-[#14F195]">

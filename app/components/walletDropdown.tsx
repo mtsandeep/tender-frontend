@@ -14,7 +14,7 @@ const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [textButton, setTextButton] = useState<string>("Copy Address");
   const dropdownRef = useRef<any>(null);
-  let { blockExplorerUrl, blockExplorerName } = useBlockchainExplorer();
+  let { blockExplorerUrl } = useBlockchainExplorer();
 
   function truncateAccount(account: string): string {
     return `${account.slice(0, 3)}...${account.slice(-4)}`;
