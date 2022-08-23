@@ -3,7 +3,7 @@ export default {
   blockExplorerName: "Arbiscan",
   blockExplorerUrl: "https://arbiscan.io/tx",
   Contracts: {
-    Comptroller: "0x1813554dc1F68cF54f71449db298DAf9Ab75F4F3",
+    Comptroller: "0x2d6f21b68F8c56a86d25b4A80857c32322b2f63D",
     PriceOracle: "0x8aA402BFA7ec284dEcfa8bf5e7F8B65f568d7B81",
   },
   Tokens: {
