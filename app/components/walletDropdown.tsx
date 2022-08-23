@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useBlockchainExplorer } from "~/hooks/use-network-to-blockchain-explorer";
 
 interface Props {
   inMenu?: boolean;
@@ -13,6 +14,7 @@ const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [textButton, setTextButton] = useState<string>("Copy Address");
   const dropdownRef = useRef<any>(null);
+  let { blockExplorerUrl, blockExplorerName } = useBlockchainExplorer();
 
   function truncateAccount(account: string): string {
     return `${account.slice(0, 3)}...${account.slice(-4)}`;
@@ -139,7 +141,7 @@ const WalletDropdown = (props: Props) => {
           </div>
         </div>
         <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
-          <div className="flex items-center">
+          <a className="flex items-center" href={blockExplorerUrl || ""}>
             <img
               className="w-[16px] h-[16px] mr-[15px]"
               src="/images/wallet-icons/balance-link.svg"
@@ -148,7 +150,7 @@ const WalletDropdown = (props: Props) => {
             <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
               View Explorer
             </p>
-          </div>
+          </a>
         </div>
         <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
           <div className="flex items-center">

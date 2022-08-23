@@ -60,7 +60,7 @@ export default function Display({
                 Supply Balance
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalBorrowedInUsd)}
+                ${toFiatString(totalSupplyBalanceInUsd)}
               </div>
             </div>
           </div>
