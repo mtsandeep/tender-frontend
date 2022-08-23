@@ -117,7 +117,7 @@ export default function Deposit({
               </button>
             </div>
 
-            {!isEnabled && (
+            {!isEnabled ? (
               <div>
                 <div className="flex align-middle justify-center items-center">
                   <img
@@ -139,8 +139,7 @@ export default function Deposit({
                   </div>
                 </div>
               </div>
-            )}
-            {isEnabled && (
+            ) : (
               <div>
                 <div className="flex align-middle justify-center items-center">
                   <img
@@ -149,7 +148,7 @@ export default function Deposit({
                     alt="icon"
                   />
                 </div>
-                <div className="relative mt-6">
+                <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
                   <Max
                     maxValue={walletBalance.toString()}
                     updateValue={() => {
@@ -163,18 +162,16 @@ export default function Deposit({
                     }}
                     maxValueLabel={market.tokenPair.token.symbol}
                   />
-                  <div className="flex flex-col justify-center items-end overflow-hidden">
-                    <input
-                      ref={inputEl}
-                      value={value}
-                      onChange={(e) => handleCheckValue(e)}
-                      style={{ minHeight: 90 }}
-                      className={`input__center__custom ${
-                        value ? "w-full" : "w-[calc(100%-40px)]"
-                      } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                      placeholder="0"
-                    />
-                  </div>
+                  <input
+                    ref={inputEl}
+                    value={value}
+                    onChange={(e) => handleCheckValue(e)}
+                    style={{ minHeight: 90 }}
+                    className={`input__center__custom ${
+                      value ? "w-full" : "w-[calc(100%-40px)]"
+                    } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                    placeholder="0"
+                  />
                 </div>
               </div>
             )}
@@ -256,6 +253,7 @@ export default function Deposit({
               newBorrowLimit={newBorrowLimit}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
+              urlArrow="/images/ico/arrow-green.svg"
             />
             <div className="flex justify-center mb-8">
               {!signer && <div>Connect wallet to get started</div>}

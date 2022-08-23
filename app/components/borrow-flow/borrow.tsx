@@ -117,14 +117,14 @@ export default function Borrow({
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
-            <div className="flex w-full align-middle justify-center items-center">
+
+            <div className="flex align-middle justify-center items-center">
               <img
                 src={market.tokenPair.token.icon}
-                style={{ width: ICON_SIZE }}
+                className="w-12"
                 alt="icon"
               />
             </div>
-
             <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
               <input
                 ref={inputEl}
@@ -136,7 +136,6 @@ export default function Borrow({
                 } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
-
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
                   maxValue={`${formattedMaxBorrowLimit}`}
@@ -207,6 +206,7 @@ export default function Borrow({
               newBorrowBalance={newTotalBorrowedAmountInUsd}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
+              urlArrow="/images/ico/arrow-blue.svg"
             />
 
             <div className="flex justify-center mb-8">

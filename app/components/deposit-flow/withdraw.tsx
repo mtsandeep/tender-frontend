@@ -5,7 +5,6 @@ import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 import * as math from "mathjs";
-import clsx from "clsx";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -102,6 +101,7 @@ export default function Withdraw({
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
+
             <div className="flex align-middle justify-center items-center">
               <img
                 src={market.tokenPair.token.icon}
@@ -109,19 +109,7 @@ export default function Withdraw({
                 alt="icon"
               />
             </div>
-
             <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
-              <input
-                ref={inputEl}
-                value={value}
-                onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 90 }}
-                className={`input__center__custom ${
-                  value ? "w-full" : "w-[calc(100%-40px)]"
-                } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                placeholder="0"
-              />
-
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
                   maxValue={maxWithdrawAmount.toString()}
@@ -138,6 +126,16 @@ export default function Withdraw({
                   maxValueLabel={market.tokenPair.token.symbol}
                 />
               )}
+              <input
+                ref={inputEl}
+                value={value}
+                onChange={(e) => handleCheckValue(e)}
+                style={{ minHeight: 90 }}
+                className={`input__center__custom ${
+                  value ? "w-full" : "w-[calc(100%-40px)]"
+                } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                placeholder="0"
+              />
             </div>
             <div className="flex mt-6 uppercase">
               <button
@@ -213,6 +211,7 @@ export default function Withdraw({
               newBorrowLimit={newBorrowLimit}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
+              urlArrow="/images/ico/arrow-green.svg"
             />
 
             <div className="flex justify-center mb-8">

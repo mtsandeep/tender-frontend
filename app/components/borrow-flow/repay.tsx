@@ -123,7 +123,7 @@ export default function Repay({
               </button>
             </div>
 
-            {!isEnabled && (
+            {!isEnabled ? (
               <div>
                 <div className="flex align-middle justify-center items-center">
                   <img
@@ -145,8 +145,7 @@ export default function Repay({
                   </div>
                 </div>
               </div>
-            )}
-            {isEnabled && (
+            ) : (
               <div>
                 <div className="flex align-middle justify-center items-center">
                   <img
@@ -155,7 +154,18 @@ export default function Repay({
                     alt="icon"
                   />
                 </div>
-                <div className="relative  mt-6">
+                <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
+                  <input
+                    ref={inputEl}
+                    value={value}
+                    onChange={(e) => handleCheckValue(e)}
+                    style={{ minHeight: 90 }}
+                    className={`input__center__custom ${
+                      value ? "w-full" : "w-[calc(100%-40px)]"
+                    } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                    placeholder="0"
+                  />
+
                   <Max
                     maxValue={maxRepayableAmount.toString()}
                     updateValue={() => {
@@ -169,18 +179,6 @@ export default function Repay({
                     }}
                     maxValueLabel={market.tokenPair.token.symbol}
                   />
-                  <div className="flex flex-col justify-center items-end overflow-hidden">
-                    <input
-                      ref={inputEl}
-                      value={value}
-                      onChange={(e) => handleCheckValue(e)}
-                      style={{ minHeight: 90 }}
-                      className={`input__center__custom ${
-                        value ? "w-full" : "w-[calc(100%-40px)]"
-                      } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                      placeholder="0"
-                    />
-                  </div>
                 </div>
               </div>
             )}
@@ -243,6 +241,7 @@ export default function Repay({
               newBorrowBalance={newTotalBorrowedAmountInUsd}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
+              urlArrow="/images/ico/arrow-blue.svg"
             />
 
             <div className="flex justify-center mb-8">

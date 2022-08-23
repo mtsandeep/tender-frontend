@@ -91,7 +91,7 @@ export default function Header() {
                     className="underline"
                     onClick={() => tryConnectingToMetis(provider)}
                   >
-                    Switch to Metis
+                    Switch network.
                   </button>
                 </>
               ) : (

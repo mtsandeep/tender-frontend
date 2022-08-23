@@ -2,6 +2,7 @@ import { toFiatString } from "~/lib/ui";
 
 interface BorrowLimitProps {
   value: string;
+  urlArrow: string;
   isValid: boolean;
   borrowLimit: number;
   newBorrowLimit: number;
@@ -12,6 +13,7 @@ interface BorrowLimitProps {
 export default function BorrowLimit(props: BorrowLimitProps) {
   const {
     value,
+    urlArrow,
     isValid,
     borrowLimit,
     newBorrowLimit,
@@ -21,7 +23,7 @@ export default function BorrowLimit(props: BorrowLimitProps) {
 
   return (
     <div>
-      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-xl w-full pb-4 sm:pb-5">
+      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-[14px] w-full pb-4 sm:pb-5">
         Borrow Limit
       </div>
 
@@ -33,7 +35,7 @@ export default function BorrowLimit(props: BorrowLimitProps) {
             <div className="flex">
               ${toFiatString(borrowLimit)}
               <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
-                <img className="mx-3" src="/images/ico/arrow.svg" alt="" />
+                <img className="mx-3" src={urlArrow} alt="" />
               </span>
               ${toFiatString(newBorrowLimit)}
             </div>
@@ -50,7 +52,7 @@ export default function BorrowLimit(props: BorrowLimitProps) {
             <div className="flex">
               {borrowLimitUsed}%
               <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
-                <img className="mx-3" src="/images/ico/arrow.svg" alt="" />
+                <img className="mx-3" src={urlArrow} alt="" />
               </span>
               {newBorrowLimitUsed}%
             </div>
