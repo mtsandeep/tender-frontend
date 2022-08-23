@@ -163,13 +163,15 @@ export default function Deposit({
                     }}
                     maxValueLabel={market.tokenPair.token.symbol}
                   />
-                  <div className="flex flex-col justify-center items-center overflow-hidden">
+                  <div className="flex flex-col justify-center items-end overflow-hidden">
                     <input
                       ref={inputEl}
                       value={value}
                       onChange={(e) => handleCheckValue(e)}
                       style={{ minHeight: 90 }}
-                      className={`w-full text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                      className={`input__center__custom ${
+                        value ? "w-full" : "w-[calc(100%-40px)]"
+                      } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
                       placeholder="0"
                     />
                   </div>

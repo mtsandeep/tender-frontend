@@ -110,13 +110,15 @@ export default function Withdraw({
               />
             </div>
 
-            <div className="flex flex-col justify-center items-center mt-6 overflow-hidden font-space">
+            <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
               <input
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ minHeight: 90 }}
-                className={`w-full text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                className={`input__center__custom ${
+                  value ? "w-full" : "w-[calc(100%-40px)]"
+                } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
 

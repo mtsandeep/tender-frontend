@@ -672,3 +672,7 @@ body.body__fixed {
       #191b1c 50%,
       #191b1cb6 70%);
 }
+
+.input__center__custom::placeholder {
+  transform: translate(-20px, 0px);
+}
