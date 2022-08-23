@@ -35,108 +35,108 @@
 
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 900;
-  src: url("/fonts/ProximaNova/ProximaNova-Black.eot") format('eot');
+  src: url("/fonts/ProximaNova/ProximaNova-Black.eot") format("eot");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 900;
-  src: url("/fonts/ProximaNova/ProximaNova-Black.ttf") format('ttf');
+  src: url("/fonts/ProximaNova/ProximaNova-Black.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 900;
-  src: url("/fonts/ProximaNova/ProximaNova-Black.woff") format('woff');
+  src: url("/fonts/ProximaNova/ProximaNova-Black.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/ProximaNova/ProximaNova-Bold.eot") format('eot');
+  src: url("/fonts/ProximaNova/ProximaNova-Bold.eot") format("eot");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/ProximaNova/ProximaNova-Bold.ttf") format('ttf');
+  src: url("/fonts/ProximaNova/ProximaNova-Bold.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/ProximaNova/ProximaNova-Bold.woff") format('woff');
+  src: url("/fonts/ProximaNova/ProximaNova-Bold.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 600;
-  src: url("/fonts/ProximaNova/ProximaNova-Semibold.eot") format('eot');
+  src: url("/fonts/ProximaNova/ProximaNova-Semibold.eot") format("eot");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 600;
-  src: url("/fonts/ProximaNova/ProximaNova-Semibold.ttf") format('ttf');
+  src: url("/fonts/ProximaNova/ProximaNova-Semibold.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 600;
-  src: url("/fonts/ProximaNova/ProximaNova-Semibold.woff") format('woff');
+  src: url("/fonts/ProximaNova/ProximaNova-Semibold.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/ProximaNova/ProximaNova-Regular.eot") format('eot');
+  src: url("/fonts/ProximaNova/ProximaNova-Regular.eot") format("eot");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/ProximaNova/ProximaNova-Regular.ttf") format('ttf');
+  src: url("/fonts/ProximaNova/ProximaNova-Regular.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/ProximaNova/ProximaNova-Regular.woff") format('woff');
+  src: url("/fonts/ProximaNova/ProximaNova-Regular.woff") format("woff");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 300;
-  src: url("/fonts/ProximaNova/ProximaNova-Light.eot") format('eot');
+  src: url("/fonts/ProximaNova/ProximaNova-Light.eot") format("eot");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 300;
-  src: url("/fonts/ProximaNova/ProximaNova-Light.ttf") format('ttf');
+  src: url("/fonts/ProximaNova/ProximaNova-Light.ttf") format("ttf");
 }
 
 @font-face {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-style: normal;
   font-weight: 300;
-  src: url("/fonts/ProximaNova/ProximaNova-Light.woff") format('woff');
+  src: url("/fonts/ProximaNova/ProximaNova-Light.woff") format("woff");
 }
 
 body {
@@ -184,14 +184,49 @@ body.body__fixed {
   z-index: -1;
   margin: -1px;
   border-radius: inherit;
-  background-image: linear-gradient(90deg, #b5cfcc3c, #b5cfcc32, #b5cfcc32, #b5cfcc01);
+  background-image: linear-gradient(90deg,
+      #b5cfcc3c,
+      #b5cfcc32,
+      #b5cfcc32,
+      #b5cfcc01);
   border-image-slice: 1;
 }
 
-.border__top__custom {
-  border-top: 1px solid #282C2B;
+.btn-custom-border {
+  position: relative;
 }
 
+.btn-custom-border::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: -1px;
+  border-radius: inherit;
+  background-image: linear-gradient(135deg,
+      rgba(181, 207, 204, 0.16) 65%,
+      rgba(14, 54, 37, 1) 100%);
+  border-image-slice: 1;
+}
+
+.line-dashed {
+  position: relative;
+}
+
+.line-dashed::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  width: 100%;
+  border: 0.1px dashed #ffffff;
+}
+
+.border__top__custom {
+  border-top: 1px solid #282c2b;
+}
 
 .custom__scroll {
   overflow-x: auto;
@@ -199,25 +234,24 @@ body.body__fixed {
 
 .custom__scroll::-webkit-scrollbar {
   height: 4px;
-  background-color: #0D0D0D;
+  background-color: #0d0d0d;
 }
 
 .custom__scroll::-webkit-scrollbar-button {
   display: block;
   width: 7px;
-  background-color: #0D0D0D;
+  background-color: #0d0d0d;
   outline: none;
 }
 
 .custom__scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: linear-gradient(84.96deg, #14F195 0%, #14F1D6 83.28%);
-
+  background: linear-gradient(84.96deg, #14f195 0%, #14f1d6 83.28%);
 }
 
 .custom__scroll::-webkit-scrollbar-track {
   border-radius: 10px;
-  background-color: #262D2A;
+  background-color: #262d2a;
 }
 
 .icons-color:hover {
@@ -326,7 +360,7 @@ body.body__fixed {
   height: 17px;
   position: relative;
   transform: rotate(0deg);
-  transition: .5s ease-in-out;
+  transition: 0.5s ease-in-out;
   cursor: pointer;
   margin-left: 18px;
 }
@@ -335,12 +369,12 @@ body.body__fixed {
   position: absolute;
   height: 2px;
   width: 100%;
-  background: #FFF;
+  background: #fff;
   border-radius: 9px;
   opacity: 1;
   right: 0;
   transform: rotate(0deg);
-  transition: .25s ease-in-out;
+  transition: 0.25s ease-in-out;
   opacity: 1;
 }
 
@@ -387,7 +421,7 @@ body.body__fixed {
 
 .dropdown__body {
   opacity: 0%;
-  background-color: #181D1B;
+  background-color: #181d1b;
   transition: all 0.3s;
   visibility: hidden;
   z-index: 11;
@@ -399,8 +433,7 @@ body.body__fixed {
 }
 
 .top__error__wrap {
-  background:
-    linear-gradient(84.96deg, #01C071 0%, #01C275 83.28%);
+  background: linear-gradient(84.96deg, #01c071 0%, #01c275 83.28%);
 }
 
 .dropdown__button-inMenu {
@@ -426,17 +459,17 @@ body.body__fixed {
 }
 
 .span-value {
-  font-family: 'ProximaNova';
+  font-family: "ProximaNova";
   font-weight: 700;
   font-size: 14px;
   line-height: 140%;
-  color: #FFFFFF;
+  color: #ffffff;
   transform: translate(50%, -30px);
 }
 
 .panel-top-wallet {
   transform: translate(-50%, 0);
-  background: linear-gradient(84.96deg, #01C071 0%, #01C275 83.28%);
+  background: linear-gradient(84.96deg, #01c071 0%, #01c275 83.28%);
 }
 
 .panel-top-wallet svg {
@@ -506,13 +539,20 @@ body.body__fixed {
   z-index: -1;
   margin: -1px;
   border-radius: inherit;
-  background-image: linear-gradient(90deg, #b5cfcc3c, #b5cfcc32, #b5cfcc32, #b5cfcc01);
+  background-image: linear-gradient(90deg,
+      #b5cfcc3c,
+      #b5cfcc32,
+      #b5cfcc32,
+      #b5cfcc01);
   border-image-slice: 1;
 }
 
 .top__custom__value {
   box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
-  background: radial-gradient(71% 71% at 72.75% 75%, rgba(20, 242, 185, 0.12) 0%, rgba(20, 242, 185, 0) 100%), #111111;
+  background: radial-gradient(71% 71% at 72.75% 75%,
+      rgba(20, 242, 185, 0.12) 0%,
+      rgba(20, 242, 185, 0) 100%),
+    #111111;
   border-radius: 50%;
 }
 
@@ -603,7 +643,7 @@ body.body__fixed {
   }
 
   .border__top__custom:last-child {
-    border-bottom: 1px solid #282C2B;
+    border-bottom: 1px solid #282c2b;
   }
 }
 
@@ -627,5 +667,8 @@ body.body__fixed {
   animation-name: placeholderShimmer;
   animation-timing-function: linear;
   background-size: 800px 104px;
-  background: linear-gradient(to right, #191b1cb3 30%, #191B1C 50%, #191b1cb6 70%);
+  background: linear-gradient(to right,
+      #191b1cb3 30%,
+      #191b1c 50%,
+      #191b1cb6 70%);
 }
