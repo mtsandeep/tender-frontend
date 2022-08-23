@@ -69,7 +69,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xA84Bc6717644b43A4893e0863d60e5857d3DaD11"
+        address: "0x2fFCF622f5E1b330C6a5f9002bd5292bF36FB3D8"
         // address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8", old
       },
     },
