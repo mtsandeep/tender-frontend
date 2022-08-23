@@ -85,6 +85,7 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
+        // address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5", delegator
         address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5",
       },
     },
