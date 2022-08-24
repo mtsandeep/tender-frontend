@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BalanceDropdown from "./BalanceDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
@@ -14,7 +14,16 @@ export default function Header() {
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!onSupportedChain) {
+      console.log(!onSupportedChain);
+      setTimeout(() => {
+        setShow(true);
+      }, 500);
+    }
+  }, [onSupportedChain]);
 
   let tryConnectingToMetis = async (p: typeof provider) => {
     if (!p) {
@@ -82,7 +91,7 @@ export default function Header() {
                     className="underline"
                     onClick={() => tryConnectingToMetis(provider)}
                   >
-                    Switch to Metis
+                    Switch network.
                   </button>
                 </>
               ) : (
@@ -111,7 +120,7 @@ export default function Header() {
             className="w-[104px] block lg:w-[196px]"
             onClick={() => handleClickBurger(false)}
           >
-            <a href="https://www.tender.fi/">
+            <a href="https://home.tender.fi">
               <img src="/images/logo1.svg" alt="Tender Finance" />
             </a>
           </div>
@@ -133,7 +142,7 @@ export default function Header() {
             </a>
             <a
               className="pl-[15px] cursor-pointer hover:text-white"
-              href="https://discord.com/invite/aKZ8hDBvYG"
+              href="https://discord.com/invite/Tender-Fi"
             >
               Community
             </a>

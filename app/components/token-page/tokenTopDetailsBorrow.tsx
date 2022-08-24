@@ -24,8 +24,8 @@ function TokenTopDetailsBorrow() {
                     Net Rate
                   </span>
                   <p className="text-[#818987] text-[14px] text-left leading-[140%] font-nova">
-                    This rate blends the Borrow or Borrow APY with the TENDIES
-                    Distribution APY based on the current price of TENDIES.
+                    This rate blends the Borrow or Borrow APY with the TND
+                    Distribution APY based on the current price of TND.
                   </p>
                 </div>
               </div>
