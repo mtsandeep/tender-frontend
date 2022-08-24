@@ -147,6 +147,7 @@ export default function Borrow({
                   }}
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
+                  color="#00E0FF"
                 />
               )}
             </div>

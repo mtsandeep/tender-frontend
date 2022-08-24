@@ -161,6 +161,7 @@ export default function Deposit({
                       setValue(value);
                     }}
                     maxValueLabel={market.tokenPair.token.symbol}
+                    color="#14F195"
                   />
                   <input
                     ref={inputEl}

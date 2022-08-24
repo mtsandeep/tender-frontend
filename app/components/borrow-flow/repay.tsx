@@ -178,6 +178,7 @@ export default function Repay({
                       setValue(value);
                     }}
                     maxValueLabel={market.tokenPair.token.symbol}
+                    color="#00E0FF"
                   />
                 </div>
               </div>

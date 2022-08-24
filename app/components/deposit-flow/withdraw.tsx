@@ -124,6 +124,7 @@ export default function Withdraw({
                   }}
                   label="Max"
                   maxValueLabel={market.tokenPair.token.symbol}
+                  color="#14F195"
                 />
               )}
               <input

@@ -602,27 +602,6 @@ body.body__fixed {
   opacity: 0.4;
 }
 
-.borrow__link__custom {
-  cursor: pointer;
-}
-
-.borrow__link__custom:hover {
-  color: #00E0FF;
-}
-
-.borrow__link__custom:hover path {
-  fill: #00E0FF;
-}
-
-.custom_input+.custom_max>.custom_max_text {
-  color: #00E0FF;
-}
-
-.custom_input+.custom_max>.custom_max_btn {
-  color: #00E0FF;
-  border-color: #00E0FF;
-}
-
 @media screen and (max-width: 768px) {
   .line-dashed-sm::after {
     display: block;

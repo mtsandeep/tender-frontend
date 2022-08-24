@@ -5,6 +5,7 @@ interface MaxProps {
   maxValue: string;
   maxValueLabel: string;
   label?: string;
+  color: string;
 }
 const formatMaxValue = (v: string): string => {
   return toCryptoString(Math.max(0, parseFloat(v)));
@@ -18,13 +19,15 @@ export default function Max(props: MaxProps) {
         Max Available
       </div>
 
-      <div className="text-[#14F195] custom_max_text font-nova font-bold text-xs sm:text-base mb-4">
+      <div
+        className={`text-[${props.color}] custom_max_text font-nova font-bold text-xs sm:text-base mb-4`}
+      >
         {formatMaxValue(props.maxValue)} {props.maxValueLabel}
       </div>
 
       <button
         onClick={() => props.updateValue()}
-        className="text-xs custom_max_btn border-2 border-[#14f195] py-1 px-3 rounded-lg bg-[#162421] uppercase text-[#14f195]"
+        className={`text-xs custom_max_btn border-2 border-[${props.color}] py-1 px-3 rounded-lg bg-[#162421] uppercase text-[${props.color}]`}
       >
         {label}
       </button>
