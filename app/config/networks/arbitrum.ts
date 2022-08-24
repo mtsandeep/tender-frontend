@@ -74,21 +74,21 @@ export default {
     //   },
     // },
 
-    WBTC: {
-      name: "wBTC",
-      symbol: "WBTC",
-      decimals: 8,
-      address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-      icon: "/images/coin-icons/bitcoin.svg",
-      priceDecimals: 30,
-      cToken: {
-        name: "tWBTC",
-        symbol: "tWBTC",
-        decimals: 8,
-        // address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5", delegator
-        address: "0x997e8a9248Dbc876afc6925ed510EB84d965e120",
-      },
-    },
+    // WBTC: {
+    //   name: "wBTC",
+    //   symbol: "WBTC",
+    //   decimals: 8,
+    //   address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+    //   icon: "/images/coin-icons/bitcoin.svg",
+    //   priceDecimals: 30,
+    //   cToken: {
+    //     name: "tWBTC",
+    //     symbol: "tWBTC",
+    //     decimals: 8,
+    //     // address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5", delegator
+    //     address: "0x997e8a9248Dbc876afc6925ed510EB84d965e120",
+    //   },
+    // },
 
     IWBTC: {
       name: "IwBTC",
