@@ -4,7 +4,7 @@ export default {
   blockExplorerUrl: "https://arbiscan.io/tx",
   Contracts: {
     Comptroller: "0x2d6f21b68F8c56a86d25b4A80857c32322b2f63D",
-    PriceOracle: "0x8aA402BFA7ec284dEcfa8bf5e7F8B65f568d7B81",
+    PriceOracle: "0x289BA598056d44C7ef02D25139cf326dcEFc0479",
   },
   Tokens: {
     // DAI: {
@@ -37,21 +37,22 @@ export default {
       },
     },
 
-    // ETH: {
-    //   name: "ETH",
-    //   symbol: "ETH",
-    //   decimals: 18,
-    //   //   address: eth has no address
-    //   icon: "/images/coin-icons/ethereum.svg",
-    //   priceDecimals: 18,
-    //   cToken: {
-    //     name: "tETH",
-    //     symbol: "tETH",
-    //     decimals: 8,
-    //     address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
-    //     // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
-    //   },
-    // },
+    ETH: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+      //   address: eth has no address
+      icon: "/images/coin-icons/ethereum.svg",
+      priceDecimals: 18,
+      cToken: {
+        name: "tETH",
+        symbol: "tETH",
+        decimals: 8,
+        address: "0xaDC482C4c58480174F9dA020019DE3894aEecE11"
+        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
+        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
+      },
+    },
 
     // GLP: {
     //   name: "GLP",
