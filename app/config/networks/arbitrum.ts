@@ -3,8 +3,8 @@ export default {
   blockExplorerName: "Arbiscan",
   blockExplorerUrl: "https://arbiscan.io/tx",
   Contracts: {
-    Comptroller: "0x2d6f21b68F8c56a86d25b4A80857c32322b2f63D",
-    PriceOracle: "0x289BA598056d44C7ef02D25139cf326dcEFc0479",
+    Comptroller: "0x5aDa4F2951d6BDc644605FF7241354c85AC5B7B1",
+    PriceOracle: "0x4F6D68130140578d2C071f210b544c27923E133d",
   },
   Tokens: {
     // DAI: {
@@ -33,47 +33,47 @@ export default {
         name: "tUSDC",
         symbol: "tUSDC",
         decimals: 8,
-        address: "0x608B758624F0DFBf84E5f86aF655f5cfBdFEEdA1",
+        address: "0x6995406a7e0f6D6808A0a8be54019dCaDeE23434",
       },
     },
 
-    ETH: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-      //   address: eth has no address
-      icon: "/images/coin-icons/ethereum.svg",
-      priceDecimals: 18,
-      cToken: {
-        name: "tETH",
-        symbol: "tETH",
-        decimals: 8,
-        address: "0xaDC482C4c58480174F9dA020019DE3894aEecE11"
-        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
-        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
-      },
-    },
-
-    // GLP: {
-    //   name: "GLP",
-    //   symbol: "fsGLP",
+    // ETH: {
+    //   name: "ETH",
+    //   symbol: "ETH",
     //   decimals: 18,
-
-    //   // staked glp is for approve
-    //   sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
-    //   // fsGLP has balanceOf
-    //   address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
-
-    //   icon: "/images/coin-icons/metis.png",
+    //   //   address: eth has no address
+    //   icon: "/images/coin-icons/ethereum.svg",
     //   priceDecimals: 18,
     //   cToken: {
-    //     name: "tGLP",
-    //     symbol: "tGLP",
+    //     name: "tETH",
+    //     symbol: "tETH",
     //     decimals: 8,
-    //     address: "0x2fFCF622f5E1b330C6a5f9002bd5292bF36FB3D8"
-    //     // address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8", old
+    //     address: "0xaDC482C4c58480174F9dA020019DE3894aEecE11"
+    //     // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
+    //     // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
     //   },
     // },
+
+    GLP: {
+      name: "GLP",
+      symbol: "fsGLP",
+      decimals: 18,
+
+      // staked glp is for approve
+      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+      // fsGLP has balanceOf
+      address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+
+      icon: "/images/coin-icons/metis.png",
+      priceDecimals: 18,
+      cToken: {
+        name: "tGLP",
+        symbol: "tGLP",
+        decimals: 8,
+        address: "0x03FCED65cdde966555dB96bF2A5E9A97564dBe05"
+        // address: "0x7A0766e8540C15B8De6966cd5CBCC2372a21FAf8", old
+      },
+    },
 
     // WBTC: {
     //   name: "wBTC",
@@ -91,21 +91,21 @@ export default {
     //   },
     // },
 
-    IWBTC: {
-      name: "IwBTC",
-      symbol: "IWBTC",
-      decimals: 8,
-      address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-      icon: "/images/coin-icons/bitcoin.svg",
-      priceDecimals: 30,
-      cToken: {
-        name: "tWBTC",
-        symbol: "tWBTC",
-        decimals: 8,
-        // address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5", delegator
-        address: "0x5EC9A72e2987CE907Ad78724e83927d8C66A4555",
-      },
-    },
+    // IWBTC: {
+    //   name: "IwBTC",
+    //   symbol: "IWBTC",
+    //   decimals: 8,
+    //   address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+    //   icon: "/images/coin-icons/bitcoin.svg",
+    //   priceDecimals: 30,
+    //   cToken: {
+    //     name: "tWBTC",
+    //     symbol: "tWBTC",
+    //     decimals: 8,
+    //     // address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5", delegator
+    //     address: "0x5EC9A72e2987CE907Ad78724e83927d8C66A4555",
+    //   },
+    // },
         // };
 
 
