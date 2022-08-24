@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import BalanceDropdown from "./BalanceDropdown";
+import TndDropdown from "./TndDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { hooks } from "~/connectors/meta-mask";
@@ -18,7 +18,6 @@ export default function Header() {
 
   useEffect(() => {
     if (!onSupportedChain) {
-      console.log(!onSupportedChain);
       setTimeout(() => {
         setShow(true);
       }, 500);
@@ -148,7 +147,7 @@ export default function Header() {
             </a>
           </div>
           <div className="flex items-center">
-            <BalanceDropdown />
+            <TndDropdown />
             <ConnectWallet />
             <div
               className={`flex lg:hidden header__burg ${

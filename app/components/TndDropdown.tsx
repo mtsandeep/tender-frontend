@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const BalanceDropdown = () => {
+const TndDropdown = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<any>(null);
 
@@ -129,4 +129,4 @@ const BalanceDropdown = () => {
   );
 };
 
-export default BalanceDropdown;
+export default TndDropdown;

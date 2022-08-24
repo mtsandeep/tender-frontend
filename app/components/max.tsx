@@ -1,15 +1,13 @@
-import { toCryptoString } from "~/lib/ui";
+import { toMaxString } from "~/lib/ui";
 
 interface MaxProps {
   updateValue: Function;
-  maxValue: string;
+  maxValue: number;
   maxValueLabel: string;
   label?: string;
   color: string;
 }
-const formatMaxValue = (v: string): string => {
-  return toCryptoString(Math.max(0, parseFloat(v)));
-};
+
 export default function Max(props: MaxProps) {
   let label = props.label || "Max";
 
@@ -22,7 +20,7 @@ export default function Max(props: MaxProps) {
       <div
         className={`text-[${props.color}] custom_max_text font-nova font-bold text-xs sm:text-base mb-4`}
       >
-        {formatMaxValue(props.maxValue)} {props.maxValueLabel}
+        {toMaxString(props.maxValue) + " " + props.maxValueLabel}
       </div>
 
       <button

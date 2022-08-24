@@ -5,9 +5,8 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import * as math from "mathjs";
+import { toMaxString } from "~/lib/ui";
 
-import clsx from "clsx";
 import toast from "react-hot-toast";
 
 import Max from "~/components/max";
@@ -100,10 +99,20 @@ export default function Repay({
     inputEl && inputEl.current && inputEl.current.select();
   }, []);
 
-  const handleCheckValue = useCallback((e: any) => {
-    const { value } = e.target;
-    setValue(value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1"));
-  }, []);
+  const handleCheckValue = useCallback(
+    (e: any) => {
+      const { value } = e.target;
+      if (
+        value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1") <=
+        maxRepayableAmount
+      ) {
+        setValue(
+          value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1")
+        );
+      }
+    },
+    [maxRepayableAmount]
+  );
 
   return (
     <div>
@@ -167,16 +176,10 @@ export default function Repay({
                   />
 
                   <Max
-                    maxValue={maxRepayableAmount.toString()}
-                    updateValue={() => {
-                      let value = math.format(maxRepayableAmount, {
-                        notation: "fixed",
-                      });
-                      if (!inputEl || !inputEl.current) return;
-                      inputEl.current.focus();
-                      inputEl.current.value = value;
-                      setValue(value);
-                    }}
+                    maxValue={maxRepayableAmount}
+                    updateValue={() =>
+                      setValue(toMaxString(Number(maxRepayableAmount)))
+                    }
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#00E0FF"
                   />

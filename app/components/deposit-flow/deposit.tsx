@@ -9,8 +9,7 @@ import type {
 import { useValidInput } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import clsx from "clsx";
-import * as math from "mathjs";
+import { toMaxString } from "~/lib/ui";
 
 import { enable, deposit, hasSufficientAllowance } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
@@ -150,16 +149,8 @@ export default function Deposit({
                 </div>
                 <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
                   <Max
-                    maxValue={walletBalance.toString()}
-                    updateValue={() => {
-                      let value = math.format(walletBalance, {
-                        notation: "fixed",
-                      });
-                      if (!inputEl || !inputEl.current) return;
-                      inputEl.current.focus();
-                      inputEl.current.value = value;
-                      setValue(value);
-                    }}
+                    maxValue={walletBalance}
+                    updateValue={() => setValue(toMaxString(walletBalance))}
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#14F195"
                   />

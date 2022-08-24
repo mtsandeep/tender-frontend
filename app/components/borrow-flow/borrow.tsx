@@ -8,7 +8,7 @@ import type {
 } from "@ethersproject/providers";
 import * as math from "mathjs";
 
-import clsx from "clsx";
+import { toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
@@ -138,13 +138,10 @@ export default function Borrow({
               />
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
-                  maxValue={`${formattedMaxBorrowLimit}`}
-                  updateValue={() => {
-                    if (!inputEl || !inputEl.current) return;
-                    inputEl.current.focus();
-                    inputEl.current.value = `${formattedMaxBorrowLimit}`;
-                    setValue(`${formattedMaxBorrowLimit}`);
-                  }}
+                  maxValue={Number(formattedMaxBorrowLimit)}
+                  updateValue={() =>
+                    setValue(toMaxString(Number(formattedMaxBorrowLimit)))
+                  }
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
                   color="#00E0FF"
