@@ -28,7 +28,7 @@ export default {
       decimals: 6,
       address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
       icon: "/images/coin-icons/usdc.svg",
-      priceDecimals: 30,
+      priceDecimals: 28,
       cToken: {
         name: "tUSDC",
         symbol: "tUSDC",
@@ -37,22 +37,22 @@ export default {
       },
     },
 
-    // ETH: {
-    //   name: "ETH",
-    //   symbol: "ETH",
-    //   decimals: 18,
-    //   //   address: eth has no address
-    //   icon: "/images/coin-icons/ethereum.svg",
-    //   priceDecimals: 18,
-    //   cToken: {
-    //     name: "tETH",
-    //     symbol: "tETH",
-    //     decimals: 8,
-    //     address: "0xaDC482C4c58480174F9dA020019DE3894aEecE11"
-    //     // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
-    //     // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
-    //   },
-    // },
+    ETH: {
+      name: "ETH",
+      symbol: "ETH",
+      decimals: 18,
+      //   address: eth has no address
+      icon: "/images/coin-icons/ethereum.svg",
+      priceDecimals: 18,
+      cToken: {
+        name: "tETH",
+        symbol: "tETH",
+        decimals: 8,
+        address: "0x7C0beDaF3aD27E50dF2810B4611B5222e12696Dc"
+        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED"
+        // address: "0x39D3C99F3B8b86C44aAe49EAdaBab3b00f106FED",
+      },
+    },
 
     GLP: {
       name: "GLP",
@@ -65,7 +65,7 @@ export default {
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
 
       icon: "/images/coin-icons/metis.png",
-      priceDecimals: 18,
+      priceDecimals: 28,
       cToken: {
         name: "tGLP",
         symbol: "tGLP",
@@ -75,21 +75,20 @@ export default {
       },
     },
 
-    // WBTC: {
-    //   name: "wBTC",
-    //   symbol: "WBTC",
-    //   decimals: 8,
-    //   address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-    //   icon: "/images/coin-icons/bitcoin.svg",
-    //   priceDecimals: 30,
-    //   cToken: {
-    //     name: "tWBTC",
-    //     symbol: "tWBTC",
-    //     decimals: 8,
-    //     // address: "0xb8Cc8EF4998796Cc940d3c6C64104f990e5620b5", delegator
-    //     address: "0x997e8a9248Dbc876afc6925ed510EB84d965e120",
-    //   },
-    // },
+    WBTC: {
+      name: "wBTC",
+      symbol: "WBTC",
+      decimals: 8,
+      address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+      icon: "/images/coin-icons/bitcoin.svg",
+      priceDecimals: 28,
+      cToken: {
+        name: "tWBTC",
+        symbol: "tWBTC",
+        decimals: 8,
+        address: "0xdE1Ec670986326312bc705b4ABC3aa18652DfbBC",
+      },
+    },
 
     // IWBTC: {
     //   name: "IwBTC",
