@@ -173,22 +173,6 @@ body.body__fixed {
   border-radius: 15px;
 }
 
-.bottom__custom {
-  right: 50%;
-  transform: translate(45%, 0px);
-  z-index: 5;
-  bottom: 53px;
-}
-
-.custom__arrow__tooltip {
-  border-bottom: 1px solid #282C2B;
-  border-right: 1px solid #282C2B;
-  margin: 0;
-  margin-top: -5px;
-  position: relative;
-  z-index: 11;
-}
-
 .panel-custom:after {
   content: "";
   position: absolute;
@@ -226,6 +210,22 @@ body.body__fixed {
       rgba(20, 241, 149, 0.16) 35%,
       rgba(43, 76, 64, 1) 65%);
   border-image-slice: 1;
+}
+
+.bottom__custom {
+  right: 50%;
+  transform: translate(50%, 0px);
+  z-index: 5;
+  bottom: 24px;
+}
+
+.custom__arrow__tooltip {
+  border-bottom: 1px solid #282C2B;
+  border-right: 1px solid #282C2B;
+  margin: 0;
+  margin-top: -1px;
+  position: relative;
+  z-index: 11;
 }
 
 .line-solid {
@@ -300,24 +300,25 @@ body.body__fixed {
 
 .custom__scroll::-webkit-scrollbar {
   height: 4px;
-  background-color: #262D2A;
 }
 
 .custom__scroll::-webkit-scrollbar-button {
   display: block;
   width: 7px;
-  background-color: #0D0D0D;
+  background-color: #0d0d0d;
   outline: none;
+  height: 4px;
 }
 
 .custom__scroll::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background: linear-gradient(84.96deg, #14F195 0%, #14F1D6 83.28%);
+  background: #14F195;
 }
 
 .custom__scroll::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #262D2A;
+  height: 4px;
 }
 
 .icons-color:hover {
@@ -619,22 +620,35 @@ body.body__fixed {
 }
 
 @media screen and (max-width: 768px) {
-  .line-dashed-sm::after {
-    display: block;
+  .bottom__custom__overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    inset: 0;
+    z-index: 11;
   }
 
   .bottom__custom {
-    right: 100%;
-    transform: translate(0%, 0px);
-    bottom: -20px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 12;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .custom__arrow__tooltip {
-    border-bottom: 0;
-    border-right: 0;
-    margin: 0;
-    margin-top: 0;
-    margin-left: -6px;
+  .custom-modal .custom__arrow__tooltip {
+    display: none;
+  }
+
+  .line-dashed-sm::after {
+    display: block;
   }
 
   .line-dashed-m::after {
@@ -682,6 +696,9 @@ body.body__fixed {
     font-size: 18px;
   }
 
+}
+
+@media screen and (max-width: 640px) {
   .panel-custom.markets table {
     overflow-x: auto;
     overflow-y: hidden;
@@ -694,6 +711,10 @@ body.body__fixed {
 
   .border-child-hover:last-child td:first-child {
     border-radius: 0;
+  }
+
+  .border_tr_custom {
+    border-bottom: 1px solid #282C2B;
   }
 }
 
