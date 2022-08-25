@@ -41,7 +41,7 @@ export default {
 
     GLP: {
       name: "GLP",
-      symbol: "fsGLP",
+      symbol: "GLP",
       decimals: 18,
 
       // staked glp is for approve
@@ -49,7 +49,7 @@ export default {
       // fsGLP has balanceOf
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
 
-      icon: "/images/coin-icons/metis.png",
+      icon: "/images/coin-icons/glp.svg",
       priceDecimals: 28,
       cToken: {
         name: "tGLP",
@@ -76,8 +76,8 @@ export default {
     },
 
     LINK: {
-      name: "tLINK",
-      symbol: "tLINK",
+      name: "LINK",
+      symbol: "LINK",
       decimals: 18,
       address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
       icon: "/images/coin-icons/link.svg",

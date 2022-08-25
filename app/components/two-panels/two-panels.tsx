@@ -35,7 +35,7 @@ export default function TwoPanels() {
   );
 
   // glp is hidden from borrows
-  const marketsWithoutBorrow = markets.filter(m=> m.tokenPair.token.symbol !== "fsGLP")
+  const marketsWithoutBorrow = markets.filter(m=> m.tokenPair.token.symbol !== "GLP")
     .filter(
       (m) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001
     );
