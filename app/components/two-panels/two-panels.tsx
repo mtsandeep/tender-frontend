@@ -34,9 +34,11 @@ export default function TwoPanels() {
     (m) => m.borrowBalance && m.borrowBalanceInUsd > 0.001
   );
 
-  const marketsWithoutBorrow = markets.filter(
-    (m) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001
-  );
+  // glp is hidden from borrows
+  const marketsWithoutBorrow = markets.filter(m=> m.tokenPair.token.symbol !== "fsGLP")
+    .filter(
+      (m) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001
+    );
 
   const marketsWithoutSupply = markets.filter(
     (m) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001

@@ -12,24 +12,38 @@ import Display from "~/components/account-summary/display";
 export default function AccountSummary() {
   let provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
-  let { tokenPairs, networkData } = useContext(TenderContext);
+  let { tokenPairs, networkData, markets } = useContext(TenderContext);
 
-  let totalSupplyBalanceInUsd = useTotalSupplyBalanceInUsd(signer, tokenPairs);
-  let totalBorrowedInUsd = useTotalBorrowedInUsd(signer, tokenPairs);
+  let supplyBalanceInUsd = useTotalSupplyBalanceInUsd(signer, tokenPairs);
+  let borrowBalanceInUsd = useTotalBorrowedInUsd(signer, tokenPairs);
+
+  const totalSuppliedUsd = markets.map(
+    (m) =>  m.tokenPair.token.priceInUsd * (m.marketData.marketSize ?? 0)
+  ).reduce((a, b) => a + b, 0)
+
+  const totalBorrowedUsd = markets.map(
+    (m) =>  m.tokenPair.token.priceInUsd * (m.marketData.totalBorrowed ?? 0)
+  ).reduce((a, b) => a + b, 0)
+
+
   let netApy = useNetApy(signer, tokenPairs);
+
   let borrowLimit = useBorrowLimit(
     signer,
     networkData.Contracts.Comptroller,
     tokenPairs
   );
-  let borrowLimitUsed = useBorrowLimitUsed(totalBorrowedInUsd, borrowLimit);
+  let borrowLimitUsed = useBorrowLimitUsed(totalBorrowedUsd, borrowLimit);
 
   let percentUsed = Math.min(parseFloat(borrowLimitUsed), 100);
 
   return (
     <Display
-      totalSupplyBalanceInUsd={totalSupplyBalanceInUsd}
-      totalBorrowedInUsd={totalBorrowedInUsd}
+      totalSuppliedUsd={totalSuppliedUsd}
+      totalBorrowedUsd={totalBorrowedUsd}
+      supplyBalanceInUsd={supplyBalanceInUsd}
+      borrowBalanceInUsd={borrowBalanceInUsd}
+
       netApy={netApy}
       borrowLimitUsed={borrowLimitUsed}
       percentUsed={percentUsed}
