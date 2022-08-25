@@ -1,5 +1,6 @@
 export default {
   ChainId: 42161,
+  name: "Arbitrum",
   blockExplorerName: "Arbiscan",
   blockExplorerUrl: "https://arbiscan.io/tx",
   Contracts: {

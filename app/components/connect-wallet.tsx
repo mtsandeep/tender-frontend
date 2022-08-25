@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import WalletDropdown from "./walletDropdown";
+import { useNetworkData } from "../hooks/use-network-data"
+import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+
 const { useAccounts, useIsActive } = hooks;
 
 export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   const accounts = useAccounts();
   const isActive = useIsActive();
+  const chainId = Web3Hooks.useChainId();
+  const networkData = useNetworkData(chainId);
   const [onClient, setOnClient] = useState<boolean>(false);
 
   useEffect(() => {
@@ -21,7 +26,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
             <WalletDropdown
               inMenu={inMenu}
               addresses={accounts}
-              networkName={"Metis Network"}
+              networkName={networkData?.name ?? ""}
               walletIco={"/images/wallet-icons/metamask.svg"}
               isNetworkOnline={true}
               handlerDisconnect={() => console.log("Disconnected")}

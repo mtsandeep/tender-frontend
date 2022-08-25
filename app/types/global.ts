@@ -21,6 +21,7 @@ export interface TokenConfig {
 
 export interface NetworkData {
   ChainId: number;
+  name: string;
   blockExplorerName: string;
   blockExplorerUrl: string;
   Contracts: {

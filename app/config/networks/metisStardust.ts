@@ -1,5 +1,6 @@
 export default {
   ChainId: 588,
+  name: "Stardust",
   blockExplorerName: "Metis Stardust Explorer",
   blockExplorerUrl: "https://stardust-explorer.metis.io/tx",
   Contracts: {

@@ -16,7 +16,7 @@ export default function Disconnected() {
     if (!p) {
       return;
     }
-    let targetNetworkId = 1088;
+    let targetNetworkId = 42161;
     let targetNetworkIdHex = `0x${targetNetworkId.toString(16)}`;
 
     p?.provider?.request &&
@@ -35,14 +35,14 @@ export default function Disconnected() {
                 method: "wallet_addEthereumChain",
                 params: [
                   {
-                    chainName: "Metis Network",
+                    chainName: "Arbitrum",
                     nativeCurrency: {
-                      name: "Metis",
-                      symdol: "METIS", // 2-6 characters long
+                      name: "Eth",
+                      symdol: "Eth", // 2-6 characters long
                       decimals: 18,
                     },
-                    rpcUrls: ["https://andromeda.metis.io/?owner=1088"],
-                    blockExplorerUrls: ["https://andromeda-explorer.metis.io/"],
+                    rpcUrls: ["https://arbitrumrpc.com"],
+                    blockExplorerUrls: ["https://arbiscan.io/"],
                     chainId: targetNetworkIdHex,
                   },
                 ],
@@ -68,7 +68,7 @@ export default function Disconnected() {
                 className="underline cursor-pointer hover:opacity-[0.6]"
                 onClick={() => tryConnectingToMetis(provider)}
               >
-                Switch to Metis
+                Switch to Arbitrum
               </button>
             </div>
           ) : (
