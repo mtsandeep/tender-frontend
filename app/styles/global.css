@@ -620,33 +620,6 @@ body.body__fixed {
 }
 
 @media screen and (max-width: 768px) {
-  .bottom__custom__overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(12px);
-    inset: 0;
-    z-index: 11;
-  }
-
-  .bottom__custom {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 12;
-    display: flex;
-    justify-content: center;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .custom-modal .custom__arrow__tooltip {
-    display: none;
-  }
-
   .line-dashed-sm::after {
     display: block;
   }

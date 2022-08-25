@@ -7,10 +7,18 @@ import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
 import MarketRow from "~/components/two-panels/market-row";
 import DepositFlow from "../deposit-flow";
 import BorrowFlow from "../borrow-flow";
+import TooltipMobile from "./tooltip-mibile";
 
 export default function TwoPanels() {
   let { markets } = useContext(TenderContext);
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
+  let [mobileTooltipData, setMobileTooltipData] = useState<{
+    open: boolean;
+    textTop: string;
+    icon?: string;
+    token?: string;
+    textBottom?: string;
+  }>({ open: false, textTop: "", token: "", icon: "", textBottom: "" });
   let [action, setAction] = useState<"depositing" | "borrowing">("depositing");
 
   const depositInto = (market: Market) => {
@@ -75,6 +83,18 @@ export default function TwoPanels() {
             />
           ))}
       </ReactModal>
+      <TooltipMobile
+        mobileTooltipData={mobileTooltipData}
+        handleClose={() =>
+          setMobileTooltipData({
+            open: false,
+            textTop: "",
+            token: "",
+            icon: "",
+            textBottom: "",
+          })
+        }
+      />
 
       <div>
         {marketsWithSupply.length > 0 && (
@@ -127,34 +147,46 @@ export default function TwoPanels() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <div className="absolute top-[40px] md:top-[61px] left-[48px] md:left-[85px]">
-                              <div className="text-[12px] leading-[17px] text-[#a3aeac] custom__hidden  !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
-                                <img
-                                  className="w-[10px] h-[11px] mr-[4px]"
-                                  src="/images/wallet-icons/private-lock.svg"
-                                  alt="..."
-                                />
-                                Private
-                                <div className="custom-modal">
-                                  <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                                  <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
-                                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                                          <img
-                                            className="w-[12px] h-[12px]"
-                                            src="/images/ico/close.svg"
-                                            alt="..."
-                                          />
-                                        </button>
-                                        <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
-                                          Deposit GLP as collateral. GLP
-                                          collateral is currently limited to
-                                          private beta users.
-                                        </p>
-                                      </div>
+                              <div className="text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
+                                <div
+                                  onClick={() =>
+                                    setMobileTooltipData({
+                                      ...mobileTooltipData,
+                                      open: window.innerWidth < 1023,
+                                      textBottom: "",
+                                      token: "",
+                                      icon: "",
+                                      textTop:
+                                        "Deposit GLP as collateral. GLP collateral is currently limited to private beta users.",
+                                    })
+                                  }
+                                  className="custom__hidden text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center"
+                                >
+                                  <img
+                                    className="w-[10px] h-[11px] mr-[4px]"
+                                    src="/images/wallet-icons/private-lock.svg"
+                                    alt="..."
+                                  />
+                                  Private
+                                </div>
+                                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
+                                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                        <img
+                                          className="w-[12px] h-[12px]"
+                                          src="/images/ico/close.svg"
+                                          alt="..."
+                                        />
+                                      </button>
+                                      <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+                                        Deposit GLP as collateral. GLP
+                                        collateral is currently limited to
+                                        private beta users.
+                                      </p>
                                     </div>
-                                    <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                   </div>
+                                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                 </div>
                               </div>
                             </div>
@@ -188,7 +220,20 @@ export default function TwoPanels() {
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
-                            <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]">
+                            <div
+                              onClick={() =>
+                                setMobileTooltipData({
+                                  ...mobileTooltipData,
+                                  open: window.innerWidth < 1023,
+                                  textBottom: "0.10 % APR",
+                                  token: "TND",
+                                  icon: "/images/wallet-icons/balance-icon.svg",
+                                  textTop:
+                                    "Participating in this DAI.e reserve gives annualized rewards.",
+                                })
+                              }
+                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]"
+                            >
                               <img
                                 className="w-[13px] h-[13px] mr-[4px]"
                                 src="/images/wallet-icons/balance-icon.svg"
@@ -196,41 +241,38 @@ export default function TwoPanels() {
                               />
                               2.34%
                             </div>
-                            <div className="custom-modal">
-                              <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden "></div>
-                              <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                  <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
-                                    <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                            <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
+                                  <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                    <img
+                                      className="w-[12px] h-[12px]"
+                                      src="/images/ico/close.svg"
+                                      alt="..."
+                                    />
+                                  </button>
+                                  <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
+                                    Participating in this DAI.e reserve gives
+                                    annualized rewards.
+                                  </p>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center">
                                       <img
-                                        className="w-[12px] h-[12px]"
-                                        src="/images/ico/close.svg"
+                                        className="w-[18px] h-[18px] mr-[8px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
                                       />
-                                    </button>
-                                    <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
-                                      Participating in this DAI.e reserve gives
-                                      annualized rewards.
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                      <div className="flex items-center">
-                                        <img
-                                          className="w-[18px] h-[18px] mr-[8px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
-                                          TENDIES
-                                        </span>
-                                      </div>
-                                      <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
-                                        0.10 % APR
+                                      <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
+                                        TND
                                       </span>
                                     </div>
+                                    <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
+                                      0.10 % APR
+                                    </span>
                                   </div>
                                 </div>
-                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                               </div>
+                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                             </div>
                           </div>
                         </div>
@@ -301,33 +343,45 @@ export default function TwoPanels() {
                             >
                               <div className="absolute top-[40px] md:top-[61px] left-[48px] md:left-[85px]">
                                 <div className="text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
-                                  <img
-                                    className="w-[10px] h-[11px] mr-[4px]"
-                                    src="/images/wallet-icons/private-lock.svg"
-                                    alt="..."
-                                  />
-                                  Private
-                                  <div className="custom-modal">
-                                    <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                                    <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                      <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
-                                          <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                                            <img
-                                              className="w-[12px] h-[12px]"
-                                              src="/images/ico/close.svg"
-                                              alt="..."
-                                            />
-                                          </button>
-                                          <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
-                                            Deposit GLP as collateral. GLP
-                                            collateral is currently limited to
-                                            private beta users.
-                                          </p>
-                                        </div>
+                                  <div
+                                    onClick={() =>
+                                      setMobileTooltipData({
+                                        ...mobileTooltipData,
+                                        open: window.innerWidth < 1023,
+                                        textBottom: "",
+                                        token: "",
+                                        icon: "",
+                                        textTop:
+                                          "Deposit GLP as collateral. GLP collateral is currently limited to private beta users.",
+                                      })
+                                    }
+                                    className="custom__hidden text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center"
+                                  >
+                                    <img
+                                      className="w-[10px] h-[11px] mr-[4px]"
+                                      src="/images/wallet-icons/private-lock.svg"
+                                      alt="..."
+                                    />
+                                    Private
+                                  </div>
+                                  <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
+                                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                          <img
+                                            className="w-[12px] h-[12px]"
+                                            src="/images/ico/close.svg"
+                                            alt="..."
+                                          />
+                                        </button>
+                                        <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+                                          Deposit GLP as collateral. GLP
+                                          collateral is currently limited to
+                                          private beta users.
+                                        </p>
                                       </div>
-                                      <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                     </div>
+                                    <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                   </div>
                                 </div>
                               </div>
@@ -361,7 +415,20 @@ export default function TwoPanels() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
-                              <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]">
+                              <div
+                                onClick={() =>
+                                  setMobileTooltipData({
+                                    ...mobileTooltipData,
+                                    open: window.innerWidth < 1023,
+                                    textBottom: "0.10 % APR",
+                                    token: "TND",
+                                    icon: "/images/wallet-icons/balance-icon.svg",
+                                    textTop:
+                                      "Participating in this DAI.e reserve gives annualized rewards.",
+                                  })
+                                }
+                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]"
+                              >
                                 <img
                                   className="w-[13px] h-[13px] mr-[4px]"
                                   src="/images/wallet-icons/balance-icon.svg"
@@ -369,41 +436,38 @@ export default function TwoPanels() {
                                 />
                                 2.34%
                               </div>
-                              <div className="custom-modal">
-                                <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
-                                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                              <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                  <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
+                                    <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                      <img
+                                        className="w-[12px] h-[12px]"
+                                        src="/images/ico/close.svg"
+                                        alt="..."
+                                      />
+                                    </button>
+                                    <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
+                                      Participating in this DAI.e reserve gives
+                                      annualized rewards.
+                                    </p>
+                                    <div className="flex items-center justify-between">
+                                      <div className="flex items-center">
                                         <img
-                                          className="w-[12px] h-[12px]"
-                                          src="/images/ico/close.svg"
+                                          className="w-[18px] h-[18px] mr-[8px]"
+                                          src="/images/wallet-icons/balance-icon.svg"
                                           alt="..."
                                         />
-                                      </button>
-                                      <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
-                                        Participating in this DAI.e reserve
-                                        gives annualized rewards.
-                                      </p>
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center">
-                                          <img
-                                            className="w-[18px] h-[18px] mr-[8px]"
-                                            src="/images/wallet-icons/balance-icon.svg"
-                                            alt="..."
-                                          />
-                                          <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
-                                            TENDIES
-                                          </span>
-                                        </div>
-                                        <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
-                                          0.10 % APR
+                                        <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
+                                          TND
                                         </span>
                                       </div>
+                                      <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
+                                        0.10 % APR
+                                      </span>
                                     </div>
                                   </div>
-                                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                 </div>
+                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                               </div>
                             </div>
                           </div>
@@ -483,33 +547,45 @@ export default function TwoPanels() {
                           >
                             <div className="absolute top-[40px] md:top-[61px] left-[48px] md:left-[85px]">
                               <div className="text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
-                                <img
-                                  className="w-[10px] h-[11px] mr-[4px]"
-                                  src="/images/wallet-icons/private-lock.svg"
-                                  alt="..."
-                                />
-                                Private
-                                <div className="custom-modal">
-                                  <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                                  <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
-                                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                                          <img
-                                            className="w-[12px] h-[12px]"
-                                            src="/images/ico/close.svg"
-                                            alt="..."
-                                          />
-                                        </button>
-                                        <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
-                                          Deposit GLP as collateral. GLP
-                                          collateral is currently limited to
-                                          private beta users.
-                                        </p>
-                                      </div>
+                                <div
+                                  onClick={() =>
+                                    setMobileTooltipData({
+                                      ...mobileTooltipData,
+                                      open: window.innerWidth < 1023,
+                                      textBottom: "",
+                                      token: "",
+                                      icon: "",
+                                      textTop:
+                                        "Deposit GLP as collateral. GLP collateral is currently limited to private beta users.",
+                                    })
+                                  }
+                                  className="custom__hidden text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center"
+                                >
+                                  <img
+                                    className="w-[10px] h-[11px] mr-[4px]"
+                                    src="/images/wallet-icons/private-lock.svg"
+                                    alt="..."
+                                  />
+                                  Private
+                                </div>
+                                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
+                                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                        <img
+                                          className="w-[12px] h-[12px]"
+                                          src="/images/ico/close.svg"
+                                          alt="..."
+                                        />
+                                      </button>
+                                      <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+                                        Deposit GLP as collateral. GLP
+                                        collateral is currently limited to
+                                        private beta users.
+                                      </p>
                                     </div>
-                                    <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                   </div>
+                                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                 </div>
                               </div>
                             </div>
@@ -544,7 +620,20 @@ export default function TwoPanels() {
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
-                            <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]">
+                            <div
+                              onClick={() =>
+                                setMobileTooltipData({
+                                  ...mobileTooltipData,
+                                  open: window.innerWidth < 1023,
+                                  textBottom: "0.10 % APR",
+                                  token: "TND",
+                                  icon: "/images/wallet-icons/balance-icon.svg",
+                                  textTop:
+                                    "Participating in this DAI.e reserve gives annualized rewards.",
+                                })
+                              }
+                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]"
+                            >
                               <img
                                 className="w-[13px] h-[13px] mr-[4px]"
                                 src="/images/wallet-icons/balance-icon.svg"
@@ -552,41 +641,38 @@ export default function TwoPanels() {
                               />
                               2.34%
                             </div>
-                            <div className="custom-modal">
-                              <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                              <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                  <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
-                                    <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                            <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
+                                  <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                    <img
+                                      className="w-[12px] h-[12px]"
+                                      src="/images/ico/close.svg"
+                                      alt="..."
+                                    />
+                                  </button>
+                                  <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
+                                    Participating in this DAI.e reserve gives
+                                    annualized rewards.
+                                  </p>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center">
                                       <img
-                                        className="w-[12px] h-[12px]"
-                                        src="/images/ico/close.svg"
+                                        className="w-[18px] h-[18px] mr-[8px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
                                       />
-                                    </button>
-                                    <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
-                                      Participating in this DAI.e reserve gives
-                                      annualized rewards.
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                      <div className="flex items-center">
-                                        <img
-                                          className="w-[18px] h-[18px] mr-[8px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
-                                          TENDIES
-                                        </span>
-                                      </div>
-                                      <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
-                                        0.10 % APR
+                                      <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
+                                        TND
                                       </span>
                                     </div>
+                                    <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
+                                      0.10 % APR
+                                    </span>
                                   </div>
                                 </div>
-                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                               </div>
+                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                             </div>
                           </div>
                         </div>
@@ -657,33 +743,45 @@ export default function TwoPanels() {
                             >
                               <div className="absolute top-[40px] md:top-[61px] left-[48px] md:left-[85px]">
                                 <div className="text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
-                                  <img
-                                    className="w-[10px] h-[11px] mr-[4px]"
-                                    src="/images/wallet-icons/private-lock.svg"
-                                    alt="..."
-                                  />
-                                  Private
-                                  <div className="custom-modal">
-                                    <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                                    <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                      <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
-                                          <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                                            <img
-                                              className="w-[12px] h-[12px]"
-                                              src="/images/ico/close.svg"
-                                              alt="..."
-                                            />
-                                          </button>
-                                          <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
-                                            Deposit GLP as collateral. GLP
-                                            collateral is currently limited to
-                                            private beta users.
-                                          </p>
-                                        </div>
+                                  <div
+                                    onClick={() =>
+                                      setMobileTooltipData({
+                                        ...mobileTooltipData,
+                                        open: window.innerWidth < 1023,
+                                        textBottom: "",
+                                        token: "",
+                                        icon: "",
+                                        textTop:
+                                          "Deposit GLP as collateral. GLP collateral is currently limited to private beta users.",
+                                      })
+                                    }
+                                    className="custom__hidden text-[12px] leading-[17px] text-[#a3aeac] !flex flex-wrap items-center"
+                                  >
+                                    <img
+                                      className="w-[10px] h-[11px] mr-[4px]"
+                                      src="/images/wallet-icons/private-lock.svg"
+                                      alt="..."
+                                    />
+                                    Private
+                                  </div>
+                                  <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
+                                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                          <img
+                                            className="w-[12px] h-[12px]"
+                                            src="/images/ico/close.svg"
+                                            alt="..."
+                                          />
+                                        </button>
+                                        <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+                                          Deposit GLP as collateral. GLP
+                                          collateral is currently limited to
+                                          private beta users.
+                                        </p>
                                       </div>
-                                      <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                     </div>
+                                    <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                   </div>
                                 </div>
                               </div>
@@ -717,7 +815,20 @@ export default function TwoPanels() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
-                              <div className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]">
+                              <div
+                                onClick={() =>
+                                  setMobileTooltipData({
+                                    ...mobileTooltipData,
+                                    open: window.innerWidth < 1023,
+                                    textBottom: "0.10 % APR",
+                                    token: "TND",
+                                    icon: "/images/wallet-icons/balance-icon.svg",
+                                    textTop:
+                                      "Participating in this DAI.e reserve gives annualized rewards.",
+                                  })
+                                }
+                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]"
+                              >
                                 <img
                                   className="w-[13px] h-[13px] mr-[4px]"
                                   src="/images/wallet-icons/balance-icon.svg"
@@ -725,41 +836,38 @@ export default function TwoPanels() {
                                 />
                                 2.34%
                               </div>
-                              <div className="custom-modal">
-                                <div className="bottom__custom__overlay fixed w-[100%] h-[100%] hidden"></div>
-                                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:flex rounded-[10px]">
-                                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
-                                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                              <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                                  <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
+                                    <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                                      <img
+                                        className="w-[12px] h-[12px]"
+                                        src="/images/ico/close.svg"
+                                        alt="..."
+                                      />
+                                    </button>
+                                    <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
+                                      Participating in this DAI.e reserve gives
+                                      annualized rewards.
+                                    </p>
+                                    <div className="flex items-center justify-between">
+                                      <div className="flex items-center">
                                         <img
-                                          className="w-[12px] h-[12px]"
-                                          src="/images/ico/close.svg"
+                                          className="w-[18px] h-[18px] mr-[8px]"
+                                          src="/images/wallet-icons/balance-icon.svg"
                                           alt="..."
                                         />
-                                      </button>
-                                      <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
-                                        Participating in this DAI.e reserve
-                                        gives annualized rewards.
-                                      </p>
-                                      <div className="flex items-center justify-between">
-                                        <div className="flex items-center">
-                                          <img
-                                            className="w-[18px] h-[18px] mr-[8px]"
-                                            src="/images/wallet-icons/balance-icon.svg"
-                                            alt="..."
-                                          />
-                                          <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
-                                            TENDIES
-                                          </span>
-                                        </div>
-                                        <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
-                                          0.10 % APR
+                                        <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
+                                          TND
                                         </span>
                                       </div>
+                                      <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
+                                        0.10 % APR
+                                      </span>
                                     </div>
                                   </div>
-                                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                                 </div>
+                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                               </div>
                             </div>
                           </div>
