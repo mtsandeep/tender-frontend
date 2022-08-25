@@ -23,7 +23,7 @@ function formatApy(apy: number): string {
 // This might be a mistake, but I get the correct APYs based on Compound on Rinkeby.
 function calculateApy(decimals: number, ratePerBlock: number): number {
   const daysPerYear = 365;
-  const blocksPerDay = 2000; // an estimate
+  const blocksPerDay = 60 //* 60 * 24 / 10.9; // an estimate with 10.9second block time
 
   // TODO: this should probably use token.decimals????
   const underlyingAssetMantissa = 1e18;
