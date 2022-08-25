@@ -4,6 +4,7 @@ import WalletDropdown from "./walletDropdown";
 import { useNetworkData } from "../hooks/use-network-data"
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 
+import useAuth from "~/hooks/use-auth";
 const { useAccounts, useIsActive } = hooks;
 
 export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
@@ -11,12 +12,16 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   const isActive = useIsActive();
   const chainId = Web3Hooks.useChainId();
   const networkData = useNetworkData(chainId);
+  const {connect, disconnect, isDisconnected} = useAuth();
   const [onClient, setOnClient] = useState<boolean>(false);
 
   useEffect(() => {
     setOnClient(true);
-    void metaMask.connectEagerly();
-  }, []);
+
+    if (!isDisconnected()) {
+      void metaMask.connectEagerly();
+    }
+  }, [isDisconnected]);
 
   return (
     <div>
@@ -29,7 +34,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
               networkName={networkData?.name ?? ""}
               walletIco={"/images/wallet-icons/metamask.svg"}
               isNetworkOnline={true}
-              handlerDisconnect={() => console.log("Disconnected")}
+              handlerDisconnect={() => disconnect()}
             />
           )}
 
@@ -50,7 +55,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
             <button
               data-testid="connect-wallet"
               className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[34px] border-[#14f195] md:w-[163px] md:h-[44px] text-[10px] hover:opacity-[0.6]"
-              onClick={() => metaMask.activate()}
+              onClick={() => connect()}
             >
               Connect Wallet
             </button>

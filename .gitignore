@@ -13,3 +13,5 @@ node_modules
 /app/tailwind.css
 .DS_Store
 cypress/videos/smoke.ts.mp4
+
+.idea
