@@ -337,6 +337,17 @@ async function repay(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
+  if (token.symbol === "ETH") {
+    console.log("repay() with cEth");
+
+    const formattedValue = ethers.utils.parseEther(value);
+    console.log("input value:", value, "formattedValue:", formattedValue.toString());
+
+    let contract = new ethers.Contract(cToken.address, sampleCEtherAbi, signer);
+    return await contract.repayBorrow({value: formattedValue});
+  }
+
+
   const formattedValue: BigNumber = ethers.utils.parseUnits(
     value,
     token.decimals
