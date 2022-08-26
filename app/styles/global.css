@@ -534,6 +534,15 @@ body.body__fixed {
   transform: translate(50%, -30px);
 }
 
+.span-value-bottom {
+  font-family: "ProximaNova";
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 140%;
+  color: #ffffff;
+  transform: translate(0%, 10px);
+}
+
 .panel-top-wallet {
   transform: translate(-50%, 0);
   background: linear-gradient(84.96deg, #01c071 0%, #01c275 83.28%);

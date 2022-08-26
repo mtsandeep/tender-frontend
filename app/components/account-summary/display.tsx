@@ -11,7 +11,6 @@ interface props {
   borrowLimit: number;
 }
 
-
 export default function Display({
   totalSuppliedUsd,
   totalBorrowedUsd,
@@ -113,16 +112,17 @@ export default function Display({
       <div
         className="w-full h-full bg-green-300 mr-2 h-[5px] md:h-[4px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
         style={{
-          background:
-            percentUsed > 79
-              ? "linear-gradient(270deg, rgba(255, 0, 0.5) 0%, rgba(255, 0, 0, 1) 100%)"
-              : "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
+          background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
           width: borrowLimitUsed === "" ? 0 : `${percentUsed}%`,
           transition: "width 1s ease-out",
         }}
       >
         {Number(borrowLimitUsed) > 0 && (
-          <span className="span-value">{borrowLimitUsed}%</span>
+          <span
+            className={percentUsed > 90 ? "span-value-bottom" : "span-value"}
+          >
+            {borrowLimitUsed}%
+          </span>
         )}
       </div>
       <div className="w-full flex absolute bottom-0 left-0">

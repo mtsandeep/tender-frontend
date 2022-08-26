@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useBlockchainExplorer } from "~/hooks/use-network-to-blockchain-explorer";
+import { useNetworkData } from "../hooks/use-network-data";
+import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 
 interface Props {
   inMenu?: boolean;
@@ -14,7 +15,8 @@ const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [textButton, setTextButton] = useState<string>("Copy Address");
   const dropdownRef = useRef<any>(null);
-  let { blockExplorerUrl } = useBlockchainExplorer();
+  const chainId = Web3Hooks.useChainId();
+  const networkData = useNetworkData(chainId);
 
   function truncateAccount(account: string): string {
     return `${account.slice(0, 3)}...${account.slice(-4)}`;
@@ -141,7 +143,12 @@ const WalletDropdown = (props: Props) => {
           </div>
         </div>
         <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
-          <a className="flex items-center" href={blockExplorerUrl || ""}>
+          <a
+            className="flex items-center"
+            target="_blank"
+            rel="noreferrer"
+            href={networkData?.blockExplorerUrl || ""}
+          >
             <img
               className="w-[16px] h-[16px] mr-[15px]"
               src="/images/wallet-icons/balance-link.svg"
@@ -153,8 +160,9 @@ const WalletDropdown = (props: Props) => {
           </a>
         </div>
         <div
-            onClick={() => props.handlerDisconnect()}
-            className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
+          onClick={() => props.handlerDisconnect()}
+          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+        >
           <div className="flex items-center">
             <img
               className="w-[16px] h-[16px] mr-[15px]"
