@@ -299,12 +299,12 @@ export default function Deposit({
                       setTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       let tr: TransactionReceipt = await txn.wait(2);
-                      updateTransaction(tr.blockHash);
                       displayTransactionResult(
                         tr.transactionHash,
                         "Deposit successful"
                       );
                       setValue("");
+                      updateTransaction(tr.blockHash);
                     } catch (e: any) {
                       toast.dismiss();
                       if (e.transaction?.hash) {
@@ -320,6 +320,7 @@ export default function Deposit({
                         ));
                       } else {
                         toast.error("Deposit unsuccessful.");
+                        closeModal();
                       }
                     } finally {
                       setIsWaitingToBeMined(false);

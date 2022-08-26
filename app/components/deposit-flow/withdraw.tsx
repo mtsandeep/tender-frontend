@@ -238,9 +238,9 @@ export default function Withdraw({
                       setValue("");
                       updateTransaction(tr.blockHash);
                       toast.success("Withdraw successful");
-                      closeModal();
                     } catch (e) {
                       toast.error("Withdraw unsuccessful");
+                      closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsWithdrawing(false);

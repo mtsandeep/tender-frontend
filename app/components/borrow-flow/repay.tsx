@@ -300,16 +300,12 @@ export default function Repay({
                       setTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       let tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
-                      displayTransactionResult(
-                        tr.transactionHash,
-                        "Repayment successful"
-                      );
                       setValue("");
                       updateTransaction(tr.blockHash);
                       toast.success("Repayment successful");
-                      closeModal();
                     } catch (e) {
                       toast.error("Repayment unsuccessful");
+                      closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsRepayingTxn(false);

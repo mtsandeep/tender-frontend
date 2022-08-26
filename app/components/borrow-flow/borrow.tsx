@@ -235,14 +235,12 @@ export default function Borrow({
                       setIsWaitingToBeMined(true);
                       let tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
-                      toast.success("Borrow successful");
                       displayTransactionResult(
                         tr.transactionHash,
                         "Borrow successful"
                       );
-                      closeModal();
+                      setValue("");
                     } catch (e: any) {
-                      toast.error("Borrow unsuccessful");
                       toast.dismiss();
                       if (e.transaction?.hash) {
                         toast.error(() => (
@@ -255,6 +253,9 @@ export default function Borrow({
                             </a>
                           </p>
                         ));
+                      } else {
+                        toast.error("Borrow unsuccessful");
+                        closeModal();
                       }
                     } finally {
                       setIsWaitingToBeMined(false);
