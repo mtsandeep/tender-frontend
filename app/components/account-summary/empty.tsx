@@ -22,7 +22,7 @@ export default function AccountSummary() {
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
             <div className="animate w-[70px] md:w-[90px] h-[26px] md:h-[34px] text-[24px] md:text-[35px] font-space font-normal"></div>
-            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
+            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>
           </div>

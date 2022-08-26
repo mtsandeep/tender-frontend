@@ -17,15 +17,15 @@ function TokenTopDetailsBorrow() {
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px]">
               Net Rate
             </p>
-            <div className="hidden md::flex absolute right__custom top-[50%] translate__0__50 items-center hidden group-hover:flex rounded-[15px]">
+            <div className="hidden  absolute right__custom top-[50%] translate__0__50 items-center hidden group-hover:flex rounded-[15px]">
               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
-                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[20px]">
+                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[16px] pb-[22px]">
                   <span className="mb-[8px] block text-[#FFF] text-[16px] text-left">
                     Net Rate
                   </span>
                   <p className="text-[#818987] text-[14px] text-left leading-[140%] font-nova">
-                    This rate blends the Borrow or Borrow APY with the TENDIES
-                    Distribution APY based on the current price of TENDIES.
+                    This rate blends the Borrow or Borrow APY with the TND
+                    Distribution APY based on the current price of TND.
                   </p>
                 </div>
               </div>

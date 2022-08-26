@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 
 export default function TwoPanelsEmpty() {
-  // markets with less than this amount are shown as not actively supplying or borrowing
-
   return (
     <div className="flex flex-col md:grid grid-cols-2 gap-[60px] md:gap-[20px] mb-14">
       <div>

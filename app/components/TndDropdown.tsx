@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-const BalanceDropdown = () => {
+const TndDropdown = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<any>(null);
 
@@ -48,7 +48,7 @@ const BalanceDropdown = () => {
               alt="..."
             />
             <p className="font-nova text-[16px] font-semibold text-[#fff] leading-[16px]">
-              TENDIES
+              TND
             </p>
           </div>
           <span className="font-nova text-[16px] font-semibold leading-[16px] text-[#14F195]">
@@ -78,7 +78,7 @@ const BalanceDropdown = () => {
               alt="..."
             />
             <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
-              Get TENDIES
+              Get TND
             </p>
           </div>
         </div>
@@ -129,4 +129,4 @@ const BalanceDropdown = () => {
   );
 };
 
-export default BalanceDropdown;
+export default TndDropdown;
