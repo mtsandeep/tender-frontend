@@ -21,7 +21,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { useSafeMaxBorrowAmountForToken } from "~/hooks/use-safe-max-borrow-amount-for-token";
 import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
-import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
+// import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 
@@ -77,16 +77,16 @@ export default function Borrow({
     notation: "fixed",
   });
 
-  let maxBorrowAmount = useMaxBorrowAmount(
-    borrowLimit,
-    totalBorrowedAmountInUsd,
-    market.tokenPair
-  );
+  // let maxBorrowAmount = useMaxBorrowAmount(
+  //   borrowLimit,
+  //   totalBorrowedAmountInUsd,
+  //   market.tokenPair
+  // );
 
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
-    maxBorrowAmount,
+    Number(formattedMaxBorrowLimit),
     parseFloat(newBorrowLimitUsed)
   );
 

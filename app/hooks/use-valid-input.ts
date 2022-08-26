@@ -15,7 +15,6 @@ export function useValidInput(
 ): [boolean, InputValidationDetail | null] {
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
-
   useEffect(() => {
     // Reset reason on each run
     setReason(null);

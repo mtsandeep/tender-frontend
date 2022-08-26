@@ -69,7 +69,7 @@ export default function Withdraw({
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
-    maxWithdrawAmount,
+    Number(toMaxString(maxWithdrawAmount)),
     parseFloat(newBorrowLimitUsed)
   );
 
