@@ -21,6 +21,7 @@ export interface TokenConfig {
 
 export interface NetworkData {
   ChainId: number;
+  name: string;
   blockExplorerName: string;
   blockExplorerUrl: string;
   Contracts: {
@@ -32,10 +33,13 @@ export interface NetworkData {
   };
 }
 
+
+
 export enum NetworkName {
   rinkeby = "rinkeby",
   metisStartdust = "metisStartdust",
   metisMainnet = "metisMainnet",
+  arbitrum = "Arbitrum"
 }
 
 export type Networks = {

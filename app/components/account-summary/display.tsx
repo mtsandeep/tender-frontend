@@ -1,17 +1,22 @@
 import { toFiatString } from "~/lib/ui";
 import Ring from "./ring";
 interface props {
-  totalSupplyBalanceInUsd: number;
-  totalBorrowedInUsd: number;
+  totalSuppliedUsd: number;
+  totalBorrowedUsd: number;
+  borrowBalanceInUsd: number;
+  supplyBalanceInUsd: number;
   netApy: number | null;
   borrowLimitUsed: string;
   percentUsed: number;
   borrowLimit: number;
 }
 
+
 export default function Display({
-  totalBorrowedInUsd,
-  totalSupplyBalanceInUsd,
+  totalSuppliedUsd,
+  totalBorrowedUsd,
+  borrowBalanceInUsd,
+  supplyBalanceInUsd,
   netApy,
   borrowLimitUsed,
   percentUsed,
@@ -52,7 +57,7 @@ export default function Display({
                 Total Supply
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalSupplyBalanceInUsd)}
+                ${toFiatString(totalSuppliedUsd)}
               </div>
             </div>
             <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center mb-[36px] md:mb-[0px]">
@@ -60,7 +65,7 @@ export default function Display({
                 Supply Balance
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalBorrowedInUsd)}
+                ${toFiatString(supplyBalanceInUsd)}
               </div>
             </div>
           </div>
@@ -75,7 +80,7 @@ export default function Display({
                 Total Borrow
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalSupplyBalanceInUsd)}
+                ${toFiatString(totalBorrowedUsd)}
               </div>
             </div>
             <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center">
@@ -83,7 +88,7 @@ export default function Display({
                 Borrow Balance
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalBorrowedInUsd)}
+                ${toFiatString(borrowBalanceInUsd)}
               </div>
             </div>
           </div>

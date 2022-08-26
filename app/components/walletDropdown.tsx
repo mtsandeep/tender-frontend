@@ -152,7 +152,9 @@ const WalletDropdown = (props: Props) => {
             </p>
           </a>
         </div>
-        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
+        <div
+            onClick={() => props.handlerDisconnect()}
+            className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
           <div className="flex items-center">
             <img
               className="w-[16px] h-[16px] mr-[15px]"

@@ -3,9 +3,10 @@ import sampleCTokenAbi from "~/config/sample-ctoken-abi";
 import type { Token, cToken, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import {
-  getBorrowedAmount,
+  getTotalBorrowed,
   getCurrentlySupplying,
   getTotalSupplyBalanceInUsd,
+  getCurrentlyBorrowing,
 } from "./tender";
 
 function formatApy(apy: number): string {
@@ -22,7 +23,7 @@ function formatApy(apy: number): string {
 // This might be a mistake, but I get the correct APYs based on Compound on Rinkeby.
 function calculateApy(decimals: number, ratePerBlock: number): number {
   const daysPerYear = 365;
-  const blocksPerDay = 2000; // an estimate
+  const blocksPerDay = 60 //* 60 * 24 / 10.9; // an estimate with 10.9second block time
 
   // TODO: this should probably use token.decimals????
   const underlyingAssetMantissa = 1e18;
@@ -102,7 +103,7 @@ async function getNetGainOrLoss(
   let supplyApy: number =
     (await calculateDepositApy(p.token, p.cToken, s)) * 0.01;
 
-  let borrowed: number = await getBorrowedAmount(s, p.cToken, p.token);
+  let borrowed: number = await getCurrentlyBorrowing(s, p.cToken, p.token);
   let borrowApy: number =
     (await calculateBorrowApy(p.token, p.cToken, s)) * 0.01;
 
