@@ -8,14 +8,16 @@
     "e2e/**/*",
     "plugins/**/*",
     "support/**/*",
-    "../node_modules/cypress",
-    "../node_modules/@testing-library/cypress",
+    // I removed this because it  was breaking - eli
+    // "../node_modules/cypress",
+    // "../node_modules/@testing-library/cypress",
     "remix.env.d.ts"
   ],
   "compilerOptions": {
     "baseUrl": ".",
     "noEmit": true,
-    "types": ["node", "cypress", "@testing-library/cypress"],
+    "types": ["node"],
+    // "types": ["node", "cypress", "@testing-library/cypress"],
     "esModuleInterop": true,
     "jsx": "react",
     "moduleResolution": "node",

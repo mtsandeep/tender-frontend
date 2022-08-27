@@ -29,6 +29,7 @@ export default {
       symbol: "ETH",
       decimals: 18,
       //   address: eth has no address
+      address: "eth_has_no_address...duh", // necessary for type checker
       icon: "/images/coin-icons/ethereum.svg",
       priceDecimals: 18,
       cToken: {

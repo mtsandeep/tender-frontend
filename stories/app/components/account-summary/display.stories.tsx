@@ -20,8 +20,8 @@ const Template: ComponentStory<typeof Display> = (args) => (
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-  totalBorrowedInUsd: 10000,
-  totalSupplyBalanceInUsd: 10000,
+  totalBorrowedUsd: 10000,
+  totalSuppliedUsd: 10000,
   netApy: 1000,
   borrowLimitUsed: "1000",
   percentUsed: 10000,

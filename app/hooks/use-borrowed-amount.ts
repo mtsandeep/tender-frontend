@@ -1,6 +1,6 @@
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import { useState, useEffect } from "react";
-import { getBorrowedAmount } from "~/lib/tender";
+import { getCurrentlyBorrowing } from "~/lib/tender";
 import type { cToken, Token } from "~/types/global";
 
 export function useBorrowedAmount(
@@ -15,7 +15,7 @@ export function useBorrowedAmount(
       return;
     }
 
-    getBorrowedAmount(signer, cToken, token).then((b) => setBorrowedAmount(b));
+    getCurrentlyBorrowing(signer, cToken, token).then((b) => setBorrowedAmount(b));
   }, [signer, cToken, token]);
 
   return borrowedAmount;

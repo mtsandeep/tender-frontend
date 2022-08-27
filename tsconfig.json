@@ -15,7 +15,7 @@
     "paths": {
       "~/*": ["./app/*"]
     },
-    "types": ["cypress"],
+    "types": [],
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true
