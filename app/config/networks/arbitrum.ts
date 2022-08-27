@@ -139,10 +139,6 @@ export default {
     },
 
 
-
-  },
-
-
   GLP: {
     name: "GLP",
     symbol: "GLP",
@@ -162,4 +158,5 @@ export default {
       address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD"
     },
   }
+}
 }
