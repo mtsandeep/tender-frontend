@@ -9,6 +9,38 @@ export default {
   },
   Tokens: {
 
+    FRAX: {
+      name: "FRAX",
+      symbol: "FRAX",
+      decimals: 18,
+      address: "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F",
+      icon: "/images/coin-icons/frax.svg",
+      priceDecimals: 28,
+      cToken: {
+        name: "tFRAX",
+        symbol: "tFRAX",
+        decimals: 8,
+        address: "0x86356683eca061FA3dD795aF3A22a1530a999b58",
+      },
+    },
+
+
+    DAI: {
+      name: "DAI",
+      symbol: "DAI",
+      decimals: 18,
+      address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+      icon: "/images/coin-icons/dai.svg",
+      priceDecimals: 28,
+      cToken: {
+        name: "tDAI",
+        symbol: "tDAI",
+        decimals: 8,
+        address: "0x916b44509CcfC5238f8Ce9a30bEB1BF861B70779",
+      },
+    },
+
+
     USDC: {
       name: "USDC",
       symbol: "USDC",
