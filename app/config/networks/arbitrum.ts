@@ -4,11 +4,10 @@ export default {
   blockExplorerName: "Arbiscan",
   blockExplorerUrl: "https://arbiscan.io/tx",
   Contracts: {
-    Comptroller: "0x5aDa4F2951d6BDc644605FF7241354c85AC5B7B1",
-    PriceOracle: "0x4F6D68130140578d2C071f210b544c27923E133d",
+    Comptroller: "0x60437FEE4ddBdA6e47955b6255E312F1ED067033",
+    PriceOracle: "0xD550A36DC56046afa908c52579f130e724D83eae",
   },
   Tokens: {
-
     USDC: {
       name: "USDC",
       symbol: "USDC",
@@ -20,9 +19,25 @@ export default {
         name: "tUSDC",
         symbol: "tUSDC",
         decimals: 8,
-        address: "0x6995406a7e0f6D6808A0a8be54019dCaDeE23434",
+        address: "0x0BdF3cb0D390ce8d8ccb6839b1CfE2953983b5f1",
       },
     },
+
+    USDT: {
+      name: "USDT",
+      symbol: "USDT",
+      decimals: 6,
+      address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+      icon: "/images/coin-icons/usdt.svg",
+      priceDecimals: 28,
+      cToken: {
+        name: "tUSDC",
+        symbol: "tUSDC",
+        decimals: 8,
+        address: "0xCAA772eaCbCAD50E0decC64Ab4748DC1A11Cf731",
+      },
+    },
+
 
     ETH: {
       name: "ETH",
@@ -35,7 +50,7 @@ export default {
         name: "tETH",
         symbol: "tETH",
         decimals: 8,
-        address: "0x7C0beDaF3aD27E50dF2810B4611B5222e12696Dc"
+        address: "0x3EfFa48cB7c65399676D49f4B08696151f2446CC"
       },
     },
 
@@ -55,7 +70,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xEcCAECa08a6AD9D96A782B65c5e7F9834a5126c3"
+        address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD"
       },
     },
 
@@ -70,7 +85,7 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
-        address: "0xdE1Ec670986326312bc705b4ABC3aa18652DfbBC",
+        address: "0x29D4Cf28db3f978591F9868006BD3c5D2f36801f",
       },
     },
 
@@ -85,7 +100,7 @@ export default {
         name: "tLINK",
         symbol: "tLINK",
         decimals: 8,
-        address: "0x07Fc3fC969d938Bd34EA506fC85eb3A62627F23A",
+        address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
       },
     },
 
@@ -101,7 +116,7 @@ export default {
         name: "tUNI",
         symbol: "tUNI",
         decimals: 8,
-        address: "0x423dB304E318693EB14c891B104AcB3af35fC69f",
+        address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
       },
     },
 
