@@ -87,26 +87,6 @@ export default {
       },
     },
 
-    GLP: {
-      name: "GLP",
-      symbol: "GLP",
-      decimals: 18,
-
-      // staked glp is for approve
-      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
-      // fsGLP has balanceOf
-      address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
-
-      icon: "/images/coin-icons/glp.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tGLP",
-        symbol: "tGLP",
-        decimals: 8,
-        address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD"
-      },
-    },
-
     WBTC: {
       name: "wBTC",
       symbol: "WBTC",
@@ -153,5 +133,26 @@ export default {
       },
     },
 
+  },
+
+
+  GLP: {
+    name: "GLP",
+    symbol: "GLP",
+    decimals: 18,
+
+    // staked glp is for approve
+    sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+    // fsGLP has balanceOf
+    address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+
+    icon: "/images/coin-icons/glp.svg",
+    priceDecimals: 28,
+    cToken: {
+      name: "tGLP",
+      symbol: "tGLP",
+      decimals: 8,
+      address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD"
+    },
   }
 }
