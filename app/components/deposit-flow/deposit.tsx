@@ -70,7 +70,7 @@ export default function Deposit({
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
-    Number(toMaxString(walletBalance)),
+    walletBalance,
     parseFloat(newBorrowLimitUsed)
   );
 

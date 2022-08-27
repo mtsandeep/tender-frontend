@@ -628,7 +628,21 @@ body.body__fixed {
   opacity: 0.4;
 }
 
+.custom__chart .recharts-surface {
+  overflow: inherit;
+}
+
+.custom__chart .custom__chart__bar .recharts-surface {
+  overflow: hidden;
+  border-radius: 15px;
+}
+
 @media screen and (max-width: 768px) {
+  .custom__chart .custom__chart__bar .recharts-surface {
+    overflow: inherit;
+    border-radius: 0;
+  }
+
   .line-dashed-sm::after {
     display: block;
   }

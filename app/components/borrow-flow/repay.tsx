@@ -73,7 +73,7 @@ export default function Repay({
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
-    Number(toMaxString(Number(maxRepayableAmount))),
+    maxRepayableAmount,
     parseFloat(newBorrowLimitUsed)
   );
 

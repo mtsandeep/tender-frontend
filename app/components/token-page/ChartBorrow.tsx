@@ -18,271 +18,252 @@ import {
 
 const data = [
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 96,
+    borrowAPY: 96,
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 96,
+    borrowAPY: 96,
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 523,
-    borrowAPY: 523 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 84,
+    borrowAPY: 84,
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 91,
+    borrowAPY: 91,
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 98,
+    borrowAPY: 98,
   },
   {
-    totalBorrow: 223,
-    borrowAPY: 223 / 2,
+    totalBorrow: 105,
+    borrowAPY: 105,
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 112,
+    borrowAPY: 112,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 120,
+    borrowAPY: 120,
   },
   {
-    totalBorrow: 523,
-    borrowAPY: 523 / 2,
+    totalBorrow: 127,
+    borrowAPY: 127,
   },
   {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
+    totalBorrow: 132,
+    borrowAPY: 132,
   },
   {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
   },
   {
-    totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
   },
   {
-    totalBorrow: 223,
-    borrowAPY: 223 / 2,
-  },
-  {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
-  },
-  {
-    totalBorrow: 367,
-    borrowAPY: 367 / 2,
-  },
-  {
-    totalBorrow: 143,
-    borrowAPY: 143 / 2,
-  },
-  {
-    totalBorrow: 745,
-    borrowAPY: 745 / 2,
-  },
-  {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
-  },
-  {
-    totalBorrow: 422,
-    borrowAPY: 422 / 2,
-  },
-  {
-    totalBorrow: 432,
-    borrowAPY: 432 / 2,
-  },
-  {
-    totalBorrow: 452,
-    borrowAPY: 452 / 2,
-  },
-  {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
-  },
-  {
-    totalBorrow: 352,
-    borrowAPY: 352 / 2,
-  },
-  {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
-  },
-  {
-    totalBorrow: 523,
-    borrowAPY: 523 / 2,
-  },
-  {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
-  },
-  {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 132,
+    borrowAPY: 132,
   },
   {
     totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    borrowAPY: 125,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 118,
+    borrowAPY: 118,
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 112,
+    borrowAPY: 112,
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 105,
+    borrowAPY: 105,
   },
   {
-    totalBorrow: 223,
-    borrowAPY: 223 / 2,
+    totalBorrow: 98,
+    borrowAPY: 98,
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 91,
+    borrowAPY: 91,
   },
   {
-    totalBorrow: 431,
-    borrowAPY: 431 / 2,
+    totalBorrow: 85,
+    borrowAPY: 85,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
   },
   {
-    totalBorrow: 423,
-    borrowAPY: 423 / 2,
+    totalBorrow: 72,
+    borrowAPY: 72,
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 65,
+    borrowAPY: 65,
   },
   {
-    totalBorrow: 444,
-    borrowAPY: 444 / 2,
+    totalBorrow: 58,
+    borrowAPY: 58,
   },
   {
-    totalBorrow: 324,
-    borrowAPY: 324 / 2,
+    totalBorrow: 51,
+    borrowAPY: 51,
   },
   {
-    totalBorrow: 542,
-    borrowAPY: 542 / 2,
+    totalBorrow: 46,
+    borrowAPY: 46,
   },
   {
-    totalBorrow: 349,
-    borrowAPY: 349 / 2,
+    totalBorrow: 39,
+    borrowAPY: 39,
   },
   {
-    totalBorrow: 429,
-    borrowAPY: 429 / 2,
+    totalBorrow: 32,
+    borrowAPY: 32,
   },
   {
-    totalBorrow: 239,
-    borrowAPY: 239 / 2,
+    totalBorrow: 42,
+    borrowAPY: 42,
   },
   {
-    totalBorrow: 288,
-    borrowAPY: 288 / 2,
+    totalBorrow: 49,
+    borrowAPY: 49,
   },
   {
-    totalBorrow: 420,
-    borrowAPY: 420 / 2,
+    totalBorrow: 57,
+    borrowAPY: 57,
   },
   {
-    totalBorrow: 394,
-    borrowAPY: 394 / 2,
+    totalBorrow: 63,
+    borrowAPY: 63,
   },
   {
-    totalBorrow: 487,
-    borrowAPY: 487 / 2,
+    totalBorrow: 70,
+    borrowAPY: 70,
   },
   {
-    totalBorrow: 382,
-    borrowAPY: 382 / 2,
+    totalBorrow: 77,
+    borrowAPY: 77,
   },
   {
-    totalBorrow: 396,
-    borrowAPY: 396 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
   },
   {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
   },
   {
-    totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+  },
+  {
+    totalBorrow: 80,
+    borrowAPY: 80,
+  },
+  {
+    totalBorrow: 72,
+    borrowAPY: 72,
+  },
+  {
+    totalBorrow: 65,
+    borrowAPY: 65,
+  },
+  {
+    totalBorrow: 59,
+    borrowAPY: 59,
+  },
+  {
+    totalBorrow: 65,
+    borrowAPY: 65,
+  },
+  {
+    totalBorrow: 72,
+    borrowAPY: 72,
+  },
+  {
+    totalBorrow: 80,
+    borrowAPY: 80,
+  },
+  {
+    totalBorrow: 80,
+    borrowAPY: 80,
+  },
+  {
+    totalBorrow: 82,
+    borrowAPY: 82,
+  },
+  {
+    totalBorrow: 82,
+    borrowAPY: 82,
   },
 ];
-
-const chartColor: string = "#00E0FF";
 
 const ChartBorrow = () => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
 
   const [dotY, setDotY] = useState<string | number>(0);
-  const [dotX, setDotX] = useState<string | number>(0);
 
   const ApyTooltip = ({
     active,
@@ -333,21 +314,20 @@ const ChartBorrow = () => {
       x={props.points[0].x}
       y={dotY}
       width="1"
-      height="544"
-      viewBox="0 0 1 544"
+      height="200"
+      viewBox="0 0 1 200"
     >
       <path
         d="M1.25 543.75L1.25 0.25"
         stroke="#282C2B"
-        stroke-width="2"
-        stroke-dasharray="6 6"
+        strokeWidth="2"
+        strokeDasharray="6 6"
       />
     </svg>
   );
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
-    setDotX(props.cx);
     return (
       <circle
         cx={props.cx}
@@ -362,18 +342,20 @@ const ChartBorrow = () => {
   };
 
   return (
-    <div className="custom__scroll min-h-[350px] w-full flex-col pt-[73px] relative">
+    <div className="custom__scroll min-h-[350px] w-full flex-col pt-[63px] pb-[50px] md:pb-[0px] relative custom__chart">
       <div className="min-w-[800px]">
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={180}>
           <LineChart
-            onMouseLeave={() => setActiveTooltip((val) => (val = undefined))}
+            onMouseLeave={() =>
+              setActiveTooltip((val: any) => (val = undefined))
+            }
             syncId="marketCharSynch"
             onMouseMove={tooltipSync}
             data={data}
-            margin={{ top: 20, right: 0, left: 0, bottom: 50 }}
+            margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
           >
             <Tooltip
-              position={{ x: Number(dotX) - 35, y: -47 }}
+              position={{ y: -50 }}
               content={<ApyTooltip />}
               allowEscapeViewBox={{ y: true }}
               cursor={<CustomLine />}
@@ -381,27 +363,32 @@ const ChartBorrow = () => {
             <Line
               type="monotone"
               dataKey="totalBorrow"
-              stroke={chartColor}
+              stroke="#00E0FF"
               strokeWidth={3}
               dot={false}
               activeDot={<CustomDot />}
             />
           </LineChart>
         </ResponsiveContainer>
-
-        <ResponsiveContainer width="100%" height={180}>
+        <ResponsiveContainer
+          width="100%"
+          height={130}
+          className="custom__chart__bar"
+        >
           <BarChart
-            onMouseLeave={() => setActiveTooltip((val) => (val = undefined))}
+            onMouseLeave={() =>
+              setActiveTooltip((val: any) => (val = undefined))
+            }
             syncId="marketCharSynch"
             data={data}
             onMouseMove={tooltipSync}
-            margin={{ top: 30, bottom: 60 }}
+            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
           >
             <Tooltip
               cursor={false}
               allowEscapeViewBox={{ y: true }}
               content={<TotalTooltip />}
-              position={{ x: Number(dotX) - 35, y: -30 }}
+              position={{ y: -50 }}
             />
             <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]}>
               {data.map((entry, index) => (

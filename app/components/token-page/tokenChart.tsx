@@ -8,7 +8,7 @@ function TokenChart() {
   const [tabName, setTabName] = useState<string>("supply");
 
   return (
-    <div className="bg-[#0D0D0D] panel-custom pt-4 mb-[60px] md:mb-[40px] md:pt-7 pb-[20px] md:pb-0">
+    <div className="bg-[#0D0D0D] panel-custom pt-4 mb-[60px] md:mb-[60px] md:pt-7 pb-[20px] md:pb-0">
       <div className="flex-col text-xs font-nova font-normal leading-4 ml-[15px] mb-[30px] md:text-sm md:leading-[20px] md:ml-[28px] md:mb-[26px]">
         <a className="cursor-pointer hover:text-[#14f195]" href="/">
           Markets
