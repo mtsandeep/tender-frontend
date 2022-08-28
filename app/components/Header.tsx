@@ -2,8 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import TndDropdown from "./TndDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
-import { hooks } from "~/connectors/meta-mask";
+import { hooks, metaMask } from "~/connectors/meta-mask";
 import type { ProviderRpcError } from "@web3-react/types";
+import useAuth from "~/hooks/use-auth";
 
 const { useIsActive } = hooks;
 
@@ -12,6 +13,8 @@ export default function Header() {
   const chainId = hooks.useChainId();
   let provider = hooks.useProvider();
   let onSupportedChain = useOnSupportedNetwork(chainId);
+  const { connect, isDisconnected } = useAuth();
+  const [onClient, setOnClient] = useState<boolean>(false);
 
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
@@ -23,6 +26,14 @@ export default function Header() {
       }, 500);
     }
   }, [onSupportedChain]);
+
+  useEffect(() => {
+    setOnClient(true);
+
+    if (!isDisconnected()) {
+      void metaMask.connectEagerly();
+    }
+  }, [isDisconnected]);
 
   let tryConnectingToMetis = async (p: typeof provider) => {
     if (!p) {
@@ -77,7 +88,7 @@ export default function Header() {
     <>
       {!onSupportedChain && (
         <div
-          className={`top__error__wrap w-full items-center justify-center h-[60px] md:h-[54px] ${
+          className={`top__error__wrap w-full items-center justify-center h-[79px] md:h-[54px] ${
             show ? "flex" : "hidden"
           }`}
         >
@@ -94,9 +105,31 @@ export default function Header() {
                   </button>
                 </>
               ) : (
-                "Warning: Unsupported network. Connect Wallet and we can help you switch."
+                <>
+                  Warning: Unsupported network.{" "}
+                  {onClient && !window.ethereum ? (
+                    <a
+                      className="underline"
+                      target="_blank"
+                      rel="noreferrer"
+                      href="https://metamask.io/"
+                    >
+                      Connect your wallet
+                    </a>
+                  ) : (
+                    <button
+                      data-testid="connect-wallet"
+                      className="underline"
+                      onClick={() => connect()}
+                    >
+                      Connect your wallet
+                    </button>
+                  )}{" "}
+                  and we can help you switch.
+                </>
               )}
             </div>
+
             <svg
               className="absolute cursor-pointer close__custom top-[8px] md:top-[50%] translate-0 md:translate-y-[-50%] right-[8px] md:right-[20px]"
               width="14"
@@ -119,7 +152,7 @@ export default function Header() {
             className="w-[104px] block lg:w-[196px]"
             onClick={() => handleClickBurger(false)}
           >
-            <a href="https://home.tender.fi">
+            <a href="https://tender.fi">
               <img src="/images/logo1.svg" alt="Tender Finance" />
             </a>
           </div>
@@ -165,7 +198,7 @@ export default function Header() {
               activePopupMenu
                 ? `act ${
                     !onSupportedChain && show
-                      ? "h-[calc(100vh-131px)] md:h-[calc(100vh-125px)]"
+                      ? "h-[calc(100vh-150px)] md:h-[calc(100vh-125px)]"
                       : "h-[calc(100vh-71px)]"
                   }`
                 : ""

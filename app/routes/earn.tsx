@@ -10,7 +10,12 @@ export default function App() {
         </p>
         <p className="md:text-[16px] md:leading-[22px] text-[14px] leading-[20px] font-normal mb-[31px] font-nova text-[#ADB5B3]">
           Stake TND to earn rewards. Please read the{" "}
-          <a className="line-solid cursor-pointer text-[#ffffff]" href="/">
+          <a
+            className="line-solid cursor-pointer text-[#ffffff]"
+            href="https://docs.tender.fi/tendienomics/rewards-and-incentives"
+            target="_blank"
+            rel="noreferrer"
+          >
             staking details
           </a>{" "}
           to learn more.
@@ -502,7 +507,12 @@ export default function App() {
         </p>
         <p className="md:text-[16px] md:leading-[22px] text-[14px] leading-[20px] font-normal mb-[31px] font-nova text-[#ADB5B3]">
           Convert esTND tokens to TND tokens. Please read the{" "}
-          <a className="cursor-pointer line-solid text-[#ffffff]" href="/">
+          <a
+            className="cursor-pointer line-solid text-[#ffffff]"
+            href="https://docs.tender.fi/tendienomics/rewards-and-incentives#vesting"
+            target="_blank"
+            rel="noreferrer"
+          >
             vesting details
           </a>{" "}
           before using the vault.
