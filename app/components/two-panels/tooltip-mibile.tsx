@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 export default function TooltipMobile(props: {
   mobileTooltipData: {
     open: boolean;
-    textTop?: string;
+    textTop: string;
     icon?: string;
     token?: string;
     textBottom?: string;
