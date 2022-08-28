@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import {
   ValueType,
@@ -262,8 +262,10 @@ const data = [
 const ChartSupply = () => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
+  const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
   const [dotY, setDotY] = useState<string | number>(0);
+  const [dotX, setDotX] = useState<string | number>(0);
 
   const ApyTooltip = ({
     active,
@@ -283,26 +285,22 @@ const ChartSupply = () => {
     return null;
   };
 
+  useEffect(() => {
+    setIsLoadPage(true);
+  }, []);
+
   const TotalTooltip = ({
     active,
     payload,
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <>
-          <div className="text-center w-fit mb-[100px]">
-            <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalSupply}`}</p>
-            <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
-              Total Supply
-            </p>
-          </div>
-          {/* <div className="text-center w-fit">
-            <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalSupply}`}</p>
-            <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
-              Total Supply
-            </p>
-          </div> */}
-        </>
+        <div className="text-center w-fit">
+          <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalSupply}`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
+            Total Supply
+          </p>
+        </div>
       );
     }
 
@@ -317,27 +315,26 @@ const ChartSupply = () => {
     }
   }
 
-  const CustomLine = (props: any) => {
-    return (
-      <svg
-        x={props.points[0].x}
-        y={dotY}
-        width="1"
-        height="200"
-        viewBox="0 0 1 200"
-      >
-        <path
-          d="M1.25 543.75L1.25 0.25"
-          stroke="#282C2B"
-          strokeWidth="2"
-          strokeDasharray="6 6"
-        />
-      </svg>
-    );
-  };
+  const CustomLine = (props: any) => (
+    <svg
+      x={props.points[0].x}
+      y={dotY}
+      width="1"
+      height="200"
+      viewBox="0 0 1 200"
+    >
+      <path
+        d="M1.25 543.75L1.25 0.25"
+        stroke="#282C2B"
+        strokeWidth="2"
+        strokeDasharray="6 6"
+      />
+    </svg>
+  );
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
+    setDotX(props.cx);
     return (
       <circle
         cx={props.cx}
@@ -352,9 +349,13 @@ const ChartSupply = () => {
   };
 
   return (
-    <div className="custom__scroll min-h-[350px] w-full flex-col pt-[63px] pb-[50px] md:pb-[0px] relative custom__chart">
+    <div className="custom__scroll w-full flex-col pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
       <div className="min-w-[800px]">
-        <ResponsiveContainer width="100%" height={180}>
+        <ResponsiveContainer
+          width="100%"
+          height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
+          className="mb-[30px] lg:mb-[0]"
+        >
           <LineChart
             onMouseLeave={() =>
               setActiveTooltip((val: any) => (val = undefined))
@@ -382,7 +383,7 @@ const ChartSupply = () => {
         </ResponsiveContainer>
         <ResponsiveContainer
           width="100%"
-          height={130}
+          height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
           className="custom__chart__bar"
         >
           <BarChart
@@ -411,6 +412,7 @@ const ChartSupply = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
+      <div className={`absolute left-[${dotX}px]`}></div>
     </div>
   );
 };

@@ -342,9 +342,13 @@ const ChartBorrow = () => {
   };
 
   return (
-    <div className="custom__scroll min-h-[350px] w-full flex-col pt-[63px] pb-[50px] md:pb-[0px] relative custom__chart">
+    <div className="custom__scroll w-full flex-col pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
       <div className="min-w-[800px]">
-        <ResponsiveContainer width="100%" height={180}>
+        <ResponsiveContainer
+          width="100%"
+          height={180}
+          className="mb-[30px] lg:mb-[0]"
+        >
           <LineChart
             onMouseLeave={() =>
               setActiveTooltip((val: any) => (val = undefined))

@@ -637,11 +637,15 @@ body.body__fixed {
   border-radius: 15px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .custom__chart .custom__chart__bar .recharts-surface {
     overflow: inherit;
     border-radius: 0;
   }
+}
+
+@media screen and (max-width: 768px) {
+
 
   .line-dashed-sm::after {
     display: block;
