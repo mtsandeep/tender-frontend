@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import {
   ValueType,
@@ -262,8 +262,10 @@ const data = [
 const ChartBorrow = () => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
+  const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
   const [dotY, setDotY] = useState<string | number>(0);
+  const [dotX, setDotX] = useState<string | number>(0);
 
   const ApyTooltip = ({
     active,
@@ -283,6 +285,9 @@ const ChartBorrow = () => {
     return null;
   };
 
+  useEffect(() => {
+    setIsLoadPage(true);
+  }, []);
   const TotalTooltip = ({
     active,
     payload,
@@ -328,6 +333,7 @@ const ChartBorrow = () => {
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
+    setDotX(props.cx);
     return (
       <circle
         cx={props.cx}
@@ -346,7 +352,7 @@ const ChartBorrow = () => {
       <div className="min-w-[800px]">
         <ResponsiveContainer
           width="100%"
-          height={180}
+          height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
           className="mb-[30px] lg:mb-[0]"
         >
           <LineChart
@@ -376,7 +382,7 @@ const ChartBorrow = () => {
         </ResponsiveContainer>
         <ResponsiveContainer
           width="100%"
-          height={130}
+          height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
           className="custom__chart__bar"
         >
           <BarChart

@@ -684,8 +684,8 @@ body.body__fixed {
     height: fit-content;
     margin: 0 20px 0 20px;
     inset: 0;
-    right: 3% !important;
-    left: 3% !important;
+    right: auto !important;
+    left: auto !important;
   }
 
   .transform-custom {

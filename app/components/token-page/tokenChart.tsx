@@ -20,7 +20,6 @@ function TokenChart() {
       ) : (
         <TokenTopDetailsBorrow />
       )}
-
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-[12px] leading-[20px] border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">
         <div
           onClick={() => setTabName("supply")}
@@ -43,7 +42,6 @@ function TokenChart() {
           borrow
         </div>
       </div>
-
       {tabName === "supply" ? <ChartSupply /> : <ChartBorrow />}
     </div>
   );

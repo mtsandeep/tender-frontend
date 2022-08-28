@@ -4,15 +4,15 @@ function TokenTopDetailsSupply() {
       <div className="flex items-center md:w-[30%] mb-[30px] md:mb-0">
         <img
           className="w-10 h-10 mr-[15px] md:w-[55px] md:h-[55px] md:mr-[21px]"
-          src="/images\coin-icons\usdc.svg"
+          src="/images/coin-icons/usdc.svg"
           alt=""
         />
         <p className="font-nova font-medium text-lg leading-[25px] md:text-[22px] whitespace-nowrap md:leading-[31px]">
           USD Coin
         </p>
       </div>
-      <div className="flex md:gap-[0px] gap-x-[20px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-between md:text-center w-full md:w-[511px]">
-        <div>
+      <div className="flex md:gap-[0px] gap-x-[0px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-start md:justify-between md:text-center w-full md:w-[511px]">
+        <div className="w-[120px] md:w-[auto]">
           <div className="relative flex flex-col items-start md:items-center group">
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px]">
               Net Rate
@@ -36,37 +36,37 @@ function TokenTopDetailsSupply() {
             0.75%
           </p>
         </div>
-        <div>
-          <div className="flex justify-center">
+        <div className="w-[120px] md:w-[auto]">
+          <div className="flex justify-start md:justify-center">
             <img
               className="w-3.5 h-3.5 mr-[4px] md:w-[20px] md:h-[20px]"
-              src="/images\coin-icons\usdc.svg"
+              src="/images/coin-icons/usdc.svg"
               alt=""
             />
             <span className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px]">
               Supply APY
             </span>
           </div>
-          <p className="text-sm text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
+          <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
             0.25%
           </p>
         </div>
-        <div>
-          <div className="flex justify-center">
+        <div className="w-[120px] md:w-[auto]">
+          <div className="flex justify-start md:justify-center">
             <img
               className="w-3.5 h-3.5 mr-[4px] md:w-[20px] md:h-[20px]"
-              src="/images\tenderLogoSmall.svg"
+              src="/images/tenderLogoSmall.svg"
               alt=""
             />
             <span className="text-[10px] text-[#818987] leading-[14px] font-semibold pr-[1px] mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px]">
               Distribution APY
             </span>
           </div>
-          <p className="text-sm text-center font-medium leading-[19px]text-center md:text-[22px] md:leading-[31px]">
+          <p className="text-sm text-start md:text-center font-medium leading-[19px]text-center md:text-[22px] md:leading-[31px]">
             0.35%
           </p>
         </div>
-        <div>
+        <div className="w-[120px] md:w-[auto]">
           <p className="text-[10px] text-[#818987] leading-[14px] font-semibold md:text-sm md:leading-[19px] ">
             Total Supply
           </p>

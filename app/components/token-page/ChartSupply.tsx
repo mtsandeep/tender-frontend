@@ -264,8 +264,8 @@ const ChartSupply = () => {
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
-  const [dotY, setDotY] = useState<string | number>(0);
-  const [dotX, setDotX] = useState<string | number>(0);
+  const [dotY, setDotY] = useState<number>(0);
+  const [dotX, setDotX] = useState<number>(0);
 
   const ApyTooltip = ({
     active,
@@ -288,7 +288,6 @@ const ChartSupply = () => {
   useEffect(() => {
     setIsLoadPage(true);
   }, []);
-
   const TotalTooltip = ({
     active,
     payload,
@@ -320,11 +319,11 @@ const ChartSupply = () => {
       x={props.points[0].x}
       y={dotY}
       width="1"
-      height="200"
-      viewBox="0 0 1 200"
+      height="160"
+      viewBox="0 0 1 160"
     >
       <path
-        d="M1.25 543.75L1.25 0.25"
+        d="M1.25 160.75L1.25 0.25"
         stroke="#282C2B"
         strokeWidth="2"
         strokeDasharray="6 6"
@@ -349,70 +348,77 @@ const ChartSupply = () => {
   };
 
   return (
-    <div className="custom__scroll w-full flex-col pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
-      <div className="min-w-[800px]">
-        <ResponsiveContainer
-          width="100%"
-          height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
-          className="mb-[30px] lg:mb-[0]"
-        >
-          <LineChart
-            onMouseLeave={() =>
-              setActiveTooltip((val: any) => (val = undefined))
-            }
-            syncId="marketCharSynch"
-            onMouseMove={tooltipSync}
-            data={data}
-            margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+    <div className="relative">
+      <div className="custom__scroll w-full flex-col pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+        <div className="min-w-[800px]">
+          <ResponsiveContainer
+            width="100%"
+            height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
+            className="mb-[30px] lg:mb-[0]"
           >
-            <Tooltip
-              position={{ y: -50 }}
-              content={<ApyTooltip />}
-              allowEscapeViewBox={{ y: true }}
-              cursor={<CustomLine />}
-            />
-            <Line
-              type="monotone"
-              dataKey="totalSupply"
-              stroke="#14F195"
-              strokeWidth={3}
-              dot={false}
-              activeDot={<CustomDot />}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-        <ResponsiveContainer
-          width="100%"
-          height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
-          className="custom__chart__bar"
-        >
-          <BarChart
-            onMouseLeave={() =>
-              setActiveTooltip((val: any) => (val = undefined))
-            }
-            syncId="marketCharSynch"
-            data={data}
-            onMouseMove={tooltipSync}
-            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            <LineChart
+              onMouseLeave={() =>
+                setActiveTooltip((val: any) => (val = undefined))
+              }
+              syncId="marketCharSynch"
+              onMouseMove={tooltipSync}
+              data={data}
+              margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+            >
+              <Tooltip
+                position={{ y: -50 }}
+                content={<ApyTooltip />}
+                allowEscapeViewBox={{ y: true }}
+                cursor={<CustomLine />}
+              />
+              <Line
+                type="monotone"
+                dataKey="totalSupply"
+                stroke="#14F195"
+                strokeWidth={3}
+                dot={false}
+                activeDot={<CustomDot />}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          <ResponsiveContainer
+            width="100%"
+            height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
+            className="custom__chart__bar"
           >
-            <Tooltip
-              cursor={false}
-              allowEscapeViewBox={{ y: true }}
-              content={<TotalTooltip />}
-              position={{ y: -50 }}
-            />
-            <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]}>
-              {data.map((entry, index) => (
-                <Cell
-                  key={index}
-                  fill={activeTooltip === index ? "#14F195" : "#282C2B"}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+            <BarChart
+              onMouseLeave={() =>
+                setActiveTooltip((val: any) => (val = undefined))
+              }
+              syncId="marketCharSynch"
+              data={data}
+              onMouseMove={tooltipSync}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
+              <Tooltip
+                cursor={false}
+                allowEscapeViewBox={{ y: true }}
+                content={<TotalTooltip />}
+                position={{ y: -50 }}
+              />
+              <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]}>
+                {data.map((entry, index) => (
+                  <Cell
+                    key={index}
+                    fill={activeTooltip === index ? "#14F195" : "#282C2B"}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
-      <div className={`absolute left-[${dotX}px]`}></div>
+      {/* <div
+        style={{ left: Math.round(dotX) }}
+        className="absolute translate-x-[-50%] text-[#ADB5B3] text-[12px] font-medium bottom-[-30px]"
+      >
+        May 24
+      </div> */}
     </div>
   );
 };

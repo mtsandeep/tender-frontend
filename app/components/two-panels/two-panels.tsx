@@ -7,11 +7,38 @@ import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
 import MarketRow from "~/components/two-panels/market-row";
 import DepositFlow from "../deposit-flow";
 import BorrowFlow from "../borrow-flow";
-import TooltipMobile from "./tooltip-mibile";
+import TooltipMobile from "./tooltip-mobile";
+
+import TooltipMobileMulti from "./tooltip-mobile-MULTI";
+
+const mockTooltipData = [
+  {
+    coinTitle: "GLP",
+    iconSrc: "/images/coin-icons/aave.svg",
+    data: "0.22%",
+  },
+  {
+    coinTitle: "NEAR",
+    iconSrc: "/images/coin-icons/aave.svg",
+    data: "0.22%",
+  },
+  {
+    coinTitle: "esTND",
+    iconSrc: "/images/coin-icons/aave.svg",
+    data: "0.22%",
+  },
+];
 
 export default function TwoPanels() {
   let { markets } = useContext(TenderContext);
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
+
+  //TODO: !S multitooltip state
+  let [multiTooltipData, setMultiTooltipData] = useState({
+    open: false,
+    coins: [{}],
+  });
+
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop: string;
@@ -43,10 +70,9 @@ export default function TwoPanels() {
   );
 
   // glp is hidden from borrows
-  const marketsWithoutBorrow = markets.filter(m=> m.tokenPair.token.symbol !== "GLP")
-    .filter(
-      (m) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001
-    );
+  const marketsWithoutBorrow = markets
+    .filter((m) => m.tokenPair.token.symbol !== "GLP")
+    .filter((m) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001);
 
   const marketsWithoutSupply = markets.filter(
     (m) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
@@ -94,6 +120,16 @@ export default function TwoPanels() {
             token: "",
             icon: "",
             textBottom: "",
+          })
+        }
+      />
+      {/* //TODO: !S MutiTooltip */}
+      <TooltipMobileMulti
+        tooltipData={multiTooltipData}
+        handleClose={() =>
+          setMultiTooltipData({
+            open: false,
+            coins: [],
           })
         }
       />
@@ -768,7 +804,7 @@ export default function TwoPanels() {
                                   </div>
                                   <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                                     <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
+                                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[0px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
                                         <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
                                           <img
                                             className="w-[12px] h-[12px]"
@@ -819,14 +855,10 @@ export default function TwoPanels() {
                             <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
                               <div
                                 onClick={() =>
-                                  setMobileTooltipData({
-                                    ...mobileTooltipData,
+                                  setMultiTooltipData({
+                                    ...multiTooltipData,
                                     open: window.innerWidth < 1023,
-                                    textBottom: "0.10 % APR",
-                                    token: "TND",
-                                    icon: "/images/wallet-icons/balance-icon.svg",
-                                    textTop:
-                                      "Participating in this DAI.e reserve gives annualized rewards.",
+                                    coins: mockTooltipData,
                                   })
                                 }
                                 className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]"
@@ -839,34 +871,31 @@ export default function TwoPanels() {
                                 2.34%
                               </div>
                               <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                                  <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
-                                    <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                                      <img
-                                        className="w-[12px] h-[12px]"
-                                        src="/images/ico/close.svg"
-                                        alt="..."
-                                      />
-                                    </button>
-                                    <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
-                                      Participating in this DAI.e reserve gives
-                                      annualized rewards.
-                                    </p>
-                                    <div className="flex items-center justify-between">
-                                      <div className="flex items-center">
-                                        <img
-                                          className="w-[18px] h-[18px] mr-[8px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
-                                          TND
-                                        </span>
-                                      </div>
-                                      <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
-                                        0.10 % APR
-                                      </span>
-                                    </div>
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[168px] mx-[0px] md:mx-[0] !rounded-[10px] panel-custom">
+                                  <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[22px] pl-[16px] md:pl-[15px] md:pr-[16px]">
+                                    {mockTooltipData.map((coin, index) => {
+                                      return (
+                                        <div
+                                          key={index}
+                                          className="flex justify-between mb-[12px] last:mb-0"
+                                        >
+                                          <div className="flex gap-[8px]">
+                                            <img
+                                              className="max-w-[18px]"
+                                              src={coin.iconSrc}
+                                              alt="..."
+                                            />
+                                            <span className="font-nova text-white text-sm font-normal">
+                                              {coin.coinTitle}
+                                            </span>
+                                          </div>
+
+                                          <span className="font-nova text-white text-sm font-normal">
+                                            {coin.data}
+                                          </span>
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
