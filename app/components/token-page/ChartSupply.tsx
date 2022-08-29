@@ -265,7 +265,7 @@ const ChartSupply = () => {
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
   const [dotY, setDotY] = useState<number>(0);
-  const [dotX, setDotX] = useState<number>(0);
+  // const [dotX, setDotX] = useState<number>(0);
 
   const ApyTooltip = ({
     active,
@@ -333,7 +333,7 @@ const ChartSupply = () => {
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
-    setDotX(props.cx);
+    // setDotX(props.cx);
     return (
       <circle
         cx={props.cx}

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
-import WalletDropdown from "./walletDropdown";
 import { useNetworkData } from "../hooks/use-network-data";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 
 import useAuth from "~/hooks/use-auth";
+import WalletDropdown from "./header-conponents/walletDropdown";
 const { useAccounts, useIsActive } = hooks;
 
 export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {

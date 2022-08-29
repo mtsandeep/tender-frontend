@@ -265,7 +265,7 @@ const ChartBorrow = () => {
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
   const [dotY, setDotY] = useState<string | number>(0);
-  const [dotX, setDotX] = useState<string | number>(0);
+  // const [dotX, setDotX] = useState<string | number>(0);
 
   const ApyTooltip = ({
     active,
@@ -333,7 +333,7 @@ const ChartBorrow = () => {
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
-    setDotX(props.cx);
+    // setDotX(props.cx);
     return (
       <circle
         cx={props.cx}

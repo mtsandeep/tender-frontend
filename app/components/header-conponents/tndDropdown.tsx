@@ -18,11 +18,11 @@ const TndDropdown = () => {
 
   return (
     <div
-      className="relative z-40 max-w-[220px] m-auto mr-[16px] h-[34px] md:h-[44px]"
+      className="relative z-10 max-w-[220px] m-auto mr-[6px] md:mr-[12px] h-[34px] md:h-[44px]"
       ref={dropdownRef}
     >
       <div
-        className={`relative flex pl-[10px] pr-[10px] md:mr-[0px] bg-[#181D1B] cursor-pointer rounded-[6px] flex items-center h-[34px] md:h-[44px]`}
+        className={`relative flex p-[9px] md:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] md:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
@@ -55,7 +55,7 @@ const TndDropdown = () => {
             $23.56
           </span>
         </div>
-        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
+        <div className="flex items-center justify-between p-[14px] cursor-pointer">
           <div className="flex items-center mr-[10px]">
             <img
               className="w-[16px] h-[16px] mr-[15px]"

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useNetworkData } from "../hooks/use-network-data";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+import { useNetworkData } from "~/hooks/use-network-data";
 
 interface Props {
   inMenu?: boolean;
@@ -52,7 +52,7 @@ const WalletDropdown = (props: Props) => {
       <div
         className={`dropdown__wallet__custom ${
           props.inMenu ? "dropdown__button-inMenu" : ""
-        } relative flex pr-[9px] pb-[10px] pt-[11px] pl-[14px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
+        } relative flex p-[9px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img

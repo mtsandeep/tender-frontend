@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import TndDropdown from "./TndDropdown";
-import ConnectWallet from "./connect-wallet";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import type { ProviderRpcError } from "@web3-react/types";
 import useAuth from "~/hooks/use-auth";
+import NetworksDropdown from "./networksDropdown";
+import ConnectWallet from "../connect-wallet";
+import TndDropdown from "./tndDropdown";
 
 const { useIsActive } = hooks;
 
@@ -156,7 +157,7 @@ export default function Header() {
               <img src="/images/logo1.svg" alt="Tender Finance" />
             </a>
           </div>
-          <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova absolute top-[50%] left-[50%] translate__50">
+          <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova">
             <a className="px-[15px] cursor-pointer hover:text-white" href="/">
               Dashboard
             </a>
@@ -181,6 +182,7 @@ export default function Header() {
           </div>
           <div className="flex items-center">
             <TndDropdown />
+            <NetworksDropdown />
             <ConnectWallet />
             <div
               className={`flex lg:hidden header__burg ${
