@@ -5,8 +5,6 @@ import { useNetworkData } from "~/hooks/use-network-data";
 interface Props {
   inMenu?: boolean;
   addresses: string[];
-  networkName: string;
-  isNetworkOnline: boolean;
   walletIco: string;
   handlerDisconnect: () => void;
 }

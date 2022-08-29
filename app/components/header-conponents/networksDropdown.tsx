@@ -5,19 +5,15 @@ const dummyNetworks = [
     networkName: "Arbitrum",
     iconsSrc: "/images/ico/arbitrum-network.svg",
     links: [
-      { linkName: "Atbitrum Bridge", url: "/" },
-      { linkName: "Arbiscan", url: "/" },
-      { linkName: "Helpcenter", url: "/" },
+      { linkName: "Atbitrum Bridge", url: "https://bridge.arbitrum.io" },
+      { linkName: "Arbiscan", url: "https://arbiscan.io/" },
+      { linkName: "Helpcenter", url: "https://arbiscan.io/" },
     ],
   },
   {
     networkName: "Avalanche",
     iconsSrc: "/images/ico/avalanche-network.svg",
-    links: [
-      { linkName: "Avalanche Bridge", url: "/" },
-      { linkName: "Avalanche", url: "/" },
-      { linkName: "Helpcenter", url: "/" },
-    ],
+    links: [],
   },
 ];
 
