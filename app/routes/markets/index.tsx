@@ -1,4 +1,6 @@
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { Market } from "~/types/global";
 
 export default function App() {
   const array = [
@@ -593,10 +595,10 @@ export default function App() {
               </thead>
 
               <tbody>
-                {array.map((m: any, index: number) => {
+                {array.map((m: Market) => {
                   return (
                     <tr
-                      key={index}
+                      key={m.id}
                       className="border-t border-[#282C2B] border__top__custom border_tr_custom cursor-pointer hover:bg-[#151515] border-child-hover"
                     >
                       <td className="relative text-white font-nova font-normal sm:t-[0] pl-[15px] pt-[8px] pb-[26px] sm:pt-[24px] sm:pb-[23px] sm:pl-[30px] sm:pr-[0px]">

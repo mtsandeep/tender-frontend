@@ -40,7 +40,7 @@ const TndDropdown = () => {
           isOpen ? "dropdown__body-active" : ""
         }`}
       >
-        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer border-b border-[#b5cfcc2b]">
+        <div className="flex items-center justify-between p-[14px] border-b border-[#b5cfcc2b]">
           <div className="flex items-center mr-[10px]">
             <img
               className="w-[25px] h-[25px] mr-[9px]"
@@ -55,7 +55,7 @@ const TndDropdown = () => {
             $23.56
           </span>
         </div>
-        <div className="flex items-center justify-between p-[14px] cursor-pointer">
+        <div className="flex items-center justify-between p-[14px]">
           <div className="flex items-center mr-[10px]">
             <img
               className="w-[16px] h-[16px] mr-[15px]"

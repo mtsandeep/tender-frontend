@@ -13,7 +13,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   const networkData = useNetworkData(chainId);
   const { connect, disconnect, isDisconnected } = useAuth();
   const [onClient, setOnClient] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setOnClient(true);
@@ -28,16 +28,14 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
     }, 1000);
   }, []);
 
+  console.log("onClient", onClient);
+  console.log("isActive", isActive);
+  console.log("accounts", accounts);
+
   return (
     <div>
       {loading ? (
-        <button
-          data-testid="connect-wallet"
-          className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[34px] border-[#14f195] md:w-[163px] md:h-[44px] text-[10px] hover:opacity-[0.6]"
-          onClick={() => connect()}
-        >
-          Connect Wallet
-        </button>
+        <div className="show animate w-[34px] h-[34px] md:w-[157px] md:h-[44px]"></div>
       ) : (
         onClient && (
           <>

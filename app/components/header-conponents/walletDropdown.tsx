@@ -112,21 +112,6 @@ const WalletDropdown = (props: Props) => {
             {truncateAccount(props.addresses[0])}
           </p>
         </div>
-        <div className="flex-col text-left pt-[13px] px-[15px] md:pt-[15px] md:px-[15px] border-b border-[#b5cfcc2b]">
-          <p className="text-sm font-nova font-semibold text-[#818987] leading-[19.49px]">
-            Network
-          </p>
-          <div className="pt-[2px] pb-[13px] flex items-center">
-            <span
-              className={`inline-block rounded-full w-[8px] h-[8px] ${
-                props.isNetworkOnline ? "bg-[#14F195]" : "bg-red-600"
-              }`}
-            ></span>
-            <span className="px-[12px] text-sm font-nova font-norma leading-[19.49px]">
-              {props.networkName}
-            </span>
-          </div>
-        </div>
         <div
           onClick={() => handleCopy(props.addresses[0])}
           className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"

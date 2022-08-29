@@ -183,7 +183,9 @@ export default function Header() {
           <div className="flex items-center">
             <TndDropdown />
             <NetworksDropdown />
-            <ConnectWallet />
+            <div className="w-[34px] md:w-[157px]">
+              <ConnectWallet />
+            </div>
             <div
               className={`flex lg:hidden header__burg ${
                 activePopupMenu ? "active" : ""

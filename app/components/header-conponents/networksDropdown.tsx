@@ -104,9 +104,8 @@ const NetworksDropdown = () => {
         <div className="bg-[#181D1B]">
           {dummyNetworks.map((network, index) => {
             return (
-              <>
+              <div key={network.networkName}>
                 <div
-                  key={network.networkName}
                   onClick={() => {
                     setSelectedNetwork(network);
                     setIsOpen(false);
@@ -164,7 +163,7 @@ const NetworksDropdown = () => {
                     ))}
                   </div>
                 )}
-              </>
+              </div>
             );
           })}
         </div>

@@ -487,7 +487,7 @@ body.body__fixed {
 }
 
 .dropdown__body {
-  opacity: 0%;
+  display: none;
   background-color: #181d1b;
   transition: all 0.3s;
   visibility: hidden;
@@ -495,7 +495,7 @@ body.body__fixed {
 }
 
 .dropdown__body-active {
-  opacity: 100%;
+  display: block;
   visibility: visible;
 }
 
@@ -741,6 +741,7 @@ body.body__fixed {
   }
 }
 
+.show.animate,
 .switch__to__network .animate {
   border-radius: 4px;
   color: transparent;
@@ -755,6 +756,7 @@ body.body__fixed {
       #191b1c 50%,
       #191b1cb6 70%);
 }
+
 
 .input__center__custom::placeholder {
   transform: translate(-20px, 0px);
