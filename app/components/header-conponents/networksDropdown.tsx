@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react";
 
 const dummyNetworks = [
   {
-    networkName: "Metis",
-    iconsSrc: "/images/ico/metis-network.svg",
+    networkName: "Arbitrum",
+    iconsSrc: "/images/ico/arbitrum-network.svg",
     links: [
-      { linkName: "Metis Bridge", url: "/" },
-      { linkName: "Metis", url: "/" },
+      { linkName: "Atbitrum Bridge", url: "/" },
+      { linkName: "Arbiscan", url: "/" },
       { linkName: "Helpcenter", url: "/" },
     ],
   },
@@ -19,15 +19,6 @@ const dummyNetworks = [
       { linkName: "Helpcenter", url: "/" },
     ],
   },
-  {
-    networkName: "Arbitrum",
-    iconsSrc: "/images/ico/arbitrum-network.svg",
-    links: [
-      { linkName: "Atbitrum Bridge", url: "/" },
-      { linkName: "Arbiscan", url: "/" },
-      { linkName: "Helpcenter", url: "/" },
-    ],
-  },
 ];
 
 const NetworksDropdown = () => {
@@ -35,8 +26,8 @@ const NetworksDropdown = () => {
   const [isConnected] = useState<boolean>(true);
   const dropdownRef = useRef<any>(null);
   const [selectedNetwork, setSelectedNetwork] = useState({
-    networkName: "Metis",
-    iconsSrc: "/images/ico/metis-network.svg",
+    networkName: "Arbitrum",
+    iconsSrc: "/images/ico/arbitrum-network.svg",
   });
 
   useEffect(() => {
@@ -86,7 +77,6 @@ const NetworksDropdown = () => {
             </div>
           </>
         )}
-
         <svg
           className={`hidden md:block fill-white  justify-self-end arrow__custom ${
             isOpen ? "rotate-0" : "rotate-180"
@@ -116,7 +106,7 @@ const NetworksDropdown = () => {
             return (
               <>
                 <div
-                  key={index}
+                  key={network.networkName}
                   onClick={() => {
                     setSelectedNetwork(network);
                     setIsOpen(false);
@@ -150,7 +140,7 @@ const NetworksDropdown = () => {
                   >
                     {network.links.map((link) => (
                       <a
-                        key={index}
+                        key={link.linkName}
                         className="flex group items-center justify-between pl-[14px] pr-[14px] pt-[6px] pb-[6px] text-[#818987] hover:text-[#14F195] font-nova text-sm font-medium"
                         href={link.url}
                         target="_blank"

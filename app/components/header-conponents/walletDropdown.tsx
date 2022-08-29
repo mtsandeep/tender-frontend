@@ -142,23 +142,21 @@ const WalletDropdown = (props: Props) => {
             </p>
           </div>
         </div>
-        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
-          <a
-            className="flex items-center"
-            target="_blank"
-            rel="noreferrer"
-            href={networkData?.blockExplorerUrl || ""}
-          >
-            <img
-              className="w-[16px] h-[16px] mr-[15px]"
-              src="/images/wallet-icons/balance-link.svg"
-              alt="..."
-            />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
-              View Explorer
-            </p>
-          </a>
-        </div>
+        <a
+          className="flex items-center p-[14px] hover:bg-[#2B302F] cursor-pointer"
+          target="_blank"
+          rel="noreferrer"
+          href={networkData?.blockExplorerUrl || ""}
+        >
+          <img
+            className="w-[16px] h-[16px] mr-[15px]"
+            src="/images/wallet-icons/balance-link.svg"
+            alt="..."
+          />
+          <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            View Explorer
+          </p>
+        </a>
         <div
           onClick={() => props.handlerDisconnect()}
           className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"

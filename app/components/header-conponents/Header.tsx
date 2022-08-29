@@ -4,7 +4,7 @@ import { hooks, metaMask } from "~/connectors/meta-mask";
 import type { ProviderRpcError } from "@web3-react/types";
 import useAuth from "~/hooks/use-auth";
 import NetworksDropdown from "./networksDropdown";
-import ConnectWallet from "../connect-wallet";
+import ConnectWallet from "./connect-wallet";
 import TndDropdown from "./tndDropdown";
 
 const { useIsActive } = hooks;

@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useContext, useState } from "react";
+import { useState } from "react";
 import ReactModal from "react-modal";
-import { TenderContext } from "~/contexts/tender-context";
 import { Market } from "~/types/global";
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
 import MarketRow from "~/components/two-panels/market-row";
-import DepositFlow from "../deposit-flow";
-import BorrowFlow from "../borrow-flow";
+import DepositFlow from "../deposit-flow/deposit-flow";
+import BorrowFlow from "../borrow-flow/borrow-flow";
 import TooltipMobile from "./tooltip-mobile";
 
 import TooltipMobileMulti from "./tooltip-mobile-MULTI";
+import TwoPanelsEmpty from "./two-panels-empty";
 
 const mockTooltipData = [
   {
@@ -29,11 +29,9 @@ const mockTooltipData = [
   },
 ];
 
-export default function TwoPanels() {
-  let { markets } = useContext(TenderContext);
+export default function TwoPanels({ tenderContextData }: any) {
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
 
-  //TODO: !S multitooltip state
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
     coins: [{}],
@@ -58,27 +56,25 @@ export default function TwoPanels() {
     setOpenMarket(market);
   };
 
-  // markets with less than this amount are shown as not actively supplying or borrowing
   const DUST_LIMIT = 0.01;
 
-  const marketsWithSupply = markets.filter(
-    (m) => m.supplyBalance && m.supplyBalanceInUsd > DUST_LIMIT
+  const marketsWithSupply = tenderContextData.markets.filter(
+    (m: Market) => m.supplyBalance && m.supplyBalanceInUsd > DUST_LIMIT
   );
 
-  const marketsWithBorrow = markets.filter(
-    (m) => m.borrowBalance && m.borrowBalanceInUsd > 0.001
+  const marketsWithBorrow = tenderContextData.markets.filter(
+    (m: Market) => m.borrowBalance && m.borrowBalanceInUsd > 0.001
   );
 
-  // glp is hidden from borrows
-  const marketsWithoutBorrow = markets
-    .filter((m) => m.tokenPair.token.symbol !== "GLP")
-    .filter((m) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001);
+  const marketsWithoutBorrow = tenderContextData.markets
+    .filter((m: Market) => m.tokenPair.token.symbol !== "GLP")
+    .filter((m: Market) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001);
 
-  const marketsWithoutSupply = markets.filter(
-    (m) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
+  const marketsWithoutSupply = tenderContextData.markets.filter(
+    (m: Market) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
   );
 
-  return (
+  return tenderContextData.markets.length ? (
     <div className="flex flex-col lg:grid grid-cols-2 gap-[60px] md:gap-[20px] mb-14">
       <ReactModal
         shouldCloseOnOverlayClick={true}
@@ -133,7 +129,6 @@ export default function TwoPanels() {
           })
         }
       />
-
       <div>
         {marketsWithSupply.length > 0 && (
           <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
@@ -163,7 +158,7 @@ export default function TwoPanels() {
               </thead>
 
               <tbody>
-                {marketsWithSupply.map((m) => {
+                {marketsWithSupply.map((m: Market) => {
                   return (
                     <MarketRow
                       openMarket={() => depositInto(m)}
@@ -358,7 +353,7 @@ export default function TwoPanels() {
                 </thead>
 
                 <tbody>
-                  {marketsWithoutSupply.map((m) => {
+                  {marketsWithoutSupply.map((m: Market) => {
                     return (
                       <MarketRow
                         openMarket={() => depositInto(m)}
@@ -532,7 +527,6 @@ export default function TwoPanels() {
           </div>
         )}
       </div>
-
       <div>
         {marketsWithBorrow.length > 0 && (
           <div className="pb-[5px] md:pb-[0px] panel-custom border-custom mb-[20px] md:mb-[40px]">
@@ -562,7 +556,7 @@ export default function TwoPanels() {
               </thead>
 
               <tbody>
-                {marketsWithBorrow.map((m) => {
+                {marketsWithBorrow.map((m: Market) => {
                   return (
                     <MarketRow
                       openMarket={() => borrowFrom(m)}
@@ -758,7 +752,7 @@ export default function TwoPanels() {
                 </thead>
 
                 <tbody>
-                  {marketsWithoutBorrow.map((m) => {
+                  {marketsWithoutBorrow.map((m: Market) => {
                     return (
                       <MarketRow
                         openMarket={() => borrowFrom(m)}
@@ -927,5 +921,7 @@ export default function TwoPanels() {
         )}
       </div>
     </div>
+  ) : (
+    <TwoPanelsEmpty loading={true} />
   );
 }
