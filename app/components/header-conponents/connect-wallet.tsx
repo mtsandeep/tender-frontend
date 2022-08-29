@@ -28,10 +28,6 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
     }, 1000);
   }, []);
 
-  console.log("onClient", onClient);
-  console.log("isActive", isActive);
-  console.log("accounts", accounts);
-
   return (
     <div>
       {loading ? (
