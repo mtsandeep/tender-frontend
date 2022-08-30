@@ -15,10 +15,10 @@ export default function TooltipMobileMulti({ ...props }) {
         },
       }}
     >
-      <div className="justify-self-center w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[16px] pr-[30px] pb-[2px] pl-[20px] lg:hidden">
+      <div className="flex flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[16px] pr-[30px] pb-[16px] pl-[20px] lg:hidden gap-y-[14px]">
         {props.tooltipData?.coins.map((coin: any, index: number) => {
           return (
-            <div key={index} className="flex justify-between mb-[14px]">
+            <div key={index} className="flex justify-between">
               <div className="flex gap-[8px]">
                 <img className="max-w-[18px]" src={coin.iconSrc} alt="..." />
                 <span className="font-nova text-white text-sm font-normal">

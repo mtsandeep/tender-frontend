@@ -99,17 +99,10 @@ export default function TwoPanels({ tenderContextData }: any) {
             />
             Private
           </div>
-          <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-              <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[30px] pb-[19px] pl-[20px] pt-[23px] md:pb-[15px] md:pr-[17px] md:pl-[15px]">
-                <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                  <img
-                    className="w-[12px] h-[12px]"
-                    src="/images/ico/close.svg"
-                    alt="..."
-                  />
-                </button>
-                <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+          <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[242px] mx-[20px] !rounded-[10px] panel-custom">
+              <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[16px]">
+                <p className="text-[#818987] text-[12px] leading-[17px] text-left font-nova">
                   Deposit GLP as collateral. GLP collateral is currently limited
                   to private beta users.
                 </p>
@@ -121,6 +114,7 @@ export default function TwoPanels({ tenderContextData }: any) {
       </div>
     </div>
   );
+
   const simpleTndBlock = ({
     textBottom,
     token,
@@ -152,17 +146,10 @@ export default function TwoPanels({ tenderContextData }: any) {
           <img className="w-[13px] h-[13px] mr-[4px]" src={icon} alt="..." />
           {value}
         </div>
-        <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-          <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-            <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[24px] pr-[30px] pb-[20px] pl-[20px] md:pl-[15px] md:p-[16px]">
-              <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                <img
-                  className="w-[12px] h-[12px]"
-                  src="/images/ico/close.svg"
-                  alt="..."
-                />
-              </button>
-              <p className="text-[#818987] text-[14px] md:text-[12px] text-left leading-[20px] md:leading-[17px] font-nova md:mb-[13px] mb-[19px]">
+        <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+          <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[242px] mx-[20px] !rounded-[10px] panel-custom">
+            <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[16px]">
+              <p className="text-[#818987] text-[12px] text-left leading-[17px] font-nova">
                 {textTop}
               </p>
               <div className="flex items-center justify-between">
@@ -172,11 +159,11 @@ export default function TwoPanels({ tenderContextData }: any) {
                     src={icon}
                     alt="..."
                   />
-                  <span className="font-nova font-semibold text-[14px] leading-[14px] md:leading-[17px] text-[#FFFFFF]">
+                  <span className="font-nova font-semibold text-[14px] leading-[14px] text-[#FFFFFF]">
                     {token}
                   </span>
                 </div>
-                <span className="font-nova font-normal text-[14px] leading-[14px] md:leading-[17px] text-[#14F195]">
+                <span className="font-nova font-normal text-[14px] leading-[14px] text-[#14F195]">
                   {textBottom}
                 </span>
               </div>
@@ -619,7 +606,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     coins: mockTooltipData,
                                   })
                                 }
-                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-[12px] text-center h-[20px] md:h-[22px] px-[5px]"
+                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                               >
                                 <img
                                   className="w-[13px] h-[13px] mr-[4px]"
@@ -628,9 +615,9 @@ export default function TwoPanels({ tenderContextData }: any) {
                                 />
                                 2.34%
                               </div>
-                              <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[168px] mx-[0px] md:mx-[0] !rounded-[10px] panel-custom">
-                                  <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[22px] pl-[16px] md:pl-[15px] md:pr-[16px]">
+                              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                  <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                     {mockTooltipData.map((coin, index) => {
                                       return (
                                         <div

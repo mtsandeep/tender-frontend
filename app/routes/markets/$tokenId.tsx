@@ -2,7 +2,7 @@ import TokenChart from "~/components/token-page/tokenChart";
 import TokenInterestRate from "~/components/token-page/tokenInterestRate";
 import TokenMarketDetails from "~/components/token-page/tokenMarketDetails";
 
-export default function App() {
+export default function Token() {
   return (
     <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
       <TokenChart />

@@ -2,7 +2,7 @@ import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { Market } from "~/types/global";
 
-export default function App() {
+export default function Markets() {
   const array = [
     {
       id: "WETH",
