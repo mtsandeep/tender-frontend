@@ -104,7 +104,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-staking.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#818987] leading-[14px]">
+            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
               Staking
             </p>
           </div>
@@ -119,7 +119,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-vesting.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#818987] leading-[14px]">
+            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
               Vesting
             </p>
           </div>
