@@ -622,7 +622,7 @@ export default function Markets() {
                         <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0]">
                           {m.marketData?.totalBorrowed &&
                             toShortCryptoString(
-                              Number(m.marketData.totalBorrowed.toFixed(6))
+                              parseFloat(m.marketData.totalBorrowed.toFixed(6))
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
@@ -652,7 +652,7 @@ export default function Markets() {
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {toShortCryptoString(
-                            Number(m.maxBorrowLiquidity.toFixed(2))
+                            parseFloat(m.maxBorrowLiquidity.toFixed(2))
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
@@ -665,7 +665,7 @@ export default function Markets() {
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {toShortCryptoString(
-                            Number(m.maxBorrowLiquidity.toFixed(2))
+                            parseFloat(m.maxBorrowLiquidity.toFixed(2))
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>

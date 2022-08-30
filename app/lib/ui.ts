@@ -1,5 +1,6 @@
 import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
+import * as math from "mathjs";
 
 const DEFAULT_TEXT_CLASS = "sm:text-6xl";
 
@@ -80,8 +81,18 @@ export const toCryptoString = (v: number): string => {
   return s;
 };
 
-export const toMaxString = (v: number): string => {
-  return (+Math.max(0, parseFloat(v.toString())).toFixed(7)).toString();
-};
+export const toMaxString = (v: number): string =>
+  math.format(v, {
+    notation: "fixed",
+    precision: 7,
+  });
+
+export const toMaxNumber = (v: number): number =>
+  parseFloat(
+    math.format(v, {
+      notation: "fixed",
+      precision: 7,
+    })
+  );
 
 export { shrinkyInputClass };

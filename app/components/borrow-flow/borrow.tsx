@@ -6,7 +6,6 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import * as math from "mathjs";
 
 import { toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
@@ -73,16 +72,6 @@ export default function Borrow({
     market.maxBorrowLiquidity
   );
 
-  let formattedMaxBorrowLimit: string = math.format(maxBorrowLimit, {
-    notation: "fixed",
-  });
-
-  // let maxBorrowAmount = useMaxBorrowAmount(
-  //   borrowLimit,
-  //   totalBorrowedAmountInUsd,
-  //   market.tokenPair
-  // );
-
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
@@ -138,10 +127,8 @@ export default function Borrow({
               />
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
-                  maxValue={Number(formattedMaxBorrowLimit)}
-                  updateValue={() =>
-                    setValue(toMaxString(Number(formattedMaxBorrowLimit)))
-                  }
+                  maxValue={maxBorrowLimit}
+                  updateValue={() => setValue(toMaxString(maxBorrowLimit))}
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
                   color="#00E0FF"

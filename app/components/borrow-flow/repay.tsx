@@ -99,20 +99,10 @@ export default function Repay({
     inputEl && inputEl.current && inputEl.current.select();
   }, []);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      if (
-        value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1") <=
-        maxRepayableAmount
-      ) {
-        setValue(
-          value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1")
-        );
-      }
-    },
-    [maxRepayableAmount]
-  );
+  const handleCheckValue = useCallback((e: any) => {
+    const { value } = e.target;
+    setValue(value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1"));
+  }, []);
 
   return (
     <div>
@@ -178,7 +168,7 @@ export default function Repay({
                   <Max
                     maxValue={maxRepayableAmount}
                     updateValue={() =>
-                      setValue(toMaxString(Number(maxRepayableAmount)))
+                      setValue(toMaxString(maxRepayableAmount))
                     }
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#00E0FF"

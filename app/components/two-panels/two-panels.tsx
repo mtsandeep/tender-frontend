@@ -283,7 +283,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                         <div className="custom__hidden">
                           {m.marketData.marketSize &&
                             toShortCryptoString(
-                              Number(m.marketData.marketSize.toFixed(6))
+                              parseFloat(m.marketData.marketSize.toFixed(6))
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
@@ -313,7 +313,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
                           {toShortCryptoString(
-                            Number(m.supplyBalance.toFixed(2))
+                            parseFloat(m.supplyBalance.toFixed(2))
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
@@ -378,7 +378,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                           <div className="custom__hidden">
                             {m.marketData.marketSize &&
                               toShortCryptoString(
-                                Number(m.marketData.marketSize.toFixed(6))
+                                parseFloat(m.marketData.marketSize.toFixed(6))
                               )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
@@ -408,7 +408,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                           <div className="custom__hidden">
                             {toShortCryptoString(
-                              Number(m.walletBalance.toFixed(2))
+                              parseFloat(m.walletBalance.toFixed(2))
                             )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
@@ -480,7 +480,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                         <div className="custom__hidden">
                           {m.marketData?.totalBorrowed &&
                             toShortCryptoString(
-                              Number(m.marketData.totalBorrowed.toFixed(6))
+                              parseFloat(m.marketData.totalBorrowed.toFixed(6))
                             )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
@@ -510,7 +510,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
                           {toShortCryptoString(
-                            Number(m.borrowBalance.toFixed(2))
+                            parseFloat(m.borrowBalance.toFixed(2))
                           )}{" "}
                           {m.tokenPair.token.symbol}
                         </div>
@@ -575,7 +575,9 @@ export default function TwoPanels({ tenderContextData }: any) {
                           <div className="custom__hidden">
                             {m.marketData?.totalBorrowed &&
                               toShortCryptoString(
-                                Number(m.marketData.totalBorrowed.toFixed(6))
+                                parseFloat(
+                                  m.marketData.totalBorrowed.toFixed(6)
+                                )
                               )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>
@@ -651,7 +653,7 @@ export default function TwoPanels({ tenderContextData }: any) {
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                           <div className="custom__hidden">
                             {toShortCryptoString(
-                              Number(m.maxBorrowLiquidity.toFixed(2))
+                              parseFloat(m.maxBorrowLiquidity.toFixed(2))
                             )}{" "}
                             {m.tokenPair.token.symbol}
                           </div>

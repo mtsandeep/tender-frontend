@@ -117,7 +117,7 @@ export default function Display({
           transition: "width 1s ease-out",
         }}
       >
-        {Number(borrowLimitUsed) > 0 && (
+        {parseFloat(borrowLimitUsed) > 0 && (
           <span
             className={percentUsed > 90 ? "span-value-bottom" : "span-value"}
           >

@@ -7,6 +7,7 @@ export interface cToken {
 
 export interface Token extends TokenConfig {
   priceInUsd: number;
+  sGLPAddress?: any;
 }
 
 export interface TokenConfig {
