@@ -96,8 +96,8 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px] uppercase">
-                              Escrowed TND APR
+                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                              esTND APR
                             </span>
                             <div className="text-[12px] leading-[17px]">
                               <span>15.18</span>
@@ -106,7 +106,7 @@ export default function EarnContent() {
                           </div>
                           <div className="flex justify-between items-center mb-[12px]">
                             <span className="text-[#818987] text-[12px] leading-[17px]">
-                              ETH APR
+                              TND APR
                             </span>
                             <div className="text-[12px] leading-[17px]">
                               <span>5.58</span>
@@ -142,9 +142,28 @@ export default function EarnContent() {
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Multiplier Points APR
                   </span>
-                  <div className="font-normal  line-dashed font-medium max-max-w-[52%] md:w-fit text-right">
+                  <div className="font-normal cursor-pointer group line-dashed font-medium">
                     <span>100.00</span>
                     <span>%</span>
+
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
+                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                            Boost your rewards with Multiplier Points.{" "}
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
+                            >
+                              More info.
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -297,9 +316,38 @@ export default function EarnContent() {
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     APR
                   </span>
-                  <div className="font-normal  line-dashed font-medium">
+                  <div className="font-medium line-dashed group relative cursor-pointer   max-max-w-[52%] md:w-fit text-right">
                     <span>20.16</span>
                     <span>%</span>
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
+                          <div className="flex justify-between items-center mb-[4px]">
+                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                              esTND APR
+                            </span>
+                            <div className="text-[12px] leading-[17px]">
+                              <span>15.18</span>
+                              <span>%</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center mb-[12px]">
+                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                              TND APR
+                            </span>
+                            <div className="text-[12px] leading-[17px]">
+                              <span>5.58</span>
+                              <span>%</span>
+                            </div>
+                          </div>
+                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                            APRs are updated weekly on Wednesday and will depend
+                            on the fees collected for the week.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -455,8 +503,26 @@ export default function EarnContent() {
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Multiplier Points
                   </span>
-                  <div className="font-medium">
-                    <span>0.0000</span>
+                  <div className="font-normal cursor-pointer group line-dashed font-medium">
+                    <span>0.000</span>
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
+                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                            Boost your rewards with Multiplier Points.{" "}
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
+                            >
+                              More info.
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -466,8 +532,28 @@ export default function EarnContent() {
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Staked Multiplier Points
                   </span>
-                  <div className="font-medium">
-                    <span>0.0000</span>
+                  <div className="font-normal cursor-pointer group line-dashed font-medium">
+                    <span>0.000</span>
+                    <span>%</span>
+
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
+                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                            Boost your rewards with Multiplier Points.{" "}
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
+                            >
+                              More info.
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -567,8 +653,8 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
                           <p className="text-[#818987] text-[12px] text-left leading-[17px] font-nova">
-                            0.0000 tokens have been converted to GMX from the
-                            0.0000 esGMX deposited for vesting.
+                            0.0000 tokens have been converted to TND from the
+                            0.0000 esTND deposited for vesting.
                           </p>
                         </div>
                       </div>
