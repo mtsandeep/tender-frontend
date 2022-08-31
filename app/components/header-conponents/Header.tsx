@@ -163,6 +163,12 @@ export default function Header() {
             </a>
             <a
               className="px-[15px] cursor-pointer hover:text-white"
+              href="/markets"
+            >
+              Markets
+            </a>
+            <a
+              className="px-[15px] cursor-pointer hover:text-white"
               href="/earn"
             >
               Earn
@@ -217,6 +223,12 @@ export default function Header() {
                   href="/"
                 >
                   Dashboard
+                </a>
+                <a
+                  className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
+                  href="/markets"
+                >
+                  Markets
                 </a>
                 <a
                   className="mb-[20px] font-nova text-white text-[18px] cursor-pointer"
