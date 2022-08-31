@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
 
-const dummyData = [
+const customData = [
   {
     itemName: "Price",
     itemData: "$1.00",
@@ -50,7 +50,7 @@ function TokenMarketDetails() {
         Market Details
       </div>
       <div className="flex-col panel-custom ">
-        {dummyData.map((item, index) => {
+        {customData.map((item, index) => {
           return (
             <div
               key={index}

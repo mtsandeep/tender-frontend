@@ -1,11 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { useCallback, useEffect, useState } from "react";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { hooks, metaMask } from "~/connectors/meta-mask";
-import type { ProviderRpcError } from "@web3-react/types";
 import useAuth from "~/hooks/use-auth";
-import NetworksDropdown from "./networksDropdown";
+import NetworksDropdown, { switchNetwork } from "./networksDropdown";
 import ConnectWallet from "./connect-wallet";
 import TndDropdown from "./tndDropdown";
+import networks from "~/config/networks";
 
 const { useIsActive } = hooks;
 
@@ -36,46 +37,6 @@ export default function Header() {
     }
   }, [isDisconnected]);
 
-  let tryConnectingToMetis = async (p: typeof provider) => {
-    if (!p) {
-      return;
-    }
-    let targetNetworkId = 1088;
-    let targetNetworkIdHex = `0x${targetNetworkId.toString(16)}`;
-
-    p?.provider?.request &&
-      p.provider
-        .request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: targetNetworkIdHex }],
-        })
-        .catch((error: ProviderRpcError) => {
-          if (error.code === 4902) {
-            return (
-              p?.provider?.request &&
-              p.provider!.request({
-                method: "wallet_addEthereumChain",
-                params: [
-                  {
-                    chainName: "Metis Network",
-                    nativeCurrency: {
-                      name: "Metis",
-                      symdol: "METIS", // 2-6 characters long
-                      decimals: 18,
-                    },
-                    rpcUrls: ["https://andromeda.metis.io/?owner=1088"],
-                    blockExplorerUrls: ["https://andromeda-explorer.metis.io/"],
-                    chainId: targetNetworkIdHex,
-                  },
-                ],
-              })
-            );
-          } else {
-            throw error;
-          }
-        });
-  };
-
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -100,7 +61,7 @@ export default function Header() {
                   Warning! Unsupported network.{" "}
                   <button
                     className="underline"
-                    onClick={() => tryConnectingToMetis(provider)}
+                    onClick={() => switchNetwork(provider, networks.arbitrum)}
                   >
                     Switch network.
                   </button>

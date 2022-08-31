@@ -1,30 +1,82 @@
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { ProviderRpcError } from "@web3-react/types";
 import { useState, useRef, useEffect } from "react";
+import networks from "~/config/networks";
+import { hooks } from "~/connectors/meta-mask";
+import type { NetworkData } from "~/types/global";
 
-const dummyNetworks = [
+export const switchNetwork = async (p: any, networkData: NetworkData) => {
+  if (!p) {
+    return;
+  }
+  const targetNetworkId = networkData.ChainId;
+  const targetNetworkIdHex = `0x${targetNetworkId.toString(16)}`;
+
+  p?.provider?.request &&
+    p.provider
+      .request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: targetNetworkIdHex }],
+      })
+      .catch((error: ProviderRpcError) => {
+        if (error.code === 4902) {
+          return (
+            p?.provider?.request &&
+            p.provider!.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainName: networkData.name,
+                  nativeCurrency: {
+                    name: networkData.Tokens[Object.keys(networkData.Tokens)[0]]
+                      .name,
+                    symbol:
+                      networkData.Tokens[Object.keys(networkData.Tokens)[0]]
+                        .symbol,
+                    decimals:
+                      networkData.Tokens[Object.keys(networkData.Tokens)[0]]
+                        .decimals,
+                  },
+                  rpcUrls: networkData.rpcUrls,
+                  blockExplorerUrls: [networkData.blockExplorerUrl],
+                  chainId: targetNetworkIdHex,
+                },
+              ],
+            })
+          );
+        } else {
+          throw error;
+        }
+      });
+};
+
+const actualNetworks = [
   {
-    networkName: "Arbitrum",
+    chainId: networks.arbitrum.ChainId,
+    networkName: networks.arbitrum.blockExplorerName,
     iconsSrc: "/images/ico/arbitrum-network.svg",
     links: [
       { linkName: "Atbitrum Bridge", url: "https://bridge.arbitrum.io" },
       { linkName: "Arbiscan", url: "https://arbiscan.io/" },
       { linkName: "Helpcenter", url: "https://arbiscan.io/" },
     ],
+    networkData: networks.arbitrum,
   },
   {
-    networkName: "Avalanche",
+    chainId: networks.avalanche.ChainId,
+    networkName: networks.avalanche.blockExplorerName,
     iconsSrc: "/images/ico/avalanche-network.svg",
-    links: [],
+    links: [{ linkName: "Ecosystem", url: "https://ecosystem.avax.network/" }],
+    networkData: networks.avalanche,
   },
 ];
 
 const NetworksDropdown = () => {
+  let provider = hooks.useProvider();
+  const chainId = hooks.useChainId();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isConnected] = useState<boolean>(true);
   const dropdownRef = useRef<any>(null);
-  const [selectedNetwork, setSelectedNetwork] = useState({
-    networkName: "Arbitrum",
-    iconsSrc: "/images/ico/arbitrum-network.svg",
-  });
+  const [selectedNetwork, setSelectedNetwork] = useState<any>({});
 
   useEffect(() => {
     const closeDropdown = (e: any) => {
@@ -38,6 +90,15 @@ const NetworksDropdown = () => {
     window.addEventListener("click", closeDropdown);
   }, []);
 
+  useEffect(() => {
+    if (chainId && actualNetworks.length) {
+      setSelectedNetwork(
+        actualNetworks.find((network) => network.chainId == chainId) || {}
+      );
+      setIsOpen(false);
+    }
+  }, [chainId]);
+
   return (
     <div
       className="relative z-10 w-[34px] h-[34px] md:w-auto md:h-[44px] m-auto mr-[6px] md:mr-[12px]"
@@ -45,16 +106,18 @@ const NetworksDropdown = () => {
     >
       <span
         className={`${
-          isConnected ? "bg-[#01C275]" : "bg-[#FF3939]"
+          selectedNetwork.networkName ? "bg-[#01C275]" : "bg-[#FF3939]"
         } block absolute top-[-4px] right-[-4px] rounded-full border-black border-2 w-[10px] h-[10px] md:w-[12px] md:h-[12px]`}
       ></span>
       <div
         className={`group ${
-          isConnected ? "bg-[#181D1B] hover:bg-[#262C2A]" : "bg-[#3A1313]"
+          selectedNetwork.networkName
+            ? "bg-[#181D1B] hover:bg-[#262C2A]"
+            : "bg-[#3A1313] hover:bg-[#4f2222]"
         } flex gap-[9px] h-full items-center px-[9px] py-[9px] md:px-[12px] md:py-[12px] rounded-[6px] cursor-pointer`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isConnected ? (
+        {selectedNetwork.networkName ? (
           <>
             <img className={`block`} src={selectedNetwork.iconsSrc} alt="..." />
             <div className="hidden font-nova font-semibold text-sm md:block">
@@ -77,7 +140,7 @@ const NetworksDropdown = () => {
           className={`hidden md:block fill-white  justify-self-end arrow__custom ${
             isOpen ? "rotate-0" : "rotate-180"
           } ${
-            isConnected
+            selectedNetwork.networkName
               ? "group-hover:fill-[#01C275]"
               : "group-hover:fill-[#FF3939]"
           }`}
@@ -92,19 +155,18 @@ const NetworksDropdown = () => {
       <div
         className={`${
           isOpen ? "block" : "hidden"
-        } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px]`}
+        } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px] overflow-hidden`}
       >
         <div className=" font-nova text-sm font-normal text-[#818987] pt-[14px] pl-[14px] pb-[14px] border-b-[1px] border-[#282C2B]">
           Select Network
         </div>
         <div className="bg-[#181D1B]">
-          {dummyNetworks.map((network, index) => {
+          {actualNetworks.map((network, index) => {
             return (
               <div key={network.networkName}>
                 <div
                   onClick={() => {
-                    setSelectedNetwork(network);
-                    setIsOpen(false);
+                    switchNetwork(provider, network.networkData);
                   }}
                   className={`${
                     network.networkName === selectedNetwork.networkName &&
@@ -120,7 +182,9 @@ const NetworksDropdown = () => {
                   {network.networkName === selectedNetwork.networkName && (
                     <span
                       className={`${
-                        isConnected ? "bg-[#01C275]" : "bg-[#FF3939]"
+                        selectedNetwork.networkName
+                          ? "bg-[#01C275]"
+                          : "bg-[#FF3939]"
                       } absolute block top-[40%] right-[18px] rounded-full w-[6px] h-[6px] md:w-[8px] md:h-[8px]`}
                     ></span>
                   )}
@@ -128,7 +192,7 @@ const NetworksDropdown = () => {
                 {network.networkName === selectedNetwork.networkName && (
                   <div
                     className={`w-full ${
-                      index === dummyNetworks.length - 1
+                      index === actualNetworks.length - 1
                         ? "rounded-b-[6px]"
                         : ""
                     } bg-[#2B302F]`}

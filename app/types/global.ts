@@ -25,6 +25,8 @@ export interface NetworkData {
   name: string;
   blockExplorerName: string;
   blockExplorerUrl: string;
+  userExplorerUrl?: string;
+  rpcUrls?: string[];
   Contracts: {
     Comptroller: string;
     PriceOracle: string;
@@ -38,7 +40,8 @@ export enum NetworkName {
   rinkeby = "rinkeby",
   metisStartdust = "metisStartdust",
   metisMainnet = "metisMainnet",
-  arbitrum = "Arbitrum",
+  arbitrum = "arbitrum",
+  avalanche = "avalanche",
 }
 
 export type Networks = {

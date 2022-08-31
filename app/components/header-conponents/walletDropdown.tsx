@@ -129,7 +129,7 @@ const WalletDropdown = (props: Props) => {
           className="flex items-center p-[14px] hover:bg-[#2B302F] cursor-pointer"
           target="_blank"
           rel="noreferrer"
-          href={networkData?.blockExplorerUrl || ""}
+          href={networkData?.userExplorerUrl + props.addresses[0] || ""}
         >
           <img
             className="w-[16px] h-[16px] mr-[15px]"
