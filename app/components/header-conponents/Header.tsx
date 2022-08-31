@@ -149,7 +149,7 @@ export default function Header() {
           </div>
           <div className="flex items-center">
             <TndDropdown />
-            <NetworksDropdown />
+            {isActive && <NetworksDropdown />}
             <ConnectWallet />
             <div
               className={`flex lg:hidden header__burg ${
