@@ -274,8 +274,8 @@ const ChartBorrow = () => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`${payload[0].payload.borrowAPY}%`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5  ">
+          <p className="label text-sm md:text-base">{`${payload[0].payload.borrowAPY}%`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5  ">
             Borrow APY
           </p>
         </div>
@@ -295,8 +295,8 @@ const ChartBorrow = () => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalBorrow}`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
+          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalBorrow}`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5">
             Total Borrow
           </p>
         </div>

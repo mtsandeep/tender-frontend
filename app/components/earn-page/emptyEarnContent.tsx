@@ -8,10 +8,10 @@ export default function EmptyEarnContent() {
         <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
         </p>
-        <p className="md:text-[16px] md:leading-[22px] text-[14px] leading-[20px] font-normal mb-[31px] font-nova text-[#ADB5B3]">
+        <p className="md:text-base md:leading-[22px] text-sm leading-5 font-normal mb-[31px] font-nova text-[#ADB5B3]">
           Stake TND to earn rewards. Please read the{" "}
           <a
-            className="line-solid cursor-pointer text-[#ffffff]"
+            className="line-solid cursor-pointer text-white"
             href="https://docs.tender.fi/tendienomics/rewards-and-incentives"
             target="_blank"
             rel="noreferrer"
@@ -22,12 +22,12 @@ export default function EmptyEarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full">
           <div key="1" className="panel-custom">
-            <div className="font-space text-[18px] md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND
             </div>
             <div
               key="1"
-              className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-[14px] leading-[20px] md:text-[16px] md:leading-[22px]"
+              className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
             >
               <div
                 key="1"
@@ -63,12 +63,12 @@ export default function EmptyEarnContent() {
           </div>
 
           <div key="2" className="panel-custom mt-[31px]">
-            <div className="font-space text-[18px] md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Escrowed <span className="uppercase">TND</span>
             </div>
             <div
               key="1"
-              className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-[14px] leading-[20px] md:text-[16px] md:leading-[22px]"
+              className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
             >
               <div
                 key="1"

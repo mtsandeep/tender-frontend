@@ -46,7 +46,7 @@ function TokenMarketDetails() {
           })
         }
       />
-      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-[16px] md:text-[18px] font-nova">
+      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-base md:text-lg font-nova">
         Market Details
       </div>
       <div className="flex-col panel-custom ">
@@ -54,7 +54,7 @@ function TokenMarketDetails() {
           return (
             <div
               key={index}
-              className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-[14px] md:text-sm leading-5"
+              className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
             >
               <div
                 onClick={() =>
@@ -64,7 +64,7 @@ function TokenMarketDetails() {
                     textTop: item.tooltipText,
                   })
                 }
-                className="relative cursor-pointer group font-normal text-[14px] md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
+                className="relative cursor-pointer group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
                 <p
                   className={
@@ -85,7 +85,7 @@ function TokenMarketDetails() {
                             alt="..."
                           />
                         </button>
-                        <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+                        <p className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova">
                           {item?.tooltipText}
                         </p>
                       </div>
@@ -94,7 +94,7 @@ function TokenMarketDetails() {
                   </div>
                 )}
               </div>
-              <p className="font-normal text-[14px] md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+              <p className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
                 {item.itemData}
               </p>
             </div>

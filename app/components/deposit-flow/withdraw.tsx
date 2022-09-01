@@ -149,7 +149,7 @@ export default function Withdraw({
             <div className="flex flex-col items-start mb-3 text-gray-400 pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-[14px] text-[#fff] hover:text-[#14F195]"
+                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
                 Supply Rates
                 <svg

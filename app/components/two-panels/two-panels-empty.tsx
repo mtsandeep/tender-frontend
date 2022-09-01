@@ -9,7 +9,7 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
     >
       <div>
         <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
-          <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-[18px] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+          <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             Supply
           </div>
           <div className="p-[20px] pt-[4px] md:p-[30px] md:pt-[4px]">
@@ -18,7 +18,7 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
           </div>
         </div>
         <div>
-          <div className="mb-[12px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
+          <div className="mb-[12px] font-nova text-white text-base font-semibold md:mb-[15px] md:text-lg">
             All Markets
           </div>
           <div className="panel-custom border-custom">
@@ -33,7 +33,7 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
       </div>
       <div>
         <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
-          <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-[18px] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+          <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             Borrow
           </div>
           <div className="p-[20px] pt-[4px] md:p-[30px] md:pt-[4px]">
@@ -42,7 +42,7 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
           </div>
         </div>
         <div>
-          <div className="mb-[12px] font-nova text-white text-[16px] font-semibold md:mb-[15px] md:text-[18px]">
+          <div className="mb-[12px] font-nova text-white text-base font-semibold md:mb-[15px] md:text-lg">
             All Markets
           </div>
           <div className="panel-custom border-custom">

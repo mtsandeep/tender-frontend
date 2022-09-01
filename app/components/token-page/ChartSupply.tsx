@@ -274,8 +274,8 @@ const ChartSupply = () => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`${payload[0].payload.supplyAPY}%`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5  ">
+          <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5  ">
             Supply APY
           </p>
         </div>
@@ -295,8 +295,8 @@ const ChartSupply = () => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalSupply}`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
+          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5">
             Total Supply
           </p>
         </div>
@@ -415,7 +415,7 @@ const ChartSupply = () => {
       </div>
       {/* <div
         style={{ left: Math.round(dotX) }}
-        className="absolute translate-x-[-50%] text-[#ADB5B3] text-[12px] font-medium bottom-[-30px]"
+        className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px]"
       >
         May 24
       </div> */}

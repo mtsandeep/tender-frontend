@@ -89,7 +89,7 @@ function TokenInterestRate() {
 
   return (
     <div className="font-[ProximaNova] w-full mb-[60px]">
-      <div className="leading-[22px] font-semibold mb-[20px] text-[16px] md:text-[18px] font-nova">
+      <div className="leading-[22px] font-semibold mb-[20px] text-base md:text-lg font-nova">
         Interest Rate Model
       </div>
       <div className="flex-col panel-custom">

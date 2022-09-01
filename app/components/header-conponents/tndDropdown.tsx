@@ -47,11 +47,11 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-icon.svg"
               alt="..."
             />
-            <p className="font-nova text-[16px] font-semibold text-[#fff] leading-[16px]">
+            <p className="font-nova text-base font-semibold text-white leading-4">
               TND
             </p>
           </div>
-          <span className="font-nova text-[16px] font-semibold leading-[16px] text-[#14F195]">
+          <span className="font-nova text-base font-semibold leading-4 text-[#14F195]">
             $23.56
           </span>
         </div>
@@ -62,11 +62,11 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-wallet.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-medium text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-medium text-white leading-[14px]">
               Balance
             </p>
           </div>
-          <span className="font-nova text-[14px] font-semibold leading-[14px] text-[#14F195]">
+          <span className="font-nova text-sm font-semibold leading-[14px] text-[#14F195]">
             0.00
           </span>
         </div>
@@ -77,7 +77,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-link.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               Get TND
             </p>
           </div>
@@ -89,7 +89,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-metamask.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               Add to Metamask
             </p>
           </div>
@@ -104,7 +104,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-staking.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               Staking
             </p>
           </div>
@@ -119,7 +119,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-vesting.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               Vesting
             </p>
           </div>

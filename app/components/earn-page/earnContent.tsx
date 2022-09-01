@@ -8,10 +8,10 @@ export default function EarnContent() {
         <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
         </p>
-        <p className="md:text-[16px] md:leading-[22px] text-[14px] leading-[20px] font-normal mb-[31px] font-nova text-[#ADB5B3]">
+        <p className="md:text-base md:leading-[22px] text-sm leading-5 font-normal mb-[31px] font-nova text-[#ADB5B3]">
           Stake TND to earn rewards. Please read the{" "}
           <a
-            className="line-solid cursor-pointer text-[#ffffff]"
+            className="line-solid cursor-pointer text-white"
             href="https://docs.tender.fi/tendienomics/rewards-and-incentives"
             target="_blank"
             rel="noreferrer"
@@ -22,12 +22,12 @@ export default function EarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full">
           <div key="1" className="panel-custom">
-            <div className="font-space text-[18px] md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND
             </div>
             <div
               key="1"
-              className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-[14px] leading-[20px] md:text-[16px] md:leading-[22px]"
+              className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
             >
               <div
                 key="1"
@@ -46,18 +46,18 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               Price on Arbitrum:
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>$43.63</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               Price on Avalanche:
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>$43.98</span>
                             </div>
                           </div>
@@ -118,24 +118,24 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               esTND APR
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>15.18</span>
                               <span>%</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center mb-[12px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               TND APR
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>5.58</span>
                               <span>%</span>
                             </div>
                           </div>
-                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
                             APRs are updated weekly on Wednesday and will depend
                             on the fees collected for the week.
                           </p>
@@ -158,18 +158,18 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               ETH (WETH)
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>0.0000 ($0.00)</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               esGMX
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>0.0000 ($0.00)</span>
                             </div>
                           </div>
@@ -192,12 +192,12 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
                               rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              className="line-solid cursor-pointer capitalize text-white"
                               href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
                             >
                               More info.
@@ -221,11 +221,11 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
-                          <span className="flex text-start mb-[12px] text-[#818987] text-[12px] leading-[17px]">
+                          <span className="flex text-start mb-[12px] text-[#818987] text-xs leading-[17px]">
                             You are earning 0.00% more TND rewards using 0.0000
                             Staked Multiplier Points.
                           </span>
-                          <span className="flex text-start text-[#818987] text-[12px] leading-[17px]">
+                          <span className="flex text-start text-[#818987] text-xs leading-[17px]">
                             Use the "Compound" button to stake your Multiplier
                             Points.
                           </span>
@@ -262,18 +262,18 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               Arbitrum:
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>6,479,541 GMX</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               Avalanche:
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>428,686 GMX</span>
                             </div>
                           </div>
@@ -307,22 +307,22 @@ export default function EarnContent() {
                 className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]"
               >
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Buy <span className="uppercase">TND</span>
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Stake
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     unStake
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Transfer accont
                   </button>
                 </div>
@@ -330,12 +330,12 @@ export default function EarnContent() {
             </div>
           </div>
           <div key="2" className="panel-custom mt-[31px]">
-            <div className="font-space text-[18px] md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               es<span className="uppercase">TND</span>
             </div>
             <div
               key="1"
-              className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-[14px] leading-[20px] md:text-[16px] md:leading-[22px]"
+              className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
             >
               <div
                 key="1"
@@ -354,18 +354,18 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               Price on Arbitrum:
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>$43.63</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               Price on Avalanche:
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>$43.98</span>
                             </div>
                           </div>
@@ -426,24 +426,24 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               esTND APR
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>15.18</span>
                               <span>%</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center mb-[12px]">
-                            <span className="text-[#818987] text-[12px] leading-[17px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
                               TND APR
                             </span>
-                            <div className="text-[12px] leading-[17px]">
+                            <div className="text-xs leading-[17px]">
                               <span>5.58</span>
                               <span>%</span>
                             </div>
                           </div>
-                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
                             APRs are updated weekly on Wednesday and will depend
                             on the fees collected for the week.
                           </p>
@@ -467,12 +467,12 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
                               rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              className="line-solid cursor-pointer capitalize text-white"
                               href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
                             >
                               More info.
@@ -531,12 +531,12 @@ export default function EarnContent() {
                 className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
               >
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Stake
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     unStake
                   </button>
                 </div>
@@ -545,12 +545,12 @@ export default function EarnContent() {
           </div>
 
           <div key="3" className="panel-custom mt-[32px]">
-            <div className="font-space text-[18px] md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
             </div>
             <div
               key="1"
-              className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-[14px] leading-[20px] md:text-[16px] md:leading-[22px]"
+              className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
             >
               <div
                 key="1"
@@ -611,12 +611,12 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
                               rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              className="line-solid cursor-pointer capitalize text-white"
                               href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
                             >
                               More info.
@@ -642,12 +642,12 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-[12px]  text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
                               rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-[#ffffff]"
+                              className="line-solid cursor-pointer capitalize text-white"
                               href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
                             >
                               More info.
@@ -679,12 +679,12 @@ export default function EarnContent() {
                 className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
               >
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Compound
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Claim
                   </button>
                 </div>
@@ -696,10 +696,10 @@ export default function EarnContent() {
         <p className="font-space text-[30px] mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Vest
         </p>
-        <p className="md:text-[16px] md:leading-[22px] text-[14px] leading-[20px] font-normal mb-[31px] font-nova text-[#ADB5B3]">
+        <p className="md:text-base md:leading-[22px] text-sm leading-5 font-normal mb-[31px] font-nova text-[#ADB5B3]">
           Convert esTND tokens to TND tokens. Please read the{" "}
           <a
-            className="cursor-pointer line-solid text-[#ffffff]"
+            className="cursor-pointer line-solid text-white"
             href="https://docs.tender.fi/tendienomics/rewards-and-incentives#vesting"
             target="_blank"
             rel="noreferrer"
@@ -710,12 +710,12 @@ export default function EarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full">
           <div key="1" className="panel-custom">
-            <div className="font-space text-[18px] md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND Vault
             </div>
             <div
               key="1"
-              className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-[14px] leading-[20px] md:text-[16px] md:leading-[22px]"
+              className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
             >
               <div
                 key="1"
@@ -734,17 +734,17 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[8px]">
-                            <span className="text-[12px] leading-[17px]">
+                            <span className="text-xs leading-[17px]">
                               0.00 GMX
                             </span>
                           </div>
                           <div className="flex justify-between items-center mb-[8px]">
-                            <span className="text-[12px] leading-[17px]">
+                            <span className="text-xs leading-[17px]">
                               0.00 esGMX
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
-                            <span className=" text-[12px] leading-[17px]">
+                            <span className=" text-xs leading-[17px]">
                               0.00 Multiplier Points
                             </span>
                           </div>
@@ -777,7 +777,7 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
-                          <p className="text-[#818987] text-[12px] text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs text-left leading-[17px] font-nova">
                             0.0000 tokens have been converted to TND from the
                             0.0000 esTND deposited for vesting.
                           </p>
@@ -799,7 +799,7 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
-                          <p className="text-[#818987] text-[12px] text-left leading-[17px] font-nova">
+                          <p className="text-[#818987] text-xs text-left leading-[17px] font-nova">
                             0.0000 TND tokens can be claimed, use the options
                             under the Total Rewards section to claim them.
                           </p>
@@ -815,12 +815,12 @@ export default function EarnContent() {
                 className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
               >
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Deposit
                   </button>
                 </div>
                 <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-[12px] leading-[20px]  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Withdraw
                   </button>
                 </div>

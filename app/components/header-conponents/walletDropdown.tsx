@@ -120,7 +120,7 @@ const WalletDropdown = (props: Props) => {
               src="/images/wallet-icons/wallet-copy.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               {textButton}
             </p>
           </div>
@@ -136,7 +136,7 @@ const WalletDropdown = (props: Props) => {
             src="/images/wallet-icons/balance-link.svg"
             alt="..."
           />
-          <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+          <p className="font-nova text-sm font-normal text-white leading-[14px]">
             View Explorer
           </p>
         </a>
@@ -150,7 +150,7 @@ const WalletDropdown = (props: Props) => {
               src="/images/wallet-icons/wallet-disconnect.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               Disconnect Wallet
             </p>
           </div>
