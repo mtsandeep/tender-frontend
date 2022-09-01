@@ -56,9 +56,9 @@ const actualNetworks = [
     networkName: networks.arbitrum.blockExplorerName,
     iconsSrc: "/images/ico/arbitrum-network.svg",
     links: [
-      { linkName: "Atbitrum Bridge", url: "https://bridge.arbitrum.io" },
-      { linkName: "Arbiscan", url: "https://arbiscan.io/" },
-      { linkName: "Helpcenter", url: "https://arbiscan.io/" },
+      { linkName: "Arbitrum Bridge", url: "https://bridge.arbitrum.io" },
+      { linkName: "Arbiscan", url: "https://arbiscan.io" },
+      { linkName: "Helpcenter", url: "https://arbiscan.io/contactus" },
     ],
     networkData: networks.arbitrum,
   },
