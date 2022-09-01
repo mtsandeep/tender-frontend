@@ -58,7 +58,7 @@ const actualNetworks = [
     links: [
       { linkName: "Arbitrum Bridge", url: "https://bridge.arbitrum.io" },
       { linkName: "Arbiscan", url: "https://arbiscan.io" },
-      { linkName: "Helpcenter", url: "https://arbiscan.io/contactus" },
+      { linkName: "Helpcenter", url: "https://support.uniswap.org/hc/en-us" },
     ],
     networkData: networks.arbitrum,
   },
@@ -66,7 +66,11 @@ const actualNetworks = [
     chainId: networks.avalanche.ChainId,
     networkName: networks.avalanche.blockExplorerName,
     iconsSrc: "/images/ico/avalanche-network.svg",
-    links: [{ linkName: "Ecosystem", url: "https://ecosystem.avax.network/" }],
+    links: [
+      { linkName: "Avalanche Bridge", url: "https://bridge.avax.network" },
+      { linkName: "Avalanche Explorer", url: "https://snowtrace.io" },
+      { linkName: "Helpcenter", url: "https://support.avax.network" },
+    ],
     networkData: networks.avalanche,
   },
 ];
