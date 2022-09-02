@@ -110,7 +110,7 @@ const TndDropdown = () => {
           </div>
         </a>
         <a
-          href="/earn"
+          href="/earn#vest"
           className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
         >
           <div className="flex items-center">

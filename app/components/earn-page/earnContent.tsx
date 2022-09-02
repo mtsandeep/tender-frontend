@@ -1,9 +1,6 @@
 export default function EarnContent() {
   return (
-    <div
-      className="c mt-[30px] mb-[60px] md:mb-[100px]"
-      data-testid="app-frame"
-    >
+    <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
       <div className="max-w-[820px] my-o mx-auto">
         <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
@@ -708,7 +705,7 @@ export default function EarnContent() {
           </a>{" "}
           before using the vault.
         </p>
-        <div className="font-[ProximaNova] w-full">
+        <div className="font-[ProximaNova] w-full" id="vest">
           <div key="1" className="panel-custom">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND Vault

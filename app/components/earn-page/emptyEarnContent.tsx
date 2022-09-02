@@ -1,9 +1,6 @@
 export default function EmptyEarnContent() {
   return (
-    <div
-      className="switch__to__network c mt-[30px] mb-[60px] md:mb-[100px]"
-      data-testid="app-frame"
-    >
+    <div className="switch__to__network c mt-[30px] mb-[60px] md:mb-[100px]">
       <div className="max-w-[820px] my-o mx-auto">
         <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
@@ -25,10 +22,7 @@ export default function EmptyEarnContent() {
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND
             </div>
-            <div
-              key="1"
-              className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
-            >
+            <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div
                 key="1"
                 className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]"
@@ -61,15 +55,11 @@ export default function EmptyEarnContent() {
               </div>
             </div>
           </div>
-
           <div key="2" className="panel-custom mt-[31px]">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Escrowed <span className="uppercase">TND</span>
             </div>
-            <div
-              key="1"
-              className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
-            >
+            <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div
                 key="1"
                 className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] "

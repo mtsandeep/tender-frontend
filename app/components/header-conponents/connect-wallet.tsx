@@ -53,7 +53,6 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
 
             {window.ethereum && !isActive && (
               <button
-                data-testid="connect-wallet"
                 className="border font-space flex items-center justify-center font-bold uppercase rounded-md text-dark-green w-[120px] md:text-[15px] h-[34px] border-[#14f195] md:w-[163px] md:h-[44px] text-[10px] hover:opacity-[0.6]"
                 onClick={() => connect()}
               >

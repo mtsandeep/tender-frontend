@@ -12,10 +12,7 @@ export default function App() {
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   return (
-    <div
-      className="c mt-[80px] md:mt-[30px] mb-[100px] md:mb-[100px]"
-      data-testid="app-frame"
-    >
+    <div className="c mt-[80px] md:mt-[30px] mb-[100px] md:mb-[100px]">
       {tenderContextData && onSupportedChain ? (
         <>
           <AccountSummary tenderContextData={tenderContextData} />
