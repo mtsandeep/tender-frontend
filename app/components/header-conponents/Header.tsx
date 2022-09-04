@@ -58,65 +58,92 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="header__block bg-black z-10 relative h-[71px] lg:h-[110px] flex items-center justify-between">
-      <div className="flex w-full c items-center justify-between max-w-[1400px]">
-        <div className="w-[104px] block lg:w-[196px] z-20 relative">
-          <a href="https://tender.fi">
-            <img src="/images/logo1.svg" alt="Tender Finance" />
-          </a>
-        </div>
-        <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova gap-x-[30px]  z-20 relative">
-          {menuLinks.map((item: { name: string; link: string }) => (
-            <a
-              key={item.name}
-              className={`cursor-pointer hover:text-white ${
-                location.pathname === item.link ? "text-white" : ""
-              }`}
-              href={item.link}
-            >
-              {item.name}
+    <div className="relative">
+      <div className="header__block bg-black z-20 relative h-[71px] lg:h-[110px] flex items-center justify-between">
+        <div className="flex w-full c items-center justify-between max-w-[1400px]">
+          <div className="w-[104px] block lg:w-[196px] z-20 relative">
+            <a href="https://tender.fi">
+              <img src="/images/logo1.svg" alt="Tender Finance" />
             </a>
-          ))}
-        </div>
-        <div className="flex items-center  z-20 relative">
-          <TndDropdown />
-          <NetworksDropdown />
-          <ConnectWallet />
+          </div>
+          <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova gap-x-[30px]  z-20 relative">
+            {menuLinks.map((item: { name: string; link: string }) => (
+              <a
+                key={item.name}
+                className={`cursor-pointer hover:text-white ${
+                  location.pathname === item.link ? "text-white" : ""
+                }`}
+                href={item.link}
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center  z-20 relative">
+            <TndDropdown />
+            <NetworksDropdown />
+            <ConnectWallet />
+            <div
+              className={`flex lg:hidden header__burg ${
+                activePopupMenu ? "active" : ""
+              }`}
+              onClick={() => handleClickBurger(!activePopupMenu)}
+              ref={burgerRef}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
           <div
-            className={`flex lg:hidden header__burg ${
-              activePopupMenu ? "active" : ""
+            className={`aside__menu__wrap top-[71px] flex lg:hidden ${
+              activePopupMenu ? `act` : ""
             }`}
-            onClick={() => handleClickBurger(!activePopupMenu)}
-            ref={burgerRef}
+            ref={menuRef}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <div className="aside__menu__container w-full h-full bg-black py-[60px] px-[30px]">
+              <div className="relative flex justify-center items-center flex-col text-[#ADB5B3] font-nova-400 text-xl gap-y-[30px]">
+                {menuLinks.map(
+                  (item: { name: string; link: string }, index: number) => (
+                    <a
+                      key={item.name}
+                      className="font-nova text-white text-lg gap-y-[20px]"
+                      href={item.link}
+                    >
+                      {item.name}
+                    </a>
+                  )
+                )}
+              </div>
+              <div className="mt-[40px] flex justify-center">
+                <ConnectWallet inMenu={true} />
+              </div>
+            </div>
           </div>
         </div>
-        <div
-          className={`aside__menu__wrap top-[71px] flex lg:hidden ${
-            activePopupMenu ? `act` : ""
-          }`}
-          ref={menuRef}
-        >
-          <div className="aside__menu__container w-full h-full bg-black py-[60px] px-[30px]">
-            <div className="relative flex justify-center items-center flex-col text-[#ADB5B3] font-nova-400 text-xl gap-y-[30px]">
-              {menuLinks.map(
-                (item: { name: string; link: string }, index: number) => (
-                  <a
-                    key={item.name}
-                    className="font-nova text-white text-lg gap-y-[20px]"
-                    href={item.link}
-                  >
-                    {item.name}
-                  </a>
-                )
-              )}
-            </div>
-            <div className="mt-[40px] flex justify-center">
-              <ConnectWallet inMenu={true} />
-            </div>
+      </div>
+      <div
+        className={`aside__menu__wrap top-[71px] flex lg:hidden ${
+          activePopupMenu ? `act` : ""
+        }`}
+        ref={menuRef}
+      >
+        <div className="aside__menu__container w-full h-full bg-black py-[60px] px-[30px]">
+          <div className="relative flex justify-center items-center flex-col text-[#ADB5B3] font-nova-400 text-xl gap-y-[30px]">
+            {menuLinks.map(
+              (item: { name: string; link: string }, index: number) => (
+                <a
+                  key={item.name}
+                  className="font-nova text-white text-lg gap-y-[20px]"
+                  href={item.link}
+                >
+                  {item.name}
+                </a>
+              )
+            )}
+          </div>
+          <div className="mt-[40px] flex justify-center">
+            <ConnectWallet inMenu={true} />
           </div>
         </div>
       </div>
