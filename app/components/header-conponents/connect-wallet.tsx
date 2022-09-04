@@ -27,7 +27,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   return (
     <div>
       {loading ? (
-        <div className="show animate w-[34px] h-[34px] md:w-[157px] md:h-[44px]"></div>
+        <div className="show animate w-[34px] h-[34px] md:w-[163px] md:h-[44px]"></div>
       ) : (
         onClient && (
           <>

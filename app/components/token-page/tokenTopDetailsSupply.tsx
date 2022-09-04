@@ -14,7 +14,7 @@ function TokenTopDetailsSupply() {
       <div className="flex md:gap-[0px] gap-x-[0px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-start md:justify-between md:text-center w-full md:w-[511px]">
         <div className="w-[120px] md:w-[auto]">
           <div className="relative flex flex-col items-start md:items-center group">
-            <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px]">
+            <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
               Net Rate
             </p>
             <div className="hidden  absolute right__custom top-[50%] translate__0__50 items-center hidden group-hover:flex rounded-[15px]">

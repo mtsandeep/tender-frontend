@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import networks from "~/config/networks";
 import { hooks } from "~/connectors/meta-mask";
 import type { NetworkData } from "~/types/global";
+import useAuth from "~/hooks/use-auth";
 
 export const switchNetwork = async (p: any, networkData: NetworkData) => {
   if (!p) {
@@ -78,9 +79,12 @@ const actualNetworks = [
 const NetworksDropdown = () => {
   let provider = hooks.useProvider();
   const chainId = hooks.useChainId();
+  const { useIsActive } = hooks;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<any>(null);
   const [selectedNetwork, setSelectedNetwork] = useState<any>({});
+  const { connect } = useAuth();
+  const isActive = useIsActive();
 
   useEffect(() => {
     const closeDropdown = (e: any) => {
@@ -102,6 +106,19 @@ const NetworksDropdown = () => {
       setIsOpen(false);
     }
   }, [chainId]);
+
+  const handlerCLickNetwork = (p: any, networkData: NetworkData) => {
+    if (!window.ethereum) {
+      return window.open("https://metamask.io");
+    } else if (window.ethereum && !isActive) {
+      return (async () => {
+        await connect();
+        await switchNetwork(p, networkData);
+      })();
+    } else {
+      return switchNetwork(p, networkData);
+    }
+  };
 
   return (
     <div
@@ -170,7 +187,7 @@ const NetworksDropdown = () => {
               <div key={network.networkName}>
                 <div
                   onClick={() => {
-                    switchNetwork(provider, network.networkData);
+                    handlerCLickNetwork(provider, network.networkData);
                   }}
                   className={`${
                     network.networkName === selectedNetwork.networkName &&
