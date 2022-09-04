@@ -36,7 +36,7 @@ const TndDropdown = () => {
       </div>
 
       <div
-        className={`overflow-hidden w-[220px] md:w-[219px] rounded-[6px] right-[0px] top-[calc(100%+5px)] md:top-[calc(100%+8px)] absolute dropdown__body ${
+        className={`overflow-hidden w-[220px] md:w-[219px] rounded-[6px] right-[-50px] md:right-[0px] top-[calc(100%+5px)] md:top-[calc(100%+8px)] absolute dropdown__body ${
           isOpen ? "dropdown__body-active" : ""
         }`}
       >
