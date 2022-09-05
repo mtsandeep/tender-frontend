@@ -156,7 +156,7 @@ export default function EarnContent() {
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
                             <span className="text-[#818987] text-xs leading-[17px]">
-                              ETH (WETH)
+                              TND
                             </span>
                             <div className="text-xs leading-[17px]">
                               <span>0.0000 ($0.00)</span>
@@ -164,7 +164,7 @@ export default function EarnContent() {
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-[#818987] text-xs leading-[17px]">
-                              esGMX
+                              esTND
                             </span>
                             <div className="text-xs leading-[17px]">
                               <span>0.0000 ($0.00)</span>
@@ -263,7 +263,7 @@ export default function EarnContent() {
                               Arbitrum:
                             </span>
                             <div className="text-xs leading-[17px]">
-                              <span>6,479,541 GMX</span>
+                              <span>6,479,541 TND</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
@@ -271,7 +271,7 @@ export default function EarnContent() {
                               Avalanche:
                             </span>
                             <div className="text-xs leading-[17px]">
-                              <span>428,686 GMX</span>
+                              <span>428,686 TND</span>
                             </div>
                           </div>
                         </div>
@@ -558,7 +558,7 @@ export default function EarnContent() {
                   className="flex items-start md:items-center gap-x-[10px] justify-between"
                 >
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
-                    ETH (WETH)
+                    TND
                   </span>
                   <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium">
                     <span>0.0000</span>
@@ -732,12 +732,12 @@ export default function EarnContent() {
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[8px]">
                             <span className="text-xs leading-[17px]">
-                              0.00 GMX
+                              0.00 TND
                             </span>
                           </div>
                           <div className="flex justify-between items-center mb-[8px]">
                             <span className="text-xs leading-[17px]">
-                              0.00 esGMX
+                              0.00 TND
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
