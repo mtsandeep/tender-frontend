@@ -1,4 +1,22 @@
+import { useState, useEffect } from "react";
+import { hooks, metaMask } from "~/connectors/meta-mask";
+import useAuth from "~/hooks/use-auth";
+
 export default function EarnContent() {
+  const { useIsActive } = hooks;
+
+  const { connect, isDisconnected } = useAuth();
+  const isActive = useIsActive();
+
+  const [onClient, setOnClient] = useState<boolean>(false);
+
+  useEffect(() => {
+    setOnClient(true);
+    if (!isDisconnected()) {
+      void metaMask.connectEagerly();
+    }
+  }, [isDisconnected]);
+
   return (
     <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
       <div className="max-w-[820px] my-o mx-auto">
@@ -303,26 +321,56 @@ export default function EarnContent() {
                 key="4"
                 className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]"
               >
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Buy <span className="uppercase">TND</span>
-                  </button>
-                </div>
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Stake
-                  </button>
-                </div>
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    unStake
-                  </button>
-                </div>
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Transfer accont
-                  </button>
-                </div>
+                {onClient && (
+                  <>
+                    {isActive && (
+                      <>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Buy <span className="uppercase">TND</span>
+                          </button>
+                        </div>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Stake
+                          </button>
+                        </div>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            unStake
+                          </button>
+                        </div>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Transfer account
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {!window.ethereum && (
+                      <a
+                        className="btn-custom-border rounded-[6px]"
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://metamask.io/"
+                      >
+                        <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                          CONNECT WALLET
+                        </button>
+                      </a>
+                    )}
+
+                    {window.ethereum && !isActive && (
+                      <button
+                        onClick={() => connect()}
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                      >
+                        CONNECT WALLET
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -527,16 +575,46 @@ export default function EarnContent() {
                 key="4"
                 className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
               >
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Stake
-                  </button>
-                </div>
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    unStake
-                  </button>
-                </div>
+                {onClient && (
+                  <>
+                    {isActive && (
+                      <>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Stake
+                          </button>
+                        </div>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            unStake
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {!window.ethereum && (
+                      <a
+                        className="btn-custom-border rounded-[6px]"
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://metamask.io/"
+                      >
+                        <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                          CONNECT WALLET
+                        </button>
+                      </a>
+                    )}
+
+                    {window.ethereum && !isActive && (
+                      <button
+                        onClick={() => connect()}
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                      >
+                        CONNECT WALLET
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -675,16 +753,46 @@ export default function EarnContent() {
                 key="2"
                 className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
               >
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Compound
-                  </button>
-                </div>
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Claim
-                  </button>
-                </div>
+                {onClient && (
+                  <>
+                    {isActive && (
+                      <>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Compound
+                          </button>
+                        </div>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Claim
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {!window.ethereum && (
+                      <a
+                        className="btn-custom-border rounded-[6px]"
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://metamask.io/"
+                      >
+                        <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                          CONNECT WALLET
+                        </button>
+                      </a>
+                    )}
+
+                    {window.ethereum && !isActive && (
+                      <button
+                        onClick={() => connect()}
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                      >
+                        CONNECT WALLET
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -811,16 +919,46 @@ export default function EarnContent() {
                 key="4"
                 className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
               >
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Deposit
-                  </button>
-                </div>
-                <div className="btn-custom-border rounded-[6px]">
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                    Withdraw
-                  </button>
-                </div>
+                {onClient && (
+                  <>
+                    {isActive && (
+                      <>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Deposit
+                          </button>
+                        </div>
+                        <div className="btn-custom-border rounded-[6px]">
+                          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                            Withdraw
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {!window.ethereum && (
+                      <a
+                        className="btn-custom-border rounded-[6px]"
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://metamask.io/"
+                      >
+                        <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                          CONNECT WALLET
+                        </button>
+                      </a>
+                    )}
+
+                    {window.ethereum && !isActive && (
+                      <button
+                        onClick={() => connect()}
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                      >
+                        CONNECT WALLET
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>

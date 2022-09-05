@@ -2,7 +2,7 @@
 import { ProviderRpcError } from "@web3-react/types";
 import { useState, useRef, useEffect } from "react";
 import networks from "~/config/networks";
-import { hooks } from "~/connectors/meta-mask";
+import { hooks, metaMask } from "~/connectors/meta-mask";
 import type { NetworkData } from "~/types/global";
 import useAuth from "~/hooks/use-auth";
 
@@ -77,15 +77,22 @@ const actualNetworks = [
 ];
 
 const NetworksDropdown = () => {
+  const { useIsActive } = hooks;
   let provider = hooks.useProvider();
   const chainId = hooks.useChainId();
-  const { useIsActive } = hooks;
+  const { connect, isDisconnected } = useAuth();
+  const isActive = useIsActive();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<any>(null);
   const [selectedNetwork, setSelectedNetwork] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
-  const { connect } = useAuth();
-  const isActive = useIsActive();
+
+  useEffect(() => {
+    if (!isDisconnected()) {
+      void metaMask.connectEagerly();
+    }
+  }, [isDisconnected]);
 
   useEffect(() => {
     const closeDropdown = (e: any) => {
@@ -142,19 +149,21 @@ const NetworksDropdown = () => {
         >
           <span
             className={`${
-              selectedNetwork.networkName ? "bg-[#01C275]" : "bg-[#FF3939]"
+              selectedNetwork.networkName && isActive
+                ? "bg-[#01C275]"
+                : "bg-[#FF3939]"
             } block absolute top-[-4px] right-[-4px] rounded-full border-black border-2 w-[10px] h-[10px] md:w-[12px] md:h-[12px]`}
           ></span>
           <div
             className={`group ${
-              selectedNetwork.networkName
+              selectedNetwork.networkName && isActive
                 ? "bg-[#181D1B] hover:bg-[#262C2A]"
                 : "bg-[#3A1313] hover:bg-[#4f2222]"
             } flex justify-between h-full items-center px-[9px] py-[9px] md:px-[12px] md:py-[12px] rounded-[6px] cursor-pointer`}
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className="flex justify-between gap-[9px]">
-              {selectedNetwork.networkName ? (
+              {selectedNetwork.networkName && isActive ? (
                 <>
                   <img
                     className={`block`}
@@ -182,7 +191,7 @@ const NetworksDropdown = () => {
               className={`hidden md:block fill-white  justify-self-end arrow__custom ${
                 isOpen ? "rotate-0" : "rotate-180"
               } ${
-                selectedNetwork.networkName
+                selectedNetwork.networkName && isActive
                   ? "group-hover:fill-[#01C275]"
                   : "group-hover:fill-[#FF3939]"
               }`}
