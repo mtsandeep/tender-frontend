@@ -10,9 +10,9 @@ function TokenInterestRate() {
     { aa: 3, ss: "0.47", dd: "17.08", isCurrent: false },
     { aa: 4, ss: "0.84", dd: "23.39", isCurrent: false },
     { aa: 5, ss: "1.32", dd: "30.04", isCurrent: false },
-    { aa: "5.46", ss: "1.58", dd: "33.23", isCurrent: true },
+    { aa: "5.46", ss: "1.58", dd: "33.23", isCurrent: false },
     { aa: 6, ss: "1.91", dd: "37.06", isCurrent: false },
-    { aa: 7, ss: "2.61", dd: "44.45", isCurrent: false },
+    { aa: 7, ss: "2.61", dd: "44.45", isCurrent: true },
     { aa: 8, ss: "3.42", dd: "52.23", isCurrent: false },
     { aa: 9, ss: "4.35", dd: "60.44", isCurrent: false },
     { aa: 10, ss: "5.40", dd: "69.08", isCurrent: false },
@@ -170,65 +170,72 @@ function TokenInterestRate() {
         <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] md:p-[30px] md:text-base  md:leading-[22px]">
           Utilization vs. APY
         </p>
-        <div className="relative h-[200px] md:h-[390px] pb-[0px] pr-[10px] pl-[10px] md:pl-[25px]  md:pr-[25px] flex flex-col items-end justify-start">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={data.map((item) => ({
-                ...item,
-                aa: Math.trunc(
-                  Math.max(
-                    Number(
-                      data.reduce((prev: any, cur: any) => {
-                        if (Number(prev.dd) > Number(cur.dd)) {
-                          return prev;
-                        }
-                        return cur;
-                      }).dd
-                    ),
-                    Number(
-                      data.reduce((prev: any, cur: any) => {
-                        if (Number(prev.ss) > Number(cur.ss)) {
-                          return prev;
-                        }
-                        return cur;
-                      }).ss
-                    )
-                  ) * 1.1
-                ),
-              }))}
-              margin={{ top: -10, right: 8, left: 8, bottom: 43 }}
+        <div className="h-[200px] md:h-[390px] pb-[0px] pr-[10px] pl-[10px] md:pl-[30px] md:pr-[30px] flex flex-col items-end justify-start">
+          <div className="relative w-full h-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={data.map((item) => ({
+                  ...item,
+                  aa: Math.trunc(
+                    Math.max(
+                      Number(
+                        data.reduce((prev: any, cur: any) => {
+                          if (Number(prev.dd) > Number(cur.dd)) {
+                            return prev;
+                          }
+                          return cur;
+                        }).dd
+                      ),
+                      Number(
+                        data.reduce((prev: any, cur: any) => {
+                          if (Number(prev.ss) > Number(cur.ss)) {
+                            return prev;
+                          }
+                          return cur;
+                        }).ss
+                      )
+                    ) * 1.1
+                  ),
+                }))}
+                margin={{ top: -10, right: 8, left: 8, bottom: 43 }}
+              >
+                <Line
+                  type="monotone"
+                  dataKey="aa"
+                  stroke="#FFFFFF"
+                  strokeWidth={2}
+                  className="current__line"
+                  dot={false}
+                  activeDot={<CustomDot borderColor="#282C2B" />}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="ss"
+                  stroke="#14F195"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={<CustomDot borderColor="#0D0D0D" />}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="dd"
+                  stroke="#00E0FF"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={<CustomDot borderColor="#0D0D0D" />}
+                />
+                <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
+              </LineChart>
+            </ResponsiveContainer>
+            <div
+              style={{
+                left: `${data.find((item: any) => item.isCurrent)?.aa}%`,
+              }}
+              className="absolute flex flex-col items-center top-[12px] md:top-[31px] md:left-[50px] translate-x-[-50%]"
             >
-              <Line
-                type="monotone"
-                dataKey="aa"
-                stroke="#FFFFFF"
-                strokeWidth={2}
-                className="current__line"
-                dot={false}
-                activeDot={<CustomDot borderColor="#282C2B" />}
-              />
-              <Line
-                type="monotone"
-                dataKey="ss"
-                stroke="#14F195"
-                strokeWidth={2}
-                dot={false}
-                activeDot={<CustomDot borderColor="#0D0D0D" />}
-              />
-              <Line
-                type="monotone"
-                dataKey="dd"
-                stroke="#00E0FF"
-                strokeWidth={2}
-                dot={false}
-                activeDot={<CustomDot borderColor="#0D0D0D" />}
-              />
-              <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
-            </LineChart>
-          </ResponsiveContainer>
-          <div className="absolute flex flex-col items-center top-[12px] left-[20px] md:top-[31px] md:left-[50px]">
-            <span className="w-[2px] h-[50px] bg-[#282C2B]"></span>
-            <span className="font-nova text-base text-white">Current</span>
+              <span className="w-[2px] h-[50px] bg-[#282C2B]"></span>
+              <span className="font-nova text-base text-white">Current</span>
+            </div>
           </div>
         </div>
       </div>
