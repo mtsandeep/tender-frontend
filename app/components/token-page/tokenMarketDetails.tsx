@@ -18,7 +18,7 @@ const customData = [
   { itemName: "Interest Paid/Day", itemData: "$6.820.25" },
   { itemName: "Reserves", itemData: "639,513,808 USDC" },
   { itemName: "Reserve Factor", itemData: "7%" },
-  { itemName: "Collateral Factor", itemData: "84%" },
+  { itemName: "Reserve Factor", itemData: "84%" },
   { itemName: "cUSDC Minted", itemData: "639,513,808" },
   { itemName: "Exchange Rate", itemData: "1 USDC = 44.12 сUSDC" },
 ];
@@ -64,12 +64,12 @@ function TokenMarketDetails() {
                     textTop: item.tooltipText,
                   })
                 }
-                className="relative cursor-pointer group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
+                className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
                 <p
                   className={
                     item?.tooltipText &&
-                    "underline decoration-dashed underline-offset-4"
+                    "underline decoration-dashed underline-offset-4 cursor-pointer"
                   }
                 >
                   {item.itemName}

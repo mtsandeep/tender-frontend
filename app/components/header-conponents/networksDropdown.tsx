@@ -78,7 +78,7 @@ const actualNetworks = [
 
 const NetworksDropdown = () => {
   const { useIsActive } = hooks;
-  let provider = hooks.useProvider();
+  const provider = hooks.useProvider();
   const chainId = hooks.useChainId();
   const { connect, isDisconnected } = useAuth();
   const isActive = useIsActive();

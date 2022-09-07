@@ -32,7 +32,6 @@ export default function Header() {
   let location = useLocation();
   const burgerRef = useRef<any>(null);
   const menuRef = useRef<any>(null);
-
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
 
   const handleClickBurger = useCallback((value: boolean) => {

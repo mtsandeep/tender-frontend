@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { Market } from "~/types/global";
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
@@ -31,6 +31,7 @@ const mockTooltipData = [
 
 export default function TwoPanels({ tenderContextData }: any) {
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
+  let [nameNetwork, setNameNetwork] = useState<string>("");
 
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
@@ -73,6 +74,19 @@ export default function TwoPanels({ tenderContextData }: any) {
   const marketsWithoutSupply = tenderContextData.markets.filter(
     (m: Market) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
   );
+
+  useEffect(() => {
+    if (window.ethereum) {
+      // window.ethereum.on("chainChanged", (id: string) => {
+      //   setNameNetwork(id);
+      //   console.log(tenderContextData.markets);
+      // });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(tenderContextData.markets);
+  }, [tenderContextData.markets]);
 
   const privateBlock = () => (
     <div className="group" onClick={(e) => e.stopPropagation()}>
