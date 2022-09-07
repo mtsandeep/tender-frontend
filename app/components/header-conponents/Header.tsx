@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { useCallback, useEffect, useRef, useState } from "react";
 import NetworksDropdown from "./networksDropdown";
 import ConnectWallet from "./connect-wallet";

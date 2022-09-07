@@ -1,6 +1,5 @@
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { Market } from "~/types/global";
+import type { Market } from "~/types/global";
 
 export default function MarketsContent() {
   const array = [
@@ -89,92 +88,6 @@ export default function MarketsContent() {
       borrowLimitUsedOfToken: "0.00",
       borrowLimitUsed: "41.15",
       maxBorrowLiquidity: 18.602499457826216,
-    },
-    {
-      id: "WBTC",
-      tokenPair: {
-        token: {
-          name: "wBTC",
-          symbol: "WBTC",
-          decimals: 8,
-          address: "0xa5B55ab1dAF0F8e1EFc0eB1931a957fd89B918f4",
-          icon: "/images/coin-icons/bitcoin.svg",
-          priceDecimals: 28,
-          cToken: {
-            name: "tWBTC",
-            symbol: "tWBTC",
-            decimals: 8,
-            address: "0xA1377dbB30BFdc548eE8c9d7Fa3693E512dD6288",
-          },
-          priceInUsd: 22585.847891,
-        },
-        cToken: {
-          name: "tWBTC",
-          symbol: "tWBTC",
-          decimals: 8,
-          address: "0xA1377dbB30BFdc548eE8c9d7Fa3693E512dD6288",
-        },
-      },
-      marketData: {
-        depositApy: "1.37%",
-        borrowApy: "17.04%",
-        totalBorrowed: 0.00001165,
-        marketSize: 0.00013512,
-      },
-      walletBalance: 0,
-      supplyBalance: 0,
-      supplyBalanceInUsd: 0,
-      borrowBalance: 0,
-      borrowBalanceInUsd: 0,
-      comptrollerAddress: "0x798752C2cd661b3eA4B7A5b45041fA95AcE3fc02",
-      borrowLimit: 0.8,
-      totalBorrowedAmountInUsd: 0.329169,
-      borrowLimitUsedOfToken: "0.00",
-      borrowLimitUsed: "41.15",
-      maxBorrowLiquidity: 0.00012347,
-    },
-    {
-      id: "m.USDT",
-      tokenPair: {
-        token: {
-          name: "USDT",
-          symbol: "m.USDT",
-          decimals: 6,
-          address: "0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC",
-          icon: "/images/coin-icons/usdt.svg",
-          priceDecimals: 30,
-          cToken: {
-            name: "tUSDT",
-            symbol: "tUSDT",
-            decimals: 8,
-            address: "0x2a0DDDb5783E5Cd27821148eDe1B4c90EA739025",
-          },
-          priceInUsd: 1.000017,
-        },
-        cToken: {
-          name: "tUSDT",
-          symbol: "tUSDT",
-          decimals: 8,
-          address: "0x2a0DDDb5783E5Cd27821148eDe1B4c90EA739025",
-        },
-      },
-      marketData: {
-        depositApy: "475.17%",
-        borrowApy: "495.73%",
-        totalBorrowed: 54.650413,
-        marketSize: 55.750413,
-      },
-      walletBalance: 0.2,
-      supplyBalance: 0.347632,
-      supplyBalanceInUsd: 0.347637909744,
-      borrowBalance: 0,
-      borrowBalanceInUsd: 0,
-      comptrollerAddress: "0x798752C2cd661b3eA4B7A5b45041fA95AcE3fc02",
-      borrowLimit: 0.8,
-      totalBorrowedAmountInUsd: 0.329169,
-      borrowLimitUsedOfToken: "0.00",
-      borrowLimitUsed: "41.15",
-      maxBorrowLiquidity: 1.1,
     },
     {
       id: "WBTC",

@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-
 export default function MarketsContent() {
   return (
     <div className="switch__to__network max-w-[1068px] mx-[auto]">

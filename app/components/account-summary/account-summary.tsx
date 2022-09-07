@@ -6,8 +6,7 @@ import { useTotalBorrowedInUsd } from "~/hooks/use-total-borrowed-in-usd";
 import { useBorrowLimit } from "~/hooks/use-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import Display from "~/components/account-summary/display";
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { Market } from "~/types/global";
+import type { Market } from "~/types/global";
 import AccountSummaryEmpty from "./empty";
 
 export default function AccountSummary({ tenderContextData }: any) {

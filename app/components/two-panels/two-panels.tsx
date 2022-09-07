@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactModal from "react-modal";
-import { Market } from "~/types/global";
+import type { Market } from "~/types/global";
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
 import MarketRow from "~/components/two-panels/market-row";
 import DepositFlow from "../deposit-flow/deposit-flow";
@@ -31,7 +30,6 @@ const mockTooltipData = [
 
 export default function TwoPanels({ tenderContextData }: any) {
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
-  let [nameNetwork, setNameNetwork] = useState<string>("");
 
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
@@ -57,10 +55,12 @@ export default function TwoPanels({ tenderContextData }: any) {
     setOpenMarket(market);
   };
 
-  const DUST_LIMIT = 0.01;
-
   const marketsWithSupply = tenderContextData.markets.filter(
-    (m: Market) => m.supplyBalance && m.supplyBalanceInUsd > DUST_LIMIT
+    (m: Market) => m.supplyBalance && m.supplyBalanceInUsd > 0.01
+  );
+
+  const marketsWithoutSupply = tenderContextData.markets.filter(
+    (m: Market) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
   );
 
   const marketsWithBorrow = tenderContextData.markets.filter(
@@ -71,22 +71,20 @@ export default function TwoPanels({ tenderContextData }: any) {
     .filter((m: Market) => m.tokenPair.token.symbol !== "GLP")
     .filter((m: Market) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001);
 
-  const marketsWithoutSupply = tenderContextData.markets.filter(
-    (m: Market) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
-  );
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     window.ethereum.on("chainChanged", () => {
+  //       console.log("true");
+  //       setLoad(true);
+  //       setTimeout(() => {
+  //         console.log("false");
+  //         setLoad(false);
+  //       }, 5000);
+  //     });
+  //   }
+  // }, [tenderContextData.markets]);
 
-  useEffect(() => {
-    if (window.ethereum) {
-      // window.ethereum.on("chainChanged", (id: string) => {
-      //   setNameNetwork(id);
-      //   console.log(tenderContextData.markets);
-      // });
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log(tenderContextData.markets);
-  }, [tenderContextData.markets]);
+  // console.log(tenderContextData.markets.length, load);
 
   const privateBlock = () => (
     <div className="group" onClick={(e) => e.stopPropagation()}>

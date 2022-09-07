@@ -703,3 +703,8 @@ body.body__fixed {
 .input__center__custom::placeholder {
   transform: translate(-20px, 0px);
 }
+
+.recharts-tooltip-wrapper {
+  position: relative;
+  z-index: 10;
+}

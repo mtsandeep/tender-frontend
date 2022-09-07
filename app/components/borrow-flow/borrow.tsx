@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-target-blank */
 import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
@@ -235,6 +234,7 @@ export default function Borrow({
                             <a
                               target="_blank"
                               href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
+                              rel="noreferrer"
                             >
                               Borrow unsuccessful
                             </a>

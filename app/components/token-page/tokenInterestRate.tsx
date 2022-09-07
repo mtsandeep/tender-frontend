@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 
 function TokenInterestRate() {
@@ -137,7 +135,7 @@ function TokenInterestRate() {
   const CustomTooltip = (props: any) => {
     if (props.payload?.length) {
       return (
-        <div className="bg-[#282C2B] p-[10px]">
+        <div className="bg-[#282C2B] p-[10px] z-10 relative block">
           <p className={`label text-[${props.payload[0].stroke}]`}>
             {Number(
               data.find(
@@ -157,7 +155,6 @@ function TokenInterestRate() {
         </div>
       );
     }
-
     return null;
   };
 
@@ -229,9 +226,11 @@ function TokenInterestRate() {
             </ResponsiveContainer>
             <div
               style={{
-                left: `${data.find((item: any) => item.isCurrent)?.aa}%`,
+                left: `calc(3px + ${
+                  data.find((item: any) => item.isCurrent)?.aa
+                }%)`,
               }}
-              className="absolute flex flex-col items-center top-[12px] md:top-[31px] md:left-[50px] translate-x-[-50%]"
+              className="absolute flex flex-col items-center top-[12px] md:top-[31px] md:left-[50px] translate-x-[-50%] pointer-events-none z-2"
             >
               <span className="w-[2px] h-[50px] bg-[#282C2B]"></span>
               <span className="font-nova text-base text-white">Current</span>

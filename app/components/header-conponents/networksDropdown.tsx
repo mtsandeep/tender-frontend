@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { ProviderRpcError } from "@web3-react/types";
+import type { ProviderRpcError } from "@web3-react/types";
 import { useState, useRef, useEffect } from "react";
 import networks from "~/config/networks";
 import { hooks, metaMask } from "~/connectors/meta-mask";
