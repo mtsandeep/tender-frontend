@@ -20,242 +20,302 @@ const data = [
   {
     totalSupply: 96,
     supplyAPY: 96,
+    date: "26 June",
   },
   {
     totalSupply: 96,
     supplyAPY: 96,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "22 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "24 May",
   },
   {
     totalSupply: 84,
     supplyAPY: 84,
+    date: "24 May",
   },
   {
     totalSupply: 91,
     supplyAPY: 91,
+    date: "24 May",
   },
   {
     totalSupply: 98,
     supplyAPY: 98,
+    date: "24 May",
   },
   {
     totalSupply: 105,
     supplyAPY: 105,
+    date: "24 May",
   },
   {
     totalSupply: 112,
     supplyAPY: 112,
+    date: "3 May",
   },
   {
     totalSupply: 120,
     supplyAPY: 120,
+    date: "24 May",
   },
   {
     totalSupply: 127,
     supplyAPY: 127,
+    date: "24 May",
   },
   {
     totalSupply: 132,
     supplyAPY: 132,
+    date: "24 May",
   },
   {
     totalSupply: 137,
     supplyAPY: 137,
+    date: "1 May",
   },
   {
     totalSupply: 137,
     supplyAPY: 137,
+    date: "24 May",
   },
   {
     totalSupply: 137,
     supplyAPY: 137,
+    date: "24 May",
   },
   {
     totalSupply: 137,
     supplyAPY: 137,
+    date: "23 May",
   },
   {
     totalSupply: 137,
     supplyAPY: 137,
+    date: "24 May",
   },
   {
     totalSupply: 132,
     supplyAPY: 132,
+    date: "24 May",
   },
   {
     totalSupply: 125,
     supplyAPY: 125,
+    date: "31 May",
   },
   {
     totalSupply: 118,
     supplyAPY: 118,
+    date: "24 May",
   },
   {
     totalSupply: 112,
     supplyAPY: 112,
+    date: "5 May",
   },
   {
     totalSupply: 105,
     supplyAPY: 105,
+    date: "24 May",
   },
   {
     totalSupply: 98,
     supplyAPY: 98,
+    date: "24 May",
   },
   {
     totalSupply: 91,
     supplyAPY: 91,
+    date: "18 May",
   },
   {
     totalSupply: 85,
     supplyAPY: 85,
+    date: "24 May",
   },
   {
     totalSupply: 78,
     supplyAPY: 78,
+    date: "28 May",
   },
   {
     totalSupply: 72,
     supplyAPY: 72,
+    date: "24 May",
   },
   {
     totalSupply: 65,
     supplyAPY: 65,
+    date: "24 May",
   },
   {
     totalSupply: 58,
     supplyAPY: 58,
+    date: "24 May",
   },
   {
     totalSupply: 51,
     supplyAPY: 51,
+    date: "24 May",
   },
   {
     totalSupply: 46,
     supplyAPY: 46,
+    date: "26 May",
   },
   {
     totalSupply: 39,
     supplyAPY: 39,
+    date: "24 May",
   },
   {
     totalSupply: 32,
     supplyAPY: 32,
+    date: "24 May",
   },
   {
     totalSupply: 42,
     supplyAPY: 42,
+    date: "16 May",
   },
   {
     totalSupply: 49,
     supplyAPY: 49,
+    date: "24 May",
   },
   {
     totalSupply: 57,
     supplyAPY: 57,
+    date: "24 May",
   },
   {
     totalSupply: 63,
     supplyAPY: 63,
+    date: "13 May",
   },
   {
     totalSupply: 70,
     supplyAPY: 70,
+    date: "24 May",
   },
   {
     totalSupply: 77,
     supplyAPY: 77,
+    date: "24 May",
   },
   {
     totalSupply: 87,
     supplyAPY: 87,
+    date: "17 May",
   },
   {
     totalSupply: 87,
     supplyAPY: 87,
+    date: "24 May",
   },
   {
     totalSupply: 87,
     supplyAPY: 87,
+    date: "24 May",
   },
   {
     totalSupply: 87,
     supplyAPY: 87,
+    date: "21 May",
   },
   {
     totalSupply: 87,
     supplyAPY: 87,
+    date: "24 May",
   },
   {
     totalSupply: 87,
     supplyAPY: 87,
+    date: "24 May",
   },
   {
     totalSupply: 80,
     supplyAPY: 80,
+    date: "23 May",
   },
   {
     totalSupply: 72,
     supplyAPY: 72,
+    date: "24 May",
   },
   {
     totalSupply: 65,
     supplyAPY: 65,
+    date: "24 May",
   },
   {
     totalSupply: 59,
     supplyAPY: 59,
+    date: "24 May",
   },
   {
     totalSupply: 65,
     supplyAPY: 65,
+    date: "24 May",
   },
   {
     totalSupply: 72,
     supplyAPY: 72,
+    date: "9 May",
   },
   {
     totalSupply: 80,
     supplyAPY: 80,
+    date: "24 May",
   },
   {
     totalSupply: 80,
     supplyAPY: 80,
+    date: "24 May",
   },
   {
     totalSupply: 82,
     supplyAPY: 82,
+    date: "24 May",
   },
   {
     totalSupply: 82,
     supplyAPY: 82,
+    date: "19 May",
   },
 ];
 
@@ -265,7 +325,7 @@ const ChartSupply = () => {
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
   const [dotY, setDotY] = useState<number>(0);
-  // const [dotX, setDotX] = useState<number>(0);
+  const [dotX, setDotX] = useState<number>(0);
 
   const ApyTooltip = ({
     active,
@@ -307,10 +367,10 @@ const ChartSupply = () => {
   };
 
   function tooltipSync(state: CategoricalChartState): void {
-    if (state.isTooltipActive) {
+    if (state.isTooltipActive !== undefined) {
       setActiveTooltip(state.activeTooltipIndex);
     } else {
-      setActiveTooltip(undefined);
+      setActiveTooltip(0);
     }
   }
 
@@ -333,7 +393,7 @@ const ChartSupply = () => {
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
-    // setDotX(props.cx);
+    setDotX(props.cx);
     return (
       <circle
         cx={props.cx}
@@ -411,14 +471,28 @@ const ChartSupply = () => {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          {activeTooltip !== undefined ? (
+            <div
+              style={{ left: Math.round(dotX) < 50 ? 25 : Math.round(dotX) }}
+              className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium whitespace-nowrap bottom-[20px] block md:hidden pr-[10px]"
+            >
+              {activeTooltip !== undefined && data[activeTooltip].date}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
-      {/* <div
-        style={{ left: Math.round(dotX) }}
-        className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px]"
-      >
-        May 24
-      </div> */}
+      {activeTooltip !== undefined ? (
+        <div
+          style={{ left: Math.round(dotX) }}
+          className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
+        >
+          {activeTooltip !== undefined && data[activeTooltip].date}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
