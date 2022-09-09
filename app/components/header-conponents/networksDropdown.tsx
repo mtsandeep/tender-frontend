@@ -143,7 +143,7 @@ const NetworksDropdown = () => {
         )
       ) : (
         <div
-          className="relative z-10 w-[34px] h-[34px] md:w-auto md:h-[44px] md:w-[170px] m-auto mr-[6px] md:mr-[12px]"
+          className="relative z-10 w-[34px] h-[34px] md:h-[44px] md:w-[170px] m-auto mr-[6px] md:mr-[12px]"
           ref={dropdownRef}
         >
           <span

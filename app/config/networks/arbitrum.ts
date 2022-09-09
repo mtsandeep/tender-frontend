@@ -1,7 +1,7 @@
 export default {
   ChainId: 42161,
   name: "Arbitrum One",
-  blockExplorerName: "Arbiscan",
+  blockExplorerName: "Arbitrum",
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",

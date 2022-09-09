@@ -575,6 +575,11 @@ body.body__fixed {
   border-radius: 15px;
 }
 
+
+.input__center__custom::placeholder {
+  transform: translate(-20px, 0px);
+}
+
 @media screen and (max-width: 1024px) {
   .custom__chart .custom__chart__bar .recharts-surface {
     overflow: inherit;
@@ -583,6 +588,10 @@ body.body__fixed {
 }
 
 @media screen and (max-width: 768px) {
+
+  .input__center__custom::placeholder {
+    transform: translate(-10px, 0px);
+  }
 
   .header__burg {
     margin-left: 10px;
@@ -700,9 +709,6 @@ body.body__fixed {
 }
 
 
-.input__center__custom::placeholder {
-  transform: translate(-20px, 0px);
-}
 
 .recharts-tooltip-wrapper {
   position: relative;

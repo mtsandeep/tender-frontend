@@ -115,8 +115,8 @@ export default function Repay({
 
       {txnHash === "" && (
         <div>
-          <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
+          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
               <button onClick={() => closeModal()} className="">
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
@@ -124,10 +124,10 @@ export default function Repay({
 
             {!isEnabled ? (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-6 mr-3"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
                   {market.tokenPair.token.symbol}
@@ -146,14 +146,15 @@ export default function Repay({
               </div>
             ) : (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-12"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
+                  {market.tokenPair.token.symbol}
                 </div>
-                <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
+                <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
                   <input
                     ref={inputEl}
                     value={value}
