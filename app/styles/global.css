@@ -589,6 +589,10 @@ body.body__fixed {
 
 @media screen and (max-width: 768px) {
 
+  .border-child-hover:hover:last-child>td:first-child:before {
+    border-bottom-left-radius: 0;
+  }
+
   .input__center__custom::placeholder {
     transform: translate(-10px, 0px);
   }
