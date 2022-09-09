@@ -513,6 +513,9 @@ export default function MarketsContent() {
                     <tr
                       key={m.id}
                       className="border-t border-[#282C2B] border__top__custom border_tr_custom cursor-pointer hover:bg-[#151515] border-child-hover"
+                      onClick={() => {
+                        window.location.href = `/markets/${m.tokenPair.token.symbol}`;
+                      }}
                     >
                       <td className="relative text-white font-nova font-normal sm:t-[0] pl-[15px] pt-[8px] pb-[26px] sm:pt-[24px] sm:pb-[23px] sm:pl-[30px] sm:pr-[0px]">
                         <div className="flex items-start md:items-center justify-left relative top-[8px] sm:top-[-1px]">
