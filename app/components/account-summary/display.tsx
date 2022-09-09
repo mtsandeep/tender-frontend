@@ -105,7 +105,7 @@ export default function Display({
         <div className="flex justify-between items-center">
           <div className="mr-2 font-nova text-sm text-white">0%</div>
           <div className="font-nova text-sm text-white mr-[3px] md:mr-0">
-            {toFiatString(borrowLimit)}
+            ${toFiatString(borrowLimit)}
           </div>
         </div>
       </div>
