@@ -6,7 +6,8 @@ export default function EmptyEarnContent() {
           Earn
         </p>
         <p className="md:text-base md:leading-[22px] text-sm leading-5 font-normal mb-[31px] font-nova text-[#ADB5B3]">
-          Stake TND to earn rewards. Please read the{" "}
+          Stake TND to earn rewards. <br />
+          Please read the{" "}
           <a
             className="line-solid cursor-pointer text-white"
             href="https://docs.tender.fi/tendienomics/rewards-and-incentives"
@@ -16,6 +17,10 @@ export default function EmptyEarnContent() {
             staking details
           </a>{" "}
           to learn more.
+          <br />
+          You are earning TND rewards with 20.13 tokens.
+          <br />
+          Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
         </p>
         <div className="font-[ProximaNova] w-full">
           <div key="1" className="panel-custom">

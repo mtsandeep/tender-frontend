@@ -30,7 +30,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
         isActive && accounts ? (
           <div className="show animate w-[34px] h-[34px] md:w-[160px] md:h-[44px]"></div>
         ) : (
-          <div className="show animate w-[110px] h-[34px] md:w-[160px] md:h-[44px]"></div>
+          <div className="show animate w-[34px] h-[34px] md:w-[160px] md:h-[44px]"></div>
         )
       ) : (
         onClient && (
