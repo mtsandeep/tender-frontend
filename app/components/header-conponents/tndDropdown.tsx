@@ -41,7 +41,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-icon.svg"
               alt="..."
             />
-            <div className="text-sm font-semibold text-right leading-[14px] font-nova hidden md:flex">
+            <div className="w-[60px] whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden md:flex">
               $23.56
             </div>
           </div>
