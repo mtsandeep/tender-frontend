@@ -75,7 +75,7 @@ export default function Header() {
               <img src="/images/logo1.svg" alt="Tender Finance" />
             </a>
           </div>
-          <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova gap-x-[20px] xl:gap-x-[30px] z-20 absolute left-[240px] top-[50%] translate-x-[0] translate-y-[-50%] xl:translate-x-[-50%] xl:left-[50%]">
+          <div className="text-[#ADB5B3] hidden lg:flex justify-center font-normal text-base font-nova gap-x-[20px] xl:gap-x-[30px] z-20 absolute lg:left-[300px] top-[50%] translate-x-[0] translate-y-[-50%] 2xl:translate-x-[-50%] 2xl:left-[50%]">
             {menuLinks.map((item: { name: string; link: string }) => (
               <a
                 key={item.name}
