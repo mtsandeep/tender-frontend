@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import type { Market } from "~/types/global";
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
@@ -71,20 +71,13 @@ export default function TwoPanels({ tenderContextData }: any) {
     .filter((m: Market) => m.tokenPair.token.symbol !== "GLP")
     .filter((m: Market) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001);
 
-  // useEffect(() => {
-  //   if (window.ethereum) {
-  //     window.ethereum.on("chainChanged", () => {
-  //       console.log("true");
-  //       setLoad(true);
-  //       setTimeout(() => {
-  //         console.log("false");
-  //         setLoad(false);
-  //       }, 5000);
-  //     });
-  //   }
-  // }, [tenderContextData.markets]);
-
-  // console.log(tenderContextData.markets.length, load);
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+    }
+  }, [tenderContextData.markets]);
 
   const privateBlock = () => (
     <div className="group" onClick={(e) => e.stopPropagation()}>
