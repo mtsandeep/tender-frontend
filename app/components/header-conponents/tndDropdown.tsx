@@ -26,10 +26,10 @@ const TndDropdown = () => {
   return (
     <div>
       {loading ? (
-        <div className="show animate w-[34px] h-[34px] md:w-[100px] md:h-[44px] mr-[6px] md:mr-[12px]"></div>
+        <div className="show animate w-[34px] h-[34px] md:w-[90px] md:h-[44px] mr-[6px] md:mr-[12px]"></div>
       ) : (
         <div
-          className="relative z-10 w-[34px] md:w-[100px] mr-[6px] md:mr-[12px] h-[34px] md:h-[44px]"
+          className="relative z-10 w-[34px] md:w-[auto] mr-[6px] md:mr-[12px] h-[34px] md:h-[44px]"
           ref={dropdownRef}
         >
           <div
@@ -41,7 +41,7 @@ const TndDropdown = () => {
               src="/images/wallet-icons/balance-icon.svg"
               alt="..."
             />
-            <div className="w-[60px] whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden md:flex">
+            <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden md:flex">
               $23.56
             </div>
           </div>

@@ -17,7 +17,7 @@ const WalletDropdown = (props: Props) => {
   const networkData = useNetworkData(chainId);
 
   function truncateAccount(account: string): string {
-    return `${account.slice(0, 3)}...${account.slice(-4)}`;
+    return `${account.slice(0, 5)}...${account.slice(-4)}`;
   }
 
   useEffect(() => {
@@ -42,17 +42,17 @@ const WalletDropdown = (props: Props) => {
 
   return (
     <div
-      className={`relative z-40 w-[34px] md:w-[160px] ${
+      className={`relative z-40 w-[34px] md:w-[auto] ${
         props.inMenu ? "w-[auto]" : "h-[34px]"
       } ${
-        isOpen ? "w-[110px] md:w-[160px]" : "w-[34px] md:w-[160px]"
+        isOpen ? "w-[110px] md:w-[auto]" : "w-[34px] md:w-[auto]"
       } md:h-[44px]`}
       ref={dropdownRef}
     >
       <div
         className={`dropdown__wallet__custom ${
           props.inMenu ? "dropdown__button-inMenu" : ""
-        } relative flex p-[9px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
+        } relative flex p-[9px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
