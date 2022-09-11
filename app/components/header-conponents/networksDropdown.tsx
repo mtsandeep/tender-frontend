@@ -154,7 +154,7 @@ const NetworksDropdown = () => {
             } flex justify-between h-full items-center px-[9px] md:px-[10px] rounded-[6px] cursor-pointer`}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <div className="flex justify-between gap-[9px] mr-[0] md:mr-[8px]">
+            <div className="flex justify-between gap-[9px] mr-[0] md:mr-[8px] items-center">
               <img
                 className="w-[16px] h-[16px] block"
                 src={
