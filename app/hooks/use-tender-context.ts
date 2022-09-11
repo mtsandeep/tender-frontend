@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Market, TenderContext } from "~/types/global";
+import type { Market, TenderContext } from "~/types/global";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useTokenPairs } from "./use-token-pairs";
 import { useOnSupportedNetwork } from "./use-on-supported-network";
@@ -40,7 +40,7 @@ export function useTenderContext() {
       currentTransaction,
       updateTransaction,
       isWaitingToBeMined,
-      setIsWaitingToBeMined
+      setIsWaitingToBeMined,
     });
   }, [
     signer,
@@ -50,7 +50,7 @@ export function useTenderContext() {
     networkData,
     markets,
     currentTransaction,
-    isWaitingToBeMined
+    isWaitingToBeMined,
   ]);
 
   return tenderContext;

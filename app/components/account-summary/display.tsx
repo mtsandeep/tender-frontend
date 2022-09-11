@@ -105,7 +105,7 @@ export default function Display({
         <div className="flex justify-between items-center">
           <div className="mr-2 font-nova text-sm text-white">0%</div>
           <div className="font-nova text-sm text-white mr-[3px] md:mr-0">
-            {toFiatString(borrowLimit)}
+            ${toFiatString(borrowLimit)}
           </div>
         </div>
       </div>
@@ -113,11 +113,11 @@ export default function Display({
         className="w-full h-full bg-green-300 mr-2 h-[5px] md:h-[4px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
         style={{
           background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
-          width: borrowLimitUsed === "" ? 0 : `${percentUsed}%`,
+          width: borrowLimitUsed === "" ? 15 : `${percentUsed}%`,
           transition: "width 1s ease-out",
         }}
       >
-        {Number(borrowLimitUsed) > 0 && (
+        {parseFloat(borrowLimitUsed) > 0 && (
           <span
             className={percentUsed > 90 ? "span-value-bottom" : "span-value"}
           >
