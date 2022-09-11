@@ -14,7 +14,7 @@ export default {
       name: "ETH",
       symbol: "ETH",
       decimals: 18,
-      //   address: eth has no address
+      address: "",
       icon: "/images/coin-icons/ethereum.svg",
       priceDecimals: 18,
       cToken: {
