@@ -113,7 +113,7 @@ export default {
       symbol: "LINK", 
       decimals: 18,
       address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-      icon: "/images/coin-icons/dai.svg",
+      icon: "/images/coin-icons/link.svg",
       priceDecimals: 28,
       cToken: {
         name: "tDAI",
