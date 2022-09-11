@@ -23,7 +23,6 @@ export default {
         address: "0x3EfFa48cB7c65399676D49f4B08696151f2446CC",
       },
     },
-
     WBTC: {
       name: "wBTC",
       symbol: "WBTC",
@@ -38,7 +37,6 @@ export default {
         address: "0x29D4Cf28db3f978591F9868006BD3c5D2f36801f",
       },
     },
-
     USDC: {
       name: "USDC",
       symbol: "USDC",
@@ -53,7 +51,6 @@ export default {
         address: "0x0BdF3cb0D390ce8d8ccb6839b1CfE2953983b5f1",
       },
     },
-
     USDT: {
       name: "USDT",
       symbol: "USDT",
@@ -68,7 +65,6 @@ export default {
         address: "0xCAA772eaCbCAD50E0decC64Ab4748DC1A11Cf731",
       },
     },
-
     DAI: {
       name: "DAI",
       symbol: "DAI",
@@ -97,7 +93,6 @@ export default {
         address: "0x86356683eca061FA3dD795aF3A22a1530a999b58",
       },
     },
-
     UNI: {
       name: "UNI",
       symbol: "UNI",
@@ -112,7 +107,6 @@ export default {
         address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
       },
     },
-
     LINK: {
       name: "LINK",
       symbol: "LINK",
@@ -127,17 +121,12 @@ export default {
         address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
       },
     },
-
     GLP: {
       name: "GLP",
       symbol: "GLP",
       decimals: 18,
-
-      // staked glp is for approve
       sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
-      // fsGLP has balanceOf
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
-
       icon: "/images/coin-icons/glp.svg",
       priceDecimals: 28,
       cToken: {
