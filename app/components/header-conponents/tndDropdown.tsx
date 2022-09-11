@@ -37,7 +37,7 @@ const TndDropdown = () => {
             onClick={() => setIsOpen(!isOpen)}
           >
             <img
-              className="w-[16px] h-[16px] mr-[0px] md:mr-[10px]"
+              className="w-[16px] h-[16px] mr-[0px] md:mr-[9px]"
               src="/images/wallet-icons/balance-icon.svg"
               alt="..."
             />
@@ -66,7 +66,10 @@ const TndDropdown = () => {
                 $23.56
               </span>
             </div>
-            <div className="flex items-center justify-between p-[14px]">
+            <a
+              href="/earn"
+              className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+            >
               <div className="flex items-center mr-[10px]">
                 <img
                   className="w-[16px] h-[16px] mr-[15px]"
@@ -80,7 +83,7 @@ const TndDropdown = () => {
               <span className="font-nova text-sm font-semibold leading-[14px] text-[#14F195]">
                 0.00
               </span>
-            </div>
+            </a>
             <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
               <div className="flex items-center">
                 <img
