@@ -1,6 +1,5 @@
-import AccountSummary from "~/components/account-summary";
+import AccountSummary from "~/components/account-summary/account-summary";
 import AccountSummaryEmpty from "~/components/account-summary/empty";
-import { TenderContext } from "~/contexts/tender-context";
 import { useTenderContext } from "~/hooks/use-tender-context";
 import TwoPanels from "~/components/two-panels/two-panels";
 import TwoPanelsEmpty from "~/components/two-panels/two-panels-empty";
@@ -13,19 +12,16 @@ export default function App() {
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   return (
-    <div
-      className="c mt-[180px] md:mt-[155px] mb-[107px]"
-      data-testid="app-frame"
-    >
+    <div className="c mt-[80px] md:mt-[30px] mb-[100px] md:mb-[100px]">
       {tenderContextData && onSupportedChain ? (
-        <TenderContext.Provider value={tenderContextData}>
-          <AccountSummary />
-          <TwoPanels />
-        </TenderContext.Provider>
+        <>
+          <AccountSummary tenderContextData={tenderContextData} />
+          <TwoPanels tenderContextData={tenderContextData} />
+        </>
       ) : (
         <>
-          <AccountSummaryEmpty />
-          <TwoPanelsEmpty />
+          <AccountSummaryEmpty loading={false} />
+          <TwoPanelsEmpty loading={false} />
         </>
       )}
     </div>

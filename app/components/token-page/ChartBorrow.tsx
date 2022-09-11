@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import {
   ValueType,
@@ -18,271 +18,314 @@ import {
 
 const data = [
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 96,
+    borrowAPY: 96,
+    date: "26 June",
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 96,
+    borrowAPY: 96,
+    date: "24 May",
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "24 May",
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "24 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "24 May",
   },
   {
-    totalBorrow: 523,
-    borrowAPY: 523 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "24 May",
   },
   {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "24 May",
   },
   {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "22 May",
   },
   {
-    totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "24 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 84,
+    borrowAPY: 84,
+    date: "24 May",
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 91,
+    borrowAPY: 91,
+    date: "24 May",
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 98,
+    borrowAPY: 98,
+    date: "24 May",
   },
   {
-    totalBorrow: 223,
-    borrowAPY: 223 / 2,
+    totalBorrow: 105,
+    borrowAPY: 105,
+    date: "24 May",
   },
   {
-    totalBorrow: 450,
-    borrowAPY: 450 / 2,
+    totalBorrow: 112,
+    borrowAPY: 112,
+    date: "3 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 120,
+    borrowAPY: 120,
+    date: "24 May",
   },
   {
-    totalBorrow: 523,
-    borrowAPY: 523 / 2,
+    totalBorrow: 127,
+    borrowAPY: 127,
+    date: "24 May",
   },
   {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
+    totalBorrow: 132,
+    borrowAPY: 132,
+    date: "24 May",
   },
   {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
+    date: "1 May",
   },
   {
-    totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
+    date: "24 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
+    date: "24 May",
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
+    date: "23 May",
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 137,
+    borrowAPY: 137,
+    date: "24 May",
   },
   {
-    totalBorrow: 223,
-    borrowAPY: 223 / 2,
-  },
-  {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
-  },
-  {
-    totalBorrow: 367,
-    borrowAPY: 367 / 2,
-  },
-  {
-    totalBorrow: 143,
-    borrowAPY: 143 / 2,
-  },
-  {
-    totalBorrow: 745,
-    borrowAPY: 745 / 2,
-  },
-  {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
-  },
-  {
-    totalBorrow: 422,
-    borrowAPY: 422 / 2,
-  },
-  {
-    totalBorrow: 432,
-    borrowAPY: 432 / 2,
-  },
-  {
-    totalBorrow: 452,
-    borrowAPY: 452 / 2,
-  },
-  {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
-  },
-  {
-    totalBorrow: 352,
-    borrowAPY: 352 / 2,
-  },
-  {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
-  },
-  {
-    totalBorrow: 523,
-    borrowAPY: 523 / 2,
-  },
-  {
-    totalBorrow: 234,
-    borrowAPY: 234 / 2,
-  },
-  {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 132,
+    borrowAPY: 132,
+    date: "24 May",
   },
   {
     totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    borrowAPY: 125,
+    date: "31 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 118,
+    borrowAPY: 118,
+    date: "24 May",
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 112,
+    borrowAPY: 112,
+    date: "5 May",
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 105,
+    borrowAPY: 105,
+    date: "24 May",
   },
   {
-    totalBorrow: 223,
-    borrowAPY: 223 / 2,
+    totalBorrow: 98,
+    borrowAPY: 98,
+    date: "24 May",
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 91,
+    borrowAPY: 91,
+    date: "18 May",
   },
   {
-    totalBorrow: 431,
-    borrowAPY: 431 / 2,
+    totalBorrow: 85,
+    borrowAPY: 85,
+    date: "24 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 78,
+    borrowAPY: 78,
+    date: "28 May",
   },
   {
-    totalBorrow: 423,
-    borrowAPY: 423 / 2,
+    totalBorrow: 72,
+    borrowAPY: 72,
+    date: "24 May",
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 65,
+    borrowAPY: 65,
+    date: "24 May",
   },
   {
-    totalBorrow: 444,
-    borrowAPY: 444 / 2,
+    totalBorrow: 58,
+    borrowAPY: 58,
+    date: "24 May",
   },
   {
-    totalBorrow: 324,
-    borrowAPY: 324 / 2,
+    totalBorrow: 51,
+    borrowAPY: 51,
+    date: "24 May",
   },
   {
-    totalBorrow: 542,
-    borrowAPY: 542 / 2,
+    totalBorrow: 46,
+    borrowAPY: 46,
+    date: "26 May",
   },
   {
-    totalBorrow: 349,
-    borrowAPY: 349 / 2,
+    totalBorrow: 39,
+    borrowAPY: 39,
+    date: "24 May",
   },
   {
-    totalBorrow: 429,
-    borrowAPY: 429 / 2,
+    totalBorrow: 32,
+    borrowAPY: 32,
+    date: "24 May",
   },
   {
-    totalBorrow: 239,
-    borrowAPY: 239 / 2,
+    totalBorrow: 42,
+    borrowAPY: 42,
+    date: "16 May",
   },
   {
-    totalBorrow: 288,
-    borrowAPY: 288 / 2,
+    totalBorrow: 49,
+    borrowAPY: 49,
+    date: "24 May",
   },
   {
-    totalBorrow: 420,
-    borrowAPY: 420 / 2,
+    totalBorrow: 57,
+    borrowAPY: 57,
+    date: "24 May",
   },
   {
-    totalBorrow: 394,
-    borrowAPY: 394 / 2,
+    totalBorrow: 63,
+    borrowAPY: 63,
+    date: "13 May",
   },
   {
-    totalBorrow: 487,
-    borrowAPY: 487 / 2,
+    totalBorrow: 70,
+    borrowAPY: 70,
+    date: "24 May",
   },
   {
-    totalBorrow: 382,
-    borrowAPY: 382 / 2,
+    totalBorrow: 77,
+    borrowAPY: 77,
+    date: "24 May",
   },
   {
-    totalBorrow: 396,
-    borrowAPY: 396 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+    date: "17 May",
   },
   {
-    totalBorrow: 124,
-    borrowAPY: 124 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+    date: "24 May",
   },
   {
-    totalBorrow: 125,
-    borrowAPY: 125 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+    date: "24 May",
   },
   {
-    totalBorrow: 412,
-    borrowAPY: 412 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+    date: "21 May",
   },
   {
-    totalBorrow: 333,
-    borrowAPY: 333 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+    date: "24 May",
   },
   {
-    totalBorrow: 123,
-    borrowAPY: 123 / 2,
+    totalBorrow: 87,
+    borrowAPY: 87,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 80,
+    borrowAPY: 80,
+    date: "23 May",
+  },
+  {
+    totalBorrow: 72,
+    borrowAPY: 72,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 65,
+    borrowAPY: 65,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 59,
+    borrowAPY: 59,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 65,
+    borrowAPY: 65,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 72,
+    borrowAPY: 72,
+    date: "9 May",
+  },
+  {
+    totalBorrow: 80,
+    borrowAPY: 80,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 80,
+    borrowAPY: 80,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 82,
+    borrowAPY: 82,
+    date: "24 May",
+  },
+  {
+    totalBorrow: 82,
+    borrowAPY: 82,
+    date: "19 May",
   },
 ];
-
-const chartColor: string = "#00E0FF";
 
 const ChartBorrow = () => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
+  const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
-  const [dotY, setDotY] = useState<string | number>(0);
-  const [dotX, setDotX] = useState<string | number>(0);
+  const [dotY, setDotY] = useState<number>(0);
+  const [dotX, setDotX] = useState<number>(0);
 
   const ApyTooltip = ({
     active,
@@ -291,8 +334,8 @@ const ChartBorrow = () => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`${payload[0].payload.borrowAPY}%`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5  ">
+          <p className="label text-sm md:text-base">{`${payload[0].payload.borrowAPY}%`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5  ">
             Borrow APY
           </p>
         </div>
@@ -302,6 +345,9 @@ const ChartBorrow = () => {
     return null;
   };
 
+  useEffect(() => {
+    setIsLoadPage(true);
+  }, []);
   const TotalTooltip = ({
     active,
     payload,
@@ -309,8 +355,8 @@ const ChartBorrow = () => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalBorrow}`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
+          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalBorrow}`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5">
             Total Borrow
           </p>
         </div>
@@ -321,10 +367,10 @@ const ChartBorrow = () => {
   };
 
   function tooltipSync(state: CategoricalChartState): void {
-    if (state.isTooltipActive) {
+    if (state.isTooltipActive !== undefined) {
       setActiveTooltip(state.activeTooltipIndex);
     } else {
-      setActiveTooltip(undefined);
+      setActiveTooltip(0);
     }
   }
 
@@ -333,14 +379,14 @@ const ChartBorrow = () => {
       x={props.points[0].x}
       y={dotY}
       width="1"
-      height="544"
-      viewBox="0 0 1 544"
+      height="160"
+      viewBox="0 0 1 160"
     >
       <path
-        d="M1.25 543.75L1.25 0.25"
+        d="M1.25 160.75L1.25 0.25"
         stroke="#282C2B"
-        stroke-width="2"
-        stroke-dasharray="6 6"
+        strokeWidth="2"
+        strokeDasharray="6 6"
       />
     </svg>
   );
@@ -362,58 +408,91 @@ const ChartBorrow = () => {
   };
 
   return (
-    <div className="custom__scroll min-h-[350px] w-full flex-col pt-[73px] relative">
-      <div className="min-w-[800px]">
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart
-            onMouseLeave={() => setActiveTooltip((val) => (val = undefined))}
-            syncId="marketCharSynch"
-            onMouseMove={tooltipSync}
-            data={data}
-            margin={{ top: 20, right: 0, left: 0, bottom: 50 }}
+    <div className="relative">
+      <div className="custom__scroll w-full flex-col pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+        <div className="min-w-[800px]">
+          <ResponsiveContainer
+            width="100%"
+            height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
+            className="mb-[30px] lg:mb-[0]"
           >
-            <Tooltip
-              position={{ x: Number(dotX) - 35, y: -47 }}
-              content={<ApyTooltip />}
-              allowEscapeViewBox={{ y: true }}
-              cursor={<CustomLine />}
-            />
-            <Line
-              type="monotone"
-              dataKey="totalBorrow"
-              stroke={chartColor}
-              strokeWidth={3}
-              dot={false}
-              activeDot={<CustomDot />}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart
-            onMouseLeave={() => setActiveTooltip((val) => (val = undefined))}
-            syncId="marketCharSynch"
-            data={data}
-            onMouseMove={tooltipSync}
-            margin={{ top: 30, bottom: 60 }}
+            <LineChart
+              onMouseLeave={() =>
+                setActiveTooltip((val: any) => (val = undefined))
+              }
+              syncId="marketCharSynch"
+              onMouseMove={tooltipSync}
+              data={data}
+              margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+            >
+              <Tooltip
+                position={{ y: -50 }}
+                content={<ApyTooltip />}
+                allowEscapeViewBox={{ y: true }}
+                cursor={<CustomLine />}
+              />
+              <Line
+                type="monotone"
+                dataKey="totalBorrow"
+                stroke="#00E0FF"
+                strokeWidth={3}
+                dot={false}
+                activeDot={<CustomDot />}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          <ResponsiveContainer
+            width="100%"
+            height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
+            className="custom__chart__bar"
           >
-            <Tooltip
-              cursor={false}
-              allowEscapeViewBox={{ y: true }}
-              content={<TotalTooltip />}
-              position={{ x: Number(dotX) - 35, y: -30 }}
-            />
-            <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]}>
-              {data.map((entry, index) => (
-                <Cell
-                  key={index}
-                  fill={activeTooltip === index ? "#00E0FF" : "#282C2B"}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+            <BarChart
+              onMouseLeave={() =>
+                setActiveTooltip((val: any) => (val = undefined))
+              }
+              syncId="marketCharSynch"
+              data={data}
+              onMouseMove={tooltipSync}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
+              <Tooltip
+                cursor={false}
+                allowEscapeViewBox={{ y: true }}
+                content={<TotalTooltip />}
+                position={{ y: -50 }}
+              />
+              <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]}>
+                {data.map((entry, index) => (
+                  <Cell
+                    key={index}
+                    fill={activeTooltip === index ? "#00E0FF" : "#282C2B"}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          {activeTooltip !== undefined ? (
+            <div
+              style={{ left: Math.round(dotX) < 50 ? 25 : Math.round(dotX) }}
+              className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium whitespace-nowrap bottom-[20px] block md:hidden pr-[10px]"
+            >
+              {activeTooltip !== undefined && data[activeTooltip].date}
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
+      {activeTooltip !== undefined ? (
+        <div
+          style={{ left: Math.round(dotX) }}
+          className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
+        >
+          {activeTooltip !== undefined && data[activeTooltip].date}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -9,11 +9,9 @@ export function useBlockchainExplorer(): {
   let [blockExplorerName, setBlockExplorerName] = useState<string | null>(null);
 
   let { networkData } = useContext(TenderContext);
-
   useEffect(() => {
-    let { blockExplorerUrl, blockExplorerName } = networkData;
-    setBlockExplorerName(blockExplorerName);
-    setBlockExplorerUrl(blockExplorerUrl);
+    setBlockExplorerName(networkData?.blockExplorerName);
+    setBlockExplorerUrl(networkData?.blockExplorerUrl);
   }, [networkData]);
 
   return {

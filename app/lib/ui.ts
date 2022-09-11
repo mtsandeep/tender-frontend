@@ -1,8 +1,8 @@
-import { roundNumber } from "./tender"
+import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
+import * as math from "mathjs";
 
 const DEFAULT_TEXT_CLASS = "sm:text-6xl";
-
 
 /**
  * Used on deposit, withdraw, borrow, and repay modals
@@ -51,7 +51,11 @@ export const toShortFiatString = (v: number): string => {
 };
 
 export const toShortCryptoString = (v: number): string => {
-  let value = `${v > A_BIG_NUMBER ? HRNumbers.toHumanString(v) : toCryptoString(roundNumber(v))}`;
+  let value = `${
+    v > A_BIG_NUMBER
+      ? HRNumbers.toHumanString(v)
+      : toCryptoString(roundNumber(v))
+  }`;
   return value.slice(0, 16);
 };
 
@@ -67,14 +71,28 @@ export const toCryptoString = (v: number): string => {
     s = toFiatString(v);
   } else {
     s = v
-      .toFixed(7)// round to 7 places instead of 6
-      .slice(0, -1) // then drop the last digit because rounding up breaks the upper limit
+      .toFixed(7) // round to 7 places instead of 6
+      .slice(0, -1); // then drop the last digit because rounding up breaks the upper limit
 
     // note, safari does not support regexp look behind
     // If there is a decimal, remove traliing 0's, leaving at least one left
-     if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0")
+    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0");
   }
   return s;
 };
+
+export const toMaxString = (v: number): string =>
+  math.format(v, {
+    notation: "fixed",
+    precision: 7,
+  });
+
+export const toMaxNumber = (v: number): number =>
+  parseFloat(
+    math.format(v, {
+      notation: "fixed",
+      precision: 7,
+    })
+  );
 
 export { shrinkyInputClass };

@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+import { useNetworkData } from "~/hooks/use-network-data";
 
 interface Props {
   inMenu?: boolean;
   addresses: string[];
-  networkName: string;
-  isNetworkOnline: boolean;
   walletIco: string;
   handlerDisconnect: () => void;
 }
@@ -13,9 +13,11 @@ const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [textButton, setTextButton] = useState<string>("Copy Address");
   const dropdownRef = useRef<any>(null);
+  const chainId = Web3Hooks.useChainId();
+  const networkData = useNetworkData(chainId);
 
   function truncateAccount(account: string): string {
-    return `${account.slice(0, 3)}...${account.slice(-4)}`;
+    return `${account.slice(0, 5)}...${account.slice(-4)}`;
   }
 
   useEffect(() => {
@@ -40,13 +42,17 @@ const WalletDropdown = (props: Props) => {
 
   return (
     <div
-      className="relative z-40 max-w-[220px] m-auto h-[34px] md:h-[44px]"
+      className={`relative z-40 w-[34px] md:w-[auto] ${
+        props.inMenu ? "w-[auto]" : "h-[34px]"
+      } ${
+        isOpen ? "w-[110px] md:w-[auto]" : "w-[34px] md:w-[auto]"
+      } md:h-[44px]`}
       ref={dropdownRef}
     >
       <div
         className={`dropdown__wallet__custom ${
           props.inMenu ? "dropdown__button-inMenu" : ""
-        } relative flex pr-[9px] pb-[10px] pt-[11px] pl-[14px] md:mr-[0px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
+        } relative flex p-[9px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
@@ -106,21 +112,6 @@ const WalletDropdown = (props: Props) => {
             {truncateAccount(props.addresses[0])}
           </p>
         </div>
-        <div className="flex-col text-left pt-[13px] px-[15px] md:pt-[15px] md:px-[15px] border-b border-[#b5cfcc2b]">
-          <p className="text-sm font-nova font-semibold text-[#818987] leading-[19.49px]">
-            Network
-          </p>
-          <div className="pt-[2px] pb-[13px] flex items-center">
-            <span
-              className={`inline-block rounded-full w-[8px] h-[8px] ${
-                props.isNetworkOnline ? "bg-[#14F195]" : "bg-red-600"
-              }`}
-            ></span>
-            <span className="px-[12px] text-sm font-nova font-norma leading-[19.49px]">
-              {props.networkName}
-            </span>
-          </div>
-        </div>
         <div
           onClick={() => handleCopy(props.addresses[0])}
           className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
@@ -131,33 +122,37 @@ const WalletDropdown = (props: Props) => {
               src="/images/wallet-icons/wallet-copy.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               {textButton}
             </p>
           </div>
         </div>
-        <div className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
-          <div className="flex items-center">
-            <img
-              className="w-[16px] h-[16px] mr-[15px]"
-              src="/images/wallet-icons/balance-link.svg"
-              alt="..."
-            />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
-              View Explorer
-            </p>
-          </div>
-        </div>
+        <a
+          className="flex items-center p-[14px] hover:bg-[#2B302F] cursor-pointer"
+          target="_blank"
+          rel="noreferrer"
+          href={networkData?.userExplorerUrl + props.addresses[0] || ""}
+        >
+          <img
+            className="w-[16px] h-[16px] mr-[15px]"
+            src="/images/wallet-icons/balance-link.svg"
+            alt="..."
+          />
+          <p className="font-nova text-sm font-normal text-white leading-[14px]">
+            View Explorer
+          </p>
+        </a>
         <div
-            onClick={() => props.handlerDisconnect()}
-            className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer">
+          onClick={() => props.handlerDisconnect()}
+          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+        >
           <div className="flex items-center">
             <img
               className="w-[16px] h-[16px] mr-[15px]"
               src="/images/wallet-icons/wallet-disconnect.svg"
               alt="..."
             />
-            <p className="font-nova text-[14px] font-normal text-[#fff] leading-[14px]">
+            <p className="font-nova text-sm font-normal text-white leading-[14px]">
               Disconnect Wallet
             </p>
           </div>

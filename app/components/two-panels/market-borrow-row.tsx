@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactModal from "react-modal";
 import type { Market } from "~/types/global";
-import BorrowFlow from "../borrow-flow";
+import BorrowFlow from "../borrow-flow/borrow-flow";
 
 ReactModal.setAppElement("#m");
 

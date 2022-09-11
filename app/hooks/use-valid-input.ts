@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toMaxNumber } from "~/lib/ui";
 
 enum InputValidationDetail {
   NON_NUMERIC_INPUT = "Please enter an amount",
@@ -15,7 +16,6 @@ export function useValidInput(
 ): [boolean, InputValidationDetail | null] {
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
-
   useEffect(() => {
     // Reset reason on each run
     setReason(null);
@@ -45,7 +45,7 @@ export function useValidInput(
       if (v <= floor) {
         setReason(InputValidationDetail.NEGATIVE_OR_ZERO);
         setIsValid(false);
-      } else if (v > ceil) {
+      } else if (v > toMaxNumber(ceil)) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
       } else if (borrowLimitUsed >= 100 || borrowLimitUsed < -0) {

@@ -2,6 +2,7 @@ import { toFiatString } from "~/lib/ui";
 
 interface BorrowBalanceProps {
   value: string;
+  urlArrow: string;
   isValid: boolean;
   borrowBalance: number;
   newBorrowBalance: number;
@@ -12,6 +13,7 @@ interface BorrowBalanceProps {
 export default function BorrowBalance(props: BorrowBalanceProps) {
   const {
     value,
+    urlArrow,
     isValid,
     borrowBalance,
     newBorrowBalance,
@@ -20,7 +22,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
   } = props;
   return (
     <div>
-      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-xl w-full pb-4 sm:pb-5">
+      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-sm w-full pb-4 sm:pb-5">
         Borrow Limit
       </div>
 
@@ -32,7 +34,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
             <div className="flex">
               ${toFiatString(borrowBalance)}
               <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
-                <img className="mx-3" src="/images/ico/arrow.svg" alt="" />
+                <img className="mx-3" src={urlArrow} alt="" />
               </span>
               ${toFiatString(newBorrowBalance)}
             </div>
@@ -48,7 +50,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
             <div className="flex">
               {borrowLimitUsed}%
               <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
-                <img className="mx-3" src="/images/ico/arrow.svg" alt="" />
+                <img className="mx-3" src={urlArrow} alt="" />
               </span>
               {newBorrowLimitUsed}%
             </div>

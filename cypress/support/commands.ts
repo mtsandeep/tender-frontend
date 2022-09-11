@@ -27,4 +27,4 @@ declare global {
   }
 }
 
-Cypress.Commands.add("cleanupUser", cleanupUser);
+// Cypress.Commands.add("cleanupUser", cleanupUser);

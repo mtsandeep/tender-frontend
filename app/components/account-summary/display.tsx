@@ -11,7 +11,6 @@ interface props {
   borrowLimit: number;
 }
 
-
 export default function Display({
   totalSuppliedUsd,
   totalBorrowedUsd,
@@ -45,7 +44,7 @@ export default function Display({
                 0%
               </div>
             )}
-            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center">
+            <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>
           </div>
@@ -106,23 +105,24 @@ export default function Display({
         <div className="flex justify-between items-center">
           <div className="mr-2 font-nova text-sm text-white">0%</div>
           <div className="font-nova text-sm text-white mr-[3px] md:mr-0">
-            {toFiatString(borrowLimit)}
+            ${toFiatString(borrowLimit)}
           </div>
         </div>
       </div>
       <div
         className="w-full h-full bg-green-300 mr-2 h-[5px] md:h-[4px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
         style={{
-          background:
-            percentUsed > 79
-              ? "linear-gradient(270deg, rgba(255, 0, 0.5) 0%, rgba(255, 0, 0, 1) 100%)"
-              : "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
-          width: borrowLimitUsed === "" ? 0 : `${percentUsed}%`,
+          background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
+          width: borrowLimitUsed === "" ? 15 : `${percentUsed}%`,
           transition: "width 1s ease-out",
         }}
       >
-        {borrowLimitUsed && (
-          <span className="span-value">{borrowLimitUsed}%</span>
+        {parseFloat(borrowLimitUsed) > 0 && (
+          <span
+            className={percentUsed > 90 ? "span-value-bottom" : "span-value"}
+          >
+            {borrowLimitUsed}%
+          </span>
         )}
       </div>
       <div className="w-full flex absolute bottom-0 left-0">

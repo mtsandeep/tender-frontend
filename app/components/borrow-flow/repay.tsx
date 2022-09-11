@@ -5,9 +5,8 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import * as math from "mathjs";
+import { toMaxString } from "~/lib/ui";
 
-import clsx from "clsx";
 import toast from "react-hot-toast";
 
 import Max from "~/components/max";
@@ -116,19 +115,19 @@ export default function Repay({
 
       {txnHash === "" && (
         <div>
-          <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
+          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
               <button onClick={() => closeModal()} className="">
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
 
-            {!isEnabled && (
+            {!isEnabled ? (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-6 mr-3"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
                   {market.tokenPair.token.symbol}
@@ -140,45 +139,41 @@ export default function Repay({
                     alt="icon"
                   />
                   <div className="max-w-sm text-center my-10 mt-5 mb-5 font-normal font-nova text-white text-sm px-4">
-                    To borrow or repay {market.tokenPair.token.symbol} to the
+                    To borrow or repay {market.tokenPair.token.symbol} on the
                     Tender.fi protocol, you need to enable it first.
                   </div>
                 </div>
               </div>
-            )}
-            {isEnabled && (
+            ) : (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-12"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
+                  {market.tokenPair.token.symbol}
                 </div>
-                <div className="relative  mt-6">
-                  <Max
-                    maxValue={maxRepayableAmount.toString()}
-                    updateValue={() => {
-                      let value = math.format(maxRepayableAmount, {
-                        notation: "fixed",
-                      });
-                      if (!inputEl || !inputEl.current) return;
-                      inputEl.current.focus();
-                      inputEl.current.value = value;
-                      setValue(value);
-                    }}
-                    maxValueLabel={market.tokenPair.token.symbol}
+                <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
+                  <input
+                    ref={inputEl}
+                    value={value}
+                    onChange={(e) => handleCheckValue(e)}
+                    style={{ minHeight: 90 }}
+                    className={`input__center__custom ${
+                      value ? "w-full" : "w-[calc(100%-40px)]"
+                    } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                    placeholder="0"
                   />
-                  <div className="flex flex-col justify-center items-center overflow-hidden">
-                    <input
-                      ref={inputEl}
-                      value={value}
-                      onChange={(e) => handleCheckValue(e)}
-                      style={{ minHeight: 90 }}
-                      className={`w-full text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                      placeholder="0"
-                    />
-                  </div>
+
+                  <Max
+                    maxValue={maxRepayableAmount}
+                    updateValue={() =>
+                      setValue(toMaxString(maxRepayableAmount))
+                    }
+                    maxValueLabel={market.tokenPair.token.symbol}
+                    color="#00E0FF"
+                  />
                 </div>
               </div>
             )}
@@ -190,7 +185,7 @@ export default function Repay({
                 Borrow
               </button>
               <button
-                className="flex-grow py-2 text-[#14F195] border-b-4 uppercase border-b-[#14F195] font-space font-bold text-xs sm:text-base"
+                className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
                 onClick={() => setIsRepaying(true)}
               >
                 Repay
@@ -204,11 +199,11 @@ export default function Repay({
             <div className="flex flex-col items-start mb-3 text-gray-400  pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
-                className="borrow__link__custom w-[120px] md:w-[155px] flex items-center font-bold font-nova text-sm sm:text-xl text-[#fff]"
+                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
                 Borrow Rates
                 <svg
-                  className="ml-[15px]"
+                  className="ml-[10px]"
                   width="16"
                   height="16"
                   viewBox="0 0 16 16"
@@ -218,7 +213,7 @@ export default function Repay({
                     fillRule="evenodd"
                     clipRule="evenodd"
                     d="M7.3335 1.3335H4.00016C2.5275 1.3335 1.3335 2.5275 1.3335 4.00016V12.0002C1.3335 13.4728 2.5275 14.6668 4.00016 14.6668H12.0002C13.4728 14.6668 14.6668 13.4728 14.6668 12.0002C14.6668 10.4862 14.6668 8.66683 14.6668 8.66683C14.6668 8.29883 14.3682 8.00016 14.0002 8.00016C13.6322 8.00016 13.3335 8.29883 13.3335 8.66683V12.0002C13.3335 12.7362 12.7362 13.3335 12.0002 13.3335C9.78016 13.3335 6.2195 13.3335 4.00016 13.3335C3.2635 13.3335 2.66683 12.7362 2.66683 12.0002C2.66683 9.78016 2.66683 6.2195 2.66683 4.00016C2.66683 3.2635 3.2635 2.66683 4.00016 2.66683H7.3335C7.7015 2.66683 8.00016 2.36816 8.00016 2.00016C8.00016 1.63216 7.7015 1.3335 7.3335 1.3335ZM12.3908 2.66683H10.0002C9.63216 2.66683 9.3335 2.36816 9.3335 2.00016C9.3335 1.63216 9.63216 1.3335 10.0002 1.3335H14.0002C14.3682 1.3335 14.6668 1.63216 14.6668 2.00016V6.00016C14.6668 6.36816 14.3682 6.66683 14.0002 6.66683C13.6322 6.66683 13.3335 6.36816 13.3335 6.00016V3.6095L8.4715 8.4715C8.2115 8.7315 7.78883 8.7315 7.52883 8.4715C7.26816 8.2115 7.26816 7.78883 7.52883 7.52883L12.3908 2.66683Z"
-                    fill="white"
+                    fill="#00E0FF"
                   />
                 </svg>
               </a>
@@ -241,6 +236,7 @@ export default function Repay({
               newBorrowBalance={newTotalBorrowedAmountInUsd}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
+              urlArrow="/images/ico/arrow-blue.svg"
             />
 
             <div className="flex justify-center mb-8">
@@ -258,19 +254,18 @@ export default function Repay({
                       );
                       setIsEnabled(true);
                     } catch (e) {
-                      console.error(e);
                     } finally {
                       setIsEnabling(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
                 >
                   {isEnabling ? "Enabling..." : "Enable"}
                 </button>
               )}
 
               {signer && isEnabled && !isValid && (
-                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]">
+                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]">
                   {validationDetail}
                 </button>
               )}
@@ -285,7 +280,6 @@ export default function Repay({
                         });
                         return;
                       }
-
                       setIsRepayingTxn(true);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await repay(
@@ -295,26 +289,20 @@ export default function Repay({
                         market.tokenPair.token
                       );
                       setTxnHash(txn.hash);
-
                       setIsWaitingToBeMined(true);
                       let tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
-                      displayTransactionResult(
-                        tr.transactionHash,
-                        "Repayment successful"
-                      );
                       setValue("");
                       updateTransaction(tr.blockHash);
                       toast.success("Repayment successful");
-                      closeModal();
                     } catch (e) {
                       toast.error("Repayment unsuccessful");
-                      console.error(e);
+                      closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsRepayingTxn(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
                 >
                   {isRepayingTxn ? "Repaying..." : "Repay"}
                 </button>

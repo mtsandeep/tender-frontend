@@ -1,15 +1,14 @@
 export default {
   ChainId: 42161,
   name: "Arbitrum",
-  blockExplorerName: "Arbiscan",
-  blockExplorerUrl: "https://arbiscan.io/tx",
+  blockExplorerName: "Arbitrum",
+  rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
+  userExplorerUrl: "https://arbiscan.io/address/",
   Contracts: {
     Comptroller: "0x60437FEE4ddBdA6e47955b6255E312F1ED067033",
     PriceOracle: "0xD550A36DC56046afa908c52579f130e724D83eae",
   },
-  Tokens: {
-
-
+  Tokens: { 
     ETH: {
       name: "ETH",
       symbol: "ETH",
@@ -21,10 +20,9 @@ export default {
         name: "tETH",
         symbol: "tETH",
         decimals: 8,
-        address: "0x3EfFa48cB7c65399676D49f4B08696151f2446CC"
+        address: "0x3EfFa48cB7c65399676D49f4B08696151f2446CC",
       },
     },
-
     WBTC: {
       name: "wBTC",
       symbol: "WBTC",
@@ -39,8 +37,6 @@ export default {
         address: "0x29D4Cf28db3f978591F9868006BD3c5D2f36801f",
       },
     },
-
-
     USDC: {
       name: "USDC",
       symbol: "USDC",
@@ -55,7 +51,6 @@ export default {
         address: "0x0BdF3cb0D390ce8d8ccb6839b1CfE2953983b5f1",
       },
     },
-
     USDT: {
       name: "USDT",
       symbol: "USDT",
@@ -70,12 +65,9 @@ export default {
         address: "0xCAA772eaCbCAD50E0decC64Ab4748DC1A11Cf731",
       },
     },
-
-
-
     DAI: {
       name: "DAI",
-      symbol: "DAI",
+      symbol: "DAI", 
       decimals: 18,
       address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
       icon: "/images/coin-icons/dai.svg",
@@ -83,7 +75,7 @@ export default {
       cToken: {
         name: "tDAI",
         symbol: "tDAI",
-        decimals: 8,
+        decimals: 8, 
         address: "0x916b44509CcfC5238f8Ce9a30bEB1BF861B70779",
       },
     },
@@ -98,13 +90,9 @@ export default {
         name: "tFRAX",
         symbol: "tFRAX",
         decimals: 8,
-        address: "0x86356683eca061FA3dD795aF3A22a1530a999b58",
+        address: "0x86356683eca061FA3dD795aF3A22a1530a999b58", 
       },
     },
-
-
-
-
     UNI: {
       name: "UNI",
       symbol: "UNI",
@@ -115,48 +103,38 @@ export default {
       cToken: {
         name: "tUNI",
         symbol: "tUNI",
-        decimals: 8,
+        decimals: 8, 
         address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
       },
     },
-
-
-
-
     LINK: {
       name: "LINK",
-      symbol: "LINK",
+      symbol: "LINK", 
       decimals: 18,
-      address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
-      icon: "/images/coin-icons/link.svg",
+      address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+      icon: "/images/coin-icons/dai.svg",
       priceDecimals: 28,
       cToken: {
-        name: "tLINK",
-        symbol: "tLINK",
-        decimals: 8,
+        name: "tDAI",
+        symbol: "tDAI",
+        decimals: 8, 
         address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
       },
     },
-
-
-  GLP: {
-    name: "GLP",
-    symbol: "GLP",
-    decimals: 18,
-
-    // staked glp is for approve
-    sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
-    // fsGLP has balanceOf
-    address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
-
-    icon: "/images/coin-icons/glp.svg",
-    priceDecimals: 28,
-    cToken: {
-      name: "tGLP",
-      symbol: "tGLP",
-      decimals: 8,
-      address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD"
+    GLP: {
+      name: "GLP",
+      symbol: "GLP", 
+      decimals: 18,
+      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+      address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+      icon: "/images/coin-icons/glp.svg",
+      priceDecimals: 28,
+      cToken: {
+        name: "tGLP",
+        symbol: "tGLP",
+        decimals: 8,
+        address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD",
+      },
     },
-  }
-}
-}
+  },
+}; 
