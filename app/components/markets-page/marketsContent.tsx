@@ -489,19 +489,19 @@ export default function MarketsContent() {
             <table className="custom__scroll w-full h-full table-fixed !pb-[20px] md:pb-[0px]  md:pt-[0px]">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                  <th className="pl-[15px] pb-[14px] md:pb-[19px] pt-[15px] md:pt-[19px] md:pl-[30px] font-nova font-[500] pr-[48px] text-start text-xs md:text-sm">
+                  <th className="pl-[15px] pb-[14px] md:pb-[19px] pt-[15px] md:pt-[19px] md:pl-[30px] font-nova font-[600] pr-[48px] text-start text-xs md:text-sm">
                     Market
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[2px] text-right text-xs md:text-sm">
+                  <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal pr-[36px]  sm:pr-[2px] text-right text-xs md:text-sm">
                     Total Supply
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[14px] text-right text-xs md:text-sm">
+                  <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal pr-[36px]  sm:pr-[14px] text-right text-xs md:text-sm">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[20px] text-right text-xs md:text-sm">
+                  <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal pr-[36px]  sm:pr-[20px] text-right text-xs md:text-sm">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[30px] md:pl-[0px] text-right text-xs md:text-sm">
+                  <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal pr-[36px]  sm:pr-[30px] md:pl-[0px] text-right text-xs md:text-sm">
                     Borrow APY
                   </th>
                 </tr>

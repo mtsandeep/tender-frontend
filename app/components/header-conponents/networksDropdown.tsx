@@ -188,9 +188,9 @@ const NetworksDropdown = () => {
           <div
             className={`${
               isOpen ? "block" : "hidden"
-            } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px] overflow-hidden`}
+            } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px] overflow-hidden border-b-[1px] border-[#181D1B]`}
           >
-            <div className=" font-nova text-sm font-normal text-[#818987] pt-[14px] pl-[14px] pb-[14px] border-b-[1px] border-[#282C2B]">
+            <div className="font-nova text-sm font-[500] text-[#818987] pt-[14px] pl-[14px] pb-[14px] border-b-[1px] border-[#282C2B]">
               Select Network
             </div>
             <div className="bg-[#181D1B]">
@@ -212,7 +212,9 @@ const NetworksDropdown = () => {
                           src={network.iconsSrc}
                           alt="..."
                         />
-                        <p>{network.networkName}</p>
+                        <p className="text-[14px] font-[400] font-nova">
+                          {network.networkName}
+                        </p>
                       </div>
                       {network.networkName === selectedNetwork.networkName && (
                         <span
