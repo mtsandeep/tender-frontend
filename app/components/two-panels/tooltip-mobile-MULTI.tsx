@@ -15,7 +15,7 @@ export default function TooltipMobileMulti({ ...props }) {
         },
       }}
     >
-      <div className="flex flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[16px] pr-[30px] pb-[16px] pl-[20px] lg:hidden gap-y-[14px]">
+      <div className="flex flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[16px] pr-[30px] pb-[16px] pl-[20px] lg:hidden">
         {props.tooltipData?.coins.map((coin: any, index: number) => {
           return (
             <div

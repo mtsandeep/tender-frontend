@@ -491,14 +491,14 @@ export default function TwoPanels({ tenderContextData }: any) {
                                   open: window.innerWidth < 1023,
                                   coins: [
                                     {
+                                      coinTitle: m.tokenPair.token.symbol,
+                                      iconSrc: m.tokenPair.token.icon,
+                                      data: "-0.22%",
+                                    },
+                                    {
                                       coinTitle: "esTND",
                                       iconSrc:
                                         "/images/wallet-icons/balance-icon.svg",
-                                      data: "0.22%",
-                                    },
-                                    {
-                                      coinTitle: m.tokenPair.token.symbol,
-                                      iconSrc: m.tokenPair.token.icon,
                                       data: "0.22%",
                                     },
                                   ],
@@ -508,13 +508,13 @@ export default function TwoPanels({ tenderContextData }: any) {
                             >
                               <img
                                 className="w-[13px] h-[13px] mr-[6px]"
-                                src="/images/wallet-icons/balance-icon.svg"
-                                alt="..."
+                                src={m.tokenPair.token.icon}
+                                alt={m.tokenPair.token.symbol}
                               />
                               <img
                                 className="w-[13px] h-[13px]"
-                                src={m.tokenPair.token.icon}
-                                alt={m.tokenPair.token.symbol}
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
                               />
                             </div>
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
@@ -524,26 +524,26 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
-                                        src="/images/wallet-icons/balance-icon.svg"
+                                        src={m.tokenPair.token.icon}
                                         alt="..."
                                       />
                                       <span className="font-nova text-white text-sm font-normal">
-                                        TND
+                                        {m.tokenPair.token.symbol}
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal">
-                                      0.22%
+                                      -0.22%
                                     </span>
                                   </div>
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
-                                        src={m.tokenPair.token.icon}
+                                        src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
                                       />
                                       <span className="font-nova text-white text-sm font-normal">
-                                        {m.tokenPair.token.symbol}
+                                        esTND
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal">
@@ -657,14 +657,14 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     open: window.innerWidth < 1023,
                                     coins: [
                                       {
+                                        coinTitle: m.tokenPair.token.symbol,
+                                        iconSrc: m.tokenPair.token.icon,
+                                        data: "-0.22%",
+                                      },
+                                      {
                                         coinTitle: "esTND",
                                         iconSrc:
                                           "/images/wallet-icons/balance-icon.svg",
-                                        data: "0.22%",
-                                      },
-                                      {
-                                        coinTitle: m.tokenPair.token.symbol,
-                                        iconSrc: m.tokenPair.token.icon,
                                         data: "0.22%",
                                       },
                                     ],
@@ -674,13 +674,13 @@ export default function TwoPanels({ tenderContextData }: any) {
                               >
                                 <img
                                   className="w-[13px] h-[13px] mr-[6px]"
-                                  src="/images/wallet-icons/balance-icon.svg"
-                                  alt="..."
+                                  src={m.tokenPair.token.icon}
+                                  alt={m.tokenPair.token.symbol}
                                 />
                                 <img
                                   className="w-[13px] h-[13px]"
-                                  src={m.tokenPair.token.icon}
-                                  alt={m.tokenPair.token.symbol}
+                                  src="/images/wallet-icons/balance-icon.svg"
+                                  alt="..."
                                 />
                               </div>
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
@@ -690,26 +690,26 @@ export default function TwoPanels({ tenderContextData }: any) {
                                       <div className="flex gap-[8px]">
                                         <img
                                           className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
+                                          src={m.tokenPair.token.icon}
                                           alt="..."
                                         />
                                         <span className="font-nova text-white text-sm font-normal">
-                                          TND
+                                          {m.tokenPair.token.symbol}
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal">
-                                        0.22%
+                                        -0.22%
                                       </span>
                                     </div>
                                     <div className="flex justify-between gap-[30px]">
                                       <div className="flex gap-[8px]">
                                         <img
                                           className="max-w-[18px]"
-                                          src={m.tokenPair.token.icon}
+                                          src="/images/wallet-icons/balance-icon.svg"
                                           alt="..."
                                         />
                                         <span className="font-nova text-white text-sm font-normal">
-                                          {m.tokenPair.token.symbol}
+                                          esTND
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal">
