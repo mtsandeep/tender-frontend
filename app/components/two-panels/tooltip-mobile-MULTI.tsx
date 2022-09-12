@@ -28,7 +28,9 @@ export default function TooltipMobileMulti({ ...props }) {
                   {coin.coinTitle}
                 </span>
               </div>
-              <span className="font-nova text-white text-sm font-normal">
+              <span
+                className={`font-nova text-white text-sm font-normal ${coin.color}`}
+              >
                 {coin.data}
               </span>
             </div>
