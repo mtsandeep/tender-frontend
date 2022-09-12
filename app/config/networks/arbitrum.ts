@@ -2,6 +2,7 @@ export default {
   ChainId: 42161,
   name: "Arbitrum",
   blockExplorerName: "Arbitrum",
+  blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
   Contracts: {
@@ -13,7 +14,7 @@ export default {
       name: "ETH",
       symbol: "ETH",
       decimals: 18,
-      //   address: eth has no address
+      address: "",
       icon: "/images/coin-icons/ethereum.svg",
       priceDecimals: 18,
       cToken: {
@@ -111,8 +112,8 @@ export default {
       name: "LINK",
       symbol: "LINK", 
       decimals: 18,
-      address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-      icon: "/images/coin-icons/dai.svg",
+      address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+      icon: "/images/coin-icons/link.svg",
       priceDecimals: 28,
       cToken: {
         name: "tDAI",
@@ -125,7 +126,9 @@ export default {
       name: "GLP",
       symbol: "GLP", 
       decimals: 18,
+      // staked glp is for approve
       sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+      // fsGLP has balanceOf
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
       icon: "/images/coin-icons/glp.svg",
       priceDecimals: 28,

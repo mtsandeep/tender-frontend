@@ -44,19 +44,19 @@ const WalletDropdown = (props: Props) => {
     <div
       className={`relative z-40 w-[34px] md:w-[auto] ${
         props.inMenu ? "w-[auto]" : "h-[34px]"
-      } ${
-        isOpen ? "w-[110px] md:w-[auto]" : "w-[34px] md:w-[auto]"
-      } md:h-[44px]`}
+      } ${isOpen ? "w-[auto]" : "w-[34px] md:w-[auto]"} md:h-[44px]`}
       ref={dropdownRef}
     >
       <div
-        className={`dropdown__wallet__custom ${
+        className={`dropdown__wallet__custom px-[10px] ${
           props.inMenu ? "dropdown__button-inMenu" : ""
-        } relative flex p-[9px] md:pl-[14px] md:pt-[1px] md:pr-[0px] md:pb-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center md:w-[157px] h-[34px] md:h-[44px]`}
+        } relative flex bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] md:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
-          className={`${isOpen || props.inMenu ? "hidden" : "block md:hidden"}`}
+          className={`w-[16px] h-[16px] ${
+            props.inMenu ? "hidden" : "block md:hidden"
+          }`}
           src="/images/ico/wallet.svg"
           alt="..."
         />
@@ -69,10 +69,8 @@ const WalletDropdown = (props: Props) => {
         </div>
         <div
           className={`${
-            isOpen || props.inMenu ? "block mr-[31px]" : "hidden md:block"
-          } ${
-            props.inMenu ? "mr-[10px!important]" : ""
-          } text-sm font-semibold text-right leading-[14px] font-nova`}
+            props.inMenu ? "block" : "hidden md:block"
+          } text-sm font-semibold text-right leading-[14px] font-nova mr-[8px]`}
         >
           {truncateAccount(props.addresses[0])}
         </div>
@@ -83,13 +81,12 @@ const WalletDropdown = (props: Props) => {
                 ? "rotate-180"
                 : "rotate-0"
               : isOpen
-              ? "absolute right-[9px] top-[50%] translate-y-[-50%] rotate-0"
-              : "absolute right-[9px] top-[50%] translate-y-[-50%] rotate-180 hidden md:flex"
+              ? "rotate-0 hidden md:flex"
+              : "rotate-180 hidden md:flex"
           }`}
           width="10"
           height="6"
           viewBox="0 0 10 6"
-          xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M5.00003 0.149816C5.17925 0.149816 5.35845 0.218246 5.49508 0.354819L9.79486 4.65464C10.0684 4.92816 10.0684 5.37163 9.79486 5.64504C9.52145 5.91845 9.07807 5.91845 8.80452 5.64504L5.00003 1.84032L1.19551 5.64491C0.921987 5.91832 0.478651 5.91832 0.205262 5.64491C-0.0683924 5.37149 -0.0683923 4.92803 0.205262 4.6545L4.50497 0.354686C4.64168 0.218091 4.82087 0.149816 5.00003 0.149816Z" />
         </svg>

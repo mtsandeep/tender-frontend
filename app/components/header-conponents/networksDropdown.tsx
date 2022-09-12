@@ -146,48 +146,32 @@ const NetworksDropdown = () => {
           className="relative z-10 w-[34px] h-[34px] md:h-[44px] md:w-[auto] m-auto mr-[6px] md:mr-[12px]"
           ref={dropdownRef}
         >
-          <span
-            className={`${
-              selectedNetwork.networkName && isActive
-                ? "bg-[#01C275]"
-                : "bg-[#FF3939]"
-            } block absolute top-[-4px] right-[-4px] rounded-full border-black border-2 w-[10px] h-[10px] md:w-[12px] md:h-[12px]`}
-          ></span>
           <div
             className={`group ${
               selectedNetwork.networkName && isActive
                 ? "bg-[#181D1B] hover:bg-[#262C2A]"
                 : "bg-[#3A1313] hover:bg-[#4f2222]"
-            } flex justify-between h-full items-center px-[9px] py-[9px] md:px-[10px] md:py-[10px] rounded-[6px] cursor-pointer`}
+            } flex justify-between h-full items-center px-[9px] md:px-[10px] rounded-[6px] cursor-pointer`}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <div className="flex justify-between gap-[9px]">
-              {selectedNetwork.networkName && isActive ? (
-                <>
-                  <img
-                    className={`block`}
-                    src={selectedNetwork.iconsSrc}
-                    alt="..."
-                  />
-                  <div className="hidden font-nova font-semibold text-sm md:block">
-                    {selectedNetwork.networkName}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <img
-                    className={`block`}
-                    src="/images/ico/error-network.svg"
-                    alt="..."
-                  />
-                  <div className="hidden font-nova font-semibold text-sm md:block">
-                    Wrong Network
-                  </div>
-                </>
-              )}
+            <div className="flex justify-between gap-[9px] mr-[0] md:mr-[8px] items-center">
+              <img
+                className="w-[16px] h-[16px] block"
+                src={
+                  selectedNetwork.networkName && isActive
+                    ? selectedNetwork.iconsSrc
+                    : "/images/ico/error-network.svg"
+                }
+                alt="..."
+              />
+              <div className="hidden font-nova font-semibold text-sm md:block">
+                {selectedNetwork.networkName && isActive
+                  ? selectedNetwork.networkName
+                  : "Wrong Network"}
+              </div>
             </div>
             <svg
-              className={`hidden md:block fill-white ml-[8px] justify-self-end arrow__custom ${
+              className={`hidden md:block fill-white justify-self-end arrow__custom ${
                 isOpen ? "rotate-0" : "rotate-180"
               } ${
                 selectedNetwork.networkName && isActive
@@ -197,7 +181,6 @@ const NetworksDropdown = () => {
               width="10"
               height="6"
               viewBox="0 0 10 6"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path d="M5.00003 0.149816C5.17925 0.149816 5.35845 0.218246 5.49508 0.354819L9.79486 4.65464C10.0684 4.92816 10.0684 5.37163 9.79486 5.64504C9.52145 5.91845 9.07807 5.91845 8.80452 5.64504L5.00003 1.84032L1.19551 5.64491C0.921987 5.91832 0.478651 5.91832 0.205262 5.64491C-0.0683924 5.37149 -0.0683923 4.92803 0.205262 4.6545L4.50497 0.354686C4.64168 0.218091 4.82087 0.149816 5.00003 0.149816Z" />
             </svg>
@@ -205,9 +188,9 @@ const NetworksDropdown = () => {
           <div
             className={`${
               isOpen ? "block" : "hidden"
-            } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px] overflow-hidden`}
+            } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px] overflow-hidden border-b-[1px] border-[#181D1B]`}
           >
-            <div className=" font-nova text-sm font-normal text-[#818987] pt-[14px] pl-[14px] pb-[14px] border-b-[1px] border-[#282C2B]">
+            <div className="font-nova text-sm font-[500] text-[#818987] pt-[14px] pl-[14px] pb-[14px] border-b-[1px] border-[#282C2B]">
               Select Network
             </div>
             <div className="bg-[#181D1B]">
@@ -221,21 +204,23 @@ const NetworksDropdown = () => {
                       className={`${
                         network.networkName === selectedNetwork.networkName &&
                         "bg-[#2B302F]"
-                      } relative flex items-center w-full pl-[15px] pt-[14px] pb-[14px] cursor-pointer hover:bg-[#2B302F]`}
+                      } relative flex items-center justify-between w-full p-[14px] cursor-pointer hover:bg-[#2B302F]`}
                     >
-                      <img
-                        className="max-w-[16px] mr-[10px]"
-                        src={network.iconsSrc}
-                        alt="..."
-                      />
-                      <p>{network.networkName}</p>
+                      <div className="flex items-center">
+                        <img
+                          className="max-w-[16px] mr-[10px]"
+                          src={network.iconsSrc}
+                          alt="..."
+                        />
+                        <p className="text-[14px] font-[400] font-nova">
+                          {network.networkName}
+                        </p>
+                      </div>
                       {network.networkName === selectedNetwork.networkName && (
                         <span
                           className={`${
-                            selectedNetwork.networkName
-                              ? "bg-[#01C275]"
-                              : "bg-[#FF3939]"
-                          } absolute block top-[40%] right-[18px] rounded-full w-[6px] h-[6px] md:w-[8px] md:h-[8px]`}
+                            isActive ? "bg-[#01C275]" : "bg-[#FF3939]"
+                          } block rounded-full w-[6px] h-[6px] md:w-[8px] md:h-[8px]`}
                         ></span>
                       )}
                     </div>

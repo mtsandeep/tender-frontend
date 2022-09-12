@@ -240,16 +240,16 @@ export default function TwoPanels({ tenderContextData }: any) {
                     marketsWithSupply.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="pr-[80px] pt-[13px] font-nova font-[500] p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
+                  <th className="pr-[80px] pt-[13px] font-nova font-[600] p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
                     Asset
                   </th>
-                  <th className="pr-[51px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
+                  <th className="pr-[51px]  pt-[13px] font-nova font-[600] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
                     Total Supply
                   </th>
-                  <th className="pr-[50px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
+                  <th className="pr-[50px]  pt-[13px] font-nova font-[600] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
                     Supply APY
                   </th>
-                  <th className="py-[20px] pt-[13px] font-nova font-[500] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
+                  <th className="py-[20px] pt-[13px] font-nova font-[600] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
                     Your Supply
                   </th>
                 </tr>
@@ -334,16 +334,16 @@ export default function TwoPanels({ tenderContextData }: any) {
               <table className="custom__scroll w-full h-full table-fixed">
                 <thead>
                   <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                    <th className="pr-[80px] pt-[15px] p-[15px] font-nova font-[500] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
+                    <th className="pr-[80px] pt-[15px] p-[15px] font-nova font-[600] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
                       Asset
                     </th>
-                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[51px] pt-[15px] p-[15px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
+                    <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal pr-[51px] pt-[15px] p-[15px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
                       Total Supply
                     </th>
-                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[50px] pt-[15px] p-[15px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
+                    <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal pr-[50px] pt-[15px] p-[15px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
                       Supply APY
                     </th>
-                    <th className="py-[20px] pt-[13px] font-nova font-[500] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
+                    <th className="py-[20px] pt-[13px] font-nova font-[600] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
                       Wallet Balance
                     </th>
                   </tr>
@@ -437,16 +437,16 @@ export default function TwoPanels({ tenderContextData }: any) {
                     marketsWithBorrow.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="pr-[80px] pt-[13px] font-nova font-[500]  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
+                  <th className="pr-[80px] pt-[13px] font-nova font-[600]  p-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
                     Asset
                   </th>
-                  <th className="pr-[51px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
+                  <th className="pr-[51px]  pt-[13px] font-nova font-[600] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
                     Total Borrow
                   </th>
-                  <th className="pr-[50px]  pt-[13px] font-nova font-[500] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
+                  <th className="pr-[50px]  pt-[13px] font-nova font-[600] whitespace-nowrap md:whitespace-normal p-[15px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
                     Borrow APY
                   </th>
-                  <th className="py-[20px] pt-[13px] font-nova font-[500] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
+                  <th className="py-[20px] pt-[13px] font-nova font-[600] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
                     Your Borrow
                   </th>
                 </tr>
@@ -531,16 +531,16 @@ export default function TwoPanels({ tenderContextData }: any) {
               <table className="custom__scroll w-full h-full table-fixed !pb-[23px] md:pb-[0px]  md:pt-[0px]">
                 <thead>
                   <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                    <th className="pl-[15px] pt-[15px] font-nova font-[500] pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
+                    <th className="pl-[15px] pt-[15px] font-nova font-[600] pr-[80px] pb-[15px] md:pr-[0px] md:pl-[30px] md:pr-[0px] text-start text-xs md:text-sm">
                       Asset
                     </th>
-                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal p-[15px] pr-[51px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
+                    <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal p-[15px] pr-[51px] md:pl-[38px] md:pr-[0px] text-start text-xs md:text-sm">
                       Total Borrow
                     </th>
-                    <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal p-[15px] pr-[51px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
+                    <th className="whitespace-nowrap font-nova font-[600] md:whitespace-normal p-[15px] pr-[51px] md:pl-[36px] md:pr-[0px] text-start text-xs md:text-sm">
                       Borrow APY
                     </th>
-                    <th className="py-[20px] pt-[13px] font-nova font-[500] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
+                    <th className="py-[20px] pt-[13px] font-nova font-[600] pl-[0] px-[15px] md:py-[20px] text-start text-xs md:text-sm md:pl-[3px] md:pr-[10px]">
                       Available Borrow
                     </th>
                   </tr>
