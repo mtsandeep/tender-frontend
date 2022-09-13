@@ -451,12 +451,12 @@ body.body__fixed {
 }
 
 .ReactModal__Content {
-  z-index: 11;
+  z-index: 25;
 }
 
 .modal {
   position: relative;
-  z-index: 11;
+  z-index: 25;
 }
 
 .zIndex-1 {
