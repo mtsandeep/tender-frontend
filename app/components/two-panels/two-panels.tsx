@@ -10,24 +10,6 @@ import TooltipMobile from "./tooltip-mobile";
 import TooltipMobileMulti from "./tooltip-mobile-MULTI";
 import TwoPanelsEmpty from "./two-panels-empty";
 
-const mockTooltipData = [
-  {
-    coinTitle: "GLP",
-    iconSrc: "/images/coin-icons/aave.svg",
-    data: "0.22%",
-  },
-  {
-    coinTitle: "NEAR",
-    iconSrc: "/images/coin-icons/aave.svg",
-    data: "0.22%",
-  },
-  {
-    coinTitle: "esTND",
-    iconSrc: "/images/coin-icons/aave.svg",
-    data: "0.22%",
-  },
-];
-
 export default function TwoPanels({ tenderContextData }: any) {
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
 
@@ -112,65 +94,67 @@ export default function TwoPanels({ tenderContextData }: any) {
     </div>
   );
 
-  const simpleTndBlock = ({
-    textBottom,
-    token,
-    icon,
-    value,
-    textTop,
-  }: {
-    textBottom: string;
-    token: string;
-    icon: string;
-    value: string;
-    textTop: string;
-  }) => (
-    <div className="group" onClick={(e) => e.stopPropagation()}>
-      <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
-        <div
-          onClick={() =>
-            setMobileTooltipData({
-              ...mobileTooltipData,
-              open: window.innerWidth < 1023,
-              textBottom: textBottom,
-              token: token,
-              icon: icon,
-              textTop: textTop,
-            })
-          }
-          className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px]"
-        >
-          <img className="w-[13px] h-[13px] mr-[4px]" src={icon} alt="..." />
-          {value}
-        </div>
-        <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-          <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[242px] mx-[20px] !rounded-[10px] panel-custom">
-            <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[16px]">
-              <p className="text-[#818987] text-xs text-left leading-[17px] font-nova">
-                {textTop}
-              </p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <img
-                    className="w-[18px] h-[18px] mr-[8px]"
-                    src={icon}
-                    alt="..."
-                  />
-                  <span className="font-nova font-semibold text-sm leading-[14px] text-white">
-                    {token}
-                  </span>
-                </div>
-                <span className="font-nova font-normal text-sm leading-[14px] text-[#14F195]">
-                  {textBottom}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-        </div>
-      </div>
-    </div>
-  );
+  // const simpleTndBlock = ({
+  //   textBottom,
+  //   token,
+  //   icon,
+  //   value,
+  //   textTop,
+  // }: {
+  //   textBottom: string;
+  //   token: string;
+  //   icon: string;
+  //   value: string;
+  //   textTop: string;
+  // }) => (
+  //   <div className="group" onClick={(e) => e.stopPropagation()}>
+  //     <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
+  //       <div
+  //         onClick={() =>
+  //           setMobileTooltipData({
+  //             ...mobileTooltipData,
+  //             open: window.innerWidth < 1023,
+  //             textBottom: textBottom,
+  //             token: token,
+  //             icon: icon,
+  //             textTop: textTop,
+  //           })
+  //         }
+  //         className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px]"
+  //       >
+  //         <img className="w-[13px] h-[13px] mr-[4px]" src={icon} alt="..." />
+  //         {value}
+  //       </div>
+  //       <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+  //         <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[242px] mx-[20px] !rounded-[10px] panel-custom">
+  //           <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[16px]">
+  //             <p className="text-[#818987] text-xs text-left leading-[17px] font-nova">
+  //               {textTop}
+  //             </p>
+  //             {icon && (
+  //               <div className="flex items-center justify-between mt-[14px]">
+  //                 <div className="flex items-center">
+  //                   <img
+  //                     className="w-[18px] h-[18px] mr-[8px]"
+  //                     src={icon}
+  //                     alt="..."
+  //                   />
+  //                   <span className="font-nova font-semibold text-sm leading-[14px] text-white">
+  //                     {token}
+  //                   </span>
+  //                 </div>
+  //                 <span className="font-nova font-normal text-sm leading-[14px] text-[#14F195]">
+  //                   {textBottom}
+  //                 </span>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //         <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   return tenderContextData.markets.length ? (
     <div className="flex flex-col lg:grid grid-cols-2 gap-[60px] md:gap-[20px] mb-14">
@@ -294,18 +278,89 @@ export default function TwoPanels({ tenderContextData }: any) {
                           } USD`}
                         </div>
                       </td>
-                      <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
+                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {m.marketData.depositApy}
+                          {m.marketData.borrowApy}
                         </div>
-                        {simpleTndBlock({
-                          textBottom: "0.10 % APR",
-                          token: "TND",
-                          icon: "/images/wallet-icons/balance-icon.svg",
-                          value: "2.34%",
-                          textTop:
-                            "Participating in this DAI.e reserve gives annualized rewards.",
-                        })}
+                        <div
+                          className="group"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px] h-[22px]">
+                            <div
+                              onClick={() =>
+                                setMultiTooltipData({
+                                  ...multiTooltipData,
+                                  open: window.innerWidth < 1023,
+                                  coins: [
+                                    {
+                                      coinTitle: m.tokenPair.token.symbol,
+                                      iconSrc: m.tokenPair.token.icon,
+                                      data: "0.22%",
+                                      color: "text-dark-green",
+                                    },
+                                    {
+                                      coinTitle: "esTND",
+                                      iconSrc:
+                                        "/images/wallet-icons/balance-icon.svg",
+                                      data: "0.22%",
+                                      color: "text-dark-green",
+                                    },
+                                  ],
+                                })
+                              }
+                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                            >
+                              <img
+                                className="w-[13px] h-[13px] mr-[6px]"
+                                src={m.tokenPair.token.icon}
+                                alt={m.tokenPair.token.symbol}
+                              />
+                              <img
+                                className="w-[13px] h-[13px]"
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
+                              />
+                            </div>
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                  <div className="flex justify-between gap-[30px] mb-[12px]">
+                                    <div className="flex gap-[8px]">
+                                      <img
+                                        className="max-w-[18px]"
+                                        src={m.tokenPair.token.icon}
+                                        alt="..."
+                                      />
+                                      <span className="font-nova text-white text-sm font-normal">
+                                        {m.tokenPair.token.symbol}
+                                      </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                      0.22%
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between gap-[30px]">
+                                    <div className="flex gap-[8px]">
+                                      <img
+                                        className="max-w-[18px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
+                                        alt="..."
+                                      />
+                                      <span className="font-nova text-white text-sm font-normal">
+                                        esTND
+                                      </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                      0.22%
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                            </div>
+                          </div>
+                        </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
@@ -389,18 +444,89 @@ export default function TwoPanels({ tenderContextData }: any) {
                             } USD`}
                           </div>
                         </td>
-                        <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
+                        <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {m.marketData.depositApy}
+                            {m.marketData.borrowApy}
                           </div>
-                          {simpleTndBlock({
-                            textBottom: "0.10 % APR",
-                            token: "TND",
-                            icon: "/images/wallet-icons/balance-icon.svg",
-                            value: "2.34%",
-                            textTop:
-                              "Participating in this DAI.e reserve gives annualized rewards.",
-                          })}
+                          <div
+                            className="group"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px] h-[22px]">
+                              <div
+                                onClick={() =>
+                                  setMultiTooltipData({
+                                    ...multiTooltipData,
+                                    open: window.innerWidth < 1023,
+                                    coins: [
+                                      {
+                                        coinTitle: m.tokenPair.token.symbol,
+                                        iconSrc: m.tokenPair.token.icon,
+                                        data: "0.22%",
+                                        color: "text-dark-green",
+                                      },
+                                      {
+                                        coinTitle: "esTND",
+                                        iconSrc:
+                                          "/images/wallet-icons/balance-icon.svg",
+                                        data: "0.22%",
+                                        color: "text-dark-green",
+                                      },
+                                    ],
+                                  })
+                                }
+                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                              >
+                                <img
+                                  className="w-[13px] h-[13px] mr-[6px]"
+                                  src={m.tokenPair.token.icon}
+                                  alt={m.tokenPair.token.symbol}
+                                />
+                                <img
+                                  className="w-[13px] h-[13px]"
+                                  src="/images/wallet-icons/balance-icon.svg"
+                                  alt="..."
+                                />
+                              </div>
+                              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                  <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                    <div className="flex justify-between gap-[30px] mb-[12px]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src={m.tokenPair.token.icon}
+                                          alt="..."
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          {m.tokenPair.token.symbol}
+                                        </span>
+                                      </div>
+                                      <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                        0.22%
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-between gap-[30px]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src="/images/wallet-icons/balance-icon.svg"
+                                          alt="..."
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          esTND
+                                        </span>
+                                      </div>
+                                      <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                        0.22%
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                           <div className="custom__hidden">
@@ -491,18 +617,89 @@ export default function TwoPanels({ tenderContextData }: any) {
                           } USD`}
                         </div>
                       </td>
-                      <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
+                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div className="custom__hidden">
                           {m.marketData.borrowApy}
                         </div>
-                        {simpleTndBlock({
-                          textBottom: "0.10 % APR",
-                          token: "TND",
-                          icon: "/images/wallet-icons/balance-icon.svg",
-                          value: "2.34%",
-                          textTop:
-                            "Participating in this DAI.e reserve gives annualized rewards.",
-                        })}
+                        <div
+                          className="group"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px] h-[22px]">
+                            <div
+                              onClick={() =>
+                                setMultiTooltipData({
+                                  ...multiTooltipData,
+                                  open: window.innerWidth < 1023,
+                                  coins: [
+                                    {
+                                      coinTitle: m.tokenPair.token.symbol,
+                                      iconSrc: m.tokenPair.token.icon,
+                                      data: "-0.22%",
+                                      color: "text-[#00E0FF]",
+                                    },
+                                    {
+                                      coinTitle: "esTND",
+                                      iconSrc:
+                                        "/images/wallet-icons/balance-icon.svg",
+                                      data: "0.22%",
+                                      color: "text-dark-green",
+                                    },
+                                  ],
+                                })
+                              }
+                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                            >
+                              <img
+                                className="w-[13px] h-[13px] mr-[6px]"
+                                src={m.tokenPair.token.icon}
+                                alt={m.tokenPair.token.symbol}
+                              />
+                              <img
+                                className="w-[13px] h-[13px]"
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
+                              />
+                            </div>
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                  <div className="flex justify-between gap-[30px] mb-[12px]">
+                                    <div className="flex gap-[8px]">
+                                      <img
+                                        className="max-w-[18px]"
+                                        src={m.tokenPair.token.icon}
+                                        alt="..."
+                                      />
+                                      <span className="font-nova text-white text-sm font-normal">
+                                        {m.tokenPair.token.symbol}
+                                      </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                      -0.22%
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between gap-[30px]">
+                                    <div className="flex gap-[8px]">
+                                      <img
+                                        className="max-w-[18px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
+                                        alt="..."
+                                      />
+                                      <span className="font-nova text-white text-sm font-normal">
+                                        esTND
+                                      </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                      0.22%
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                            </div>
+                          </div>
+                        </div>
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
@@ -596,50 +793,75 @@ export default function TwoPanels({ tenderContextData }: any) {
                             className="group"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px]">
+                            <div className="absolute top-[40px] md:top-[61px] left-[14px] md:left-[36px] h-[22px]">
                               <div
                                 onClick={() =>
                                   setMultiTooltipData({
                                     ...multiTooltipData,
                                     open: window.innerWidth < 1023,
-                                    coins: mockTooltipData,
+                                    coins: [
+                                      {
+                                        coinTitle: m.tokenPair.token.symbol,
+                                        iconSrc: m.tokenPair.token.icon,
+                                        data: "-0.22%",
+                                        color: "text-[#00E0FF]",
+                                      },
+                                      {
+                                        coinTitle: "esTND",
+                                        iconSrc:
+                                          "/images/wallet-icons/balance-icon.svg",
+                                        data: "0.22%",
+                                        color: "text-dark-green",
+                                      },
+                                    ],
                                   })
                                 }
                                 className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                               >
                                 <img
-                                  className="w-[13px] h-[13px] mr-[4px]"
+                                  className="w-[13px] h-[13px] mr-[6px]"
+                                  src={m.tokenPair.token.icon}
+                                  alt={m.tokenPair.token.symbol}
+                                />
+                                <img
+                                  className="w-[13px] h-[13px]"
                                   src="/images/wallet-icons/balance-icon.svg"
                                   alt="..."
                                 />
-                                2.34%
                               </div>
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                    {mockTooltipData.map((coin, index) => {
-                                      return (
-                                        <div
-                                          key={index}
-                                          className="flex justify-between mb-[12px] last:mb-0"
-                                        >
-                                          <div className="flex gap-[8px]">
-                                            <img
-                                              className="max-w-[18px]"
-                                              src={coin.iconSrc}
-                                              alt="..."
-                                            />
-                                            <span className="font-nova text-white text-sm font-normal">
-                                              {coin.coinTitle}
-                                            </span>
-                                          </div>
-
-                                          <span className="font-nova text-white text-sm font-normal">
-                                            {coin.data}
-                                          </span>
-                                        </div>
-                                      );
-                                    })}
+                                    <div className="flex justify-between gap-[30px] mb-[12px]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src={m.tokenPair.token.icon}
+                                          alt="..."
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          {m.tokenPair.token.symbol}
+                                        </span>
+                                      </div>
+                                      <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                        -0.22%
+                                      </span>
+                                    </div>
+                                    <div className="flex justify-between gap-[30px]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src="/images/wallet-icons/balance-icon.svg"
+                                          alt="..."
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          esTND
+                                        </span>
+                                      </div>
+                                      <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                        0.22%
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>

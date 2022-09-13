@@ -62,17 +62,17 @@ const actualNetworks = [
     ],
     networkData: networks.arbitrum,
   },
-  {
-    chainId: networks.avalanche.ChainId,
-    networkName: networks.avalanche.blockExplorerName,
-    iconsSrc: "/images/ico/avalanche-network.svg",
-    links: [
-      { linkName: "Avalanche Bridge", url: "https://bridge.avax.network" },
-      { linkName: "Avalanche Explorer", url: "https://snowtrace.io" },
-      { linkName: "Helpcenter", url: "https://support.avax.network" },
-    ],
-    networkData: networks.avalanche,
-  },
+  // {
+  //   chainId: networks.avalanche.ChainId,
+  //   networkName: networks.avalanche.blockExplorerName,
+  //   iconsSrc: "/images/ico/avalanche-network.svg",
+  //   links: [
+  //     { linkName: "Avalanche Bridge", url: "https://bridge.avax.network" },
+  //     { linkName: "Avalanche Explorer", url: "https://snowtrace.io" },
+  //     { linkName: "Helpcenter", url: "https://support.avax.network" },
+  //   ],
+  //   networkData: networks.avalanche,
+  // },
 ];
 
 const NetworksDropdown = () => {
