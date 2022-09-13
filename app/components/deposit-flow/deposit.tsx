@@ -109,8 +109,8 @@ export default function Deposit({
       )}
       {txnHash === "" && (
         <div>
-          <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
+          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
               <button onClick={() => closeModal()} className="">
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
@@ -118,10 +118,10 @@ export default function Deposit({
 
             {!isEnabled ? (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-6 mr-3"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
                   {market.tokenPair.token.symbol}
@@ -140,14 +140,15 @@ export default function Deposit({
               </div>
             ) : (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-12"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
+                  {market.tokenPair.token.symbol}
                 </div>
-                <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
+                <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
                   <Max
                     maxValue={walletBalance}
                     updateValue={() => setValue(toMaxString(walletBalance))}
@@ -190,7 +191,7 @@ export default function Deposit({
             <div className="flex flex-col items-start mb-3 text-gray-400 pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-[14px] text-[#fff] hover:text-[#14F195]"
+                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
                 Supply Rates
                 <svg

@@ -22,7 +22,7 @@ const ChartSupply = ({ data }: { data: object[] }) => {
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
   const [dotY, setDotY] = useState<number>(0);
-  // const [dotX, setDotX] = useState<number>(0);
+  const [dotX, setDotX] = useState<number>(0);
 
   const ApyTooltip = ({
     active,
@@ -31,8 +31,8 @@ const ChartSupply = ({ data }: { data: object[] }) => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`${payload[0].payload.supplyAPY}%`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5  ">
+          <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5  ">
             Supply APY
           </p>
         </div>
@@ -52,8 +52,8 @@ const ChartSupply = ({ data }: { data: object[] }) => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-[14px] md:text-[16px]">{`$${payload[0].payload.totalSupply}`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-[12px] md:text-[14px] leading-5">
+          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
+          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5">
             Total Supply
           </p>
         </div>
@@ -64,10 +64,10 @@ const ChartSupply = ({ data }: { data: object[] }) => {
   };
 
   function tooltipSync(state: CategoricalChartState): void {
-    if (state.isTooltipActive) {
+    if (state.isTooltipActive !== undefined) {
       setActiveTooltip(state.activeTooltipIndex);
     } else {
-      setActiveTooltip(undefined);
+      setActiveTooltip(0);
     }
   }
 
@@ -90,7 +90,7 @@ const ChartSupply = ({ data }: { data: object[] }) => {
 
   const CustomDot = (props: any) => {
     setDotY(props.cy);
-    // setDotX(props.cx);
+    setDotX(props.cx);
     return (
       <circle
         cx={props.cx}
@@ -168,14 +168,28 @@ const ChartSupply = ({ data }: { data: object[] }) => {
               </Bar>
             </BarChart>
           </ResponsiveContainer>
+          {activeTooltip !== undefined ? (
+            <div
+              style={{ left: Math.round(dotX) < 50 ? 25 : Math.round(dotX) }}
+              className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium whitespace-nowrap bottom-[20px] block md:hidden pr-[10px]"
+            >
+              {activeTooltip !== undefined && data[activeTooltip].date}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
-      {/* <div
-        style={{ left: Math.round(dotX) }}
-        className="absolute translate-x-[-50%] text-[#ADB5B3] text-[12px] font-medium bottom-[-30px]"
-      >
-        May 24
-      </div> */}
+      {activeTooltip !== undefined ? (
+        <div
+          style={{ left: Math.round(dotX) }}
+          className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
+        >
+          {activeTooltip !== undefined && data[activeTooltip].date}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

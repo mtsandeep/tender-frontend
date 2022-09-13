@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactModal from "react-modal";
 import type { Market } from "~/types/global";
-import DepositFlow from "../deposit-flow";
+import DepositFlow from "../deposit-flow/deposit-flow";
 
 ReactModal.setAppElement("#m");
 

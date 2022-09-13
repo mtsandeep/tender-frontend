@@ -99,20 +99,10 @@ export default function Repay({
     inputEl && inputEl.current && inputEl.current.select();
   }, []);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      if (
-        value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1") <=
-        maxRepayableAmount
-      ) {
-        setValue(
-          value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1")
-        );
-      }
-    },
-    [maxRepayableAmount]
-  );
+  const handleCheckValue = useCallback((e: any) => {
+    const { value } = e.target;
+    setValue(value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1"));
+  }, []);
 
   return (
     <div>
@@ -125,8 +115,8 @@ export default function Repay({
 
       {txnHash === "" && (
         <div>
-          <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
+          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
               <button onClick={() => closeModal()} className="">
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
@@ -134,10 +124,10 @@ export default function Repay({
 
             {!isEnabled ? (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-6 mr-3"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
                   {market.tokenPair.token.symbol}
@@ -156,14 +146,15 @@ export default function Repay({
               </div>
             ) : (
               <div>
-                <div className="flex align-middle justify-center items-center">
+                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
                   <img
                     src={market.tokenPair.token.icon}
-                    className="w-12"
+                    className="w-[32px] mr-3"
                     alt="icon"
                   />
+                  {market.tokenPair.token.symbol}
                 </div>
-                <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
+                <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
                   <input
                     ref={inputEl}
                     value={value}
@@ -178,7 +169,7 @@ export default function Repay({
                   <Max
                     maxValue={maxRepayableAmount}
                     updateValue={() =>
-                      setValue(toMaxString(Number(maxRepayableAmount)))
+                      setValue(toMaxString(maxRepayableAmount))
                     }
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#00E0FF"
@@ -208,7 +199,7 @@ export default function Repay({
             <div className="flex flex-col items-start mb-3 text-gray-400  pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-[14px] text-[#fff] hover:text-[#00E0FF]"
+                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
                 Borrow Rates
                 <svg

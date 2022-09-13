@@ -53,15 +53,15 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
           })
         }
       />
-      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-[16px] md:text-[18px] font-nova">
+      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-base md:text-lg font-nova">
         Market Details
       </div>
       <div className="flex-col panel-custom ">
-        {dummyData.map((item, index) => {
+        {customData.map((item, index) => {
           return (
             <div
               key={index}
-              className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-[14px] md:text-sm leading-5"
+              className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
             >
               <div
                 onClick={() =>
@@ -71,12 +71,12 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
                     textTop: item.tooltipText,
                   })
                 }
-                className="relative cursor-pointer group font-normal text-[14px] md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
+                className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
                 <p
                   className={
                     item?.tooltipText &&
-                    "underline decoration-dashed underline-offset-4"
+                    "underline decoration-dashed underline-offset-4 cursor-pointer"
                   }
                 >
                   {item.itemName}
@@ -84,7 +84,7 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
                 {item?.tooltipText && (
                   <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                     <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px] pb-[21px]">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
                         <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
                           <img
                             className="w-[12px] h-[12px]"
@@ -92,7 +92,7 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
                             alt="..."
                           />
                         </button>
-                        <p className="text-[#818987] text-[14px] leading-[20px] md:text-[12px] text-left md:leading-[17px] font-nova">
+                        <p className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova">
                           {item?.tooltipText}
                         </p>
                       </div>
@@ -101,7 +101,7 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
                   </div>
                 )}
               </div>
-              <p className="font-normal text-[14px] md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+              <p className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
                 {item.itemData}
               </p>
             </div>

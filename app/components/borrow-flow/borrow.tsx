@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-target-blank */
 import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
@@ -6,7 +5,6 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import * as math from "mathjs";
 
 import { toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
@@ -21,7 +19,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { useSafeMaxBorrowAmountForToken } from "~/hooks/use-safe-max-borrow-amount-for-token";
 import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
-import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
+// import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 
@@ -73,16 +71,6 @@ export default function Borrow({
     market.maxBorrowLiquidity
   );
 
-  let formattedMaxBorrowLimit: string = math.format(maxBorrowLimit, {
-    notation: "fixed",
-  });
-
-  // let maxBorrowAmount = useMaxBorrowAmount(
-  //   borrowLimit,
-  //   totalBorrowedAmountInUsd,
-  //   market.tokenPair
-  // );
-
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
@@ -111,21 +99,22 @@ export default function Borrow({
       )}
       {txnHash === "" && (
         <div>
-          <div className="pt-8 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[10px] top-[15px] sm:right-[22px] sm:top-[24px]">
+          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
               <button onClick={() => closeModal()} className="">
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
 
-            <div className="flex align-middle justify-center items-center">
+            <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
-                className="w-12"
+                className="w-[32px] mr-3"
                 alt="icon"
               />
+              {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-end mt-6 overflow-hidden font-space">
+            <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
               <input
                 ref={inputEl}
                 value={value}
@@ -138,10 +127,8 @@ export default function Borrow({
               />
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
-                  maxValue={Number(formattedMaxBorrowLimit)}
-                  updateValue={() =>
-                    setValue(toMaxString(Number(formattedMaxBorrowLimit)))
-                  }
+                  maxValue={maxBorrowLimit}
+                  updateValue={() => setValue(toMaxString(maxBorrowLimit))}
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
                   color="#00E0FF"
@@ -167,7 +154,7 @@ export default function Borrow({
             <div className="flex flex-col items-start mb-3 text-gray-400  pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-[14px] text-[#fff] hover:text-[#00E0FF]"
+                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
                 Borrow Rates
                 <svg
@@ -248,6 +235,7 @@ export default function Borrow({
                             <a
                               target="_blank"
                               href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
+                              rel="noreferrer"
                             >
                               Borrow unsuccessful
                             </a>

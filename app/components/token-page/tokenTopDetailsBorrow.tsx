@@ -17,16 +17,16 @@ function TokenTopDetailsBorrow({ market: m }: { market: Market | undefined }) {
       <div className="flex md:gap-[0px] gap-x-[0px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-start md:justify-between md:text-center w-full md:w-[511px]">
         <div className="w-[120px] md:w-[auto]">
           <div className="relative flex flex-col items-start md:items-center group">
-            <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px]">
+            <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
               Net Rate
             </p>
             <div className="hidden  absolute right__custom top-[50%] translate__0__50 items-center hidden group-hover:flex rounded-[15px]">
               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[240px] panel-custom">
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[15px] p-[20px]">
-                  <span className="mb-[8px] block text-[#FFF] text-[16px] text-left">
+                  <span className="mb-[8px] block text-white text-base text-left">
                     Net Rate
                   </span>
-                  <p className="text-[#818987] text-[14px] text-left leading-[140%] font-nova">
+                  <p className="text-[#818987] text-sm text-left leading-[140%] font-nova">
                     This rate blends the Borrow or Borrow APY with the TND
                     Distribution APY based on the current price of TND.
                   </p>

@@ -7,6 +7,7 @@ export interface cToken {
 
 export interface Token extends TokenConfig {
   priceInUsd: number;
+  sGLPAddress?: any;
 }
 
 export interface TokenConfig {
@@ -24,6 +25,8 @@ export interface NetworkData {
   name: string;
   blockExplorerName: string;
   blockExplorerUrl: string;
+  userExplorerUrl?: string;
+  rpcUrls?: string[];
   secondsPerBlock: number;
   graphUrl: string;
   Contracts: {
@@ -35,13 +38,12 @@ export interface NetworkData {
   };
 }
 
-
-
 export enum NetworkName {
   rinkeby = "rinkeby",
   metisStartdust = "metisStartdust",
   metisMainnet = "metisMainnet",
-  arbitrum = "Arbitrum"
+  arbitrum = "arbitrum",
+  avalanche = "avalanche",
 }
 
 export type Networks = {

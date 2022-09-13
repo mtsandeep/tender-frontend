@@ -35,7 +35,7 @@ export default function TooltipMobile(props: {
             alt="..."
           />
         </button>
-        <p className="text-[#818987] text-[14px] lg:text-[12px] text-left leading-[20px] lg:leading-[17px] font-nova">
+        <p className="text-[#818987] text-sm lg:text-xs text-left leading-5 lg:leading-[17px] font-nova">
           {props.mobileTooltipData.textTop}
         </p>
         {props.mobileTooltipData.icon && (
@@ -46,11 +46,11 @@ export default function TooltipMobile(props: {
                 src={props.mobileTooltipData.icon}
                 alt="..."
               />
-              <span className="font-nova font-semibold text-[14px] leading-[14px] lg:leading-[17px] text-[#FFFFFF]">
+              <span className="font-nova font-semibold text-sm leading-[14px] lg:leading-[17px] text-white">
                 {props.mobileTooltipData.token}
               </span>
             </div>
-            <span className="font-nova font-normal text-[14px] leading-[14px] lg:leading-[17px] text-[#14F195]">
+            <span className="font-nova font-normal text-sm leading-[14px] lg:leading-[17px] text-[#14F195]">
               {props.mobileTooltipData.textBottom}
             </span>
           </div>

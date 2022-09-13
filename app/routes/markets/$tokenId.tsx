@@ -12,7 +12,7 @@ export default function App() {
     const {tokenId} = useParams();
 
     return (
-    <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
+    <div className="c mt-[30px] mb-[60px] md:mb-[100px] max-w-[1068px]">
         {tenderContextData && onSupportedChain ? (
             <TenderContext.Provider value={tenderContextData}>
                 <Token id={tokenId}/>
