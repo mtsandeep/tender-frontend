@@ -111,7 +111,7 @@ export default function Deposit({
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-              <button onClick={() => closeModal()} className="">
+              <button onClick={() => closeModal()}>
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
@@ -191,6 +191,8 @@ export default function Deposit({
             <div className="flex flex-col items-start mb-3 text-gray-400 pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
+                target="_blank"
+                rel="noreferrer"
                 className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
                 Supply Rates
@@ -214,7 +216,6 @@ export default function Deposit({
                   <img
                     src={market.tokenPair.token.icon}
                     style={{ width: ICON_SIZE }}
-                    className=""
                     alt="icon"
                   />
                 </div>
@@ -228,7 +229,7 @@ export default function Deposit({
                   <img
                     src={market.tokenPair.token.icon}
                     style={{ width: ICON_SIZE }}
-                    className=""
+                    
                     alt="icon"
                   />
                 </div>
@@ -313,6 +314,7 @@ export default function Deposit({
                           <p>
                             <a
                               target="_blank"
+                              rel="noreferrer"
                               href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
                             >
                               Deposit unsuccessful

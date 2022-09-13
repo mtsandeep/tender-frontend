@@ -68,6 +68,8 @@ const TndDropdown = () => {
             </div>
             <a
               href="/earn"
+              target="_blank"
+              rel="noreferrer"
               className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
             >
               <div className="flex items-center mr-[10px]">
@@ -111,6 +113,8 @@ const TndDropdown = () => {
             <a
               href="/earn"
               className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+              target="_blank"
+              rel="noreferrer"
             >
               <div className="flex items-center">
                 <img
@@ -124,6 +128,8 @@ const TndDropdown = () => {
               </div>
             </a>
             <a
+              target="_blank"
+              rel="noreferrer"
               href="/earn#vest"
               className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
             >

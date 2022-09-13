@@ -434,7 +434,7 @@ export default function EarnContent() {
                   </span>
                   <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px]  font-medium">
                     <span>0.00</span>
-                    <span className="">TND</span>
+                    <span>TND</span>
                     <div>
                       (<span>$</span>
                       <span>0.00</span>)
