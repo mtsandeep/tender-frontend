@@ -10,15 +10,18 @@ export function useNetApy(
   tokenPairs: TokenPair[]
 ) {
   let [netApy, setNetApy] = useState<number | null>(null);
-  let { currentTransaction } = useContext(TenderContext);
+  let { currentTransaction, networkData } = useContext(TenderContext);
   let poll = useInterval(7_000);
 
   useEffect(() => {
-    if (!signer) {
+    if (!signer || !networkData) {
       return;
     }
-    netApyFn(signer, tokenPairs).then((n) => setNetApy(n));
-  }, [signer, tokenPairs, poll, currentTransaction]);
+
+    const secondsPerBlock = networkData.secondsPerBlock;
+
+    netApyFn(signer, tokenPairs, secondsPerBlock).then((n) => setNetApy(n));
+  }, [signer, tokenPairs, poll, currentTransaction, networkData]);
 
   return netApy;
 }

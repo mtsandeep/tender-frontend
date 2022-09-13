@@ -3,6 +3,8 @@ export default {
   name: "Arbitrum",
   blockExplorerName: "Arbiscan",
   blockExplorerUrl: "https://arbiscan.io/tx",
+  secondsPerBlock: 15,
+  graphUrl: 'https://graph.tender.fi/',
   Contracts: {
     Comptroller: "0x5aDa4F2951d6BDc644605FF7241354c85AC5B7B1",
     PriceOracle: "0x4F6D68130140578d2C071f210b544c27923E133d",

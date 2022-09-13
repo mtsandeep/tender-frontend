@@ -1,16 +1,23 @@
-import TokenChart from "~/components/token-page/tokenChart";
-import TokenInterestRate from "~/components/token-page/tokenInterestRate";
-import TokenMarketDetails from "~/components/token-page/tokenMarketDetails";
+import {useParams} from "remix";
+import {useTenderContext} from "~/hooks/use-tender-context";
+import {hooks as metaMaskHooks} from "~/connectors/meta-mask";
+import {useOnSupportedNetwork} from "~/hooks/use-on-supported-network";
+import {TenderContext} from "~/contexts/tender-context";
+import Token from "~/components/token-page/Token";
 
 export default function App() {
-  return (
-    <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
-      <TokenChart />
+    const tenderContextData = useTenderContext();
+    const chainId = metaMaskHooks.useChainId();
+    const onSupportedChain = useOnSupportedNetwork(chainId);
+    const {tokenId} = useParams();
 
-      <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
-        <TokenInterestRate />
-        <TokenMarketDetails />
-      </div>
+    return (
+    <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
+        {tenderContextData && onSupportedChain ? (
+            <TenderContext.Provider value={tenderContextData}>
+                <Token id={tokenId}/>
+            </TenderContext.Provider>
+        ) : ('Loading...')}
     </div>
   );
 }

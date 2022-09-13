@@ -7,6 +7,7 @@ import { useNetworkData } from "./use-network-data";
 import { useMarkets } from "./use-markets";
 import { useInterval } from "./use-interval";
 import { useWeb3Signer } from "./use-web3-signer";
+import {useBlockNumber} from "~/hooks/use-block-number";
 
 export function useTenderContext() {
   let [currentTransaction, updateTransaction] = useState<string | null>(null);
@@ -25,8 +26,11 @@ export function useTenderContext() {
   let markets: Market[] = useMarkets(
     signer,
     tokenPairs,
-    networkData?.Contracts?.Comptroller
+    networkData?.Contracts?.Comptroller,
+    networkData?.secondsPerBlock
   );
+
+  const blockNumber = useBlockNumber();
 
   useEffect(() => {
     if (!signer || !chainId || !networkData) {
@@ -40,7 +44,8 @@ export function useTenderContext() {
       currentTransaction,
       updateTransaction,
       isWaitingToBeMined,
-      setIsWaitingToBeMined
+      setIsWaitingToBeMined,
+      blockNumber
     });
   }, [
     signer,
@@ -50,7 +55,8 @@ export function useTenderContext() {
     networkData,
     markets,
     currentTransaction,
-    isWaitingToBeMined
+    isWaitingToBeMined,
+    blockNumber
   ]);
 
   return tenderContext;

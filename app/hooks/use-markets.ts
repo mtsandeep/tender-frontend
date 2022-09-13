@@ -21,17 +21,20 @@ import { TenderContext } from "~/contexts/tender-context";
 
 const getMarketData = async (
   signer: JsonRpcSigner,
-  tp: TokenPair
+  tp: TokenPair,
+  secondsPerBlock: number
 ): Promise<Market["marketData"]> => {
   const depositApy: string = await formattedDepositApy(
     tp.token,
     tp.cToken,
-    signer
+    signer,
+    secondsPerBlock
   );
   const borrowApy: string = await formattedBorrowApy(
     tp.token,
     tp.cToken,
-    signer
+    signer,
+    secondsPerBlock
   );
 
   // TODO: don't think we're using these two fields,
@@ -50,7 +53,8 @@ const getMarketData = async (
 export function useMarkets(
   signer: JsonRpcSigner | null | undefined,
   supportedTokenPairs: TokenPair[],
-  comptrollerAddress: string | undefined
+  comptrollerAddress: string | undefined,
+  secondsPerBlock: number | undefined
 ) {
   let [markets, setMarkets] = useState<Market[]>([]);
 
@@ -58,7 +62,7 @@ export function useMarkets(
   let { currentTransaction } = useContext(TenderContext);
 
   useEffect(() => {
-    if (!signer || !comptrollerAddress) {
+    if (!signer || !comptrollerAddress || !secondsPerBlock) {
       return;
     }
 
@@ -94,7 +98,7 @@ export function useMarkets(
       return {
         id: tp.token.symbol,
         tokenPair: tp,
-        marketData: await getMarketData(signer, tp),
+        marketData: await getMarketData(signer, tp, secondsPerBlock),
         walletBalance: await getWalletBalance(signer, tp.token),
         supplyBalance,
         supplyBalanceInUsd,
@@ -122,6 +126,7 @@ export function useMarkets(
     comptrollerAddress,
     pollingKey,
     currentTransaction,
+    secondsPerBlock
   ]);
 
   return markets;

@@ -1,29 +1,9 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
+import {TenderContext} from "~/contexts/tender-context";
+import {toShortCryptoString, toShortFiatString} from "~/lib/ui";
 
-const dummyData = [
-  {
-    itemName: "Price",
-    itemData: "$1.00",
-    tooltipText: `The Maximum LTV ratio represents the maximum borrowing
-  power of a specific collateral. For example, if a
-  collateral has an LTV of 75%, the user can borrow up to
-  0.75 worth of ETH in the principal currency for every 1
-  ETH worth of collateral.`,
-  },
-  { itemName: "Market Liquidity", itemData: "639,513,808 USDC" },
-  { itemName: "# of Suppliers", itemData: "217412" },
-  { itemName: "# of Borrowers", itemData: "217412" },
-  { itemName: "USDC Borrow Cap", itemData: "No limit" },
-  { itemName: "Interest Paid/Day", itemData: "$6.820.25" },
-  { itemName: "Reserves", itemData: "639,513,808 USDC" },
-  { itemName: "Reserve Factor", itemData: "7%" },
-  { itemName: "Collateral Factor", itemData: "84%" },
-  { itemName: "cUSDC Minted", itemData: "639,513,808" },
-  { itemName: "Exchange Rate", itemData: "1 USDC = 44.12 сUSDC" },
-];
-
-function TokenMarketDetails() {
+function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefined, marketInfo: object | boolean }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: string;
@@ -31,6 +11,33 @@ function TokenMarketDetails() {
     token?: string;
     textBottom?: string;
   }>({ open: false, textTop: "", token: "", icon: "", textBottom: "" });
+  const { markets } = useContext(TenderContext);
+  const m = markets.find((market) => market.id === tokenId);
+  const exchangeRate = marketInfo && toShortCryptoString(Number((1/Number(marketInfo.exchangeRate)).toFixed(2)));
+
+    const dummyData = [
+        {
+            itemName: "Price",
+            itemData: marketInfo && `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
+            tooltipText: `The Maximum LTV ratio represents the maximum borrowing
+            power of a specific collateral. For example, if a
+            collateral has an LTV of 75%, the user can borrow up to
+            0.75 worth of ETH in the principal currency for every 1
+            ETH worth of collateral.`,
+        },
+        { itemName: "Market Liquidity", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + m?.tokenPair.token.symbol },
+        { itemName: "# of Suppliers", itemData: marketInfo && marketInfo.totalSuppliersCount },
+        { itemName: "# of Borrowers", itemData: marketInfo && marketInfo.totalBorrowersCount },
+        // { itemName: m?.tokenPair.token.symbol + " Borrow Cap", itemData: "No limit" },
+        { itemName: m?.tokenPair.token.symbol + " Borrow Cap", itemData: "No limit" },
+        // { itemName: "Interest Paid/Day", itemData: "$6.820.25" },
+        { itemName: "Interest Paid/Day", itemData: "-" },
+        { itemName: "Reserves", itemData: marketInfo && marketInfo.reserves + " " + m?.id },
+        { itemName: "Reserve Factor", itemData: marketInfo && marketInfo.reserveFactor + "%" },
+        { itemName: "Collateral Factor", itemData: marketInfo && marketInfo.collateralFactor + "%" },
+        { itemName: m?.tokenPair.cToken.symbol + " Minted", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
+        { itemName: "Exchange Rate", itemData: "1 " + m?.tokenPair.token.symbol + " = " + exchangeRate + " " + m?.tokenPair.cToken.symbol },
+    ];
 
   return (
     <div className="font-[ProximaNova] w-full">

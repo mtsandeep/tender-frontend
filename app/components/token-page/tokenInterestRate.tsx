@@ -2,8 +2,8 @@
 
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 
-function TokenInterestRate() {
-  const data = [
+function TokenInterestRate({data}: {data: any[]}) {
+  /*const data = [
     {
       aa: 90,
       ss: 15,
@@ -39,7 +39,7 @@ function TokenInterestRate() {
       ss: 85,
       dd: 80,
     },
-  ];
+  ];*/
 
   const CustomLine = (props: any) => (
     <svg x={props.points[0].x} width="1" height="300" viewBox="0 0 1 544">
