@@ -1,6 +1,8 @@
 import {useMarketsInfo} from "~/hooks/use-markets-info";
+import {useNavigate} from "remix";
 
 export default function Markets() {
+    const navigate = useNavigate();
     const {markets, total} = useMarketsInfo();
 
     return (
@@ -252,6 +254,7 @@ export default function Markets() {
                                     <tr
                                         key={index}
                                         className="border-t border-[#282C2B] border__top__custom border_tr_custom cursor-pointer hover:bg-[#151515] border-child-hover"
+                                        onClick={() => navigate(`/markets/${m.symbol}`)}
                                     >
                                         <td className="relative text-white font-nova font-normal sm:t-[0] pl-[15px] pt-[8px] pb-[26px] sm:pt-[24px] sm:pb-[23px] sm:pl-[30px] sm:pr-[0px]">
                                             <div className="flex items-start md:items-center justify-left relative top-[8px] sm:top-[-1px]">
