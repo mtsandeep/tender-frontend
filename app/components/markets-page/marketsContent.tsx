@@ -54,7 +54,7 @@ export default function MarketsContent() {
           symbol: "METIS",
           decimals: 18,
           address: "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
-          icon: "/images/coin-icons/metis.png",
+          icon: "/images/coin-icons/metis.svg",
           priceDecimals: 18,
           cToken: {
             name: "tMETIS",
@@ -508,25 +508,25 @@ export default function MarketsContent() {
               </thead>
 
               <tbody>
-                {array.map((m: Market) => {
+                {array.map((token: Market) => {
                   return (
                     <tr
-                      key={m.id}
+                      key={token.id}
                       className="border-t border-[#282C2B] border__top__custom border_tr_custom cursor-pointer hover:bg-[#151515] border-child-hover"
                       onClick={() => {
-                        window.location.href = `/markets/${m.tokenPair.token.symbol}`;
+                        window.location.href = `/markets/${token.tokenPair.token.symbol}`;
                       }}
                     >
                       <td className="relative text-white font-nova font-normal sm:t-[0] pl-[15px] pt-[8px] pb-[26px] sm:pt-[24px] sm:pb-[23px] sm:pl-[30px] sm:pr-[0px]">
                         <div className="flex items-start md:items-center justify-left relative top-[8px] sm:top-[-1px]">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
-                            src={m.tokenPair.token.icon}
-                            alt={m.tokenPair.token.symbol}
+                            src={token.tokenPair.token.icon}
+                            alt={token.tokenPair.token.symbol}
                           />
                           <div>
                             <span className="flex text-sm md:text-base">
-                              {m.tokenPair.token.symbol}
+                              {token.tokenPair.token.symbol}
                             </span>
                             <span className="text-xs leading-[17px] md:text-sm md:leading-5 text-[#818987]">
                               USDC
@@ -536,25 +536,27 @@ export default function MarketsContent() {
                       </td>
                       <td className="whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
                         <div className="custom__hidden text-sm leading-5 sm:top-[0]">
-                          {m.marketData?.totalBorrowed &&
+                          {token.marketData?.totalBorrowed &&
                             toShortCryptoString(
-                              parseFloat(m.marketData.totalBorrowed.toFixed(6))
+                              parseFloat(
+                                token.marketData.totalBorrowed.toFixed(6)
+                              )
                             )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-[dark-green] text-[dark-green] rounded-md text-[11px] sm:text-xs h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit">
                           {`$${
-                            m.marketData?.totalBorrowed &&
+                            token.marketData?.totalBorrowed &&
                             toShortFiatString(
-                              m.marketData.totalBorrowed *
-                                m.tokenPair.token.priceInUsd
+                              token.marketData.totalBorrowed *
+                                token.tokenPair.token.priceInUsd
                             )
                           } USD`}
                         </div>
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
                         <div className="custom__hidden text-sm leading-5 sm:text-base sm:leading-[22px]">
-                          {m.marketData.borrowApy}
+                          {token.marketData.borrowApy}
                         </div>
                         <div
                           className="group"
@@ -568,26 +570,28 @@ export default function MarketsContent() {
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
                         <div className="custom__hidden text-sm leading-5 sm:text-base sm:leading-[22px]">
                           {toShortCryptoString(
-                            parseFloat(m.maxBorrowLiquidity.toFixed(2))
+                            parseFloat(token.maxBorrowLiquidity.toFixed(2))
                           )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center  break-words bg-[#3A1313] text-[#FF3939] rounded-[4px] md:rounded-md text-[11px] sm:text-xs text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit">
                           {`$${toShortFiatString(
-                            m.maxBorrowLiquidity * m.tokenPair.token.priceInUsd
+                            token.maxBorrowLiquidity *
+                              token.tokenPair.token.priceInUsd
                           )} USD`}
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                         <div className="custom__hidden text-sm leading-5 sm:text-base sm:leading-[22px]">
                           {toShortCryptoString(
-                            parseFloat(m.maxBorrowLiquidity.toFixed(2))
+                            parseFloat(token.maxBorrowLiquidity.toFixed(2))
                           )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-[4px] sm:rounded-md text-[11px] sm:text-xs text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit">
                           {`$${toShortFiatString(
-                            m.maxBorrowLiquidity * m.tokenPair.token.priceInUsd
+                            token.maxBorrowLiquidity *
+                              token.tokenPair.token.priceInUsd
                           )} USD`}
                         </div>
                       </td>

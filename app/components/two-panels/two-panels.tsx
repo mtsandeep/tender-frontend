@@ -38,20 +38,23 @@ export default function TwoPanels({ tenderContextData }: any) {
   };
 
   const marketsWithSupply = tenderContextData.markets.filter(
-    (m: Market) => m.supplyBalance && m.supplyBalanceInUsd > 0.01
+    (token: Market) => token.supplyBalance && token.supplyBalanceInUsd > 0.01
   );
 
   const marketsWithoutSupply = tenderContextData.markets.filter(
-    (m: Market) => !m.supplyBalance || m.supplyBalanceInUsd <= 0.001
+    (token: Market) => !token.supplyBalance || token.supplyBalanceInUsd <= 0.001
   );
 
   const marketsWithBorrow = tenderContextData.markets.filter(
-    (m: Market) => m.borrowBalance && m.borrowBalanceInUsd > 0.001
+    (token: Market) => token.borrowBalance && token.borrowBalanceInUsd > 0.001
   );
 
   const marketsWithoutBorrow = tenderContextData.markets
-    .filter((m: Market) => m.tokenPair.token.symbol !== "GLP")
-    .filter((m: Market) => !m.borrowBalance || m.borrowBalanceInUsd <= 0.001);
+    .filter((token: Market) => token.tokenPair.token.symbol !== "GLP")
+    .filter(
+      (token: Market) =>
+        !token.borrowBalance || token.borrowBalanceInUsd <= 0.001
+    );
 
   const privateBlock = () => (
     <div className="group" onClick={(e) => e.stopPropagation()}>
@@ -240,47 +243,48 @@ export default function TwoPanels({ tenderContextData }: any) {
               </thead>
 
               <tbody>
-                {marketsWithSupply.map((m: Market) => {
+                {marketsWithSupply.map((token: Market) => {
                   return (
                     <MarketRow
-                      openMarket={() => depositInto(m)}
-                      market={m}
-                      key={m.id}
+                      openMarket={() => depositInto(token)}
+                      market={token}
+                      key={token.id}
                     >
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         <div className="flex items-center justify-left">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
-                            src={m.tokenPair.token.icon}
-                            alt={m.tokenPair.token.symbol}
+                            src={token.tokenPair.token.icon}
+                            alt={token.tokenPair.token.symbol}
                           />
                           <span className="flex text-sm md:text-base">
-                            {m.tokenPair.token.symbol}
+                            {token.tokenPair.token.symbol}
                           </span>
-                          {m.tokenPair.token.symbol === "GLP" && privateBlock()}
+                          {token.tokenPair.token.symbol === "GLP" &&
+                            privateBlock()}
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {m.marketData.marketSize &&
+                          {token.marketData.marketSize &&
                             toShortCryptoString(
-                              parseFloat(m.marketData.marketSize.toFixed(6))
+                              parseFloat(token.marketData.marketSize.toFixed(6))
                             )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
                           {`$${
-                            m.marketData.marketSize &&
+                            token.marketData.marketSize &&
                             toShortFiatString(
-                              m.marketData.marketSize *
-                                m.tokenPair.token.priceInUsd
+                              token.marketData.marketSize *
+                                token.tokenPair.token.priceInUsd
                             )
                           } USD`}
                         </div>
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {m.marketData.borrowApy}
+                          {token.marketData.borrowApy}
                         </div>
                         <div
                           className="group"
@@ -294,8 +298,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                                   open: window.innerWidth < 1023,
                                   coins: [
                                     {
-                                      coinTitle: m.tokenPair.token.symbol,
-                                      iconSrc: m.tokenPair.token.icon,
+                                      coinTitle: token.tokenPair.token.symbol,
+                                      iconSrc: token.tokenPair.token.icon,
                                       data: "0.22%",
                                       color: "text-dark-green",
                                     },
@@ -313,8 +317,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                             >
                               <img
                                 className="w-[13px] h-[13px] mr-[6px]"
-                                src={m.tokenPair.token.icon}
-                                alt={m.tokenPair.token.symbol}
+                                src={token.tokenPair.token.icon}
+                                alt={token.tokenPair.token.symbol}
                               />
                               <img
                                 className="w-[13px] h-[13px]"
@@ -329,11 +333,11 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
-                                        src={m.tokenPair.token.icon}
+                                        src={token.tokenPair.token.icon}
                                         alt="..."
                                       />
                                       <span className="font-nova text-white text-sm font-normal">
-                                        {m.tokenPair.token.symbol}
+                                        {token.tokenPair.token.symbol}
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal text-dark-green">
@@ -365,12 +369,12 @@ export default function TwoPanels({ tenderContextData }: any) {
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
                           {toShortCryptoString(
-                            parseFloat(m.supplyBalance.toFixed(2))
+                            parseFloat(token.supplyBalance.toFixed(2))
                           )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
-                          {`$${m.supplyBalanceInUsd.toFixed(2)} USD`}
+                          {`$${token.supplyBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
                     </MarketRow>
@@ -405,48 +409,54 @@ export default function TwoPanels({ tenderContextData }: any) {
                 </thead>
 
                 <tbody>
-                  {marketsWithoutSupply.map((m: Market) => {
+                  {marketsWithoutSupply.map((token: Market) => {
                     return (
                       <MarketRow
-                        openMarket={() => depositInto(m)}
-                        market={m}
-                        key={m.id}
+                        openMarket={() => depositInto(token)}
+                        market={token}
+                        key={token.id}
                       >
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                           <div className="flex items-center justify-left">
                             <img
-                              className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
-                              src={m.tokenPair.token.icon}
-                              alt={m.tokenPair.token.symbol}
+                              className={`w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px] ${
+                                token.tokenPair.token.symbol === "GLP"
+                                  ? "translate-y-[13px]"
+                                  : ""
+                              }`}
+                              src={token.tokenPair.token.icon}
+                              alt={token.tokenPair.token.symbol}
                             />
                             <span className="flex text-sm md:text-base">
-                              {m.tokenPair.token.symbol}
+                              {token.tokenPair.token.symbol}
                             </span>
-                            {m.tokenPair.token.symbol === "GLP" &&
+                            {token.tokenPair.token.symbol === "GLP" &&
                               privateBlock()}
                           </div>
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {m.marketData.marketSize &&
+                            {token.marketData.marketSize &&
                               toShortCryptoString(
-                                parseFloat(m.marketData.marketSize.toFixed(6))
+                                parseFloat(
+                                  token.marketData.marketSize.toFixed(6)
+                                )
                               )}{" "}
-                            {m.tokenPair.token.symbol}
+                            {token.tokenPair.token.symbol}
                           </div>
                           <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
                             {`$${
-                              m.marketData.marketSize &&
+                              token.marketData.marketSize &&
                               toShortFiatString(
-                                m.marketData.marketSize *
-                                  m.tokenPair.token.priceInUsd
+                                token.marketData.marketSize *
+                                  token.tokenPair.token.priceInUsd
                               )
                             } USD`}
                           </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {m.marketData.borrowApy}
+                            {token.marketData.borrowApy}
                           </div>
                           <div
                             className="group"
@@ -460,8 +470,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     open: window.innerWidth < 1023,
                                     coins: [
                                       {
-                                        coinTitle: m.tokenPair.token.symbol,
-                                        iconSrc: m.tokenPair.token.icon,
+                                        coinTitle: token.tokenPair.token.symbol,
+                                        iconSrc: token.tokenPair.token.icon,
                                         data: "0.22%",
                                         color: "text-dark-green",
                                       },
@@ -479,8 +489,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                               >
                                 <img
                                   className="w-[13px] h-[13px] mr-[6px]"
-                                  src={m.tokenPair.token.icon}
-                                  alt={m.tokenPair.token.symbol}
+                                  src={token.tokenPair.token.icon}
+                                  alt={token.tokenPair.token.symbol}
                                 />
                                 <img
                                   className="w-[13px] h-[13px]"
@@ -495,11 +505,11 @@ export default function TwoPanels({ tenderContextData }: any) {
                                       <div className="flex gap-[8px]">
                                         <img
                                           className="max-w-[18px]"
-                                          src={m.tokenPair.token.icon}
+                                          src={token.tokenPair.token.icon}
                                           alt="..."
                                         />
                                         <span className="font-nova text-white text-sm font-normal">
-                                          {m.tokenPair.token.symbol}
+                                          {token.tokenPair.token.symbol}
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal text-dark-green">
@@ -531,13 +541,14 @@ export default function TwoPanels({ tenderContextData }: any) {
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                           <div className="custom__hidden">
                             {toShortCryptoString(
-                              parseFloat(m.walletBalance.toFixed(2))
+                              parseFloat(token.walletBalance.toFixed(2))
                             )}{" "}
-                            {m.tokenPair.token.symbol}
+                            {token.tokenPair.token.symbol}
                           </div>
                           <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
                             {`$${toShortFiatString(
-                              m.walletBalance * m.tokenPair.token.priceInUsd
+                              token.walletBalance *
+                                token.tokenPair.token.priceInUsd
                             )} USD`}
                           </div>
                         </td>
@@ -579,47 +590,50 @@ export default function TwoPanels({ tenderContextData }: any) {
               </thead>
 
               <tbody>
-                {marketsWithBorrow.map((m: Market) => {
+                {marketsWithBorrow.map((token: Market) => {
                   return (
                     <MarketRow
-                      openMarket={() => borrowFrom(m)}
-                      market={m}
-                      key={m.id}
+                      openMarket={() => borrowFrom(token)}
+                      market={token}
+                      key={token.id}
                     >
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         <div className="flex items-center justify-left">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
-                            src={m.tokenPair.token.icon}
-                            alt={m.tokenPair.token.symbol}
+                            src={token.tokenPair.token.icon}
+                            alt={token.tokenPair.token.symbol}
                           />
                           <span className="flex text-sm md:text-base">
-                            {m.tokenPair.token.symbol}
+                            {token.tokenPair.token.symbol}
                           </span>
-                          {m.tokenPair.token.symbol === "GLP" && privateBlock()}
+                          {token.tokenPair.token.symbol === "GLP" &&
+                            privateBlock()}
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {m.marketData?.totalBorrowed &&
+                          {token.marketData?.totalBorrowed &&
                             toShortCryptoString(
-                              parseFloat(m.marketData.totalBorrowed.toFixed(6))
+                              parseFloat(
+                                token.marketData.totalBorrowed.toFixed(6)
+                              )
                             )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
                           {`$${
-                            m.marketData?.totalBorrowed &&
+                            token.marketData?.totalBorrowed &&
                             toShortFiatString(
-                              m.marketData.totalBorrowed *
-                                m.tokenPair.token.priceInUsd
+                              token.marketData.totalBorrowed *
+                                token.tokenPair.token.priceInUsd
                             )
                           } USD`}
                         </div>
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {m.marketData.borrowApy}
+                          {token.marketData.borrowApy}
                         </div>
                         <div
                           className="group"
@@ -633,8 +647,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                                   open: window.innerWidth < 1023,
                                   coins: [
                                     {
-                                      coinTitle: m.tokenPair.token.symbol,
-                                      iconSrc: m.tokenPair.token.icon,
+                                      coinTitle: token.tokenPair.token.symbol,
+                                      iconSrc: token.tokenPair.token.icon,
                                       data: "-0.22%",
                                       color: "text-[#00E0FF]",
                                     },
@@ -652,8 +666,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                             >
                               <img
                                 className="w-[13px] h-[13px] mr-[6px]"
-                                src={m.tokenPair.token.icon}
-                                alt={m.tokenPair.token.symbol}
+                                src={token.tokenPair.token.icon}
+                                alt={token.tokenPair.token.symbol}
                               />
                               <img
                                 className="w-[13px] h-[13px]"
@@ -668,11 +682,11 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
-                                        src={m.tokenPair.token.icon}
+                                        src={token.tokenPair.token.icon}
                                         alt="..."
                                       />
                                       <span className="font-nova text-white text-sm font-normal">
-                                        {m.tokenPair.token.symbol}
+                                        {token.tokenPair.token.symbol}
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
@@ -704,12 +718,12 @@ export default function TwoPanels({ tenderContextData }: any) {
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
                           {toShortCryptoString(
-                            parseFloat(m.borrowBalance.toFixed(2))
+                            parseFloat(token.borrowBalance.toFixed(2))
                           )}{" "}
-                          {m.tokenPair.token.symbol}
+                          {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
-                          {`$${m.borrowBalanceInUsd.toFixed(2)} USD`}
+                          {`$${token.borrowBalanceInUsd.toFixed(2)} USD`}
                         </div>
                       </td>
                     </MarketRow>
@@ -744,50 +758,50 @@ export default function TwoPanels({ tenderContextData }: any) {
                 </thead>
 
                 <tbody>
-                  {marketsWithoutBorrow.map((m: Market) => {
+                  {marketsWithoutBorrow.map((token: Market) => {
                     return (
                       <MarketRow
-                        openMarket={() => borrowFrom(m)}
-                        market={m}
-                        key={m.id}
+                        openMarket={() => borrowFrom(token)}
+                        market={token}
+                        key={token.id}
                       >
                         <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                           <div className="flex items-center justify-left">
                             <img
                               className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
-                              src={m.tokenPair.token.icon}
-                              alt={m.tokenPair.token.symbol}
+                              src={token.tokenPair.token.icon}
+                              alt={token.tokenPair.token.symbol}
                             />
                             <span className="flex text-sm md:text-base">
-                              {m.tokenPair.token.symbol}
+                              {token.tokenPair.token.symbol}
                             </span>
-                            {m.tokenPair.token.symbol === "GLP" &&
+                            {token.tokenPair.token.symbol === "GLP" &&
                               privateBlock()}
                           </div>
                         </td>
                         <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {m.marketData?.totalBorrowed &&
+                            {token.marketData?.totalBorrowed &&
                               toShortCryptoString(
                                 parseFloat(
-                                  m.marketData.totalBorrowed.toFixed(6)
+                                  token.marketData.totalBorrowed.toFixed(6)
                                 )
                               )}{" "}
-                            {m.tokenPair.token.symbol}
+                            {token.tokenPair.token.symbol}
                           </div>
                           <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
                             {`$${
-                              m.marketData?.totalBorrowed &&
+                              token.marketData?.totalBorrowed &&
                               toShortFiatString(
-                                m.marketData.totalBorrowed *
-                                  m.tokenPair.token.priceInUsd
+                                token.marketData.totalBorrowed *
+                                  token.tokenPair.token.priceInUsd
                               )
                             } USD`}
                           </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {m.marketData.borrowApy}
+                            {token.marketData.borrowApy}
                           </div>
                           <div
                             className="group"
@@ -801,8 +815,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                                     open: window.innerWidth < 1023,
                                     coins: [
                                       {
-                                        coinTitle: m.tokenPair.token.symbol,
-                                        iconSrc: m.tokenPair.token.icon,
+                                        coinTitle: token.tokenPair.token.symbol,
+                                        iconSrc: token.tokenPair.token.icon,
                                         data: "-0.22%",
                                         color: "text-[#00E0FF]",
                                       },
@@ -820,8 +834,8 @@ export default function TwoPanels({ tenderContextData }: any) {
                               >
                                 <img
                                   className="w-[13px] h-[13px] mr-[6px]"
-                                  src={m.tokenPair.token.icon}
-                                  alt={m.tokenPair.token.symbol}
+                                  src={token.tokenPair.token.icon}
+                                  alt={token.tokenPair.token.symbol}
                                 />
                                 <img
                                   className="w-[13px] h-[13px]"
@@ -836,11 +850,11 @@ export default function TwoPanels({ tenderContextData }: any) {
                                       <div className="flex gap-[8px]">
                                         <img
                                           className="max-w-[18px]"
-                                          src={m.tokenPair.token.icon}
+                                          src={token.tokenPair.token.icon}
                                           alt="..."
                                         />
                                         <span className="font-nova text-white text-sm font-normal">
-                                          {m.tokenPair.token.symbol}
+                                          {token.tokenPair.token.symbol}
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
@@ -872,14 +886,14 @@ export default function TwoPanels({ tenderContextData }: any) {
                         <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                           <div className="custom__hidden">
                             {toShortCryptoString(
-                              parseFloat(m.maxBorrowLiquidity.toFixed(2))
+                              parseFloat(token.maxBorrowLiquidity.toFixed(2))
                             )}{" "}
-                            {m.tokenPair.token.symbol}
+                            {token.tokenPair.token.symbol}
                           </div>
                           <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
                             {`$${toShortFiatString(
-                              m.maxBorrowLiquidity *
-                                m.tokenPair.token.priceInUsd
+                              token.maxBorrowLiquidity *
+                                token.tokenPair.token.priceInUsd
                             )} USD`}
                           </div>
                         </td>

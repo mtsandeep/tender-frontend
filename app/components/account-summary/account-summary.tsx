@@ -24,15 +24,15 @@ export default function AccountSummary({ tenderContextData }: any) {
 
   const totalSuppliedUsd = tenderContextData.markets
     .map(
-      (m: Market) =>
-        m.tokenPair.token.priceInUsd * (m.marketData.marketSize ?? 0)
+      (token: Market) =>
+        token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
     )
     .reduce((a: any, b: any) => a + b, 0);
 
   const totalBorrowedUsd = tenderContextData.markets
     .map(
-      (m: Market) =>
-        m.tokenPair.token.priceInUsd * (m.marketData.totalBorrowed ?? 0)
+      (token: Market) =>
+        token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
     )
     .reduce((a: any, b: any) => a + b, 0);
 
