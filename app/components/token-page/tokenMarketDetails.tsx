@@ -15,7 +15,7 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
   const m = markets.find((market) => market.id === tokenId);
   const exchangeRate = marketInfo && toShortCryptoString(Number((1/Number(marketInfo.exchangeRate)).toFixed(2)));
 
-    const dummyData = [
+    const customData = [
         {
             itemName: "Price",
             itemData: marketInfo && `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,

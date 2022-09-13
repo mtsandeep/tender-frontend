@@ -272,7 +272,7 @@ export default function Markets() {
                                         </td>
                                         <td className="whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
                                             <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0]">
-                                                {`$${m.totalSupplyUsd.toFixed(2)} USD`}
+                                                {`$${m.totalSupplyUsd?.toFixed(2)} USD`}
                                             </div>
                                             <div className="custom__hidden !flex items-center break-words bg-[dark-green] text-[dark-green] rounded-md text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit">
                                                 {`%`}
@@ -280,7 +280,7 @@ export default function Markets() {
                                         </td>
                                         <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
                                             <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                                                {`${m.supplyApy.toFixed(2)}%`}
+                                                {`${m.supplyApy?.toFixed(2)}%`}
                                             </div>
                                             <div
                                                 className="group"
@@ -293,7 +293,7 @@ export default function Markets() {
                                         </td>
                                         <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
                                             <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                                                {`$${m.totalBorrowUsd.toFixed(2)} USD`}
+                                                {`$${m.totalBorrowUsd?.toFixed(2)} USD`}
                                             </div>
                                             <div className="custom__hidden !flex items-center  break-words bg-[#3A1313] text-[#FF3939] rounded-[4px] md:rounded-md text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit">
                                                 {`0%`}
@@ -301,7 +301,7 @@ export default function Markets() {
                                         </td>
                                         <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                                             <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                                                {`${m.borrowApy.toFixed(2)}%`}
+                                                {`${m.borrowApy?.toFixed(2)}%`}
                                             </div>
                                             <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-[4px] sm:rounded-md text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit">
                                                 {`0`}
