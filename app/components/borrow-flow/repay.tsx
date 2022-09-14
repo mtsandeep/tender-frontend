@@ -46,6 +46,8 @@ export default function Repay({
   walletBalance,
   totalBorrowedAmountInUsd,
 }: RepayProps) {
+  const tokenDecimals = market.tokenPair.token.decimals;
+
   let [isEnabled, setIsEnabled] = useState<boolean>(true);
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
 
@@ -101,8 +103,13 @@ export default function Repay({
 
   const handleCheckValue = useCallback((e: any) => {
     const { value } = e.target;
-    setValue(value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1"));
-  }, []);
+    const formattedValue = value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1");
+    const decimals = (formattedValue.split('.')[1] || []).length;
+
+    if (decimals <= tokenDecimals) {
+      setValue(formattedValue);
+    }
+  }, [tokenDecimals]);
 
   return (
     <div>
