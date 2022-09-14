@@ -282,7 +282,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div className="custom__hidden">
-                          {m.marketData.borrowApy}
+                          {m.marketData.depositApy}
                         </div>
                         <div
                           className="group"
@@ -448,7 +448,7 @@ export default function TwoPanels() {
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div className="custom__hidden">
-                            {m.marketData.borrowApy}
+                            {m.marketData.depositApy}
                           </div>
                           <div
                             className="group"
