@@ -10,20 +10,20 @@ export default {
   Tokens: {
 
 
-    ETH: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-      //   address: eth has no address
-      icon: "/images/coin-icons/ethereum.svg",
-      priceDecimals: 18,
-      cToken: {
-        name: "tETH",
-        symbol: "tETH",
-        decimals: 8,
-        address: "0x3EfFa48cB7c65399676D49f4B08696151f2446CC"
-      },
-    },
+    // ETH: {
+    //   name: "ETH",
+    //   symbol: "ETH",
+    //   decimals: 18,
+    //   //   address: eth has no address
+    //   icon: "/images/coin-icons/ethereum.svg",
+    //   priceDecimals: 18,
+    //   cToken: {
+    //     name: "tETH",
+    //     symbol: "tETH",
+    //     decimals: 8,
+    //     address: "0x3EfFa48cB7c65399676D49f4B08696151f2446CC"
+    //   },
+    // },
 
     WBTC: {
       name: "wBTC",
@@ -36,107 +36,107 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
-        address: "0x29D4Cf28db3f978591F9868006BD3c5D2f36801f",
+        address: "0xDE131f422585927c5d19879Ee22241678273B155",
       },
     },
 
 
-    USDC: {
-      name: "USDC",
-      symbol: "USDC",
-      decimals: 6,
-      address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
-      icon: "/images/coin-icons/usdc.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tUSDC",
-        symbol: "tUSDC",
-        decimals: 8,
-        address: "0x0BdF3cb0D390ce8d8ccb6839b1CfE2953983b5f1",
-      },
-    },
+    // USDC: {
+    //   name: "USDC",
+    //   symbol: "USDC",
+    //   decimals: 6,
+    //   address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+    //   icon: "/images/coin-icons/usdc.svg",
+    //   priceDecimals: 28,
+    //   cToken: {
+    //     name: "tUSDC",
+    //     symbol: "tUSDC",
+    //     decimals: 8,
+    //     address: "0x0BdF3cb0D390ce8d8ccb6839b1CfE2953983b5f1",
+    //   },
+    // },
 
-    USDT: {
-      name: "USDT",
-      symbol: "USDT",
-      decimals: 6,
-      address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
-      icon: "/images/coin-icons/usdt.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tUSDC",
-        symbol: "tUSDC",
-        decimals: 8,
-        address: "0xCAA772eaCbCAD50E0decC64Ab4748DC1A11Cf731",
-      },
-    },
-
-
-
-    DAI: {
-      name: "DAI",
-      symbol: "DAI",
-      decimals: 18,
-      address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-      icon: "/images/coin-icons/dai.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tDAI",
-        symbol: "tDAI",
-        decimals: 8,
-        address: "0x916b44509CcfC5238f8Ce9a30bEB1BF861B70779",
-      },
-    },
-    FRAX: {
-      name: "FRAX",
-      symbol: "FRAX",
-      decimals: 18,
-      address: "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F",
-      icon: "/images/coin-icons/frax.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tFRAX",
-        symbol: "tFRAX",
-        decimals: 8,
-        address: "0x86356683eca061FA3dD795aF3A22a1530a999b58",
-      },
-    },
+    // USDT: {
+    //   name: "USDT",
+    //   symbol: "USDT",
+    //   decimals: 6,
+    //   address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+    //   icon: "/images/coin-icons/usdt.svg",
+    //   priceDecimals: 28,
+    //   cToken: {
+    //     name: "tUSDC",
+    //     symbol: "tUSDC",
+    //     decimals: 8,
+    //     address: "0xCAA772eaCbCAD50E0decC64Ab4748DC1A11Cf731",
+    //   },
+    // },
 
 
 
-
-    UNI: {
-      name: "UNI",
-      symbol: "UNI",
-      decimals: 18,
-      address: "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
-      icon: "/images/coin-icons/uni.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tUNI",
-        symbol: "tUNI",
-        decimals: 8,
-        address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
-      },
-    },
+    // DAI: {
+    //   name: "DAI",
+    //   symbol: "DAI",
+    //   decimals: 18,
+    //   address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+    //   icon: "/images/coin-icons/dai.svg",
+    //   priceDecimals: 28,
+    //   cToken: {
+    //     name: "tDAI",
+    //     symbol: "tDAI",
+    //     decimals: 8,
+    //     address: "0x916b44509CcfC5238f8Ce9a30bEB1BF861B70779",
+    //   },
+    // },
+    // FRAX: {
+    //   name: "FRAX",
+    //   symbol: "FRAX",
+    //   decimals: 18,
+    //   address: "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F",
+    //   icon: "/images/coin-icons/frax.svg",
+    //   priceDecimals: 28,
+    //   cToken: {
+    //     name: "tFRAX",
+    //     symbol: "tFRAX",
+    //     decimals: 8,
+    //     address: "0x86356683eca061FA3dD795aF3A22a1530a999b58",
+    //   },
+    // },
 
 
 
 
-    LINK: {
-      name: "LINK",
-      symbol: "LINK",
-      decimals: 18,
-      address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
-      icon: "/images/coin-icons/link.svg",
-      priceDecimals: 28,
-      cToken: {
-        name: "tLINK",
-        symbol: "tLINK",
-        decimals: 8,
-        address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
-      },
-    },
+    // UNI: {
+    //   name: "UNI",
+    //   symbol: "UNI",
+    //   decimals: 18,
+    //   address: "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
+    //   icon: "/images/coin-icons/uni.svg",
+    //   priceDecimals: 28,
+    //   cToken: {
+    //     name: "tUNI",
+    //     symbol: "tUNI",
+    //     decimals: 8,
+    //     address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
+    //   },
+    // },
+
+
+
+
+    // LINK: {
+    //   name: "LINK",
+    //   symbol: "LINK",
+    //   decimals: 18,
+    //   address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+    //   icon: "/images/coin-icons/link.svg",
+    //   priceDecimals: 28,
+    //   cToken: {
+    //     name: "tLINK",
+    //     symbol: "tLINK",
+    //     decimals: 8,
+    //     address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
+    //   },
+    // },
 
 
   GLP: {
@@ -155,7 +155,7 @@ export default {
       name: "tGLP",
       symbol: "tGLP",
       decimals: 8,
-      address: "0x3fD112f5c6648DD3832722099D034c9bdb0798bD"
+      address: "0x118C6fE960Ed8Bb50D722a0323BD676f2D1c3F40"
     },
   }
 }
