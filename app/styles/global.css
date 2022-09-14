@@ -634,6 +634,7 @@ body.body__fixed {
     background: #0d0d0d !important;
     border: 1px solid #b5cfcc2b !important;
     width: 85%;
+    max-width: 550px;
     border-radius: 1rem !important;
     padding: 0 !important;
     height: fit-content;

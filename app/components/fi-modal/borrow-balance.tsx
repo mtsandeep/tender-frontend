@@ -31,7 +31,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
         <div className="text-white text-base font-nova ">
           {(value == "0" || !isValid) && <>{toFiatString(borrowBalance)}</>}
           {isValid && value != "0" && (
-            <div className="flex">
+            <div className="flex items-center">
               ${toFiatString(borrowBalance)}
               <img className="mx-3" src={urlArrow} alt="" />$
               {toFiatString(newBorrowBalance)}
@@ -45,7 +45,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
         <div className="text-white text-sm sm:text-base font-nova">
           {(value == "0" || !isValid) && <>{borrowLimitUsed}%</>}
           {isValid && value != "0" && (
-            <div className="flex">
+            <div className="flex items-center">
               {borrowLimitUsed}%
               <img className="mx-3" src={urlArrow} alt="" />
               {newBorrowLimitUsed}%

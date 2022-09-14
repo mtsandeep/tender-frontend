@@ -2,7 +2,7 @@ import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
 import * as math from "mathjs";
 
-const DEFAULT_TEXT_CLASS = "sm:text-6xl";
+const DEFAULT_TEXT_CLASS = "text-6xl";
 
 /**
  * Used on deposit, withdraw, borrow, and repay modals
@@ -13,20 +13,10 @@ const DEFAULT_TEXT_CLASS = "sm:text-6xl";
 const shrinkyInputClass = (len: number): string => {
   let className = DEFAULT_TEXT_CLASS;
 
-  if (len > 22) {
-    className = "text-md";
-  } else if (len > 19) {
-    className = "text-lg";
-  } else if (len > 17) {
-    className = "text-xl";
-  } else if (len > 15) {
-    className = "text-2xl";
-  } else if (len > 12) {
-    className = "text-3xl";
-  } else if (len > 9) {
-    className = "text-4xl";
-  } else if (len > 7) {
-    className = "sm:text-5xl";
+  if (len > 7) {
+    className = "text-4xl md:text-5xl";
+  } else {
+    className = "text-5xl md:text-6xl";
   }
   return className;
 };
@@ -82,10 +72,7 @@ export const toCryptoString = (v: number): string => {
 };
 
 export const toMaxString = (v: number): string =>
-  math.format(v, {
-    notation: "fixed",
-    precision: 7,
-  });
+  (toMaxNumber(v) * 1).toString();
 
 export const toMaxNumber = (v: number): number =>
   parseFloat(

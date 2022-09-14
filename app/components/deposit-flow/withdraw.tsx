@@ -109,7 +109,7 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
+            <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space">
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
                   maxValue={maxWithdrawAmount}
@@ -124,9 +124,9 @@ export default function Withdraw({
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ minHeight: 90 }}
-                className={`input__center__custom ${
+                className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
                   value ? "w-full" : "w-[calc(100%-40px)]"
-                } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
             </div>
