@@ -113,13 +113,13 @@ export default function Borrow({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
+            <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space">
               <input
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ minHeight: 90 }}
-                className={`input__center__custom ${
+                className={`input__center__custom max-w-[250px] ${
                   value ? "w-full" : "w-[calc(100%-40px)]"
                 } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
