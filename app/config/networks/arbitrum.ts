@@ -5,7 +5,7 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
-  secondsPerBlock: 15,
+  secondsPerBlock: 0.2178610783,
   graphUrl: 'https://graph.tender.fi/',
   Contracts: {
     Comptroller: "0x60437FEE4ddBdA6e47955b6255E312F1ED067033",
