@@ -5,6 +5,7 @@ import TwoPanels from "~/components/two-panels/two-panels";
 import TwoPanelsEmpty from "~/components/two-panels/two-panels-empty";
 import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
+import {TenderContext} from "~/contexts/tender-context";
 
 export default function App() {
   let tenderContextData = useTenderContext();
@@ -14,10 +15,10 @@ export default function App() {
   return (
     <div className="c mt-[80px] md:mt-[30px] mb-[100px] md:mb-[100px]">
       {tenderContextData && onSupportedChain ? (
-        <>
-          <AccountSummary tenderContextData={tenderContextData} />
-          <TwoPanels tenderContextData={tenderContextData} />
-        </>
+        <TenderContext.Provider value={tenderContextData}>
+          <AccountSummary />
+          <TwoPanels />
+        </TenderContext.Provider>
       ) : (
         <>
           <AccountSummaryEmpty loading={false} />

@@ -8,8 +8,11 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import Display from "~/components/account-summary/display";
 import type { Market } from "~/types/global";
 import AccountSummaryEmpty from "./empty";
+import {useContext} from "react";
+import {TenderContext} from "~/contexts/tender-context";
 
-export default function AccountSummary({ tenderContextData }: any) {
+export default function AccountSummary() {
+  const tenderContextData = useContext(TenderContext);
   let provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
 
