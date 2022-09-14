@@ -98,7 +98,10 @@ export default function Deposit({
 
   const handleCheckValue = useCallback((e: any) => {
     const { value } = e.target;
-    setValue(value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1"));
+    if (!value || value.match(/^(([1-9]\d*)|0)(.\d+)?$/)) {
+      console.log(value);
+      setValue(value);
+    }
   }, []);
 
   return (

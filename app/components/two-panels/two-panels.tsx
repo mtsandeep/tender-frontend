@@ -204,7 +204,7 @@ export default function TwoPanels({ tenderContextData }: any) {
           })
         }
       />
-      {/* //TODO: !S MutiTooltip */}
+
       <TooltipMobileMulti
         tooltipData={multiTooltipData}
         handleClose={() =>
@@ -214,6 +214,67 @@ export default function TwoPanels({ tenderContextData }: any) {
           })
         }
       />
+
+      {/* MODAL ONE START */}
+
+      <ReactModal
+        shouldCloseOnOverlayClick={true}
+        isOpen={true}
+        onRequestClose={() => setOpenMarket(null)}
+        portalClassName="modal"
+        style={{
+          content: {
+            inset: "unset",
+            margin: "50px auto",
+            zoom: "75%",
+            position: "relative",
+            maxWidth: 600,
+          },
+        }}
+        closeTimeoutMS={200}
+      >
+        <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+          <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
+            <button>
+              <img src="/images/ico/close.svg" alt="close" />
+            </button>
+          </div>
+          <div className="h-[100px]"></div>
+        </div>
+      </ReactModal>
+
+      {/* MODAL ONE END */}
+
+      {/* MODAL SECOND START */}
+
+      <ReactModal
+        shouldCloseOnOverlayClick={true}
+        isOpen={false}
+        onRequestClose={() => setOpenMarket(null)}
+        portalClassName="modal"
+        style={{
+          content: {
+            inset: "unset",
+            margin: "50px auto",
+            zoom: "75%",
+            position: "relative",
+            maxWidth: 600,
+          },
+        }}
+        closeTimeoutMS={200}
+      >
+        <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+          <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
+            <button>
+              <img src="/images/ico/close.svg" alt="close" />
+            </button>
+          </div>
+          <div className="h-[100px]"></div>
+        </div>
+      </ReactModal>
+
+      {/* MODAL SECOND END */}
+
       <div>
         {marketsWithSupply.length > 0 && (
           <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
@@ -283,7 +344,15 @@ export default function TwoPanels({ tenderContextData }: any) {
                         </div>
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
-                        <div className="custom__hidden">
+                        <div
+                          className={`custom__hidden ${
+                            parseFloat(token.marketData.borrowApy) > 0
+                              ? "text-dark-green"
+                              : parseFloat(token.marketData.borrowApy) < 0
+                              ? "text-[#00E0FF]"
+                              : "text-red"
+                          } `}
+                        >
                           {token.marketData.borrowApy}
                         </div>
                         <div
@@ -455,7 +524,15 @@ export default function TwoPanels({ tenderContextData }: any) {
                           </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
-                          <div className="custom__hidden">
+                          <div
+                            className={`custom__hidden ${
+                              parseFloat(token.marketData.borrowApy) > 0
+                                ? "text-dark-green"
+                                : parseFloat(token.marketData.borrowApy) < 0
+                                ? "text-[#00E0FF]"
+                                : "text-red"
+                            } `}
+                          >
                             {token.marketData.borrowApy}
                           </div>
                           <div
@@ -632,7 +709,15 @@ export default function TwoPanels({ tenderContextData }: any) {
                         </div>
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
-                        <div className="custom__hidden">
+                        <div
+                          className={`custom__hidden ${
+                            parseFloat(token.marketData.borrowApy) > 0
+                              ? "text-dark-green"
+                              : parseFloat(token.marketData.borrowApy) < 0
+                              ? "text-[#00E0FF]"
+                              : "text-red"
+                          } `}
+                        >
                           {token.marketData.borrowApy}
                         </div>
                         <div
@@ -800,7 +885,15 @@ export default function TwoPanels({ tenderContextData }: any) {
                           </div>
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
-                          <div className="custom__hidden">
+                          <div
+                            className={`custom__hidden ${
+                              parseFloat(token.marketData.borrowApy) > 0
+                                ? "text-dark-green"
+                                : parseFloat(token.marketData.borrowApy) < 0
+                                ? "text-[#00E0FF]"
+                                : "text-red"
+                            } `}
+                          >
                             {token.marketData.borrowApy}
                           </div>
                           <div
