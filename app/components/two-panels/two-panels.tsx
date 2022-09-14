@@ -215,66 +215,6 @@ export default function TwoPanels({ tenderContextData }: any) {
         }
       />
 
-      {/* MODAL ONE START */}
-
-      <ReactModal
-        shouldCloseOnOverlayClick={true}
-        isOpen={true}
-        onRequestClose={() => setOpenMarket(null)}
-        portalClassName="modal"
-        style={{
-          content: {
-            inset: "unset",
-            margin: "50px auto",
-            zoom: "75%",
-            position: "relative",
-            maxWidth: 600,
-          },
-        }}
-        closeTimeoutMS={200}
-      >
-        <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-          <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-            <button>
-              <img src="/images/ico/close.svg" alt="close" />
-            </button>
-          </div>
-          <div className="h-[100px]"></div>
-        </div>
-      </ReactModal>
-
-      {/* MODAL ONE END */}
-
-      {/* MODAL SECOND START */}
-
-      <ReactModal
-        shouldCloseOnOverlayClick={true}
-        isOpen={false}
-        onRequestClose={() => setOpenMarket(null)}
-        portalClassName="modal"
-        style={{
-          content: {
-            inset: "unset",
-            margin: "50px auto",
-            zoom: "75%",
-            position: "relative",
-            maxWidth: 600,
-          },
-        }}
-        closeTimeoutMS={200}
-      >
-        <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-          <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-            <button>
-              <img src="/images/ico/close.svg" alt="close" />
-            </button>
-          </div>
-          <div className="h-[100px]"></div>
-        </div>
-      </ReactModal>
-
-      {/* MODAL SECOND END */}
-
       <div>
         {marketsWithSupply.length > 0 && (
           <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
