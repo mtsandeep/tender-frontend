@@ -51,7 +51,7 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
       borrowChart.push({
         totalBorrow: (data.totalBorrows * data.underlyingPriceUSD).toFixed(2),
         borrowAPY: borrowApy.toFixed(2),
-        date: `${date.getDate()}/${date.getMonth()+1}`,
+        date: `${date.getDate()} ${monthNames[date.getMonth()]}`,
       });
 
       date.setDate(date.getDate() + 1);
