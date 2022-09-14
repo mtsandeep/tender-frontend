@@ -1,21 +1,26 @@
-import {useTenderContext} from "~/hooks/use-tender-context";
-import {hooks as metaMaskHooks} from "~/connectors/meta-mask";
-import {useOnSupportedNetwork} from "~/hooks/use-on-supported-network";
-import {TenderContext} from "~/contexts/tender-context";
-import Markets from "~/components/token-page/Markets";
+import { useTenderContext } from "~/hooks/use-tender-context";
+import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
+import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
+import { TenderContext } from "~/contexts/tender-context";
+import MarketsContent from "~/components/markets-page/marketsContent";
+import EmptyMarketsContent from "~/components/markets-page/emptyMarketsContent";
 
 export default function App() {
   const tenderContextData = useTenderContext();
   const chainId = metaMaskHooks.useChainId();
   const onSupportedChain = useOnSupportedNetwork(chainId);
 
+  console.log(tenderContextData);
+
   return (
-      <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
-        {tenderContextData && onSupportedChain ? (
-            <TenderContext.Provider value={tenderContextData}>
-              <Markets/>
-            </TenderContext.Provider>
-        ) : ('Loading...')}
-      </div>
+    <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
+      {tenderContextData && onSupportedChain ? (
+        <TenderContext.Provider value={tenderContextData}>
+          <MarketsContent />
+        </TenderContext.Provider>
+      ) : (
+        <EmptyMarketsContent />
+      )}
+    </div>
   );
 }

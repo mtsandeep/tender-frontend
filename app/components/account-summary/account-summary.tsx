@@ -8,8 +8,8 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import Display from "~/components/account-summary/display";
 import type { Market } from "~/types/global";
 import AccountSummaryEmpty from "./empty";
-import {useContext} from "react";
-import {TenderContext} from "~/contexts/tender-context";
+import { useContext } from "react";
+import { TenderContext } from "~/contexts/tender-context";
 
 export default function AccountSummary() {
   const tenderContextData = useContext(TenderContext);

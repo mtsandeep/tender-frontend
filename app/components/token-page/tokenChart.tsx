@@ -1,13 +1,32 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import ChartBorrow from "./ChartBorrow";
 import ChartSupply from "./ChartSupply";
 import TokenTopDetailsBorrow from "./tokenTopDetailsBorrow";
 import TokenTopDetailsSupply from "./tokenTopDetailsSupply";
-import {TenderContext} from "~/contexts/tender-context";
+import { TenderContext } from "~/contexts/tender-context";
 
-const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
-function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, historicalData: object | boolean }) {
+function TokenChart({
+  tokenId,
+  historicalData,
+}: {
+  tokenId: string | undefined;
+  historicalData: object | boolean;
+}) {
   const [tabName, setTabName] = useState<string>("supply");
   const { markets, networkData } = useContext(TenderContext);
   const m = markets.find((market) => market.id === tokenId);
@@ -15,7 +34,7 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
   const [borrowChartData, setBorrowChartData] = useState<object[]>([]);
 
   useEffect(() => {
-    console.log('charts data called');
+    console.log("charts data called");
 
     if (!historicalData || !networkData) {
       return;
@@ -26,18 +45,22 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
 
     const secondsPerBlock = networkData.secondsPerBlock;
     const daysPerYear = 365;
-    const blocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock);
+    const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
     const ethBlocksPerYear = 2102400; // subgraph uses 2102400
 
     const supplyChart: object[] = [];
     const borrowChart: object[] = [];
 
-    Object.keys(historicalData).forEach(function(i, index) {
+    Object.keys(historicalData).forEach(function (i, index) {
       // @ts-ignore
       const data = historicalData[i][0];
       const supplyRate = data.supplyRate / ethBlocksPerYear;
-      const supplyApy = (((Math.pow((supplyRate * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
-      const totalSupply = parseFloat(data.cash) + parseFloat(data.totalBorrows) - parseFloat(data.reserves);
+      const supplyApy =
+        (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+      const totalSupply =
+        parseFloat(data.cash) +
+        parseFloat(data.totalBorrows) -
+        parseFloat(data.reserves);
 
       supplyChart.push({
         totalSupply: (totalSupply * data.underlyingPriceUSD).toFixed(2),
@@ -46,7 +69,8 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
       });
 
       const borrowRate = data.borrowRate / ethBlocksPerYear;
-      const borrowApy = (((Math.pow((borrowRate * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
+      const borrowApy =
+        (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
       borrowChart.push({
         totalBorrow: (data.totalBorrows * data.underlyingPriceUSD).toFixed(2),
@@ -96,7 +120,11 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
           borrow
         </div>
       </div>
-      {tabName === "supply" ? <ChartSupply data={supplyChartData} /> : <ChartBorrow data={borrowChartData} />}
+      {tabName === "supply" ? (
+        <ChartSupply data={supplyChartData} />
+      ) : (
+        <ChartBorrow data={borrowChartData} />
+      )}
     </div>
   );
 }

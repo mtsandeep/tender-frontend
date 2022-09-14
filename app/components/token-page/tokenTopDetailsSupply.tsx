@@ -1,5 +1,5 @@
-import {Market} from "~/types/global";
-import {toShortFiatString} from "~/lib/ui";
+import type { Market } from "~/types/global";
+import { toShortFiatString } from "~/lib/ui";
 
 function TokenTopDetailsSupply({ market: m }: { market: Market | undefined }) {
   return (
@@ -74,13 +74,13 @@ function TokenTopDetailsSupply({ market: m }: { market: Market | undefined }) {
             Total Supply
           </p>
           <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
-            {m && `$${
+            {m &&
+              `$${
                 m.marketData.marketSize &&
                 toShortFiatString(
-                    m.marketData.marketSize *
-                    m.tokenPair.token.priceInUsd
+                  m.marketData.marketSize * m.tokenPair.token.priceInUsd
                 )
-            } USD`}
+              } USD`}
           </p>
         </div>
       </div>

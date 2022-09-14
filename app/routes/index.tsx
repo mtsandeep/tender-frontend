@@ -15,12 +15,10 @@ export default function App() {
   return (
     <div className="c mt-[80px] md:mt-[30px] mb-[100px] md:mb-[100px]">
       {tenderContextData && onSupportedChain ? (
-        <>
-          <TenderContext.Provider value={tenderContextData}>
-            <AccountSummary tenderContextData={tenderContextData} />
-            <TwoPanels tenderContextData={tenderContextData} />
-          </TenderContext.Provider>
-        </>
+        <TenderContext.Provider value={tenderContextData}>
+          <AccountSummary />
+          <TwoPanels />
+        </TenderContext.Provider>
       ) : (
         <>
           <AccountSummaryEmpty loading={false} />

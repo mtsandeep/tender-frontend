@@ -1,44 +1,6 @@
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 
-function TokenInterestRate({data}: {data: any[]}) {
-  /*const data = [
-    {
-      aa: 90,
-      ss: 15,
-      dd: 10,
-    },
-    {
-      aa: 90,
-      ss: 15,
-      dd: 10,
-    },
-    {
-      aa: 90,
-      ss: 15,
-      dd: 10,
-    },
-    {
-      aa: 90,
-      ss: 38,
-      dd: 50,
-    },
-    {
-      aa: 90,
-      ss: 70,
-      dd: 60,
-    },
-    {
-      aa: 90,
-      ss: 85,
-      dd: 80,
-    },
-    {
-      aa: 90,
-      ss: 85,
-      dd: 80,
-    },
-  ];*/
-
+function TokenInterestRate({ data }: { data: any[] }) {
   const CustomLine = (props: any) => (
     <svg x={props.points[0].x} width="1" height="300" viewBox="0 0 1 544">
       <path
