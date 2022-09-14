@@ -27,6 +27,8 @@ export interface NetworkData {
   blockExplorerUrl: string;
   userExplorerUrl?: string;
   rpcUrls?: string[];
+  secondsPerBlock: number;
+  graphUrl: string;
   Contracts: {
     Comptroller: string;
     PriceOracle: string;
@@ -61,6 +63,7 @@ export type TenderContext = {
   updateTransaction: Function;
   isWaitingToBeMined: boolean;
   setIsWaitingToBeMined: Function;
+  blockNumber: number | boolean;
 };
 
 export type Market = {

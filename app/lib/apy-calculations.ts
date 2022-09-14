@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import {BigNumber, ethers} from "ethers";
 import sampleCTokenAbi from "~/config/sample-ctoken-abi";
 import type { Token, cToken, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
@@ -21,15 +21,14 @@ function formatApy(apy: number): string {
 // it becomes 0 in the integer division math.
 //
 // This might be a mistake, but I get the correct APYs based on Compound on Rinkeby.
-function calculateApy(decimals: number, ratePerBlock: number): number {
+function calculateApy(ratePerBlock: BigNumber, secondsPerBlock: number): number {
   const daysPerYear = 365;
-  const blocksPerDay = 60 //* 60 * 24 / 10.9; // an estimate with 10.9second block time
+  const blocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock); // an estimate with 10.9 second block time
 
-  // TODO: this should probably use token.decimals????
   const underlyingAssetMantissa = 1e18;
 
-  // coppied from https://compound.finance/docs
-  const apy = (((Math.pow((ratePerBlock / underlyingAssetMantissa * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
+  // source: https://docs.compound.finance/v2/#calculating-the-apy-using-rate-per-block
+  const apy = (((Math.pow((ratePerBlock.toNumber() / underlyingAssetMantissa * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
 
   return apy;
 }
@@ -37,7 +36,8 @@ function calculateApy(decimals: number, ratePerBlock: number): number {
 async function calculateDepositApy(
   token: Token,
   cToken: cToken,
-  signer: JsonRpcSigner
+  signer: JsonRpcSigner,
+  secondsPerBlock: number
 ): Promise<number> {
   // TODO: Use different ABI for cEth and cWBTC
   const cTokenContract = new ethers.Contract(
@@ -47,9 +47,8 @@ async function calculateDepositApy(
   );
 
   const supplyRatePerBlock = await cTokenContract.supplyRatePerBlock();
-  const underlyingAssetMantissa = token.decimals;
 
-  const apy = calculateApy(underlyingAssetMantissa, supplyRatePerBlock);
+  const apy = calculateApy(supplyRatePerBlock, secondsPerBlock);
 
   return apy;
 }
@@ -57,7 +56,8 @@ async function calculateDepositApy(
 async function calculateBorrowApy(
   token: Token,
   cToken: cToken,
-  signer: JsonRpcSigner
+  signer: JsonRpcSigner,
+  secondsPerBlock: number
 ): Promise<number> {
   // TODO: Use different ABI for cEth and cWBTC
   const cTokenContract = new ethers.Contract(
@@ -67,9 +67,8 @@ async function calculateBorrowApy(
   );
 
   const borrowRatePerBlock = await cTokenContract.borrowRatePerBlock();
-  const underlyingAssetMantissa = token.decimals;
 
-  const apy = calculateApy(underlyingAssetMantissa, borrowRatePerBlock);
+  const apy = calculateApy(borrowRatePerBlock, secondsPerBlock);
 
   return apy;
 }
@@ -77,9 +76,10 @@ async function calculateBorrowApy(
 async function formattedDepositApy(
   token: Token,
   cToken: cToken,
-  signer: JsonRpcSigner
+  signer: JsonRpcSigner,
+  secondsPerBlock: number
 ): Promise<string> {
-  let apy: number = await calculateDepositApy(token, cToken, signer);
+  let apy: number = await calculateDepositApy(token, cToken, signer, secondsPerBlock);
 
   return formatApy(apy);
 }
@@ -87,9 +87,10 @@ async function formattedDepositApy(
 async function formattedBorrowApy(
   token: Token,
   cToken: cToken,
-  signer: JsonRpcSigner
+  signer: JsonRpcSigner,
+  secondsPerBlock: number
 ): Promise<string> {
-  let apy: number = await calculateBorrowApy(token, cToken, signer);
+  let apy: number = await calculateBorrowApy(token, cToken, signer, secondsPerBlock);
 
   return formatApy(apy);
 }
@@ -97,15 +98,16 @@ async function formattedBorrowApy(
 // TODO: If we passed in the market here we wouldn't have to re-query supply and borrow amounts
 async function getNetGainOrLoss(
   s: JsonRpcSigner,
-  p: TokenPair
+  p: TokenPair,
+  secondsPerBlock: number
 ): Promise<number> {
   let supplied: number = await getCurrentlySupplying(s, p.cToken, p.token);
   let supplyApy: number =
-    (await calculateDepositApy(p.token, p.cToken, s)) * 0.01;
+    (await calculateDepositApy(p.token, p.cToken, s, secondsPerBlock)) * 0.01;
 
   let borrowed: number = await getCurrentlyBorrowing(s, p.cToken, p.token);
   let borrowApy: number =
-    (await calculateBorrowApy(p.token, p.cToken, s)) * 0.01;
+    (await calculateBorrowApy(p.token, p.cToken, s, secondsPerBlock)) * 0.01;
 
   return (
     supplied * p.token.priceInUsd * supplyApy -
@@ -115,11 +117,12 @@ async function getNetGainOrLoss(
 
 async function netApy(
   signer: JsonRpcSigner,
-  tokenPairs: TokenPair[]
+  tokenPairs: TokenPair[],
+  secondsPerBlock: number
 ): Promise<number | null> {
   let weightedValues: number[] = await Promise.all(
     tokenPairs.map(async (p): Promise<number> => {
-      return await getNetGainOrLoss(signer, p);
+      return await getNetGainOrLoss(signer, p, secondsPerBlock);
     })
   );
 
@@ -140,4 +143,4 @@ async function netApy(
   return result;
 }
 
-export { formattedDepositApy, formattedBorrowApy, netApy };
+export { formattedDepositApy, formattedBorrowApy, netApy, calculateApy };

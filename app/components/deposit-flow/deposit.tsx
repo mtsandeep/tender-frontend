@@ -42,6 +42,8 @@ export default function Deposit({
   totalBorrowedAmountInUsd,
   market,
 }: DepositProps) {
+  const tokenDecimals = market.tokenPair.token.decimals;
+
   let [isEnabled, setIsEnabled] = useState<boolean>(true);
   let [loading, setLoading] = useState<boolean>(true);
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
@@ -96,13 +98,20 @@ export default function Deposit({
     inputEl && inputEl.current && inputEl.current.select();
   }, []);
 
-  const handleCheckValue = useCallback((e: any) => {
-    const { value } = e.target;
-    if (!value || value.match(/^(([1-9]\d*)|0)(.\d+)?$/)) {
-      console.log(value);
-      setValue(value);
-    }
-  }, []);
+  const handleCheckValue = useCallback(
+    (e: any) => {
+      const { value } = e.target;
+      const formattedValue = value
+        .replace(/[^.\d]+/g, "")
+        .replace(/^([^\.]*\.)|\./g, "$1");
+      const decimals = (formattedValue.split(".")[1] || []).length;
+
+      if (decimals <= tokenDecimals) {
+        setValue(formattedValue);
+      }
+    },
+    [tokenDecimals]
+  );
 
   return (
     <div>

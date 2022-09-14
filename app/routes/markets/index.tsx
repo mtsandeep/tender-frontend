@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
-import MarketsContent from "~/components/markets-page/marketsContent";
-import EmptyMarketsContent from "~/components/markets-page/emptyMarketsContent";
+import {useTenderContext} from "~/hooks/use-tender-context";
+import {hooks as metaMaskHooks} from "~/connectors/meta-mask";
+import {useOnSupportedNetwork} from "~/hooks/use-on-supported-network";
+import {TenderContext} from "~/contexts/tender-context";
+import Markets from "~/components/token-page/Markets";
 
-export default function Markets() {
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
-  }, []);
+export default function App() {
+  const tenderContextData = useTenderContext();
+  const chainId = metaMaskHooks.useChainId();
+  const onSupportedChain = useOnSupportedNetwork(chainId);
 
   return (
-    <div className="c mt-[30px] mb-[100px] md:mb-[100px]">
-      {loading ? <EmptyMarketsContent /> : <MarketsContent />}
-    </div>
+      <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
+        {tenderContextData && onSupportedChain ? (
+            <TenderContext.Provider value={tenderContextData}>
+              <Markets/>
+            </TenderContext.Provider>
+        ) : ('Loading...')}
+      </div>
   );
 }

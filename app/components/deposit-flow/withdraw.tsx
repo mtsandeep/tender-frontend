@@ -34,6 +34,8 @@ export default function Withdraw({
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
 }: WithdrawProps) {
+  const tokenDecimals = market.tokenPair.token.decimals;
+
   let [value, setValue] = useState<string>("");
   let [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
@@ -82,8 +84,13 @@ export default function Withdraw({
 
   const handleCheckValue = useCallback((e: any) => {
     const { value } = e.target;
-    setValue(value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1"));
-  }, []);
+    const formattedValue = value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1");
+    const decimals = (formattedValue.split('.')[1] || []).length;
+
+    if (decimals <= tokenDecimals) {
+      setValue(formattedValue);
+    }
+  }, [tokenDecimals]);
 
   return (
     <div>

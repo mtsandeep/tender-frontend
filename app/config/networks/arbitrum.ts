@@ -5,11 +5,13 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
+  secondsPerBlock: 0.2178610783,
+  graphUrl: 'https://graph.tender.fi/',
   Contracts: {
     Comptroller: "0x60437FEE4ddBdA6e47955b6255E312F1ED067033",
     PriceOracle: "0xD550A36DC56046afa908c52579f130e724D83eae",
   },
-  Tokens: { 
+  Tokens: {
     ETH: {
       name: "ETH",
       symbol: "ETH",
@@ -68,7 +70,7 @@ export default {
     },
     DAI: {
       name: "DAI",
-      symbol: "DAI", 
+      symbol: "DAI",
       decimals: 18,
       address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
       icon: "/images/coin-icons/dai.svg",
@@ -76,7 +78,7 @@ export default {
       cToken: {
         name: "tDAI",
         symbol: "tDAI",
-        decimals: 8, 
+        decimals: 8,
         address: "0x916b44509CcfC5238f8Ce9a30bEB1BF861B70779",
       },
     },
@@ -91,7 +93,7 @@ export default {
         name: "tFRAX",
         symbol: "tFRAX",
         decimals: 8,
-        address: "0x86356683eca061FA3dD795aF3A22a1530a999b58", 
+        address: "0x86356683eca061FA3dD795aF3A22a1530a999b58",
       },
     },
     UNI: {
@@ -104,13 +106,13 @@ export default {
       cToken: {
         name: "tUNI",
         symbol: "tUNI",
-        decimals: 8, 
+        decimals: 8,
         address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
       },
     },
     LINK: {
       name: "LINK",
-      symbol: "LINK", 
+      symbol: "LINK",
       decimals: 18,
       address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
       icon: "/images/coin-icons/link.svg",
@@ -118,13 +120,13 @@ export default {
       cToken: {
         name: "tDAI",
         symbol: "tDAI",
-        decimals: 8, 
+        decimals: 8,
         address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
       },
     },
     GLP: {
       name: "GLP",
-      symbol: "GLP", 
+      symbol: "GLP",
       decimals: 18,
       // staked glp is for approve
       sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
@@ -140,4 +142,4 @@ export default {
       },
     },
   },
-}; 
+};

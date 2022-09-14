@@ -319,7 +319,7 @@ const data = [
   },
 ];
 
-const ChartBorrow = () => {
+const ChartBorrow = ({ data }: { data: object[] }) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);

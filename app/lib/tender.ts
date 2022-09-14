@@ -90,6 +90,7 @@ async function getWalletBalance(signer: Signer, token: Token): Promise<number> {
  * @param value
  * @param signer
  * @param cToken
+ * @param token
  */
 async function deposit(
   value: string,
@@ -237,7 +238,7 @@ async function borrowLimitForTokenInUsd(
  *
  * @param signer
  * @param comptrollerAddress
- * @param cToken
+ * @param tokenPairs
  * @returns
  *
  * Each token has a max amount you can borrow against it.

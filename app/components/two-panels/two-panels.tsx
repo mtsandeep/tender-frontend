@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import ReactModal from "react-modal";
 import type { Market } from "~/types/global";
 import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
@@ -9,8 +9,10 @@ import TooltipMobile from "./tooltip-mobile";
 
 import TooltipMobileMulti from "./tooltip-mobile-MULTI";
 import TwoPanelsEmpty from "./two-panels-empty";
+import {TenderContext} from "~/contexts/tender-context";
 
-export default function TwoPanels({ tenderContextData }: any) {
+export default function TwoPanels() {
+  const tenderContextData = useContext(TenderContext);
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
 
   let [multiTooltipData, setMultiTooltipData] = useState({
