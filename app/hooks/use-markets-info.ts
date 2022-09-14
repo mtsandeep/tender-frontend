@@ -90,8 +90,8 @@ export function useMarketsInfo() {
             };
 
             const daysPerYear = 365;
-            const ethBlocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock);
-            const ethBlocksPerYear = ethBlocksPerDay * daysPerYear;
+            const blocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock);
+            const ethBlocksPerYear = 2102400; // subgraph uses 2102400
             const uniqueSuppliers = {};
             const uniqueBorrowers = {};
 
@@ -107,11 +107,11 @@ export function useMarketsInfo() {
                 const id = m.id.toLowerCase();
 
                 const supplyRate = m.supplyRate / ethBlocksPerYear;
-                markets[id].supplyApy = (((Math.pow((supplyRate * ethBlocksPerDay) + 1, daysPerYear))) - 1) * 100;
+                markets[id].supplyApy = (((Math.pow((supplyRate * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
                 markets[id].totalSupplyUsd = (parseFloat(m.cash) + parseFloat(m.totalBorrows) - parseFloat(m.reserves)) * m.underlyingPriceUSD;
 
                 const borrowRate = m.borrowRate / ethBlocksPerYear;
-                markets[id].borrowApy = (((Math.pow((borrowRate * ethBlocksPerDay) + 1, daysPerYear))) - 1) * 100;
+                markets[id].borrowApy = (((Math.pow((borrowRate * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
                 markets[id].totalBorrowUsd = m.totalBorrows * m.underlyingPriceUSD;
 
                 markets[id].totalBorrowersCount = response.accountCTokens.filter(

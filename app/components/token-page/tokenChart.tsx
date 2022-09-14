@@ -5,6 +5,8 @@ import TokenTopDetailsBorrow from "./tokenTopDetailsBorrow";
 import TokenTopDetailsSupply from "./tokenTopDetailsSupply";
 import {TenderContext} from "~/contexts/tender-context";
 
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, historicalData: object | boolean }) {
   const [tabName, setTabName] = useState<string>("supply");
   const { markets, networkData } = useContext(TenderContext);
@@ -20,30 +22,31 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
     }
 
     const date = new Date();
+    date.setDate(date.getDate() - Object.keys(historicalData).length + 1);
 
     const secondsPerBlock = networkData.secondsPerBlock;
     const daysPerYear = 365;
-    const ethBlocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock);
-    const ethBlocksPerYear = ethBlocksPerDay * daysPerYear; // fix supply/borrow rate
+    const blocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock);
+    const ethBlocksPerYear = 2102400; // subgraph uses 2102400
 
     const supplyChart: object[] = [];
     const borrowChart: object[] = [];
 
-    Object.keys(historicalData).reverse().forEach(function(i, index) {
+    Object.keys(historicalData).forEach(function(i, index) {
       // @ts-ignore
       const data = historicalData[i][0];
       const supplyRate = data.supplyRate / ethBlocksPerYear;
-      const supplyApy = (((Math.pow((supplyRate * ethBlocksPerDay) + 1, daysPerYear))) - 1) * 100;
+      const supplyApy = (((Math.pow((supplyRate * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
       const totalSupply = parseFloat(data.cash) + parseFloat(data.totalBorrows) - parseFloat(data.reserves);
 
       supplyChart.push({
         totalSupply: (totalSupply * data.underlyingPriceUSD).toFixed(2),
         supplyAPY: supplyApy.toFixed(2),
-        date: `${date.getDate()}/${date.getMonth()+1}`,
+        date: `${date.getDate()} ${monthNames[date.getMonth()]}`,
       });
 
       const borrowRate = data.borrowRate / ethBlocksPerYear;
-      const borrowApy = (((Math.pow((borrowRate * ethBlocksPerDay) + 1, daysPerYear))) - 1) * 100;
+      const borrowApy = (((Math.pow((borrowRate * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
 
       borrowChart.push({
         totalBorrow: (data.totalBorrows * data.underlyingPriceUSD).toFixed(2),
@@ -51,7 +54,7 @@ function TokenChart({ tokenId, historicalData }: { tokenId: string | undefined, 
         date: `${date.getDate()}/${date.getMonth()+1}`,
       });
 
-      date.setDate(date.getDate() - 1);
+      date.setDate(date.getDate() + 1);
     });
 
     setSupplyChartData(supplyChart);
