@@ -4,6 +4,20 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 
+const getLatestBlock = async function (graphUrl: string) {
+    const response = await request(graphUrl, gql`
+      {
+        _meta {
+          block {
+            number
+          }
+        }
+      }
+    `);
+
+    return response?._meta?.block?.number ? response._meta.block.number : 0;
+};
+
 const getStatsQuery = function (address: string, blockNumber: any): string {
   if (!blockNumber) {
     return "";
@@ -38,7 +52,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     market: false,
     historicalData: false,
   });
-  const { networkData, blockNumber } = useContext(TenderContext);
+    const {networkData} = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
 
@@ -61,6 +75,12 @@ export function useMarketInfo(tokenId: string | undefined) {
       if (!address) {
         return;
       }
+
+            const blockNumber = await getLatestBlock(graphUrl);
+
+            if (blockNumber === 0) {
+                return;
+            }
 
       const statsQuery = getStatsQuery(address, blockNumber);
 
@@ -145,7 +165,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     };
 
     getMarketInfo();
-  }, [networkData, tokenId, signer, blockNumber]);
+    }, [networkData, tokenId, signer]);
 
   return marketInfo;
 }
