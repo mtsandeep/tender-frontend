@@ -48,6 +48,7 @@ export default function Repay({
 }: RepayProps) {
   let [isEnabled, setIsEnabled] = useState<boolean>(true);
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
+  let [loading, setLoading] = useState<boolean>(true);
 
   let [isRepayingTxn, setIsRepayingTxn] = useState<boolean>(false);
   let [value, setValue] = useState<string>("");
@@ -80,6 +81,7 @@ export default function Repay({
   let { updateTransaction, setIsWaitingToBeMined } = useContext(TenderContext);
 
   useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
     if (!signer) {
       return;
     }
@@ -106,14 +108,12 @@ export default function Repay({
 
   return (
     <div>
-      {txnHash !== "" && (
+      {txnHash !== "" ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
         />
-      )}
-
-      {txnHash === "" && (
+      ) : (
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
@@ -121,60 +121,50 @@ export default function Repay({
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
-
-            {!isEnabled ? (
-              <div>
-                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    className="w-[32px] mr-3"
-                    alt="icon"
-                  />
-                  {market.tokenPair.token.symbol}
-                </div>
-                <div className="flex flex-col items-center mt-5 rounded-2xl  px-4">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    className="w-12"
-                    alt="icon"
-                  />
-                  <div className="max-w-sm text-center my-10 mt-5 mb-5 font-normal font-nova text-white text-sm px-4">
-                    To borrow or repay {market.tokenPair.token.symbol} on the
-                    Tender.fi protocol, you need to enable it first.
-                  </div>
+            <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
+              <img
+                src={market.tokenPair.token.icon}
+                className="w-[32px] mr-3"
+                alt="icon"
+              />
+              {market.tokenPair.token.symbol}
+            </div>
+            {loading ? (
+              <div className="switch__to__network px-4 mt-5 flex flex-col items-center">
+                <div className="animate w-[48px] h-[48px]"></div>
+                <div className="animate w-[80%] h-[40px] mt-[20px]"></div>
+              </div>
+            ) : !isEnabled ? (
+              <div className="flex flex-col items-center mt-5 rounded-2xl  px-4">
+                <img
+                  src={market.tokenPair.token.icon}
+                  className="w-12"
+                  alt="icon"
+                />
+                <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm px-4">
+                  To borrow or repay {market.tokenPair.token.symbol} on the
+                  Tender.fi protocol, you need to enable it first.
                 </div>
               </div>
             ) : (
-              <div>
-                <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    className="w-[32px] mr-3"
-                    alt="icon"
-                  />
-                  {market.tokenPair.token.symbol}
-                </div>
-                <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
-                  <input
-                    ref={inputEl}
-                    value={value}
-                    onChange={(e) => handleCheckValue(e)}
-                    style={{ minHeight: 90 }}
-                    className={`input__center__custom ${
-                      value ? "w-full" : "w-[calc(100%-40px)]"
-                    } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                    placeholder="0"
-                  />
+              <div className="flex flex-col justify-center items-end mt-[30px] overflow-hidden font-space">
+                <input
+                  ref={inputEl}
+                  value={value}
+                  onChange={(e) => handleCheckValue(e)}
+                  style={{ minHeight: 90 }}
+                  className={`input__center__custom ${
+                    value ? "w-full" : "w-[calc(100%-40px)]"
+                  } text-2xl bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  placeholder="0"
+                />
 
-                  <Max
-                    maxValue={maxRepayableAmount}
-                    updateValue={() =>
-                      setValue(toMaxString(maxRepayableAmount))
-                    }
-                    maxValueLabel={market.tokenPair.token.symbol}
-                    color="#00E0FF"
-                  />
-                </div>
+                <Max
+                  maxValue={maxRepayableAmount}
+                  updateValue={() => setValue(toMaxString(maxRepayableAmount))}
+                  maxValueLabel={market.tokenPair.token.symbol}
+                  color="#00E0FF"
+                />
               </div>
             )}
             <div className="flex mt-6 uppercase">

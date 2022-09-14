@@ -91,13 +91,12 @@ export default function Borrow({
 
   return (
     <div>
-      {txnHash !== "" && (
+      {txnHash !== "" ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
         />
-      )}
-      {txnHash === "" && (
+      ) : (
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
             <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
