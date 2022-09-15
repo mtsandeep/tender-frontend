@@ -27,7 +27,7 @@ export default {
       },
     },
     WBTC: {
-      name: "wBTC",
+      name: "WBTC",
       symbol: "WBTC",
       decimals: 8,
       address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",

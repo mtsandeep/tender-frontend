@@ -19,22 +19,23 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
         {
             itemName: "Price",
             itemData: marketInfo && `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
+        },
+        { itemName: "Available Borrow", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + m?.tokenPair.token.symbol },
+        { itemName: "# of Suppliers", itemData: marketInfo && marketInfo.totalSuppliersCount },
+        { itemName: "# of Borrowers", itemData: marketInfo && marketInfo.totalBorrowersCount },
+        { itemName: "Borrow Cap", itemData: "No limit" },
+        { itemName: "Interest Paid/Day", itemData: "0" },
+        { itemName: "Reserves", itemData: marketInfo && marketInfo.reserves + " " + m?.id },
+        { itemName: "Reserve Factor", itemData: marketInfo && marketInfo.reserveFactor + "%" },
+        {
+            itemName: "Max LTV",
+            itemData: marketInfo && marketInfo.collateralFactor + "%",
             tooltipText: `The Maximum LTV ratio represents the maximum borrowing
             power of a specific collateral. For example, if a
             collateral has an LTV of 75%, the user can borrow up to
             0.75 worth of ETH in the principal currency for every 1
             ETH worth of collateral.`,
         },
-        { itemName: "Market Liquidity", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + m?.tokenPair.token.symbol },
-        { itemName: "# of Suppliers", itemData: marketInfo && marketInfo.totalSuppliersCount },
-        { itemName: "# of Borrowers", itemData: marketInfo && marketInfo.totalBorrowersCount },
-        // { itemName: m?.tokenPair.token.symbol + " Borrow Cap", itemData: "No limit" },
-        { itemName: m?.tokenPair.token.symbol + " Borrow Cap", itemData: "No limit" },
-        // { itemName: "Interest Paid/Day", itemData: "$6.820.25" },
-        { itemName: "Interest Paid/Day", itemData: "-" },
-        { itemName: "Reserves", itemData: marketInfo && marketInfo.reserves + " " + m?.id },
-        { itemName: "Reserve Factor", itemData: marketInfo && marketInfo.reserveFactor + "%" },
-        { itemName: "Collateral Factor", itemData: marketInfo && marketInfo.collateralFactor + "%" },
         { itemName: m?.tokenPair.cToken.symbol + " Minted", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
         { itemName: "Exchange Rate", itemData: "1 " + m?.tokenPair.token.symbol + " = " + exchangeRate + " " + m?.tokenPair.cToken.symbol },
     ];

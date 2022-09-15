@@ -18,12 +18,12 @@ const getLatestBlock = async function (graphUrl: string) {
     return response?._meta?.block?.number ? response._meta.block.number : 0;
 };
 
-const getStatsQuery = function (address: string, blockNumber: any): string {
+const getStatsQuery = function (address: string, blockNumber: any, secondsPerBlock: number): string {
   if (!blockNumber) {
     return "";
   }
 
-  const blocksPerDay = Math.round((60 * 60 * 24) / 15);
+  const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
   const numOfPeriods = 60;
   let query = "";
 
@@ -66,6 +66,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     const getMarketInfo = async () => {
       const graphUrl = networkData.graphUrl;
       const tokens = networkData.Tokens;
+      const secondsPerBlock = networkData.secondsPerBlock;
       const tokenKey = Object.keys(tokens).find(
         (key) => tokens[key].symbol === String(tokenId)
       );
@@ -82,7 +83,7 @@ export function useMarketInfo(tokenId: string | undefined) {
                 return;
             }
 
-      const statsQuery = getStatsQuery(address, blockNumber);
+      const statsQuery = getStatsQuery(address, blockNumber, secondsPerBlock);
 
       if (statsQuery.length === 0) {
         return;
@@ -153,7 +154,14 @@ export function useMarketInfo(tokenId: string | undefined) {
         .sort((a, b) => a - b)
         .forEach((key) => {
           // @ts-ignore
-          historicalData[key] = response[`b${key}`];
+          historicalData[key] = response[`b${key}`].length > 0 ? response[`b${key}`] : [{
+              supplyRate: 0,
+              borrowRate: 0,
+              totalBorrows: 0,
+              cash: 0,
+              reserves: 0,
+              underlyingPriceUSD: 0,
+          }];
         });
 
       console.log(historicalData);

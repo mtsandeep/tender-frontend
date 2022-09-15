@@ -173,7 +173,7 @@ const ChartSupply = ({ data }: { data: object[] }) => {
               style={{ left: Math.round(dotX) < 50 ? 25 : Math.round(dotX) }}
               className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium whitespace-nowrap bottom-[20px] block md:hidden pr-[10px]"
             >
-              {activeTooltip !== undefined && data[activeTooltip].date}
+              {data[activeTooltip]?.date}
             </div>
           ) : (
             ""
@@ -185,7 +185,7 @@ const ChartSupply = ({ data }: { data: object[] }) => {
           style={{ left: Math.round(dotX) }}
           className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
         >
-          {activeTooltip !== undefined && data[activeTooltip].date}
+          {data[activeTooltip]?.date}
         </div>
       ) : (
         ""

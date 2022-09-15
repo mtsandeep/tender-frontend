@@ -4,6 +4,24 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 
+const getPercentageChange = function (currentValue: number, prevValue: number): number {
+    return ((currentValue - prevValue) / currentValue) * 100;
+};
+
+const getLatestBlock = async function (graphUrl: string) {
+    const response = await request(graphUrl, gql`
+      {
+        _meta {
+          block {
+            number
+          }
+        }
+      }
+    `);
+
+    return response?._meta?.block?.number ? response._meta.block.number : 0;
+};
+
 export function useMarketsInfo() {
   const [marketsInfo, setMarketsInfo] = useState<object>({
     markets: false,
@@ -22,10 +40,21 @@ export function useMarketsInfo() {
 
     const getMarketsInfo = async () => {
       const markets = {};
+      const prevMarkets = {};
       const secondsPerBlock = networkData.secondsPerBlock;
       const graphUrl = networkData.graphUrl;
       const tokens = networkData.Tokens;
       const addresses: string[] = [];
+
+      const blockNumber = await getLatestBlock(graphUrl);
+
+      if (blockNumber === 0) {
+          return;
+      }
+
+      const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
+      const prevDayBlock = blockNumber - blocksPerDay;
+
       Object.keys(tokens).forEach((key) => {
         const address = tokens[key].cToken.address.toLowerCase();
         markets[address] = {
@@ -36,6 +65,7 @@ export function useMarketsInfo() {
 
         addresses.push(address);
       });
+
       const searchStr = addresses.join('","');
 
       const response = await request(
@@ -45,24 +75,20 @@ export function useMarketsInfo() {
   markets(where: {id_in: ["${searchStr}"]}) {
     borrowRate
     cash
-    collateralFactor
-    exchangeRate
-    interestRateModelAddress
     reserves
     supplyRate
     id
     totalBorrows
-    totalSupply
-    underlyingAddress
-    underlyingName
-    underlyingPrice
-    underlyingSymbol
-    accrualBlockNumber
-    blockTimestamp
-    borrowIndex
-    reserveFactor
     underlyingPriceUSD
-    underlyingDecimals
+  },
+  prevMarkets:markets(block:{number: ${prevDayBlock}} where: {id_in: ["${searchStr}"]}) {
+    borrowRate
+    cash
+    reserves
+    supplyRate
+    id
+    totalBorrows
+    underlyingPriceUSD
   },
     accountCTokens (where: {enteredMarket: true}) {
       id
@@ -76,6 +102,7 @@ export function useMarketsInfo() {
       if (
         !response ||
         typeof response.markets === "undefined" ||
+        typeof response.prevMarkets === "undefined" ||
         typeof response.accountCTokens === "undefined"
       ) {
         return;
@@ -85,20 +112,36 @@ export function useMarketsInfo() {
         supply: {
           count: 0,
           usd: 0,
+          usdDiff: 0,
           topMarkets: [],
         },
         borrow: {
           count: 0,
           usd: 0,
+          usdDiff: 0,
           topMarkets: [],
         },
       };
 
       const daysPerYear = 365;
-      const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
       const ethBlocksPerYear = 2102400; // subgraph uses 2102400
       const uniqueSuppliers = {};
       const uniqueBorrowers = {};
+
+      response.prevMarkets.forEach((m: {
+          reserves: string;
+          borrowRate: number;
+          underlyingPriceUSD: any;
+          totalBorrows: any;
+          cash: string;
+          supplyRate: number;
+          id: string;
+      }) => {
+          prevMarkets[m.id.toLowerCase()] = m;
+      });
+
+      let prevSupplyUsd = 0;
+      let prevBorrowUsd = 0;
 
       response.markets.forEach(
         (m: {
@@ -158,8 +201,46 @@ export function useMarketsInfo() {
 
           total.borrow.usd += markets[id].totalBorrowUsd;
           total.supply.usd += markets[id].totalSupplyUsd;
+
+          // @todo refactor
+          if (typeof prevMarkets[id] !== 'undefined') {
+              const prevSupplyRate = prevMarkets[id].supplyRate / ethBlocksPerYear;
+              const prevSupplyApy = (Math.pow(prevSupplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+              const prevTotalSupplyUsd =
+                  (parseFloat(prevMarkets[id].cash) +
+                      parseFloat(prevMarkets[id].totalBorrows) -
+                      parseFloat(prevMarkets[id].reserves)) *
+                  prevMarkets[id].underlyingPriceUSD;
+
+              const prevBorrowRate = prevMarkets[id].borrowRate / ethBlocksPerYear;
+              const prevBorrowApy =
+                  (Math.pow(prevBorrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+              const prevTotalBorrowUsd = prevMarkets[id].totalBorrows * prevMarkets[id].underlyingPriceUSD;
+
+              markets[id].supplyApyDiff = markets[id].supplyApy - prevSupplyApy;
+              markets[id].totalSupplyUsdDiff = markets[id].totalSupplyUsd !== 0
+                  ? getPercentageChange(markets[id].totalSupplyUsd, prevTotalSupplyUsd) : 0;
+
+              markets[id].borrowApyDiff = markets[id].borrowApy - prevBorrowApy;
+              markets[id].totalBorrowUsdDiff = markets[id].totalBorrowUsd !== 0
+                  ? getPercentageChange(markets[id].totalBorrowUsd, prevTotalBorrowUsd) : 0;
+
+              prevBorrowUsd += prevTotalBorrowUsd;
+              prevSupplyUsd += prevTotalSupplyUsd;
+
+              console.log('prevMarkets',{prevSupplyApy,prevTotalSupplyUsd,prevBorrowApy,prevTotalBorrowUsd})
+              console.log('markets',markets[id])
+          } else {
+              markets[id].supplyApyDiff = 0;
+              markets[id].totalSupplyUsdDiff = 0;
+              markets[id].borrowApyDiff = 0;
+              markets[id].totalBorrowUsdDiff = 0;
+          }
         }
       );
+
+      total.supply.usdDiff = getPercentageChange(total.supply.usd, prevSupplyUsd);
+      total.borrow.usdDiff = getPercentageChange(total.borrow.usd, prevBorrowUsd);
 
       total.borrow.count = Object.keys(uniqueBorrowers).length;
       total.supply.count = Object.keys(uniqueSuppliers).length;

@@ -4,7 +4,29 @@ import EmptyMarketsContent from "./emptyMarketsContent";
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
 
-  return markets && total ? (
+  if (!markets || !total) {
+    return (
+        <EmptyMarketsContent />
+    );
+  }
+
+  const getTotalDiffClass = function (value: number) {
+    return value > 0
+        ? "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]"
+        : (value < 0
+            ? "text-[14] relative bottom-[0] sm:bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#CF0C0C]"
+            : "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px]");
+  };
+
+  const getMarketDiffClass = function (value: number) {
+    return value > 0
+        ? "bg-dark-green text-dark-green rounded-[4px] sm:rounded-md"
+        : (value < 0
+            ? "bg-[#3A1313] text-[#FF3939] rounded-[4px] md:rounded-md"
+            : "");
+  };
+
+  return (
     <div>
       <div className="max-w-[1068px] px-[20px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
         <div className="panel-custom border-custom">
@@ -17,10 +39,8 @@ export default function MarketsContent() {
                 <span>$</span>
                 <span>{total?.supply?.usd.toFixed(2)}</span>
               </div>
-              <div className="text-[14]  relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]">
-                <span>+</span>
-                <span>0</span>
-                <span>%</span>
+              <div className={getTotalDiffClass(total.supply.usdDiff)}>
+                <span>{total.supply.usdDiff === 0 ? '' : `${total.supply.usdDiff.toFixed(2)}%`}</span>
               </div>
             </div>
             <div className="font-nova text-[12px] md:text-[14px] leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
@@ -87,10 +107,8 @@ export default function MarketsContent() {
                 <span>$</span>
                 <span>{total?.borrow?.usd.toFixed(2)}</span>
               </div>
-              <div className="text-[14] relative bottom-[0] sm:bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#CF0C0C]">
-                <span>-</span>
-                <span>0</span>
-                <span>%</span>
+              <div className={getTotalDiffClass(total.borrow.usdDiff)}>
+                <span>{total.borrow.usdDiff === 0 ? '' : `${total.borrow.usdDiff.toFixed(2)}%`}</span>
               </div>
             </div>
             <div className="font-nova text-[12px] md:text-[14px] leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
@@ -208,8 +226,8 @@ export default function MarketsContent() {
                         <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0]">
                           {`$${m.totalSupplyUsd?.toFixed(2)} USD`}
                         </div>
-                        <div className="custom__hidden !flex items-center break-words bg-[dark-green] text-[dark-green] rounded-md text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit">
-                          {`%`}
+                        <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit ${getMarketDiffClass(m.totalSupplyUsdDiff)}`}>
+                          {m.totalSupplyUsdDiff === 0 ? '-' : `${m.totalSupplyUsdDiff.toFixed(2)}%`}
                         </div>
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
@@ -220,8 +238,8 @@ export default function MarketsContent() {
                           className="group"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <div className="!flex items-center break-words text-[11px] md:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[13px] w-fit">
-                            -
+                          <div className={`custom__hidden !flex items-center break-words text-[11px] md:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[13px] w-fit ${getMarketDiffClass(m.supplyApyDiff)}`}>
+                            {m.supplyApyDiff === 0 ? '-' : m.supplyApyDiff.toFixed(2)}
                           </div>
                         </div>
                       </td>
@@ -229,16 +247,16 @@ export default function MarketsContent() {
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {`$${m.totalBorrowUsd?.toFixed(2)} USD`}
                         </div>
-                        <div className="custom__hidden !flex items-center  break-words bg-[#3A1313] text-[#FF3939] rounded-[4px] md:rounded-md text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit">
-                          {`0%`}
+                        <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit ${getMarketDiffClass(m.totalBorrowUsdDiff)}`}>
+                          {m.totalBorrowUsdDiff === 0 ? '-' : `${m.totalBorrowUsdDiff.toFixed(2)}%`}
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {`${m.borrowApy?.toFixed(2)}%`}
                         </div>
-                        <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-[4px] sm:rounded-md text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit">
-                          {`0`}
+                        <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit ${getMarketDiffClass(m.borrowApyDiff)}`}>
+                          {m.borrowApyDiff === 0 ? '-' : m.borrowApyDiff.toFixed(2)}
                         </div>
                       </td>
                     </tr>
@@ -250,7 +268,5 @@ export default function MarketsContent() {
         </div>
       </div>
     </div>
-  ) : (
-    <EmptyMarketsContent />
   );
 }
