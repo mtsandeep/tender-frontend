@@ -86,15 +86,25 @@ export default function Borrow({
     inputEl && inputEl.current && inputEl.current.select();
   }, []);
 
-  const handleCheckValue = useCallback((e: any) => {
-    const { value } = e.target;
-    const formattedValue = value.replace(/[^.\d]+/g, "").replace(/^([^\.]*\.)|\./g, "$1");
-    const decimals = (formattedValue.split('.')[1] || []).length;
+  const handleCheckValue = useCallback(
+    (e: any) => {
+      const { value } = e.target;
+      console.log(value);
+      const formattedValue = value
+        .replace(/[^.\d]+/g, "")
+        .replace(/^([^\.]*\.)|\./g, "$1");
+      const decimals = (formattedValue.split(".")[1] || []).length;
 
-    if (decimals <= tokenDecimals) {
-      setValue(formattedValue);
-    }
-  }, [tokenDecimals]);
+      if (
+        formattedValue === "" ||
+        (formattedValue.match(/^(([1-9]\d*)|0)(.|.\d+)?$/) &&
+          decimals <= tokenDecimals)
+      ) {
+        setValue(formattedValue);
+      }
+    },
+    [tokenDecimals]
+  );
 
   return (
     <div>
