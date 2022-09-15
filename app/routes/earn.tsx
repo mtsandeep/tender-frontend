@@ -11,9 +11,5 @@ export default function Earn() {
     }, 500);
   }, []);
 
-  return (
-    <div className="c mt-[30px] mb-[100px] md:mb-[100px]">
-      {loading ? <EmptyEarnContent /> : <EarnContent />}
-    </div>
-  );
+  return loading ? <EmptyEarnContent /> : <EarnContent />;
 }
