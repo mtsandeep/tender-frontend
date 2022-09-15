@@ -548,6 +548,113 @@ export default function EarnContent() {
 
           <div className="panel-custom mt-[32px]">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+              Supply and Borrow
+            </div>
+            <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[23px] ">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
+                  <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
+                    APR
+                  </span>
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
+                    <span>20.16</span>
+                    <span>%</span>
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
+                          <div className="flex justify-between items-center mb-[4px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
+                              esTND APR
+                            </span>
+                            <div className="text-xs leading-[17px]">
+                              <span>15.18</span>
+                              <span>%</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center mb-[12px]">
+                            <span className="text-[#818987] text-xs leading-[17px]">
+                              TND APR
+                            </span>
+                            <div className="text-xs leading-[17px]">
+                              <span>5.58</span>
+                              <span>%</span>
+                            </div>
+                          </div>
+                          <p className="text-[#818987] text-xs  text-left leading-[17px] font-nova">
+                            APRs are updated weekly on Wednesday and will depend
+                            on the fees collected for the week.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
+                  <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
+                    Rewards
+                  </span>
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit text-xs leading-[17px]">
+                    <div className="flex justify-end max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
+                      <span>$0.00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
+                  <span className="whitespace-nowrap font-normal text-[#818987] max-w-[44%] md:w-fit">
+                    Your Staked
+                  </span>
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit text-xs leading-[17px]">
+                    <div className="flex justify-end max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
+                      <span>1,472,862</span>
+                      <span>TND</span>
+                    </div>
+                    <div>
+                      (<span>$</span>
+                      <span>54,630,107</span>)
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
+                  <span className="whitespace-nowrap font-normal text-[#818987] max-w-[44%] md:w-fit">
+                    Your Supply
+                  </span>
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit text-xs leading-[17px]">
+                    <div className="flex justify-end max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
+                      <span>2,254,142</span>
+                      <span>TND</span>
+                    </div>
+                    <div>
+                      (<span>$</span>
+                      <span>83,608,654</span>)
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]">
+                <div className="btn-custom-border rounded-[6px]">
+                  <button
+                    onClick={() => window.open("/", "_blank")}
+                    className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                  >
+                    Dashboard
+                  </button>
+                </div>
+                <div
+                  onClick={() => window.open("/markets/", "_blank")}
+                  className="btn-custom-border rounded-[6px]"
+                >
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5  md:text-[13px] md:leading-[22px] font-medium rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                    Markets
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="panel-custom mt-[32px]">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">

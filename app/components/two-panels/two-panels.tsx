@@ -290,8 +290,6 @@ export default function TwoPanels() {
                           className={`custom__hidden ${
                             parseFloat(token.marketData.depositApy) > 0
                               ? "text-dark-green"
-                              : parseFloat(token.marketData.depositApy) < 0
-                              ? "text-[#00E0FF]"
                               : "text-red"
                           } `}
                         >
@@ -470,8 +468,6 @@ export default function TwoPanels() {
                             className={`custom__hidden ${
                               parseFloat(token.marketData.depositApy) > 0
                                 ? "text-dark-green"
-                                : parseFloat(token.marketData.depositApy) < 0
-                                ? "text-[#00E0FF]"
                                 : "text-red"
                             } `}
                           >
@@ -655,8 +651,6 @@ export default function TwoPanels() {
                           className={`custom__hidden ${
                             parseFloat(token.marketData.borrowApy) > 0
                               ? "text-dark-green"
-                              : parseFloat(token.marketData.borrowApy) < 0
-                              ? "text-[#00E0FF]"
                               : "text-red"
                           } `}
                         >
@@ -831,8 +825,6 @@ export default function TwoPanels() {
                             className={`custom__hidden ${
                               parseFloat(token.marketData.borrowApy) > 0
                                 ? "text-dark-green"
-                                : parseFloat(token.marketData.borrowApy) < 0
-                                ? "text-[#00E0FF]"
                                 : "text-red"
                             } `}
                           >
