@@ -83,11 +83,11 @@ export default function EarnContent() {
                     Wallet
                   </span>
                   <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium  max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.00</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0</span>)
+                      <span>0.00</span>)
                     </div>
                   </div>
                 </div>
@@ -96,11 +96,11 @@ export default function EarnContent() {
                     Staked
                   </span>
                   <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium  max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.00</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0</span>)
+                      <span>0.00</span>)
                     </div>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function EarnContent() {
                     Rewards
                   </span>
                   <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
-                    <span>$0</span>
+                    <span>$0.00</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -158,7 +158,7 @@ export default function EarnContent() {
                               TND
                             </span>
                             <div className="text-xs leading-[17px]">
-                              <span>0 ($0)</span>
+                              <span>0.0000 ($0.00)</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
@@ -166,7 +166,7 @@ export default function EarnContent() {
                               esTND
                             </span>
                             <div className="text-xs leading-[17px]">
-                              <span>0 ($0)</span>
+                              <span>0.0000 ($0.00)</span>
                             </div>
                           </div>
                         </div>
@@ -180,7 +180,7 @@ export default function EarnContent() {
                     Multiplier Points APR
                   </span>
                   <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
-                    <span>100</span>
+                    <span>100.00</span>
                     <span>%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -207,13 +207,13 @@ export default function EarnContent() {
                     Boost Percentage
                   </span>
                   <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
-                    <span>0%</span>
+                    <span>0.00%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <span className="flex text-start mb-[12px] text-[#818987] text-xs leading-[17px]">
-                            You are earning 0% more TND rewards using 0 Staked
-                            Multiplier Points.
+                            You are earning 0.00% more TND rewards using 0.0000
+                            Staked Multiplier Points.
                           </span>
                           <span className="flex text-start text-[#818987] text-xs leading-[17px]">
                             Use the "Compound" button to stake your Multiplier
@@ -379,11 +379,11 @@ export default function EarnContent() {
                     Wallet
                   </span>
                   <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.00</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0</span>)
+                      <span>0.00</span>)
                     </div>
                   </div>
                 </div>
@@ -392,11 +392,11 @@ export default function EarnContent() {
                     Staked
                   </span>
                   <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium] text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.00</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0</span>)
+                      <span>0.00</span>)
                     </div>
                   </div>
                 </div>
@@ -445,7 +445,7 @@ export default function EarnContent() {
                     Multiplier Points APR
                   </span>
                   <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
-                    <span>100</span>
+                    <span>100.00</span>
                     <span>%</span>
 
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -555,10 +555,10 @@ export default function EarnContent() {
                 <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] ">TND</span>
                   <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.0000</span>
                     <div>
                       (<span>$</span>
-                      <span>0</span>)
+                      <span>0.00</span>)
                     </div>
                   </div>
                 </div>
@@ -567,10 +567,10 @@ export default function EarnContent() {
                     esTND
                   </span>
                   <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.0000</span>
                     <div>
                       (<span>$</span>
-                      <span>0</span>)
+                      <span>0.00</span>)
                     </div>
                   </div>
                 </div>
@@ -579,7 +579,7 @@ export default function EarnContent() {
                     Multiplier Points
                   </span>
                   <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.000</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
@@ -605,7 +605,7 @@ export default function EarnContent() {
                     Staked Multiplier Points
                   </span>
                   <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
-                    <span>0</span>
+                    <span>0.000</span>
                     <span>%</span>
 
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -635,7 +635,7 @@ export default function EarnContent() {
                   <div className="font-medium text-xs leading-[17px]">
                     <div>
                       <span>$</span>
-                      <span>0</span>
+                      <span>0.00</span>
                     </div>
                   </div>
                 </div>
