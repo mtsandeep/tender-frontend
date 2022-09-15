@@ -16,7 +16,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ChartSupply = ({ data }: { data: object[] }) => {
+const ChartSupply = ({ data }: { data: any }) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
@@ -159,7 +159,7 @@ const ChartSupply = ({ data }: { data: object[] }) => {
                 position={{ y: -50 }}
               />
               <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]}>
-                {data.map((entry, index) => (
+                {data.map((entry: any, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#14F195" : "#282C2B"}

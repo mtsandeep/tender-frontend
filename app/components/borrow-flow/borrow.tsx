@@ -138,7 +138,6 @@ export default function Borrow({
                 <img src="/images/ico/close.svg" alt="close" />
               </button>
             </div>
-
             <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
@@ -147,12 +146,12 @@ export default function Borrow({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space">
+            <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space h-[100px] mt-[50px]">
               <input
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 90 }}
+                style={{ minHeight: 100 }}
                 className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
                   value ? "w-full" : "w-[calc(100%-40px)]"
                 } bg-transparent text-white text-center outline-none ${inputTextClass}`}

@@ -1,9 +1,15 @@
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
-import {TenderContext} from "~/contexts/tender-context";
-import {toShortCryptoString, toShortFiatString} from "~/lib/ui";
+import { TenderContext } from "~/contexts/tender-context";
+import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 
-function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefined, marketInfo: object | boolean }) {
+function TokenMarketDetails({
+  tokenId,
+  marketInfo,
+}: {
+  tokenId: string | undefined;
+  marketInfo: any;
+}) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: string;
@@ -13,32 +19,71 @@ function TokenMarketDetails({ tokenId, marketInfo }: { tokenId: string | undefin
   }>({ open: false, textTop: "", token: "", icon: "", textBottom: "" });
   const { markets } = useContext(TenderContext);
   const m = markets.find((market) => market.id === tokenId);
-  const exchangeRate = marketInfo && toShortCryptoString(Number((1/Number(marketInfo.exchangeRate)).toFixed(2)));
+  const exchangeRate =
+    marketInfo &&
+    toShortCryptoString(
+      Number((1 / Number(marketInfo.exchangeRate)).toFixed(2))
+    );
 
-    const customData = [
-        {
-            itemName: "Price",
-            itemData: marketInfo && `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
-        },
-        { itemName: "Available Borrow", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + m?.tokenPair.token.symbol },
-        { itemName: "# of Suppliers", itemData: marketInfo && marketInfo.totalSuppliersCount },
-        { itemName: "# of Borrowers", itemData: marketInfo && marketInfo.totalBorrowersCount },
-        { itemName: "Borrow Cap", itemData: "No limit" },
-        { itemName: "Interest Paid/Day", itemData: "0" },
-        { itemName: "Reserves", itemData: marketInfo && marketInfo.reserves + " " + m?.id },
-        { itemName: "Reserve Factor", itemData: marketInfo && marketInfo.reserveFactor + "%" },
-        {
-            itemName: "Max LTV",
-            itemData: marketInfo && marketInfo.collateralFactor + "%",
-            tooltipText: `The Maximum LTV ratio represents the maximum borrowing
+  const customData = [
+    {
+      itemName: "Price",
+      itemData:
+        marketInfo &&
+        `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
+    },
+    {
+      itemName: "Available Borrow",
+      itemData:
+        marketInfo &&
+        toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) +
+          " " +
+          m?.tokenPair.token.symbol,
+    },
+    {
+      itemName: "# of Suppliers",
+      itemData: marketInfo && marketInfo.totalSuppliersCount,
+    },
+    {
+      itemName: "# of Borrowers",
+      itemData: marketInfo && marketInfo.totalBorrowersCount,
+    },
+    { itemName: "Borrow Cap", itemData: "No limit" },
+    { itemName: "Interest Paid/Day", itemData: "0" },
+    {
+      itemName: "Reserves",
+      itemData: marketInfo && marketInfo.reserves + " " + m?.id,
+    },
+    {
+      itemName: "Reserve Factor",
+      itemData: marketInfo && marketInfo.reserveFactor + "%",
+    },
+    {
+      itemName: "Max LTV",
+      itemData: marketInfo && marketInfo.collateralFactor + "%",
+      tooltipText: `The Maximum LTV ratio represents the maximum borrowing
             power of a specific collateral. For example, if a
             collateral has an LTV of 75%, the user can borrow up to
             0.75 worth of ETH in the principal currency for every 1
             ETH worth of collateral.`,
-        },
-        { itemName: m?.tokenPair.cToken.symbol + " Minted", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
-        { itemName: "Exchange Rate", itemData: "1 " + m?.tokenPair.token.symbol + " = " + exchangeRate + " " + m?.tokenPair.cToken.symbol },
-    ];
+    },
+    {
+      itemName: m?.tokenPair.cToken.symbol + " Minted",
+      itemData:
+        marketInfo &&
+        toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))),
+    },
+    {
+      itemName: "Exchange Rate",
+      itemData:
+        "1 " +
+        m?.tokenPair.token.symbol +
+        " = " +
+        exchangeRate +
+        " " +
+        m?.tokenPair.cToken.symbol,
+    },
+  ];
 
   return (
     <div className="font-[ProximaNova] w-full">

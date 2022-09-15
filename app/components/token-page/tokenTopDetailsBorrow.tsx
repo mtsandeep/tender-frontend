@@ -1,17 +1,17 @@
-import {Market} from "~/types/global";
-import {toShortFiatString} from "~/lib/ui";
+import type { Market } from "~/types/global";
+import { toShortFiatString } from "~/lib/ui";
 
-function TokenTopDetailsBorrow({ market: m }: { market: Market | undefined }) {
+function TokenTopDetailsBorrow({ market }: { market: Market | undefined }) {
   return (
     <div className="flex flex-col ml-[15px] mr-[15px] md:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px] md:mb-[50px]">
       <div className="flex items-center md:w-[30%] mb-[30px] md:mb-0">
         <img
           className="w-10 h-10 mr-[15px] md:w-[55px] md:h-[55px] md:mr-[21px]"
-          src={m?.tokenPair.token.icon}
+          src={market?.tokenPair.token.icon}
           alt=""
         />
         <p className="font-nova font-medium text-lg leading-[25px] md:text-[22px] whitespace-nowrap md:leading-[31px]">
-          {m?.id}
+          {market?.id}
         </p>
       </div>
       <div className="flex md:gap-[0px] gap-x-[0px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-start md:justify-between md:text-center w-full md:w-[511px]">
@@ -43,7 +43,7 @@ function TokenTopDetailsBorrow({ market: m }: { market: Market | undefined }) {
           <div className="flex justify-start md:justify-center">
             <img
               className="w-3.5 h-3.5 mr-[4px] md:w-[20px] md:h-[20px]"
-              src={m?.tokenPair.token.icon}
+              src={market?.tokenPair.token.icon}
               alt=""
             />
             <span className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px]">
@@ -51,7 +51,7 @@ function TokenTopDetailsBorrow({ market: m }: { market: Market | undefined }) {
             </span>
           </div>
           <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
-            {m?.marketData.borrowApy}
+            {market?.marketData.borrowApy}
           </p>
         </div>
         <div className="w-[120px] md:w-[auto]">
@@ -74,13 +74,14 @@ function TokenTopDetailsBorrow({ market: m }: { market: Market | undefined }) {
             Total Borrow
           </p>
           <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
-            {m && `$${
-                m.marketData?.totalBorrowed &&
+            {market &&
+              `$${
+                market.marketData?.totalBorrowed &&
                 toShortFiatString(
-                    m.marketData.totalBorrowed *
-                    m.tokenPair.token.priceInUsd
+                  market.marketData.totalBorrowed *
+                    market.tokenPair.token.priceInUsd
                 )
-            } USD`}
+              } USD`}
           </p>
         </div>
       </div>

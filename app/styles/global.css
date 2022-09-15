@@ -594,10 +594,6 @@ body.body__fixed {
     border-bottom-left-radius: 0;
   }
 
-  .input__center__custom::placeholder {
-    transform: translate(-10px, 0px);
-  }
-
   .header__burg {
     margin-left: 10px;
   }
