@@ -89,18 +89,35 @@ export default function Borrow({
   const handleCheckValue = useCallback(
     (e: any) => {
       const { value } = e.target;
-      console.log(value);
       const formattedValue = value
         .replace(/[^.\d]+/g, "")
         .replace(/^([^\.]*\.)|\./g, "$1");
       const decimals = (formattedValue.split(".")[1] || []).length;
 
       if (
-        formattedValue === "" ||
-        (formattedValue.match(/^(([1-9]\d*)|0)(.|.\d+)?$/) &&
-          decimals <= tokenDecimals)
+        formattedValue.split("")[0] === "0" &&
+        formattedValue.length === 2 &&
+        formattedValue.split("")[1] !== "."
       ) {
-        setValue(formattedValue);
+        return false;
+      } else {
+        if (
+          formattedValue.split("")[0] === "0" &&
+          formattedValue.length > 1 &&
+          formattedValue
+            .split("")
+            .every((item: string) => item === formattedValue.split("")[0])
+        ) {
+          return false;
+        } else {
+          if (
+            formattedValue === "" ||
+            (formattedValue.match(/^(([1-9]\d*)|0)(.|.\d+)?$/) &&
+              decimals <= tokenDecimals)
+          ) {
+            setValue(formattedValue);
+          }
+        }
       }
     },
     [tokenDecimals]

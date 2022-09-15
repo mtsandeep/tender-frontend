@@ -106,8 +106,30 @@ export default function Deposit({
         .replace(/^([^\.]*\.)|\./g, "$1");
       const decimals = (formattedValue.split(".")[1] || []).length;
 
-      if (decimals <= tokenDecimals) {
-        setValue(formattedValue);
+      if (
+        formattedValue.split("")[0] === "0" &&
+        formattedValue.length === 2 &&
+        formattedValue.split("")[1] !== "."
+      ) {
+        return false;
+      } else {
+        if (
+          formattedValue.split("")[0] === "0" &&
+          formattedValue.length > 1 &&
+          formattedValue
+            .split("")
+            .every((item: string) => item === formattedValue.split("")[0])
+        ) {
+          return false;
+        } else {
+          if (
+            formattedValue === "" ||
+            (formattedValue.match(/^(([1-9]\d*)|0)(.|.\d+)?$/) &&
+              decimals <= tokenDecimals)
+          ) {
+            setValue(formattedValue);
+          }
+        }
       }
     },
     [tokenDecimals]
