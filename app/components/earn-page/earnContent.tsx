@@ -41,26 +41,17 @@ export default function EarnContent() {
           Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
         </p>
         <div className="font-[ProximaNova] w-full">
-          <div key="1" className="panel-custom">
+          <div className="panel-custom">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND
             </div>
-            <div
-              key="1"
-              className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
-            >
-              <div
-                key="1"
-                className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]"
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+            <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Price
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
                     <span>$20.16</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -87,51 +78,39 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className=" font-normal text-[#818987] max-w-[44%]">
                     Wallet
                   </span>
-                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium  max-max-w-[52%] md:w-fit text-right">
-                    <span>0.00</span>
+                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium  max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
+                    <span>0</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0.00</span>)
+                      <span>0</span>)
                     </div>
                   </div>
                 </div>
-                <div
-                  key="3"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Staked
                   </span>
-                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium  max-max-w-[52%] md:w-fit text-right">
-                    <span>0.00</span>
+                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium  max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
+                    <span>0</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0.00</span>)
+                      <span>0</span>)
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                key="2"
-                className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]"
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     APR
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
                     <span>20.16</span>
                     <span>%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -165,15 +144,12 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Rewards
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
-                    <span>$0.00</span>
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
+                    <span>$0</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -182,7 +158,7 @@ export default function EarnContent() {
                               TND
                             </span>
                             <div className="text-xs leading-[17px]">
-                              <span>0.0000 ($0.00)</span>
+                              <span>0 ($0)</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
@@ -190,7 +166,7 @@ export default function EarnContent() {
                               esTND
                             </span>
                             <div className="text-xs leading-[17px]">
-                              <span>0.0000 ($0.00)</span>
+                              <span>0 ($0)</span>
                             </div>
                           </div>
                         </div>
@@ -199,15 +175,12 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="3"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Multiplier Points APR
                   </span>
-                  <div className="font-normal cursor-pointer group line-dashed font-medium">
-                    <span>100.00</span>
+                  <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
+                    <span>100</span>
                     <span>%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -229,21 +202,18 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="4"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Boost Percentage
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
-                    <span>0.00%</span>
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
+                    <span>0%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <span className="flex text-start mb-[12px] text-[#818987] text-xs leading-[17px]">
-                            You are earning 0.00% more TND rewards using 0.0000
-                            Staked Multiplier Points.
+                            You are earning 0% more TND rewards using 0 Staked
+                            Multiplier Points.
                           </span>
                           <span className="flex text-start text-[#818987] text-xs leading-[17px]">
                             Use the "Compound" button to stake your Multiplier
@@ -256,18 +226,12 @@ export default function EarnContent() {
                   </div>
                 </div>
               </div>
-              <div
-                key="3"
-                className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]"
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="whitespace-nowrap font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Total Staked
                   </span>
-                  <div className="flex items-center font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
+                  <div className="flex items-center font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
                     <div className="flex items-center gap-y-[1px] gap-x-[6px]">
                       <div className="flex justify-end line-dashed-sm max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
                         <span>6,812,217</span>
@@ -303,14 +267,11 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="whitespace-nowrap font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Total Supply
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-y-[1px] gap-x-[6px] font-medium text-right max-max-w-[52%] w-fit">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-y-[1px] gap-x-[6px] font-medium text-right max-max-w-[52%] w-fit text-xs leading-[17px]">
                     <div className="flex justify-end line-dashed-sm max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
                       <span>6,812,217</span>
                       <span>TND</span>
@@ -322,10 +283,7 @@ export default function EarnContent() {
                   </div>
                 </div>
               </div>
-              <div
-                key="4"
-                className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]"
-              >
+              <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && (
                   <>
                     {isActive && (
@@ -379,26 +337,17 @@ export default function EarnContent() {
               </div>
             </div>
           </div>
-          <div key="2" className="panel-custom mt-[31px]">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+          <div className="panel-custom mt-[31px]">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               es<span className="uppercase">TND</span>
             </div>
-            <div
-              key="1"
-              className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
-            >
-              <div
-                key="1"
-                className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] "
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+            <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Price
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
                     <span>$20.16</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -425,51 +374,39 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Wallet
                   </span>
-                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px]  font-medium">
-                    <span>0.00</span>
+                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium text-xs leading-[17px]">
+                    <span>0</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0.00</span>)
+                      <span>0</span>)
                     </div>
                   </div>
                 </div>
-                <div
-                  key="3"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Staked
                   </span>
-                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px]  font-medium]">
-                    <span>0.00</span>
+                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium] text-xs leading-[17px]">
+                    <span>0</span>
                     <span>TND</span>
                     <div>
                       (<span>$</span>
-                      <span>0.00</span>)
+                      <span>0</span>)
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                key="2"
-                className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] "
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     APR
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
                     <span>20.16</span>
                     <span>%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -503,15 +440,12 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Multiplier Points APR
                   </span>
-                  <div className="font-normal cursor-pointer group line-dashed font-medium">
-                    <span>100.00</span>
+                  <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
+                    <span>100</span>
                     <span>%</span>
 
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -535,18 +469,12 @@ export default function EarnContent() {
                   </div>
                 </div>
               </div>
-              <div
-                key="3"
-                className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]"
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="whitespace-nowrap font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Total Staked
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit text-xs leading-[17px]">
                     <div className="flex justify-end max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
                       <span>1,472,862</span>
                       <span>TND</span>
@@ -557,14 +485,11 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="whitespace-nowrap font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Total Supply
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  font-medium text-right max-max-w-[52%] w-fit text-xs leading-[17px]">
                     <div className="flex justify-end max-max-w-[52%] md:gap-x-[6px] gap-x-[5px] md:w-fit text-right">
                       <span>2,254,142</span>
                       <span>TND</span>
@@ -576,10 +501,7 @@ export default function EarnContent() {
                   </div>
                 </div>
               </div>
-              <div
-                key="4"
-                className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
-              >
+              <div className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && (
                   <>
                     {isActive && (
@@ -624,70 +546,40 @@ export default function EarnContent() {
             </div>
           </div>
 
-          <div key="3" className="panel-custom mt-[32px]">
+          <div className="panel-custom mt-[32px]">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
             </div>
-            <div
-              key="1"
-              className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
-            >
-              <div
-                key="1"
-                className="flex flex-col gap-y-[12px] md:gap-y-[15px]"
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
-                  <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
-                    TND
-                  </span>
-                  <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium">
-                    <span>0.0000</span>
-                    <div>
-                      (<span>$</span>
-                      <span>0.00</span>)
-                    </div>
-                  </div>
-                </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+            <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] ">TND</span>
-                  <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium">
-                    <span>0.0000</span>
+                  <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium text-xs leading-[17px]">
+                    <span>0</span>
                     <div>
                       (<span>$</span>
-                      <span>0.00</span>)
+                      <span>0</span>)
                     </div>
                   </div>
                 </div>
-                <div
-                  key="3"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     esTND
                   </span>
-                  <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium">
-                    <span>0.0000</span>
+                  <div className="flex gap-x-[4px] md:gap-x-[6px] font-medium text-xs leading-[17px]">
+                    <span>0</span>
                     <div>
                       (<span>$</span>
-                      <span>0.00</span>)
+                      <span>0</span>)
                     </div>
                   </div>
                 </div>
-                <div
-                  key="4"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Multiplier Points
                   </span>
-                  <div className="font-normal cursor-pointer group line-dashed font-medium">
-                    <span>0.000</span>
+                  <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
+                    <span>0</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
@@ -708,15 +600,12 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="5"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Staked Multiplier Points
                   </span>
-                  <div className="font-normal cursor-pointer group line-dashed font-medium">
-                    <span>0.000</span>
+                  <div className="font-normal cursor-pointer group line-dashed font-medium text-xs leading-[17px]">
+                    <span>0</span>
                     <span>%</span>
 
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -739,25 +628,19 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="6"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Total
                   </span>
-                  <div className="font-medium">
+                  <div className="font-medium text-xs leading-[17px]">
                     <div>
                       <span>$</span>
-                      <span>0.00</span>
+                      <span>0</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                key="2"
-                className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
-              >
+              <div className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && (
                   <>
                     {isActive && (
@@ -819,43 +702,34 @@ export default function EarnContent() {
           before using the vault.
         </p>
         <div className="font-[ProximaNova] w-full" id="vest">
-          <div key="1" className="panel-custom">
+          <div className="panel-custom">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND Vault
             </div>
-            <div
-              key="1"
-              className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]"
-            >
-              <div
-                key="1"
-                className="flex flex-col gap-y-[12px] md:gap-y-[15px]"
-              >
-                <div
-                  key="1"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+            <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Staked Tokens
                   </span>
-                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right">
-                    <span>0.00</span>
+                  <div className="font-medium line-dashed group relative cursor-pointer max-max-w-[52%] md:w-fit text-right text-xs leading-[17px]">
+                    <span>0</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[8px]">
                             <span className="text-xs leading-[17px]">
-                              0.00 TND
+                              0 TND
                             </span>
                           </div>
                           <div className="flex justify-between items-center mb-[8px]">
                             <span className="text-xs leading-[17px]">
-                              0.00 TND
+                              0 TND
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className=" text-xs leading-[17px]">
-                              0.00 Multiplier Points
+                              0 Multiplier Points
                             </span>
                           </div>
                         </div>
@@ -864,32 +738,26 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="2"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Reserved for Vesting
                   </span>
-                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium text-right w-fit">
-                    <span>0.00</span>
+                  <div className="flex flex-wrap gap-x-[4px] md:gap-x-[6px] font-medium text-right w-fit text-xs leading-[17px]">
+                    0
                   </div>
                 </div>
-                <div
-                  key="3"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Vesting Status
                   </span>
-                  <div className="flex flex-wrap group cursor-pointer gap-x-[4px] md:gap-x-[6px] line-dashed font-medium text-right w-fit">
-                    <span>0.0000</span>/<span>0.0000</span>
+                  <div className="flex flex-wrap group cursor-pointer gap-x-[4px] md:gap-x-[6px] line-dashed font-medium text-right w-fit text-xs leading-[17px]">
+                    <span>0</span>/<span>0</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
                           <p className="text-[#818987] text-xs text-left leading-[17px] font-nova">
-                            0.0000 tokens have been converted to TND from the
-                            0.0000 esTND deposited for vesting.
+                            0 tokens have been converted to TND from the 0 esTND
+                            deposited for vesting.
                           </p>
                         </div>
                       </div>
@@ -897,21 +765,18 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div
-                  key="4"
-                  className="flex items-start md:items-center gap-x-[10px] justify-between"
-                >
+                <div className="flex items-start md:items-center gap-x-[10px] justify-between">
                   <span className="font-normal text-[#818987] max-w-[44%] md:w-fit">
                     Claimable
                   </span>
-                  <div className="flex flex-wrap group cursor-pointer gap-x-[4px] md:gap-x-[6px] group  line-dashed font-medium text-right w-fit">
-                    <span>0.0000</span>/<span>0.0000</span>
+                  <div className="flex flex-wrap group cursor-pointer gap-x-[4px] md:gap-x-[6px] group  line-dashed font-medium text-right w-fit text-xs leading-[17px]">
+                    <span>0</span>/<span>0</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
                           <p className="text-[#818987] text-xs text-left leading-[17px] font-nova">
-                            0.0000 TND tokens can be claimed, use the options
-                            under the Total Rewards section to claim them.
+                            0 TND tokens can be claimed, use the options under
+                            the Total Rewards section to claim them.
                           </p>
                         </div>
                       </div>
@@ -920,10 +785,7 @@ export default function EarnContent() {
                   </div>
                 </div>
               </div>
-              <div
-                key="4"
-                className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
-              >
+              <div className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && (
                   <>
                     {isActive && (
