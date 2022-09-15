@@ -361,8 +361,8 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-xs  text-left leading-[17px]">
-                            Boost your rewards with Multiplier Points.
+                          <p className="text-[#818987] text-left">
+                            Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
                               rel="noreferrer"
@@ -554,7 +554,7 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-xs  text-left leading-[17px]">
+                          <p className="text-[#818987] text-left">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
@@ -580,7 +580,7 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-xs  text-left leading-[17px]">
+                          <p className="text-[#818987] text-left">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
                               target="_blank"
