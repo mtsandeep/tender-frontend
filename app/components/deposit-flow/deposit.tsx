@@ -161,8 +161,7 @@ export default function Deposit({
             <div className="h-[100px] mt-[50px]">
               {loading ? (
                 <div className="switch__to__network px-4 mt-5 flex flex-col items-center">
-                  <div className="animate w-[48px] h-[48px]"></div>
-                  <div className="animate w-[80%] h-[40px] mt-[20px]"></div>
+                  <div className="animate w-[80%] h-[80px] mt-[20px]"></div>
                 </div>
               ) : !isEnabled ? (
                 <div className="flex flex-col items-center mt-5 rounded-2xl px-4">
@@ -280,7 +279,7 @@ export default function Deposit({
             />
             {loading ? (
               <div className="switch__to__network flex justify-center">
-                <div className="animate w-[300px] bg-[#00E0FF] h-[60px]"></div>
+                <div className="animate w-[300px] bg-[#00E0FF] h-[56px]"></div>
               </div>
             ) : (
               <div className="flex justify-center mb-8">
