@@ -164,8 +164,6 @@ export function useMarketInfo(tokenId: string | undefined) {
           }];
         });
 
-      console.log(historicalData);
-
       setMarketInfo({
         market: market,
         historicalData: historicalData,

@@ -6,6 +6,7 @@ import {TenderContext} from "~/contexts/tender-context";
 import {hooks as Web3Hooks} from "~/connectors/meta-mask";
 import {useWeb3Signer} from "~/hooks/use-web3-signer";
 import {calculateApy} from "~/lib/apy-calculations";
+import { providers as mcProviders } from '@0xsequence/multicall';
 
 export default function useInterestRateModel(tokenId: string | undefined) {
     const [interestRateModel, setInterestRateModel] = useState<object[]>([]);
@@ -16,9 +17,11 @@ export default function useInterestRateModel(tokenId: string | undefined) {
     useEffect(() => {
         console.log('useInterestRateModel called');
 
-        if (!networkData) {
+        if (!networkData || !signer) {
             return;
         }
+
+        const mcProvider = new mcProviders.MulticallProvider(provider);
 
         const getInterestRateModel = async () => {
             const secondsPerBlock = networkData.secondsPerBlock;
@@ -31,83 +34,95 @@ export default function useInterestRateModel(tokenId: string | undefined) {
                 return [];
             }
 
-            const cTokenContract = new ethers.Contract(address, sampleCTokenAbi, signer);
-            const currentCash = (await cTokenContract.getCash()).toString();
-            const currentBorrows = (await cTokenContract.totalBorrows()).toString();
-            const currentReserves = (await cTokenContract.totalReserves()).toString();
-            const reserveFactorMantissa = (await cTokenContract.reserveFactorMantissa()).toString();
-            const interestRateModelAddress = await cTokenContract.interestRateModel();
+            const cTokenContract = new ethers.Contract(address, sampleCTokenAbi, mcProvider);
 
-            const interestRateModelContract = new ethers.Contract(interestRateModelAddress, jumpRateModelV2Abi, signer);
-            const currentUtil = await interestRateModelContract.utilizationRate(currentCash, currentBorrows, currentReserves);
-            const currentBorrowRate = await interestRateModelContract.getBorrowRate(currentCash, currentBorrows, currentReserves);
-            const currentSupplyRate = await interestRateModelContract.getSupplyRate(currentCash, currentBorrows, currentReserves, reserveFactorMantissa);
+            const [
+                currentCash,
+                currentBorrows,
+                currentReserves,
+                reserveFactorMantissa,
+                interestRateModelAddress,
+            ] = await Promise.all([
+                cTokenContract.getCash(),
+                cTokenContract.totalBorrows(),
+                cTokenContract.totalReserves(),
+                cTokenContract.reserveFactorMantissa(),
+                cTokenContract.interestRateModel(),
+            ]);
+
+            const interestRateModelContract = new ethers.Contract(interestRateModelAddress, jumpRateModelV2Abi, mcProvider);
+
+            const [
+                currentUtil,
+                currentBorrowRate,
+                currentSupplyRate,
+            ] = await Promise.all([
+                interestRateModelContract.utilizationRate(currentCash, currentBorrows, currentReserves),
+                interestRateModelContract.getBorrowRate(currentCash, currentBorrows, currentReserves),
+                interestRateModelContract.getSupplyRate(currentCash, currentBorrows, currentReserves, reserveFactorMantissa),
+            ]);
 
             const currentBorrowApy = calculateApy(currentBorrowRate, secondsPerBlock);
             const currentSupplyApy = calculateApy(currentSupplyRate, secondsPerBlock);
             const BASE = 1e18;
-            // const util2 = util / 1e16;
+
             const currentValue = {
                 aa: (currentUtil / 1e16).toFixed(2),
                 ss: currentSupplyApy.toFixed(2),
                 dd: currentBorrowApy.toFixed(2),
                 isCurrent: true,
             };
-            /*const currentValue = {
-                util: currentUtil.toString(),
-                cash: currentCash.toString(),
-                borrows: currentBorrows.toString(),
-                reserves: currentReserves.toString(),
-                borrowRate: currentBorrowRate.toString(),
-                borrowApy: currentBorrowApy,
-            };*/
-            const values = [
-                {
-                    aa: '0',
-                    ss: '0',
-                    dd: '0',
-                    isCurrent: false,
-                }
-            ];
-            /*const values = [
-                {
-                    util: 0,
-                    cash: 0,
-                    borrows: 0,
-                    reserves: 0,
-                }
-            ];*/
-            //cash = borrows * BASE / utils
 
-            let currentValueAdded = false;
+            /*console.time('test')
+            const rates = await Promise.all(
+                Array.from({length: 100}, (_, i) => i + 1).map(
+                    (i) => {
+                        const util = i * 1e16;
+                        const cash = Math.round(currentBorrows * BASE / util);
 
-            for (let i = 1; i <= 100; i++) {
-                const util = i * 1e16;
-                const cash = Math.round(currentBorrows * BASE / util);
-                const borrowRate = await interestRateModelContract.getBorrowRate(cash.toString(), currentBorrows, currentBorrows);
-                const supplyRate = await interestRateModelContract.getSupplyRate(cash.toString(), currentBorrows, currentBorrows, reserveFactorMantissa);
+                        return interestRateModelContract.getBorrowRate(cash.toString(), currentBorrows, currentBorrows);
+                    }
+                ).concat(Array.from({length: 100}, (_, i) => i + 1).map(
+                    (i) => {
+                        const util = i * 1e16;
+                        const cash = Math.round(currentBorrows * BASE / util);
 
-                if (!currentValueAdded && parseFloat(currentValue.aa) < i) {
-                    values.push(currentValue);
-                    currentValueAdded = true;
-                }
+                        return interestRateModelContract.getSupplyRate(cash.toString(), currentBorrows, currentBorrows, reserveFactorMantissa);
+                    }
+                ))
+            );
+            console.timeEnd('test')
+            console.log('supplyRates', rates);return*/
+            // console.time('test')
+            const values = await Promise.all(
+                [...Array(101).keys()].map(
+                    async (i) => {
+                        if (i === 0) {
+                            return {
+                                aa: '0',
+                                ss: '0',
+                                dd: '0',
+                                isCurrent: false,
+                            };
+                        }
 
-                values.push({
-                    aa: i.toString(),
-                    ss: calculateApy(supplyRate, secondsPerBlock).toFixed(2),
-                    dd: calculateApy(borrowRate, secondsPerBlock).toFixed(2),
-                    isCurrent: false,
-                });
-                /*values.push({
-                    util: util,
-                    cash: cash,
-                    borrows: currentBorrows.toString(),
-                    reserves: currentBorrows.toString(),
-                    borrowRate: borrowRate.toString(),
-                    borrowApy: calculateApy(borrowRate)
-                });*/
-            }
-            // const uCash = borrows * BASE / util;
+                        const util = i * 1e16;
+                        const cash = Math.round(currentBorrows * BASE / util);
+                        const borrowRate = await interestRateModelContract.getBorrowRate(cash.toString(), currentBorrows, currentBorrows);
+                        const supplyRate = await interestRateModelContract.getSupplyRate(cash.toString(), currentBorrows, currentBorrows, reserveFactorMantissa);
+
+                        return {
+                            aa: i.toString(),
+                            ss: calculateApy(supplyRate, secondsPerBlock).toFixed(2),
+                            dd: calculateApy(borrowRate, secondsPerBlock).toFixed(2),
+                            isCurrent: false,
+                        };
+                    }
+                )
+            );
+
+            const index = values.findIndex((item, i) => parseFloat(currentValue.aa) < i);
+            values.splice(index, 0, currentValue);
 
             setInterestRateModel(values);
         };

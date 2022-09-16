@@ -12,7 +12,7 @@ const Token = ({ id }: { id: string | undefined }) => {
       <TokenChart tokenId={id} historicalData={m.historicalData} />
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
         <TokenInterestRate data={interestRateModel} />
-        <TokenMarketDetails tokenId={id} marketInfo={m.market} />
+        <TokenMarketDetails marketInfo={m.market} />
       </div>
     </>
   );
