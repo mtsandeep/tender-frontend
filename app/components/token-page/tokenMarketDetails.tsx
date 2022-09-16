@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
 import { TenderContext } from "~/contexts/tender-context";
 import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
+import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 
 function TokenMarketDetails({
   tokenId,
@@ -85,8 +86,8 @@ function TokenMarketDetails({
     },
   ];
 
-  return (
-    <div className="font-[ProximaNova] w-full">
+  return m?.tokenPair.token.symbol ? (
+    <div className="font-nova w-full">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
         handleClose={() =>
@@ -155,6 +156,8 @@ function TokenMarketDetails({
         })}
       </div>
     </div>
+  ) : (
+    <TokenMarketDetailsEmpty />
   );
 }
 

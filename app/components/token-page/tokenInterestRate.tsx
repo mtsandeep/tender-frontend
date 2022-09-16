@@ -1,4 +1,5 @@
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
+import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 
 function TokenInterestRate({ data }: { data: any[] }) {
   const CustomLine = (props: any) => (
@@ -53,8 +54,8 @@ function TokenInterestRate({ data }: { data: any[] }) {
     return null;
   };
 
-  return (
-    <div className="font-[ProximaNova] w-full mb-[60px]">
+  return data.length ? (
+    <div className="font-nova w-full mb-[60px]">
       <div className="leading-[22px] font-semibold mb-[20px] text-base md:text-lg font-nova">
         Interest Rate Model
       </div>
@@ -134,6 +135,8 @@ function TokenInterestRate({ data }: { data: any[] }) {
         </div>
       </div>
     </div>
+  ) : (
+    <TokenInterestRateEmpty />
   );
 }
 

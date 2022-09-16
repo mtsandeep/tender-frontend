@@ -32,7 +32,7 @@ const ChartSupply = ({ data }: { data: any }) => {
       return (
         <div className="text-center w-fit">
           <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5  ">
+          <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Supply APY
           </p>
         </div>
@@ -53,7 +53,7 @@ const ChartSupply = ({ data }: { data: any }) => {
       return (
         <div className="text-center w-fit">
           <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5">
+          <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Supply
           </p>
         </div>

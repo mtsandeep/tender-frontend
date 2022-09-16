@@ -22,7 +22,7 @@ export default function EmptyEarnContent() {
           <br />
           Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
         </p>
-        <div className="font-[ProximaNova] w-full">
+        <div className="font-nova w-full">
           <div key="1" className="panel-custom">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TND

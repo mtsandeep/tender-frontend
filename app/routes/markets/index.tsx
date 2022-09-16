@@ -10,8 +10,6 @@ export default function App() {
   const chainId = metaMaskHooks.useChainId();
   const onSupportedChain = useOnSupportedNetwork(chainId);
 
-  console.log(tenderContextData);
-
   return (
     <div className="c mt-[30px] mb-[60px] md:mb-[100px]">
       {tenderContextData && onSupportedChain ? (

@@ -32,7 +32,7 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
       return (
         <div className="text-center w-fit">
           <p className="label text-sm md:text-base">{`${payload[0].payload.borrowAPY}%`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5  ">
+          <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Borrow APY
           </p>
         </div>
@@ -53,7 +53,7 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
       return (
         <div className="text-center w-fit">
           <p className="label text-sm md:text-base">{`$${payload[0].payload.totalBorrow}`}</p>
-          <p className="text-[#818987] font-[ProximaNova] font-normal text-xs md:text-sm leading-5">
+          <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Borrow
           </p>
         </div>

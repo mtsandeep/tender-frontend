@@ -7,7 +7,6 @@ import useInterestRateModel from "~/hooks/use-interest-rate-model";
 const Token = ({ id }: { id: string | undefined }) => {
   const m = useMarketInfo(id);
   const interestRateModel = useInterestRateModel(id);
-
   return (
     <>
       <TokenChart tokenId={id} historicalData={m.historicalData} />

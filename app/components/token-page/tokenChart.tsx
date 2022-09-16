@@ -4,6 +4,7 @@ import ChartSupply from "./ChartSupply";
 import TokenTopDetailsBorrow from "./tokenTopDetailsBorrow";
 import TokenTopDetailsSupply from "./tokenTopDetailsSupply";
 import { TenderContext } from "~/contexts/tender-context";
+import TokenChartEmpty from "./tokenChartEmpty";
 
 const monthNames = [
   "Jan",
@@ -85,7 +86,7 @@ function TokenChart({
     setBorrowChartData(borrowChart);
   }, [historicalData, networkData]);
 
-  return (
+  return m?.id ? (
     <div className="bg-[#0D0D0D] panel-custom pt-4 mb-[60px] md:mb-[60px] md:pt-7 pb-[20px] lg:pb-0">
       <div className="flex-col text-xs font-nova font-normal leading-4 ml-[15px] mb-[30px] md:text-sm md:leading-5 md:ml-[28px] md:mb-[26px]">
         <a className="cursor-pointer hover:text-[#14f195]" href="/markets/">
@@ -121,11 +122,23 @@ function TokenChart({
         </div>
       </div>
       {tabName === "supply" ? (
-        <ChartSupply data={supplyChartData} />
-      ) : (
+        supplyChartData.length ? (
+          <ChartSupply data={supplyChartData} />
+        ) : (
+          <div className="pt-[40px] pb-[20px] md:pb-[40px] pl-[20px] pr-[20px]">
+            <div className="animate w-full h-[255px] md:h-[293px]"></div>
+          </div>
+        )
+      ) : borrowChartData.length ? (
         <ChartBorrow data={borrowChartData} />
+      ) : (
+        <div className="pt-[40px] pb-[20px] md:pb-[40px] pl-[20px] pr-[20px]">
+          <div className="animate w-full h-[255px] md:h-[293px]"></div>
+        </div>
       )}
     </div>
+  ) : (
+    <TokenChartEmpty />
   );
 }
 
