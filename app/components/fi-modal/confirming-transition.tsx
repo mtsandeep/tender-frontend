@@ -51,7 +51,7 @@ export default function ConfirmingTransaction({
         {isWaitingToBeMined ? "Confirming transaction" : "Done!"}
       </div>
       <a
-        href={`${blockExplorerUrl}/${txnHash}`}
+        href={`${blockExplorerUrl}/tx/${txnHash}`}
         rel="noreferrer"
         target="_blank"
         className="uppercase font-space font-bold text-base w-full max-w-[375px] flex justify-center items-center bg-[#14F195] text-[#000] rounded-[6px] h-[60px] md:h-[60px]"
