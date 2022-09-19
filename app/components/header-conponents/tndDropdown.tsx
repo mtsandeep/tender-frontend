@@ -26,28 +26,28 @@ const TndDropdown = () => {
   return (
     <div>
       {loading ? (
-        <div className="show animate w-[34px] h-[34px] md:w-[90px] md:h-[44px] mr-[6px] md:mr-[12px]"></div>
+        <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
       ) : (
         <div
-          className="relative z-10 w-[34px] md:w-[auto] mr-[6px] md:mr-[12px] h-[34px] md:h-[44px]"
+          className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]"
           ref={dropdownRef}
         >
           <div
-            className={`relative flex p-[9px] md:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] md:h-[44px]`}
+            className={`relative flex p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
             onClick={() => setIsOpen(!isOpen)}
           >
             <img
-              className="w-[16px] h-[16px] mr-[0px] md:mr-[9px]"
+              className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
               src="/images/wallet-icons/balance-icon.svg"
               alt="..."
             />
-            <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden md:flex">
+            <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
               $23.56
             </div>
           </div>
 
           <div
-            className={`overflow-hidden w-[220px] md:w-[219px] rounded-[6px] right-[-50px] md:right-[0px] top-[calc(100%+5px)] md:top-[calc(100%+8px)] absolute dropdown__body ${
+            className={`overflow-hidden w-[220px] xl:w-[219px] rounded-[6px] right-[-50px] xl:right-[0px] top-[calc(100%+5px)] xl:top-[calc(100%+8px)] absolute dropdown__body ${
               isOpen ? "dropdown__body-active" : ""
             }`}
           >

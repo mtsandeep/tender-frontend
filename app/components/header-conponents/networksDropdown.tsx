@@ -137,13 +137,13 @@ const NetworksDropdown = () => {
     <div>
       {loading ? (
         isActive ? (
-          <div className="show animate w-[34px] h-[34px] md:w-[115px] md:h-[44px] mr-[6px] md:mr-[12px]"></div>
+          <div className="show animate w-[34px] h-[34px] xl:w-[115px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
         ) : (
-          <div className="show animate w-[34px] h-[34px] md:w-[115px] md:h-[44px] mr-[6px] md:mr-[12px]"></div>
+          <div className="show animate w-[34px] h-[34px] xl:w-[115px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
         )
       ) : (
         <div
-          className="relative z-10 w-[34px] h-[34px] md:h-[44px] md:w-[auto] m-auto mr-[6px] md:mr-[12px]"
+          className="relative z-10 w-[34px] h-[34px] xl:h-[44px] xl:w-[auto] m-auto mr-[6px] xl:mr-[12px]"
           ref={dropdownRef}
         >
           <div
@@ -151,10 +151,10 @@ const NetworksDropdown = () => {
               selectedNetwork.networkName && isActive
                 ? "bg-[#181D1B] hover:bg-[#262C2A]"
                 : "bg-[#3A1313] hover:bg-[#4f2222]"
-            } flex justify-between h-full items-center px-[9px] md:px-[10px] rounded-[6px] cursor-pointer`}
+            } flex justify-between h-full items-center px-[9px] xl:px-[10px] rounded-[6px] cursor-pointer`}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <div className="flex justify-between gap-[9px] mr-[0] md:mr-[8px] items-center">
+            <div className="flex justify-between gap-[9px] mr-[0] xl:mr-[8px] items-center">
               <img
                 className="w-[16px] h-[16px] block"
                 src={
@@ -164,14 +164,14 @@ const NetworksDropdown = () => {
                 }
                 alt="..."
               />
-              <div className="hidden font-nova font-semibold text-sm md:block">
+              <div className="hidden font-nova font-semibold text-sm xl:block">
                 {selectedNetwork.networkName && isActive
                   ? selectedNetwork.networkName
                   : "Wrong Network"}
               </div>
             </div>
             <svg
-              className={`hidden md:block fill-white justify-self-end arrow__custom ${
+              className={`hidden xl:block fill-white justify-self-end arrow__custom ${
                 isOpen ? "rotate-0" : "rotate-180"
               } ${
                 selectedNetwork.networkName && isActive
@@ -188,7 +188,7 @@ const NetworksDropdown = () => {
           <div
             className={`${
               isOpen ? "block" : "hidden"
-            } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] md:top-[calc(100%+8px)] rounded-[6px] overflow-hidden border-b-[1px] border-[#181D1B]`}
+            } bg-[#181D1B] w-[200px] absolute top-[calc(100%+5px)] right-[0] xl:top-[calc(100%+8px)] rounded-[6px] overflow-hidden border-b-[1px] border-[#181D1B]`}
           >
             <div className="font-nova text-sm font-[500] text-[#818987] pt-[14px] pl-[14px] pb-[14px] border-b-[1px] border-[#282C2B]">
               Select Network
@@ -220,7 +220,7 @@ const NetworksDropdown = () => {
                         <span
                           className={`${
                             isActive ? "bg-[#01C275]" : "bg-[#FF3939]"
-                          } block rounded-full w-[6px] h-[6px] md:w-[8px] md:h-[8px]`}
+                          } block rounded-full w-[6px] h-[6px] xl:w-[8px] xl:h-[8px]`}
                         ></span>
                       )}
                     </div>

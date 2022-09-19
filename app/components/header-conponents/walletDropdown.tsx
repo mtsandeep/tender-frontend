@@ -42,34 +42,34 @@ const WalletDropdown = (props: Props) => {
 
   return (
     <div
-      className={`relative z-40 w-[34px] md:w-[auto] ${
+      className={`relative z-40 w-[34px] xl:w-[auto] ${
         props.inMenu ? "w-[auto]" : "h-[34px]"
-      } ${isOpen ? "w-[34px]" : "w-[34px] md:w-[auto]"} md:h-[44px]`}
+      } ${isOpen ? "w-[34px]" : "w-[34px] xl:w-[auto]"} xl:h-[44px]`}
       ref={dropdownRef}
     >
       <div
         className={`dropdown__wallet__custom px-[10px] ${
           props.inMenu ? "dropdown__button-inMenu" : ""
-        } relative flex bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] md:h-[44px]`}
+        } relative flex bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <img
           className={`w-[16px] h-[16px] ${
-            props.inMenu ? "hidden" : "block md:hidden"
+            props.inMenu ? "hidden" : "block xl:hidden"
           }`}
           src="/images/ico/wallet.svg"
           alt="..."
         />
         <div
           className={`${
-            props.inMenu ? "block mr-[16px]" : "hidden md:block"
+            props.inMenu ? "block mr-[16px]" : "hidden xl:block"
           } mr-[9px]`}
         >
           <img className="w-[16px]" src={props.walletIco} alt="..." />
         </div>
         <div
           className={`${
-            props.inMenu ? "block" : "hidden md:block"
+            props.inMenu ? "block" : "hidden xl:block"
           } text-sm font-semibold text-right leading-[14px] font-nova mr-[8px]`}
         >
           {truncateAccount(props.addresses[0])}
@@ -81,8 +81,8 @@ const WalletDropdown = (props: Props) => {
                 ? "rotate-180"
                 : "rotate-0"
               : isOpen
-              ? "rotate-0 hidden md:flex"
-              : "rotate-180 hidden md:flex"
+              ? "rotate-0 hidden xl:flex"
+              : "rotate-180 hidden xl:flex"
           }`}
           width="10"
           height="6"
@@ -93,15 +93,15 @@ const WalletDropdown = (props: Props) => {
       </div>
 
       <div
-        className={`overflow-hidden w-[220px] md:w-[219px] rounded-[6px] ${
+        className={`overflow-hidden w-[220px] xl:w-[219px] rounded-[6px] ${
           props.inMenu
             ? "bottom-[60px]"
-            : "right-[0px] top-[calc(100%+5px)] md:right-[0px] md:top-[calc(100%+8px)]"
+            : "right-[0px] top-[calc(100%+5px)] xl:right-[0px] xl:top-[calc(100%+8px)]"
         } absolute ${
           isOpen ? "dropdown__body dropdown__body-active" : "dropdown__body"
         }`}
       >
-        <div className="flex items-center py-[13px] px-[15px] md:py-[15px] md:px-[15px] border-b border-[#b5cfcc2b]">
+        <div className="flex items-center py-[13px] px-[15px] xl:py-[15px] xl:px-[15px] border-b border-[#b5cfcc2b]">
           <div className="flex pt-[3px]">
             <img className="w-[25px]" src={props.walletIco} alt="..." />
           </div>
