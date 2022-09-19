@@ -811,31 +811,31 @@ export default function TwoPanels() {
                                     {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
-                                      data: "0.22%",
+                                      data: token.marketData.depositApy,
                                       color: "text-dark-green",
                                     },
-                                    {
+                                    /*{
                                       coinTitle: "esTND",
                                       iconSrc:
                                         "/images/wallet-icons/balance-icon.svg",
                                       data: "0.22%",
                                       color: "text-dark-green",
-                                    },
+                                    },*/
                                   ],
                                 })
                               }
                               className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
-                                className="w-[13px] h-[13px] mr-[6px]"
+                                className="w-[13px] h-[13px]"
                                 src={token.tokenPair.token.icon}
                                 alt={token.tokenPair.token.symbol}
                               />
-                              <img
+                              {/*<img
                                 className="w-[13px] h-[13px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
-                              />
+                              />*/}
                             </div>
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
@@ -852,10 +852,10 @@ export default function TwoPanels() {
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal text-dark-green">
-                                      0.22%
+                                      {token.marketData.depositApy}
                                     </span>
                                   </div>
-                                  <div className="flex justify-between gap-[30px]">
+                                  {/*<div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
@@ -869,7 +869,7 @@ export default function TwoPanels() {
                                     <span className="font-nova text-white text-sm font-normal text-dark-green">
                                       0.22%
                                     </span>
-                                  </div>
+                                  </div>*/}
                                 </div>
                               </div>
                               <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -989,31 +989,31 @@ export default function TwoPanels() {
                                       {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
-                                        data: "0.22%",
+                                        data: token.marketData.depositApy,
                                         color: "text-dark-green",
                                       },
-                                      {
+                                      /*{
                                         coinTitle: "esTND",
                                         iconSrc:
                                           "/images/wallet-icons/balance-icon.svg",
                                         data: "0.22%",
                                         color: "text-dark-green",
-                                      },
+                                      },*/
                                     ],
                                   })
                                 }
                                 className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                               >
                                 <img
-                                  className="w-[13px] h-[13px] mr-[6px]"
+                                  className="w-[13px] h-[13px]"
                                   src={token.tokenPair.token.icon}
                                   alt={token.tokenPair.token.symbol}
                                 />
-                                <img
+                                {/*<img
                                   className="w-[13px] h-[13px]"
                                   src="/images/wallet-icons/balance-icon.svg"
                                   alt="..."
-                                />
+                                />*/}
                               </div>
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
@@ -1030,10 +1030,10 @@ export default function TwoPanels() {
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal text-dark-green">
-                                        0.22%
+                                        {token.marketData.depositApy}
                                       </span>
                                     </div>
-                                    <div className="flex justify-between gap-[30px]">
+                                    {/*<div className="flex justify-between gap-[30px]">
                                       <div className="flex gap-[8px]">
                                         <img
                                           className="max-w-[18px]"
@@ -1047,7 +1047,7 @@ export default function TwoPanels() {
                                       <span className="font-nova text-white text-sm font-normal text-dark-green">
                                         0.22%
                                       </span>
-                                    </div>
+                                    </div>*/}
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -1172,31 +1172,31 @@ export default function TwoPanels() {
                                     {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
-                                      data: "-0.22%",
+                                      data: `-${token.marketData.borrowApy}`,
                                       color: "text-[#00E0FF]",
                                     },
-                                    {
+                                    /*{
                                       coinTitle: "esTND",
                                       iconSrc:
                                         "/images/wallet-icons/balance-icon.svg",
                                       data: "0.22%",
                                       color: "text-dark-green",
-                                    },
+                                    },*/
                                   ],
                                 })
                               }
                               className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
-                                className="w-[13px] h-[13px] mr-[6px]"
+                                className="w-[13px] h-[13px]"
                                 src={token.tokenPair.token.icon}
                                 alt={token.tokenPair.token.symbol}
                               />
-                              <img
+                              {/*<img
                                 className="w-[13px] h-[13px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
-                              />
+                              />*/}
                             </div>
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
@@ -1213,10 +1213,10 @@ export default function TwoPanels() {
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
-                                      -0.22%
+                                      -{token.marketData.borrowApy}
                                     </span>
                                   </div>
-                                  <div className="flex justify-between gap-[30px]">
+                                  {/*<div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
@@ -1230,7 +1230,7 @@ export default function TwoPanels() {
                                     <span className="font-nova text-white text-sm font-normal text-dark-green">
                                       0.22%
                                     </span>
-                                  </div>
+                                  </div>*/}
                                 </div>
                               </div>
                               <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -1346,31 +1346,31 @@ export default function TwoPanels() {
                                       {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
-                                        data: "-0.22%",
+                                        data: `-${token.marketData.borrowApy}`,
                                         color: "text-[#00E0FF]",
                                       },
-                                      {
+                                      /*{
                                         coinTitle: "esTND",
                                         iconSrc:
                                           "/images/wallet-icons/balance-icon.svg",
                                         data: "0.22%",
                                         color: "text-dark-green",
-                                      },
+                                      },*/
                                     ],
                                   })
                                 }
                                 className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                               >
                                 <img
-                                  className="w-[13px] h-[13px] mr-[6px]"
+                                  className="w-[13px] h-[13px]"
                                   src={token.tokenPair.token.icon}
                                   alt={token.tokenPair.token.symbol}
                                 />
-                                <img
+                                {/*<img
                                   className="w-[13px] h-[13px]"
                                   src="/images/wallet-icons/balance-icon.svg"
                                   alt="..."
-                                />
+                                />*/}
                               </div>
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
@@ -1387,10 +1387,10 @@ export default function TwoPanels() {
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
-                                        -0.22%
+                                        -{token.marketData.borrowApy}
                                       </span>
                                     </div>
-                                    <div className="flex justify-between gap-[30px]">
+                                    {/*<div className="flex justify-between gap-[30px]">
                                       <div className="flex gap-[8px]">
                                         <img
                                           className="max-w-[18px]"
@@ -1404,7 +1404,7 @@ export default function TwoPanels() {
                                       <span className="font-nova text-white text-sm font-normal text-dark-green">
                                         0.22%
                                       </span>
-                                    </div>
+                                    </div>*/}
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>

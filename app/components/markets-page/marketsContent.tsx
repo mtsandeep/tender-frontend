@@ -1,4 +1,5 @@
 import { useMarketsInfo } from "~/hooks/use-markets-info";
+import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
 
 export default function MarketsContent() {
@@ -232,7 +233,7 @@ export default function MarketsContent() {
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                          {`${m.supplyApy?.toFixed(2)}%`}
+                          {formatApy(m.supplyApy)}
                         </div>
                         <div
                           className="group"
@@ -253,7 +254,7 @@ export default function MarketsContent() {
                       </td>
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                          {m.symbol === 'GLP' ? '0%' : `${m.borrowApy?.toFixed(2)}%`}
+                          {m.symbol === 'GLP' ? '0.00%' : formatApy(m.borrowApy)}
                         </div>
                         <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit ${getMarketDiffClass(m.borrowApyDiff)}`}>
                           {m.borrowApyDiff === 0 ? '-' : m.borrowApyDiff.toFixed(2)}

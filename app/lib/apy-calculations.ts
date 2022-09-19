@@ -143,4 +143,4 @@ async function netApy(
   return result;
 }
 
-export { formattedDepositApy, formattedBorrowApy, netApy, calculateApy };
+export { formattedDepositApy, formattedBorrowApy, netApy, calculateApy, formatApy };
