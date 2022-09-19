@@ -188,7 +188,7 @@ export default function Deposit({
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
                     style={{ minHeight: 100 }}
-                    className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
+                    className={`input__center__custom pl-[40px] max-w-[180px] md:max-w-[270px] ${
                       value ? "w-full" : "w-[calc(100%-40px)]"
                     } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                     placeholder="0"
@@ -372,7 +372,7 @@ export default function Deposit({
             )}
             <div className="flex mt-8">
               <div className="flex-grow text-[#ADB5B3] font-nova text-base font-normal">
-                Currently Supplying
+                Your Supply
               </div>
               <div className="font-nova text-base">
                 {toCryptoString(market.supplyBalance) +
