@@ -63,7 +63,7 @@ export default function Deposit({
     comptrollerAddress,
     tokenPairs,
     market.tokenPair,
-    value
+    value ? value : '0'
   );
 
   let newBorrowLimitUsed = useBorrowLimitUsed(

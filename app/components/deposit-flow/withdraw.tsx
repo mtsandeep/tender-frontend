@@ -50,7 +50,7 @@ export default function Withdraw({
     market.comptrollerAddress,
     tokenPairs,
     market.tokenPair,
-    `-${value}`
+    value ? `-${value}` : '0'
   );
 
   let newBorrowLimitUsed = useBorrowLimitUsed(
