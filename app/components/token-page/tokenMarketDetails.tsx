@@ -4,6 +4,12 @@ import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 
 function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
+    if (!marketInfo) {
+        return (
+            <TokenMarketDetailsEmpty />
+        );
+    }
+
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: string;
@@ -11,34 +17,34 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
     token?: string;
     textBottom?: string;
   }>({ open: false, textTop: "", token: "", icon: "", textBottom: "" });
-  const exchangeRate = marketInfo && toShortCryptoString(Number((1/Number(marketInfo.exchangeRate)).toFixed(2)));
+  const exchangeRate = toShortCryptoString(Number((1/Number(marketInfo.exchangeRate)).toFixed(2)));
 
     const customData = [
         {
             itemName: "Price",
-            itemData: marketInfo && `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
+            itemData: `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
         },
-        { itemName: "Available Borrow", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + marketInfo?.tokenSymbol },
-        { itemName: "# of Suppliers", itemData: marketInfo?.totalSuppliersCount },
-        { itemName: "# of Borrowers", itemData: marketInfo?.totalBorrowersCount },
+        { itemName: "Available Borrow", itemData: toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + marketInfo.tokenSymbol },
+        { itemName: "# of Suppliers", itemData: marketInfo.totalSuppliersCount },
+        { itemName: "# of Borrowers", itemData: marketInfo.totalBorrowersCount },
         { itemName: "Borrow Cap", itemData: "No limit" },
         { itemName: "Interest Paid/Day", itemData: "0" },
-        { itemName: "Reserves", itemData: marketInfo?.reserves + " " + marketInfo?.tokenSymbol },
-        { itemName: "Reserve Factor", itemData: marketInfo?.reserveFactor + "%" },
+        { itemName: "Reserves", itemData: marketInfo.reserves + " " + marketInfo.tokenSymbol },
+        { itemName: "Reserve Factor", itemData: marketInfo.reserveFactor + "%" },
         {
             itemName: "Max LTV",
-            itemData: marketInfo?.collateralFactor + "%",
+            itemData: marketInfo.collateralFactor * 100 + "%",
             tooltipText: `The Maximum LTV ratio represents the maximum borrowing
             power of a specific collateral. For example, if a
             collateral has an LTV of 75%, the user can borrow up to
             0.75 worth of ETH in the principal currency for every 1
             ETH worth of collateral.`,
         },
-        { itemName: marketInfo?.tokenSymbol + " Minted", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
-        { itemName: "Exchange Rate", itemData: "1 " + marketInfo?.tokenSymbol + " = " + exchangeRate + " " + marketInfo?.cTokenSymbol },
+        { itemName: marketInfo.tokenSymbol + " Minted", itemData: toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
+        { itemName: "Exchange Rate", itemData: "1 " + marketInfo.tokenSymbol + " = " + exchangeRate + " " + marketInfo.cTokenSymbol },
     ];
 
-  return marketInfo ? (
+  return (
     <div className="font-nova w-full">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
@@ -108,8 +114,6 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
         })}
       </div>
     </div>
-  ) : (
-    <TokenMarketDetailsEmpty />
   );
 }
 
