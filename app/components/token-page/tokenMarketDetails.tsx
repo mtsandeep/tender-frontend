@@ -18,12 +18,12 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
             itemName: "Price",
             itemData: marketInfo && `$${toShortFiatString(parseFloat(marketInfo.underlyingPriceUSD))} USD`,
         },
-        { itemName: "Available Borrow", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + marketInfo?.underlyingSymbol },
+        { itemName: "Available Borrow", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) + " " + marketInfo?.tokenSymbol },
         { itemName: "# of Suppliers", itemData: marketInfo?.totalSuppliersCount },
         { itemName: "# of Borrowers", itemData: marketInfo?.totalBorrowersCount },
         { itemName: "Borrow Cap", itemData: "No limit" },
         { itemName: "Interest Paid/Day", itemData: "0" },
-        { itemName: "Reserves", itemData: marketInfo?.reserves + " " + marketInfo?.underlyingSymbol },
+        { itemName: "Reserves", itemData: marketInfo?.reserves + " " + marketInfo?.tokenSymbol },
         { itemName: "Reserve Factor", itemData: marketInfo?.reserveFactor + "%" },
         {
             itemName: "Max LTV",
@@ -34,8 +34,8 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
             0.75 worth of ETH in the principal currency for every 1
             ETH worth of collateral.`,
         },
-        { itemName: marketInfo?.underlyingSymbol + " Minted", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
-        { itemName: "Exchange Rate", itemData: "1 " + marketInfo?.underlyingSymbol + " = " + exchangeRate + " " + marketInfo?.symbol },
+        { itemName: marketInfo?.tokenSymbol + " Minted", itemData: marketInfo && toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
+        { itemName: "Exchange Rate", itemData: "1 " + marketInfo?.tokenSymbol + " = " + exchangeRate + " " + marketInfo?.cTokenSymbol },
     ];
 
   return marketInfo ? (

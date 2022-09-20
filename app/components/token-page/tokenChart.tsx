@@ -91,7 +91,7 @@ function TokenChart({
         <a className="cursor-pointer hover:text-[#14f195]" href="/markets/">
           Markets
         </a>
-        <span className="text-[#818987]"> / {marketInfo?.underlyingSymbol}</span>
+        <span className="text-[#818987]"> / {marketInfo?.tokenSymbol}</span>
       </div>
       {tabName === "supply" ? (
         <TokenTopDetailsSupply marketInfo={marketInfo} />

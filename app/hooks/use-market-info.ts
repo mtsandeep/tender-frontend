@@ -72,7 +72,6 @@ export function useMarketInfo(tokenId: string | undefined) {
       );
       const token = tokenKey && tokens[tokenKey];
       const address = token ? token.cToken.address.toLowerCase() : "";
-      const icon = token?.icon;
 
       if (!address) {
         return;
@@ -137,7 +136,9 @@ export function useMarketInfo(tokenId: string | undefined) {
 
       const market = response.markets[0];
 
-      market.icon = icon;
+      market.icon = token?.icon;
+      market.tokenSymbol = token?.symbol;
+      market.cTokenSymbol = token?.cToken?.symbol;
 
       market.totalBorrowersCount = response.accountCTokens.filter(
         (account: { totalUnderlyingBorrowed: number }) =>
