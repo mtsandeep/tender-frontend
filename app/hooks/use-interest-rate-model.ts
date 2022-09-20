@@ -121,8 +121,10 @@ export default function useInterestRateModel(tokenId: string | undefined) {
                 )
             );
 
-            const index = values.findIndex((item, i) => parseFloat(currentValue.aa) < i);
-            values.splice(index, 0, currentValue);
+            if (currentValue.aa !== '0.00') {
+                const index = values.findIndex((item, i) => parseFloat(currentValue.aa) < i);
+                values.splice(index, 0, currentValue);
+            }
 
             setInterestRateModel(values);
         };

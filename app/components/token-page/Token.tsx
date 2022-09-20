@@ -9,7 +9,7 @@ const Token = ({ id }: { id: string | undefined }) => {
   const interestRateModel = useInterestRateModel(id);
   return (
     <>
-      <TokenChart tokenId={id} historicalData={m.historicalData} />
+      <TokenChart marketInfo={m.market} historicalData={m.historicalData} />
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
         <TokenInterestRate data={interestRateModel} />
         <TokenMarketDetails marketInfo={m.market} />

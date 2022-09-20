@@ -72,6 +72,7 @@ export function useMarketInfo(tokenId: string | undefined) {
       );
       const token = tokenKey && tokens[tokenKey];
       const address = token ? token.cToken.address.toLowerCase() : "";
+      const icon = token?.icon;
 
       if (!address) {
         return;
@@ -136,6 +137,8 @@ export function useMarketInfo(tokenId: string | undefined) {
 
       const market = response.markets[0];
 
+      market.icon = icon;
+
       market.totalBorrowersCount = response.accountCTokens.filter(
         (account: { totalUnderlyingBorrowed: number }) =>
           account.totalUnderlyingBorrowed > 0
@@ -144,6 +147,22 @@ export function useMarketInfo(tokenId: string | undefined) {
         (account: { totalUnderlyingSupplied: number }) =>
           account.totalUnderlyingSupplied > 0
       ).length;
+
+      // @todo refactor
+        const daysPerYear = 365;
+        const blocksPerDay = (60 * 60 * 24) / secondsPerBlock;
+        const ethBlocksPerYear = 2102400; // subgraph uses 2102400
+
+        const supplyRate = market.supplyRate / ethBlocksPerYear;
+        market.supplyApy = (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+
+        const borrowRate = market.borrowRate / ethBlocksPerYear;
+        market.borrowApy = (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+
+        market.totalSupplyUSD = (
+            parseFloat(market.cash) + parseFloat(market.totalBorrows) - parseFloat(market.reserves)
+        ) * market.underlyingPriceUSD;
+        market.totalBorrowUSD = market.totalBorrows * market.underlyingPriceUSD;
 
       delete response.markets;
       delete response.accountCTokens;

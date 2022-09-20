@@ -22,15 +22,14 @@ const monthNames = [
 ];
 
 function TokenChart({
-  tokenId,
+  marketInfo,
   historicalData,
 }: {
-  tokenId: string | undefined;
+  marketInfo: object | boolean;
   historicalData: object | boolean;
 }) {
   const [tabName, setTabName] = useState<string>("supply");
-  const { markets, networkData } = useContext(TenderContext);
-  const m = markets.find((market) => market.id === tokenId);
+  const { networkData } = useContext(TenderContext);
   const [supplyChartData, setSupplyChartData] = useState<object[]>([]);
   const [borrowChartData, setBorrowChartData] = useState<object[]>([]);
 
@@ -86,18 +85,18 @@ function TokenChart({
     setBorrowChartData(borrowChart);
   }, [historicalData, networkData]);
 
-  return m?.id ? (
+  return marketInfo?.underlyingSymbol ? (
     <div className="bg-[#0D0D0D] panel-custom pt-4 mb-[60px] md:mb-[60px] md:pt-7 pb-[20px] lg:pb-0">
       <div className="flex-col text-xs font-nova font-normal leading-4 ml-[15px] mb-[30px] md:text-sm md:leading-5 md:ml-[28px] md:mb-[26px]">
         <a className="cursor-pointer hover:text-[#14f195]" href="/markets/">
           Markets
         </a>
-        <span className="text-[#818987]"> / {m?.id}</span>
+        <span className="text-[#818987]"> / {marketInfo?.underlyingSymbol}</span>
       </div>
       {tabName === "supply" ? (
-        <TokenTopDetailsSupply market={m} />
+        <TokenTopDetailsSupply marketInfo={marketInfo} />
       ) : (
-        <TokenTopDetailsBorrow market={m} />
+        <TokenTopDetailsBorrow marketInfo={marketInfo} />
       )}
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-xs leading-5 border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">
         <div
