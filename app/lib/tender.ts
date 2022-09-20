@@ -569,4 +569,5 @@ export {
   safeMaxBorrowAmountForToken,
   getMaxBorrowAmount,
   getMaxBorrowLiquidity,
+  collateralFactorForToken,
 };
