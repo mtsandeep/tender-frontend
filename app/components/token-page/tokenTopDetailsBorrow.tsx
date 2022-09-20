@@ -2,6 +2,8 @@ import { toShortFiatString } from "~/lib/ui";
 import {formatApy} from "~/lib/apy-calculations";
 
 function TokenTopDetailsBorrow({ marketInfo }: { marketInfo: object | boolean }) {
+  const borrowApy = marketInfo.borrowApy * -1;
+
   return (
     <div className="flex flex-col ml-[15px] mr-[15px] md:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px] md:mb-[50px]">
       <div className="flex items-center md:w-[30%] mb-[30px] md:mb-0">
@@ -51,7 +53,7 @@ function TokenTopDetailsBorrow({ marketInfo }: { marketInfo: object | boolean })
             </span>
           </div>
           <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
-            {formatApy(marketInfo.borrowApy)}
+            {formatApy(borrowApy)}
           </p>
         </div>
         <div className="w-[120px] md:w-[auto]">

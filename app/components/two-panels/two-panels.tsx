@@ -10,6 +10,7 @@ import TooltipMobile from "./tooltip-mobile";
 import TooltipMobileMulti from "./tooltip-mobile-MULTI";
 import TwoPanelsEmpty from "./two-panels-empty";
 import { TenderContext } from "~/contexts/tender-context";
+import {formatApy} from "~/lib/apy-calculations";
 
 export default function TwoPanels() {
   const tenderContextData = useContext(TenderContext);
@@ -1108,6 +1109,9 @@ export default function TwoPanels() {
 
               <tbody>
                 {marketsWithBorrow.map((token: Market) => {
+                  const borrowApy = parseFloat(token.marketData.borrowApy) * -1;
+                  const borrowApyFormatted = formatApy(borrowApy);
+
                   return (
                     <MarketRow
                       openMarket={() => borrowFrom(token)}
@@ -1151,12 +1155,12 @@ export default function TwoPanels() {
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div
                           className={`custom__hidden ${
-                            parseFloat(token.marketData.borrowApy) > 0
-                              ? "text-dark-green"
+                              borrowApy < 0
+                              ? "text-[#00E0FF]"
                               : "text-red"
                           } `}
                         >
-                          {token.marketData.borrowApy}
+                          {borrowApyFormatted}
                         </div>
                         <div
                           className="group"
@@ -1172,7 +1176,7 @@ export default function TwoPanels() {
                                     {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
-                                      data: `-${token.marketData.borrowApy}`,
+                                      data: borrowApyFormatted,
                                       color: "text-[#00E0FF]",
                                     },
                                     {
@@ -1213,7 +1217,7 @@ export default function TwoPanels() {
                                       </span>
                                     </div>
                                     <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
-                                      -{token.marketData.borrowApy}
+                                      {borrowApyFormatted}
                                     </span>
                                   </div>
                                   <div className="flex justify-between gap-[30px]">
@@ -1282,6 +1286,9 @@ export default function TwoPanels() {
 
                 <tbody>
                   {marketsWithoutBorrow.map((token: Market) => {
+                    const borrowApy = parseFloat(token.marketData.borrowApy) * -1;
+                    const borrowApyFormatted = formatApy(borrowApy);
+
                     return (
                       <MarketRow
                         openMarket={() => borrowFrom(token)}
@@ -1325,12 +1332,12 @@ export default function TwoPanels() {
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div
                             className={`custom__hidden ${
-                              parseFloat(token.marketData.borrowApy) > 0
-                                ? "text-dark-green"
+                                borrowApy < 0
+                                ? "text-[#00E0FF]"
                                 : "text-red"
                             } `}
                           >
-                            {token.marketData.borrowApy}
+                            {borrowApyFormatted}
                           </div>
                           <div
                             className="group"
@@ -1346,7 +1353,7 @@ export default function TwoPanels() {
                                       {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
-                                        data: `-${token.marketData.borrowApy}`,
+                                        data: borrowApyFormatted,
                                         color: "text-[#00E0FF]",
                                       },
                                       {
@@ -1387,7 +1394,7 @@ export default function TwoPanels() {
                                         </span>
                                       </div>
                                       <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
-                                        -{token.marketData.borrowApy}
+                                        {borrowApyFormatted}
                                       </span>
                                     </div>
                                     <div className="flex justify-between gap-[30px]">
