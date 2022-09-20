@@ -294,7 +294,7 @@ export default function MarketsContent() {
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px]">
+                                  <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
@@ -381,7 +381,7 @@ export default function MarketsContent() {
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px]">
+                                  <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
                                         className="max-w-[18px]"
