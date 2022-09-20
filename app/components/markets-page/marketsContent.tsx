@@ -1,34 +1,48 @@
+import { useState } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
+import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
+  let [multiTooltipData, setMultiTooltipData] = useState({
+    open: false,
+    coins: [{}],
+  });
 
   if (!markets || !total) {
-    return (
-        <EmptyMarketsContent />
-    );
+    return <EmptyMarketsContent />;
   }
 
   const getTotalDiffClass = function (value: number) {
     return value > 0
-        ? "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]"
-        : (value < 0
-            ? "text-[14] relative bottom-[0] sm:bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#CF0C0C]"
-            : "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px]");
+      ? "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]"
+      : value < 0
+      ? "text-[14] relative bottom-[0] sm:bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#CF0C0C]"
+      : "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px]";
   };
 
   const getMarketDiffClass = function (value: number) {
     return value > 0
-        ? "bg-dark-green text-dark-green rounded-[4px] sm:rounded-md"
-        : (value < 0
-            ? "bg-[#3A1313] text-[#FF3939] rounded-[4px] md:rounded-md"
-            : "");
+      ? "bg-dark-green text-dark-green rounded-[4px] sm:rounded-md"
+      : value < 0
+      ? "bg-[#3A1313] text-[#FF3939] rounded-[4px] md:rounded-md"
+      : "";
   };
 
   return (
     <div>
+      <TooltipMobileMulti
+        tooltipData={multiTooltipData}
+        handleClose={() =>
+          setMultiTooltipData({
+            open: false,
+            coins: [],
+          })
+        }
+      />
+      ;
       <div className="max-w-[1068px] px-[20px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
         <div className="panel-custom border-custom">
           <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-[18px] leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
@@ -41,7 +55,11 @@ export default function MarketsContent() {
                 <span>{total?.supply?.usd.toFixed(2)}</span>
               </div>
               <div className={getTotalDiffClass(total.supply.usdDiff)}>
-                <span>{total.supply.usdDiff === 0 ? '' : `${total.supply.usdDiff.toFixed(2)}%`}</span>
+                <span>
+                  {total.supply.usdDiff === 0
+                    ? ""
+                    : `${total.supply.usdDiff.toFixed(2)}%`}
+                </span>
               </div>
             </div>
             <div className="font-nova text-[12px] md:text-[14px] leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
@@ -109,7 +127,11 @@ export default function MarketsContent() {
                 <span>{total?.borrow?.usd.toFixed(2)}</span>
               </div>
               <div className={getTotalDiffClass(total.borrow.usdDiff)}>
-                <span>{total.borrow.usdDiff === 0 ? '' : `${total.borrow.usdDiff.toFixed(2)}%`}</span>
+                <span>
+                  {total.borrow.usdDiff === 0
+                    ? ""
+                    : `${total.borrow.usdDiff.toFixed(2)}%`}
+                </span>
               </div>
             </div>
             <div className="font-nova text-[12px] md:text-[14px] leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
@@ -167,7 +189,6 @@ export default function MarketsContent() {
           </div>
         </div>
       </div>
-
       <div className="max-w-[1068px] px-[20px] mx-[auto] mb-[60px] md:mb-[100px]">
         <div>
           <div className="mb-[20px] font-nova text-white text-[16px] leading-[22px] md:leading-[25px] font-semibold mb-[21px] md:mb-[18px] md:text-[18px]">
@@ -214,51 +235,182 @@ export default function MarketsContent() {
                             alt={m.symbol}
                           />
                           <div>
-                            <span className="flex text-[14px] md:text-[16px]">
+                            <span className="flex text-[14px] sm:text-[16px] sm:leading-[22px]">
                               {m.name}
                             </span>
-                            <span className="text-[12px] leading-[17px] md:text-[14px] md:leading-[20px] text-[#818987]">
+                            <span className="text-[12px] leading-[17px] sm:text-[16px] sm:leading-[22px] text-[#818987]">
                               {m.symbol}
                             </span>
                           </div>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
-                        <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0]">
+                      <td className="relative whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
+                        <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0] sm:text-[16px] sm:leading-[22px]">
                           {`$${m.totalSupplyUsd?.toFixed(2)} USD`}
                         </div>
-                        <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit ${getMarketDiffClass(m.totalSupplyUsdDiff)}`}>
-                          {m.totalSupplyUsdDiff === 0 ? '-' : `${m.totalSupplyUsdDiff.toFixed(2)}%`}
+
+                        <div
+                          className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit ${getMarketDiffClass(
+                            m.totalSupplyUsdDiff
+                          )}`}
+                        >
+                          {m.totalSupplyUsdDiff === 0
+                            ? "-"
+                            : `${m.totalSupplyUsdDiff.toFixed(2)}%`}
                         </div>
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {formatApy(m.supplyApy)}
                         </div>
-                        <div
+                        <div className="absolute top-[50px] md:top-[50px]  right-[41.5px] sm:right-[13px] h-[22px]">
+                          <div
+                            className="group"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div
+                              onClick={() =>
+                                setMultiTooltipData({
+                                  ...multiTooltipData,
+                                  open: window.innerWidth < 1023,
+                                  coins: [
+                                    {
+                                      coinTitle: m.symbol,
+                                      iconSrc: m.icon,
+                                      data: m.borrowApy.toFixed(4),
+                                      color: "text-dark-green",
+                                    },
+                                  ],
+                                })
+                              }
+                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                            >
+                              <img
+                                className="w-[13px] h-[13px]"
+                                src={m.icon}
+                                alt={m.symbol}
+                              />
+                            </div>
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                  <div className="flex justify-between gap-[30px] mb-[12px]">
+                                    <div className="flex gap-[8px]">
+                                      <img
+                                        className="max-w-[18px]"
+                                        src={m.icon}
+                                        alt={m.symbol}
+                                      />
+                                      <span className="font-nova text-white text-sm font-normal">
+                                        {m.symbol}
+                                      </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                      {m.borrowApy.toFixed(4)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* <div
                           className="group"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <div className={`custom__hidden !flex items-center break-words text-[11px] md:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[13px] w-fit ${getMarketDiffClass(m.supplyApyDiff)}`}>
-                            {m.supplyApyDiff === 0 ? '-' : m.supplyApyDiff.toFixed(2)}
+                          <div
+                            className={`custom__hidden !flex items-center break-words text-[11px] md:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[13px] w-fit ${getMarketDiffClass(
+                              m.supplyApyDiff
+                            )}`}
+                          >
+                            {m.supplyApyDiff === 0
+                              ? "-"
+                              : m.supplyApyDiff.toFixed(2)}
                           </div>
-                        </div>
+                        </div> */}
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {`$${m.totalBorrowUsd?.toFixed(2)} USD`}
                         </div>
-                        <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit ${getMarketDiffClass(m.totalBorrowUsdDiff)}`}>
-                          {m.totalBorrowUsdDiff === 0 ? '-' : `${m.totalBorrowUsdDiff.toFixed(2)}%`}
+                        <div
+                          className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit ${getMarketDiffClass(
+                            m.totalBorrowUsdDiff
+                          )}`}
+                        >
+                          {m.totalBorrowUsdDiff === 0
+                            ? "-"
+                            : `${m.totalBorrowUsdDiff.toFixed(2)}%`}
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                          {m.symbol === 'GLP' ? '0.00%' : formatApy(m.borrowApy)}
+                          {m.symbol === "GLP"
+                            ? "0.00%"
+                            : formatApy(m.borrowApy)}
                         </div>
-                        <div className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit ${getMarketDiffClass(m.borrowApyDiff)}`}>
-                          {m.borrowApyDiff === 0 ? '-' : m.borrowApyDiff.toFixed(2)}
+                        <div className="absolute top-[50px] md:top-[50px] right-[41.5px] sm:right-[30px] h-[22px]">
+                          <div
+                            className="group"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div
+                              onClick={() =>
+                                setMultiTooltipData({
+                                  ...multiTooltipData,
+                                  open: window.innerWidth < 1023,
+                                  coins: [
+                                    {
+                                      coinTitle: m.symbol,
+                                      iconSrc: m.icon,
+                                      data: m.borrowApy.toFixed(4),
+                                      color: "text-dark-green",
+                                    },
+                                  ],
+                                })
+                              }
+                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                            >
+                              <img
+                                className="w-[13px] h-[13px]"
+                                src={m.icon}
+                                alt={m.symbol}
+                              />
+                            </div>
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                  <div className="flex justify-between gap-[30px] mb-[12px]">
+                                    <div className="flex gap-[8px]">
+                                      <img
+                                        className="max-w-[18px]"
+                                        src={m.icon}
+                                        alt={m.symbol}
+                                      />
+                                      <span className="font-nova text-white text-sm font-normal">
+                                        {m.symbol}
+                                      </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                      {m.borrowApy.toFixed(4)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                            </div>
+                          </div>
                         </div>
+                        {/* <div
+                          className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit ${getMarketDiffClass(
+                            m.borrowApyDiff
+                          )}`}
+                        >
+                          {m.borrowApyDiff === 0
+                            ? "-"
+                            : m.borrowApyDiff.toFixed(2)}
+                        </div> */}
                       </td>
                     </tr>
                   );
