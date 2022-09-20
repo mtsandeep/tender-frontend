@@ -19,6 +19,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
+import {useCollateralFactor} from "~/hooks/use-collateral-factor";
 
 export interface DepositProps {
   closeModal: Function;
@@ -76,6 +77,8 @@ export default function Deposit({
     walletBalance,
     parseFloat(newBorrowLimitUsed)
   );
+
+  const collateralFactor = useCollateralFactor(signer, comptrollerAddress, market.tokenPair);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -378,6 +381,14 @@ export default function Deposit({
                 {toCryptoString(market.supplyBalance) +
                   " " +
                   market.tokenPair.token.symbol}
+              </div>
+            </div>
+            <div className="flex mt-8">
+              <div className="flex-grow text-[#ADB5B3] font-nova text-base font-normal">
+                Max LTV
+              </div>
+              <div className="font-nova text-base">
+                {collateralFactor * 100}%
               </div>
             </div>
           </div>

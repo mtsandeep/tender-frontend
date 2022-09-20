@@ -14,6 +14,7 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
+import {useCollateralFactor} from "~/hooks/use-collateral-factor";
 
 export interface WithdrawProps {
   market: Market;
@@ -76,6 +77,8 @@ export default function Withdraw({
   );
 
   let inputTextClass = shrinkyInputClass(value.length);
+
+  const collateralFactor = useCollateralFactor(signer, market.comptrollerAddress, market.tokenPair);
 
   // Highlights value input
   useEffect(() => {
@@ -296,6 +299,14 @@ export default function Withdraw({
                 {toCryptoString(market.supplyBalance) +
                   " " +
                   market.tokenPair.token.symbol}
+              </div>
+            </div>
+            <div className="flex mt-8">
+              <div className="flex-grow text-[#ADB5B3] font-nova text-base font-normal">
+                Max LTV
+              </div>
+              <div className="font-nova text-base">
+                {collateralFactor * 100}%
               </div>
             </div>
           </div>

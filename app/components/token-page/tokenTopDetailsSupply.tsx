@@ -11,7 +11,7 @@ function TokenTopDetailsSupply({ marketInfo }: { marketInfo: object | boolean })
           alt=""
         />
         <p className="font-nova font-medium text-lg leading-[25px] md:text-[22px] whitespace-nowrap md:leading-[31px]">
-          {marketInfo.underlyingSymbol}
+          {marketInfo.tokenSymbol}
         </p>
       </div>
       <div className="flex md:gap-[0px] gap-x-[0px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-start md:justify-between md:text-center w-full md:w-[511px]">
