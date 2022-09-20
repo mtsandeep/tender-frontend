@@ -158,15 +158,13 @@ export function useMarketsInfo() {
           const supplyRate = m.supplyRate / ethBlocksPerYear;
           markets[id].supplyApy =
             (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
-          markets[id].totalSupplyUsd =
-            (parseFloat(m.cash) +
-              parseFloat(m.totalBorrows) -
-              parseFloat(m.reserves)) *
-            m.underlyingPriceUSD;
+          markets[id].totalSupply = parseFloat(m.cash) + parseFloat(m.totalBorrows) - parseFloat(m.reserves);
+          markets[id].totalSupplyUsd = markets[id].totalSupply * m.underlyingPriceUSD;
 
           const borrowRate = m.borrowRate / ethBlocksPerYear;
           markets[id].borrowApy =
             (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+          markets[id].totalBorrow = parseFloat(m.totalBorrows);
           markets[id].totalBorrowUsd = m.totalBorrows * m.underlyingPriceUSD;
 
           markets[id].totalBorrowersCount = response.accountCTokens.filter(
