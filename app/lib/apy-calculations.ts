@@ -1,16 +1,15 @@
-import {BigNumber, ethers} from "ethers";
+import { BigNumber, ethers } from "ethers";
 import sampleCTokenAbi from "~/config/sample-ctoken-abi";
 import type { Token, cToken, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import {
-  getTotalBorrowed,
   getCurrentlySupplying,
   getTotalSupplyBalanceInUsd,
   getCurrentlyBorrowing,
 } from "./tender";
 
 function formatApy(apy: number): string {
-  return `${apy.toFixed(2)}%`;
+  return `${apy?.toFixed(2)}%`;
 }
 
 // https://compound.finance/docs#protocol-math
@@ -21,14 +20,23 @@ function formatApy(apy: number): string {
 // it becomes 0 in the integer division math.
 //
 // This might be a mistake, but I get the correct APYs based on Compound on Rinkeby.
-function calculateApy(ratePerBlock: BigNumber, secondsPerBlock: number): number {
+function calculateApy(
+  ratePerBlock: BigNumber,
+  secondsPerBlock: number
+): number {
   const daysPerYear = 365;
-  const blocksPerDay = Math.round(60 * 60 * 24 / secondsPerBlock); // an estimate with 10.9 second block time
+  const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock); // an estimate with 10.9 second block time
 
   const underlyingAssetMantissa = 1e18;
 
   // source: https://docs.compound.finance/v2/#calculating-the-apy-using-rate-per-block
-  const apy = (((Math.pow((ratePerBlock.toNumber() / underlyingAssetMantissa * blocksPerDay) + 1, daysPerYear))) - 1) * 100;
+  const apy =
+    (Math.pow(
+      (ratePerBlock.toNumber() / underlyingAssetMantissa) * blocksPerDay + 1,
+      daysPerYear
+    ) -
+      1) *
+    100;
 
   return apy;
 }
@@ -79,7 +87,12 @@ async function formattedDepositApy(
   signer: JsonRpcSigner,
   secondsPerBlock: number
 ): Promise<string> {
-  let apy: number = await calculateDepositApy(token, cToken, signer, secondsPerBlock);
+  let apy: number = await calculateDepositApy(
+    token,
+    cToken,
+    signer,
+    secondsPerBlock
+  );
 
   return formatApy(apy);
 }
@@ -90,7 +103,12 @@ async function formattedBorrowApy(
   signer: JsonRpcSigner,
   secondsPerBlock: number
 ): Promise<string> {
-  let apy: number = await calculateBorrowApy(token, cToken, signer, secondsPerBlock);
+  let apy: number = await calculateBorrowApy(
+    token,
+    cToken,
+    signer,
+    secondsPerBlock
+  );
 
   return formatApy(apy);
 }
@@ -143,4 +161,10 @@ async function netApy(
   return result;
 }
 
-export { formattedDepositApy, formattedBorrowApy, netApy, calculateApy, formatApy };
+export {
+  formattedDepositApy,
+  formattedBorrowApy,
+  netApy,
+  calculateApy,
+  formatApy,
+};

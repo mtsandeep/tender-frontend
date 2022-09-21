@@ -28,7 +28,7 @@ const shrinkyInputClass = (len: number): string => {
  * @returns A number that's rounded and localized
  */
 export const toFiatString = (v: number): string => {
-  let roundedNumber = parseFloat(v.toFixed(2));
+  let roundedNumber = parseFloat(v?.toFixed(2));
   return `${roundedNumber.toLocaleString("en-US", {
     // style: "currency",
     currency: "USD",

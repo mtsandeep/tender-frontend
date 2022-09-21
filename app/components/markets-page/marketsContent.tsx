@@ -3,7 +3,7 @@ import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
-import {toShortCryptoString, toShortFiatString} from "~/lib/ui";
+import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
@@ -13,17 +13,15 @@ export default function MarketsContent() {
   });
 
   if (!markets || !total) {
-    return (
-        <EmptyMarketsContent />
-    );
+    return <EmptyMarketsContent />;
   }
 
   const getTotalDiffClass = function (value: number) {
     return value > 0
       ? "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]"
-      : (value < 0
+      : value < 0
       ? "text-[14] relative bottom-[0] sm:bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#00E0FF]"
-      : "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px]");
+      : "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px]";
   };
 
   return (
@@ -46,13 +44,13 @@ export default function MarketsContent() {
             <div className="flex items-end gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-[18px] md:text-[24px] leading-[18px] md:leading-[24px]">
                 <span>$</span>
-                <span>{total?.supply?.usd.toFixed(2)}</span>
+                <span>{total?.supply?.usd?.toFixed(2)}</span>
               </div>
               <div className={getTotalDiffClass(total.supply.usdDiff)}>
                 <span>
                   {total.supply.usdDiff === 0
                     ? ""
-                    : `${total.supply.usdDiff.toFixed(2)}%`}
+                    : `${total?.supply?.usdDiff?.toFixed(2)}%`}
                 </span>
               </div>
             </div>
@@ -64,8 +62,8 @@ export default function MarketsContent() {
                 const m = markets[id];
                 const marketPercentage = (
                   (m.totalSupplyUsd * 100) /
-                  total.supply.usd
-                ).toFixed(2);
+                  total?.supply?.usd
+                )?.toFixed(2);
 
                 return (
                   <div key={index} className="flex flex-col gap-y-[10px]">
@@ -118,13 +116,13 @@ export default function MarketsContent() {
             <div className="flex items-end gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-[18px] md:text-[24px] leading-[18px] md:leading-[24px]">
                 <span>$</span>
-                <span>{total?.borrow?.usd.toFixed(2)}</span>
+                <span>{total?.borrow?.usd?.toFixed(2)}</span>
               </div>
               <div className={getTotalDiffClass(total.borrow.usdDiff)}>
                 <span>
                   {total.borrow.usdDiff === 0
                     ? ""
-                    : `${total.borrow.usdDiff.toFixed(2)}%`}
+                    : `${total.borrow.usdDiff?.toFixed(2)}%`}
                 </span>
               </div>
             </div>
@@ -137,7 +135,7 @@ export default function MarketsContent() {
                 const marketPercentage = (
                   (m.totalBorrowUsd * 100) /
                   total.borrow.usd
-                ).toFixed(2);
+                )?.toFixed(2);
 
                 return (
                   <div key={index} className="flex flex-col gap-y-[10px]">
@@ -243,9 +241,7 @@ export default function MarketsContent() {
                       <td className="relative whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0] sm:text-[16px] sm:leading-[22px]">
                           {toShortCryptoString(
-                              parseFloat(
-                                  m.totalSupply.toFixed(6)
-                              )
+                            parseFloat(m?.totalSupply?.toFixed(6))
                           )}{" "}
                           {m.symbol}
                         </div>
@@ -275,14 +271,19 @@ export default function MarketsContent() {
                                       coinTitle: m.symbol,
                                       iconSrc: m.icon,
                                       data: formatApy(m.supplyApy),
-                                      color: "text-dark-green",
+                                      color:
+                                        parseFloat(m.supplyApy) > 0
+                                          ? "text-dark-green"
+                                          : parseFloat(m.supplyApy) < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white",
                                     },
                                     {
                                       coinTitle: "esTND",
                                       iconSrc:
-                                          "/images/wallet-icons/balance-icon.svg",
+                                        "/images/wallet-icons/balance-icon.svg",
                                       data: "0.00%",
-                                      color: "text-dark-green",
+                                      color: "text-white",
                                     },
                                   ],
                                 })
@@ -295,9 +296,9 @@ export default function MarketsContent() {
                                 alt={m.symbol}
                               />
                               <img
-                                  className="w-[13px] h-[13px] ml-[6px]"
-                                  src="/images/wallet-icons/balance-icon.svg"
-                                  alt="..."
+                                className="w-[13px] h-[13px] ml-[6px]"
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
                               />
                             </div>
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
@@ -314,24 +315,32 @@ export default function MarketsContent() {
                                         {m.symbol}
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                    <span
+                                      className={`font-nova text-white text-sm font-normal ${
+                                        parseFloat(m.supplyApy) > 0
+                                          ? "text-dark-green"
+                                          : parseFloat(m.supplyApy) < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white"
+                                      }`}
+                                    >
                                       {formatApy(m.supplyApy)}
                                     </span>
                                   </div>
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
-                                          className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
+                                        className="max-w-[18px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
+                                        alt="..."
                                       />
                                       <span className="font-nova text-white text-sm font-normal">
-                                          esTND
-                                        </span>
-                                    </div>
-                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
-                                        0.00%
+                                        esTND
                                       </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal">
+                                      0.00%
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -357,9 +366,7 @@ export default function MarketsContent() {
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
                           {toShortCryptoString(
-                              parseFloat(
-                                  m.totalBorrow.toFixed(6)
-                              )
+                            parseFloat(m.totalBorrow?.toFixed(6))
                           )}{" "}
                           {m.symbol}
                         </div>
@@ -371,9 +378,7 @@ export default function MarketsContent() {
                       </td>
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                          {m.symbol === "GLP"
-                            ? "0.00%"
-                            : formatApy(borrowApy)}
+                          {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
                         </div>
                         <div className="absolute top-[50px] md:top-[50px] right-[41.5px] sm:right-[30px] h-[22px]">
                           <div
@@ -389,15 +394,23 @@ export default function MarketsContent() {
                                     {
                                       coinTitle: m.symbol,
                                       iconSrc: m.icon,
-                                      data: m.symbol === "GLP" ? "0.00%" : `-${formatApy(borrowApy)}`,
-                                      color: "text-dark-green",
+                                      data:
+                                        m.symbol === "GLP"
+                                          ? "0.00%"
+                                          : `-${formatApy(borrowApy)}`,
+                                      color:
+                                        borrowApy > 0
+                                          ? "text-dark-green"
+                                          : borrowApy < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white",
                                     },
                                     {
                                       coinTitle: "esTND",
                                       iconSrc:
-                                          "/images/wallet-icons/balance-icon.svg",
+                                        "/images/wallet-icons/balance-icon.svg",
                                       data: "0.00%",
-                                      color: "text-dark-green",
+                                      color: "text-white",
                                     },
                                   ],
                                 })
@@ -410,9 +423,9 @@ export default function MarketsContent() {
                                 alt={m.symbol}
                               />
                               <img
-                                  className="w-[13px] h-[13px] ml-[6px]"
-                                  src="/images/wallet-icons/balance-icon.svg"
-                                  alt="..."
+                                className="w-[13px] h-[13px] ml-[6px]"
+                                src="/images/wallet-icons/balance-icon.svg"
+                                alt="..."
                               />
                             </div>
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
@@ -429,24 +442,34 @@ export default function MarketsContent() {
                                         {m.symbol}
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
-                                      {m.symbol === "GLP" ? "0.00%" : `-${formatApy(borrowApy)}`}
+                                    <span
+                                      className={`font-nova text-white text-sm font-normal ${
+                                        borrowApy > 0
+                                          ? "text-dark-green"
+                                          : borrowApy < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white"
+                                      }`}
+                                    >
+                                      {m.symbol === "GLP"
+                                        ? "0.00%"
+                                        : `-${formatApy(borrowApy)}`}
                                     </span>
                                   </div>
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
-                                          className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
+                                        className="max-w-[18px]"
+                                        src="/images/wallet-icons/balance-icon.svg"
+                                        alt="..."
                                       />
                                       <span className="font-nova text-white text-sm font-normal">
-                                          esTND
-                                        </span>
-                                    </div>
-                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
-                                        0.00%
+                                        esTND
                                       </span>
+                                    </div>
+                                    <span className="font-nova text-white text-sm font-normal">
+                                      0.00%
+                                    </span>
                                   </div>
                                 </div>
                               </div>
