@@ -12,7 +12,7 @@ function TokenTopDetailsBorrow({
     open: false,
     coins: [{}],
   });
-  const borrowApy = marketInfo.borrowApy * -1;
+  const borrowApy = marketInfo.tokenSymbol === 'GLP' ? 0 : marketInfo.borrowApy * -1;
 
   return (
     <>
@@ -45,11 +45,11 @@ function TokenTopDetailsBorrow({
                 alt=""
               />
               <span className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px]">
-                Supply APY / Borrow APY
+                Borrow APY
               </span>
             </div>
             <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
-              $0 USD
+              {formatApy(borrowApy)}
             </p>
             <div className="group">
               <div
@@ -61,13 +61,13 @@ function TokenTopDetailsBorrow({
                       {
                         coinTitle: marketInfo.tokenSymbol,
                         iconSrc: marketInfo.icon,
-                        data: "0.00%",
+                        data: formatApy(borrowApy),
                         color:
-                          10 > 0
-                            ? "text-dark-green"
-                            : 10 < 0
-                            ? "text-[#00E0FF]"
-                            : "text-white",
+                            borrowApy > 0
+                                ? "text-dark-green"
+                                : borrowApy < 0
+                                    ? "text-[#00E0FF]"
+                                    : "text-white",
                       },
                       {
                         coinTitle: "esTND",
@@ -105,8 +105,14 @@ function TokenTopDetailsBorrow({
                           {marketInfo.tokenSymbol}
                         </span>
                       </div>
-                      <span className="font-nova text-sm font-normal text-white">
-                        0.00%
+                      <span className={`font-nova text-sm font-normal ${
+                          borrowApy > 0
+                              ? "text-dark-green"
+                              : borrowApy < 0
+                                  ? "text-[#00E0FF]"
+                                  : "text-white"
+                      }`}>
+                        {formatApy(borrowApy)}
                       </span>
                     </div>
                     <div className="flex justify-between gap-[30px]">

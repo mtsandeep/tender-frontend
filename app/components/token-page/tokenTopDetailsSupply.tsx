@@ -8,6 +8,7 @@ function TokenTopDetailsSupply({
 }: {
   marketInfo: object | boolean;
 }) {
+  const supplyApy = marketInfo.supplyApy;
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
     coins: [{}],
@@ -44,11 +45,11 @@ function TokenTopDetailsSupply({
                 alt=""
               />
               <span className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px]">
-                Supply APY / Borrow APY
+                Supply APY
               </span>
             </div>
             <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
-              $0 USD
+              {formatApy(supplyApy)}
             </p>
             <div className="group">
               <div
@@ -60,13 +61,13 @@ function TokenTopDetailsSupply({
                       {
                         coinTitle: marketInfo.tokenSymbol,
                         iconSrc: marketInfo.icon,
-                        data: "0.00%",
+                        data: formatApy(supplyApy),
                         color:
-                          10 > 0 // TODO change on real data
-                            ? "text-dark-green"
-                            : 10 < 0 // TODO change on real data
-                            ? "text-[#00E0FF]"
-                            : "text-white",
+                            supplyApy > 0
+                                ? "text-dark-green"
+                                : supplyApy < 0
+                                    ? "text-[#00E0FF]"
+                                    : "text-white",
                       },
                       {
                         coinTitle: "esTND",
@@ -106,14 +107,14 @@ function TokenTopDetailsSupply({
                       </div>
                       <span
                         className={`font-nova text-sm font-normal ${
-                          10 > 0 // TODO change on real data
+                          supplyApy > 0
                             ? "text-dark-green"
-                            : 10 < 0 // TODO change on real data
+                            : supplyApy < 0
                             ? "text-[#00E0FF]"
                             : "text-white"
                         }`}
                       >
-                        0.00%
+                        {formatApy(supplyApy)}
                       </span>
                     </div>
                     <div className="flex justify-between gap-[30px]">
