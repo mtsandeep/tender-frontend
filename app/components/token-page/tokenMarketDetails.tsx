@@ -40,7 +40,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
             0.75 worth of ETH in the principal currency for every 1
             ETH worth of collateral.`,
         },
-        { itemName: marketInfo.tokenSymbol + " Minted", itemData: toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
+        { itemName: marketInfo.cTokenSymbol + " Minted", itemData: toShortCryptoString(Number(Number(marketInfo.totalSupply).toFixed(2))) },
         { itemName: "Exchange Rate", itemData: "1 " + marketInfo.tokenSymbol + " = " + exchangeRate + " " + marketInfo.cTokenSymbol },
     ];
 
