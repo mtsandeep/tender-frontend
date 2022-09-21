@@ -17,6 +17,9 @@ export default function MarketsContent() {
     return <EmptyMarketsContent />;
   }
 
+  const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
+  const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
+
   const getTotalDiffClass = function (value: number) {
     return value > 0
       ? "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]"
@@ -47,11 +50,9 @@ export default function MarketsContent() {
                 <span>$</span>
                 <span>{total?.supply?.usd?.toFixed(2)}</span>
               </div>
-              <div className={getTotalDiffClass(total.supply.usdDiff)}>
+              <div className={getTotalDiffClass(totalSupplyDiff)}>
                 <span>
-                  {total.supply.usdDiff === 0
-                    ? ""
-                    : `${total?.supply?.usdDiff?.toFixed(2)}%`}
+                  {totalSupplyDiff === 0 ? "" : `${totalSupplyDiff}%`}
                 </span>
               </div>
             </div>
@@ -119,11 +120,9 @@ export default function MarketsContent() {
                 <span>$</span>
                 <span>{total?.borrow?.usd?.toFixed(2)}</span>
               </div>
-              <div className={getTotalDiffClass(total.borrow.usdDiff)}>
+              <div className={getTotalDiffClass(totalBorrowDiff)}>
                 <span>
-                  {total.borrow.usdDiff === 0
-                    ? ""
-                    : `${total.borrow.usdDiff?.toFixed(2)}%`}
+                  {totalBorrowDiff === 0 ? "" : `${totalBorrowDiff}%`}
                 </span>
               </div>
             </div>
