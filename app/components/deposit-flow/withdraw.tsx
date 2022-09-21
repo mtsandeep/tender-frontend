@@ -14,7 +14,7 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
-import {useCollateralFactor} from "~/hooks/use-collateral-factor";
+import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 
 export interface WithdrawProps {
   market: Market;
@@ -50,7 +50,7 @@ export default function Withdraw({
     market.comptrollerAddress,
     tokenPairs,
     market.tokenPair,
-    value ? `-${value}` : '0'
+    value ? `-${value}` : "0"
   );
 
   let newBorrowLimitUsed = useBorrowLimitUsed(
@@ -78,7 +78,11 @@ export default function Withdraw({
 
   let inputTextClass = shrinkyInputClass(value.length);
 
-  const collateralFactor = useCollateralFactor(signer, market.comptrollerAddress, market.tokenPair);
+  const collateralFactor = useCollateralFactor(
+    signer,
+    market.comptrollerAddress,
+    market.tokenPair
+  );
 
   // Highlights value input
   useEffect(() => {
@@ -291,8 +295,8 @@ export default function Withdraw({
               )}
             </div>
 
-            <div className="flex mt-8">
-              <div className="flex-grow text-[#ADB5B3] font-nova text-base">
+            <div className="flex mt-8 justify-between">
+              <div className="text-[#ADB5B3] font-nova text-base">
                 Your Supply
               </div>
               <div className="font-nova text-base">
@@ -301,9 +305,21 @@ export default function Withdraw({
                   market.tokenPair.token.symbol}
               </div>
             </div>
-            <div className="flex mt-8">
-              <div className="flex-grow text-[#ADB5B3] font-nova text-base font-normal">
+            <div className="flex mt-[10px] justify-between">
+              <div className="text-[#ADB5B3] font-nova text-base font-normal line-dashed group relative cursor-pointer">
                 Max LTV
+                <div className="hidden z-10 flex-col absolute left-0 bottom-[25px] items-center group-hover:flex rounded-[10px]">
+                  <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
+                      The Maximum LTV ratio represents the maximum borrowing
+                      power of a specific collateral. For example, if a
+                      collateral has an LTV of 75%, the user can borrow up to
+                      0.75 worth of ETH in the principal currency for every 1
+                      ETH worth of collateral.
+                    </div>
+                  </div>
+                  <div className="custom__arrow__tooltip relative left-[-100px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
+                </div>
               </div>
               <div className="font-nova text-base">
                 {collateralFactor * 100}%

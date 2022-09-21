@@ -10,7 +10,7 @@ import TooltipMobile from "./tooltip-mobile";
 import TooltipMobileMulti from "./tooltip-mobile-MULTI";
 import TwoPanelsEmpty from "./two-panels-empty";
 import { TenderContext } from "~/contexts/tender-context";
-import {formatApy} from "~/lib/apy-calculations";
+import { formatApy } from "~/lib/apy-calculations";
 
 export default function TwoPanels() {
   const tenderContextData = useContext(TenderContext);
@@ -1155,9 +1155,7 @@ export default function TwoPanels() {
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div
                           className={`custom__hidden ${
-                              borrowApy < 0
-                              ? "text-[#00E0FF]"
-                              : "text-red"
+                            borrowApy < 0 ? "text-[#00E0FF]" : "text-red"
                           } `}
                         >
                           {borrowApyFormatted}
@@ -1286,7 +1284,8 @@ export default function TwoPanels() {
 
                 <tbody>
                   {marketsWithoutBorrow.map((token: Market) => {
-                    const borrowApy = parseFloat(token.marketData.borrowApy) * -1;
+                    const borrowApy =
+                      parseFloat(token.marketData.borrowApy) * -1;
                     const borrowApyFormatted = formatApy(borrowApy);
 
                     return (
@@ -1332,9 +1331,7 @@ export default function TwoPanels() {
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div
                             className={`custom__hidden ${
-                                borrowApy < 0
-                                ? "text-[#00E0FF]"
-                                : "text-red"
+                              borrowApy < 0 ? "text-[#00E0FF]" : "text-red"
                             } `}
                           >
                             {borrowApyFormatted}
