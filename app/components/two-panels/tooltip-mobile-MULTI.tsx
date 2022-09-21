@@ -1,6 +1,7 @@
 import ReactModal from "react-modal";
 
 export default function TooltipMobileMulti({ ...props }) {
+  console.log(props.tooltipData.coins);
   return (
     <ReactModal
       shouldCloseOnOverlayClick={true}

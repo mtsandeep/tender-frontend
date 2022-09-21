@@ -253,7 +253,13 @@ export default function MarketsContent() {
                         </div>
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
-                        <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
+                        <div
+                          className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${
+                            parseFloat(m.supplyApy) > 0
+                              ? "text-dark-green"
+                              : "text-red"
+                          } `}
+                        >
                           {formatApy(m.supplyApy)}
                         </div>
                         <div className="absolute top-[50px] md:top-[50px]  right-[41.5px] sm:right-[13px] h-[22px]">
@@ -377,7 +383,15 @@ export default function MarketsContent() {
                         </div>
                       </td>
                       <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
-                        <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
+                        <div
+                          className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${
+                            m.symbol === "GLP"
+                              ? "text-white"
+                              : borrowApy < 0
+                              ? "text-[#00E0FF]"
+                              : "text-red"
+                          } `}
+                        >
                           {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
                         </div>
                         <div className="absolute top-[50px] md:top-[50px] right-[41.5px] sm:right-[30px] h-[22px]">
@@ -397,9 +411,11 @@ export default function MarketsContent() {
                                       data:
                                         m.symbol === "GLP"
                                           ? "0.00%"
-                                          : `-${formatApy(borrowApy)}`,
+                                          : `${formatApy(borrowApy)}`,
                                       color:
-                                        borrowApy > 0
+                                        m.symbol === "GLP"
+                                          ? "text-white"
+                                          : borrowApy > 0
                                           ? "text-dark-green"
                                           : borrowApy < 0
                                           ? "text-[#00E0FF]"
@@ -444,7 +460,9 @@ export default function MarketsContent() {
                                     </div>
                                     <span
                                       className={`font-nova text-white text-sm font-normal ${
-                                        borrowApy > 0
+                                        m.symbol === "GLP"
+                                          ? "white"
+                                          : borrowApy > 0
                                           ? "text-dark-green"
                                           : borrowApy < 0
                                           ? "text-[#00E0FF]"
@@ -453,7 +471,7 @@ export default function MarketsContent() {
                                     >
                                       {m.symbol === "GLP"
                                         ? "0.00%"
-                                        : `-${formatApy(borrowApy)}`}
+                                        : `${formatApy(borrowApy)}`}
                                     </span>
                                   </div>
                                   <div className="flex justify-between gap-[30px]">
