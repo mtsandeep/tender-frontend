@@ -100,6 +100,17 @@ export default function TwoPanels() {
     </div>
   );
 
+  const checkColorClass = (value: number) => {
+    switch (true) {
+      case value > 0:
+        return "text-dark-green";
+      case value < 0:
+        return "text-[#00E0FF]";
+      default:
+        return "text-white";
+    }
+  };
+
   // const simpleTndBlock = ({
   //   textBottom,
   //   token,
@@ -790,11 +801,9 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div
-                          className={`custom__hidden ${
-                            parseFloat(token.marketData.depositApy) > 0
-                              ? "text-dark-green"
-                              : "text-red"
-                          } `}
+                          className={`custom__hidden ${checkColorClass(
+                            parseFloat(token.marketData.depositApy)
+                          )} `}
                         >
                           {token.marketData.depositApy}
                         </div>
@@ -813,16 +822,9 @@ export default function TwoPanels() {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
                                       data: token.marketData.depositApy,
-                                      color:
-                                        parseFloat(
-                                          token.marketData.depositApy
-                                        ) > 0
-                                          ? "text-dark-green"
-                                          : parseFloat(
-                                              token.marketData.depositApy
-                                            ) < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white",
+                                      color: checkColorClass(
+                                        parseFloat(token.marketData.depositApy)
+                                      ),
                                     },
                                     {
                                       coinTitle: "esTND",
@@ -862,17 +864,9 @@ export default function TwoPanels() {
                                       </span>
                                     </div>
                                     <span
-                                      className={`font-nova text-sm font-normal ${
-                                        parseFloat(
-                                          token.marketData.depositApy
-                                        ) > 0
-                                          ? "text-dark-green"
-                                          : parseFloat(
-                                              token.marketData.depositApy
-                                            ) < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white"
-                                      }`}
+                                      className={`font-nova text-sm font-normal ${checkColorClass(
+                                        parseFloat(token.marketData.depositApy)
+                                      )}`}
                                     >
                                       {token.marketData.depositApy}
                                     </span>
@@ -989,11 +983,9 @@ export default function TwoPanels() {
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div
-                            className={`custom__hidden ${
-                              parseFloat(token.marketData.depositApy) > 0
-                                ? "text-dark-green"
-                                : "text-red"
-                            } `}
+                            className={`custom__hidden ${checkColorClass(
+                              parseFloat(token.marketData.depositApy)
+                            )} `}
                           >
                             {token.marketData.depositApy}
                           </div>
@@ -1012,16 +1004,11 @@ export default function TwoPanels() {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
                                         data: token.marketData.depositApy,
-                                        color:
+                                        color: checkColorClass(
                                           parseFloat(
                                             token.marketData.depositApy
-                                          ) > 0
-                                            ? "text-dark-green"
-                                            : parseFloat(
-                                                token.marketData.depositApy
-                                              ) < 0
-                                            ? "text-[#00E0FF]"
-                                            : "text-white",
+                                          )
+                                        ),
                                       },
                                       {
                                         coinTitle: "esTND",
@@ -1061,17 +1048,11 @@ export default function TwoPanels() {
                                         </span>
                                       </div>
                                       <span
-                                        className={`font-nova text-sm font-normal ${
+                                        className={`font-nova text-sm font-normal ${checkColorClass(
                                           parseFloat(
                                             token.marketData.depositApy
-                                          ) > 0
-                                            ? "text-dark-green"
-                                            : parseFloat(
-                                                token.marketData.depositApy
-                                              ) < 0
-                                            ? "text-[#00E0FF]"
-                                            : "text-white"
-                                        }`}
+                                          )
+                                        )}`}
                                       >
                                         {token.marketData.depositApy}
                                       </span>
@@ -1196,9 +1177,9 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                         <div
-                          className={`custom__hidden ${
-                            borrowApy < 0 ? "text-[#00E0FF]" : "text-red"
-                          } `}
+                          className={`custom__hidden ${checkColorClass(
+                            parseFloat(borrowApyFormatted)
+                          )} `}
                         >
                           {borrowApyFormatted}
                         </div>
@@ -1217,12 +1198,9 @@ export default function TwoPanels() {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
                                       data: borrowApyFormatted,
-                                      color:
-                                        parseFloat(borrowApyFormatted) > 0
-                                          ? "text-dark-green"
-                                          : parseFloat(borrowApyFormatted) < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white",
+                                      color: checkColorClass(
+                                        parseFloat(borrowApyFormatted)
+                                      ),
                                     },
                                     {
                                       coinTitle: "esTND",
@@ -1262,13 +1240,9 @@ export default function TwoPanels() {
                                       </span>
                                     </div>
                                     <span
-                                      className={`font-nova text-sm font-normal ${
-                                        parseFloat(borrowApyFormatted) > 0
-                                          ? "text-dark-green"
-                                          : parseFloat(borrowApyFormatted) < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white"
-                                      }`}
+                                      className={`font-nova text-sm font-normal ${checkColorClass(
+                                        parseFloat(borrowApyFormatted)
+                                      )}`}
                                     >
                                       {borrowApyFormatted}
                                     </span>
@@ -1385,9 +1359,9 @@ export default function TwoPanels() {
                         </td>
                         <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] md:pl-[36px] md:pr-[0px]">
                           <div
-                            className={`custom__hidden ${
-                              borrowApy < 0 ? "text-[#00E0FF]" : "text-red"
-                            } `}
+                            className={`custom__hidden ${checkColorClass(
+                              borrowApy
+                            )} `}
                           >
                             {borrowApyFormatted}
                           </div>
@@ -1406,12 +1380,9 @@ export default function TwoPanels() {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
                                         data: borrowApyFormatted,
-                                        color:
-                                          parseFloat(borrowApyFormatted) > 0
-                                            ? "text-dark-green"
-                                            : parseFloat(borrowApyFormatted) < 0
-                                            ? "text-[#00E0FF]"
-                                            : "text-white",
+                                        color: checkColorClass(
+                                          parseFloat(borrowApyFormatted)
+                                        ),
                                       },
                                       {
                                         coinTitle: "esTND",
@@ -1451,13 +1422,9 @@ export default function TwoPanels() {
                                         </span>
                                       </div>
                                       <span
-                                        className={`font-nova text-sm font-normal ${
-                                          parseFloat(borrowApyFormatted) > 0
-                                            ? "text-dark-green"
-                                            : parseFloat(borrowApyFormatted) < 0
-                                            ? "text-[#00E0FF]"
-                                            : "text-white"
-                                        }`}
+                                        className={`font-nova text-sm font-normal ${checkColorClass(
+                                          parseFloat(borrowApyFormatted)
+                                        )}`}
                                       >
                                         {borrowApyFormatted}
                                       </span>
