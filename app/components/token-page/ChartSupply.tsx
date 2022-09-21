@@ -158,7 +158,7 @@ const ChartSupply = ({ data }: { data: any }) => {
                 content={<TotalTooltip />}
                 position={{ y: -50 }}
               />
-              <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]}>
+              <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]} minPointSize={5}>
                 {data.map((entry: any, index: number) => (
                   <Cell
                     key={index}

@@ -12,6 +12,17 @@ import TwoPanelsEmpty from "./two-panels-empty";
 import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 
+export const checkColorClass = (value: number) => {
+  switch (true) {
+    case value > 0:
+      return "text-dark-green";
+    case value < 0:
+      return "text-[#00E0FF]";
+    default:
+      return "text-white";
+  }
+};
+
 export default function TwoPanels() {
   const tenderContextData = useContext(TenderContext);
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
@@ -99,17 +110,6 @@ export default function TwoPanels() {
       </div>
     </div>
   );
-
-  const checkColorClass = (value: number) => {
-    switch (true) {
-      case value > 0:
-        return "text-dark-green";
-      case value < 0:
-        return "text-[#00E0FF]";
-      default:
-        return "text-white";
-    }
-  };
 
   // const simpleTndBlock = ({
   //   textBottom,

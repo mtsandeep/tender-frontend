@@ -4,6 +4,7 @@ import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
+import { checkColorClass } from "../two-panels/two-panels";
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
@@ -11,17 +12,6 @@ export default function MarketsContent() {
     open: false,
     coins: [{}],
   });
-
-  const checkColorClass = (value: number) => {
-    switch (true) {
-      case value > 0:
-        return "text-dark-green";
-      case value < 0:
-        return "text-[#00E0FF]";
-      default:
-        return "text-white";
-    }
-  };
 
   if (!markets || !total) {
     return <EmptyMarketsContent />;

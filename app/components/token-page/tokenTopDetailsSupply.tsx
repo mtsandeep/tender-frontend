@@ -2,6 +2,7 @@ import { toShortFiatString } from "~/lib/ui";
 import { formatApy } from "~/lib/apy-calculations";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { useState } from "react";
+import { checkColorClass } from "../two-panels/two-panels";
 
 function TokenTopDetailsSupply({
   marketInfo,
@@ -62,12 +63,7 @@ function TokenTopDetailsSupply({
                         coinTitle: marketInfo.tokenSymbol,
                         iconSrc: marketInfo.icon,
                         data: formatApy(supplyApy),
-                        color:
-                            supplyApy > 0
-                                ? "text-dark-green"
-                                : supplyApy < 0
-                                    ? "text-[#00E0FF]"
-                                    : "text-white",
+                        color: checkColorClass(supplyApy),
                       },
                       {
                         coinTitle: "esTND",
@@ -78,7 +74,7 @@ function TokenTopDetailsSupply({
                     ],
                   })
                 }
-                className="custom__hidden !inline-flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                className="custom__hidden cursor-pointer !inline-flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
               >
                 <img
                   className="w-[13px] h-[13px]"
@@ -106,13 +102,9 @@ function TokenTopDetailsSupply({
                         </span>
                       </div>
                       <span
-                        className={`font-nova text-sm font-normal ${
-                          supplyApy > 0
-                            ? "text-dark-green"
-                            : supplyApy < 0
-                            ? "text-[#00E0FF]"
-                            : "text-white"
-                        }`}
+                        className={`font-nova text-sm font-normal ${checkColorClass(
+                          supplyApy
+                        )}`}
                       >
                         {formatApy(supplyApy)}
                       </span>

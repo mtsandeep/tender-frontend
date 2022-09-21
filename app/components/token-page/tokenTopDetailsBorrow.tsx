@@ -2,6 +2,7 @@ import { toShortFiatString } from "~/lib/ui";
 import { formatApy } from "~/lib/apy-calculations";
 import { useState } from "react";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
+import { checkColorClass } from "../two-panels/two-panels";
 
 function TokenTopDetailsBorrow({
   marketInfo,
@@ -12,7 +13,9 @@ function TokenTopDetailsBorrow({
     open: false,
     coins: [{}],
   });
-  const borrowApy = marketInfo.tokenSymbol === 'GLP' ? 0 : marketInfo.borrowApy * -1;
+
+  const borrowApy =
+    marketInfo.tokenSymbol === "GLP" ? 0 : marketInfo.borrowApy * -1;
 
   return (
     <>
@@ -62,12 +65,7 @@ function TokenTopDetailsBorrow({
                         coinTitle: marketInfo.tokenSymbol,
                         iconSrc: marketInfo.icon,
                         data: formatApy(borrowApy),
-                        color:
-                            borrowApy > 0
-                                ? "text-dark-green"
-                                : borrowApy < 0
-                                    ? "text-[#00E0FF]"
-                                    : "text-white",
+                        color: checkColorClass(borrowApy),
                       },
                       {
                         coinTitle: "esTND",
@@ -78,7 +76,7 @@ function TokenTopDetailsBorrow({
                     ],
                   })
                 }
-                className="custom__hidden !inline-flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                className="custom__hidden cursor-pointer !inline-flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
               >
                 <img
                   className="w-[13px] h-[13px]"
@@ -105,13 +103,11 @@ function TokenTopDetailsBorrow({
                           {marketInfo.tokenSymbol}
                         </span>
                       </div>
-                      <span className={`font-nova text-sm font-normal ${
-                          borrowApy > 0
-                              ? "text-dark-green"
-                              : borrowApy < 0
-                                  ? "text-[#00E0FF]"
-                                  : "text-white"
-                      }`}>
+                      <span
+                        className={`font-nova text-sm font-normal ${checkColorClass(
+                          borrowApy
+                        )}`}
+                      >
                         {formatApy(borrowApy)}
                       </span>
                     </div>

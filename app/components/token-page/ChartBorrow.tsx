@@ -158,7 +158,7 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
                 content={<TotalTooltip />}
                 position={{ y: -50 }}
               />
-              <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]}>
+              <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]} minPointSize={5}>
                 {data.map((entry, index) => (
                   <Cell
                     key={index}
