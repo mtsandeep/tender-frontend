@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import ChartBorrow from "./ChartBorrow";
 import ChartSupply from "./ChartSupply";
-import TokenTopDetailsBorrow from "./tokenTopDetailsBorrow";
-import TokenTopDetailsSupply from "./tokenTopDetailsSupply";
+import TokenTopDetails from "./tokenTopDetails";
 import { TenderContext } from "~/contexts/tender-context";
 import TokenChartEmpty from "./tokenChartEmpty";
 
@@ -93,11 +92,7 @@ function TokenChart({
         </a>
         <span className="text-[#818987]"> / {marketInfo?.tokenSymbol}</span>
       </div>
-      {tabName === "supply" ? (
-        <TokenTopDetailsSupply marketInfo={marketInfo} />
-      ) : (
-        <TokenTopDetailsBorrow marketInfo={marketInfo} />
-      )}
+      <TokenTopDetails marketInfo={marketInfo} />
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-xs leading-5 border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">
         <div
           onClick={() => setTabName("supply")}

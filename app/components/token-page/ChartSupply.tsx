@@ -16,7 +16,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ChartSupply = ({ data }: { data: any }) => {
+const ChartSupply = ({
+  data,
+}: {
+  data: { supplyAPY: string; date: string; totalSupply: string }[];
+}) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);

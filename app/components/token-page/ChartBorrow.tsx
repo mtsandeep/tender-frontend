@@ -16,11 +16,22 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ChartBorrow = ({ data }: { data: object[] }) => {
+const ChartBorrow = ({
+  data,
+}: {
+  data: { borrowAPY: string; date: string; totalBorrow: string }[];
+}) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
+  // const [dataState, setDataState] = useState<
+  // {
+  //   borrowAPY: string;
+  //   date: string;
+  //   totalBorrow: string;
+  // }
+  // [] > [];
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
 
@@ -44,7 +55,25 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
 
   useEffect(() => {
     setIsLoadPage(true);
+    // const apy = data.every(
+    //   (item: { borrowAPY: string }) => parseInt(item.borrowAPY) === 0
+    // );
+    // const total = data.every(
+    //   (item: { totalBorrow: string }) => parseInt(item.totalBorrow) === 0
+    // );
+
+    // console.log(apy);
+    // console.log(total);
+
+    // setDataState(
+    //   data.map((itemCel: any) => ({
+    //     ...itemCel,
+    //     borrowAPY: apy ? 1.111 : itemCel.borrowAPY,
+    //     totalBorrow: total ? 1.111 : itemCel.totalBorrow,
+    //   }))
+    // );
   }, []);
+
   const TotalTooltip = ({
     active,
     payload,
@@ -73,8 +102,8 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
 
   const CustomLine = (props: any) => (
     <svg
-      x={props.points[0].x}
-      y={dotY}
+      x={props.points[0].x || ""}
+      y={dotY || ""}
       width="1"
       height="160"
       viewBox="0 0 1 160"
@@ -91,6 +120,8 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
   const CustomDot = (props: any) => {
     setDotY(props.cy);
     setDotX(props.cx);
+    console.log(props);
+    console.log(props.cx);
     return (
       <circle
         cx={props.cx}
@@ -103,6 +134,8 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
       />
     );
   };
+
+  console.log(data);
 
   return (
     <div className="relative">
@@ -159,7 +192,7 @@ const ChartBorrow = ({ data }: { data: object[] }) => {
                 position={{ y: -50 }}
               />
               <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]} minPointSize={5}>
-                {data.map((entry, index) => (
+                {data.map((entry: any, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#00E0FF" : "#282C2B"}
