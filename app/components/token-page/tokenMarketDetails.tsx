@@ -1,9 +1,12 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
 import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
+import {TenderContext} from "~/contexts/tender-context";
 
 function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
+    const { networkData } = useContext(TenderContext);
+
     if (!marketInfo) {
         return (
             <TokenMarketDetailsEmpty />
@@ -18,6 +21,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
     textBottom?: string;
   }>({ open: false, textTop: "", token: "", icon: "", textBottom: "" });
   const exchangeRate = toShortCryptoString(Number((1/Number(marketInfo.exchangeRate)).toFixed(2)));
+  const contractUrl = `${networkData.blockExplorerUrl}/address/${marketInfo.id}`;
 
     const customData = [
         {
@@ -31,6 +35,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: object | boolean }) {
         { itemName: "Interest Paid/Day", itemData: "0" },
         { itemName: "Reserves", itemData: marketInfo.reserves + " " + marketInfo.tokenSymbol },
         { itemName: "Reserve Factor", itemData: marketInfo.reserveFactor + "%" },
+        { itemName: "Contract", itemData: <a href={contractUrl} target="_blank">View Contract</a> },
         {
             itemName: "Max LTV",
             itemData: marketInfo.collateralFactor * 100 + "%",
