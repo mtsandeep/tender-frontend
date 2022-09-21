@@ -813,14 +813,23 @@ export default function TwoPanels() {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
                                       data: token.marketData.depositApy,
-                                      color: "text-dark-green",
+                                      color:
+                                        parseFloat(
+                                          token.marketData.depositApy
+                                        ) > 0
+                                          ? "text-dark-green"
+                                          : parseFloat(
+                                              token.marketData.depositApy
+                                            ) < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white",
                                     },
                                     {
                                       coinTitle: "esTND",
                                       iconSrc:
                                         "/images/wallet-icons/balance-icon.svg",
                                       data: "0.00%",
-                                      color: "text-dark-green",
+                                      color: "text-white",
                                     },
                                   ],
                                 })
@@ -852,7 +861,19 @@ export default function TwoPanels() {
                                         {token.tokenPair.token.symbol}
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                    <span
+                                      className={`font-nova text-sm font-normal ${
+                                        parseFloat(
+                                          token.marketData.depositApy
+                                        ) > 0
+                                          ? "text-dark-green"
+                                          : parseFloat(
+                                              token.marketData.depositApy
+                                            ) < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white"
+                                      }`}
+                                    >
                                       {token.marketData.depositApy}
                                     </span>
                                   </div>
@@ -867,7 +888,7 @@ export default function TwoPanels() {
                                         esTND
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                    <span className="font-nova text-white text-sm font-normal">
                                       0.00%
                                     </span>
                                   </div>
@@ -991,14 +1012,23 @@ export default function TwoPanels() {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
                                         data: token.marketData.depositApy,
-                                        color: "text-dark-green",
+                                        color:
+                                          parseFloat(
+                                            token.marketData.depositApy
+                                          ) > 0
+                                            ? "text-dark-green"
+                                            : parseFloat(
+                                                token.marketData.depositApy
+                                              ) < 0
+                                            ? "text-[#00E0FF]"
+                                            : "text-white",
                                       },
                                       {
                                         coinTitle: "esTND",
                                         iconSrc:
                                           "/images/wallet-icons/balance-icon.svg",
                                         data: "0.00%",
-                                        color: "text-dark-green",
+                                        color: "text-white",
                                       },
                                     ],
                                   })
@@ -1030,7 +1060,19 @@ export default function TwoPanels() {
                                           {token.tokenPair.token.symbol}
                                         </span>
                                       </div>
-                                      <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                      <span
+                                        className={`font-nova text-sm font-normal ${
+                                          parseFloat(
+                                            token.marketData.depositApy
+                                          ) > 0
+                                            ? "text-dark-green"
+                                            : parseFloat(
+                                                token.marketData.depositApy
+                                              ) < 0
+                                            ? "text-[#00E0FF]"
+                                            : "text-white"
+                                        }`}
+                                      >
                                         {token.marketData.depositApy}
                                       </span>
                                     </div>
@@ -1045,7 +1087,7 @@ export default function TwoPanels() {
                                           esTND
                                         </span>
                                       </div>
-                                      <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                      <span className="font-nova text-white text-sm font-normal">
                                         0.00%
                                       </span>
                                     </div>
@@ -1175,14 +1217,19 @@ export default function TwoPanels() {
                                       coinTitle: token.tokenPair.token.symbol,
                                       iconSrc: token.tokenPair.token.icon,
                                       data: borrowApyFormatted,
-                                      color: "text-[#00E0FF]",
+                                      color:
+                                        parseFloat(borrowApyFormatted) > 0
+                                          ? "text-dark-green"
+                                          : parseFloat(borrowApyFormatted) < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white",
                                     },
                                     {
                                       coinTitle: "esTND",
                                       iconSrc:
                                         "/images/wallet-icons/balance-icon.svg",
                                       data: "0.00%",
-                                      color: "text-dark-green",
+                                      color: "text-white",
                                     },
                                   ],
                                 })
@@ -1214,7 +1261,15 @@ export default function TwoPanels() {
                                         {token.tokenPair.token.symbol}
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                    <span
+                                      className={`font-nova text-sm font-normal ${
+                                        parseFloat(borrowApyFormatted) > 0
+                                          ? "text-dark-green"
+                                          : parseFloat(borrowApyFormatted) < 0
+                                          ? "text-[#00E0FF]"
+                                          : "text-white"
+                                      }`}
+                                    >
                                       {borrowApyFormatted}
                                     </span>
                                   </div>
@@ -1229,7 +1284,7 @@ export default function TwoPanels() {
                                         esTND
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                    <span className="font-nova text-white text-sm font-normal">
                                       0.00%
                                     </span>
                                   </div>
@@ -1351,14 +1406,19 @@ export default function TwoPanels() {
                                         coinTitle: token.tokenPair.token.symbol,
                                         iconSrc: token.tokenPair.token.icon,
                                         data: borrowApyFormatted,
-                                        color: "text-[#00E0FF]",
+                                        color:
+                                          parseFloat(borrowApyFormatted) > 0
+                                            ? "text-dark-green"
+                                            : parseFloat(borrowApyFormatted) < 0
+                                            ? "text-[#00E0FF]"
+                                            : "text-white",
                                       },
                                       {
                                         coinTitle: "esTND",
                                         iconSrc:
                                           "/images/wallet-icons/balance-icon.svg",
                                         data: "0.00%",
-                                        color: "text-dark-green",
+                                        color: "text-white",
                                       },
                                     ],
                                   })
@@ -1390,7 +1450,15 @@ export default function TwoPanels() {
                                           {token.tokenPair.token.symbol}
                                         </span>
                                       </div>
-                                      <span className="font-nova text-white text-sm font-normal text-[#00E0FF]">
+                                      <span
+                                        className={`font-nova text-sm font-normal ${
+                                          parseFloat(borrowApyFormatted) > 0
+                                            ? "text-dark-green"
+                                            : parseFloat(borrowApyFormatted) < 0
+                                            ? "text-[#00E0FF]"
+                                            : "text-white"
+                                        }`}
+                                      >
                                         {borrowApyFormatted}
                                       </span>
                                     </div>
@@ -1405,7 +1473,7 @@ export default function TwoPanels() {
                                           esTND
                                         </span>
                                       </div>
-                                      <span className="font-nova text-white text-sm font-normal text-dark-green">
+                                      <span className="font-nova text-white text-sm font-normal">
                                         0.00%
                                       </span>
                                     </div>
