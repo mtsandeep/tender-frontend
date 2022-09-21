@@ -12,6 +12,17 @@ export default function MarketsContent() {
     coins: [{}],
   });
 
+  const checkColorClass = (value: number) => {
+    switch (true) {
+      case value > 0:
+        return "text-dark-green";
+      case value < 0:
+        return "text-[#00E0FF]";
+      default:
+        return "text-white";
+    }
+  };
+
   if (!markets || !total) {
     return <EmptyMarketsContent />;
   }
@@ -254,11 +265,9 @@ export default function MarketsContent() {
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
                         <div
-                          className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${
-                            parseFloat(m.supplyApy) > 0
-                              ? "text-dark-green"
-                              : "text-red"
-                          } `}
+                          className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${checkColorClass(
+                            parseFloat(m.supplyApy)
+                          )} `}
                         >
                           {formatApy(m.supplyApy)}
                         </div>
@@ -277,12 +286,9 @@ export default function MarketsContent() {
                                       coinTitle: m.symbol,
                                       iconSrc: m.icon,
                                       data: formatApy(m.supplyApy),
-                                      color:
-                                        parseFloat(m.supplyApy) > 0
-                                          ? "text-dark-green"
-                                          : parseFloat(m.supplyApy) < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white",
+                                      color: checkColorClass(
+                                        parseFloat(m.supplyApy)
+                                      ),
                                     },
                                     {
                                       coinTitle: "esTND",
@@ -322,13 +328,9 @@ export default function MarketsContent() {
                                       </span>
                                     </div>
                                     <span
-                                      className={`font-nova text-white text-sm font-normal ${
-                                        parseFloat(m.supplyApy) > 0
-                                          ? "text-dark-green"
-                                          : parseFloat(m.supplyApy) < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white"
-                                      }`}
+                                      className={`font-nova text-white text-sm font-normal ${checkColorClass(
+                                        parseFloat(m.supplyApy)
+                                      )}`}
                                     >
                                       {formatApy(m.supplyApy)}
                                     </span>
@@ -387,9 +389,7 @@ export default function MarketsContent() {
                           className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${
                             m.symbol === "GLP"
                               ? "text-white"
-                              : borrowApy < 0
-                              ? "text-[#00E0FF]"
-                              : "text-red"
+                              : checkColorClass(borrowApy)
                           } `}
                         >
                           {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
@@ -415,11 +415,7 @@ export default function MarketsContent() {
                                       color:
                                         m.symbol === "GLP"
                                           ? "text-white"
-                                          : borrowApy > 0
-                                          ? "text-dark-green"
-                                          : borrowApy < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white",
+                                          : checkColorClass(borrowApy),
                                     },
                                     {
                                       coinTitle: "esTND",
@@ -462,11 +458,7 @@ export default function MarketsContent() {
                                       className={`font-nova text-white text-sm font-normal ${
                                         m.symbol === "GLP"
                                           ? "white"
-                                          : borrowApy > 0
-                                          ? "text-dark-green"
-                                          : borrowApy < 0
-                                          ? "text-[#00E0FF]"
-                                          : "text-white"
+                                          : checkColorClass(borrowApy)
                                       }`}
                                     >
                                       {m.symbol === "GLP"
@@ -495,15 +487,6 @@ export default function MarketsContent() {
                             </div>
                           </div>
                         </div>
-                        {/* <div
-                          className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[30px] w-fit ${getMarketDiffClass(
-                            m.borrowApyDiff
-                          )}`}
-                        >
-                          {m.borrowApyDiff === 0
-                            ? "-"
-                            : m.borrowApyDiff.toFixed(2)}
-                        </div> */}
                       </td>
                     </tr>
                   );
