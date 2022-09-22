@@ -35,13 +35,7 @@ const ChartSupply = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`${
-            data.every(
-              (item: { supplyAPY: string }) => parseInt(item.supplyAPY) === 0
-            )
-              ? "0,00"
-              : payload[0].payload.supplyAPY
-          }%`}</p>
+          <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Supply APY
           </p>
@@ -177,7 +171,11 @@ const ChartSupply = ({
                 content={<TotalTooltip />}
                 position={{ y: -50 }}
               />
-              <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]} minPointSize={5}>
+              <Bar
+                dataKey="totalSupply"
+                radius={[3, 3, 0, 0]}
+                minPointSize={10}
+              >
                 {data.map((entry: any, index: number) => (
                   <Cell
                     key={index}

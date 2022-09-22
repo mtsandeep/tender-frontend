@@ -35,13 +35,7 @@ const ChartBorrow = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`${
-            data.every(
-              (item: { borrowAPY: string }) => parseInt(item.borrowAPY) === 0
-            )
-              ? "0,00"
-              : payload[0].payload.borrowAPY
-          }%`}</p>
+          <p className="label text-sm md:text-base">{`${payload[0].payload.borrowAPY}%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Borrow APY
           </p>

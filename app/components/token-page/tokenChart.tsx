@@ -29,8 +29,12 @@ function TokenChart({
 }) {
   const [tabName, setTabName] = useState<string>("supply");
   const { networkData } = useContext(TenderContext);
-  const [supplyChartData, setSupplyChartData] = useState<object[]>([]);
-  const [borrowChartData, setBorrowChartData] = useState<object[]>([]);
+  const [supplyChartData, setSupplyChartData] = useState<
+    { supplyAPY: string; date: string; totalSupply: string }[]
+  >([]);
+  const [borrowChartData, setBorrowChartData] = useState<
+    { borrowAPY: string; date: string; totalBorrow: string }[]
+  >([]);
 
   useEffect(() => {
     console.log("charts data called");
