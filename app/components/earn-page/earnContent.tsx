@@ -635,7 +635,7 @@ export default function EarnContent() {
         <div className="font-[ProximaNova] w-full" id="vest">
           <div className="panel-custom">
             <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-              TND Vault
+              TENDIES Vault
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
