@@ -51,7 +51,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Price
                   </span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-sm md:text-base leading-[17px]">
                     $20.16
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -78,7 +78,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Wallet
                   </span>
-                  <span className="flex flex-wrap w-fit text-xs leading-[17px]">
+                  <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     0.00 TND ($0.00)
                   </span>
                 </div>
@@ -86,7 +86,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Staked
                   </span>
-                  <span className="flex flex-wrap w-fit text-xs leading-[17px]">
+                  <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     0.00 TND ($0.00)
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function EarnContent() {
                 <div className="flex items-center gap-x-[10px] justify-between">
                   <span className="text-[#818987] w-fit text-[16px]">APR</span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
-                    <span>20.16%</span>
+                    <span className="text-sm md:text-base">20.16%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
@@ -122,7 +122,7 @@ export default function EarnContent() {
                     Rewards
                   </span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
-                    $0.00
+                    <span className="text-sm md:text-base">$0.00</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
@@ -145,7 +145,7 @@ export default function EarnContent() {
                     Multiplier Points APR
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
-                    100.00%
+                    <span className="text-sm md:text-base">100.00%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
@@ -171,7 +171,7 @@ export default function EarnContent() {
                     Boost Percentage
                   </span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
-                    0.00%
+                    <span className="text-sm md:text-base">0.00%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
@@ -193,7 +193,9 @@ export default function EarnContent() {
                     Total Staked
                   </span>
                   <div className="flex items-center line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
-                    6,812,217 esTND ($252,353,723)
+                    <span className="text-sm md:text-base">
+                      6,812,217 esTND ($252,353,723)
+                    </span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -215,7 +217,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Total Supply
                   </span>
-                  <span className="flex flex-wrap w-fit text-xs leading-[17px]">
+                  <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     6,812,217 esTND ($252,353,723)
                   </span>
                 </div>
@@ -278,7 +280,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Price
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
                     $20.16
                   </div>
                 </div>
@@ -286,7 +288,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Wallet
                   </span>
-                  <div className="flex flex-wrap text-xs leading-[17px]">
+                  <div className="flex flex-wrap text-sm md:text-base leading-[17px]">
                     0.00 esTND ($0.00)
                   </div>
                 </div>
@@ -294,7 +296,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Staked
                   </span>
-                  <div className="flex flex-wrap  text-xs leading-[17px]">
+                  <div className="flex flex-wrap  text-sm md:text-base leading-[17px]">
                     0.00 esTND ($0.00)
                   </div>
                 </div>
@@ -303,7 +305,7 @@ export default function EarnContent() {
                 <div className="flex items-center gap-x-[10px] justify-between">
                   <span className="text-[#818987] w-fit text-[16px]">APR</span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
-                    <span>20.16%</span>
+                    <span className="text-sm md:text-base">20.16%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -338,7 +340,7 @@ export default function EarnContent() {
                     Multiplier Points APR
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
-                    <span>100.00%</span>
+                    <span className="text-sm md:text-base">100.00%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
@@ -365,7 +367,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Total Supply
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
                     1,472,862 esTND ($54,630,107)
                   </div>
                 </div>
@@ -373,7 +375,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Total Borrow
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
                     2,254,142 esTND ($83,608,654)
                   </div>
                 </div>
@@ -441,7 +443,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     NET APR
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-sm md:text-base leading-[17px]">
                     20.16
                   </div>
                 </div>
@@ -449,7 +451,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Rewards
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-sm md:text-base leading-[17px]">
                     $0.00
                   </div>
                 </div>
@@ -459,7 +461,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Your Supply
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     1,472,862 TND ($54,630,107)
                   </div>
                 </div>
@@ -467,7 +469,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Your Borrow
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
                     2,254,142 TND ($83,608,654)
                   </div>
                 </div>
@@ -500,13 +502,13 @@ export default function EarnContent() {
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
                   <span className="text-[#818987] ">ETH</span>
-                  <div className="flex text-xs leading-[17px]">
+                  <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
                   <span className="text-[#818987] w-fit text-[16px]">TND</span>
-                  <div className="flex text-xs leading-[17px]">
+                  <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
@@ -514,7 +516,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     esTND
                   </span>
-                  <div className="flex text-xs leading-[17px]">
+                  <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
@@ -523,7 +525,7 @@ export default function EarnContent() {
                     Multiplier Points
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
-                    <span>0.000</span>
+                    <span className="text-sm md:text-base">0.000</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
@@ -549,7 +551,7 @@ export default function EarnContent() {
                     Staked Multiplier Points
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
-                    <span>0.000</span>
+                    <span className="text-sm md:text-base">0.000</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
@@ -574,7 +576,9 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Total
                   </span>
-                  <div className="text-xs leading-[17px]">$0.00</div>
+                  <div className="text-sm md:text-base leading-[17px]">
+                    $0.00
+                  </div>
                 </div>
               </div>
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
@@ -644,7 +648,7 @@ export default function EarnContent() {
                     Staked Tokens
                   </span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
-                    <span>0.00</span>
+                    <span className="text-sm md:text-base">0.00</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -673,7 +677,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Reserved for Vesting
                   </span>
-                  <div className="flex flex-wrap text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap text-right w-fit text-sm md:text-base leading-[17px]">
                     0.00
                   </div>
                 </div>
@@ -681,7 +685,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Vesting Status
                   </span>
-                  <div className="flex flex-wrap group cursor-pointer line-dashed text-right w-fit text-xs leading-[17px]">
+                  <div className="flex flex-wrap group cursor-pointer line-dashed text-right w-fit text-sm md:text-base leading-[17px]">
                     <span>0.0000 / 0.0000</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -701,7 +705,9 @@ export default function EarnContent() {
                     Claimable
                   </span>
                   <div className="flex flex-wrap group cursor-pointer group  line-dashed text-right w-fit text-xs leading-[17px]">
-                    <span>0.0000 / 0.0000</span>
+                    <span className="text-sm md:text-base">
+                      0.0000 / 0.0000
+                    </span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
