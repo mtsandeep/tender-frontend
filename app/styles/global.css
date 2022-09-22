@@ -573,7 +573,8 @@ body.body__fixed {
 
 .custom__chart .custom__chart__bar .recharts-surface {
   overflow: hidden;
-  border-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 

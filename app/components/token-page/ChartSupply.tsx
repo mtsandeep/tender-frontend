@@ -25,9 +25,6 @@ const ChartSupply = ({
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
-  const [dataState, setDataState] = useState<
-    { supplyAPY: string; date: string; totalSupply: string }[]
-  >([]);
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
 
@@ -57,20 +54,6 @@ const ChartSupply = ({
 
   useEffect(() => {
     setIsLoadPage(true);
-    const apy = data.every(
-      (item: { supplyAPY: string }) => parseInt(item.supplyAPY) === 0
-    );
-    const total = data.every(
-      (item: { totalSupply: string }) => parseInt(item.totalSupply) === 0
-    );
-
-    setDataState(
-      data.map((itemCel: any) => ({
-        ...itemCel,
-        supplyAPY: apy ? 0.001 : itemCel.supplyAPY,
-        totalSupply: total ? 0.001 : itemCel.totalSupply,
-      }))
-    );
   }, [data]);
 
   const TotalTooltip = ({
@@ -80,14 +63,7 @@ const ChartSupply = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`$${
-            data.every(
-              (item: { totalSupply: string }) =>
-                parseInt(item.totalSupply) === 0
-            )
-              ? "0,00"
-              : payload[0].payload.totalSupply
-          }`}</p>
+          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Supply
           </p>
@@ -128,8 +104,8 @@ const ChartSupply = ({
     setDotX(props.cx || "");
     return (
       <circle
-        cx={props.cx}
-        cy={props.cy}
+        cx={props.cx || 0}
+        cy={props.cy || 0}
         r={8}
         stroke="#282C2B"
         style={{ opacity: "1" }}
@@ -154,7 +130,11 @@ const ChartSupply = ({
               }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={dataState}
+              data={data.map((item) => ({
+                ...item,
+                totalSupply: parseInt(item.totalSupply),
+                supplyAPY: parseInt(item.supplyAPY),
+              }))}
               margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
             >
               <Tooltip
@@ -183,7 +163,11 @@ const ChartSupply = ({
                 setActiveTooltip((val: any) => (val = undefined))
               }
               syncId="marketCharSynch"
-              data={dataState}
+              data={data.map((item) => ({
+                ...item,
+                totalSupply: parseInt(item.totalSupply),
+                supplyAPY: parseInt(item.supplyAPY),
+              }))}
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
@@ -194,7 +178,7 @@ const ChartSupply = ({
                 position={{ y: -50 }}
               />
               <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]} minPointSize={5}>
-                {dataState.map((entry: any, index: number) => (
+                {data.map((entry: any, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#14F195" : "#282C2B"}
