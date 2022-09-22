@@ -344,12 +344,20 @@ export default function Repay({
 
             <div className="flex mt-8">
               <div className="flex-grow text-[#ADB5B3] font-nova text-base">
-                Wallet Balance
+                Your Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(walletBalance) +
-                  " " +
-                  market.tokenPair.token.symbol}
+                {toCryptoString(market.borrowBalance)}{" "}
+                {market.tokenPair.token.symbol}
+              </div>
+            </div>
+            <div className="flex mt-[10px]">
+              <div className="flex-grow text-[#ADB5B3] font-nova text-base">
+                Available Borrow
+              </div>
+              <div className="font-nova text-base">
+                {toCryptoString(market.maxBorrowLiquidity)}{" "}
+                {market.tokenPair.token.symbol}
               </div>
             </div>
           </div>
