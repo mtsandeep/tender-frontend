@@ -32,7 +32,10 @@ function TokenInterestRate({ data }: { data: any[] }) {
     if (props.payload?.length) {
       return (
         <div className="bg-[#282C2B] p-[10px] z-10 relative block">
-          <p className={`label text-[${props.payload[0].stroke}]`}>
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[0].stroke}]`}
+          >
+            <span className="mr-[20px]">Utilization</span>
             {Number(
               data.find(
                 (item: any) =>
@@ -42,11 +45,17 @@ function TokenInterestRate({ data }: { data: any[] }) {
             )}
             %
           </p>
-          <p className={`label text-[${props.payload[1].stroke}]`}>
-            {props.payload[1].value}%
-          </p>
-          <p className={`label text-[${props.payload[2].stroke}]`}>
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
+          >
+            <span className="mr-[20px]">Borrow APY</span>{" "}
             {props.payload[2].value}%
+          </p>
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[1].stroke}]`}
+          >
+            <span className="mr-[20px]">Supply APY</span>{" "}
+            {props.payload[1].value}%
           </p>
         </div>
       );
