@@ -230,9 +230,6 @@ export default function MarketsContent() {
                           />
                           <div>
                             <span className="flex text-[14px] sm:text-[16px] sm:leading-[22px]">
-                              {m.name}
-                            </span>
-                            <span className="text-[12px] leading-[17px] sm:text-[16px] sm:leading-[22px] text-[#818987]">
                               {m.symbol}
                             </span>
                           </div>
