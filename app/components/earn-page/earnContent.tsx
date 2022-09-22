@@ -56,17 +56,11 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
-                          <div className="flex justify-between items-center mb-[4px]">
+                          <div className="flex justify-between items-center">
                             <span className="text-[#818987]">
                               Price on Arbitrum:
                             </span>
                             <span>$43.63</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-[#818987]">
-                              Price on Avalanche:
-                            </span>
-                            <span>$43.98</span>
                           </div>
                         </div>
                       </div>
@@ -127,7 +121,7 @@ export default function EarnContent() {
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                           <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987]">TND</span>
+                            <span className="text-[#818987]">ETH</span>
                             <span className="">0.00 ($0.00)</span>
                           </div>
                           <div className="flex justify-between items-center">
@@ -199,13 +193,9 @@ export default function EarnContent() {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
-                          <div className="flex justify-between items-center mb-[4px]">
+                          <div className="flex justify-between items-center">
                             <span className="text-[#818987]">Arbitrum:</span>
                             <span>6,479,541 TND</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-[#818987] ">Avalanche:</span>
-                            <span>428,686 TND</span>
                           </div>
                         </div>
                       </div>
@@ -441,10 +431,10 @@ export default function EarnContent() {
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[23px] ">
                 <div className="flex items-center gap-x-[10px] justify-between">
                   <span className="text-[#818987] w-fit text-[16px]">
-                    NET APR
+                    Net APY
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-sm md:text-base leading-[17px]">
-                    20.16
+                    20.16%
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
@@ -659,7 +649,7 @@ export default function EarnContent() {
                           </div>
                           <div className="flex justify-between items-center mb-[8px]">
                             <span className="text-xs leading-[17px]">
-                              0.00 TND
+                              0.00 esTND
                             </span>
                           </div>
                           <div className="flex justify-between items-center">
