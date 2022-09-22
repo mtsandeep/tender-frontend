@@ -25,13 +25,9 @@ const ChartBorrow = ({
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
-  // const [dataState, setDataState] = useState<
-  // {
-  //   borrowAPY: string;
-  //   date: string;
-  //   totalBorrow: string;
-  // }
-  // [] > [];
+  const [dataState, setDataState] = useState<
+    { borrowAPY: string; date: string; totalBorrow: string }[]
+  >([]);
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
 
@@ -42,7 +38,13 @@ const ChartBorrow = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`${payload[0].payload.borrowAPY}%`}</p>
+          <p className="label text-sm md:text-base">{`${
+            data.every(
+              (item: { borrowAPY: string }) => parseInt(item.borrowAPY) === 0
+            )
+              ? "0,00"
+              : payload[0].payload.borrowAPY
+          }%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Borrow APY
           </p>
@@ -55,24 +57,21 @@ const ChartBorrow = ({
 
   useEffect(() => {
     setIsLoadPage(true);
-    // const apy = data.every(
-    //   (item: { borrowAPY: string }) => parseInt(item.borrowAPY) === 0
-    // );
-    // const total = data.every(
-    //   (item: { totalBorrow: string }) => parseInt(item.totalBorrow) === 0
-    // );
+    const apy = data.every(
+      (item: { borrowAPY: string }) => parseInt(item.borrowAPY) === 0
+    );
+    const total = data.every(
+      (item: { totalBorrow: string }) => parseInt(item.totalBorrow) === 0
+    );
 
-    // console.log(apy);
-    // console.log(total);
-
-    // setDataState(
-    //   data.map((itemCel: any) => ({
-    //     ...itemCel,
-    //     borrowAPY: apy ? 1.111 : itemCel.borrowAPY,
-    //     totalBorrow: total ? 1.111 : itemCel.totalBorrow,
-    //   }))
-    // );
-  }, []);
+    setDataState(
+      data.map((itemCel: any) => ({
+        ...itemCel,
+        borrowAPY: apy ? 0.001 : itemCel.borrowAPY,
+        totalBorrow: total ? 0.001 : itemCel.totalBorrow,
+      }))
+    );
+  }, [data]);
 
   const TotalTooltip = ({
     active,
@@ -81,7 +80,14 @@ const ChartBorrow = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalBorrow}`}</p>
+          <p className="label text-sm md:text-base">{`$${
+            data.every(
+              (item: { totalBorrow: string }) =>
+                parseInt(item.totalBorrow) === 0
+            )
+              ? "0,00"
+              : payload[0].payload.totalBorrow
+          }`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Borrow
           </p>
@@ -118,10 +124,8 @@ const ChartBorrow = ({
   );
 
   const CustomDot = (props: any) => {
-    setDotY(props.cy);
-    setDotX(props.cx);
-    console.log(props);
-    console.log(props.cx);
+    setDotY(props.cy || "");
+    setDotX(props.cx || "");
     return (
       <circle
         cx={props.cx}
@@ -134,8 +138,6 @@ const ChartBorrow = ({
       />
     );
   };
-
-  console.log(data);
 
   return (
     <div className="relative">
@@ -152,7 +154,7 @@ const ChartBorrow = ({
               }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={data}
+              data={dataState}
               margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
             >
               <Tooltip
@@ -163,7 +165,7 @@ const ChartBorrow = ({
               />
               <Line
                 type="monotone"
-                dataKey="totalBorrow"
+                dataKey="borrowAPY"
                 stroke="#00E0FF"
                 strokeWidth={3}
                 dot={false}
@@ -181,7 +183,7 @@ const ChartBorrow = ({
                 setActiveTooltip((val: any) => (val = undefined))
               }
               syncId="marketCharSynch"
-              data={data}
+              data={dataState}
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
@@ -191,8 +193,9 @@ const ChartBorrow = ({
                 content={<TotalTooltip />}
                 position={{ y: -50 }}
               />
+
               <Bar dataKey="totalBorrow" radius={[3, 3, 0, 0]} minPointSize={5}>
-                {data.map((entry: any, index: number) => (
+                {dataState.map((entry: any, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#00E0FF" : "#282C2B"}

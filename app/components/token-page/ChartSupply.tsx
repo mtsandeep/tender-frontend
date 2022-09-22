@@ -25,6 +25,9 @@ const ChartSupply = ({
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
+  const [dataState, setDataState] = useState<
+    { supplyAPY: string; date: string; totalSupply: string }[]
+  >([]);
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
 
@@ -35,7 +38,13 @@ const ChartSupply = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
+          <p className="label text-sm md:text-base">{`${
+            data.every(
+              (item: { supplyAPY: string }) => parseInt(item.supplyAPY) === 0
+            )
+              ? "0,00"
+              : payload[0].payload.supplyAPY
+          }%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Supply APY
           </p>
@@ -48,7 +57,22 @@ const ChartSupply = ({
 
   useEffect(() => {
     setIsLoadPage(true);
-  }, []);
+    const apy = data.every(
+      (item: { supplyAPY: string }) => parseInt(item.supplyAPY) === 0
+    );
+    const total = data.every(
+      (item: { totalSupply: string }) => parseInt(item.totalSupply) === 0
+    );
+
+    setDataState(
+      data.map((itemCel: any) => ({
+        ...itemCel,
+        supplyAPY: apy ? 0.001 : itemCel.supplyAPY,
+        totalSupply: total ? 0.001 : itemCel.totalSupply,
+      }))
+    );
+  }, [data]);
+
   const TotalTooltip = ({
     active,
     payload,
@@ -56,7 +80,14 @@ const ChartSupply = ({
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
+          <p className="label text-sm md:text-base">{`$${
+            data.every(
+              (item: { totalSupply: string }) =>
+                parseInt(item.totalSupply) === 0
+            )
+              ? "0,00"
+              : payload[0].payload.totalSupply
+          }`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Supply
           </p>
@@ -77,8 +108,8 @@ const ChartSupply = ({
 
   const CustomLine = (props: any) => (
     <svg
-      x={props.points[0].x}
-      y={dotY}
+      x={props.points[0].x || ""}
+      y={dotY || ""}
       width="1"
       height="160"
       viewBox="0 0 1 160"
@@ -93,8 +124,8 @@ const ChartSupply = ({
   );
 
   const CustomDot = (props: any) => {
-    setDotY(props.cy);
-    setDotX(props.cx);
+    setDotY(props.cy || "");
+    setDotX(props.cx || "");
     return (
       <circle
         cx={props.cx}
@@ -123,7 +154,7 @@ const ChartSupply = ({
               }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={data}
+              data={dataState}
               margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
             >
               <Tooltip
@@ -134,7 +165,7 @@ const ChartSupply = ({
               />
               <Line
                 type="monotone"
-                dataKey="totalSupply"
+                dataKey="supplyAPY"
                 stroke="#14F195"
                 strokeWidth={3}
                 dot={false}
@@ -152,7 +183,7 @@ const ChartSupply = ({
                 setActiveTooltip((val: any) => (val = undefined))
               }
               syncId="marketCharSynch"
-              data={data}
+              data={dataState}
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
@@ -163,7 +194,7 @@ const ChartSupply = ({
                 position={{ y: -50 }}
               />
               <Bar dataKey="totalSupply" radius={[3, 3, 0, 0]} minPointSize={5}>
-                {data.map((entry: any, index: number) => (
+                {dataState.map((entry: any, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#14F195" : "#282C2B"}
