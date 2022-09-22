@@ -194,7 +194,7 @@ export default function EarnContent() {
                   </span>
                   <div className="flex items-center line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
                     <span className="text-sm md:text-base">
-                      6,812,217 esTND ($252,353,723)
+                      6,812,217 TND ($252,353,723)
                     </span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
@@ -218,7 +218,7 @@ export default function EarnContent() {
                     Total Supply
                   </span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
-                    6,812,217 esTND ($252,353,723)
+                    6,812,217 TND ($252,353,723)
                   </span>
                 </div>
               </div>
