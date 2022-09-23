@@ -78,7 +78,7 @@ export const toMaxNumber = (v: number): number =>
   parseFloat(
     math.format(v, {
       notation: "fixed",
-      precision: 7,
+      precision: 6,
     })
   );
 
