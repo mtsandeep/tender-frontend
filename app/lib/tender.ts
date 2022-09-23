@@ -231,7 +231,7 @@ async function borrowLimitForTokenInUsd(
 
   let amount = suppliedAmount * tp.token.priceInUsd * collateralFactor;
 
-  return parseFloat(amount.toFixed(2));
+  return amount;
 }
 
 /**
