@@ -22,6 +22,7 @@ import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-a
 // import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
+import { formatApy } from "~/lib/apy-calculations";
 
 export interface BorrowProps {
   market: Market;
@@ -123,6 +124,9 @@ export default function Borrow({
     [tokenDecimals]
   );
 
+  const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
+  const borrowApyFormatted = formatApy(borrowApy);
+
   return (
     <div>
       {txnHash !== "" ? (
@@ -214,7 +218,7 @@ export default function Borrow({
                   alt="icon"
                 />
                 <div className="flex-grow">Borrow APY</div>
-                <div>{market.marketData.borrowApy}</div>
+                <div>{borrowApyFormatted}</div>
               </div>
             </div>
 

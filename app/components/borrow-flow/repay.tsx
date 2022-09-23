@@ -21,6 +21,7 @@ import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
+import { formatApy } from "~/lib/apy-calculations";
 
 export interface RepayProps {
   closeModal: Function;
@@ -140,6 +141,9 @@ export default function Repay({
     [tokenDecimals]
   );
 
+  const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
+  const borrowApyFormatted = formatApy(borrowApy);
+
   return (
     <div>
       {txnHash !== "" ? (
@@ -253,7 +257,7 @@ export default function Repay({
                   alt="icon"
                 />
                 <div className="flex-grow">Borrow APY</div>
-                <div>{market.marketData.borrowApy}</div>
+                <div>{borrowApyFormatted}</div>
               </div>
             </div>
 
