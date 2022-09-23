@@ -452,7 +452,7 @@ export default function EarnContent() {
                     Your Supply
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
-                    1,472,862 TND ($54,630,107)
+                    $54,630
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
@@ -460,7 +460,7 @@ export default function EarnContent() {
                     Your Borrow
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
-                    2,254,142 TND ($83,608,654)
+                    $83,608
                   </div>
                 </div>
               </div>
