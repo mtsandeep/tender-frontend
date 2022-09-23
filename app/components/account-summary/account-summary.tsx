@@ -46,7 +46,7 @@ export default function AccountSummary() {
     tenderContextData.networkData.Contracts.Comptroller,
     tenderContextData.tokenPairs
   );
-  let borrowLimitUsed = useBorrowLimitUsed(totalBorrowedUsd, borrowLimit);
+  let borrowLimitUsed = useBorrowLimitUsed(borrowBalanceInUsd, borrowLimit);
 
   let percentUsed = Math.min(parseFloat(borrowLimitUsed), 100);
 
