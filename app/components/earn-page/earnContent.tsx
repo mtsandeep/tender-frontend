@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import useAuth from "~/hooks/use-auth";
+import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
+import type { IReward } from "../claimRewardsModal/claimRewardsModal";
 
 export default function EarnContent() {
   const { useIsActive } = hooks;
-
-  const { connect, isDisconnected } = useAuth();
-  const isActive = useIsActive();
+  const [dataClaimModal, setDataClaimModal] = useState<{
+    open: boolean;
+    rewards: IReward[];
+  }>({ open: false, rewards: [] });
 
   const [onClient, setOnClient] = useState<boolean>(false);
+  const { connect, isDisconnected } = useAuth();
+  const isActive = useIsActive();
 
   useEffect(() => {
     setOnClient(true);
@@ -19,6 +24,30 @@ export default function EarnContent() {
 
   return (
     <div className="c mt-[30px] mb-[60px] md:mb-[100px] font-nova">
+      <ClaimRewardsModal
+        data={{
+          open: dataClaimModal.open,
+          rewards: [
+            {
+              title: "Protocol Rewards (esTND)",
+              exchange: "1 esTND = $0.0035",
+              unclaimed: "0 esTND",
+              unclaimedUsd: "$0",
+              onClickClaim: () => console.log(""),
+            },
+            {
+              title: "Protocol Rewards (esTND)",
+              exchange: "1 esTND = $0.0035",
+              unclaimed: "0 esTND",
+              unclaimedUsd: "$0",
+              onClickClaim: () => console.log(""),
+            },
+          ],
+        }}
+        handlerClose={() =>
+          setDataClaimModal({ ...dataClaimModal, open: false })
+        }
+      />
       <div className="max-w-[820px] my-o mx-auto">
         <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
@@ -579,7 +608,12 @@ export default function EarnContent() {
                         Compound
                       </button>
                     </div>
-                    <div className="btn-custom-border rounded-[6px]">
+                    <div
+                      className="btn-custom-border rounded-[6px]"
+                      onClick={() =>
+                        setDataClaimModal({ ...dataClaimModal, open: true })
+                      }
+                    >
                       <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Claim
                       </button>
