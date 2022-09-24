@@ -25,7 +25,7 @@ import { formatApy } from "~/lib/apy-calculations";
 
 export interface RepayProps {
   closeModal: Function;
-  setIsRepaying: Function;
+  onTabSwitch: Function;
   signer: JsonRpcSigner | null | undefined;
   borrowedAmount: number;
   borrowLimitUsed: string;
@@ -34,18 +34,20 @@ export interface RepayProps {
   tokenPairs: TokenPair[];
   totalBorrowedAmountInUsd: number;
   market: Market;
+  initialValue: string;
 }
 
 export default function Repay({
   market,
   closeModal,
-  setIsRepaying,
+  onTabSwitch,
   signer,
   borrowedAmount,
   borrowLimit,
   borrowLimitUsed,
   walletBalance,
   totalBorrowedAmountInUsd,
+  initialValue,
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
@@ -54,7 +56,7 @@ export default function Repay({
   let [loading, setLoading] = useState<boolean>(true);
 
   let [isRepayingTxn, setIsRepayingTxn] = useState<boolean>(false);
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [txnHash, setTxnHash] = useState<string>("");
 
   let maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
@@ -211,13 +213,13 @@ export default function Repay({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space font-bold text-xs sm:text-base uppercase"
-                onClick={() => setIsRepaying(false)}
+                onClick={() => onTabSwitch("borrow", value)}
               >
                 Borrow
               </button>
               <button
                 className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsRepaying(true)}
+                onClick={() => onTabSwitch("repay")}
               >
                 Repay
               </button>
