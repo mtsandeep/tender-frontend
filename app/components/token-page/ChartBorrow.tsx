@@ -15,12 +15,9 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
+import { IDataBorrowDot } from "./tokenChart";
 
-const ChartBorrow = ({
-  data,
-}: {
-  data: { borrowAPY: string; date: string; totalBorrow: string }[];
-}) => {
+const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
@@ -124,7 +121,7 @@ const ChartBorrow = ({
               }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={data.map((item) => ({
+              data={data.map((item: IDataBorrowDot) => ({
                 ...item,
                 totalBorrow: parseInt(item.totalBorrow),
                 borrowAPY: parseInt(item.borrowAPY),
@@ -157,7 +154,7 @@ const ChartBorrow = ({
                 setActiveTooltip((val: any) => (val = undefined))
               }
               syncId="marketCharSynch"
-              data={data.map((item) => ({
+              data={data.map((item: IDataBorrowDot) => ({
                 ...item,
                 totalBorrow: parseInt(item.totalBorrow),
                 borrowAPY: parseInt(item.borrowAPY),
@@ -177,7 +174,7 @@ const ChartBorrow = ({
                 radius={[3, 3, 0, 0]}
                 minPointSize={10}
               >
-                {data.map((entry: any, index: number) => (
+                {data.map((entry: IDataBorrowDot, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#00E0FF" : "#282C2B"}

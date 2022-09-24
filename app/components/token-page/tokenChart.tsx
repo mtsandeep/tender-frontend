@@ -5,6 +5,17 @@ import TokenTopDetails from "./tokenTopDetails";
 import { TenderContext } from "~/contexts/tender-context";
 import TokenChartEmpty from "./tokenChartEmpty";
 
+export interface IDataSupplyDot {
+  supplyAPY: string;
+  date: string;
+  totalSupply: string;
+}
+export interface IDataBorrowDot {
+  borrowAPY: string;
+  date: string;
+  totalBorrow: string;
+}
+
 const monthNames = [
   "Jan",
   "Feb",
@@ -29,12 +40,8 @@ function TokenChart({
 }) {
   const [tabName, setTabName] = useState<string>("supply");
   const { networkData } = useContext(TenderContext);
-  const [supplyChartData, setSupplyChartData] = useState<
-    { supplyAPY: string; date: string; totalSupply: string }[]
-  >([]);
-  const [borrowChartData, setBorrowChartData] = useState<
-    { borrowAPY: string; date: string; totalBorrow: string }[]
-  >([]);
+  const [supplyChartData, setSupplyChartData] = useState<IDataSupplyDot[]>([]);
+  const [borrowChartData, setBorrowChartData] = useState<IDataBorrowDot[]>([]);
 
   useEffect(() => {
     console.log("charts data called");
@@ -51,8 +58,8 @@ function TokenChart({
     const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
     const ethBlocksPerYear = 2102400; // subgraph uses 2102400
 
-    const supplyChart: object[] = [];
-    const borrowChart: object[] = [];
+    const supplyChart: IDataSupplyDot[] = [];
+    const borrowChart: IDataBorrowDot[] = [];
 
     Object.keys(historicalData).forEach(function (i, index) {
       // @ts-ignore

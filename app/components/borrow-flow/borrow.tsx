@@ -114,6 +114,7 @@ export default function Borrow({
           if (
             formattedValue === "" ||
             (formattedValue.match(/^(([1-9]\d*)|0)(.|.\d+)?$/) &&
+              formattedValue.length <= 20 &&
               decimals <= tokenDecimals)
           ) {
             setValue(formattedValue);

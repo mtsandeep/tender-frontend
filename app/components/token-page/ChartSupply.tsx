@@ -15,12 +15,9 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
+import { IDataSupplyDot } from "./tokenChart";
 
-const ChartSupply = ({
-  data,
-}: {
-  data: { supplyAPY: string; date: string; totalSupply: string }[];
-}) => {
+const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
@@ -124,7 +121,7 @@ const ChartSupply = ({
               }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={data.map((item) => ({
+              data={data.map((item: IDataSupplyDot) => ({
                 ...item,
                 totalSupply: parseInt(item.totalSupply),
                 supplyAPY: parseInt(item.supplyAPY),
@@ -157,7 +154,7 @@ const ChartSupply = ({
                 setActiveTooltip((val: any) => (val = undefined))
               }
               syncId="marketCharSynch"
-              data={data.map((item) => ({
+              data={data.map((item: IDataSupplyDot) => ({
                 ...item,
                 totalSupply: parseInt(item.totalSupply),
                 supplyAPY: parseInt(item.supplyAPY),
@@ -176,7 +173,7 @@ const ChartSupply = ({
                 radius={[3, 3, 0, 0]}
                 minPointSize={10}
               >
-                {data.map((entry: any, index: number) => (
+                {data.map((entry: IDataSupplyDot, index: number) => (
                   <Cell
                     key={index}
                     fill={activeTooltip === index ? "#14F195" : "#282C2B"}
