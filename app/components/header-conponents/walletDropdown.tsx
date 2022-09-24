@@ -42,7 +42,7 @@ const WalletDropdown = (props: Props) => {
 
   return (
     <div
-      className={`relative z-40 22 xl:w-[auto] ${
+      className={`relative z-40 xl:w-[auto] ${
         props.inMenu ? "!w-[auto]" : "h-[34px]"
       } ${isOpen ? "w-[34px]" : "w-[34px] xl:w-[auto]"} xl:h-[44px]`}
       ref={dropdownRef}
