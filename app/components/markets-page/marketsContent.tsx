@@ -191,22 +191,22 @@ export default function MarketsContent() {
             All Markets
           </div>
           <div className="pb-[5px] md:pb-[0px] panel-custom markets border-custom">
-            <table className="custom__scroll w-full h-full table-fixed !pb-[20px] md:pb-[0px]  md:pt-[0px]">
+            <table className="custom__scroll w-full h-full table-fixed !pb-[20px] md:pb-[0px] md:pt-[0px]">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
                   <th className="pl-[15px] pb-[14px] md:pb-[19px] pt-[15px] md:pt-[19px] md:pl-[30px] font-nova font-[500] pr-[48px] text-start text-[12px] md:text-[14px]">
                     Market
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[2px] text-right text-[12px] md:text-[14px]">
+                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px] sm:pr-[2px] text-right text-[12px] md:text-[14px]">
                     Total Supply
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[14px] text-right text-[12px] md:text-[14px]">
+                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px] sm:pr-[14px] text-right text-[12px] md:text-[14px]">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[20px] text-right text-[12px] md:text-[14px]">
+                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px] sm:pr-[20px] text-right text-[12px] md:text-[14px]">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[20px]  sm:pr-[30px] md:pl-[0px] text-right text-[12px] md:text-[14px]">
+                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[20px] sm:pr-[30px] md:pl-[0px] text-right text-[12px] md:text-[14px]">
                     Borrow APY
                   </th>
                 </tr>

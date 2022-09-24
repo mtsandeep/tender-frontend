@@ -71,7 +71,7 @@ export default function EarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full">
           <div className="panel-custom">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
@@ -290,7 +290,7 @@ export default function EarnContent() {
             </div>
           </div>
           <div className="panel-custom mt-[31px]">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               ESCROWED TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
@@ -299,7 +299,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Price
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     $20.16
                   </div>
                 </div>
@@ -386,7 +386,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Total Supply
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     1,472,862 esTND ($54,630,107)
                   </div>
                 </div>
@@ -394,7 +394,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Total Borrow
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     2,254,142 esTND ($83,608,654)
                   </div>
                 </div>
@@ -488,7 +488,7 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-[16px]">
                     Your Borrow
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]  text-right w-fit text-sm md:text-base leading-[17px]">
+                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     $83,608
                   </div>
                 </div>
@@ -514,7 +514,7 @@ export default function EarnContent() {
             </div>
           </div>
           <div className="panel-custom mt-[32px]">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
@@ -662,7 +662,7 @@ export default function EarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full" id="vest">
           <div className="panel-custom">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TENDIES Vault
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
