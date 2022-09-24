@@ -282,9 +282,7 @@ export default function TwoPanels() {
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                         <div className="custom__hidden">
                           {token.marketData.marketSize &&
-                            toShortCryptoString(
-                              parseFloat(token.marketData.marketSize.toFixed(6))
-                            )}{" "}
+                            toShortCryptoString(token.marketData.marketSize)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
@@ -393,9 +391,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(
-                            parseFloat(token.supplyBalance.toFixed(2))
-                          )}{" "}
+                          {toShortCryptoString(token.supplyBalance)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
@@ -461,9 +457,7 @@ export default function TwoPanels() {
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                         <div className="custom__hidden">
                           {token.marketData.marketSize &&
-                            toShortCryptoString(
-                              parseFloat(token.marketData.marketSize.toFixed(6))
-                            )}{" "}
+                            toShortCryptoString(token.marketData.marketSize)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
@@ -572,9 +566,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(
-                            parseFloat(token.walletBalance.toFixed(2))
-                          )}{" "}
+                          {toShortCryptoString(token.walletBalance)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
@@ -648,11 +640,7 @@ export default function TwoPanels() {
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                         <div className="custom__hidden">
                           {token.marketData?.totalBorrowed &&
-                            toShortCryptoString(
-                              parseFloat(
-                                token.marketData.totalBorrowed.toFixed(6)
-                              )
-                            )}{" "}
+                            toShortCryptoString(token.marketData.totalBorrowed)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
@@ -761,9 +749,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(
-                            parseFloat(token.borrowBalance.toFixed(2))
-                          )}{" "}
+                          {toShortCryptoString(token.borrowBalance)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">
@@ -828,11 +814,7 @@ export default function TwoPanels() {
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
                         <div className="custom__hidden">
                           {token.marketData?.totalBorrowed &&
-                            toShortCryptoString(
-                              parseFloat(
-                                token.marketData.totalBorrowed.toFixed(6)
-                              )
-                            )}{" "}
+                            toShortCryptoString(token.marketData.totalBorrowed)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[14px] md:left-[38px]">
@@ -941,9 +923,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] md:pr-[30px] pr-[15px] md:pl-[3px]">
                         <div className="custom__hidden">
-                          {toShortCryptoString(
-                            parseFloat(token.maxBorrowLiquidity.toFixed(2))
-                          )}{" "}
+                          {toShortCryptoString(token.maxBorrowLiquidity)}{" "}
                           {token.tokenPair.token.symbol}
                         </div>
                         <div className="custom__hidden !flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] md:left-[3px]">

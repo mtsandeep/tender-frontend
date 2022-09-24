@@ -239,9 +239,7 @@ export default function MarketsContent() {
                       </td>
                       <td className="relative whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0] sm:text-[16px] sm:leading-[22px]">
-                          {toShortCryptoString(
-                            parseFloat(m?.totalSupply?.toFixed(6))
-                          )}{" "}
+                          {toShortCryptoString(m?.totalSupply)}{" "}
                           {m.symbol}
                         </div>
 
@@ -361,9 +359,7 @@ export default function MarketsContent() {
                       </td>
                       <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
                         <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                          {toShortCryptoString(
-                            parseFloat(m.totalBorrow?.toFixed(6))
-                          )}{" "}
+                          {toShortCryptoString(m.totalBorrow)}{" "}
                           {m.symbol}
                         </div>
                         <div
