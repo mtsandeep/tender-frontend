@@ -129,30 +129,28 @@ export default function Header() {
               )
             )}
           </div>
-          <div className="flex items-center  z-20 relative">
-            <div>
-              {loadingTndBtn ? (
-                <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
-              ) : (
-                <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
-                  <div
-                    className={`relative flex p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
-                    onClick={() =>
-                      setDataClaimModal({ ...dataClaimModal, open: true })
-                    }
-                  >
-                    <img
-                      className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
-                      src="/images/wallet-icons/balance-icon.svg"
-                      alt="..."
-                    />
-                    <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
-                      $23.56
-                    </div>
+          <div className="flex items-center z-20 relative">
+            {loadingTndBtn ? (
+              <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
+            ) : (
+              <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
+                <div
+                  className={`relative flex p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
+                  onClick={() =>
+                    setDataClaimModal({ ...dataClaimModal, open: true })
+                  }
+                >
+                  <img
+                    className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
+                    src="/images/wallet-icons/balance-icon.svg"
+                    alt="..."
+                  />
+                  <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
+                    $23.56
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
             <NetworksDropdown />
             <ConnectWallet />
             <div

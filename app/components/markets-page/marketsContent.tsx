@@ -39,7 +39,7 @@ export default function MarketsContent() {
           })
         }
       />
-      <div className="max-w-[1068px] px-[20px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
+      <div className="switch__to__network max-w-[1068px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
         <div className="panel-custom border-custom">
           <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-[18px] leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Supply
@@ -53,7 +53,8 @@ export default function MarketsContent() {
               {" | "}
               <div className={getTotalDiffClass(totalSupplyDiff)}>
                 <span>
-                  {totalSupplyDiff > 0 ? "+" : ""}{`${totalSupplyDiff}%`}
+                  {totalSupplyDiff > 0 ? "+" : ""}
+                  {`${totalSupplyDiff}%`}
                 </span>
               </div>
             </div>
@@ -124,7 +125,8 @@ export default function MarketsContent() {
               {" | "}
               <div className={getTotalDiffClass(totalBorrowDiff)}>
                 <span>
-                  {totalBorrowDiff > 0 ? "+" : ""}{`${totalBorrowDiff}%`}
+                  {totalBorrowDiff > 0 ? "+" : ""}
+                  {`${totalBorrowDiff}%`}
                 </span>
               </div>
             </div>
@@ -183,7 +185,7 @@ export default function MarketsContent() {
           </div>
         </div>
       </div>
-      <div className="max-w-[1068px] px-[20px] mx-[auto] mb-[60px] md:mb-[100px]">
+      <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
         <div>
           <div className="mb-[20px] font-nova text-white text-[16px] leading-[22px] md:leading-[25px] font-semibold mb-[21px] md:mb-[18px] md:text-[18px]">
             All Markets
@@ -204,7 +206,7 @@ export default function MarketsContent() {
                   <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[20px] text-right text-[12px] md:text-[14px]">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[36px]  sm:pr-[30px] md:pl-[0px] text-right text-[12px] md:text-[14px]">
+                  <th className="whitespace-nowrap font-nova font-[500] md:whitespace-normal pr-[20px]  sm:pr-[30px] md:pl-[0px] text-right text-[12px] md:text-[14px]">
                     Borrow APY
                   </th>
                 </tr>
@@ -223,251 +225,240 @@ export default function MarketsContent() {
                         window.open(`/markets/${m.symbol}`, "_blank")
                       }
                     >
-                      <td className="relative text-white font-nova font-normal sm:t-[0] pl-[15px] pt-[8px] pb-[26px] sm:pt-[24px] sm:pb-[23px] sm:pl-[30px] sm:pr-[0px]">
-                        <div className="flex items-start md:items-center justify-left relative top-[8px] sm:top-[-1px]">
+                      <td className="text-white font-nova font-normal py-[15px] md:py-[24px] pl-[15px] sm:pl-[30px] sm:pr-[0px] align-top">
+                        <div className="flex items-start text-[14px] sm:text-[16px] sm:leading-[22px]">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
                             src={m.icon}
                             alt={m.symbol}
                           />
-                          <div>
-                            <span className="flex text-[14px] sm:text-[16px] sm:leading-[22px]">
-                              {m.symbol}
-                            </span>
+                          {m.symbol}
+                        </div>
+                      </td>
+                      <td className="relative whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal py-[15px] md:py-[24px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
+                        <div className="flex flex-col items-end">
+                          <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0] mb-[4px] md:mb-[8px] sm:text-[16px] sm:leading-[22px]">
+                            {toShortCryptoString(m?.totalSupply)} {m.symbol}
+                          </div>
+                          <div
+                            className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] w-fit bg-dark-green text-dark-green rounded-[4px] sm:rounded-md`}
+                          >
+                            {`$${toShortFiatString(m.totalSupplyUsd)} USD`}
                           </div>
                         </div>
                       </td>
-                      <td className="relative whitespace-nowrap text-right md:whitespace-normal relative text-white font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[2px]">
-                        <div className="custom__hidden text-[14px] leading-[20px] sm:top-[0] sm:text-[16px] sm:leading-[22px]">
-                          {toShortCryptoString(m?.totalSupply)}{" "}
-                          {m.symbol}
-                        </div>
-
-                        <div
-                          className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[2px] w-fit bg-dark-green text-dark-green rounded-[4px] sm:rounded-md`}
-                        >
-                          {`$${toShortFiatString(m.totalSupplyUsd)} USD`}
-                        </div>
-                      </td>
-                      <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
-                        <div
-                          className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${checkColorClass(
-                            parseFloat(m.supplyApy)
-                          )} `}
-                        >
-                          {formatApy(m.supplyApy)}
-                        </div>
-                        <div className="absolute top-[50px] md:top-[50px]  right-[41.5px] sm:right-[13px] h-[22px]">
+                      <td className="relative text-white text-right font-nova font-normal py-[15px] md:py-[24px] pl-[44px] pr-[41.5px] sm:pr-[13px]">
+                        <div className="flex flex-col items-end">
                           <div
-                            className="group"
-                            onClick={(e) => e.stopPropagation()}
+                            className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] mb-[4px] md:mb-[8px] sm:leading-[22px] ${checkColorClass(
+                              parseFloat(m.supplyApy)
+                            )} `}
                           >
+                            {formatApy(m.supplyApy)}
+                          </div>
+                          <div className="relative h-[22px]">
                             <div
-                              onClick={() =>
-                                setMultiTooltipData({
-                                  ...multiTooltipData,
-                                  open: window.innerWidth < 1023,
-                                  coins: [
-                                    {
-                                      coinTitle: m.symbol,
-                                      iconSrc: m.icon,
-                                      data: formatApy(m.supplyApy),
-                                      color: checkColorClass(
-                                        parseFloat(m.supplyApy)
-                                      ),
-                                    },
-                                    {
-                                      coinTitle: "esTND",
-                                      iconSrc:
-                                        "/images/wallet-icons/balance-icon.svg",
-                                      data: "0.00%",
-                                      color: "text-white",
-                                    },
-                                  ],
-                                })
-                              }
-                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                              className="group"
+                              onClick={(e) => e.stopPropagation()}
                             >
-                              <img
-                                className="w-[13px] h-[13px]"
-                                src={m.icon}
-                                alt={m.symbol}
-                              />
-                              <img
-                                className="w-[13px] h-[13px] ml-[6px]"
-                                src="/images/wallet-icons/balance-icon.svg"
-                                alt="..."
-                              />
-                            </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src={m.icon}
-                                        alt={m.symbol}
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        {m.symbol}
+                              <div
+                                onClick={() =>
+                                  setMultiTooltipData({
+                                    ...multiTooltipData,
+                                    open: window.innerWidth < 1023,
+                                    coins: [
+                                      {
+                                        coinTitle: m.symbol,
+                                        iconSrc: m.icon,
+                                        data: formatApy(m.supplyApy),
+                                        color: checkColorClass(
+                                          parseFloat(m.supplyApy)
+                                        ),
+                                      },
+                                      {
+                                        coinTitle: "esTND",
+                                        iconSrc:
+                                          "/images/wallet-icons/balance-icon.svg",
+                                        data: "0.00%",
+                                        color: "text-white",
+                                      },
+                                    ],
+                                  })
+                                }
+                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                              >
+                                <img
+                                  className="w-[13px] h-[13px]"
+                                  src={m.icon}
+                                  alt={m.symbol}
+                                />
+                                <img
+                                  className="w-[13px] h-[13px] ml-[6px]"
+                                  src="/images/wallet-icons/balance-icon.svg"
+                                  alt="..."
+                                />
+                              </div>
+                              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                  <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src={m.icon}
+                                          alt={m.symbol}
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          {m.symbol}
+                                        </span>
+                                      </div>
+                                      <span
+                                        className={`font-nova text-white text-sm font-normal ${checkColorClass(
+                                          parseFloat(m.supplyApy)
+                                        )}`}
+                                      >
+                                        {formatApy(m.supplyApy)}
                                       </span>
                                     </div>
-                                    <span
-                                      className={`font-nova text-white text-sm font-normal ${checkColorClass(
-                                        parseFloat(m.supplyApy)
-                                      )}`}
-                                    >
-                                      {formatApy(m.supplyApy)}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between gap-[30px]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src="/images/wallet-icons/balance-icon.svg"
-                                        alt="..."
-                                      />
+                                    <div className="flex justify-between gap-[30px]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src="/images/wallet-icons/balance-icon.svg"
+                                          alt="..."
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          esTND
+                                        </span>
+                                      </div>
                                       <span className="font-nova text-white text-sm font-normal">
-                                        esTND
+                                        0.00%
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal">
-                                      0.00%
-                                    </span>
                                   </div>
                                 </div>
+                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                               </div>
-                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                             </div>
                           </div>
                         </div>
-                        {/* <div
-                          className="group"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <div
-                            className={`custom__hidden !flex items-center break-words text-[11px] md:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[13px] w-fit ${getMarketDiffClass(
-                              m.supplyApyDiff
-                            )}`}
-                          >
-                            {m.supplyApyDiff === 0
-                              ? "-"
-                              : m.supplyApyDiff.toFixed(2)}
+                      </td>
+                      <td className="relative text-white text-right font-nova font-normal py-[15px] md:py-[24px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
+                        <div className="flex flex-col items-end">
+                          <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] mb-[4px] md:mb-[8px]">
+                            {toShortCryptoString(m.totalBorrow)} {m.symbol}
                           </div>
-                        </div> */}
-                      </td>
-                      <td className="relative text-white text-right font-nova font-normal pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[21px] sm:pl-[10px]">
-                        <div className="custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px]">
-                          {toShortCryptoString(m.totalBorrow)}{" "}
-                          {m.symbol}
-                        </div>
-                        <div
-                          className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] absolute top-[42px] sm:top-[50px] right-[36px] sm:right-[21px] w-fit bg-dark-green text-dark-green rounded-[4px] sm:rounded-md`}
-                        >
-                          {`$${toShortFiatString(m.totalBorrowUsd)} USD`}
-                        </div>
-                      </td>
-                      <td className="relative text-white font-nova font-normal text-right pb-[26px] pl-[44px] pr-[41.5px] sm:pr-[30px] sm:pl-[10px]">
-                        <div
-                          className={`custom__hidden text-[14px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${
-                            m.symbol === "GLP"
-                              ? "text-white"
-                              : checkColorClass(borrowApy)
-                          } `}
-                        >
-                          {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
-                        </div>
-                        <div className="absolute top-[50px] md:top-[50px] right-[41.5px] sm:right-[30px] h-[22px]">
                           <div
-                            className="group"
-                            onClick={(e) => e.stopPropagation()}
+                            className={`custom__hidden !flex items-center break-words text-[11px] sm:text-[12px] text-right h-[20px] sm:h-[22px] px-[5px] w-fit bg-dark-green text-dark-green rounded-[4px] sm:rounded-md`}
                           >
+                            {`$${toShortFiatString(m.totalBorrowUsd)} USD`}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="relative text-white font-nova font-normal text-right py-[15px] md:py-[24px] pl-[44px] pr-[15px] sm:pr-[30px] sm:pl-[10px]">
+                        <div className="flex flex-col items-end">
+                          <div
+                            className={`custom__hidden text-[14px] mb-[4px] md:mb-[8px] leading-[20px] sm:text-[16px] sm:leading-[22px] ${
+                              m.symbol === "GLP"
+                                ? "text-white"
+                                : checkColorClass(borrowApy)
+                            } `}
+                          >
+                            {m.symbol === "GLP"
+                              ? "0.00%"
+                              : formatApy(borrowApy)}
+                          </div>
+                          <div className="inline-flex relative h-[22px]">
                             <div
-                              onClick={() =>
-                                setMultiTooltipData({
-                                  ...multiTooltipData,
-                                  open: window.innerWidth < 1023,
-                                  coins: [
-                                    {
-                                      coinTitle: m.symbol,
-                                      iconSrc: m.icon,
-                                      data:
-                                        m.symbol === "GLP"
+                              className="group"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <div
+                                onClick={() =>
+                                  setMultiTooltipData({
+                                    ...multiTooltipData,
+                                    open: window.innerWidth < 1023,
+                                    coins: [
+                                      {
+                                        coinTitle: m.symbol,
+                                        iconSrc: m.icon,
+                                        data:
+                                          m.symbol === "GLP"
+                                            ? "0.00%"
+                                            : `${formatApy(borrowApy)}`,
+                                        color:
+                                          m.symbol === "GLP"
+                                            ? "text-white"
+                                            : checkColorClass(borrowApy),
+                                      },
+                                      {
+                                        coinTitle: "esTND",
+                                        iconSrc:
+                                          "/images/wallet-icons/balance-icon.svg",
+                                        data: "0.00%",
+                                        color: "text-white",
+                                      },
+                                    ],
+                                  })
+                                }
+                                className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                              >
+                                <img
+                                  className="w-[13px] h-[13px]"
+                                  src={m.icon}
+                                  alt={m.symbol}
+                                />
+                                <img
+                                  className="w-[13px] h-[13px] ml-[6px]"
+                                  src="/images/wallet-icons/balance-icon.svg"
+                                  alt="..."
+                                />
+                              </div>
+                              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                                <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                                  <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src={m.icon}
+                                          alt={m.symbol}
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          {m.symbol}
+                                        </span>
+                                      </div>
+                                      <span
+                                        className={`font-nova text-white text-sm font-normal ${
+                                          m.symbol === "GLP"
+                                            ? "white"
+                                            : checkColorClass(borrowApy)
+                                        }`}
+                                      >
+                                        {m.symbol === "GLP"
                                           ? "0.00%"
-                                          : `${formatApy(borrowApy)}`,
-                                      color:
-                                        m.symbol === "GLP"
-                                          ? "text-white"
-                                          : checkColorClass(borrowApy),
-                                    },
-                                    {
-                                      coinTitle: "esTND",
-                                      iconSrc:
-                                        "/images/wallet-icons/balance-icon.svg",
-                                      data: "0.00%",
-                                      color: "text-white",
-                                    },
-                                  ],
-                                })
-                              }
-                              className="custom__hidden !flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
-                            >
-                              <img
-                                className="w-[13px] h-[13px]"
-                                src={m.icon}
-                                alt={m.symbol}
-                              />
-                              <img
-                                className="w-[13px] h-[13px] ml-[6px]"
-                                src="/images/wallet-icons/balance-icon.svg"
-                                alt="..."
-                              />
-                            </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src={m.icon}
-                                        alt={m.symbol}
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        {m.symbol}
+                                          : `${formatApy(borrowApy)}`}
                                       </span>
                                     </div>
-                                    <span
-                                      className={`font-nova text-white text-sm font-normal ${
-                                        m.symbol === "GLP"
-                                          ? "white"
-                                          : checkColorClass(borrowApy)
-                                      }`}
-                                    >
-                                      {m.symbol === "GLP"
-                                        ? "0.00%"
-                                        : `${formatApy(borrowApy)}`}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between gap-[30px]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src="/images/wallet-icons/balance-icon.svg"
-                                        alt="..."
-                                      />
+                                    <div className="flex justify-between gap-[30px]">
+                                      <div className="flex gap-[8px]">
+                                        <img
+                                          className="max-w-[18px]"
+                                          src="/images/wallet-icons/balance-icon.svg"
+                                          alt="..."
+                                        />
+                                        <span className="font-nova text-white text-sm font-normal">
+                                          esTND
+                                        </span>
+                                      </div>
                                       <span className="font-nova text-white text-sm font-normal">
-                                        esTND
+                                        0.00%
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal">
-                                      0.00%
-                                    </span>
                                   </div>
                                 </div>
+                                <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                               </div>
-                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                             </div>
                           </div>
                         </div>
