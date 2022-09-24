@@ -591,6 +591,10 @@ body.body__fixed {
 
 @media screen and (max-width: 768px) {
 
+  .border-child-hover:hover>td:first-child:before {
+    display: none;
+  }
+
   .border-child-hover:hover:last-child>td:first-child:before {
     border-bottom-left-radius: 0;
   }
