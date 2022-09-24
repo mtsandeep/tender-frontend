@@ -20,7 +20,6 @@ import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
-
 export interface DepositProps {
   closeModal: Function;
   market: Market;
@@ -287,7 +286,7 @@ export default function Deposit({
             />
             {loading ? (
               <div className="switch__to__network flex justify-center">
-                <div className="animate w-[300px] bg-[#00E0FF] h-[56px]"></div>
+                <div className="animate w-[308px] bg-[#00E0FF] h-[56px] md:h-[60px]"></div>
               </div>
             ) : (
               <div className="flex justify-center mb-8">
@@ -310,14 +309,14 @@ export default function Deposit({
                         setIsEnabling(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isEnabling ? "Enabling..." : "Enable"}
                   </button>
                 )}
 
                 {signer && isEnabled && !isValid && (
-                  <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]">
+                  <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                     {validationDetail}
                   </button>
                 )}
@@ -371,7 +370,7 @@ export default function Deposit({
                         setIsDepositing(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isDepositing ? "Depositing..." : "Deposit"}
                   </button>

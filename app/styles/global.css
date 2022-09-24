@@ -711,6 +711,13 @@ body.body__fixed {
       #191b1cb6 70%);
 }
 
+.svg_animation_custom g>g path {
+  fill: #14F195;
+}
+
+.svg_animation_custom g>g:last-child path {
+  fill: #14B572;
+}
 
 
 .recharts-tooltip-wrapper {

@@ -236,7 +236,7 @@ export default function Borrow({
             <div className="flex justify-center mb-8">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
-                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]">
+                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                   {validationDetail || "Borrow"}
                 </button>
               )}
@@ -289,7 +289,7 @@ export default function Borrow({
                       setIsBorrowing(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                 >
                   {isBorrowing ? "Borrowing..." : "Borrow"}
                 </button>

@@ -70,46 +70,46 @@ export default function TwoPanels() {
         !token.borrowBalance || token.borrowBalanceInUsd <= 0.001
     );
 
-  const privateBlock = () => (
-    <div className="group" onClick={(e) => e.stopPropagation()}>
-      <div className="absolute top-[40px] md:top-[61px] left-[48px] md:left-[85px]">
-        <div className="text-xs leading-[17px] text-[#a3aeac] !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
-          <div
-            onClick={() =>
-              setMobileTooltipData({
-                ...mobileTooltipData,
-                open: window.innerWidth < 1023,
-                textBottom: "",
-                token: "",
-                icon: "",
-                textTop:
-                  "Deposit GLP as collateral. GLP collateral is currently limited to private beta users.",
-              })
-            }
-            className="custom__hidden text-xs leading-[17px] text-[#a3aeac] !flex flex-wrap items-center"
-          >
-            <img
-              className="w-[10px] h-[11px] mr-[4px]"
-              src="/images/wallet-icons/private-lock.svg"
-              alt="..."
-            />
-            Private
-          </div>
-          <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[242px] mx-[20px] !rounded-[10px] panel-custom">
-              <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[16px]">
-                <p className="text-[#818987] text-xs leading-[17px] text-left font-nova">
-                  Deposit GLP as collateral. GLP collateral is currently limited
-                  to private beta users.
-                </p>
-              </div>
-            </div>
-            <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  // const privateBlock = () => (
+  //   <div className="group" onClick={(e) => e.stopPropagation()}>
+  //     <div className="absolute top-[40px] md:top-[61px] left-[48px] md:left-[85px]">
+  //       <div className="text-xs leading-[17px] text-[#a3aeac] !flex flex-wrap items-center pt-[3px] px-[5px] pb-[2px] rounded-[4px] bg-[#262c2a]">
+  //         <div
+  //           onClick={() =>
+  //             setMobileTooltipData({
+  //               ...mobileTooltipData,
+  //               open: window.innerWidth < 1023,
+  //               textBottom: "",
+  //               token: "",
+  //               icon: "",
+  //               textTop:
+  //                 "Deposit GLP as collateral. GLP collateral is currently limited to private beta users.",
+  //             })
+  //           }
+  //           className="custom__hidden text-xs leading-[17px] text-[#a3aeac] !flex flex-wrap items-center"
+  //         >
+  //           <img
+  //             className="w-[10px] h-[11px] mr-[4px]"
+  //             src="/images/wallet-icons/private-lock.svg"
+  //             alt="..."
+  //           />
+  //           Private
+  //         </div>
+  //         <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+  //           <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[242px] mx-[20px] !rounded-[10px] panel-custom">
+  //             <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[16px]">
+  //               <p className="text-[#818987] text-xs leading-[17px] text-left font-nova">
+  //                 Deposit GLP as collateral. GLP collateral is currently limited
+  //                 to private beta users.
+  //               </p>
+  //             </div>
+  //           </div>
+  //           <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   // const simpleTndBlock = ({
   //   textBottom,
@@ -275,8 +275,6 @@ export default function TwoPanels() {
                           <span className="flex text-sm md:text-base">
                             {token.tokenPair.token.symbol}
                           </span>
-                          {token.tokenPair.token.symbol === "GLP" &&
-                            privateBlock()}
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
@@ -439,19 +437,13 @@ export default function TwoPanels() {
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[30px] md:pr-[0px]">
                         <div className="flex items-center justify-left">
                           <img
-                            className={`w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px] ${
-                              token.tokenPair.token.symbol === "GLP"
-                                ? "translate-y-[13px]"
-                                : ""
-                            }`}
+                            className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={token.tokenPair.token.icon}
                             alt={token.tokenPair.token.symbol}
                           />
                           <span className="flex text-sm md:text-base">
                             {token.tokenPair.token.symbol}
                           </span>
-                          {token.tokenPair.token.symbol === "GLP" &&
-                            privateBlock()}
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
@@ -633,8 +625,6 @@ export default function TwoPanels() {
                           <span className="flex text-sm md:text-base">
                             {token.tokenPair.token.symbol}
                           </span>
-                          {token.tokenPair.token.symbol === "GLP" &&
-                            privateBlock()}
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">
@@ -807,8 +797,6 @@ export default function TwoPanels() {
                           <span className="flex text-sm md:text-base">
                             {token.tokenPair.token.symbol}
                           </span>
-                          {token.tokenPair.token.symbol === "GLP" &&
-                            privateBlock()}
                         </div>
                       </td>
                       <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] md:pl-[38px] md:pr-[0px]">

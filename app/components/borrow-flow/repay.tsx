@@ -273,7 +273,7 @@ export default function Repay({
             />
             {loading ? (
               <div className="switch__to__network flex justify-center">
-                <div className="animate w-[300px] bg-[#00E0FF] h-[56px]"></div>
+                <div className="animate w-[308px] bg-[#00E0FF] h-[56px] md:h-[60px]"></div>
               </div>
             ) : (
               <div className="flex justify-center">
@@ -295,14 +295,14 @@ export default function Repay({
                         setIsEnabling(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
+                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isEnabling ? "Enabling..." : "Enable"}
                   </button>
                 )}
 
                 {signer && isEnabled && !isValid && (
-                  <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]">
+                  <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                     {validationDetail}
                   </button>
                 )}
@@ -339,7 +339,7 @@ export default function Repay({
                         setIsRepayingTxn(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] max-w-[300px]"
+                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isRepayingTxn ? "Repaying..." : "Repay"}
                   </button>

@@ -31,7 +31,7 @@ export default function ConfirmingTransaction({
         />
       </svg>
       {isWaitingToBeMined ? (
-        <div className="flex w-full max-w-[100%] justify-center mt-[71px] mb-[20px] md:mt-[130px] md:mb-[70px]">
+        <div className="flex w-full max-w-[100%] justify-center mt-[71px] mb-[20px] md:mt-[130px] md:mb-[70px] svg_animation_custom">
           <Lottie
             loop={true}
             animationData={animationData}

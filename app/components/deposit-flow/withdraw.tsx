@@ -253,7 +253,7 @@ export default function Withdraw({
             <div className="flex justify-center mb-8">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
-                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]">
+                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                   {validationDetail}
                 </button>
               )}
@@ -289,7 +289,7 @@ export default function Withdraw({
                       setIsWithdrawing(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14F195] max-w-[300px]"
+                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                 >
                   {isWithdrawing ? "Withdrawing..." : "Withdraw"}
                 </button>
