@@ -130,7 +130,7 @@ export default function Repay({
         } else {
           if (
             formattedValue === "" ||
-            (formattedValue.match(/^(([1-9]\d*)|0)(.|.\d+)?$/) &&
+            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
               formattedValue.length <= 20 &&
               decimals <= tokenDecimals)
           ) {
@@ -192,8 +192,8 @@ export default function Repay({
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
                     style={{ minHeight: 100 }}
-                    className={`input__center__custom pl-[40px] max-w-[180px] md:max-w-[270px] ${
-                      value ? "w-full" : "w-[calc(100%-40px)]"
+                    className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
+                      value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                     } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                     placeholder="0"
                   />
