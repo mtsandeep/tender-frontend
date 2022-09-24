@@ -50,9 +50,10 @@ export default function MarketsContent() {
                 <span>$</span>
                 <span>{total?.supply?.usd?.toFixed(2)}</span>
               </div>
+              {" | "}
               <div className={getTotalDiffClass(totalSupplyDiff)}>
                 <span>
-                  {totalSupplyDiff === 0 ? "" : `${totalSupplyDiff}%`}
+                  {totalSupplyDiff > 0 ? "+" : ""}{`${totalSupplyDiff}%`}
                 </span>
               </div>
             </div>
@@ -120,9 +121,10 @@ export default function MarketsContent() {
                 <span>$</span>
                 <span>{total?.borrow?.usd?.toFixed(2)}</span>
               </div>
+              {" | "}
               <div className={getTotalDiffClass(totalBorrowDiff)}>
                 <span>
-                  {totalBorrowDiff === 0 ? "" : `${totalBorrowDiff}%`}
+                  {totalBorrowDiff > 0 ? "+" : ""}{`${totalBorrowDiff}%`}
                 </span>
               </div>
             </div>
