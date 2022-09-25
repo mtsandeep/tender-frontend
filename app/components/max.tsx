@@ -1,4 +1,4 @@
-import { toMaxString } from "~/lib/ui";
+import { getDisplayPriceString } from "~/lib/ui";
 
 interface MaxProps {
   updateValue: Function;
@@ -20,7 +20,7 @@ export default function Max(props: MaxProps) {
       <div
         className={`text-[${props.color}] custom_max_text font-nova font-bold text-xs sm:text-base mb-4`}
       >
-        {toMaxString(props.maxValue) + " " + props.maxValueLabel}
+        {getDisplayPriceString(props.maxValue) + " " + props.maxValueLabel}
       </div>
 
       <button
