@@ -77,7 +77,7 @@ export default function Borrow({
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
-    maxBorrowLimit,
+    borrowLimit,
     parseFloat(newBorrowLimitUsed)
   );
 
@@ -164,7 +164,7 @@ export default function Borrow({
               />
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
-                  maxValue={maxBorrowLimit}
+                  maxValue={borrowLimit}
                   updateValue={() => setValue(toMaxString(maxBorrowLimit))}
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
