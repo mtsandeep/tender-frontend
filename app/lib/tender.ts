@@ -570,4 +570,5 @@ export {
   getMaxBorrowAmount,
   getMaxBorrowLiquidity,
   collateralFactorForToken,
+  formatBigNumber,
 };
