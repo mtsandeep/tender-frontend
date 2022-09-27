@@ -56,21 +56,27 @@ export default function useInterestRateModel(tokenId: string | undefined) {
                 currentUtil,
                 currentBorrowRate,
                 currentSupplyRate,
+                kink,
             ] = await Promise.all([
                 interestRateModelContract.utilizationRate(currentCash, currentBorrows, currentReserves),
                 interestRateModelContract.getBorrowRate(currentCash, currentBorrows, currentReserves),
                 interestRateModelContract.getSupplyRate(currentCash, currentBorrows, currentReserves, reserveFactorMantissa),
+                interestRateModelContract.kink(),
             ]);
 
             const currentBorrowApy = calculateApy(currentBorrowRate, secondsPerBlock);
             const currentSupplyApy = calculateApy(currentSupplyRate, secondsPerBlock);
             const BASE = 1e18;
+            const kinkMantissa = 1e16;
+            const kinkPercentage = (kink / kinkMantissa).toFixed(2);
+            const utilPercentage = (currentUtil / kinkMantissa).toFixed(2);
 
             const currentValue = {
-                aa: (currentUtil / 1e16).toFixed(2),
+                aa: utilPercentage,
                 ss: currentSupplyApy.toFixed(2),
                 dd: currentBorrowApy.toFixed(2),
                 isCurrent: true,
+                isOptimal: kinkPercentage === utilPercentage,
             };
 
             /*console.time('test')
@@ -98,12 +104,7 @@ export default function useInterestRateModel(tokenId: string | undefined) {
                 [...Array(101).keys()].map(
                     async (i) => {
                         if (i === 0) {
-                            return {
-                                aa: '0',
-                                ss: '0',
-                                dd: '0',
-                                isCurrent: false,
-                            };
+                            i = 0.0001;
                         }
 
                         const util = i * 1e16;
@@ -116,14 +117,21 @@ export default function useInterestRateModel(tokenId: string | undefined) {
                             ss: calculateApy(supplyRate, secondsPerBlock).toFixed(2),
                             dd: calculateApy(borrowRate, secondsPerBlock).toFixed(2),
                             isCurrent: false,
+                            isOptimal: kinkPercentage === i.toFixed(2),
                         };
                     }
                 )
             );
 
             if (currentValue.aa !== '0.00') {
-                const index = values.findIndex((item, i) => parseFloat(currentValue.aa) < i);
-                values.splice(index, 0, currentValue);
+                const equalIndex = values.findIndex((item, i) => parseFloat(currentValue.aa) === parseFloat(i.toFixed(2)));
+
+                if (equalIndex !== -1) {
+                    values[equalIndex] = currentValue;
+                } else {
+                    const index = values.findIndex((item, i) => parseFloat(currentValue.aa) < i);
+                    values.splice(index, 0, currentValue);
+                }
             }
 
             setInterestRateModel(values);
