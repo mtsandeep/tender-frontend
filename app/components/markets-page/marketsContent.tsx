@@ -226,7 +226,7 @@ export default function MarketsContent() {
                       }
                     >
                       <td className="text-white font-nova font-normal py-[15px] md:py-[24px] pl-[15px] sm:pl-[30px] sm:pr-[0px] align-top">
-                        <div className="flex items-start text-[14px] sm:text-[16px] sm:leading-[22px]">
+                        <div className="flex items-center text-[14px] sm:text-[16px] sm:leading-[22px]">
                           <img
                             className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
                             src={m.icon}
