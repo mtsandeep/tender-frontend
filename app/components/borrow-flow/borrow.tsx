@@ -78,7 +78,8 @@ export default function Borrow({
     value,
     0,
     maxBorrowLimit,
-    parseFloat(newBorrowLimitUsed)
+    parseFloat(newBorrowLimitUsed),
+    tokenDecimals
   );
 
   let inputTextClass = shrinkyInputClass(value.length);

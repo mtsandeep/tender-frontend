@@ -12,7 +12,8 @@ export function useValidInput(
   inputValue: string,
   floor: number,
   ceil: number,
-  borrowLimitUsed: number
+  borrowLimitUsed: number,
+  precision: number
 ): [boolean, InputValidationDetail | null] {
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
@@ -45,7 +46,7 @@ export function useValidInput(
       if (v <= floor) {
         setReason(InputValidationDetail.NEGATIVE_OR_ZERO);
         setIsValid(false);
-      } else if (v > toMaxNumber(ceil)) {
+      } else if (v > toMaxNumber(ceil, precision)) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
       } else if (borrowLimitUsed >= 100 || borrowLimitUsed < -0) {

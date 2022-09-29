@@ -83,12 +83,8 @@ export const toCryptoString = (v: number): string => {
 
 export const toMaxString = (v: number): string => getString(v);
 
-export const toMaxNumber = (v: number): number =>
-  parseFloat(
-    math.format(v, {
-      notation: "fixed",
-      precision: 6,
-    })
+export const toMaxNumber = (v: number, precision: number = 6): number =>
+  parseFloat(math.format(v, { notation: "fixed", precision, })
   );
 
 // return decimal with precision 4 for values less than 1 and round to 2 decimals for nmumber greater than 1

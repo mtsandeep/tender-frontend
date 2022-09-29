@@ -78,7 +78,8 @@ export default function Repay({
     value,
     0,
     maxRepayableAmount,
-    parseFloat(newBorrowLimitUsed)
+    parseFloat(newBorrowLimitUsed),
+    tokenDecimals
   );
 
   let { updateTransaction, setIsWaitingToBeMined } = useContext(TenderContext);

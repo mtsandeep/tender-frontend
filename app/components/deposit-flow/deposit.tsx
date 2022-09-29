@@ -74,7 +74,8 @@ export default function Deposit({
     value,
     0,
     walletBalance,
-    parseFloat(newBorrowLimitUsed)
+    parseFloat(newBorrowLimitUsed),
+    tokenDecimals
   );
 
   const collateralFactor = useCollateralFactor(

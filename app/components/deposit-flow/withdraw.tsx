@@ -63,6 +63,8 @@ export default function Withdraw({
     market.maxBorrowLiquidity // how much cash the contract has
   );
 
+  console.log("supply ", market)
+
   // // if there is a borrow balance
   // if (totalBorrowedAmountInUsd > 0) {
   //   // 0.8 * (totalSupply - totalBorrow balance / token price)
@@ -73,7 +75,8 @@ export default function Withdraw({
     value,
     0,
     maxWithdrawAmount,
-    parseFloat(newBorrowLimitUsed)
+    parseFloat(newBorrowLimitUsed),
+    tokenDecimals
   );
 
   let inputTextClass = shrinkyInputClass(value.length);
