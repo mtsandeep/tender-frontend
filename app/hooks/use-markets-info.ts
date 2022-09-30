@@ -27,14 +27,14 @@ export function useMarketsInfo() {
     markets: false,
     total: false,
   });
-  const { networkData } = useContext(TenderContext);
+  const { networkData, tokenPairs } = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
 
   useEffect(() => {
     console.log("useMarketsInfo called");
 
-    if (!networkData) {
+    if (!networkData || tokenPairs.length === 0) {
       return;
     }
 
@@ -73,6 +73,8 @@ export function useMarketsInfo() {
         gql`
     {
   markets(where: {id_in: ["${searchStr}"]}) {
+    symbol
+    underlyingSymbol
     borrowRate
     cash
     reserves
@@ -90,6 +92,14 @@ export function useMarketsInfo() {
     totalBorrows
     underlyingPriceUSD
   },
+  borrowVolume:borrowEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+    underlyingSymbol
+    amount
+  },
+  supplyVolume:mintEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+    cTokenSymbol
+    underlyingAmount
+  },
     accountCTokens (where: {enteredMarket: true}) {
       id
       totalUnderlyingBorrowed
@@ -103,6 +113,8 @@ export function useMarketsInfo() {
         !response ||
         typeof response.markets === "undefined" ||
         typeof response.prevMarkets === "undefined" ||
+        typeof response.borrowVolume === "undefined" ||
+        typeof response.supplyVolume === "undefined" ||
         typeof response.accountCTokens === "undefined"
       ) {
         return;
@@ -113,12 +125,14 @@ export function useMarketsInfo() {
           count: 0,
           usd: 0,
           usdDiff: 0,
+          volume: 0,
           topMarkets: [],
         },
         borrow: {
           count: 0,
           usd: 0,
           usdDiff: 0,
+          volume: 0,
           topMarkets: [],
         },
       };
@@ -143,6 +157,9 @@ export function useMarketsInfo() {
       let prevSupplyUsd = 0;
       let prevBorrowUsd = 0;
 
+      const usdPricesByCToken = {};
+      const usdPricesByToken = {};
+
       response.markets.forEach(
         (m: {
           reserves: string;
@@ -152,6 +169,8 @@ export function useMarketsInfo() {
           cash: string;
           supplyRate: number;
           id: string;
+          symbol: string;
+          underlyingSymbol: string;
         }) => {
           const id = m.id.toLowerCase();
 
@@ -197,8 +216,19 @@ export function useMarketsInfo() {
             }
           ).length;
 
-          total.borrow.usd += markets[id].totalBorrowUsd;
-          total.supply.usd += markets[id].totalSupplyUsd;
+          // total in usd
+          // @todo refactor
+          const tokenPair = tokenPairs.find((tp) => tp.cToken.address.toLowerCase() === id);
+
+          if (tokenPair) {
+              total.borrow.usd += markets[id].totalBorrow * tokenPair.token.priceInUsd;
+              total.supply.usd += markets[id].totalSupply * tokenPair.token.priceInUsd;
+          } else {
+              console.log('not found!');
+          }
+
+          usdPricesByCToken[m.symbol] = m.underlyingPriceUSD;
+          usdPricesByToken[m.underlyingSymbol] = m.underlyingPriceUSD;
 
           // @todo refactor
           if (typeof prevMarkets[id] !== 'undefined') {
@@ -226,8 +256,8 @@ export function useMarketsInfo() {
               prevBorrowUsd += prevTotalBorrowUsd;
               prevSupplyUsd += prevTotalSupplyUsd;
 
-              console.log('prevMarkets',{prevSupplyApy,prevTotalSupplyUsd,prevBorrowApy,prevTotalBorrowUsd})
-              console.log('markets',markets[id])
+              // console.log('prevMarkets',{prevSupplyApy,prevTotalSupplyUsd,prevBorrowApy,prevTotalBorrowUsd})
+              // console.log('markets',markets[id])
           } else {
               markets[id].supplyApyDiff = 0;
               markets[id].totalSupplyUsdDiff = 0;
@@ -253,6 +283,14 @@ export function useMarketsInfo() {
       });
       total.borrow.topMarkets.length = 3;
 
+      // volumes
+      total.supply.volume = response.supplyVolume.map(
+          (supply) => typeof usdPricesByCToken[supply.cTokenSymbol] !== 'undefined' ? supply.underlyingAmount * usdPricesByCToken[supply.cTokenSymbol] : 0
+      ).reduce((previous: number, current: number) => previous + current);
+      total.borrow.volume = response.borrowVolume.map(
+          (borrow) => typeof usdPricesByToken[borrow.underlyingSymbol] !== 'undefined' ? borrow.amount * usdPricesByToken[borrow.underlyingSymbol] : 0
+      ).reduce((previous: number, current: number) => previous + current);
+
       setMarketsInfo({
         markets: markets,
         total: total,
@@ -260,7 +298,7 @@ export function useMarketsInfo() {
     };
 
     getMarketsInfo();
-  }, [networkData, signer]);
+  }, [networkData, signer, tokenPairs]);
 
   return marketsInfo;
 }

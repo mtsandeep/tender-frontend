@@ -48,7 +48,7 @@ export default function MarketsContent() {
             <div className="flex items-end gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-[18px] md:text-[24px] leading-[18px] md:leading-[24px]">
                 <span>$</span>
-                <span>{total?.supply?.usd?.toFixed(2)}</span>
+                <span>{toShortFiatString(total?.supply?.usd)}</span>
               </div>
               {" | "}
               <div className={getTotalDiffClass(totalSupplyDiff)}>
@@ -104,7 +104,7 @@ export default function MarketsContent() {
             <div className="flex justify-between items-center font-space font-normal text-[16px] leading-[16px] md:text-[20px] md:leading-[20px]">
               <div>
                 <span>$</span>
-                <span>0</span>
+                <span>{toShortFiatString(total?.supply?.volume)}</span>
               </div>
               <div>
                 <span>{total?.supply?.count}</span>
@@ -176,7 +176,7 @@ export default function MarketsContent() {
             <div className="flex justify-between items-center font-space font-normal text-[16px] leading-[16px] md:text-[20px] md:leading-[20px]">
               <div>
                 <span>$</span>
-                <span>0</span>
+                <span>{toShortFiatString(total?.borrow?.volume)}</span>
               </div>
               <div>
                 <span>{total?.borrow?.count}</span>
