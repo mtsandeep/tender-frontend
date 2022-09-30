@@ -143,6 +143,8 @@ export default function Deposit({
     [tokenDecimals]
   );
 
+  console.log(isEnabled);
+
   return (
     <div>
       {txnHash !== "" ? (
@@ -206,13 +208,13 @@ export default function Deposit({
             </div>
             <div className="flex mt-6 uppercase">
               <button
-                className="flex-grow py-2 text-[#14F195] border-b-4 uppercase border-b-[#14F195] font-space font-bold text-xs sm:text-base"
+                className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
                 onClick={() => setIsSupplying(true)}
               >
                 Supply
               </button>
               <button
-                className="flex-grow py-3 font-space font-bold text-xs sm:text-base uppercase"
+                className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
                 onClick={() => setIsSupplying(false)}
               >
                 Withdraw
@@ -248,33 +250,18 @@ export default function Deposit({
                 </svg>
               </a>
               <div className="flex w-full sm:w-full items-center py-[24px]">
-                <div className="w-6 mr-3 sm:w-12">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    style={{ width: ICON_SIZE }}
-                    alt="icon"
-                  />
-                </div>
+                <img
+                  src={market.tokenPair.token.icon}
+                  alt="icon"
+                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
+                />
                 <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
                   Supply APY
                 </div>
-                <div>{market.marketData.depositApy}</div>
+                <div className="text-sm sm:text-base">
+                  {market.marketData.depositApy}
+                </div>
               </div>
-              {/* <div className="flex w-full sm:w-full items-center py-[24px]">
-                <div className="w-6 mr-3 sm:w-12">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    style={{ width: ICON_SIZE }}
-                    
-                    alt="icon"
-                  />
-                </div>
-
-                <div className="flex-grow font-nova text-sm sm:text-base  text-[#ADB5B3]">
-                  Distribution APY
-                </div>
-                <div>{market.marketData.depositApy}</div>
-              </div> */}
             </div>
             <BorrowLimit
               value={value}

@@ -11,12 +11,16 @@ import TooltipMobileMulti from "./tooltip-mobile-MULTI";
 import TwoPanelsEmpty from "./two-panels-empty";
 import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
+import * as math from "mathjs";
 
-export const checkColorClass = (value: number) => {
+export const checkColorClass = (value: number | string) => {
+  const valueNumber = parseFloat(
+    math.format(value, { notation: "fixed", precision: 2 })
+  );
   switch (true) {
-    case value > 0:
+    case valueNumber > 0:
       return "text-dark-green";
-    case value < 0:
+    case valueNumber < 0:
       return "text-[#00E0FF]";
     default:
       return "text-white";
