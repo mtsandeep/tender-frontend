@@ -211,7 +211,7 @@ export default function Repay({
             </div>
             <div className="flex mt-6 uppercase">
               <button
-                className="flex-grow py-3 font-space font-bold text-xs sm:text-base uppercase"
+                className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
                 onClick={() => setIsRepaying(false)}
               >
                 Borrow
@@ -254,12 +254,13 @@ export default function Repay({
               <div className="flex w-full sm:w-full items-center py-[24px]">
                 <img
                   src={market.tokenPair.token.icon}
-                  style={{ width: ICON_SIZE }}
-                  className="mr-3"
+                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
                   alt="icon"
                 />
-                <div className="flex-grow">Borrow APY</div>
-                <div>{borrowApyFormatted}</div>
+                <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
+                  Borrow APY
+                </div>
+                <div className="text-sm sm:text-base">{borrowApyFormatted}</div>
               </div>
             </div>
 
