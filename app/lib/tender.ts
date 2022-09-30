@@ -9,7 +9,7 @@ import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SamplePriceOracleAbi from "~/config/sample-price-oracle-abi";
 
 import type { TokenPair } from "~/types/global";
-import { formatUnits } from "ethers/lib/utils";
+import { formatEther, formatUnits } from "ethers/lib/utils";
 import type {
   TransactionReceipt,
   JsonRpcSigner,
@@ -67,7 +67,7 @@ async function getWalletBalance(signer: Signer, token: Token): Promise<number> {
   // ETH is a special case
   if (token.symbol === "ETH")  {
     const balance = await signer.getBalance();
-    const balanceInEth = ethers.utils.formatEther(balance);
+    const balanceInEth = formatEther(balance);
     return parseFloat(balanceInEth);
   }
 
@@ -160,17 +160,18 @@ async function getCurrentlySupplying(
   cToken: cToken,
   token: Token
 ): Promise<number> {
-  let abi = cToken.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi;
+  let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
   let contract = new ethers.Contract(cToken.address, abi, signer);
   let address = await signer.getAddress();
 
-  const balance: BigNumber = await contract.callStatic.balanceOf(address);
-
+  let balance = await contract.callStatic.balanceOf(address)
   let exchangeRateCurrent = await contract.exchangeRateStored();
   let tokens = balance.mul(exchangeRateCurrent)
 
-  // the exchange rate is scaled by 18 decimals
-  return formatBigNumber(tokens, token.decimals + 18);
+  return cToken.symbol === "tETH" ?
+    parseFloat(formatEther(tokens)) :
+    formatBigNumber(tokens, token.decimals + 18);
+    // the exchange rate is scaled by 18 decimals
 }
 
 /**
@@ -184,14 +185,21 @@ async function getCurrentlyBorrowing(
   cToken: cToken,
   token: Token
 ): Promise<number> {
+  let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
+
   let contract: Contract = new ethers.Contract(
     cToken.address,
-    SampleCTokenAbi,
+    abi,
     signer
   );
   let address: string = await signer.getAddress();
   let balance: BigNumber = await contract.borrowBalanceStored(address);
 
+  if (cToken.symbol === "tETH") {
+    const balanceInEth = formatEther(balance);
+    return parseFloat(balanceInEth);
+  }
+  
   return formatBigNumber(balance, token.decimals);
 }
 

@@ -303,8 +303,7 @@ export default function Borrow({
                 Your Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.borrowBalance)}{" "}
-                {market.tokenPair.token.symbol}
+                {market.borrowBalance}{" "}{market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px]">

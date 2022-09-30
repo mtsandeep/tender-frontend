@@ -1,4 +1,4 @@
-import { ICON_SIZE } from "~/lib/constants";
+ import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
@@ -288,9 +288,7 @@ export default function Withdraw({
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.supplyBalance) +
-                  " " +
-                  market.tokenPair.token.symbol}
+                {market.supplyBalance + " " + market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">
