@@ -1,4 +1,3 @@
-import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
@@ -20,7 +19,6 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
-import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
 
 export interface RepayProps {
@@ -80,7 +78,8 @@ export default function Repay({
     value,
     0,
     maxRepayableAmount,
-    parseFloat(newBorrowLimitUsed)
+    parseFloat(newBorrowLimitUsed),
+    tokenDecimals
   );
 
   let { updateTransaction, setIsWaitingToBeMined } = useContext(TenderContext);
@@ -212,7 +211,7 @@ export default function Repay({
             </div>
             <div className="flex mt-6 uppercase">
               <button
-                className="flex-grow py-3 font-space font-bold text-xs sm:text-base uppercase"
+                className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("borrow", value)}
               >
                 Borrow
@@ -255,12 +254,13 @@ export default function Repay({
               <div className="flex w-full sm:w-full items-center py-[24px]">
                 <img
                   src={market.tokenPair.token.icon}
-                  style={{ width: ICON_SIZE }}
-                  className="mr-3"
+                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
                   alt="icon"
                 />
-                <div className="flex-grow">Borrow APY</div>
-                <div>{borrowApyFormatted}</div>
+                <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
+                  Borrow APY
+                </div>
+                <div className="text-sm sm:text-base">{borrowApyFormatted}</div>
               </div>
             </div>
 

@@ -1,4 +1,3 @@
-import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type {
@@ -80,7 +79,8 @@ export default function Borrow({
     value,
     0,
     maxBorrowLimit,
-    parseFloat(newBorrowLimitUsed)
+    parseFloat(newBorrowLimitUsed),
+    tokenDecimals
   );
 
   let inputTextClass = shrinkyInputClass(value.length);
@@ -182,7 +182,7 @@ export default function Borrow({
                 Borrow
               </button>
               <button
-                className="flex-grow py-3 font-space font-bold text-xs sm:text-base uppercase"
+                className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("repay", value)}
               >
                 Repay
@@ -190,7 +190,7 @@ export default function Borrow({
             </div>
           </div>
           <div className="py-[30px] px-4 sm:px-12 bg-[#0D0D0D]">
-            <div className="flex flex-col items-start mb-3 text-gray-400  pb-6">
+            <div className="flex flex-col items-start mb-3 text-gray-400 pb-6">
               <a
                 href={`/markets/${market.tokenPair.token.symbol}`}
                 target="_blank"
@@ -216,12 +216,13 @@ export default function Borrow({
               <div className="flex w-full sm:w-full items-center py-[24px]">
                 <img
                   src={market.tokenPair.token.icon}
-                  style={{ width: ICON_SIZE }}
-                  className="mr-3"
+                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
                   alt="icon"
                 />
-                <div className="flex-grow">Borrow APY</div>
-                <div>{borrowApyFormatted}</div>
+                <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
+                  Borrow APY
+                </div>
+                <div className="text-sm sm:text-base">{borrowApyFormatted}</div>
               </div>
             </div>
 
