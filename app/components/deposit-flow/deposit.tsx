@@ -231,7 +231,7 @@ export default function Deposit({
                 href={`/markets/${market.tokenPair.token.symbol}`}
                 target="_blank"
                 rel="noreferrer"
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
+                className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
                 Supply Rates
                 <svg

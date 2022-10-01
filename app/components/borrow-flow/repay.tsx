@@ -233,7 +233,7 @@ export default function Repay({
                 href={`/markets/${market.tokenPair.token.symbol}`}
                 target="_blank"
                 rel="noreferrer"
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
+                className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
                 Borrow Rates
                 <svg
