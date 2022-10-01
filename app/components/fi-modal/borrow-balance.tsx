@@ -27,9 +27,9 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
       </div>
 
       <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base border-b border-[#282C2B]">
-        <div className="flex-grow py-4 sm:py-5 ">Borrow Balance</div>
+        <div className="flex-grow py-4 sm:py-5 ">Borrow Capacity</div>
         <div className="text-white text-base font-nova ">
-          {(value == "0" || !isValid) && <>{toFiatString(borrowBalance)}</>}
+          {(value == "0" || !isValid) && <>${toFiatString(borrowBalance)}</>}
           {isValid && value != "0" && (
             <div className="flex items-center">
               ${toFiatString(borrowBalance)}
