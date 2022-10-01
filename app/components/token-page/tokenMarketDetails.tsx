@@ -155,11 +155,13 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
             >
               <div
                 onClick={() =>
-                  setMobileTooltipData({
-                    ...mobileTooltipData,
-                    open: window.innerWidth < 1023,
-                    textTop: item.tooltipText,
-                  })
+                  item?.tooltipText
+                    ? setMobileTooltipData({
+                        ...mobileTooltipData,
+                        open: window.innerWidth < 1023,
+                        textTop: item.tooltipText,
+                      })
+                    : false
                 }
                 className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
