@@ -216,7 +216,7 @@ export default function Withdraw({
                 <img
                   src={market.tokenPair.token.icon}
                   alt="icon"
-                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
+                  className="mr-[10px] md:mr-[10px] w-[24px] h-[24px] md:w-[40px] md:h-[40px]"
                 />
                 <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
                   Supply APY

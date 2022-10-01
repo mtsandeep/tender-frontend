@@ -215,7 +215,7 @@ export default function Borrow({
               <div className="flex w-full sm:w-full items-center py-[24px]">
                 <img
                   src={market.tokenPair.token.icon}
-                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
+                  className="mr-[10px] md:mr-[10px] w-[24px] h-[24px] md:w-[40px] md:h-[40px]"
                   alt="icon"
                 />
                 <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
