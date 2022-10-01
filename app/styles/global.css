@@ -534,7 +534,7 @@ body.body__fixed {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: -1;
+  z-index: -2;
   margin: -1px;
   border-radius: inherit;
   background-image: linear-gradient(90deg,
@@ -543,6 +543,19 @@ body.body__fixed {
       #b5cfcc32,
       #b5cfcc01);
   border-image-slice: 1;
+}
+
+.top__custom::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: 0px;
+  border-radius: inherit;
+  background: #000;
 }
 
 .top__custom__value {

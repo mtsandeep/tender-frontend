@@ -7,7 +7,7 @@ import { TenderContext } from "~/contexts/tender-context";
 function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
-    textTop?: string;
+    textTop?: any;
     icon?: string;
     token?: string;
     textBottom?: string;
@@ -23,7 +23,6 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
     Number((1 / Number(marketInfo.exchangeRate)).toFixed(2))
   );
   const contractUrl = `${networkData.blockExplorerUrl}/address/${marketInfo.id}`;
-
   const customData = [
     {
       itemName: "Price",
@@ -40,7 +39,8 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
     },
     { itemName: "# of Suppliers", itemData: marketInfo.totalSuppliersCount },
     { itemName: "# of Borrowers", itemData: marketInfo.totalBorrowersCount },
-    { itemName: marketInfo.cTokenSymbol + " Borrow Cap", itemData: "No limit" },
+    { itemName: "Borrow Cap", itemData: "No limit" },
+    { itemName: "Supply Cap", itemData: "No limit" },
     { itemName: "Interest Paid/Day", itemData: "0" },
     {
       itemName: "Reserves",
@@ -58,16 +58,30 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
     {
       itemName: "Liquidation Threshold",
       itemData: marketInfo.collateralFactor * 100 + "%",
-      tooltipText: `Test text.`,
+      tooltipText: `This represents the threshold at which a borrow position will be considered undercollateralized and subject to liquidation for each collateral. For example, if a collateral has a liquidation threshold of 80%, it means that the position will be liquidated when the debt value is worth 80% of the collateral value.`,
     },
     {
       itemName: "Liquidation Penalty",
       itemData: marketInfo.collateralFactor * 100 + "%",
-      tooltipText: `Test text.`,
+      tooltipText: `When a liquidation occurs, liquidators repay up to 50% of the outstanding borrowed amount on behalf of the borrower. In return, they can buy the collateral at a discount and keep the difference (liquidation penalty) as a bonus.`,
     },
     {
       itemName: "Reserve Factor",
-      tooltipText: `Test text.`,
+      tooltipText: (
+        <p>
+          Reserve factor is a percentage of interest which goes to a collector
+          contract that is controlled by{" "}
+          <a
+            target="_blank"
+            className="line-solid cursor-pointer text-white"
+            rel="noreferrer"
+            href="https://www.tender.fi/"
+          >
+            Tender.fi
+          </a>{" "}
+          governance to promote ecosystem growth.
+        </p>
+      ),
       itemData: marketInfo.reserveFactor + "%",
     },
     {
@@ -141,11 +155,13 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
             >
               <div
                 onClick={() =>
-                  setMobileTooltipData({
-                    ...mobileTooltipData,
-                    open: window.innerWidth < 1023,
-                    textTop: item.tooltipText,
-                  })
+                  item?.tooltipText
+                    ? setMobileTooltipData({
+                        ...mobileTooltipData,
+                        open: window.innerWidth < 1023,
+                        textTop: item.tooltipText,
+                      })
+                    : false
                 }
                 className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
