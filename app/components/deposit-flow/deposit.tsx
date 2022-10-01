@@ -297,14 +297,14 @@ export default function Deposit({
                         setIsEnabling(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isEnabling ? "Enabling..." : "Enable"}
                   </button>
                 )}
 
                 {signer && isEnabled && !isValid && (
-                  <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                     {validationDetail}
                   </button>
                 )}
@@ -358,7 +358,7 @@ export default function Deposit({
                         setIsDepositing(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isDepositing ? "Depositing..." : "Deposit"}
                   </button>
