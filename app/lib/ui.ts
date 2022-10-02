@@ -82,12 +82,14 @@ export const toCryptoString = (v: number): string => {
 };
 
 export const toMaxString = (v: number, precision: number = 6): string => {
+  // skip formatting for zero values
   if (v === 0) {
     return v.toString();
   }
 
   let formattedValue = formatMaxString(v, precision);
 
+  // prevent rounding to bigger value
   if (parseFloat(formattedValue) > v) {
     formattedValue = formatMaxString(v, precision + 1);
     const decimals = (formattedValue.split(".")[1] || []).length;
@@ -97,6 +99,7 @@ export const toMaxString = (v: number, precision: number = 6): string => {
     }
   }
 
+  // remove trailing zeros
   return formattedValue.replace(/\.0+$|(\.\d*[1-9])(0+)$/, "$1");
 }
 
