@@ -42,7 +42,8 @@ export const toFiatString = (v: number): string => {
   return `${roundedNumber.toLocaleString("en-US", {
     // style: "currency",
     currency: "USD",
-  })}`;
+    minimumFractionDigits: 2
+  })}`
 };
 
 const A_BIG_NUMBER = 100000;
