@@ -82,16 +82,22 @@ export const toCryptoString = (v: number): string => {
 };
 
 export const toMaxString = (v: number, precision: number = 6): string => {
-  const formattedValue = formatMaxString(v, precision);
-
-  if (parseFloat(formattedValue) > v) {
-    const formattedValue = formatMaxString(v, precision + 1);
-    const decimals = (formattedValue.split(".")[1] || []).length;
-
-    return decimals > precision ? formattedValue.slice(0, precision - decimals) : formattedValue;
+  if (v === 0) {
+    return v.toString();
   }
 
-  return formattedValue;
+  let formattedValue = formatMaxString(v, precision);
+
+  if (parseFloat(formattedValue) > v) {
+    formattedValue = formatMaxString(v, precision + 1);
+    const decimals = (formattedValue.split(".")[1] || []).length;
+
+    if (decimals > precision) {
+      formattedValue = formattedValue.slice(0, precision - decimals);
+    }
+  }
+
+  return formattedValue.replace(/\.0+$|(\.\d*[1-9])(0+)$/, "$1");
 }
 
 export const toMaxNumber = (v: number, precision: number = 6): number =>
