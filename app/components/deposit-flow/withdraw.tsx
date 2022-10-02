@@ -194,7 +194,7 @@ export default function Withdraw({
                 href={`/markets/${market.tokenPair.token.symbol}`}
                 target="_blank"
                 rel="noreferrer"
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
+                className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
                 Supply Rates
                 <svg
@@ -216,7 +216,7 @@ export default function Withdraw({
                 <img
                   src={market.tokenPair.token.icon}
                   alt="icon"
-                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
+                  className="mr-[10px] md:mr-[10px] w-[24px] h-[24px] md:w-[40px] md:h-[40px]"
                 />
                 <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
                   Supply APY
@@ -240,7 +240,7 @@ export default function Withdraw({
             <div className="flex justify-center mb-8">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
-                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                   {validationDetail}
                 </button>
               )}
@@ -276,7 +276,7 @@ export default function Withdraw({
                       setIsWithdrawing(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                 >
                   {isWithdrawing ? "Withdrawing..." : "Withdraw"}
                 </button>
