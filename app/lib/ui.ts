@@ -74,10 +74,12 @@ export const toCryptoString = (v: number): string => {
     s = v
       .toFixed(7) // round to 7 places instead of 6
       .slice(0, -1); // then drop the last digit because rounding up breaks the upper limit
-
-    // note, safari does not support regexp look behind
-    // If there is a decimal, remove traliing 0's, leaving at least one left
-    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0");
+      
+    s = Intl.NumberFormat("en-US", {
+      notation: "standard",
+      minimumFractionDigits:2,
+      maximumFractionDigits:6
+    }).format(v);
   }
   return s;
 };
