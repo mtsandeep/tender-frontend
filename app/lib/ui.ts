@@ -82,21 +82,20 @@ export const toCryptoString = (v: number): string => {
 };
 
 export const toMaxString = (v: number, precision: number = 6): string => {
-  const formattedValue = toMaxNumber(v, precision);
+  const formattedValue = formatMaxString(v, precision);
 
-  if (formattedValue > v) {
-    const formattedValue = toMaxNumber(v, precision + 1).toString();
+  if (parseFloat(formattedValue) > v) {
+    const formattedValue = formatMaxString(v, precision + 1);
     const decimals = (formattedValue.split(".")[1] || []).length;
 
     return decimals > precision ? formattedValue.slice(0, precision - decimals) : formattedValue;
   }
 
-  return formattedValue.toString();
+  return formattedValue;
 }
 
 export const toMaxNumber = (v: number, precision: number = 6): number =>
-  parseFloat(math.format(v, { notation: "fixed", precision, })
-  );
+  parseFloat(formatMaxString(v, precision));
 
 // return decimal with precision 4 for values less than 1 and round to 2 decimals for number greater than 1
 export const getDisplayPriceString = (v: number) =>
@@ -104,5 +103,8 @@ export const getDisplayPriceString = (v: number) =>
     notation: "standard",
     maximumSignificantDigits: v < 1 ? 4 : undefined,
   }).format(v);
+
+const formatMaxString = (v: number, precision: number = 6): string =>
+    math.format(v, {notation: "fixed", precision,});
 
 export { shrinkyInputClass };
