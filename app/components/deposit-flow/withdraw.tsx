@@ -156,7 +156,7 @@ export default function Withdraw({
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
                   maxValue={maxWithdrawAmount}
-                  updateValue={() => setValue(toMaxString(maxWithdrawAmount))}
+                  updateValue={() => setValue(toMaxString(maxWithdrawAmount, tokenDecimals))}
                   label="Max"
                   maxValueLabel={market.tokenPair.token.symbol}
                   color="#14F195"

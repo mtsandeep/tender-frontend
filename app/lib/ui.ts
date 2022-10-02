@@ -62,7 +62,7 @@ export const toShortCryptoString = (v: number): string => {
 /**
  *
  * @param v Crypto value
- * @returns A human readable string for this value
+ * @returns A human-readable string for this value
  */
 export const toCryptoString = (v: number): string => {
   var s: string;
@@ -75,25 +75,34 @@ export const toCryptoString = (v: number): string => {
       .slice(0, -1); // then drop the last digit because rounding up breaks the upper limit
 
     // note, safari does not support regexp look behind
-    // If there is a decimal, remove traliing 0's, leaving at least one left
+    // If there is a decimal, remove trailing 0's, leaving at least one left
     if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0");
   }
   return s;
 };
 
-export const toMaxString = (v: number): string => getString(v);
+export const toMaxString = (v: number, precision: number = 6): string => {
+  const formattedValue = toMaxNumber(v, precision);
+
+  if (formattedValue > v) {
+    const formattedValue = toMaxNumber(v, precision + 1).toString();
+    const decimals = (formattedValue.split(".")[1] || []).length;
+
+    return decimals > precision ? formattedValue.slice(0, precision - decimals) : formattedValue;
+  }
+
+  return formattedValue.toString();
+}
 
 export const toMaxNumber = (v: number, precision: number = 6): number =>
   parseFloat(math.format(v, { notation: "fixed", precision, })
   );
 
-// return decimal with precision 4 for values less than 1 and round to 2 decimals for nmumber greater than 1
+// return decimal with precision 4 for values less than 1 and round to 2 decimals for number greater than 1
 export const getDisplayPriceString = (v: number) =>
   Intl.NumberFormat("en-US", {
     notation: "standard",
     maximumSignificantDigits: v < 1 ? 4 : undefined,
   }).format(v);
-
-export const getString = (v: number) => math.format(v, { notation: "fixed" });
 
 export { shrinkyInputClass };

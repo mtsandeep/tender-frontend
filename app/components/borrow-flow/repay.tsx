@@ -201,7 +201,7 @@ export default function Repay({
                   <Max
                     maxValue={maxRepayableAmount}
                     updateValue={() =>
-                      setValue(toMaxString(maxRepayableAmount))
+                      setValue(toMaxString(maxRepayableAmount, tokenDecimals))
                     }
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#00E0FF"

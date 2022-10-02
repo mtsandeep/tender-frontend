@@ -143,8 +143,6 @@ export default function Deposit({
     [tokenDecimals]
   );
 
-  console.log(isEnabled);
-
   return (
     <div>
       {txnHash !== "" ? (
@@ -189,7 +187,7 @@ export default function Deposit({
                 <div className="flex flex-col justify-center items-center overflow-hidden font-space">
                   <Max
                     maxValue={walletBalance}
-                    updateValue={() => setValue(toMaxString(walletBalance))}
+                    updateValue={() => setValue(toMaxString(walletBalance, tokenDecimals))}
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#14F195"
                   />
