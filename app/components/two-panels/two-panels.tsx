@@ -56,22 +56,22 @@ export default function TwoPanels() {
   };
 
   const marketsWithSupply = tenderContextData.markets.filter(
-    (token: Market) => token.supplyBalance && token.supplyBalanceInUsd > 0.01
+    (token: Market) => token.supplyBalance && token.supplyBalanceInUsd > 0
   );
 
   const marketsWithoutSupply = tenderContextData.markets.filter(
-    (token: Market) => !token.supplyBalance || token.supplyBalanceInUsd <= 0.001
+    (token: Market) => !token.supplyBalance || token.supplyBalanceInUsd <= 0
   );
 
   const marketsWithBorrow = tenderContextData.markets.filter(
-    (token: Market) => token.borrowBalance && token.borrowBalanceInUsd > 0.001
+    (token: Market) => token.borrowBalance && token.borrowBalanceInUsd > 0
   );
 
   const marketsWithoutBorrow = tenderContextData.markets
     .filter((token: Market) => token.tokenPair.token.symbol !== "GLP")
     .filter(
       (token: Market) =>
-        !token.borrowBalance || token.borrowBalanceInUsd <= 0.001
+        !token.borrowBalance || token.borrowBalanceInUsd <= 0
     );
 
   return tenderContextData.markets.length ? (
@@ -84,7 +84,7 @@ export default function TwoPanels() {
         style={{
           content: {
             inset: "unset",
-            margin: "50px auto",
+            margin: "20px auto",
             zoom: "75%",
             position: "relative",
             maxWidth: 600,

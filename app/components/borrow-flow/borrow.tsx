@@ -165,8 +165,8 @@ export default function Borrow({
               />
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
-                  maxValue={borrowLimit}
-                  updateValue={() => setValue(toMaxString(maxBorrowLimit))}
+                  maxValue={maxBorrowLimit}
+                  updateValue={() => setValue(toMaxString(maxBorrowLimit, tokenDecimals))}
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
                   color="#00E0FF"
@@ -194,7 +194,7 @@ export default function Borrow({
                 href={`/markets/${market.tokenPair.token.symbol}`}
                 target="_blank"
                 rel="noreferrer"
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
+                className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
                 Borrow Rates
                 <svg
@@ -215,7 +215,7 @@ export default function Borrow({
               <div className="flex w-full sm:w-full items-center py-[24px]">
                 <img
                   src={market.tokenPair.token.icon}
-                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
+                  className="mr-[10px] md:mr-[10px] w-[24px] h-[24px] md:w-[40px] md:h-[40px]"
                   alt="icon"
                 />
                 <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
@@ -238,7 +238,7 @@ export default function Borrow({
             <div className="flex justify-center mb-8">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
-                <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                   {validationDetail || "Borrow"}
                 </button>
               )}
@@ -291,7 +291,7 @@ export default function Borrow({
                       setIsBorrowing(false);
                     }
                   }}
-                  className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                 >
                   {isBorrowing ? "Borrowing..." : "Borrow"}
                 </button>

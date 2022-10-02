@@ -143,8 +143,6 @@ export default function Deposit({
     [tokenDecimals]
   );
 
-  console.log(isEnabled);
-
   return (
     <div>
       {txnHash !== "" ? (
@@ -189,7 +187,7 @@ export default function Deposit({
                 <div className="flex flex-col justify-center items-center overflow-hidden font-space">
                   <Max
                     maxValue={walletBalance}
-                    updateValue={() => setValue(toMaxString(walletBalance))}
+                    updateValue={() => setValue(toMaxString(walletBalance, tokenDecimals))}
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#14F195"
                   />
@@ -231,7 +229,7 @@ export default function Deposit({
                 href={`/markets/${market.tokenPair.token.symbol}`}
                 target="_blank"
                 rel="noreferrer"
-                className="cursor-pointer w-[120px] md:w-[120px] flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
+                className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
                 Supply Rates
                 <svg
@@ -253,7 +251,7 @@ export default function Deposit({
                 <img
                   src={market.tokenPair.token.icon}
                   alt="icon"
-                  className="mr-[10px] w-[24px] h-[24px] md:w-[50px] md:h-[50px]"
+                  className="mr-[10px] md:mr-[10px] w-[24px] h-[24px] md:w-[40px] md:h-[40px]"
                 />
                 <div className="flex-grow font-nova text-sm sm:text-base text-[#ADB5B3]">
                   Supply APY
@@ -297,14 +295,14 @@ export default function Deposit({
                         setIsEnabling(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isEnabling ? "Enabling..." : "Enable"}
                   </button>
                 )}
 
                 {signer && isEnabled && !isValid && (
-                  <button className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                     {validationDetail}
                   </button>
                 )}
@@ -358,7 +356,7 @@ export default function Deposit({
                         setIsDepositing(false);
                       }
                     }}
-                    className="uppercase py-4 text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                   >
                     {isDepositing ? "Depositing..." : "Deposit"}
                   </button>
