@@ -90,7 +90,7 @@ export default function AccountSummaryEmpty({ loading }: { loading: boolean }) {
         className="w-full h-full bg-green-300 mr-2 h-[5px] md:h-[4px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
         style={{
           background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
-          width: 15,
+          width: 16,
           transition: "width 1s ease-out",
         }}
       ></div>

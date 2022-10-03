@@ -28,19 +28,19 @@ export default function Display({
           className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] top__custom__value green }`}
         >
           <div className="flex flex-col h-full justify-center items-center">
-            <div className="uppercase text-[#818987] text-sm leading-[170%] tracking-widest font-nova font-medium text-sm">
+            <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm">
               Net APY
             </div>
 
             {netApy != null && (
-              <div className="text-2xl md:text-[35px] font-space font-normal">
+              <div className="text-[24px] md:text-[35px] font-space font-normal">
                 {netApy.toFixed(2)}%
               </div>
             )}
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
             {netApy == null && (
-              <div className="text-2xl md:text-[35px] font-space font-normal">
+              <div className="text-[24px] md:text-[35px] font-space font-normal">
                 0%
               </div>
             )}
@@ -109,21 +109,21 @@ export default function Display({
           </div>
         </div>
       </div>
-      <div
-        className="w-full h-full bg-green-300 mr-2 h-[5px] md:h-[4px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
-        style={{
-          background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
-          width: borrowLimitUsed === "" ? 15 : `${percentUsed}%`,
-          transition: "width 1s ease-out",
-        }}
-      >
-        {parseFloat(borrowLimitUsed) > 0 && (
-          <span
-            className={percentUsed > 90 ? "span-value-bottom" : "span-value"}
-          >
-            {borrowLimitUsed}%
-          </span>
-        )}
+
+      <div className="flex items-center">
+        <div className="h-[5px] bg-[#1BD6CF] w-[16px] md:h-[4px] absolute bottom-0 left-0 zIndex-1"></div>
+        <div
+          className="w-0 h-full bg-green-300 h-[5px] md:h-[4px] absolute bottom-0 left-[16px] zIndex-1 flex justify-end"
+          style={{
+            background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
+            width: `calc(${percentUsed}% - 16px)`,
+            transition: "width 1s ease-out",
+          }}
+        >
+          {parseFloat(borrowLimitUsed) > 0 && (
+            <span className="span-value">{borrowLimitUsed}%</span>
+          )}
+        </div>
       </div>
       <div className="w-full flex absolute bottom-0 left-0">
         <div className="bg-[#262D2A] h-[4px] flex-grow"></div>
