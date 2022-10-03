@@ -41,15 +41,19 @@ export default function MarketsContent() {
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
                 ${toShortFiatString(total?.supply?.usd)}
               </div>
-              <div className="w-[2px] bg-white h-[18px] md:h-[24px]"></div>
-              <div
-                className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
-                  totalSupplyDiff
-                )}`}
-              >
-                {totalSupplyDiff > 0 ? "+" : ""}
-                {`${totalSupplyDiff}%`}
-              </div>
+              {totalSupplyDiff !== 0 && (
+                <>
+                  <div className="w-[2px] bg-white h-[18px] md:h-[24px]"></div>
+                  <div
+                    className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
+                      totalSupplyDiff
+                    )}`}
+                  >
+                    {totalSupplyDiff > 0 ? "+" : ""}
+                    {`${totalSupplyDiff}%`}
+                  </div>
+                </>
+              )}
             </div>
             <div className="font-nova text-xs md:text-sm leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
               Top 3 Markets
@@ -114,15 +118,19 @@ export default function MarketsContent() {
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
                 ${total?.borrow?.usd?.toFixed(2)}
               </div>
-              <div className="w-[2px] bg-white h-[18px] md:h-[24px]"></div>
-              <div
-                className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
-                  totalSupplyDiff
-                )}`}
-              >
-                {totalBorrowDiff > 0 ? "+" : ""}
-                {`${totalBorrowDiff}%`}
-              </div>
+              {totalBorrowDiff !== 0 && (
+                <>
+                  <div className="w-[2px] bg-white h-[18px] md:h-[24px]"></div>
+                  <div
+                    className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
+                      totalBorrowDiff
+                    )}`}
+                  >
+                    {totalBorrowDiff > 0 ? "+" : ""}
+                    {`${totalBorrowDiff}%`}
+                  </div>
+                </>
+              )}
             </div>
             <div className="font-nova text-xs md:text-sm leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
               Top 3 Markets
