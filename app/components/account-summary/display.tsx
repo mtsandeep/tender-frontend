@@ -1,4 +1,4 @@
-import { toFiatString } from "~/lib/ui";
+import { shrinkyInputClass, toFiatString } from "~/lib/ui";
 import Ring from "./ring";
 interface props {
   totalSuppliedUsd: number;
@@ -16,7 +16,7 @@ export default function Display({
   totalBorrowedUsd,
   borrowBalanceInUsd,
   supplyBalanceInUsd,
-  netApy,
+  netApy = null,
   borrowLimitUsed,
   percentUsed,
   borrowLimit,
@@ -32,18 +32,17 @@ export default function Display({
               Net APY
             </div>
 
-            {netApy != null && (
-              <div className="text-[24px] md:text-[35px] font-space font-normal">
-                {netApy.toFixed(2)}%
-              </div>
-            )}
+            <div
+              className={`font-space font-normal ${
+                netApy && netApy?.toString()?.length > 7
+                  ? "text-[18px] md:text-[24px]"
+                  : "text-[24px] md:text-[35px]"
+              }`}
+            >
+              {netApy != null ? netApy.toFixed(2) + "%" : "0%"}
+            </div>
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
-            {netApy == null && (
-              <div className="text-[24px] md:text-[35px] font-space font-normal">
-                0%
-              </div>
-            )}
             <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>
