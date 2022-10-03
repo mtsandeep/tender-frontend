@@ -28,19 +28,19 @@ export default function Display({
           className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] top__custom__value green }`}
         >
           <div className="flex flex-col h-full justify-center items-center">
-            <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm">
+            <div className="uppercase text-[#818987] text-sm leading-[170%] tracking-widest font-nova font-medium text-sm">
               Net APY
             </div>
 
             {netApy != null && (
-              <div className="text-[24px] md:text-[35px] font-space font-normal">
+              <div className="text-2xl md:text-[35px] font-space font-normal">
                 {netApy.toFixed(2)}%
               </div>
             )}
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
             {netApy == null && (
-              <div className="text-[24px] md:text-[35px] font-space font-normal">
+              <div className="text-2xl md:text-[35px] font-space font-normal">
                 0%
               </div>
             )}

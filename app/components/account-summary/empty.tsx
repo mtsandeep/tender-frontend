@@ -19,12 +19,12 @@ export default function AccountSummaryEmpty({ loading }: { loading: boolean }) {
           className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] bg-[#111111] green }`}
         >
           <div className="flex flex-col h-full justify-center items-center">
-            <div className="uppercase text-[#818987] text-[13px] leading-[170%] tracking-widest font-nova font-medium text-sm mb-[5px] md:mb-[10px]">
+            <div className="uppercase text-[#818987] text-sm leading-[170%] tracking-widest font-nova font-medium text-sm mb-[5px] md:mb-[10px]">
               Net APY
             </div>
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
-            <div className="animate w-[70px] md:w-[90px] h-[26px] md:h-[34px] text-[24px] md:text-[35px] font-space font-normal"></div>
+            <div className="animate w-[70px] md:w-[90px] h-[26px] md:h-[34px] text-2xl md:text-[35px] font-space font-normal"></div>
             <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>

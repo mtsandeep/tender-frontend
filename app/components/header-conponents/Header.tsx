@@ -92,13 +92,6 @@ export default function Header() {
               unclaimedUsd: "$0",
               onClickClaim: () => console.log(""),
             },
-            {
-              title: "Protocol Rewards (esTND)",
-              exchange: "1 esTND = $0.0035",
-              unclaimed: "0 esTND",
-              unclaimedUsd: "$0",
-              onClickClaim: () => console.log(""),
-            },
           ],
         }}
         handlerClose={() =>

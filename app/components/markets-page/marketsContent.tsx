@@ -20,14 +20,6 @@ export default function MarketsContent() {
   const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
   const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
 
-  const getTotalDiffClass = function (value: number) {
-    return value > 0
-      ? "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#14f195]"
-      : value < 0
-      ? "text-[14] relative bottom-[0] sm:bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px] text-[#00E0FF]"
-      : "text-[14] relative bottom-[1px] md:text-[18px] leading-[14px] md:leading-[18px]";
-  };
-
   return (
     <div>
       <TooltipMobileMulti
@@ -41,24 +33,25 @@ export default function MarketsContent() {
       />
       <div className="switch__to__network max-w-[1068px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
         <div className="panel-custom border-custom">
-          <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-[18px] leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
+          <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Supply
           </div>
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
-            <div className="flex items-end gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
-              <div className="text-[18px] md:text-[24px] leading-[18px] md:leading-[24px]">
-                <span>$</span>
-                <span>{toShortFiatString(total?.supply?.usd)}</span>
+            <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
+              <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
+                ${toShortFiatString(total?.supply?.usd)}
               </div>
-              {" | "}
-              <div className={getTotalDiffClass(totalSupplyDiff)}>
-                <span>
-                  {totalSupplyDiff > 0 ? "+" : ""}
-                  {`${totalSupplyDiff}%`}
-                </span>
+              <div className="w-[2px] bg-white h-[18px] md:h-[24px]"></div>
+              <div
+                className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
+                  totalSupplyDiff
+                )}`}
+              >
+                {totalSupplyDiff > 0 ? "+" : ""}
+                {`${totalSupplyDiff}%`}
               </div>
             </div>
-            <div className="font-nova text-[12px] md:text-[14px] leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
+            <div className="font-nova text-xs md:text-sm leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
               Top 3 Markets
             </div>
             <div className="font-nova flex flex-col font-space gap-y-[15px] md:gap-y-[24px]">
@@ -71,7 +64,7 @@ export default function MarketsContent() {
 
                 return (
                   <div key={index} className="flex flex-col gap-y-[10px]">
-                    <label className="flex justify-between text-[14px] md:text-[16px] leading-[20px] md:leading-[22px]">
+                    <label className="flex justify-between text-sm md:text-base leading-[20px] md:leading-[22px]">
                       <p className="uppercase">{m.symbol}</p>
                       <div key={index} className="text-[#14F195]">
                         <span>{marketPercentage}</span>
@@ -97,11 +90,11 @@ export default function MarketsContent() {
             </div>
           </div>
           <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
-            <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-[12px] leading-[17px] md:text-[14px] md:leading-[20px] font-semibold text-[#818987]">
+            <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Supply Volume</p>
               <p># of Suppliers</p>
             </div>
-            <div className="flex justify-between items-center font-space font-normal text-[16px] leading-[16px] md:text-[20px] md:leading-[20px]">
+            <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
               <div>
                 <span>$</span>
                 <span>{toShortFiatString(total?.supply?.volume)}</span>
@@ -113,24 +106,25 @@ export default function MarketsContent() {
           </div>
         </div>
         <div className="panel-custom border-custom">
-          <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-[18px] leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
+          <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Borrow
           </div>
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
-            <div className="flex items-end gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
-              <div className="text-[18px] md:text-[24px] leading-[18px] md:leading-[24px]">
-                <span>$</span>
-                <span>{total?.borrow?.usd?.toFixed(2)}</span>
+            <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
+              <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
+                ${total?.borrow?.usd?.toFixed(2)}
               </div>
-              {" | "}
-              <div className={getTotalDiffClass(totalBorrowDiff)}>
-                <span>
-                  {totalBorrowDiff > 0 ? "+" : ""}
-                  {`${totalBorrowDiff}%`}
-                </span>
+              <div className="w-[2px] bg-white h-[18px] md:h-[24px]"></div>
+              <div
+                className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
+                  totalSupplyDiff
+                )}`}
+              >
+                {totalBorrowDiff > 0 ? "+" : ""}
+                {`${totalBorrowDiff}%`}
               </div>
             </div>
-            <div className="font-nova text-[12px] md:text-[14px] leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
+            <div className="font-nova text-xs md:text-sm leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
               Top 3 Markets
             </div>
             <div className="font-nova flex flex-col font-space gap-y-[15px] md:gap-y-[24px]">
@@ -143,7 +137,7 @@ export default function MarketsContent() {
 
                 return (
                   <div key={index} className="flex flex-col gap-y-[10px]">
-                    <label className="flex justify-between text-[14px] md:text-[16px] leading-[20px] md:leading-[22px]">
+                    <label className="flex justify-between text-sm md:text-base leading-[20px] md:leading-[22px]">
                       <p className="uppercase">{m.symbol}</p>
                       <div className="text-[#00E0FF]">
                         <span>{marketPercentage}</span>
@@ -169,11 +163,11 @@ export default function MarketsContent() {
             </div>
           </div>
           <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
-            <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-[12px] leading-[17px] md:text-[14px] md:leading-[20px] font-semibold text-[#818987]">
+            <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Borrow Volume</p>
               <p># of Borrowers</p>
             </div>
-            <div className="flex justify-between items-center font-space font-normal text-[16px] leading-[16px] md:text-[20px] md:leading-[20px]">
+            <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
               <div>
                 <span>$</span>
                 <span>{toShortFiatString(total?.borrow?.volume)}</span>
@@ -187,7 +181,7 @@ export default function MarketsContent() {
       </div>
       <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
         <div>
-          <div className="mb-[20px] font-nova text-white text-[16px] leading-[22px] md:leading-[25px] font-semibold mb-[21px] md:mb-[18px] md:text-[18px]">
+          <div className="mb-[20px] font-nova text-white text-base leading-[22px] md:leading-[25px] font-semibold mb-[21px] md:mb-[18px] md:text-lg">
             All Markets
           </div>
           <div className="pb-[5px] md:pb-[0px] panel-custom markets border-custom">
