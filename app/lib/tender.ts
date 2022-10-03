@@ -165,13 +165,11 @@ async function getCurrentlySupplying(
   let address = await signer.getAddress();
 
   let balance = await contract.callStatic.balanceOf(address)
-  let exchangeRateCurrent = await contract.exchangeRateStored();
+  let exchangeRateCurrent: BigNumber = await contract.exchangeRateStored();
   let tokens = balance.mul(exchangeRateCurrent)
 
-  return cToken.symbol === "tETH" ?
-    parseFloat(formatEther(tokens)) :
-    formatBigNumber(tokens, token.decimals + 18);
-    // the exchange rate is scaled by 18 decimals
+  // the exchange rate is scaled by 18 decimals
+  return formatBigNumber(tokens, token.decimals + 18);
 }
 
 /**
@@ -194,11 +192,6 @@ async function getCurrentlyBorrowing(
   );
   let address: string = await signer.getAddress();
   let balance: BigNumber = await contract.borrowBalanceStored(address);
-
-  if (cToken.symbol === "tETH") {
-    const balanceInEth = formatEther(balance);
-    return parseFloat(balanceInEth);
-  }
   
   return formatBigNumber(balance, token.decimals);
 }
