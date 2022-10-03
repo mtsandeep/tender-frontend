@@ -303,7 +303,7 @@ export default function Borrow({
                 Your Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.borrowBalance)}{" "}
+                {toCryptoString(market.borrowBalance, tokenDecimals)}{" "}
                 {market.tokenPair.token.symbol}
               </div>
             </div>
@@ -312,7 +312,7 @@ export default function Borrow({
                 Available Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.maxBorrowLiquidity)}{" "}
+                {toCryptoString(market.maxBorrowLiquidity, tokenDecimals)}{" "}
                 {market.tokenPair.token.symbol}
               </div>
             </div>

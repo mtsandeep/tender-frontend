@@ -288,7 +288,7 @@ export default function Withdraw({
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.supplyBalance) +
+                {toCryptoString(market.supplyBalance, tokenDecimals) +
                   " " +
                   market.tokenPair.token.symbol}
               </div>
