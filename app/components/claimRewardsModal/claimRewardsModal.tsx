@@ -43,7 +43,7 @@ const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
         {data?.rewards?.map((reward: IReward, index: number) => (
           <div
             key={index}
-            className="py-[26px] px-[15px] md:p-[30px] font-nova leading-[140%] border-b-[1px] border-[#282C2B]"
+            className="py-[26px] px-[15px] md:p-[30px] font-nova leading-[140%] border-b-[1px] border-[#282C2B] last:border-b-0"
           >
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-[12px] md:mb-[26px]">
               <div className="flex items-center mr-0 md:mr-[20px] mb-[12px] md:mb-0">
