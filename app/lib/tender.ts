@@ -139,15 +139,15 @@ async function redeem(
     signer
   );
 
-  let ex = await cTokenContract.exchangeRateStored();
+  let exchangeRate = await cTokenContract.exchangeRateStored();
 
   // if there is a token balance so small it rounds to 0, then withdraw all tokens.
-  if (formattedValue.div(ex).eq(0)) {
+  if (formattedValue.div(exchangeRate).eq(0)) {
     console.log("Withdrawing all tokens")
     return redeemAll(cTokenContract, signer);
   }
 
-  return cTokenContract.redeem(formattedValue.div(ex));
+  return cTokenContract.redeem(formattedValue.div(exchangeRate));
 }
 
 /**

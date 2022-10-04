@@ -6,7 +6,7 @@ import type {
   TransactionReceipt,
 } from "@ethersproject/providers";
 
-import { toExactString, toMaxString } from "~/lib/ui";
+import { toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 

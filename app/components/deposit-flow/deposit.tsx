@@ -9,7 +9,7 @@ import type {
 import { useValidInput } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toExactString, toMaxString } from "~/lib/ui";
+import { toMaxString } from "~/lib/ui";
 
 import { enable, deposit, hasSufficientAllowance } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
