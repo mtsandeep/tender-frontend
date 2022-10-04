@@ -95,10 +95,10 @@ function TokenInterestRate({ data }: { data: any[] }) {
         Interest Rate Model
       </div>
       <div className="flex-col panel-custom">
-        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] md:p-[30px] md:text-base  md:leading-[22px]">
+        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] pl-[25px] pr-[25px] md:p-[30px] md:text-base  md:leading-[22px]">
           Utilization vs. APY
         </p>
-        <div className="h-[390px] pb-[0px] pr-[10px] pl-[10px] md:pl-[30px] md:pr-[30px] flex flex-col items-end justify-start">
+        <div className="h-[390px] pb-[0px] pr-[20px] pl-[20px] md:pl-[30px] md:pr-[30px] flex flex-col items-end justify-start">
           <div className="relative w-full h-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
@@ -151,7 +151,9 @@ function TokenInterestRate({ data }: { data: any[] }) {
               className="absolute flex flex-col items-center top-[11px] md:left-[50px] translate-x-[-50%] pointer-events-none z-2"
             >
               <span className="w-[2px] h-[50px] bg-[#282C2B]"></span>
-              <span className="font-nova text-base text-white">Current</span>
+              <span className={`font-nova text-[12px] md:text-base text-white`}>
+                Current
+              </span>
             </div>
           </div>
         </div>
