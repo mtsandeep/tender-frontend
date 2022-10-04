@@ -6,7 +6,7 @@ import type {
   TransactionReceipt,
 } from "@ethersproject/providers";
 
-import { toMaxString } from "~/lib/ui";
+import { toExactString, toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
@@ -311,8 +311,7 @@ export default function Borrow({
                 Available Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.maxBorrowLiquidity)}{" "}
-                {market.tokenPair.token.symbol}
+                {`${toExactString(market.maxBorrowLiquidity)} ${market.tokenPair.token.symbol}`}
               </div>
             </div>
           </div>

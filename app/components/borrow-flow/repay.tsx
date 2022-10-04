@@ -5,7 +5,7 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { toMaxString } from "~/lib/ui";
+import { toExactString, toMaxString } from "~/lib/ui";
 
 import toast from "react-hot-toast";
 
@@ -362,8 +362,7 @@ export default function Repay({
                 Available Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.maxBorrowLiquidity)}{" "}
-                {market.tokenPair.token.symbol}
+                {`${toExactString(market.maxBorrowLiquidity)} ${market.tokenPair.token.symbol}`}
               </div>
             </div>
           </div>

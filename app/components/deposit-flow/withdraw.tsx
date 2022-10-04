@@ -13,7 +13,7 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
+import { shrinkyInputClass, toExactString } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 
 export interface WithdrawProps {
@@ -288,7 +288,7 @@ export default function Withdraw({
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {market.supplyBalance + " " + market.tokenPair.token.symbol}
+                {`${toExactString(market.supplyBalance)} ${market.tokenPair.token.symbol}`}
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">

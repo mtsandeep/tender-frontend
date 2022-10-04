@@ -129,21 +129,11 @@ async function redeem(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
-  if (token.symbol === "ETH") {
-    console.log("redeem() with cEth");
-    let contract = new ethers.Contract(cToken.address, SampleCEtherAbi, signer);
-  
-    const formattedValue = ethers.utils.parseEther(value);
-    console.log("input value:", value, "formattedValue:", formattedValue);
-
-    return await contract.redeemUnderlying(formattedValue);
-  }
-
   const formattedValue = ethers.utils.parseUnits(value, token.decimals);
 
   let cTokenContract = new ethers.Contract(
     cToken.address,
-    SampleCTokenAbi,
+    token.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi,
     signer
   );
   return await cTokenContract.redeemUnderlying(formattedValue);

@@ -114,6 +114,8 @@ export const getDisplayPriceString = (v: number) =>
   }).format(v);
 
 const formatMaxString = (v: number, precision: number = 6): string =>
-    math.format(v, {notation: "fixed", precision,});
+    math.format(v, {notation: "fixed", precision });
+
+export const toExactString = (v: number) => math.format(v, {notation: "fixed" });
 
 export { shrinkyInputClass };
