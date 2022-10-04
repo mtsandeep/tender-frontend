@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toMaxString } from "~/lib/ui";
+import { toCryptoString, toMaxString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -288,7 +288,9 @@ export default function Withdraw({
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {`${toExactString(market.supplyBalance)} ${market.tokenPair.token.symbol}`}
+                {toCryptoString(market.supplyBalance, tokenDecimals) +
+                  " " +
+                  market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">

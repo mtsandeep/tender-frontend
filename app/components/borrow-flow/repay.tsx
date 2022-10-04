@@ -354,7 +354,8 @@ export default function Repay({
                 Your Borrow
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.borrowBalance)}{" "}{market.tokenPair.token.symbol}
+                {toCryptoString(market.borrowBalance, tokenDecimals)}{" "}
+                {market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px]">
@@ -362,7 +363,8 @@ export default function Repay({
                 Available Borrow
               </div>
               <div className="font-nova text-base">
-                {`${toExactString(market.maxBorrowLiquidity)} ${market.tokenPair.token.symbol}`}
+                {toCryptoString(market.maxBorrowLiquidity, tokenDecimals)}{" "}
+                {market.tokenPair.token.symbol}
               </div>
             </div>
           </div>

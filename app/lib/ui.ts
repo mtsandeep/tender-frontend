@@ -62,16 +62,17 @@ export const toShortCryptoString = (v: number): string => {
 /**
  *
  * @param v Crypto value
+ * @param precision
  * @returns A human-readable string for this value
  */
-export const toCryptoString = (v: number): string => {
-  var s: string;
+export const toCryptoString = (v: number, precision: number = 6): string => {
+  let s: string;
+
   if (v > 1) {
     // Applies commas to large numbers
     s = toFiatString(v);
   } else {
-    s = v
-      .toFixed(7) // round to 7 places instead of 6
+    s = formatMaxString(v, precision + 1) // round to "precision + 1" places instead of "precision"
       .slice(0, -1); // then drop the last digit because rounding up breaks the upper limit
 
     // note, safari does not support regexp look behind
