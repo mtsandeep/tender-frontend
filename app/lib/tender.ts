@@ -9,7 +9,7 @@ import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SamplePriceOracleAbi from "~/config/sample-price-oracle-abi";
 
 import type { TokenPair } from "~/types/global";
-import { formatUnits } from "ethers/lib/utils";
+import { formatEther, formatUnits } from "ethers/lib/utils";
 import type {
   TransactionReceipt,
   JsonRpcSigner,
@@ -67,7 +67,7 @@ async function getWalletBalance(signer: Signer, token: Token): Promise<number> {
   // ETH is a special case
   if (token.symbol === "ETH")  {
     const balance = await signer.getBalance();
-    const balanceInEth = ethers.utils.formatEther(balance);
+    const balanceInEth = formatEther(balance);
     return parseFloat(balanceInEth);
   }
 
@@ -129,24 +129,37 @@ async function redeem(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
-  if (token.symbol === "ETH") {
-    console.log("redeem() with cEth");
-    let contract = new ethers.Contract(cToken.address, SampleCEtherAbi, signer);
-  
-    const formattedValue = ethers.utils.parseEther(value);
-    console.log("input value:", value, "formattedValue:", formattedValue);
 
-    return await contract.redeemUnderlying(formattedValue);
-  }
-
-  const formattedValue = ethers.utils.parseUnits(value, token.decimals);
+  // the exchange rate is scaled by 18 decimals
+  const formattedValue = ethers.utils.parseUnits(value, token.decimals + 18);
 
   let cTokenContract = new ethers.Contract(
     cToken.address,
-    SampleCTokenAbi,
+    token.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi,
     signer
   );
-  return await cTokenContract.redeemUnderlying(formattedValue);
+
+  let exchangeRate = await cTokenContract.exchangeRateStored();
+
+  // if there is a token balance so small it rounds to 0, then withdraw all tokens.
+  if (formattedValue.div(exchangeRate).eq(0)) {
+    console.log("Withdrawing all tokens")
+    return redeemAll(cTokenContract, signer);
+  }
+
+  return cTokenContract.redeem(formattedValue.div(exchangeRate));
+}
+
+/**
+ * Redeems the entire user balance of the smart contract.
+ * Fails if there is not enough cash in the contract. 
+ * @param cTokenContract
+ * @param signer 
+ */
+async function redeemAll(cTokenContract: Contract, signer: Signer) {
+  let address = await signer.getAddress();
+  let cTokenBalance = await cTokenContract.balanceOf(address);
+  return cTokenContract.redeem(cTokenBalance);
 }
 
 /**
@@ -160,13 +173,12 @@ async function getCurrentlySupplying(
   cToken: cToken,
   token: Token
 ): Promise<number> {
-  let abi = cToken.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi;
+  let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
   let contract = new ethers.Contract(cToken.address, abi, signer);
   let address = await signer.getAddress();
 
-  const balance: BigNumber = await contract.callStatic.balanceOf(address);
-
-  let exchangeRateCurrent = await contract.exchangeRateStored();
+  let balance = await contract.callStatic.balanceOf(address)
+  let exchangeRateCurrent: BigNumber = await contract.exchangeRateStored();
   let tokens = balance.mul(exchangeRateCurrent)
 
   // the exchange rate is scaled by 18 decimals
@@ -184,14 +196,16 @@ async function getCurrentlyBorrowing(
   cToken: cToken,
   token: Token
 ): Promise<number> {
+  let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
+
   let contract: Contract = new ethers.Contract(
     cToken.address,
-    SampleCTokenAbi,
+    abi,
     signer
   );
   let address: string = await signer.getAddress();
   let balance: BigNumber = await contract.borrowBalanceStored(address);
-
+  
   return formatBigNumber(balance, token.decimals);
 }
 

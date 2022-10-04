@@ -1,10 +1,10 @@
-import { ICON_SIZE } from "~/lib/constants";
+  import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toMaxString } from "~/lib/ui";
+import { toCryptoString, toMaxString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -13,7 +13,7 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
+import { shrinkyInputClass } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 
 export interface WithdrawProps {

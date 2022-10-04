@@ -5,7 +5,7 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { toMaxString } from "~/lib/ui";
+import { toExactString, toMaxString } from "~/lib/ui";
 
 import toast from "react-hot-toast";
 
