@@ -144,7 +144,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
                   data.find((item: any) => item.isCurrent)?.aa <= 2
                     ? "8px"
                     : data.find((item: any) => item.isCurrent)?.aa >= 97
-                    ? "100% - 9px"
+                    ? "100% - 8px"
                     : data.find((item: any) => item.isCurrent)?.aa + "% + 3px"
                 })`,
               }}
