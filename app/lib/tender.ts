@@ -129,14 +129,37 @@ async function redeem(
   cToken: cToken,
   token: Token
 ): Promise<Txn> {
-  const formattedValue = ethers.utils.parseUnits(value, token.decimals);
+
+  // the exchange rate is scaled by 18 decimals
+  const formattedValue = ethers.utils.parseUnits(value, token.decimals + 18);
 
   let cTokenContract = new ethers.Contract(
     cToken.address,
     token.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi,
     signer
   );
-  return await cTokenContract.redeemUnderlying(formattedValue);
+
+  let ex = await cTokenContract.exchangeRateStored();
+
+  // if there is a token balance so small it rounds to 0, then withdraw all tokens.
+  if (formattedValue.div(ex).eq(0)) {
+    console.log("Withdrawing all tokens")
+    return redeemAll(cTokenContract, signer);
+  }
+
+  return cTokenContract.redeem(formattedValue.div(ex));
+}
+
+/**
+ * Redeems the entire user balance of the smart contract.
+ * Fails if there is not enough cash in the contract. 
+ * @param cTokenContract
+ * @param signer 
+ */
+async function redeemAll(cTokenContract: Contract, signer: Signer) {
+  let address = await signer.getAddress();
+  let cTokenBalance = await cTokenContract.balanceOf(address);
+  return cTokenContract.redeem(cTokenBalance);
 }
 
 /**
