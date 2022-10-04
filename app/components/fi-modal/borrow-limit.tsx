@@ -23,7 +23,7 @@ export default function BorrowLimit(props: BorrowLimitProps) {
 
   return (
     <div>
-      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-sm w-full pb-4 sm:pb-5">
+      <div className="font-bold mr-3 font-nova text-sm sm:text-sm w-full pb-4 sm:pb-5">
         Borrow Limit
       </div>
 
@@ -50,14 +50,17 @@ export default function BorrowLimit(props: BorrowLimitProps) {
           {(value == "0" ||
             !isValid ||
             borrowLimitUsed == newBorrowLimitUsed ||
-              !newBorrowLimitUsed) && <>{borrowLimitUsed}%</>}
-          {isValid && value != "0" && newBorrowLimitUsed && borrowLimitUsed != newBorrowLimitUsed && (
-            <div className="flex items-center">
-              {borrowLimitUsed}%
-              <img className="mx-3" src={urlArrow} alt="" />
-              {newBorrowLimitUsed}%
-            </div>
-          )}
+            !newBorrowLimitUsed) && <>{borrowLimitUsed}%</>}
+          {isValid &&
+            value != "0" &&
+            newBorrowLimitUsed &&
+            borrowLimitUsed != newBorrowLimitUsed && (
+              <div className="flex items-center">
+                {borrowLimitUsed}%
+                <img className="mx-3" src={urlArrow} alt="" />
+                {newBorrowLimitUsed}%
+              </div>
+            )}
         </div>
       </div>
     </div>
