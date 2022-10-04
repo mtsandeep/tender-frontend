@@ -16,6 +16,8 @@ import type {
 } from "@ethersproject/providers";
 import sampleCEtherAbi from "~/config/sample-CEther-abi";
 
+// more info: https://github.com/ethereum/solidity/issues/533#issuecomment-218776352
+const NEGATIVE_UINT = BigNumber.from("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
 const MINIMUM_REQUIRED_APPROVAL_BALANCE = BigNumber.from("1");
 interface Txn {
   wait: (n?: number) => TransactionReceipt;
@@ -345,12 +347,15 @@ async function getBorrowLimitUsed(
  * @param value
  * @param signer
  * @param cToken
+ * @param token
+ * @param isMaxRepay
  */
 async function repay(
   value: string,
   signer: Signer,
   cToken: cToken,
-  token: Token
+  token: Token,
+  isMaxRepay: boolean
 ): Promise<Txn> {
   if (token.symbol === "ETH") {
     console.log("repay() with cEth");
@@ -362,8 +367,7 @@ async function repay(
     return await contract.repayBorrow({value: formattedValue});
   }
 
-
-  const formattedValue: BigNumber = ethers.utils.parseUnits(
+  const formattedValue: BigNumber = isMaxRepay ? ethers.BigNumber.from(NEGATIVE_UINT) : ethers.utils.parseUnits(
     value,
     token.decimals
   );
