@@ -22,7 +22,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
   } = props;
   return (
     <div>
-      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-sm w-full pb-4 sm:pb-5">
+      <div className="font-bold mr-3 font-nova text-sm sm:text-sm w-full pb-4 sm:pb-5">
         Borrow Limit
       </div>
 
