@@ -22,6 +22,11 @@ export function useValidInput(
     setReason(null);
 
     try {
+      if (ceil === 0) {
+        setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
+        throw "Ceil is zero";
+      }
+
       // Remove insignificant 0's
       let value = inputValue.replace(/^0+|0+$/g, "");
 
