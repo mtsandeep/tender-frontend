@@ -5,8 +5,36 @@ import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number>(0);
   const [isOptimalInd, setIsOptimalInd] = useState<number>(0);
+  const [actData, setActData] = useState<any[]>([]);
 
   useEffect(() => {
+    setActData(
+      data.map((item) => ({
+        ...item,
+        aa:
+          Math.trunc(
+            Math.max(
+              Number(
+                data.reduce((prev: any, cur: any) => {
+                  if (Number(prev.dd) > Number(cur.dd)) {
+                    return prev;
+                  }
+                  return cur;
+                }).dd
+              ),
+              Number(
+                data.reduce((prev: any, cur: any) => {
+                  if (Number(prev.ss) > Number(cur.ss)) {
+                    return prev;
+                  }
+                  return cur;
+                }).ss
+              )
+            )
+          ) * 1.1,
+      }))
+    );
+
     setIsCurrentInd(data.indexOf(data.find((item) => item.isCurrent)));
     setIsOptimalInd(data.indexOf(data.find((item) => item.isOptimal)));
   }, [data]);
@@ -112,7 +140,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
     );
   };
 
-  return data.length ? (
+  return isCurrentInd && isOptimalInd && actData.length ? (
     <div className="font-nova w-full mb-[60px]">
       <div className="leading-[22px] font-semibold mb-[20px] text-base md:text-lg font-nova">
         Interest Rate Model
@@ -125,30 +153,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
           <div className="relative w-full h-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={data.map((item) => ({
-                  ...item,
-                  aa:
-                    Math.trunc(
-                      Math.max(
-                        Number(
-                          data.reduce((prev: any, cur: any) => {
-                            if (Number(prev.dd) > Number(cur.dd)) {
-                              return prev;
-                            }
-                            return cur;
-                          }).dd
-                        ),
-                        Number(
-                          data.reduce((prev: any, cur: any) => {
-                            if (Number(prev.ss) > Number(cur.ss)) {
-                              return prev;
-                            }
-                            return cur;
-                          }).ss
-                        )
-                      )
-                    ) * 1.1,
-                }))}
+                data={actData}
                 margin={{ top: 10, right: 30, left: 30, bottom: 43 }}
               >
                 <Line
