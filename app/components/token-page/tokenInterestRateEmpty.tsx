@@ -5,11 +5,11 @@ function TokenInterestRateEmpty() {
         Interest Rate Model
       </div>
       <div className="flex-col panel-custom">
-        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] pl-[25px] pr-[25px] md:p-[30px] md:text-base  md:leading-[22px]">
+        <p className="font-normal text-sm leading-[19px] text-[#818987] pb-[15px] pt-[15px] p-[30px] md:pt-[30px] md:pb-[30px] md:text-base  md:leading-[22px]">
           Utilization vs. APY
         </p>
-        <div className="pb-[20px] md:pb-[40px] pr-[20px] pl-[20px] md:pl-[30px] md:pr-[30px]">
-          <div className="animate w-full h-[370px] md:h-[350px]"></div>
+        <div className="pb-[20px] md:pb-[40px] pl-[30px] pr-[30px]">
+          <div className="animate w-full h-[260px] md:h-[350px]"></div>
         </div>
       </div>
     </div>

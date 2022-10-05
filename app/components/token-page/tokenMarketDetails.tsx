@@ -68,7 +68,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
     {
       itemName: "Reserve Factor",
       tooltipText: (
-        <p>
+        <div>
           Reserve factor is a percentage of interest which goes to a collector
           contract that is controlled by{" "}
           <a
@@ -80,7 +80,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
             Tender.fi
           </a>{" "}
           governance to promote ecosystem growth.
-        </p>
+        </div>
       ),
       itemData: marketInfo.reserveFactor + "%",
     },
