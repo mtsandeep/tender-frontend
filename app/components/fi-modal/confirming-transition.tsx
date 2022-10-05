@@ -47,7 +47,7 @@ export default function ConfirmingTransaction({
           />
         </div>
       )}
-      <div className="text-center font-nova font-bold text-[24px] md:text-[33px] leading-[120%] md:leading-[40px] mb-[30px] md:mb-[37px]">
+      <div className="text-center font-nova font-bold text-2xl md:text-[33px] leading-[120%] md:leading-[40px] mb-[30px] md:mb-[37px]">
         {isWaitingToBeMined ? "Confirming transaction" : "Done!"}
       </div>
       <a

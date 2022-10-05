@@ -286,10 +286,10 @@ export function useMarketsInfo() {
       // volumes
       total.supply.volume = response.supplyVolume.map(
           (supply) => typeof usdPricesByCToken[supply.cTokenSymbol] !== 'undefined' ? supply.underlyingAmount * usdPricesByCToken[supply.cTokenSymbol] : 0
-      ).reduce((previous: number, current: number) => previous + current);
+      ).reduce((previous: number, current: number) => previous + current, 0);
       total.borrow.volume = response.borrowVolume.map(
           (borrow) => typeof usdPricesByToken[borrow.underlyingSymbol] !== 'undefined' ? borrow.amount * usdPricesByToken[borrow.underlyingSymbol] : 0
-      ).reduce((previous: number, current: number) => previous + current);
+      ).reduce((previous: number, current: number) => previous + current, 0);
 
       setMarketsInfo({
         markets: markets,

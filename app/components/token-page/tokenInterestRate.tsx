@@ -62,44 +62,53 @@ function TokenInterestRate({ data }: { data: any[] }) {
     }
     return null;
   };
-
+  console.log(
+    data.map((item) => ({
+      ...item,
+      ss: Number(item.ss),
+      dd: Number(item.dd),
+      aa: Math.trunc(
+        Math.max(
+          Number(
+            data.reduce((prev: any, cur: any) => {
+              if (Number(prev.dd) > Number(cur.dd)) {
+                return prev;
+              }
+              return cur;
+            }).dd
+          ),
+          Number(
+            data.reduce((prev: any, cur: any) => {
+              if (Number(prev.ss) > Number(cur.ss)) {
+                return prev;
+              }
+              return cur;
+            }).ss
+          )
+        )
+      ),
+    }))
+  );
   return data.length ? (
     <div className="font-nova w-full mb-[60px]">
       <div className="leading-[22px] font-semibold mb-[20px] text-base md:text-lg font-nova">
         Interest Rate Model
       </div>
       <div className="flex-col panel-custom">
-        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] md:p-[30px] md:text-base  md:leading-[22px]">
+        <p className="font-normal text-sm leading-[19px] text-[#818987] p-[15px] pl-[25px] pr-[25px] md:p-[30px] md:text-base  md:leading-[22px]">
           Utilization vs. APY
         </p>
-        <div className="h-[200px] md:h-[390px] pb-[0px] pr-[10px] pl-[10px] md:pl-[30px] md:pr-[30px] flex flex-col items-end justify-start">
+        <div className="h-[390px] pb-[0px] pr-[20px] pl-[20px] md:pl-[30px] md:pr-[30px] flex flex-col items-end justify-start">
           <div className="relative w-full h-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={data.map((item) => ({
                   ...item,
-                  aa: Math.trunc(
-                    Math.max(
-                      Number(
-                        data.reduce((prev: any, cur: any) => {
-                          if (Number(prev.dd) > Number(cur.dd)) {
-                            return prev;
-                          }
-                          return cur;
-                        }).dd
-                      ),
-                      Number(
-                        data.reduce((prev: any, cur: any) => {
-                          if (Number(prev.ss) > Number(cur.ss)) {
-                            return prev;
-                          }
-                          return cur;
-                        }).ss
-                      )
-                    ) * 1.1
-                  ),
+                  ss: Number(item.ss),
+                  dd: Number(item.dd),
+                  aa: 17.23,
                 }))}
-                margin={{ top: -10, right: 8, left: 8, bottom: 43 }}
+                margin={{ top: 10, right: 8, left: 8, bottom: 43 }}
               >
                 <Line
                   type="monotone"
@@ -131,14 +140,20 @@ function TokenInterestRate({ data }: { data: any[] }) {
             </ResponsiveContainer>
             <div
               style={{
-                left: `calc(3px + ${
-                  data.find((item: any) => item.isCurrent)?.aa
-                }%)`,
+                left: `calc(${
+                  data.find((item: any) => item.isCurrent)?.aa <= 2
+                    ? "8px"
+                    : data.find((item: any) => item.isCurrent)?.aa >= 97
+                    ? "100% - 8px"
+                    : data.find((item: any) => item.isCurrent)?.aa + "% + 3px"
+                })`,
               }}
-              className="absolute flex flex-col items-center top-[12px] md:top-[31px] md:left-[50px] translate-x-[-50%] pointer-events-none z-2"
+              className="absolute flex flex-col items-center top-[11px] md:left-[50px] translate-x-[-50%] pointer-events-none z-2"
             >
               <span className="w-[2px] h-[50px] bg-[#282C2B]"></span>
-              <span className="font-nova text-base text-white">Current</span>
+              <span className={`font-nova text-[12px] md:text-base text-white`}>
+                Current
+              </span>
             </div>
           </div>
         </div>

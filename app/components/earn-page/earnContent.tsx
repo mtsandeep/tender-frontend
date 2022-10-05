@@ -35,13 +35,6 @@ export default function EarnContent() {
               unclaimedUsd: "$0",
               onClickClaim: () => console.log(""),
             },
-            {
-              title: "Protocol Rewards (esTND)",
-              exchange: "1 esTND = $0.0035",
-              unclaimed: "0 esTND",
-              unclaimedUsd: "$0",
-              onClickClaim: () => console.log(""),
-            },
           ],
         }}
         handlerClose={() =>
@@ -49,7 +42,7 @@ export default function EarnContent() {
         }
       />
       <div className="max-w-[820px] my-o mx-auto">
-        <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
+        <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
         </p>
         <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
@@ -71,15 +64,13 @@ export default function EarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full">
           <div className="panel-custom">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Price
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Price</span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-sm md:text-base leading-[17px]">
                     $20.16
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -98,17 +89,13 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Wallet
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Wallet</span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     0.00 TND ($0.00)
                   </span>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Staked
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Staked</span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     0.00 TND ($0.00)
                   </span>
@@ -116,7 +103,7 @@ export default function EarnContent() {
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">APR</span>
+                  <span className="text-[#818987] w-fit text-base">APR</span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
                     <span className="text-sm md:text-base">20.16%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -141,7 +128,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Rewards
                   </span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
@@ -164,7 +151,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Multiplier Points APR
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
@@ -190,7 +177,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Boost Percentage
                   </span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
@@ -212,7 +199,7 @@ export default function EarnContent() {
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Total Staked
                   </span>
                   <div className="flex items-center line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
@@ -233,7 +220,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Total Supply
                   </span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
@@ -245,22 +232,22 @@ export default function EarnContent() {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                         Buy TND
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                         STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         unStake
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Transfer account
                       </button>
                     </div>
@@ -272,7 +259,7 @@ export default function EarnContent() {
                     rel="noreferrer"
                     href="https://metamask.io/"
                   >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                       CONNECT WALLET
                     </button>
                   </a>
@@ -280,7 +267,7 @@ export default function EarnContent() {
                   !isActive && (
                     <button
                       onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
                     >
                       CONNECT WALLET
                     </button>
@@ -290,31 +277,25 @@ export default function EarnContent() {
             </div>
           </div>
           <div className="panel-custom mt-[31px]">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               ESCROWED TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Price
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Price</span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     $20.16
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Wallet
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Wallet</span>
                   <div className="flex flex-wrap text-sm md:text-base leading-[17px]">
                     0.00 esTND ($0.00)
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Staked
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Staked</span>
                   <div className="flex flex-wrap  text-sm md:text-base leading-[17px]">
                     0.00 esTND ($0.00)
                   </div>
@@ -322,7 +303,7 @@ export default function EarnContent() {
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">APR</span>
+                  <span className="text-[#818987] w-fit text-base">APR</span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
                     <span className="text-sm md:text-base">20.16%</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
@@ -355,7 +336,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Multiplier Points APR
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
@@ -383,7 +364,7 @@ export default function EarnContent() {
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Total Supply
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
@@ -391,7 +372,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Total Borrow
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
@@ -404,12 +385,12 @@ export default function EarnContent() {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                         STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         unStake
                       </button>
                     </div>
@@ -421,7 +402,7 @@ export default function EarnContent() {
                     rel="noreferrer"
                     href="https://metamask.io/"
                   >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                       CONNECT WALLET
                     </button>
                   </a>
@@ -429,7 +410,7 @@ export default function EarnContent() {
                   !isActive && (
                     <button
                       onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
                     >
                       CONNECT WALLET
                     </button>
@@ -440,7 +421,7 @@ export default function EarnContent() {
           </div>
 
           <div className="panel-custom mt-[32px]">
-            <div className="flex items-center font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="flex items-center font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Supply
               <svg
                 className="mr-[4px] ml-[4px]"
@@ -459,7 +440,7 @@ export default function EarnContent() {
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[23px] ">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Net APY
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-sm md:text-base leading-[17px]">
@@ -467,7 +448,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Rewards
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px]text-right w-fit text-sm md:text-base leading-[17px]">
@@ -477,7 +458,7 @@ export default function EarnContent() {
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Your Supply
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
@@ -485,7 +466,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Your Borrow
                   </span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
@@ -497,7 +478,7 @@ export default function EarnContent() {
                 <div className="btn-custom-border rounded-[6px]">
                   <button
                     onClick={() => window.open("/", "_blank")}
-                    className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                    className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
                   >
                     Dashboard
                   </button>
@@ -506,7 +487,7 @@ export default function EarnContent() {
                   onClick={() => window.open("/markets/", "_blank")}
                   className="btn-custom-border rounded-[6px]"
                 >
-                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                     Markets
                   </button>
                 </div>
@@ -514,7 +495,7 @@ export default function EarnContent() {
             </div>
           </div>
           <div className="panel-custom mt-[32px]">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
@@ -526,21 +507,19 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">TND</span>
+                  <span className="text-[#818987] w-fit text-base">TND</span>
                   <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    esTND
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">esTND</span>
                   <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Multiplier Points
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
@@ -566,7 +545,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Staked Multiplier Points
                   </span>
                   <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
@@ -592,9 +571,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
-                    Total
-                  </span>
+                  <span className="text-[#818987] w-fit text-base">Total</span>
                   <div className="text-sm md:text-base leading-[17px]">
                     $0.00
                   </div>
@@ -604,7 +581,7 @@ export default function EarnContent() {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Compound
                       </button>
                     </div>
@@ -614,7 +591,7 @@ export default function EarnContent() {
                         setDataClaimModal({ ...dataClaimModal, open: true })
                       }
                     >
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Claim
                       </button>
                     </div>
@@ -626,7 +603,7 @@ export default function EarnContent() {
                     rel="noreferrer"
                     href="https://metamask.io/"
                   >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                       CONNECT WALLET
                     </button>
                   </a>
@@ -634,7 +611,7 @@ export default function EarnContent() {
                   !isActive && (
                     <button
                       onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
                     >
                       CONNECT WALLET
                     </button>
@@ -645,7 +622,7 @@ export default function EarnContent() {
           </div>
         </div>
 
-        <p className="font-space text-[30px] mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
+        <p className="font-space text-3xl mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Vest
         </p>
         <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
@@ -662,13 +639,13 @@ export default function EarnContent() {
         </p>
         <div className="font-[ProximaNova] w-full" id="vest">
           <div className="panel-custom">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TENDIES Vault
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Staked Tokens
                   </span>
                   <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
@@ -698,7 +675,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Reserved for Vesting
                   </span>
                   <div className="flex flex-wrap text-right w-fit text-sm md:text-base leading-[17px]">
@@ -706,7 +683,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Vesting Status
                   </span>
                   <div className="flex flex-wrap group cursor-pointer line-dashed text-right w-fit text-sm md:text-base leading-[17px]">
@@ -725,7 +702,7 @@ export default function EarnContent() {
                   </div>
                 </div>
                 <div className="flex items-center gap-x-[10px] justify-between">
-                  <span className="text-[#818987] w-fit text-[16px]">
+                  <span className="text-[#818987] w-fit text-base">
                     Claimable
                   </span>
                   <div className="flex flex-wrap group cursor-pointer group  line-dashed text-right w-fit text-xs leading-[17px]">
@@ -750,12 +727,12 @@ export default function EarnContent() {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Deposit
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Withdraw
                       </button>
                     </div>
@@ -767,7 +744,7 @@ export default function EarnContent() {
                     rel="noreferrer"
                     href="https://metamask.io/"
                   >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                       CONNECT WALLET
                     </button>
                   </a>
@@ -775,7 +752,7 @@ export default function EarnContent() {
                   !isActive && (
                     <button
                       onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-[13px] md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
                     >
                       CONNECT WALLET
                     </button>

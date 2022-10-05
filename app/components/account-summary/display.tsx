@@ -1,4 +1,4 @@
-import { toFiatString } from "~/lib/ui";
+import { shrinkyInputClass, toFiatString } from "~/lib/ui";
 import Ring from "./ring";
 interface props {
   totalSuppliedUsd: number;
@@ -16,7 +16,7 @@ export default function Display({
   totalBorrowedUsd,
   borrowBalanceInUsd,
   supplyBalanceInUsd,
-  netApy,
+  netApy = null,
   borrowLimitUsed,
   percentUsed,
   borrowLimit,
@@ -32,18 +32,17 @@ export default function Display({
               Net APY
             </div>
 
-            {netApy != null && (
-              <div className="text-[24px] md:text-[35px] font-space font-normal">
-                {netApy.toFixed(2)}%
-              </div>
-            )}
+            <div
+              className={`font-space font-normal ${
+                netApy && netApy?.toString()?.length > 7
+                  ? "text-[18px] md:text-[24px]"
+                  : "text-[24px] md:text-[35px]"
+              }`}
+            >
+              {netApy != null ? netApy.toFixed(2) + "%" : "0%"}
+            </div>
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
-            {netApy == null && (
-              <div className="text-[24px] md:text-[35px] font-space font-normal">
-                0%
-              </div>
-            )}
             <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>
@@ -109,21 +108,21 @@ export default function Display({
           </div>
         </div>
       </div>
-      <div
-        className="w-full h-full bg-green-300 mr-2 h-[5px] md:h-[4px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
-        style={{
-          background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
-          width: borrowLimitUsed === "" ? 15 : `${percentUsed}%`,
-          transition: "width 1s ease-out",
-        }}
-      >
-        {parseFloat(borrowLimitUsed) > 0 && (
-          <span
-            className={percentUsed > 90 ? "span-value-bottom" : "span-value"}
-          >
-            {borrowLimitUsed}%
-          </span>
-        )}
+
+      <div className="flex items-center">
+        <div className="h-[5px] bg-[#1BD6CF] w-[16px] md:h-[4px] absolute bottom-0 left-0 zIndex-1"></div>
+        <div
+          className="w-0 h-full bg-green-300 h-[5px] md:h-[4px] absolute bottom-0 left-[16px] zIndex-1 flex justify-end"
+          style={{
+            background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
+            width: `calc(${percentUsed}% - 16px)`,
+            transition: "width 1s ease-out",
+          }}
+        >
+          {parseFloat(borrowLimitUsed) > 0 && (
+            <span className="span-value">{borrowLimitUsed}%</span>
+          )}
+        </div>
       </div>
       <div className="w-full flex absolute bottom-0 left-0">
         <div className="bg-[#262D2A] h-[4px] flex-grow"></div>
