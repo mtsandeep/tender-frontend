@@ -1,7 +1,20 @@
-import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
+import { useEffect, useState } from "react";
+import {
+  LineChart,
+  Line,
+  Tooltip,
+  ResponsiveContainer,
+  LabelList,
+} from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 
 function TokenInterestRate({ data }: { data: any[] }) {
+  const [isCurrentObjInd, setIsCurrentIndObj] = useState({});
+
+  useEffect(() => {
+    setIsCurrentIndObj(data.indexOf(data.find((item) => item.isCurrent)));
+  }, [data]);
+
   const CustomLine = (props: any) => (
     <svg x={props.points[0].x} width="1" height="300" viewBox="0 0 1 544">
       <path
@@ -62,33 +75,47 @@ function TokenInterestRate({ data }: { data: any[] }) {
     }
     return null;
   };
-  console.log(
-    data.map((item) => ({
-      ...item,
-      ss: Number(item.ss),
-      dd: Number(item.dd),
-      aa: Math.trunc(
-        Math.max(
-          Number(
-            data.reduce((prev: any, cur: any) => {
-              if (Number(prev.dd) > Number(cur.dd)) {
-                return prev;
-              }
-              return cur;
-            }).dd
-          ),
-          Number(
-            data.reduce((prev: any, cur: any) => {
-              if (Number(prev.ss) > Number(cur.ss)) {
-                return prev;
-              }
-              return cur;
-            }).ss
-          )
-        )
-      ),
-    }))
-  );
+
+  // console.log(
+  //   data.map((item) => ({
+  //     ...item,
+  //     ss: Number(item.ss),
+  //     dd: Number(item.dd),
+  //     aa: Math.trunc(
+  //       Math.max(
+  //         Number(
+  //           data.reduce((prev: any, cur: any) => {
+  //             if (Number(prev.dd) > Number(cur.dd)) {
+  //               return prev;
+  //             }
+  //             return cur;
+  //           }).dd
+  //         ),
+  //         Number(
+  //           data.reduce((prev: any, cur: any) => {
+  //             if (Number(prev.ss) > Number(cur.ss)) {
+  //               return prev;
+  //             }
+  //             return cur;
+  //           }).ss
+  //         )
+  //       )
+  //     ),
+  //   }))
+  // );
+
+  const CustomizedLabel = (props: any) => {
+    const { x, y, stroke, value } = props;
+    console.log(props.index === props.isCurrentObjInd);
+    return props.index === props.isCurrentObjInd ? (
+      <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
+        {value}
+      </text>
+    ) : (
+      false
+    );
+  };
+
   return data.length ? (
     <div className="font-nova w-full mb-[60px]">
       <div className="leading-[22px] font-semibold mb-[20px] text-base md:text-lg font-nova">
@@ -104,9 +131,26 @@ function TokenInterestRate({ data }: { data: any[] }) {
               <LineChart
                 data={data.map((item) => ({
                   ...item,
-                  ss: Number(item.ss),
-                  dd: Number(item.dd),
-                  aa: 17.23,
+                  aa: Math.trunc(
+                    Math.max(
+                      Number(
+                        data.reduce((prev: any, cur: any) => {
+                          if (Number(prev.dd) > Number(cur.dd)) {
+                            return prev;
+                          }
+                          return cur;
+                        }).dd
+                      ),
+                      Number(
+                        data.reduce((prev: any, cur: any) => {
+                          if (Number(prev.ss) > Number(cur.ss)) {
+                            return prev;
+                          }
+                          return cur;
+                        }).ss
+                      )
+                    )
+                  ),
                 }))}
                 margin={{ top: 10, right: 8, left: 8, bottom: 43 }}
               >
@@ -116,9 +160,14 @@ function TokenInterestRate({ data }: { data: any[] }) {
                   stroke="#FFFFFF"
                   strokeWidth={2}
                   className="current__line"
-                  dot={false}
+                  dot={<>asdad</>}
                   activeDot={<CustomDot borderColor="#282C2B" />}
                 />
+                {/* <LabelList
+                    content={
+                      <CustomizedLabel isCurrentObjInd={isCurrentObjInd} />
+                    }
+                  /> */}
                 <Line
                   type="monotone"
                   dataKey="ss"
@@ -138,7 +187,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
                 <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
               </LineChart>
             </ResponsiveContainer>
-            <div
+            {/* <div
               style={{
                 left: `calc(${
                   data.find((item: any) => item.isCurrent)?.aa <= 2
@@ -155,6 +204,23 @@ function TokenInterestRate({ data }: { data: any[] }) {
                 Current
               </span>
             </div>
+            <div
+              style={{
+                left: `calc(${
+                  data.find((item: any) => item.isOptimal)?.aa <= 2
+                    ? "8px"
+                    : data.find((item: any) => item.isOptimal)?.aa >= 97
+                    ? "100% - 8px"
+                    : data.find((item: any) => item.isOptimal)?.aa + "% + 3px"
+                })`,
+              }}
+              className="absolute flex flex-col items-center top-[11px] md:left-[50px] translate-x-[-50%] pointer-events-none z-2"
+            >
+              <span className="w-[2px] h-[50px] bg-[#282C2B]"></span>
+              <span className={`font-nova text-[12px] md:text-base text-white`}>
+                Optimal
+              </span>
+            </div> */}
           </div>
         </div>
       </div>
