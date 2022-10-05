@@ -103,7 +103,7 @@ export default function Deposit({
 
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, [loading]);
 
   const handleCheckValue = useCallback(

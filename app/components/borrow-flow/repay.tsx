@@ -104,7 +104,7 @@ export default function Repay({
 
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, [loading]);
 
   // @todo refactor: move to separate hook file

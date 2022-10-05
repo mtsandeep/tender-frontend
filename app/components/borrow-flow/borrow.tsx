@@ -86,7 +86,7 @@ export default function Borrow({
   let inputTextClass = shrinkyInputClass(value.length);
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, []);
 
   const handleCheckValue = useCallback(
