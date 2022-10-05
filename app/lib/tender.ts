@@ -124,12 +124,15 @@ async function deposit(
  * @param value
  * @param signer
  * @param cToken
+ * @param token
+ * @param isMax
  */
 async function redeem(
   value: string,
   signer: Signer,
   cToken: cToken,
-  token: Token
+  token: Token,
+  isMax: boolean
 ): Promise<Txn> {
 
   // the exchange rate is scaled by 18 decimals
@@ -144,7 +147,7 @@ async function redeem(
   let exchangeRate = await cTokenContract.exchangeRateStored();
 
   // if there is a token balance so small it rounds to 0, then withdraw all tokens.
-  if (formattedValue.div(exchangeRate).eq(0)) {
+  if (isMax || formattedValue.div(exchangeRate).eq(0)) {
     console.log("Withdrawing all tokens")
     return redeemAll(cTokenContract, signer);
   }
@@ -348,26 +351,34 @@ async function getBorrowLimitUsed(
  * @param signer
  * @param cToken
  * @param token
- * @param isMaxRepay
+ * @param isMax
  */
 async function repay(
   value: string,
   signer: Signer,
   cToken: cToken,
   token: Token,
-  isMaxRepay: boolean
+  isMax: boolean
 ): Promise<Txn> {
   if (token.symbol === "ETH") {
     console.log("repay() with cEth");
 
-    const formattedValue = ethers.utils.parseEther(value);
-    console.log("input value:", value, "formattedValue:", formattedValue.toString());
-
     let contract = new ethers.Contract(cToken.address, sampleCEtherAbi, signer);
-    return await contract.repayBorrow({value: formattedValue});
+    let repayValue;
+
+    if (isMax) {
+      const address = await signer.getAddress();
+      repayValue = await contract.borrowBalanceStored(address);
+    } else {
+      repayValue = ethers.utils.parseEther(value);
+    }
+
+    console.log("input value:", value, "repayValue:", repayValue.toString());
+
+    return await contract.repayBorrow({value: repayValue});
   }
 
-  const formattedValue: BigNumber = isMaxRepay ? ethers.BigNumber.from(NEGATIVE_UINT) : ethers.utils.parseUnits(
+  const formattedValue: BigNumber = isMax ? ethers.BigNumber.from(NEGATIVE_UINT) : ethers.utils.parseUnits(
     value,
     token.decimals
   );

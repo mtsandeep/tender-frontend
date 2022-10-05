@@ -40,6 +40,7 @@ export default function Withdraw({
   let [value, setValue] = useState<string>("");
   let [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
+  let [isMax, setIsMax] = useState<boolean>(false);
   let inputEl = useRef<HTMLInputElement>(null);
 
   let { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
@@ -120,6 +121,7 @@ export default function Withdraw({
               formattedValue.length <= 20 &&
               decimals <= tokenDecimals)
           ) {
+            setIsMax(false);
             setValue(formattedValue);
           }
         }
@@ -156,9 +158,10 @@ export default function Withdraw({
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
                   maxValue={maxWithdrawAmount}
-                  updateValue={() =>
-                    setValue(toMaxString(maxWithdrawAmount, tokenDecimals))
-                  }
+                  updateValue={() => {
+                    setIsMax(true);
+                    setValue(toMaxString(maxWithdrawAmount, tokenDecimals));
+                  }}
                   label="Max"
                   maxValueLabel={market.tokenPair.token.symbol}
                   color="#14F195"
@@ -260,7 +263,8 @@ export default function Withdraw({
                         value,
                         signer,
                         market.tokenPair.cToken,
-                        market.tokenPair.token
+                        market.tokenPair.token,
+                        isMax
                       );
                       setTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
