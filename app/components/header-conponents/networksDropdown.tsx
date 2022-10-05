@@ -212,7 +212,7 @@ const NetworksDropdown = () => {
                           src={network.iconsSrc}
                           alt="..."
                         />
-                        <p className="text-[14px] font-[400] font-nova">
+                        <p className="text-sm font-[400] font-nova">
                           {network.networkName}
                         </p>
                       </div>
