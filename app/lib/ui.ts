@@ -42,7 +42,8 @@ export const toFiatString = (v: number): string => {
   return `${roundedNumber.toLocaleString("en-US", {
     // style: "currency",
     currency: "USD",
-  })}`;
+    minimumFractionDigits: 2
+  })}`
 };
 
 const A_BIG_NUMBER = 100000;
@@ -74,10 +75,12 @@ export const toCryptoString = (v: number, precision: number = 6): string => {
   } else {
     s = formatMaxString(v, precision + 1) // round to "precision + 1" places instead of "precision"
       .slice(0, -1); // then drop the last digit because rounding up breaks the upper limit
-
-    // note, safari does not support regexp look behind
-    // If there is a decimal, remove trailing 0's, leaving at least one left
-    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0");
+      
+    s = Intl.NumberFormat("en-US", {
+      notation: "standard",
+      minimumFractionDigits:2,
+      maximumFractionDigits:6
+    }).format(v);
   }
   return s;
 };
