@@ -77,7 +77,7 @@ let tokenPairs: TokenPair[] = [tokenPair];
 Primary.args = {
   market,
   closeModal: () => {},
-  setIsSupplying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimit: market.borrowLimit,
   borrowLimitUsed: market.borrowLimitUsed,
@@ -85,6 +85,7 @@ Primary.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
   comptrollerAddress: market.comptrollerAddress,
+  initialValue: ""
 } as DepositProps;
 
 let smallMarket: Market = {
@@ -112,7 +113,7 @@ let smallMarket: Market = {
 SmallNumbers.args = {
   market: smallMarket,
   closeModal: () => {},
-  setIsSupplying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimit: smallMarket.borrowLimit,
   borrowLimitUsed: smallMarket.borrowLimitUsed,
@@ -120,4 +121,5 @@ SmallNumbers.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
   comptrollerAddress: smallMarket.comptrollerAddress,
+  initialValue: ""
 } as DepositProps;

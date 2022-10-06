@@ -13,19 +13,37 @@ interface Props {
   market: Market;
 }
 
+type ActiveTab = "repay" | "borrow";
+
 export default function BorrowFlow({ closeModal, market }: Props) {
-  let [isRepaying, setIsRepaying] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<ActiveTab>("borrow");
+  const [initialRepayValue, setInitialRepayValue] = useState<string>("");
+  const [initialBorrowValue, setInitialBorrowValue] = useState<string>("");
 
   let { tokenPairs } = useContext(TenderContext);
 
   let provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
 
-  return isRepaying ? (
+  
+  const handleTabSwitch = (tab: ActiveTab, lastValue?: string) => {
+    setActiveTab(tab);
+
+    //skip setting initial value if user is clicking on same tab or lastvalue is undefined
+    if (activeTab === tab || lastValue === undefined) return;
+
+    if (tab === "borrow") {
+      setInitialRepayValue(lastValue);
+    } else if (tab === "repay") {
+      setInitialBorrowValue(lastValue);
+    }
+  };
+
+  return activeTab ==='repay' ? (
     <Repay
       market={market}
       closeModal={closeModal}
-      setIsRepaying={setIsRepaying}
+      onTabSwitch={handleTabSwitch}
       borrowedAmount={market.borrowBalance}
       signer={signer}
       borrowLimitUsed={market.borrowLimitUsed}
@@ -33,18 +51,20 @@ export default function BorrowFlow({ closeModal, market }: Props) {
       tokenPairs={tokenPairs}
       borrowLimit={market.borrowLimit}
       totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+      initialValue={initialRepayValue}
     />
   ) : (
     <Borrow
       market={market}
       closeModal={closeModal}
-      setIsRepaying={setIsRepaying}
+      onTabSwitch={handleTabSwitch}
       signer={signer}
       borrowLimitUsed={market.borrowLimitUsed}
       borrowLimit={market.borrowLimit}
       walletBalance={market.walletBalance}
       tokenPairs={tokenPairs}
       totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+      initialValue={initialBorrowValue}
     />
   );
 }

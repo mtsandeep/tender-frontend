@@ -1,4 +1,3 @@
-import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type {
@@ -27,27 +26,29 @@ import { formatApy } from "~/lib/apy-calculations";
 export interface BorrowProps {
   market: Market;
   closeModal: Function;
-  setIsRepaying: Function;
+  onTabSwitch: Function;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   borrowLimit: number;
   walletBalance: number;
   tokenPairs: TokenPair[];
   totalBorrowedAmountInUsd: number;
+  initialValue: string;
 }
 
 export default function Borrow({
   market,
   closeModal,
-  setIsRepaying,
+  onTabSwitch,
   signer,
   borrowLimit,
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
+  initialValue,
 }: BorrowProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [isBorrowing, setIsBorrowing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
 
@@ -85,7 +86,7 @@ export default function Borrow({
   let inputTextClass = shrinkyInputClass(value.length);
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, []);
 
   const handleCheckValue = useCallback(
@@ -178,13 +179,13 @@ export default function Borrow({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsRepaying(false)}
+                onClick={() => onTabSwitch("borrow")}
               >
                 Borrow
               </button>
               <button
                 className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
-                onClick={() => setIsRepaying(true)}
+                onClick={() => onTabSwitch("repay", value)}
               >
                 Repay
               </button>
