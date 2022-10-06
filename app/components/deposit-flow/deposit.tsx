@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-target-blank */
-import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
@@ -23,24 +22,26 @@ import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 export interface DepositProps {
   closeModal: Function;
   market: Market;
-  setIsSupplying: Function;
+  onTabSwitch: Function;
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: number;
   totalBorrowedAmountInUsd: number;
   comptrollerAddress: string;
+  initialValue: string;
 }
 export default function Deposit({
   closeModal,
   comptrollerAddress,
-  setIsSupplying,
+  onTabSwitch,
   borrowLimit,
   signer,
   borrowLimitUsed,
   walletBalance,
   totalBorrowedAmountInUsd,
   market,
+  initialValue
 }: DepositProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
@@ -48,7 +49,7 @@ export default function Deposit({
   let [loading, setLoading] = useState<boolean>(true);
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
   let [isDepositing, setIsDepositing] = useState<boolean>(false);
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [txnHash, setTxnHash] = useState<string>("");
   let inputTextClass = shrinkyInputClass(value.length);
 
@@ -102,7 +103,7 @@ export default function Deposit({
 
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, [loading]);
 
   const handleCheckValue = useCallback(
@@ -209,13 +210,13 @@ export default function Deposit({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsSupplying(true)}
+                onClick={() => onTabSwitch('supply')}
               >
                 Supply
               </button>
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
-                onClick={() => setIsSupplying(false)}
+                onClick={() => onTabSwitch('withdraw', value)}
               >
                 Withdraw
               </button>

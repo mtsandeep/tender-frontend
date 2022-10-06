@@ -1,4 +1,3 @@
-  import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
@@ -19,25 +18,27 @@ import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 export interface WithdrawProps {
   market: Market;
   closeModal: Function;
-  setIsSupplying: Function;
+  onTabSwitch: Function;
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: number;
   totalBorrowedAmountInUsd: number;
+  initialValue: string;
 }
 export default function Withdraw({
   market,
   closeModal,
-  setIsSupplying,
+  onTabSwitch,
   borrowLimit,
   signer,
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
+  initialValue,
 }: WithdrawProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
   let [isMax, setIsMax] = useState<boolean>(false);
@@ -88,7 +89,7 @@ export default function Withdraw({
 
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, []);
 
   const handleCheckValue = useCallback(
@@ -181,13 +182,13 @@ export default function Withdraw({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
-                onClick={() => setIsSupplying(true)}
+                onClick={() => onTabSwitch("supply", value)}
               >
                 Supply
               </button>
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsSupplying(false)}
+                onClick={() => onTabSwitch("withdraw")}
               >
                 Withdraw
               </button>

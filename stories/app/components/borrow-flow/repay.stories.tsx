@@ -75,7 +75,7 @@ let tokenPairs: TokenPair[] = [tokenPair];
 Primary.args = {
   market,
   closeModal: () => {},
-  setIsRepaying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimit: market.borrowLimit,
   borrowedAmount: market.borrowBalance,
@@ -83,6 +83,7 @@ Primary.args = {
   tokenPairs,
   borrowLimitUsed: market.borrowLimitUsed,
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
+  initialValue: ""
 } as RepayProps;
 
 let smallMarket: Market = {
@@ -109,7 +110,7 @@ let smallMarket: Market = {
 SmallNumbers.args = {
   market: smallMarket,
   closeModal: () => {},
-  setIsRepaying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimit: smallMarket.borrowLimit,
   borrowedAmount: smallMarket.borrowBalance,
@@ -117,4 +118,5 @@ SmallNumbers.args = {
   tokenPairs,
   borrowLimitUsed: smallMarket.borrowLimitUsed,
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
+  initialValue: ""
 } as RepayProps;
