@@ -50,7 +50,7 @@ export default function AccountSummary() {
 
   let percentUsed = Math.min(parseFloat(borrowLimitUsed), 100);
 
-  return tenderContextData?.markets?.length ? (
+  return tenderContextData?.markets?.length && netApy !== null ? (
     <Display
       totalSuppliedUsd={totalSuppliedUsd}
       totalBorrowedUsd={totalBorrowedUsd}
