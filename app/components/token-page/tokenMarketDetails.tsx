@@ -31,6 +31,10 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
       )} USD`,
     },
     {
+      itemName: "Utilization",
+      itemData: `98.9%`,
+    },
+    {
       itemName: "Available Borrow",
       itemData:
         toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) +
