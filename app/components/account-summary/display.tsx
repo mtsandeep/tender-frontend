@@ -1,4 +1,4 @@
-import { shrinkyInputClass, toFiatString } from "~/lib/ui";
+import { toFiatString } from "~/lib/ui";
 import Ring from "./ring";
 interface props {
   totalSuppliedUsd: number;

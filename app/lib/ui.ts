@@ -15,18 +15,16 @@ const shrinkyInputClass = (len: number): string => {
 
   if (len > 22) {
     className = "text-md";
-  } else if (len > 19) {
-    className = "text-lg";
-  } else if (len > 17) {
-    className = "text-xl";
-  } else if (len > 15) {
-    className = "text-2xl";
+  } else if (len > 14) {
+    className = "text-xl md:text-2xl";
   } else if (len > 12) {
-    className = "text-3xl";
-  } else if (len > 9) {
-    className = "text-4xl";
-  } else if (len > 7) {
-    className = "sm:text-5xl";
+    className = "text-2xl md:text-3xl";
+  } else if (len > 10) {
+    className = "text-3xl md:text-4xl";
+  } else if (len > 8) {
+    className = "text-4xl md:text-5xl";
+  } else if (len > 6) {
+    className = "text-5xl md:text-6xl";
   }
   return className;
 };
@@ -42,8 +40,8 @@ export const toFiatString = (v: number): string => {
   return `${roundedNumber.toLocaleString("en-US", {
     // style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2
-  })}`
+    minimumFractionDigits: 2,
+  })}`;
 };
 
 const A_BIG_NUMBER = 100000;
@@ -103,7 +101,7 @@ export const toMaxString = (v: number, precision: number = 6): string => {
 
   // remove trailing zeros
   return formattedValue.replace(/\.0+$|(\.\d*[1-9])(0+)$/, "$1");
-}
+};
 
 export const toMaxNumber = (v: number, precision: number = 6): number =>
   parseFloat(formatMaxString(v, precision));
@@ -116,8 +114,9 @@ export const getDisplayPriceString = (v: number) =>
   }).format(v);
 
 const formatMaxString = (v: number, precision: number = 6): string =>
-    math.format(v, {notation: "fixed", precision });
+  math.format(v, { notation: "fixed", precision });
 
-export const toExactString = (v: number) => math.format(v, {notation: "fixed" });
+export const toExactString = (v: number) =>
+  math.format(v, { notation: "fixed" });
 
 export { shrinkyInputClass };
