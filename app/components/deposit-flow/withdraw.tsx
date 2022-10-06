@@ -241,7 +241,7 @@ export default function Withdraw({
               urlArrow="/images/ico/arrow-green.svg"
             />
 
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8 h-[56px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
                 <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">

@@ -4,7 +4,7 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { toExactString, toMaxString } from "~/lib/ui";
+import { toMaxString } from "~/lib/ui";
 
 import toast from "react-hot-toast";
 
@@ -49,9 +49,10 @@ export default function Repay({
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [isEnabled, setIsEnabled] = useState<boolean>(true);
+  let [isEnabled, setIsEnabled] = useState<boolean>(
+    market.hasSufficientAllowance
+  );
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
-  let [loading, setLoading] = useState<boolean>(false); // @todo maybe remove?
 
   let [isRepayingTxn, setIsRepayingTxn] = useState<boolean>(false);
   let [value, setValue] = useState<string>(initialValue);
@@ -87,15 +88,13 @@ export default function Repay({
   let { updateTransaction, setIsWaitingToBeMined } = useContext(TenderContext);
 
   useEffect(() => {
-    if (!market.hasSufficientAllowance) {
-      setIsEnabled(false);
-    }
+    setIsEnabled(market.hasSufficientAllowance);
   }, [market.hasSufficientAllowance]);
 
   // Highlights value input
   useEffect(() => {
     inputEl && inputEl.current && inputEl.current.focus();
-  }, [loading]);
+  }, []);
 
   // @todo refactor: move to separate hook file
   const handleCheckValue = useCallback(
@@ -164,11 +163,7 @@ export default function Repay({
               {market.tokenPair.token.symbol}
             </div>
             <div className="h-[100px] mt-[50px]">
-              {loading ? (
-                <div className="switch__to__network px-4 mt-5 flex flex-col items-center">
-                  <div className="animate w-[80%] h-[80px] mt-[20px]"></div>
-                </div>
-              ) : !isEnabled ? (
+              {!isEnabled ? (
                 <div className="flex flex-col items-center mt-5 rounded-2xl  px-4">
                   <img
                     src={market.tokenPair.token.icon}
@@ -266,82 +261,76 @@ export default function Repay({
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
             />
-            {loading ? (
-              <div className="switch__to__network flex justify-center">
-                <div className="animate w-[308px] bg-[#00E0FF] h-[56px] md:h-[60px]"></div>
-              </div>
-            ) : (
-              <div className="flex justify-center">
-                {!signer && <div>Connect wallet to get started</div>}
-                {signer && !isEnabled && (
-                  <button
-                    onClick={async () => {
-                      try {
-                        setIsEnabling(true);
-                        // @ts-ignore existence of signer is gated above.
-                        await enable(
-                          signer,
-                          market.tokenPair.token,
-                          market.tokenPair.cToken
-                        );
-                        setIsEnabled(true);
-                      } catch (e) {
-                      } finally {
-                        setIsEnabling(false);
-                      }
-                    }}
-                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
-                  >
-                    {isEnabling ? "Enabling..." : "Enable"}
-                  </button>
-                )}
+            <div className="flex justify-center h-[56px] md:h-[60px]">
+              {!signer && <div>Connect wallet to get started</div>}
+              {signer && !isEnabled && (
+                <button
+                  onClick={async () => {
+                    try {
+                      setIsEnabling(true);
+                      // @ts-ignore existence of signer is gated above.
+                      await enable(
+                        signer,
+                        market.tokenPair.token,
+                        market.tokenPair.cToken
+                      );
+                      setIsEnabled(true);
+                    } catch (e) {
+                    } finally {
+                      setIsEnabling(false);
+                    }
+                  }}
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                >
+                  {isEnabling ? "Enabling..." : "Enable"}
+                </button>
+              )}
 
-                {signer && isEnabled && !isValid && (
-                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                    {validationDetail}
-                  </button>
-                )}
+              {signer && isEnabled && !isValid && (
+                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  {validationDetail}
+                </button>
+              )}
 
-                {signer && isEnabled && isValid && (
-                  <button
-                    onClick={async () => {
-                      try {
-                        if (!value) {
-                          toast("Please set a value", {
-                            icon: "⚠️",
-                          });
-                          return;
-                        }
-                        setIsRepayingTxn(true);
-                        // @ts-ignore existence of signer is gated above.
-                        let txn = await repay(
-                          value,
-                          signer,
-                          market.tokenPair.cToken,
-                          market.tokenPair.token,
-                          isMax
-                        );
-                        setTxnHash(txn.hash);
-                        setIsWaitingToBeMined(true);
-                        let tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
-                        setValue("");
-                        updateTransaction(tr.blockHash);
-                        toast.success("Repayment successful");
-                      } catch (e) {
-                        toast.error("Repayment unsuccessful");
-                        closeModal();
-                      } finally {
-                        setIsWaitingToBeMined(false);
-                        setIsRepayingTxn(false);
+              {signer && isEnabled && isValid && (
+                <button
+                  onClick={async () => {
+                    try {
+                      if (!value) {
+                        toast("Please set a value", {
+                          icon: "⚠️",
+                        });
+                        return;
                       }
-                    }}
-                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
-                  >
-                    {isRepayingTxn ? "Repaying..." : "Repay"}
-                  </button>
-                )}
-              </div>
-            )}
+                      setIsRepayingTxn(true);
+                      // @ts-ignore existence of signer is gated above.
+                      let txn = await repay(
+                        value,
+                        signer,
+                        market.tokenPair.cToken,
+                        market.tokenPair.token,
+                        isMax
+                      );
+                      setTxnHash(txn.hash);
+                      setIsWaitingToBeMined(true);
+                      let tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
+                      setValue("");
+                      updateTransaction(tr.blockHash);
+                      toast.success("Repayment successful");
+                    } catch (e) {
+                      toast.error("Repayment unsuccessful");
+                      closeModal();
+                    } finally {
+                      setIsWaitingToBeMined(false);
+                      setIsRepayingTxn(false);
+                    }
+                  }}
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                >
+                  {isRepayingTxn ? "Repaying..." : "Repay"}
+                </button>
+              )}
+            </div>
 
             <div className="flex mt-8">
               <div className="flex-grow text-[#ADB5B3] font-nova text-base">
