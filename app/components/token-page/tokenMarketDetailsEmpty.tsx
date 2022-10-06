@@ -1,40 +1,38 @@
 function tokenMarketDetailsEmpty() {
   return (
-    <div className="font-nova w-full">
-      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-base md:text-lg font-nova">
+    <div className="panel-custom border-custom font-nova w-full">
+      <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
         Market Details
       </div>
-      <div className="flex-col panel-custom">
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
-        <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
-          <div className="animate w-full h-[19px] md:h-[22px]"></div>
-        </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
+      </div>
+      <div className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center border-b-[1px]">
+        <div className="animate w-full h-[19px] md:h-[22px]"></div>
       </div>
     </div>
   );

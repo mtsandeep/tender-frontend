@@ -141,55 +141,53 @@ function TokenInterestRate({ data }: { data: any[] }) {
   };
 
   return isCurrentInd && isOptimalInd && actData.length ? (
-    <div className="font-nova w-full mb-[60px]">
-      <div className="leading-[22px] font-semibold mb-[20px] text-base md:text-lg font-nova">
+    <div className="panel-custom border-custom font-nova w-full mb-[60px]">
+      <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
         Interest Rate Model
       </div>
-      <div className="flex-col panel-custom">
-        <p className="font-normal text-sm leading-[19px] text-[#818987] pb-[15px] pt-[15px] p-[30px] md:pt-[30px] md:pb-[30px] md:text-base  md:leading-[22px]">
-          Utilization vs. APY
-        </p>
-        <div className="h-[280px] md:h-[390px] pb-[0px] flex flex-col items-end justify-start">
-          <div className="relative w-full h-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={actData}
-                margin={{ top: 10, right: 30, left: 30, bottom: 43 }}
-              >
-                <Line
-                  type="monotone"
-                  dataKey="aa"
-                  stroke="#FFFFFF"
-                  strokeWidth={2}
-                  className="current__line"
-                  dot={
-                    <CustomizedDot
-                      isOptimalInd={isOptimalInd}
-                      isCurrentInd={isCurrentInd}
-                    />
-                  }
-                  activeDot={<CustomDot borderColor="#282C2B" />}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="ss"
-                  stroke="#14F195"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={<CustomDot borderColor="#0D0D0D" />}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="dd"
-                  stroke="#00E0FF"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={<CustomDot borderColor="#0D0D0D" />}
-                />
-                <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+      <p className="font-normal text-sm leading-[19px] text-[#818987] pb-[15px] pt-[15px] p-[30px] md:pt-[30px] md:pb-[30px] md:text-base  md:leading-[22px]">
+        Utilization vs. APY
+      </p>
+      <div className="h-[280px] md:h-[390px] pb-[0px] flex flex-col items-end justify-start">
+        <div className="relative w-full h-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={actData}
+              margin={{ top: 10, right: 30, left: 30, bottom: 43 }}
+            >
+              <Line
+                type="monotone"
+                dataKey="aa"
+                stroke="#FFFFFF"
+                strokeWidth={2}
+                className="current__line"
+                dot={
+                  <CustomizedDot
+                    isOptimalInd={isOptimalInd}
+                    isCurrentInd={isCurrentInd}
+                  />
+                }
+                activeDot={<CustomDot borderColor="#282C2B" />}
+              />
+              <Line
+                type="monotone"
+                dataKey="ss"
+                stroke="#14F195"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
+              <Line
+                type="monotone"
+                dataKey="dd"
+                stroke="#00E0FF"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
+              <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

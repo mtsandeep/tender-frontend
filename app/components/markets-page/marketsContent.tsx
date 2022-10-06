@@ -1,12 +1,12 @@
-import {useContext, useState} from "react";
+import { useContext, useState } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
-import {toFiatString, toShortCryptoString, toShortFiatString} from "~/lib/ui";
+import { toFiatString, toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import { checkColorClass } from "../two-panels/two-panels";
-import type {Market} from "~/types/global";
-import {TenderContext} from "~/contexts/tender-context";
+import type { Market } from "~/types/global";
+import { TenderContext } from "~/contexts/tender-context";
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
@@ -14,15 +14,21 @@ export default function MarketsContent() {
     open: false,
     coins: [{}],
   });
-  const {markets: m} = useContext(TenderContext);
+  const { markets: m } = useContext(TenderContext);
 
-  const totalSuppliedUsd = m.map(
-      (token: Market) => token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
-  ).reduce((a: any, b: any) => a + b, 0);
+  const totalSuppliedUsd = m
+    .map(
+      (token: Market) =>
+        token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
+    )
+    .reduce((a: any, b: any) => a + b, 0);
 
-  const totalBorrowedUsd = m.map(
-      (token: Market) => token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
-  ).reduce((a: any, b: any) => a + b, 0);
+  const totalBorrowedUsd = m
+    .map(
+      (token: Market) =>
+        token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
+    )
+    .reduce((a: any, b: any) => a + b, 0);
 
   if (!markets || !total) {
     return <EmptyMarketsContent />;
@@ -193,276 +199,274 @@ export default function MarketsContent() {
         </div>
       </div>
       <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
-        <div>
-          <div className="mb-[20px] font-nova text-white text-base leading-[22px] md:leading-[25px] font-semibold mb-[21px] md:mb-[18px] md:text-lg">
+        <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+          <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             All Markets
           </div>
-          <div className="pb-[5px] md:pb-[0px] panel-custom markets border-custom">
-            <table className="custom__scroll w-full h-full table-fixed !pb-[20px] md:pb-[0px] md:pt-[0px]">
-              <thead>
-                <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
-                    Market
-                  </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
-                    Total Supply
-                  </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
-                    Supply APY
-                  </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
-                    Total Borrow
-                  </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[30px]">
-                    Borrow APY
-                  </th>
-                </tr>
-              </thead>
+          <table className="custom__scroll w-full h-full table-fixed !pb-[20px] md:pb-[0px] md:pt-[0px]">
+            <thead>
+              <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  Market
+                </th>
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  Total Supply
+                </th>
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  Supply APY
+                </th>
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  Total Borrow
+                </th>
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[30px]">
+                  Borrow APY
+                </th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {Object.keys(markets).map((id: string, index: number) => {
-                  const m = markets[id];
-                  const borrowApy = m.borrowApy * -1;
+            <tbody>
+              {Object.keys(markets).map((id: string, index: number) => {
+                const m = markets[id];
+                const borrowApy = m.borrowApy * -1;
 
-                  return (
-                    <tr
-                      key={index}
-                      className="h-[80px] md:h-auto text-gray-400 border-t border-[#282C2B] border__top__custom border_tr_custom cursor-pointer hover:bg-[#151515] border-child-hover"
-                      onClick={() =>
-                        window.open(`/markets/${m.symbol}`, "_blank")
-                      }
-                    >
-                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
-                        <div className="flex items-center justify-left">
-                          <img
-                            className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
-                            src={m.icon}
-                            alt={m.symbol}
-                          />
-                          {m.symbol}
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
-                        <div className="custom__hidden">
-                          {toShortCryptoString(m?.totalSupply)} {m.symbol}
-                        </div>
-                        <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
-                          {`$${toShortFiatString(m.totalSupplyUsd)} USD`}
-                        </div>
-                      </td>
-                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
-                        <div
-                          className={`custom__hidden ${checkColorClass(
-                            parseFloat(m.supplyApy)
-                          )} `}
-                        >
-                          {formatApy(m.supplyApy)}
-                        </div>
-                        <div
-                          className="group"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
-                            <div
-                              onClick={() =>
-                                setMultiTooltipData({
-                                  ...multiTooltipData,
-                                  open: window.innerWidth < 1023,
-                                  coins: [
-                                    {
-                                      coinTitle: m.symbol,
-                                      iconSrc: m.icon,
-                                      data: formatApy(m.supplyApy),
-                                      color: checkColorClass(
-                                        parseFloat(m.supplyApy)
-                                      ),
-                                    },
-                                    {
-                                      coinTitle: "esTND",
-                                      iconSrc:
-                                        "/images/wallet-icons/balance-icon.svg",
-                                      data: "0.00%",
-                                      color: "text-white",
-                                    },
-                                  ],
-                                })
-                              }
-                              className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
-                            >
-                              <img
-                                className="w-[13px] h-[13px]"
-                                src={m.icon}
-                                alt={m.symbol}
-                              />
-                              <img
-                                className="w-[13px] h-[13px] ml-[6px]"
-                                src="/images/wallet-icons/balance-icon.svg"
-                                alt="..."
-                              />
-                            </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src={m.icon}
-                                        alt={m.symbol}
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        {m.symbol}
-                                      </span>
-                                    </div>
-                                    <span
-                                      className={`font-nova text-sm font-normal ${checkColorClass(
-                                        parseFloat(m.supplyApy)
-                                      )}`}
-                                    >
-                                      {formatApy(m.supplyApy)}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between gap-[30px]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src="/images/wallet-icons/balance-icon.svg"
-                                        alt="..."
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        esTND
-                                      </span>
-                                    </div>
+                return (
+                  <tr
+                    key={index}
+                    className="h-[80px] md:h-auto text-gray-400 border-t border-[#282C2B] border__top__custom border_tr_custom cursor-pointer hover:bg-[#151515] border-child-hover"
+                    onClick={() =>
+                      window.open(`/markets/${m.symbol}`, "_blank")
+                    }
+                  >
+                    <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
+                      <div className="flex items-center justify-left">
+                        <img
+                          className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
+                          src={m.icon}
+                          alt={m.symbol}
+                        />
+                        {m.symbol}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <div className="custom__hidden">
+                        {toShortCryptoString(m?.totalSupply)} {m.symbol}
+                      </div>
+                      <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
+                        {`$${toShortFiatString(m.totalSupplyUsd)} USD`}
+                      </div>
+                    </td>
+                    <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <div
+                        className={`custom__hidden ${checkColorClass(
+                          parseFloat(m.supplyApy)
+                        )} `}
+                      >
+                        {formatApy(m.supplyApy)}
+                      </div>
+                      <div
+                        className="group"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
+                          <div
+                            onClick={() =>
+                              setMultiTooltipData({
+                                ...multiTooltipData,
+                                open: window.innerWidth < 1023,
+                                coins: [
+                                  {
+                                    coinTitle: m.symbol,
+                                    iconSrc: m.icon,
+                                    data: formatApy(m.supplyApy),
+                                    color: checkColorClass(
+                                      parseFloat(m.supplyApy)
+                                    ),
+                                  },
+                                  {
+                                    coinTitle: "esTND",
+                                    iconSrc:
+                                      "/images/wallet-icons/balance-icon.svg",
+                                    data: "0.00%",
+                                    color: "text-white",
+                                  },
+                                ],
+                              })
+                            }
+                            className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                          >
+                            <img
+                              className="w-[13px] h-[13px]"
+                              src={m.icon}
+                              alt={m.symbol}
+                            />
+                            <img
+                              className="w-[13px] h-[13px] ml-[6px]"
+                              src="/images/wallet-icons/balance-icon.svg"
+                              alt="..."
+                            />
+                          </div>
+                          <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                              <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
+                                  <div className="flex gap-[8px]">
+                                    <img
+                                      className="max-w-[18px]"
+                                      src={m.icon}
+                                      alt={m.symbol}
+                                    />
                                     <span className="font-nova text-white text-sm font-normal">
-                                      0.00%
+                                      {m.symbol}
                                     </span>
                                   </div>
+                                  <span
+                                    className={`font-nova text-sm font-normal ${checkColorClass(
+                                      parseFloat(m.supplyApy)
+                                    )}`}
+                                  >
+                                    {formatApy(m.supplyApy)}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-[30px]">
+                                  <div className="flex gap-[8px]">
+                                    <img
+                                      className="max-w-[18px]"
+                                      src="/images/wallet-icons/balance-icon.svg"
+                                      alt="..."
+                                    />
+                                    <span className="font-nova text-white text-sm font-normal">
+                                      esTND
+                                    </span>
+                                  </div>
+                                  <span className="font-nova text-white text-sm font-normal">
+                                    0.00%
+                                  </span>
                                 </div>
                               </div>
-                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                             </div>
+                            <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                           </div>
                         </div>
-                      </td>
-                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
-                        <div className="custom__hidden">
-                          {toShortCryptoString(m.totalBorrow)} {m.symbol}
-                        </div>
-                        <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
-                          {`$${toShortFiatString(m.totalBorrowUsd)} USD`}
-                        </div>
-                      </td>
+                      </div>
+                    </td>
+                    <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <div className="custom__hidden">
+                        {toShortCryptoString(m.totalBorrow)} {m.symbol}
+                      </div>
+                      <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
+                        {`$${toShortFiatString(m.totalBorrowUsd)} USD`}
+                      </div>
+                    </td>
 
-                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[45px] md:pr-[30px]">
-                        <div
-                          className={`custom__hidden ${
-                            m.symbol === "GLP"
-                              ? "text-white"
-                              : checkColorClass(borrowApy)
-                          } `}
-                        >
-                          {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
-                        </div>
-                        <div
-                          className="group"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
-                            <div
-                              onClick={() =>
-                                setMultiTooltipData({
-                                  ...multiTooltipData,
-                                  open: window.innerWidth < 1023,
-                                  coins: [
-                                    {
-                                      coinTitle: m.symbol,
-                                      iconSrc: m.icon,
-                                      data:
-                                        m.symbol === "GLP"
-                                          ? "0.00%"
-                                          : `${formatApy(borrowApy)}`,
-                                      color:
-                                        m.symbol === "GLP"
-                                          ? "text-white"
-                                          : checkColorClass(borrowApy),
-                                    },
-                                    {
-                                      coinTitle: "esTND",
-                                      iconSrc:
-                                        "/images/wallet-icons/balance-icon.svg",
-                                      data: "0.00%",
-                                      color: "text-white",
-                                    },
-                                  ],
-                                })
-                              }
-                              className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
-                            >
-                              <img
-                                className="w-[13px] h-[13px]"
-                                src={m.icon}
-                                alt={m.symbol}
-                              />
-                              <img
-                                className="w-[13px] h-[13px] ml-[6px]"
-                                src="/images/wallet-icons/balance-icon.svg"
-                                alt="..."
-                              />
-                            </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src={m.icon}
-                                        alt={m.symbol}
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        {m.symbol}
-                                      </span>
-                                    </div>
-                                    <span
-                                      className={`font-nova text-white text-sm font-normal ${
-                                        m.symbol === "GLP"
-                                          ? "white"
-                                          : checkColorClass(borrowApy)
-                                      }`}
-                                    >
-                                      {m.symbol === "GLP"
+                    <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[45px] md:pr-[30px]">
+                      <div
+                        className={`custom__hidden ${
+                          m.symbol === "GLP"
+                            ? "text-white"
+                            : checkColorClass(borrowApy)
+                        } `}
+                      >
+                        {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
+                      </div>
+                      <div
+                        className="group"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
+                          <div
+                            onClick={() =>
+                              setMultiTooltipData({
+                                ...multiTooltipData,
+                                open: window.innerWidth < 1023,
+                                coins: [
+                                  {
+                                    coinTitle: m.symbol,
+                                    iconSrc: m.icon,
+                                    data:
+                                      m.symbol === "GLP"
                                         ? "0.00%"
-                                        : `${formatApy(borrowApy)}`}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between gap-[30px]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        className="max-w-[18px]"
-                                        src="/images/wallet-icons/balance-icon.svg"
-                                        alt="..."
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        esTND
-                                      </span>
-                                    </div>
+                                        : `${formatApy(borrowApy)}`,
+                                    color:
+                                      m.symbol === "GLP"
+                                        ? "text-white"
+                                        : checkColorClass(borrowApy),
+                                  },
+                                  {
+                                    coinTitle: "esTND",
+                                    iconSrc:
+                                      "/images/wallet-icons/balance-icon.svg",
+                                    data: "0.00%",
+                                    color: "text-white",
+                                  },
+                                ],
+                              })
+                            }
+                            className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
+                          >
+                            <img
+                              className="w-[13px] h-[13px]"
+                              src={m.icon}
+                              alt={m.symbol}
+                            />
+                            <img
+                              className="w-[13px] h-[13px] ml-[6px]"
+                              src="/images/wallet-icons/balance-icon.svg"
+                              alt="..."
+                            />
+                          </div>
+                          <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                              <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
+                                <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
+                                  <div className="flex gap-[8px]">
+                                    <img
+                                      className="max-w-[18px]"
+                                      src={m.icon}
+                                      alt={m.symbol}
+                                    />
                                     <span className="font-nova text-white text-sm font-normal">
-                                      0.00%
+                                      {m.symbol}
                                     </span>
                                   </div>
+                                  <span
+                                    className={`font-nova text-white text-sm font-normal ${
+                                      m.symbol === "GLP"
+                                        ? "white"
+                                        : checkColorClass(borrowApy)
+                                    }`}
+                                  >
+                                    {m.symbol === "GLP"
+                                      ? "0.00%"
+                                      : `${formatApy(borrowApy)}`}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between gap-[30px]">
+                                  <div className="flex gap-[8px]">
+                                    <img
+                                      className="max-w-[18px]"
+                                      src="/images/wallet-icons/balance-icon.svg"
+                                      alt="..."
+                                    />
+                                    <span className="font-nova text-white text-sm font-normal">
+                                      esTND
+                                    </span>
+                                  </div>
+                                  <span className="font-nova text-white text-sm font-normal">
+                                    0.00%
+                                  </span>
                                 </div>
                               </div>
-                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                             </div>
+                            <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                           </div>
                         </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -96,8 +96,8 @@ function TokenChart({
   }, [historicalData, networkData]);
 
   return marketInfo?.underlyingSymbol ? (
-    <div className="bg-[#0D0D0D] panel-custom pt-4 mb-[60px] md:mb-[60px] md:pt-7 pb-[20px] lg:pb-0">
-      <div className="flex-col text-xs font-nova font-normal leading-4 ml-[15px] mb-[30px] md:text-sm md:leading-5 md:ml-[28px] md:mb-[26px]">
+    <div className="bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
+      <div className="px-[15px] py-[17px] mb-[30px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:mb-[26px] md:pt-[18px] md:pb-[19px] text-xs font-nova font-normal leading-4 md:text-sm md:leading-5">
         <a className="cursor-pointer hover:text-[#14f195]" href="/markets/">
           Markets
         </a>
