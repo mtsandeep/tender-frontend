@@ -1,10 +1,12 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
-import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
+import {toFiatString, toShortCryptoString, toShortFiatString} from "~/lib/ui";
 import { checkColorClass } from "../two-panels/two-panels";
+import type {Market} from "~/types/global";
+import {TenderContext} from "~/contexts/tender-context";
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
@@ -12,6 +14,15 @@ export default function MarketsContent() {
     open: false,
     coins: [{}],
   });
+  const {markets: m} = useContext(TenderContext);
+
+  const totalSuppliedUsd = m.map(
+      (token: Market) => token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
+  ).reduce((a: any, b: any) => a + b, 0);
+
+  const totalBorrowedUsd = m.map(
+      (token: Market) => token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
+  ).reduce((a: any, b: any) => a + b, 0);
 
   if (!markets || !total) {
     return <EmptyMarketsContent />;
@@ -39,7 +50,7 @@ export default function MarketsContent() {
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
             <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
-                ${toShortFiatString(total?.supply?.usd)}
+                ${toFiatString(totalSuppliedUsd)}
               </div>
               {totalSupplyDiff !== 0 && (
                 <div
@@ -113,7 +124,7 @@ export default function MarketsContent() {
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
             <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
-                ${total?.borrow?.usd?.toFixed(2)}
+                ${toFiatString(totalBorrowedUsd)}
               </div>
               {totalBorrowDiff !== 0 && (
                 <div
