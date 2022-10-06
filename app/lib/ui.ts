@@ -78,8 +78,7 @@ export const toCryptoString = (v: number, precision: number = 6): string => {
       
     s = Intl.NumberFormat("en-US", {
       notation: "standard",
-      minimumFractionDigits:2,
-      maximumFractionDigits:6
+      minimumFractionDigits: 2,
     }).format(v);
   }
   return s;
