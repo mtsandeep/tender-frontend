@@ -70,8 +70,7 @@ export default function TwoPanels() {
   const marketsWithoutBorrow = tenderContextData.markets
     .filter((token: Market) => token.tokenPair.token.symbol !== "GLP")
     .filter(
-      (token: Market) =>
-        !token.borrowBalance || token.borrowBalanceInUsd <= 0
+      (token: Market) => !token.borrowBalance || token.borrowBalanceInUsd <= 0
     );
 
   return tenderContextData.markets.length ? (
@@ -143,7 +142,7 @@ export default function TwoPanels() {
                     marketsWithSupply.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
                   <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
@@ -314,7 +313,7 @@ export default function TwoPanels() {
             <table className="custom__scroll w-full h-full table-fixed">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B]">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
                   <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
@@ -494,7 +493,7 @@ export default function TwoPanels() {
                     marketsWithBorrow.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
                   <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
@@ -668,7 +667,7 @@ export default function TwoPanels() {
             <table className="custom__scroll w-full h-full table-fixed !pb-[23px] md:pb-[0px] md:pt-[0px]">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
                   <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">

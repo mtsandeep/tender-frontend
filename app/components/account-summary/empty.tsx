@@ -12,7 +12,7 @@ export default function AccountSummaryEmpty({ loading }: { loading: boolean }) {
     <div
       className={`${
         loading ? "switch__to__network" : ""
-      } mb-[90px] md:mb-[62px] border-custom px-4 relative rounded-t-[16px] bg-[#111111]`}
+      } mb-[90px] md:mb-[62px] border-custom px-4 relative rounded-t-[16px] bg-[#111111] top__custom`}
     >
       <div className="pt-[101px] md:pt-[46px] relative">
         <div
@@ -24,7 +24,7 @@ export default function AccountSummaryEmpty({ loading }: { loading: boolean }) {
             </div>
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
-            <div className="animate w-[70px] md:w-[90px] h-[26px] md:h-[34px] text-2xl md:text-[35px] font-space font-normal"></div>
+            <div className="animate w-[70px] md:w-[90px] h-[31px] md:h-[42px] text-2xl md:text-[35px] font-space font-normal"></div>
             <div className="absolute top-[50%] left-[50%] translate__50 items-center flex justify-center z-[-1]">
               <Ring />
             </div>
@@ -68,12 +68,12 @@ export default function AccountSummaryEmpty({ loading }: { loading: boolean }) {
         </div>
       </div>
 
-      <div className="flex flex-col text-xs justify-center font-nova pb-4">
+      <div className="gap-[5px] md:gap-0 flex flex-col text-xs justify-center font-nova pb-[15px] md:pb-[12px]">
         <div className="flex justify-between items-center">
-          <div className="justify-self-start text-xs text-[#818987] pb-[6px] font-nova font-normal">
+          <div className="justify-self-start text-xs text-[#818987] md:pb-[6px] font-nova font-normal">
             Borrow Used
           </div>
-          <div className="justify-self-start text-xs text-[#818987] pb-[6px] font-nova font-normal">
+          <div className="justify-self-start text-xs text-[#818987] md:pb-[6px] font-nova font-normal">
             Borrow Max
           </div>
         </div>

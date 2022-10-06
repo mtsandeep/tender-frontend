@@ -16,7 +16,7 @@ export default function Display({
   totalBorrowedUsd,
   borrowBalanceInUsd,
   supplyBalanceInUsd,
-  netApy = null,
+  netApy,
   borrowLimitUsed,
   percentUsed,
   borrowLimit,
@@ -32,14 +32,8 @@ export default function Display({
               Net APY
             </div>
 
-            <div
-              className={`font-space font-normal ${
-                netApy && netApy?.toString()?.length > 7
-                  ? "text-[18px] md:text-[24px]"
-                  : "text-[24px] md:text-[35px]"
-              }`}
-            >
-              {netApy != null ? netApy.toFixed(2) + "%" : "0%"}
+            <div className="font-space font-normal text-[24px] md:text-[35px]">
+              {netApy?.toFixed(2) + "%"}
             </div>
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
@@ -103,7 +97,7 @@ export default function Display({
         </div>
         <div className="flex justify-between items-center">
           <div className="mr-2 font-nova text-sm text-white">0%</div>
-          <div className="font-nova text-sm text-white mr-[3px] md:mr-0">
+          <div className="font-nova text-sm text-white">
             ${toFiatString(borrowLimit)}
           </div>
         </div>
