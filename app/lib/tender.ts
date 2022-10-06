@@ -18,7 +18,7 @@ import sampleCEtherAbi from "~/config/sample-CEther-abi";
 
 // more info: https://github.com/ethereum/solidity/issues/533#issuecomment-218776352
 const NEGATIVE_UINT = BigNumber.from("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
-const MINIMUM_REQUIRED_APPROVAL_BALANCE = BigNumber.from("1");
+export const MINIMUM_REQUIRED_APPROVAL_BALANCE = BigNumber.from("1");
 interface Txn {
   wait: (n?: number) => TransactionReceipt;
   hash: string;
@@ -448,6 +448,7 @@ async function getTotalBorrowed(
   return formatBigNumber(value, tp.token.decimals);
 }
 
+// @deprecated moved to use markets hook
 async function hasSufficientAllowance(
   signer: Signer,
   token: Token,

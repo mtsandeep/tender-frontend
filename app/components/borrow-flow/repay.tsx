@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 import Max from "~/components/max";
 
-import { enable, repay, hasSufficientAllowance } from "~/lib/tender";
+import { enable, repay } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
 import BorrowBalance from "../fi-modal/borrow-balance";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
@@ -51,7 +51,7 @@ export default function Repay({
 
   let [isEnabled, setIsEnabled] = useState<boolean>(true);
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
-  let [loading, setLoading] = useState<boolean>(true);
+  let [loading, setLoading] = useState<boolean>(false); // @todo maybe remove?
 
   let [isRepayingTxn, setIsRepayingTxn] = useState<boolean>(false);
   let [value, setValue] = useState<string>(initialValue);
@@ -87,20 +87,10 @@ export default function Repay({
   let { updateTransaction, setIsWaitingToBeMined } = useContext(TenderContext);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-    if (!signer) {
-      return;
+    if (!market.hasSufficientAllowance) {
+      setIsEnabled(false);
     }
-    hasSufficientAllowance(
-      signer,
-      market.tokenPair.token,
-      market.tokenPair.cToken
-    ).then((has: boolean) => {
-      if (!has) {
-        setIsEnabled(false);
-      }
-    });
-  }, [signer, market.tokenPair.cToken, market.tokenPair.token]);
+  }, [market.hasSufficientAllowance]);
 
   // Highlights value input
   useEffect(() => {

@@ -9,11 +9,11 @@ import {
   getBorrowLimitUsed,
   formatBigNumber,
   getCurrentlySupplying,
-  getCurrentlyBorrowing,
+  getCurrentlyBorrowing, MINIMUM_REQUIRED_APPROVAL_BALANCE,
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
 import { TenderContext } from "~/contexts/tender-context";
-import {ethers, utils} from "ethers";
+import {BigNumber, ethers, utils} from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
@@ -101,6 +101,19 @@ export function useMarkets(
           walletBalancePromise = tokenContract.balanceOf(address);
         }
 
+        // hasSufficientAllowance
+        let allowancePromise;
+        const allowanceAddress = tp.token.sGLPAddress || tp.token.address;
+
+        if (allowanceAddress) { // workaround for native token
+          let allowanceContract = new ethers.Contract(
+              allowanceAddress,
+              SampleErc20Abi,
+              mcProvider
+          );
+          allowancePromise = allowanceContract.allowance(address, tp.cToken.address);
+        }
+
         return {
           borrowBalance: borrowBalancePromise,
           balance: balancePromise,
@@ -113,6 +126,7 @@ export function useMarkets(
           totalReserves: totalReservesPromise,
           tokenPair: tp,
           walletBalance: walletBalancePromise,
+          allowance: allowancePromise,
         };
       });
 
@@ -131,6 +145,7 @@ export function useMarkets(
           totalReserves: await tokenPromise.totalReserves,
           tokenPair: tokenPromise.tokenPair,
           walletBalance: await tokenPromise.walletBalance,
+          allowance: tokenPromise.allowance ? await tokenPromise.allowance : MINIMUM_REQUIRED_APPROVAL_BALANCE,
         });
       }
 
@@ -220,6 +235,7 @@ export function useMarkets(
               accountBorrowLimitInUsd
           ),
           maxBorrowLiquidity,
+          hasSufficientAllowance: token.allowance.gte(MINIMUM_REQUIRED_APPROVAL_BALANCE),
         };
       });
 

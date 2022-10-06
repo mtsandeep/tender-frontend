@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import Max from "~/components/max";
 import { toMaxString } from "~/lib/ui";
 
-import { enable, deposit, hasSufficientAllowance } from "~/lib/tender";
+import { enable, deposit } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
 import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
@@ -46,7 +46,7 @@ export default function Deposit({
   const tokenDecimals = market.tokenPair.token.decimals;
 
   let [isEnabled, setIsEnabled] = useState<boolean>(true);
-  let [loading, setLoading] = useState<boolean>(true);
+  let [loading, setLoading] = useState<boolean>(false); // @todo maybe remove?
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
   let [isDepositing, setIsDepositing] = useState<boolean>(false);
   let [value, setValue] = useState<string>(initialValue);
@@ -86,20 +86,10 @@ export default function Deposit({
   );
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-    if (!signer) {
-      return;
+    if (!market.hasSufficientAllowance) {
+      setIsEnabled(false);
     }
-    hasSufficientAllowance(
-      signer,
-      market.tokenPair.token,
-      market.tokenPair.cToken
-    ).then((has: boolean) => {
-      if (!has) {
-        setIsEnabled(false);
-      }
-    });
-  }, [signer, market.tokenPair.cToken, market.tokenPair.token]);
+  }, [market.hasSufficientAllowance]);
 
   // Highlights value input
   useEffect(() => {
