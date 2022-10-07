@@ -96,7 +96,15 @@ export function useMarketsInfo() {
     underlyingSymbol
     amount
   },
+  repayVolume:repayEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+    underlyingSymbol
+    amount
+  },
   supplyVolume:mintEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+    cTokenSymbol
+    underlyingAmount
+  },
+  redeemVolume:redeemEvents(where:{blockNumber_gt:${prevDayBlock}}) {
     cTokenSymbol
     underlyingAmount
   },
@@ -279,12 +287,21 @@ export function useMarketsInfo() {
       total.borrow.topMarkets.length = 3;
 
       // volumes
-      total.supply.volume = response.supplyVolume.map(
+      const supplyVolume = response.supplyVolume.map(
           (supply) => typeof usdPricesByCToken[supply.cTokenSymbol] !== 'undefined' ? supply.underlyingAmount * usdPricesByCToken[supply.cTokenSymbol] : 0
       ).reduce((previous: number, current: number) => previous + current, 0);
-      total.borrow.volume = response.borrowVolume.map(
+      const redeemVolume = response.redeemVolume.map(
+          (redeem) => typeof usdPricesByCToken[redeem.cTokenSymbol] !== 'undefined' ? redeem.underlyingAmount * usdPricesByCToken[redeem.cTokenSymbol] : 0
+      ).reduce((previous: number, current: number) => previous + current, 0);
+      const borrowVolume = response.borrowVolume.map(
           (borrow) => typeof usdPricesByToken[borrow.underlyingSymbol] !== 'undefined' ? borrow.amount * usdPricesByToken[borrow.underlyingSymbol] : 0
       ).reduce((previous: number, current: number) => previous + current, 0);
+      const repayVolume = response.repayVolume.map(
+          (repay) => typeof usdPricesByToken[repay.underlyingSymbol] !== 'undefined' ? repay.amount * usdPricesByToken[repay.underlyingSymbol] : 0
+      ).reduce((previous: number, current: number) => previous + current, 0);
+
+      total.supply.volume = supplyVolume - redeemVolume;
+      total.borrow.volume = borrowVolume - repayVolume;
 
       setMarketsInfo({
         markets: markets,
