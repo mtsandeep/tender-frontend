@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toCryptoString, toMaxString } from "~/lib/ui";
+import { getDisplayPriceString, toCryptoString, toExactString, toMaxString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -41,7 +41,6 @@ export default function Withdraw({
   let [value, setValue] = useState<string>(initialValue);
   let [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
-  let [isMax, setIsMax] = useState<boolean>(false);
   let inputEl = useRef<HTMLInputElement>(null);
 
   let { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
@@ -98,7 +97,6 @@ export default function Withdraw({
       const formattedValue = value
         .replace(/[^.\d]+/g, "")
         .replace(/^([^\.]*\.)|\./g, "$1");
-      const decimals = (formattedValue.split(".")[1] || []).length;
 
       if (
         formattedValue.split("")[0] === "0" &&
@@ -119,10 +117,8 @@ export default function Withdraw({
           if (
             formattedValue === "" ||
             (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-              formattedValue.length <= 20 &&
-              decimals <= tokenDecimals)
+              formattedValue.length <= 20)
           ) {
-            setIsMax(false);
             setValue(formattedValue);
           }
         }
@@ -160,8 +156,7 @@ export default function Withdraw({
                 <Max
                   maxValue={maxWithdrawAmount}
                   updateValue={() => {
-                    setIsMax(true);
-                    setValue(toMaxString(maxWithdrawAmount, tokenDecimals));
+                    setValue(toExactString(maxWithdrawAmount));
                   }}
                   label="Max"
                   maxValueLabel={market.tokenPair.token.symbol}
@@ -259,6 +254,10 @@ export default function Withdraw({
                         return;
                       }
                       setIsWithdrawing(true);
+
+                      // entering the max amount displayed should withdraw all
+                      let isMax = value == toExactString(maxWithdrawAmount)
+
                       // @ts-ignore existence of signer is gated above.
                       let txn = await redeem(
                         value,
