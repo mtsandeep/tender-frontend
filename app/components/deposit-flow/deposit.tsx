@@ -345,9 +345,7 @@ export default function Deposit({
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.supplyBalance, tokenDecimals) +
-                  " " +
-                  market.tokenPair.token.symbol}
+                {market.supplyBalance + " " + market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">
