@@ -194,6 +194,7 @@ async function getCurrentlySupplying(
  *
  * @param signer
  * @param cToken
+ * @param token
  * @returns string
  */
 async function getCurrentlyBorrowing(

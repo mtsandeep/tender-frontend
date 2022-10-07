@@ -174,8 +174,14 @@ export function useMarkets(
 
       const newMarkets = tokens.map(async (token): Promise<Market> => {
         const tp = token.tokenPair;
-        const supplyBalance = await getCurrentlySupplying(signer, token.tokenPair.cToken, token.tokenPair.token);
-        const borrowBalance = await getCurrentlyBorrowing(signer, token.tokenPair.cToken, token.tokenPair.token);
+        const supplyBalance = formatBigNumber(
+            token.balance.mul(token.exchangeRateCurrent),
+            tp.token.decimals + 18
+        );
+        const borrowBalance = formatBigNumber(
+            token.borrowBalance,
+            tp.token.decimals
+        );
 
         const supplyBalanceInUsd = supplyBalance * tp.token.priceInUsd;
         const borrowBalanceInUsd = borrowBalance * tp.token.priceInUsd;
