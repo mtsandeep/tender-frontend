@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { getDisplayPriceString, toCryptoString, toExactString, toMaxString } from "~/lib/ui";
+import { toCryptoString, toExactString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -64,12 +64,6 @@ export default function Withdraw({
     market.maxBorrowLiquidity // how much cash the contract has
   );
 
-  // // if there is a borrow balance
-  // if (totalBorrowedAmountInUsd > 0) {
-  //   // 0.8 * (totalSupply - totalBorrow balance / token price)
-  //   // if there is a borrow or else 100%
-  // }
-
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
@@ -91,41 +85,38 @@ export default function Withdraw({
     inputEl && inputEl.current && inputEl.current.focus();
   }, []);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      const formattedValue = value
-        .replace(/[^.\d]+/g, "")
-        .replace(/^([^\.]*\.)|\./g, "$1");
+  const handleCheckValue = useCallback((e: any) => {
+    const { value } = e.target;
+    const formattedValue = value
+      .replace(/[^.\d]+/g, "")
+      .replace(/^([^\.]*\.)|\./g, "$1");
 
+    if (
+      formattedValue.split("")[0] === "0" &&
+      formattedValue.length === 2 &&
+      formattedValue.split("")[1] !== "."
+    ) {
+      return false;
+    } else {
       if (
         formattedValue.split("")[0] === "0" &&
-        formattedValue.length === 2 &&
-        formattedValue.split("")[1] !== "."
+        formattedValue.length > 1 &&
+        formattedValue
+          .split("")
+          .every((item: string) => item === formattedValue.split("")[0])
       ) {
         return false;
       } else {
         if (
-          formattedValue.split("")[0] === "0" &&
-          formattedValue.length > 1 &&
-          formattedValue
-            .split("")
-            .every((item: string) => item === formattedValue.split("")[0])
+          formattedValue === "" ||
+          (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
+            formattedValue.length <= 20)
         ) {
-          return false;
-        } else {
-          if (
-            formattedValue === "" ||
-            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-              formattedValue.length <= 20)
-          ) {
-            setValue(formattedValue);
-          }
+          setValue(formattedValue);
         }
       }
-    },
-    [tokenDecimals]
-  );
+    }
+  }, []);
 
   return (
     <div>
@@ -254,10 +245,8 @@ export default function Withdraw({
                         return;
                       }
                       setIsWithdrawing(true);
-
                       // entering the max amount displayed should withdraw all
-                      let isMax = value == toExactString(maxWithdrawAmount)
-
+                      let isMax = value == toExactString(maxWithdrawAmount);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await redeem(
                         value,
