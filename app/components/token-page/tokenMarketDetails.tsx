@@ -4,7 +4,7 @@ import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
 
-function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
+function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any | boolean, utilizationRate: any }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: any;
@@ -32,7 +32,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
     },
     {
       itemName: "Utilization",
-      itemData: `98.9%`,
+      itemData: utilizationRate?.aa && `${utilizationRate.aa}%`,
     },
     {
       itemName: "Available Borrow",
