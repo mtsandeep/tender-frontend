@@ -5,7 +5,7 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
     <div
       className={`${
         loading ? "switch__to__network" : ""
-      } flex flex-col md:grid grid-cols-2 gap-[60px] md:gap-[20px] mb-14`}
+      } flex flex-col xl:grid grid-cols-2 gap-[60px] xl:gap-[20px] mb-14`}
     >
       <div>
         <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
