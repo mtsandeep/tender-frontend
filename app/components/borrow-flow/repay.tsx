@@ -58,8 +58,6 @@ export default function Repay({
   let [value, setValue] = useState<string>(initialValue);
   let [txnHash, setTxnHash] = useState<string>("");
 
-  let [isMax, setIsMax] = useState<boolean>(false);
-
   let maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
 
   let inputEl = useRef<HTMLInputElement>(null);
@@ -127,7 +125,6 @@ export default function Repay({
               formattedValue.length <= 20 &&
               decimals <= tokenDecimals)
           ) {
-            setIsMax(false);
             setValue(formattedValue);
           }
         }
@@ -190,7 +187,6 @@ export default function Repay({
                   <Max
                     maxValue={maxRepayableAmount}
                     updateValue={() => {
-                      setIsMax(true);
                       setValue(toMaxString(maxRepayableAmount, tokenDecimals));
                     }}
                     maxValueLabel={market.tokenPair.token.symbol}
@@ -303,6 +299,7 @@ export default function Repay({
                         return;
                       }
                       setIsRepayingTxn(true);
+                      const isMax = value == toMaxString(maxRepayableAmount, tokenDecimals);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await repay(
                         value,
