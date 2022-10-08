@@ -32,7 +32,7 @@ function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any |
     },
     {
       itemName: "Utilization",
-      itemData: utilizationRate?.aa && `${utilizationRate.aa}%`,
+      itemData: utilizationRate?.aa ? `${utilizationRate.aa}%` : "0%",
     },
     {
       itemName: "Available Borrow",
