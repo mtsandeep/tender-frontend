@@ -36,8 +36,8 @@ function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any |
     },
     {
       itemName: "Available Borrow",
-      itemData:
-        toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) +
+      itemData: marketInfo.tokenSymbol === "GLP" ? "-" :
+        toShortCryptoString(Number(marketInfo.cash)) +
         " " +
         marketInfo.tokenSymbol,
     },
