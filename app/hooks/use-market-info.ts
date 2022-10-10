@@ -117,9 +117,9 @@ export function useMarketInfo(tokenId: string | undefined) {
     underlyingPriceUSD
     underlyingDecimals
   },
-    accountCTokens (where: {enteredMarket: true, market_contains: "${address}"}) {
-      totalUnderlyingBorrowed
-      totalUnderlyingSupplied
+    accountCTokens (where: {enteredMarket: true, symbol: "${token?.cToken?.symbol}"}) {
+      cTokenBalance
+      storedBorrowBalance
     },
     ${statsQuery}
 }
@@ -141,12 +141,12 @@ export function useMarketInfo(tokenId: string | undefined) {
       market.cTokenSymbol = token?.cToken?.symbol;
 
       market.totalBorrowersCount = response.accountCTokens.filter(
-        (account: { totalUnderlyingBorrowed: number }) =>
-          account.totalUnderlyingBorrowed > 0
+        (account: { storedBorrowBalance: number }) =>
+          account.storedBorrowBalance > 0
       ).length;
       market.totalSuppliersCount = response.accountCTokens.filter(
-        (account: { totalUnderlyingSupplied: number }) =>
-          account.totalUnderlyingSupplied > 0
+        (account: { cTokenBalance: number }) =>
+          account.cTokenBalance > 0
       ).length;
 
       // @todo refactor
