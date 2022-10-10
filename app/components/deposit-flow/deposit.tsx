@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-target-blank */
-import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
@@ -9,9 +8,9 @@ import type {
 import { useValidInput } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toMaxString } from "~/lib/ui";
+import { toExactString } from "~/lib/ui";
 
-import { enable, deposit, hasSufficientAllowance } from "~/lib/tender";
+import { enable, deposit } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
 import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
@@ -23,32 +22,35 @@ import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 export interface DepositProps {
   closeModal: Function;
   market: Market;
-  setIsSupplying: Function;
+  onTabSwitch: Function;
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: number;
   totalBorrowedAmountInUsd: number;
   comptrollerAddress: string;
+  initialValue: string;
 }
 export default function Deposit({
   closeModal,
   comptrollerAddress,
-  setIsSupplying,
+  onTabSwitch,
   borrowLimit,
   signer,
   borrowLimitUsed,
   walletBalance,
   totalBorrowedAmountInUsd,
   market,
+  initialValue,
 }: DepositProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [isEnabled, setIsEnabled] = useState<boolean>(true);
-  let [loading, setLoading] = useState<boolean>(true);
+  let [isEnabled, setIsEnabled] = useState<boolean>(
+    market.hasSufficientAllowance
+  );
   let [isEnabling, setIsEnabling] = useState<boolean>(false);
   let [isDepositing, setIsDepositing] = useState<boolean>(false);
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [txnHash, setTxnHash] = useState<string>("");
   let inputTextClass = shrinkyInputClass(value.length);
 
@@ -85,25 +87,12 @@ export default function Deposit({
   );
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-    if (!signer) {
-      return;
-    }
-    hasSufficientAllowance(
-      signer,
-      market.tokenPair.token,
-      market.tokenPair.cToken
-    ).then((has: boolean) => {
-      if (!has) {
-        setIsEnabled(false);
-      }
-    });
-  }, [signer, market.tokenPair.cToken, market.tokenPair.token]);
+    setIsEnabled(market.hasSufficientAllowance);
+  }, [market.hasSufficientAllowance]);
 
-  // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
-  }, [loading]);
+    inputEl && inputEl.current && inputEl.current.focus();
+  }, []);
 
   const handleCheckValue = useCallback(
     (e: any) => {
@@ -167,11 +156,7 @@ export default function Deposit({
               {market.tokenPair.token.symbol}
             </div>
             <div className="h-[100px] mt-[50px]">
-              {loading ? (
-                <div className="switch__to__network px-4 mt-5 flex flex-col items-center">
-                  <div className="animate w-[80%] h-[80px] mt-[20px]"></div>
-                </div>
-              ) : !isEnabled ? (
+              {!isEnabled ? (
                 <div className="flex flex-col items-center mt-5 rounded-2xl px-4">
                   <img
                     src={market.tokenPair.token.icon}
@@ -187,9 +172,7 @@ export default function Deposit({
                 <div className="flex flex-col justify-center items-center overflow-hidden font-space">
                   <Max
                     maxValue={walletBalance}
-                    updateValue={() =>
-                      setValue(toMaxString(walletBalance, tokenDecimals))
-                    }
+                    updateValue={() => setValue(toExactString(walletBalance))}
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#14F195"
                   />
@@ -198,7 +181,7 @@ export default function Deposit({
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
                     style={{ minHeight: 100 }}
-                    className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
+                    className={`input__center__custom max-w-[180px] max-w-[300px] ${
                       value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                     }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                     placeholder="0"
@@ -209,13 +192,13 @@ export default function Deposit({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsSupplying(true)}
+                onClick={() => onTabSwitch("supply")}
               >
                 Supply
               </button>
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
-                onClick={() => setIsSupplying(false)}
+                onClick={() => onTabSwitch("withdraw", value)}
               >
                 Withdraw
               </button>
@@ -270,107 +253,99 @@ export default function Deposit({
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-green.svg"
             />
-            {loading ? (
-              <div className="switch__to__network flex justify-center">
-                <div className="animate w-[308px] h-[56px] md:h-[60px]"></div>
-              </div>
-            ) : (
-              <div className="flex justify-center mb-8">
-                {!signer && <div>Connect wallet to get started</div>}
-                {signer && !isEnabled && (
-                  <button
-                    onClick={async () => {
-                      try {
-                        setIsEnabling(true);
-                        // @ts-ignore existence of signer is gated above.
-                        await enable(
-                          signer,
-                          market.tokenPair.token,
-                          market.tokenPair.cToken
-                        );
-                        setIsEnabled(true);
-                      } catch (e) {
-                        console.error(e);
-                      } finally {
-                        setIsEnabling(false);
-                      }
-                    }}
-                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
-                  >
-                    {isEnabling ? "Enabling..." : "Enable"}
-                  </button>
-                )}
+            <div className="flex justify-center mb-8 h-[56px] md:h-[60px]">
+              {!signer && <div>Connect wallet to get started</div>}
+              {signer && !isEnabled && (
+                <button
+                  onClick={async () => {
+                    try {
+                      setIsEnabling(true);
+                      // @ts-ignore existence of signer is gated above.
+                      await enable(
+                        signer,
+                        market.tokenPair.token,
+                        market.tokenPair.cToken
+                      );
+                      setIsEnabled(true);
+                    } catch (e) {
+                      console.error(e);
+                    } finally {
+                      setIsEnabling(false);
+                    }
+                  }}
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                >
+                  {isEnabling ? "Enabling..." : "Enable"}
+                </button>
+              )}
 
-                {signer && isEnabled && !isValid && (
-                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                    {validationDetail}
-                  </button>
-                )}
+              {signer && isEnabled && !isValid && (
+                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  {validationDetail}
+                </button>
+              )}
 
-                {signer && isEnabled && isValid && (
-                  <button
-                    onClick={async () => {
-                      try {
-                        if (!value) {
-                          toast("Please set a value", {
-                            icon: "⚠️",
-                          });
-                          return;
-                        }
-                        setIsDepositing(true);
-                        let txn = await deposit(
-                          value,
-                          signer,
-                          market.tokenPair.cToken,
-                          market.tokenPair.token
-                        );
-                        setTxnHash(txn.hash);
-                        setIsWaitingToBeMined(true);
-                        let tr: TransactionReceipt = await txn.wait(2);
-                        displayTransactionResult(
-                          tr.transactionHash,
-                          "Deposit successful"
-                        );
-                        setValue("");
-                        updateTransaction(tr.blockHash);
-                      } catch (e: any) {
-                        toast.dismiss();
-                        if (e.transaction?.hash) {
-                          toast.error(() => (
-                            <p>
-                              <a
-                                target="_blank"
-                                rel="noreferrer"
-                                href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
-                              >
-                                Deposit unsuccessful
-                              </a>
-                            </p>
-                          ));
-                        } else {
-                          toast.error("Deposit unsuccessful.");
-                          closeModal();
-                        }
-                      } finally {
-                        setIsWaitingToBeMined(false);
-                        setIsDepositing(false);
+              {signer && isEnabled && isValid && (
+                <button
+                  onClick={async () => {
+                    try {
+                      if (!value) {
+                        toast("Please set a value", {
+                          icon: "⚠️",
+                        });
+                        return;
                       }
-                    }}
-                    className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
-                  >
-                    {isDepositing ? "Supplying..." : "Supply"}
-                  </button>
-                )}
-              </div>
-            )}
+                      setIsDepositing(true);
+                      let txn = await deposit(
+                        value,
+                        signer,
+                        market.tokenPair.cToken,
+                        market.tokenPair.token
+                      );
+                      setTxnHash(txn.hash);
+                      setIsWaitingToBeMined(true);
+                      let tr: TransactionReceipt = await txn.wait(2);
+                      displayTransactionResult(
+                        tr.transactionHash,
+                        "Deposit successful"
+                      );
+                      setValue("");
+                      updateTransaction(tr.blockHash);
+                    } catch (e: any) {
+                      toast.dismiss();
+                      if (e.transaction?.hash) {
+                        toast.error(() => (
+                          <p>
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
+                            >
+                              Deposit unsuccessful
+                            </a>
+                          </p>
+                        ));
+                      } else {
+                        toast.error("Deposit unsuccessful.");
+                        closeModal();
+                      }
+                    } finally {
+                      setIsWaitingToBeMined(false);
+                      setIsDepositing(false);
+                    }
+                  }}
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14f195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                >
+                  {isDepositing ? "Supplying..." : "Supply"}
+                </button>
+              )}
+            </div>
             <div className="flex mt-8 justify-between">
               <div className="text-[#ADB5B3] font-nova text-base font-normal">
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {toCryptoString(market.supplyBalance, tokenDecimals) +
-                  " " +
-                  market.tokenPair.token.symbol}
+                {market.supplyBalance + " " + market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">

@@ -1,4 +1,3 @@
-import { ICON_SIZE } from "~/lib/constants";
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type {
@@ -27,27 +26,29 @@ import { formatApy } from "~/lib/apy-calculations";
 export interface BorrowProps {
   market: Market;
   closeModal: Function;
-  setIsRepaying: Function;
+  onTabSwitch: Function;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   borrowLimit: number;
   walletBalance: number;
   tokenPairs: TokenPair[];
   totalBorrowedAmountInUsd: number;
+  initialValue: string;
 }
 
 export default function Borrow({
   market,
   closeModal,
-  setIsRepaying,
+  onTabSwitch,
   signer,
   borrowLimit,
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
+  initialValue,
 }: BorrowProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [isBorrowing, setIsBorrowing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
 
@@ -85,7 +86,7 @@ export default function Borrow({
   let inputTextClass = shrinkyInputClass(value.length);
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, []);
 
   const handleCheckValue = useCallback(
@@ -158,7 +159,7 @@ export default function Borrow({
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ minHeight: 100 }}
-                className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
+                className={`input__center__custom max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
@@ -178,13 +179,13 @@ export default function Borrow({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsRepaying(false)}
+                onClick={() => onTabSwitch("borrow")}
               >
                 Borrow
               </button>
               <button
                 className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
-                onClick={() => setIsRepaying(true)}
+                onClick={() => onTabSwitch("repay", value)}
               >
                 Repay
               </button>
@@ -235,7 +236,7 @@ export default function Borrow({
               urlArrow="/images/ico/arrow-blue.svg"
             />
 
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8 h-[56px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
                 <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">

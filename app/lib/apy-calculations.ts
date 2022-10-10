@@ -155,7 +155,7 @@ async function netApy(
   let result = (sum / totalSupplied) * 100;
 
   if (Number.isNaN(result)) {
-    return null;
+    return 0;
   }
 
   return result;

@@ -12,34 +12,53 @@ interface Props {
   market: Market;
 }
 
+type ActiveTab = "supply" | "withdraw";
+
 export default function DepositFlow({ closeModal, market }: Props) {
-  let [isSupplying, setIsSupplying] = useState<boolean>(true);
+  const [activeTab, setActiveTab] = useState<ActiveTab>("supply");
+  const [initialSupplyValue, setInitialSupplyValue] = useState<string>("");
+  const [initialWithdrawValue, setInitialWithdrawValue] = useState<string>("");
 
   let provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
 
-  return isSupplying ? (
+  const handleTabSwitch = (tab: ActiveTab, lastValue?: string) => {
+    setActiveTab(tab);
+
+    //skip setting initial value if user is clicking on same tab or lastvalue is undefined
+    if (activeTab === tab || lastValue === undefined) return;
+
+    if (tab === "supply") {
+      setInitialWithdrawValue(lastValue);
+    } else if (tab === "withdraw") {
+      setInitialSupplyValue(lastValue);
+    }
+  };
+
+  return activeTab === "supply" ? (
     <Deposit
       closeModal={closeModal}
       market={market}
-      setIsSupplying={setIsSupplying}
+      onTabSwitch={handleTabSwitch}
       borrowLimit={market.borrowLimit}
       borrowLimitUsed={market.borrowLimitUsed}
       signer={signer}
       walletBalance={market.walletBalance}
       totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
       comptrollerAddress={market.comptrollerAddress}
+      initialValue={initialSupplyValue}
     />
   ) : (
     <Withdraw
       market={market}
       closeModal={closeModal}
-      setIsSupplying={setIsSupplying}
+      onTabSwitch={handleTabSwitch}
       borrowLimit={market.borrowLimit}
       borrowLimitUsed={market.borrowLimitUsed}
       signer={signer}
       walletBalance={market.walletBalance}
       totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+      initialValue={initialWithdrawValue}
     />
   );
 }

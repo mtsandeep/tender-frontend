@@ -1,10 +1,9 @@
-  import { ICON_SIZE } from "~/lib/constants";
 import type { Market } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toCryptoString, toMaxString } from "~/lib/ui";
+import { toCryptoString, toExactString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -19,28 +18,29 @@ import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 export interface WithdrawProps {
   market: Market;
   closeModal: Function;
-  setIsSupplying: Function;
+  onTabSwitch: Function;
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: number;
   totalBorrowedAmountInUsd: number;
+  initialValue: string;
 }
 export default function Withdraw({
   market,
   closeModal,
-  setIsSupplying,
+  onTabSwitch,
   borrowLimit,
   signer,
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
+  initialValue,
 }: WithdrawProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [value, setValue] = useState<string>("");
+  let [value, setValue] = useState<string>(initialValue);
   let [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   let [txnHash, setTxnHash] = useState<string>("");
-  let [isMax, setIsMax] = useState<boolean>(false);
   let inputEl = useRef<HTMLInputElement>(null);
 
   let { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
@@ -64,12 +64,6 @@ export default function Withdraw({
     market.maxBorrowLiquidity // how much cash the contract has
   );
 
-  // // if there is a borrow balance
-  // if (totalBorrowedAmountInUsd > 0) {
-  //   // 0.8 * (totalSupply - totalBorrow balance / token price)
-  //   // if there is a borrow or else 100%
-  // }
-
   let [isValid, validationDetail] = useValidInput(
     value,
     0,
@@ -88,47 +82,41 @@ export default function Withdraw({
 
   // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.select();
+    inputEl && inputEl.current && inputEl.current.focus();
   }, []);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      const formattedValue = value
-        .replace(/[^.\d]+/g, "")
-        .replace(/^([^\.]*\.)|\./g, "$1");
-      const decimals = (formattedValue.split(".")[1] || []).length;
+  const handleCheckValue = useCallback((e: any) => {
+    const { value } = e.target;
+    const formattedValue = value
+      .replace(/[^.\d]+/g, "")
+      .replace(/^([^\.]*\.)|\./g, "$1");
 
+    if (
+      formattedValue.split("")[0] === "0" &&
+      formattedValue.length === 2 &&
+      formattedValue.split("")[1] !== "."
+    ) {
+      return false;
+    } else {
       if (
         formattedValue.split("")[0] === "0" &&
-        formattedValue.length === 2 &&
-        formattedValue.split("")[1] !== "."
+        formattedValue.length > 1 &&
+        formattedValue
+          .split("")
+          .every((item: string) => item === formattedValue.split("")[0])
       ) {
         return false;
       } else {
         if (
-          formattedValue.split("")[0] === "0" &&
-          formattedValue.length > 1 &&
-          formattedValue
-            .split("")
-            .every((item: string) => item === formattedValue.split("")[0])
+          formattedValue === "" ||
+          (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
+            formattedValue.length <= 20)
         ) {
-          return false;
-        } else {
-          if (
-            formattedValue === "" ||
-            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-              formattedValue.length <= 20 &&
-              decimals <= tokenDecimals)
-          ) {
-            setIsMax(false);
-            setValue(formattedValue);
-          }
+          setValue(formattedValue);
         }
       }
-    },
-    [tokenDecimals]
-  );
+    }
+  }, []);
 
   return (
     <div>
@@ -159,8 +147,7 @@ export default function Withdraw({
                 <Max
                   maxValue={maxWithdrawAmount}
                   updateValue={() => {
-                    setIsMax(true);
-                    setValue(toMaxString(maxWithdrawAmount, tokenDecimals));
+                    setValue(toExactString(maxWithdrawAmount));
                   }}
                   label="Max"
                   maxValueLabel={market.tokenPair.token.symbol}
@@ -172,7 +159,7 @@ export default function Withdraw({
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ minHeight: 100 }}
-                className={`input__center__custom max-w-[180px] md:max-w-[270px] ${
+                className={`input__center__custom max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
@@ -181,13 +168,13 @@ export default function Withdraw({
             <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
-                onClick={() => setIsSupplying(true)}
+                onClick={() => onTabSwitch("supply", value)}
               >
                 Supply
               </button>
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
-                onClick={() => setIsSupplying(false)}
+                onClick={() => onTabSwitch("withdraw")}
               >
                 Withdraw
               </button>
@@ -240,7 +227,7 @@ export default function Withdraw({
               urlArrow="/images/ico/arrow-green.svg"
             />
 
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-8 h-[56px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isValid && (
                 <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
@@ -258,6 +245,8 @@ export default function Withdraw({
                         return;
                       }
                       setIsWithdrawing(true);
+                      // entering the max amount displayed should withdraw all
+                      let isMax = value == toExactString(maxWithdrawAmount);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await redeem(
                         value,
@@ -280,7 +269,7 @@ export default function Withdraw({
                       setIsWithdrawing(false);
                     }
                   }}
-                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14F195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14f195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                 >
                   {isWithdrawing ? "Withdrawing..." : "Withdraw"}
                 </button>

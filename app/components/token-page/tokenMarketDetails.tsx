@@ -4,7 +4,7 @@ import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
 
-function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
+function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any | boolean, utilizationRate: any }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: any;
@@ -31,9 +31,13 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
       )} USD`,
     },
     {
+      itemName: "Utilization",
+      itemData: utilizationRate?.aa ? `${utilizationRate.aa}%` : "0%",
+    },
+    {
       itemName: "Available Borrow",
-      itemData:
-        toShortCryptoString(Number(Number(marketInfo.cash).toFixed(2))) +
+      itemData: marketInfo.tokenSymbol === "GLP" ? "-" :
+        toShortCryptoString(Number(marketInfo.cash)) +
         " " +
         marketInfo.tokenSymbol,
     },
@@ -68,7 +72,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
     {
       itemName: "Reserve Factor",
       tooltipText: (
-        <p>
+        <div>
           Reserve factor is a percentage of interest which goes to a collector
           contract that is controlled by{" "}
           <a
@@ -80,7 +84,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
             Tender.fi
           </a>{" "}
           governance to promote ecosystem growth.
-        </p>
+        </div>
       ),
       itemData: marketInfo.reserveFactor + "%",
     },
@@ -130,7 +134,7 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
   ];
 
   return (
-    <div className="font-nova w-full">
+    <div className="panel-custom border-custom font-nova w-full">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
         handleClose={() =>
@@ -143,63 +147,61 @@ function TokenMarketDetails({ marketInfo }: { marketInfo: any | boolean }) {
           })
         }
       />
-      <div className="leading-[22px] font-semibold mb-[20px] md:mb-[16px] text-base md:text-lg font-nova">
+      <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
         Market Details
       </div>
-      <div className="flex-col panel-custom ">
-        {customData.map((item, index) => {
-          return (
+      {customData.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
+          >
             <div
-              key={index}
-              className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
+              onClick={() =>
+                item?.tooltipText
+                  ? setMobileTooltipData({
+                      ...mobileTooltipData,
+                      open: window.innerWidth < 1023,
+                      textTop: item.tooltipText,
+                    })
+                  : false
+              }
+              className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
             >
-              <div
-                onClick={() =>
-                  item?.tooltipText
-                    ? setMobileTooltipData({
-                        ...mobileTooltipData,
-                        open: window.innerWidth < 1023,
-                        textTop: item.tooltipText,
-                      })
-                    : false
+              <p
+                className={
+                  item?.tooltipText &&
+                  "underline decoration-dashed underline-offset-4 cursor-pointer"
                 }
-                className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
-                <p
-                  className={
-                    item?.tooltipText &&
-                    "underline decoration-dashed underline-offset-4 cursor-pointer"
-                  }
-                >
-                  {item.itemName}
-                </p>
-                {item?.tooltipText && (
-                  <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
-                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
-                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                          <img
-                            className="w-[12px] h-[12px]"
-                            src="/images/ico/close.svg"
-                            alt="..."
-                          />
-                        </button>
-                        <p className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova">
-                          {item?.tooltipText}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                  </div>
-                )}
-              </div>
-              <p className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
-                {item.itemData}
+                {item.itemName}
               </p>
+              {item?.tooltipText && (
+                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
+                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                        <img
+                          className="w-[12px] h-[12px]"
+                          src="/images/ico/close.svg"
+                          alt="..."
+                        />
+                      </button>
+                      <p className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova">
+                        {item?.tooltipText}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                </div>
+              )}
             </div>
-          );
-        })}
-      </div>
+            <p className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+              {item.itemData}
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }

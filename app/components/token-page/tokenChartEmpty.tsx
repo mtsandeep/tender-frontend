@@ -5,8 +5,11 @@ function TokenChartEmpty() {
   const [tabName, setTabName] = useState<string>("supply");
 
   return (
-    <div className="switch__to__network bg-[#0D0D0D] panel-custom pt-4 mb-[60px] md:mb-[60px] md:pt-7 pb-[20px] lg:pb-0">
-      <div className="animate ml-[15px] mb-[26px] md:ml-[28px] w-[130px] h-[16px] md:h-[20px]"></div>
+    <div className="switch__to__network bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
+      <div className="px-[15px] py-[17px] mb-[30px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:mb-[26px] md:pt-[18px] md:pb-[19px] text-xs font-nova font-normal leading-4 md:text-sm md:leading-5">
+        <div className="animate w-[130px] h-[16px] md:h-[20px]"></div>
+      </div>
+
       <TokenTopDetailsEmpty />
 
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-xs leading-5 border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">

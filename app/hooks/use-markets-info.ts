@@ -96,7 +96,15 @@ export function useMarketsInfo() {
     underlyingSymbol
     amount
   },
+  repayVolume:repayEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+    underlyingSymbol
+    amount
+  },
   supplyVolume:mintEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+    cTokenSymbol
+    underlyingAmount
+  },
+  redeemVolume:redeemEvents(where:{blockNumber_gt:${prevDayBlock}}) {
     cTokenSymbol
     underlyingAmount
   },
@@ -173,18 +181,20 @@ export function useMarketsInfo() {
           underlyingSymbol: string;
         }) => {
           const id = m.id.toLowerCase();
+          const tokenPair = tokenPairs.find((tp) => tp.cToken.address.toLowerCase() === id);
+          const underlyingPriceUSD = tokenPair ? tokenPair.token.priceInUsd : m.underlyingPriceUSD;
 
           const supplyRate = m.supplyRate / ethBlocksPerYear;
           markets[id].supplyApy =
             (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
           markets[id].totalSupply = parseFloat(m.cash) + parseFloat(m.totalBorrows) - parseFloat(m.reserves);
-          markets[id].totalSupplyUsd = markets[id].totalSupply * m.underlyingPriceUSD;
+          markets[id].totalSupplyUsd = markets[id].totalSupply * underlyingPriceUSD;
 
           const borrowRate = m.borrowRate / ethBlocksPerYear;
           markets[id].borrowApy =
             (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
           markets[id].totalBorrow = parseFloat(m.totalBorrows);
-          markets[id].totalBorrowUsd = m.totalBorrows * m.underlyingPriceUSD;
+          markets[id].totalBorrowUsd = m.totalBorrows * underlyingPriceUSD;
 
           markets[id].totalBorrowersCount = response.accountCTokens.filter(
             (account: { id: string; totalUnderlyingBorrowed: number }) => {
@@ -217,18 +227,11 @@ export function useMarketsInfo() {
           ).length;
 
           // total in usd
-          // @todo refactor
-          const tokenPair = tokenPairs.find((tp) => tp.cToken.address.toLowerCase() === id);
+          total.borrow.usd += markets[id].totalBorrow * underlyingPriceUSD;
+          total.supply.usd += markets[id].totalSupply * underlyingPriceUSD;
 
-          if (tokenPair) {
-              total.borrow.usd += markets[id].totalBorrow * tokenPair.token.priceInUsd;
-              total.supply.usd += markets[id].totalSupply * tokenPair.token.priceInUsd;
-          } else {
-              console.log('not found!');
-          }
-
-          usdPricesByCToken[m.symbol] = m.underlyingPriceUSD;
-          usdPricesByToken[m.underlyingSymbol] = m.underlyingPriceUSD;
+          usdPricesByCToken[m.symbol] = underlyingPriceUSD;
+          usdPricesByToken[m.underlyingSymbol] = underlyingPriceUSD;
 
           // @todo refactor
           if (typeof prevMarkets[id] !== 'undefined') {
@@ -284,12 +287,21 @@ export function useMarketsInfo() {
       total.borrow.topMarkets.length = 3;
 
       // volumes
-      total.supply.volume = response.supplyVolume.map(
+      const supplyVolume = response.supplyVolume.map(
           (supply) => typeof usdPricesByCToken[supply.cTokenSymbol] !== 'undefined' ? supply.underlyingAmount * usdPricesByCToken[supply.cTokenSymbol] : 0
       ).reduce((previous: number, current: number) => previous + current, 0);
-      total.borrow.volume = response.borrowVolume.map(
+      const redeemVolume = response.redeemVolume.map(
+          (redeem) => typeof usdPricesByCToken[redeem.cTokenSymbol] !== 'undefined' ? redeem.underlyingAmount * usdPricesByCToken[redeem.cTokenSymbol] : 0
+      ).reduce((previous: number, current: number) => previous + current, 0);
+      const borrowVolume = response.borrowVolume.map(
           (borrow) => typeof usdPricesByToken[borrow.underlyingSymbol] !== 'undefined' ? borrow.amount * usdPricesByToken[borrow.underlyingSymbol] : 0
       ).reduce((previous: number, current: number) => previous + current, 0);
+      const repayVolume = response.repayVolume.map(
+          (repay) => typeof usdPricesByToken[repay.underlyingSymbol] !== 'undefined' ? repay.amount * usdPricesByToken[repay.underlyingSymbol] : 0
+      ).reduce((previous: number, current: number) => previous + current, 0);
+
+      total.supply.volume = supplyVolume - redeemVolume;
+      total.borrow.volume = borrowVolume - repayVolume;
 
       setMarketsInfo({
         markets: markets,

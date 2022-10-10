@@ -22,6 +22,11 @@ export function useValidInput(
     setReason(null);
 
     try {
+      if (ceil === 0) {
+        setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
+        throw "Ceil is zero";
+      }
+
       // Remove insignificant 0's
       let value = inputValue.replace(/^0+|0+$/g, "");
 
@@ -46,7 +51,7 @@ export function useValidInput(
       if (v <= floor) {
         setReason(InputValidationDetail.NEGATIVE_OR_ZERO);
         setIsValid(false);
-      } else if (v > toMaxNumber(ceil, precision)) {
+      } else if (v > ceil) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
       } else if (borrowLimitUsed >= 100 || borrowLimitUsed < -0) {

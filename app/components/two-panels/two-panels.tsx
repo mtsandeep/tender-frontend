@@ -70,12 +70,11 @@ export default function TwoPanels() {
   const marketsWithoutBorrow = tenderContextData.markets
     .filter((token: Market) => token.tokenPair.token.symbol !== "GLP")
     .filter(
-      (token: Market) =>
-        !token.borrowBalance || token.borrowBalanceInUsd <= 0
+      (token: Market) => !token.borrowBalance || token.borrowBalanceInUsd <= 0
     );
 
   return tenderContextData.markets.length ? (
-    <div className="flex flex-col lg:grid grid-cols-2 gap-[60px] md:gap-[20px] mb-14">
+    <div className="flex flex-col xl:grid grid-cols-2 gap-[60px] xl:gap-[20px] mb-14">
       <ReactModal
         shouldCloseOnOverlayClick={true}
         isOpen={openMarket !== null}
@@ -143,16 +142,16 @@ export default function TwoPanels() {
                     marketsWithSupply.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Supply
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[130px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[170px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs msm:w-[170px] msm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Your Supply
                   </th>
                 </tr>
@@ -307,23 +306,23 @@ export default function TwoPanels() {
           </div>
         )}
         {marketsWithoutSupply.length > 0 && (
-          <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+          <div className="pb-[5px] panel-custom border-custom md:pb-[0px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Supply Markets
             </div>
             <table className="custom__scroll w-full h-full table-fixed">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B]">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Supply
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[130px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[170px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Wallet Balance
                   </th>
                 </tr>
@@ -494,16 +493,16 @@ export default function TwoPanels() {
                     marketsWithBorrow.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[130px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Borrow APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[170px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Your Borrow
                   </th>
                 </tr>
@@ -661,23 +660,23 @@ export default function TwoPanels() {
           </div>
         )}
         {marketsWithoutBorrow.length > 0 && (
-          <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+          <div className="pb-[5px] panel-custom border-custom md:pb-[0px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Borrow Markets
             </div>
             <table className="custom__scroll w-full h-full table-fixed !pb-[23px] md:pb-[0px] md:pt-[0px]">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[130px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Borrow APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[170px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Available Borrow
                   </th>
                 </tr>
