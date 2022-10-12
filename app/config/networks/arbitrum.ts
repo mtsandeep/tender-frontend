@@ -9,7 +9,7 @@ export default {
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0x60437FEE4ddBdA6e47955b6255E312F1ED067033",
-    PriceOracle: "0xD550A36DC56046afa908c52579f130e724D83eae",
+    PriceOracle: "0xDa651685b5dc1B5d18aE7fAbe7D43666Ed12c696",
   },
   Tokens: {
     ETH: {
@@ -18,7 +18,7 @@ export default {
       decimals: 18,
       address: "",
       icon: "/images/coin-icons/ethereum.svg",
-      priceDecimals: 18,
+      priceDecimals: 18, // @deprecated
       cToken: {
         name: "tETH",
         symbol: "tETH",
