@@ -14,6 +14,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
+import {useSafeMaxWithdrawAmountForToken} from "~/hooks/use-safe-max-withdraw-amount-for-token";
 
 export interface WithdrawProps {
   market: Market;
@@ -59,7 +60,17 @@ export default function Withdraw({
     newBorrowLimit
   );
 
-  var maxWithdrawAmount: number = Math.min(
+  const safeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
+      signer,
+      market.comptrollerAddress,
+      tokenPairs,
+      market.tokenPair,
+      totalBorrowedAmountInUsd,
+      99
+  );
+
+  const maxWithdrawAmount: number = Math.min(
+    safeMaxWithdrawAmount,
     market.supplyBalance, // how much we're supplying
     market.maxBorrowLiquidity // how much cash the contract has
   );
@@ -143,7 +154,7 @@ export default function Withdraw({
               {market.tokenPair.token.symbol}
             </div>
             <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[100px] mt-[50px]">
-              {parseFloat(borrowLimitUsed) < 80 && (
+              {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
                   updateValue={() => {
@@ -246,7 +257,7 @@ export default function Withdraw({
                       }
                       setIsWithdrawing(true);
                       // entering the max amount displayed should withdraw all
-                      let isMax = value == toExactString(maxWithdrawAmount);
+                      let isMax = value == toExactString(market.supplyBalance);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await redeem(
                         value,
