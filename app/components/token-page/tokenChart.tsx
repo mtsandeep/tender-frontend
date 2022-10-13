@@ -97,11 +97,8 @@ function TokenChart({
 
   return marketInfo?.underlyingSymbol ? (
     <div className="bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
-      <div className="px-[15px] py-[17px] mb-[30px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:mb-[26px] md:pt-[18px] md:pb-[19px] text-xs font-nova font-normal leading-4 md:text-sm md:leading-5">
-        <a className="cursor-pointer hover:text-[#14f195]" href="/markets/">
-          Markets
-        </a>
-        <span className="text-[#818987]"> / {marketInfo?.tokenSymbol}</span>
+      <div className="px-[15px] textSize22 mb-[30px] md:mb-[26px] py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+        Token Details
       </div>
       <TokenTopDetails marketInfo={marketInfo} />
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-xs leading-5 border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">
