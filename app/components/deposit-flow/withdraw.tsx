@@ -14,7 +14,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
-import {useSafeMaxWithdrawAmountForToken} from "~/hooks/use-safe-max-withdraw-amount-for-token";
+import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
 
 export interface WithdrawProps {
   market: Market;
@@ -61,12 +61,12 @@ export default function Withdraw({
   );
 
   const safeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
-      signer,
-      market.comptrollerAddress,
-      tokenPairs,
-      market.tokenPair,
-      totalBorrowedAmountInUsd,
-      99
+    signer,
+    market.comptrollerAddress,
+    tokenPairs,
+    market.tokenPair,
+    totalBorrowedAmountInUsd,
+    99
   );
 
   const maxWithdrawAmount: number = Math.min(
@@ -170,7 +170,7 @@ export default function Withdraw({
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ minHeight: 100 }}
-                className={`input__center__custom max-w-[180px] max-w-[300px] ${
+                className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
