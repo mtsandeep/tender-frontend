@@ -18,7 +18,6 @@ export default {
       decimals: 18,
       address: "",
       icon: "/images/coin-icons/ethereum.svg",
-      priceDecimals: 18,
       cToken: {
         name: "tETH",
         symbol: "tETH",
@@ -32,7 +31,6 @@ export default {
       decimals: 8,
       address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
       icon: "/images/coin-icons/bitcoin.svg",
-      priceDecimals: 18,
       cToken: {
         name: "tWBTC",
         symbol: "tWBTC",
@@ -46,7 +44,6 @@ export default {
       decimals: 6,
       address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
       icon: "/images/coin-icons/usdc.svg",
-      priceDecimals: 18,
       cToken: {
         name: "tUSDC",
         symbol: "tUSDC",
@@ -60,7 +57,6 @@ export default {
       decimals: 6,
       address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
       icon: "/images/coin-icons/usdt.svg",
-      priceDecimals: 18,
       cToken: {
         name: "tUSDC",
         symbol: "tUSDC",
@@ -74,7 +70,6 @@ export default {
     //   decimals: 18,
     //   address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
     //   icon: "/images/coin-icons/dai.svg",
-    //   priceDecimals: 18,
     //   cToken: {
     //     name: "tDAI",
     //     symbol: "tDAI",
@@ -88,7 +83,6 @@ export default {
       decimals: 18,
       address: "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F",
       icon: "/images/coin-icons/frax.svg",
-      priceDecimals: 18,
       cToken: {
         name: "tFRAX",
         symbol: "tFRAX",
@@ -102,7 +96,6 @@ export default {
     //   decimals: 18,
     //   address: "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
     //   icon: "/images/coin-icons/uni.svg",
-    //   priceDecimals: 28,
     //   cToken: {
     //     name: "tUNI",
     //     symbol: "tUNI",
@@ -116,7 +109,6 @@ export default {
     //   decimals: 18,
     //   address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
     //   icon: "/images/coin-icons/link.svg",
-    //   priceDecimals: 28,
     //   cToken: {
     //     name: "tDAI",
     //     symbol: "tDAI",
@@ -133,7 +125,6 @@ export default {
       // fsGLP has balanceOf
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
       icon: "/images/coin-icons/glp.svg",
-      priceDecimals: 28,
       cToken: {
         name: "tGLP",
         symbol: "tGLP",
