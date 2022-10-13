@@ -4,7 +4,13 @@ import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
 
-function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any | boolean, utilizationRate: any }) {
+function TokenMarketDetails({
+  marketInfo,
+  utilizationRate,
+}: {
+  marketInfo: any | boolean;
+  utilizationRate: any;
+}) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: any;
@@ -28,7 +34,7 @@ function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any |
       itemName: "Price",
       itemData: `$${toShortFiatString(
         parseFloat(marketInfo.underlyingPriceUSD)
-      )} USD`,
+      )}`,
     },
     {
       itemName: "Utilization",
@@ -36,10 +42,12 @@ function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any |
     },
     {
       itemName: "Available Borrow",
-      itemData: marketInfo.tokenSymbol === "GLP" ? "-" :
-        toShortCryptoString(Number(marketInfo.cash)) +
-        " " +
-        marketInfo.tokenSymbol,
+      itemData:
+        marketInfo.tokenSymbol === "GLP"
+          ? "-"
+          : toShortCryptoString(Number(marketInfo.cash)) +
+            " " +
+            marketInfo.tokenSymbol,
     },
     { itemName: "# of Suppliers", itemData: marketInfo.totalSuppliersCount },
     { itemName: "# of Borrowers", itemData: marketInfo.totalBorrowersCount },
@@ -147,14 +155,14 @@ function TokenMarketDetails({ marketInfo, utilizationRate }: { marketInfo: any |
           })
         }
       />
-      <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+      <div className="px-[15px] md:px-[30px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B]  md:pt-[18px] md:pb-[19px] md:text-xl">
         Market Details
       </div>
       {customData.map((item, index) => {
         return (
           <div
             key={index}
-            className="last:border-none h-[50px] md:h-[62px] px-[15px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
+            className="last:border-none h-[50px] md:h-[62px] px-[15px] md:px-[30px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
           >
             <div
               onClick={() =>
