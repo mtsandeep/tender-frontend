@@ -17,7 +17,6 @@ export interface TokenConfig {
   decimals: number;
   address: string;
   cToken: cToken;
-  priceDecimals: number;
 }
 
 export interface NetworkData {
