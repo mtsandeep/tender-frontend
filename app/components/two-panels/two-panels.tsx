@@ -131,7 +131,7 @@ export default function TwoPanels() {
 
       <div>
         {marketsWithSupply.length > 0 && (
-          <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+          <div className="pb-[5px] panel-custom main border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Supply
             </div>
@@ -142,16 +142,16 @@ export default function TwoPanels() {
                     marketsWithSupply.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[115px] min-w-[115px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[160px] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Supply
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] min-w-[110px] sm:w-[120px] sm:min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Your Supply
                   </th>
                 </tr>
@@ -177,7 +177,7 @@ export default function TwoPanels() {
                           </span>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div className="custom__hidden">
                           {token.marketData.marketSize &&
                             toShortCryptoString(
@@ -195,7 +195,7 @@ export default function TwoPanels() {
                           } USD`}
                         </div>
                       </td>
-                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div
                           className={`custom__hidden ${checkColorClass(
                             parseFloat(token.marketData.depositApy)
@@ -289,7 +289,7 @@ export default function TwoPanels() {
                           </div>
                         </div>
                       </td>
-                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px]">
+                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]">
                         <div className="custom__hidden">
                           {toShortCryptoString(token.supplyBalance)}{" "}
                           {token.tokenPair.token.symbol}
@@ -306,23 +306,23 @@ export default function TwoPanels() {
           </div>
         )}
         {marketsWithoutSupply.length > 0 && (
-          <div className="pb-[5px] panel-custom border-custom md:pb-[0px]">
+          <div className="pb-[5px] panel-custom main border-custom md:pb-[0px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Supply Markets
             </div>
             <table className="custom__scroll w-full h-full table-fixed">
               <thead>
                 <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B]">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[115px] min-w-[115px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[160px] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Supply
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] min-w-[110px] sm:w-[120px] sm:min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Wallet Balance
                   </th>
                 </tr>
@@ -348,7 +348,7 @@ export default function TwoPanels() {
                           </span>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div className="custom__hidden">
                           {token.marketData.marketSize &&
                             toShortCryptoString(
@@ -366,7 +366,7 @@ export default function TwoPanels() {
                           } USD`}
                         </div>
                       </td>
-                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div
                           className={`custom__hidden ${checkColorClass(
                             parseFloat(token.marketData.depositApy)
@@ -460,7 +460,7 @@ export default function TwoPanels() {
                           </div>
                         </div>
                       </td>
-                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px]">
+                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]">
                         <div className="custom__hidden">
                           {toShortCryptoString(token.walletBalance)}{" "}
                           {token.tokenPair.token.symbol}
@@ -482,7 +482,7 @@ export default function TwoPanels() {
       </div>
       <div>
         {marketsWithBorrow.length > 0 && (
-          <div className="pb-[5px] md:pb-[0px] panel-custom border-custom mb-[20px] md:mb-[40px]">
+          <div className="pb-[5px] md:pb-[0px] panel-custom main border-custom mb-[20px] md:mb-[40px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Borrow
             </div>
@@ -493,16 +493,16 @@ export default function TwoPanels() {
                     marketsWithBorrow.length && "border-b border-[#282C2B]"
                   }`}
                 >
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[115px] min-w-[115px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[160px] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] min-w-[110px] sm:w-[120px] sm:min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Borrow APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Your Borrow
                   </th>
                 </tr>
@@ -531,7 +531,7 @@ export default function TwoPanels() {
                           </span>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div className="custom__hidden">
                           {token.marketData?.totalBorrowed &&
                             toShortCryptoString(
@@ -549,7 +549,7 @@ export default function TwoPanels() {
                           } USD`}
                         </div>
                       </td>
-                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div
                           className={`custom__hidden ${checkColorClass(
                             parseFloat(borrowApyFormatted)
@@ -643,7 +643,7 @@ export default function TwoPanels() {
                           </div>
                         </div>
                       </td>
-                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px]">
+                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]">
                         <div className="custom__hidden">
                           {toShortCryptoString(token.borrowBalance)}{" "}
                           {token.tokenPair.token.symbol}
@@ -660,23 +660,23 @@ export default function TwoPanels() {
           </div>
         )}
         {marketsWithoutBorrow.length > 0 && (
-          <div className="pb-[5px] panel-custom border-custom md:pb-[0px]">
+          <div className="pb-[5px] panel-custom main border-custom md:pb-[0px]">
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Borrow Markets
             </div>
             <table className="custom__scroll w-full h-full table-fixed !pb-[23px] md:pb-[0px] md:pt-[0px]">
               <thead>
-                <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[105px] w-[105px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+                <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[115px] min-w-[115px] sm:w-[165px] sm:min-w-[165px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                     Asset
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] sm:w-[140px] min-w-[140px] sm:min-w-[150px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[160px] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Total Borrow
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[110px] min-w-[110px] sm:w-[120px] sm:min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Borrow APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[160px] sm:w-[160px] sm:min-w-[160px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Available Borrow
                   </th>
                 </tr>
@@ -705,7 +705,7 @@ export default function TwoPanels() {
                           </span>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div className="custom__hidden">
                           {token.marketData?.totalBorrowed &&
                             toShortCryptoString(
@@ -723,7 +723,7 @@ export default function TwoPanels() {
                           } USD`}
                         </div>
                       </td>
-                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base">
                         <div
                           className={`custom__hidden ${checkColorClass(
                             borrowApy
@@ -817,7 +817,7 @@ export default function TwoPanels() {
                           </div>
                         </div>
                       </td>
-                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px]">
+                      <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]">
                         <div className="custom__hidden">
                           {toShortCryptoString(token.maxBorrowLiquidity)}{" "}
                           {token.tokenPair.token.symbol}

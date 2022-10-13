@@ -667,7 +667,7 @@ body.body__fixed {
 
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 750px) {
   .panel-custom.markets table {
     overflow-x: auto;
     overflow-y: hidden;
@@ -687,9 +687,8 @@ body.body__fixed {
   }
 }
 
-
-@media screen and (max-width: 520px) {
-  .panel-custom table {
+@media screen and (max-width: 580px) {
+  .panel-custom.main table {
     overflow-x: auto;
     overflow-y: hidden;
     margin-bottom: 15px;
@@ -698,7 +697,6 @@ body.body__fixed {
     padding-bottom: 19px;
   }
 }
-
 
 @keyframes placeholderShimmer {
   0% {
