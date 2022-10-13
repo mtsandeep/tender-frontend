@@ -230,6 +230,12 @@ body.body__fixed {
   border: 0.1px dashed #ffffff;
 }
 
+.line-dashed.black::after,
+.line-dashed-sm.black::after,
+.line-dashed-m.black::after {
+  border: 0.1px dashed #000;
+}
+
 .border-child-hover {
   position: relative;
 }

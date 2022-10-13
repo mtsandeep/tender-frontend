@@ -151,7 +151,7 @@ export default function TwoPanels() {
                   <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[110px] w-[110px] sm:min-w-[120px] sm:w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                     Supply APY
                   </th>
-                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs msm:w-[170px] msm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
+                  <th className="whitespace-nowrap font-nova font-[600] text-start text-xs sm:w-[170px] sm:min-w-[170px]  md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[20px]">
                     Your Supply
                   </th>
                 </tr>
