@@ -199,36 +199,34 @@ export default function MarketsContent() {
         </div>
       </div>
       <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
-        <div className="pb-[5px] panel-custom border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+        <div className="pb-[5px] panel-custom markets border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
           <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             All Markets
           </div>
           <table className="custom__scroll w-full h-full table-fixed !pb-[20px] md:pb-[0px] md:pt-[0px]">
             <thead>
-              <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B] ">
-                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
+              <tr className="w-full text-xs text-[#818987] border-b border-[#282C2B]">
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] md:pl-[30px] pr-[15px]">
                   Market
                 </th>
-                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                   Total Supply
                 </th>
-                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100px] min-w-[100px] md:w-[100%] md:min-w-[60px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                   Supply APY
                 </th>
-                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[100%] min-w-[90px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[15px]">
                   Total Borrow
                 </th>
-                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs min-w-[120px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[30px]">
+                <th className="whitespace-nowrap font-nova font-[600] text-start text-xs w-[130px] min-w-[130px] md:w-[100%] md:min-w-[60px] md:text-sm pt-[15px] pb-[15px] md:pt-[18px] md:pb-[18px] pl-[15px] pr-[30px]">
                   Borrow APY
                 </th>
               </tr>
             </thead>
-
             <tbody>
               {Object.keys(markets).map((id: string, index: number) => {
                 const m = markets[id];
                 const borrowApy = m.borrowApy * -1;
-
                 return (
                   <tr
                     key={index}
@@ -237,8 +235,8 @@ export default function MarketsContent() {
                       window.open(`/markets/${m.symbol}`, "_blank")
                     }
                   >
-                    <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
-                      <div className="flex items-center justify-left">
+                    <td className="relative text-white font-nova font-normal pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
+                      <div className="flex items-center justify-left text-sm md:text-base">
                         <img
                           className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
                           src={m.icon}
@@ -247,17 +245,17 @@ export default function MarketsContent() {
                         {m.symbol}
                       </div>
                     </td>
-                    <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
-                      <div className="custom__hidden">
+                    <td className="whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] pt-[15px]  md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <div className="custom__hidden text-sm md:text-base">
                         {toShortCryptoString(m?.totalSupply)} {m.symbol}
                       </div>
-                      <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
+                      <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[50px] md:top-[61px] left-[15px]">
                         {`$${toShortFiatString(m.totalSupplyUsd)} USD`}
                       </div>
                     </td>
-                    <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                    <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
                       <div
-                        className={`custom__hidden ${checkColorClass(
+                        className={`custom__hidden text-sm md:text-base ${checkColorClass(
                           parseFloat(m.supplyApy)
                         )} `}
                       >
@@ -267,7 +265,7 @@ export default function MarketsContent() {
                         className="group"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
+                        <div className="absolute top-[50px] md:top-[61px] left-[15px] h-[22px]">
                           <div
                             onClick={() =>
                               setMultiTooltipData({
@@ -349,18 +347,17 @@ export default function MarketsContent() {
                         </div>
                       </div>
                     </td>
-                    <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
-                      <div className="custom__hidden">
+                    <td className="relative pl-[15px] pb-[30px] text-white font-nova font-normal pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]">
+                      <div className="custom__hidden text-sm md:text-base">
                         {toShortCryptoString(m.totalBorrow)} {m.symbol}
                       </div>
-                      <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
+                      <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[50px] md:top-[61px] left-[15px]">
                         {`$${toShortFiatString(m.totalBorrowUsd)} USD`}
                       </div>
                     </td>
-
-                    <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[45px] md:pr-[30px]">
+                    <td className="relative text-white font-nova font-normal pb-[30px] md:pt-[24px] pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[45px] md:pr-[30px]">
                       <div
-                        className={`custom__hidden ${
+                        className={`custom__hidden text-sm md:text-base ${
                           m.symbol === "GLP"
                             ? "text-white"
                             : checkColorClass(borrowApy)
@@ -372,7 +369,7 @@ export default function MarketsContent() {
                         className="group"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
+                        <div className="absolute top-[50px] md:top-[61px] left-[15px] h-[22px]">
                           <div
                             onClick={() =>
                               setMultiTooltipData({
