@@ -66,7 +66,7 @@ export default function Withdraw({
     tokenPairs,
     market.tokenPair,
     totalBorrowedAmountInUsd,
-    99
+    100
   );
 
   const maxWithdrawAmount: number = Math.min(

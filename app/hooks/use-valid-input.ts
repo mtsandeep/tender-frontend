@@ -54,7 +54,7 @@ export function useValidInput(
       } else if (v > ceil) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
-      } else if (borrowLimitUsed >= 100 || borrowLimitUsed < -0) {
+      } else if (borrowLimitUsed > 100 || borrowLimitUsed < -0) {
         setReason(InputValidationDetail.INSUFFICIENT_EQUITY);
         setIsValid(false);
       } else {
