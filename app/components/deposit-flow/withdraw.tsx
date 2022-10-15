@@ -257,7 +257,7 @@ export default function Withdraw({
                             costs are increasing, please check back in a few
                             hours as borrowers will be repaying their loans, or
                             withdraw up to the current available amount
-                            {toExactString(maxWithdrawAmount)} {market.tokenPair.token.symbol}.
+                            {" "}{toExactString(maxWithdrawAmount)} {market.tokenPair.token.symbol}.
                           </div>
                         </div>
                         <div className="custom__arrow__tooltip relative top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
