@@ -196,7 +196,7 @@ export default function Repay({
                 </div>
               )}
             </div>
-            <div className="flex mt-6 uppercase">
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("borrow", value)}

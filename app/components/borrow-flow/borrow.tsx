@@ -175,7 +175,7 @@ export default function Borrow({
                 />
               )}
             </div>
-            <div className="flex mt-6 uppercase">
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
                 onClick={() => onTabSwitch("borrow")}

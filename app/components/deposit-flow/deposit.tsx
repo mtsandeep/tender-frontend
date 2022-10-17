@@ -156,41 +156,39 @@ export default function Deposit({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="h-[100px] mt-[50px]">
-              {!isEnabled ? (
-                <div className="flex flex-col items-center mt-5 rounded-2xl px-4">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    className="w-12"
-                    alt="icon"
-                  />
-                  <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm">
-                    To supply or withdraw {market.tokenPair.token.symbol} on the
-                    Tender.fi protocol, you need to enable it first.
-                  </div>
+            {!isEnabled ? (
+              <div className="flex flex-col items-center rounded-2xl px-4 mt-[30px]">
+                <img
+                  src={market.tokenPair.token.icon}
+                  className="w-[58px] h-[58px] md:w-[70px] md:h-[70px]"
+                  alt="icon"
+                />
+                <div className="max-w-sm text-center mt-5 md:mt-6 font-normal font-nova text-white text-sm">
+                  To supply or withdraw {market.tokenPair.token.symbol} on the
+                  Tender.fi protocol, you need to enable it first.
                 </div>
-              ) : (
-                <div className="flex flex-col justify-center items-center overflow-hidden font-space">
-                  <Max
-                    maxValue={walletBalance}
-                    updateValue={() => setValue(toExactString(walletBalance))}
-                    maxValueLabel={market.tokenPair.token.symbol}
-                    color="#14F195"
-                  />
-                  <input
-                    ref={inputEl}
-                    value={value}
-                    onChange={(e) => handleCheckValue(e)}
-                    style={{ minHeight: 100 }}
-                    className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
-                      value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                    }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                    placeholder="0"
-                  />
-                </div>
-              )}
-            </div>
-            <div className="flex mt-6 uppercase">
+              </div>
+            ) : (
+              <div className="flex flex-col justify-end items-center overflow-hidden font-space pb-[15px] h-[118px] md:h-[134px] mt-[30px]">
+                <Max
+                  maxValue={walletBalance}
+                  updateValue={() => setValue(toExactString(walletBalance))}
+                  maxValueLabel={market.tokenPair.token.symbol}
+                  color="#14F195"
+                />
+                <input
+                  ref={inputEl}
+                  value={value}
+                  onChange={(e) => handleCheckValue(e)}
+                  style={{ height: 60 }}
+                  className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
+                    value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
+                  }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  placeholder="0"
+                />
+              </div>
+            )}
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
                 onClick={() => onTabSwitch("supply")}
