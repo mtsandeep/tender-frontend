@@ -269,7 +269,7 @@ export default function Deposit({
                       );
                       setIsEnabled(true);
                     } catch (e) {
-                      displayErrorMessage(e);
+                      displayErrorMessage(e, "Could not enable.");
                     } finally {
                       setIsEnabling(false);
                     }
