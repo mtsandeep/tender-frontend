@@ -20,6 +20,7 @@ import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { formatApy } from "~/lib/apy-calculations";
+import { displayErrorMessage } from "./displayErrorMessage";
 
 export interface RepayProps {
   closeModal: Function;
@@ -315,7 +316,7 @@ export default function Repay({
                       updateTransaction(tr.blockHash);
                       toast.success("Repayment successful");
                     } catch (e) {
-                      toast.error("Repayment unsuccessful");
+                      displayErrorMessage(e, "Repayment unsuccessful");
                       closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
