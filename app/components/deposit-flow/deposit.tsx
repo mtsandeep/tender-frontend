@@ -19,6 +19,7 @@ import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
+import { displayErrorMessage } from "../borrow-flow/displayErrorMessage";
 export interface DepositProps {
   closeModal: Function;
   market: Market;
@@ -268,7 +269,7 @@ export default function Deposit({
                       );
                       setIsEnabled(true);
                     } catch (e) {
-                      console.error(e);
+                      displayErrorMessage(e, "Could not enable.");
                     } finally {
                       setIsEnabling(false);
                     }
@@ -350,7 +351,7 @@ export default function Deposit({
                           </p>
                         ));
                       } else {
-                        toast.error("Deposit unsuccessful.");
+                        displayErrorMessage(e, "Deposit unsuccessful");
                         closeModal();
                       }
                     } finally {
