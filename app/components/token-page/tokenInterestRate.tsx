@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
+import Text from "react-svg-text";
 
 function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number>(0);
@@ -52,16 +53,28 @@ function TokenInterestRate({ data }: { data: any[] }) {
 
   const CustomDot = (props: any) => {
     const { cx, cy, borderColor } = props;
+
     return (
+      // <svg x={cx} y={cy} width="40" height="40" fill="red">
       <circle
+        r={6}
         cx={cx}
         cy={cy}
-        r={6}
         stroke={borderColor}
         style={{ opacity: "1" }}
         strokeWidth={4}
         fill={"#FFFFFF"}
       />
+      //   <Text width="180" fill="white">
+      //     {
+      //       data.find(
+      //         (item: any) =>
+      //           Number(item.ss) === Number(actData[props.index].ss) &&
+      //           Number(item.dd) === Number(actData[props.index].dd)
+      //       )?.aa
+      //     }
+      //   </Text>
+      // </svg>
     );
   };
 
