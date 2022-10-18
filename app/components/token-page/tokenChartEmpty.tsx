@@ -6,8 +6,8 @@ function TokenChartEmpty() {
 
   return (
     <div className="switch__to__network bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
-      <div className="px-[15px] py-[17px] mb-[30px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:mb-[26px] md:pt-[18px] md:pb-[19px] text-xs font-nova font-normal leading-4 md:text-sm md:leading-5">
-        <div className="animate w-[130px] h-[16px] md:h-[20px]"></div>
+      <div className="px-[15px] textSize22 mb-[30px] md:mb-[26px] py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+        Token Details
       </div>
 
       <TokenTopDetailsEmpty />

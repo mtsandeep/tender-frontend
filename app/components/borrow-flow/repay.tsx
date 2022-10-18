@@ -180,7 +180,7 @@ export default function Repay({
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
                     style={{ minHeight: 100 }}
-                    className={`input__center__custom max-w-[180px] max-w-[300px] ${
+                    className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                       value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                     } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                     placeholder="0"
@@ -196,7 +196,7 @@ export default function Repay({
                 </div>
               )}
             </div>
-            <div className="flex mt-6 uppercase">
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("borrow", value)}
@@ -283,11 +283,14 @@ export default function Repay({
                 </button>
               )}
 
-              {signer && isEnabled && !isValid && (
-                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                  {validationDetail}
-                </button>
-              )}
+              {signer &&
+                isEnabled &&
+                !isValid &&
+                (
+                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                    {validationDetail}
+                  </button>
+                )}
 
               {signer && isEnabled && isValid && (
                 <button
@@ -300,7 +303,8 @@ export default function Repay({
                         return;
                       }
                       setIsRepayingTxn(true);
-                      const isMax = value == toMaxString(maxRepayableAmount, tokenDecimals);
+                      const isMax =
+                        value == toMaxString(maxRepayableAmount, tokenDecimals);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await repay(
                         value,

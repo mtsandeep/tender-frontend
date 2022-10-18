@@ -490,7 +490,8 @@ async function getAssetPriceInUsd(
 
   let answer: BigNumber = await contract.getUnderlyingPrice(cToken.address);
 
-  let priceInUsd = parseFloat(formatUnits(answer, token.priceDecimals));
+  // based on calculation from compound subgraph
+  let priceInUsd = parseFloat(formatUnits(answer, 18 - token.decimals + 18));
 
   return priceInUsd;
 }

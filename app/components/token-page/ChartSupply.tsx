@@ -108,7 +108,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll w-full flex-col pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+      <div className="custom__scroll w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
         <div className="min-w-[800px]">
           <ResponsiveContainer
             width="100%"
@@ -128,12 +128,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               }))}
               margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
             >
-              <Tooltip
-                position={{ y: -50 }}
-                content={<ApyTooltip />}
-                allowEscapeViewBox={{ y: true }}
-                cursor={<CustomLine />}
-              />
+              <Tooltip content={<ApyTooltip />} cursor={<CustomLine />} />
               <Line
                 type="monotone"
                 dataKey="supplyAPY"
@@ -162,12 +157,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
-              <Tooltip
-                cursor={false}
-                allowEscapeViewBox={{ y: true }}
-                content={<TotalTooltip />}
-                position={{ y: -50 }}
-              />
+              <Tooltip cursor={false} content={<TotalTooltip />} />
               <Bar
                 dataKey="totalSupply"
                 radius={[3, 3, 0, 0]}

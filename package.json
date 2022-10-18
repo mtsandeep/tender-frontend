@@ -55,6 +55,7 @@
     "react-hot-toast": "^2.2.0",
     "react-modal": "^3.14.4",
     "react-router-dom": "^6.3.0",
+    "react-svg-text": "^0.1.2",
     "recharts": "^2.1.12",
     "remix": "^1.2.3",
     "start-server-and-test": "^1.14.0",

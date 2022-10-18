@@ -14,6 +14,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
+import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
 
 export interface WithdrawProps {
   market: Market;
@@ -59,7 +60,17 @@ export default function Withdraw({
     newBorrowLimit
   );
 
-  var maxWithdrawAmount: number = Math.min(
+  const safeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
+    signer,
+    market.comptrollerAddress,
+    tokenPairs,
+    market.tokenPair,
+    totalBorrowedAmountInUsd,
+    100
+  );
+
+  const maxWithdrawAmount: number = Math.min(
+    safeMaxWithdrawAmount,
     market.supplyBalance, // how much we're supplying
     market.maxBorrowLiquidity // how much cash the contract has
   );
@@ -142,8 +153,8 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[100px] mt-[50px]">
-              {parseFloat(borrowLimitUsed) < 80 && (
+            <div className="flex flex-col justify-end items-center overflow-hidden font-space pb-[15px] h-[118px] md:h-[134px] mt-[30px]">
+              {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
                   updateValue={() => {
@@ -158,14 +169,14 @@ export default function Withdraw({
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 100 }}
-                className={`input__center__custom max-w-[180px] max-w-[300px] ${
+                style={{ height: 60 }}
+                className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
             </div>
-            <div className="flex mt-6 uppercase">
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("supply", value)}
@@ -229,11 +240,36 @@ export default function Withdraw({
 
             <div className="flex justify-center mb-8 h-[56px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
-              {signer && !isValid && (
-                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                  {validationDetail}
-                </button>
-              )}
+
+              {signer &&
+                !isValid &&
+                (validationDetail === "Insufficient liquidity" ? (
+                  <button className="flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                    <div className="group relative cursor-pointer">
+                      <span className="uppercase line-dashed color-black black">
+                        {validationDetail}
+                      </span>
+                      <div className="hidden z-10 flex-col absolute left-[50%] translate-x-[-50%] bottom-[25px] items-center group-hover:flex rounded-[10px]">
+                        <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                          <div className="w-full h-full bg-[#181D1B] text-[#ADB5B3] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
+                            Insufficient liquidity to withdraw supply fully.
+                            Borrow utilization is currently high and borrow
+                            costs are increasing, please check back in a few
+                            hours as borrowers will be repaying their loans, or
+                            withdraw up to the current available amount
+                            {" "}{toExactString(maxWithdrawAmount)} {market.tokenPair.token.symbol}.
+                          </div>
+                        </div>
+                        <div className="custom__arrow__tooltip relative top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
+                      </div>
+                    </div>
+                  </button>
+                ) : (
+                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                    {validationDetail}
+                  </button>
+                ))}
+
               {signer && isValid && (
                 <button
                   onClick={async () => {
@@ -246,7 +282,7 @@ export default function Withdraw({
                       }
                       setIsWithdrawing(true);
                       // entering the max amount displayed should withdraw all
-                      let isMax = value == toExactString(maxWithdrawAmount);
+                      let isMax = value == toExactString(market.supplyBalance);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await redeem(
                         value,
