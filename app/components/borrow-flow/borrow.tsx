@@ -248,7 +248,7 @@ export default function Borrow({
                       <div className="hidden z-10 flex-col absolute left-[50%] translate-x-[-50%] bottom-[25px] items-center group-hover:flex rounded-[10px]">
                         <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                           <div className="w-full h-full bg-[#181D1B] text-[#ADB5B3] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
-                            Insufficient liquidity to withdraw supply fully.
+                            Insufficient liquidity to borrow.
                             Borrow utilization is currently high and borrow
                             costs are increasing, please check back in a few
                             hours as borrowers will be repaying their loans, or
