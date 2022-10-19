@@ -14,7 +14,7 @@ export function useNetApy(
   let poll = useInterval(7_000);
 
   useEffect(() => {
-    if (!signer || !networkData) {
+    if (!signer || !networkData || tokenPairs.length === 0) {
       return;
     }
 

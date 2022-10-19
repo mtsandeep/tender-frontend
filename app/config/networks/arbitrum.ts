@@ -64,19 +64,23 @@ export default {
         address: "0x102517Ea9340eDd21afdfAA911560311FeEFc607",
       },
     },
-    // DAI: {
-    //   name: "DAI",
-    //   symbol: "DAI",
-    //   decimals: 18,
-    //   address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-    //   icon: "/images/coin-icons/dai.svg",
-    //   cToken: {
-    //     name: "tDAI",
-    //     symbol: "tDAI",
-    //     decimals: 8,
-    //     address: "0x916b44509CcfC5238f8Ce9a30bEB1BF861B70779",
-    //   },
-    // },
+
+DAI: {
+      name: "DAI",
+      symbol: "DAI",
+      decimals: 18,
+      address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+      icon: "/images/coin-icons/dai.svg",
+      priceDecimals: 18,
+      cToken: {
+        name: "tDAI",
+        symbol: "tDAI",
+        decimals: 8,
+        address: "0xD0af14CEe85b6612C02F75F35E90fE1f8e0fB2fD",
+      },
+    },
+
+
     FRAX: {
       name: "FRAX",
       symbol: "FRAX",
@@ -110,8 +114,8 @@ export default {
     //   address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
     //   icon: "/images/coin-icons/link.svg",
     //   cToken: {
-    //     name: "tDAI",
-    //     symbol: "tDAI",
+    //     name: "tLINK",
+    //     symbol: "tLINK",
     //     decimals: 8,
     //     address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
     //   },
@@ -129,7 +133,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0x1446f9365361Dbca6d7fF94852e9383Bf3BCc7E9",
+        address: "0xa2F156bc04329f9D0C71804a5B56f130674F44c9",
       },
     },
   },

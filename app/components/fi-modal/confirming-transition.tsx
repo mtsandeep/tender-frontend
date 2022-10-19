@@ -30,23 +30,21 @@ export default function ConfirmingTransaction({
           fill="white"
         />
       </svg>
-      {isWaitingToBeMined ? (
-        <div className="flex w-full max-w-[100%] justify-center mt-[71px] mb-[20px] md:mt-[130px] md:mb-[70px] svg_animation_custom">
+      <div className="flex w-[120px] h-[120px] md:w-[160px] md:h-[160px] max-w-[100%] items-end justify-center mt-[71px] mb-[20px] md:mt-[130px] md:mb-[70px] svg_animation_custom">
+        {isWaitingToBeMined ? (
           <Lottie
             loop={true}
             animationData={animationData}
-            className="w-[120px] h-[120px] md:w-[200px] md:h-[200px]"
+            className="w-full h-full"
           />
-        </div>
-      ) : (
-        <div className="flex w-full justify-center mt-[58px] mb-[37px] md:mt-[94px] md:mb-[66px]">
+        ) : (
           <img
             className="w-[84px] h-[84px] md:w-[120px] md:h-[120px]"
             src="/images/ico/done.svg"
             alt="..."
           />
-        </div>
-      )}
+        )}
+      </div>
       <div className="text-center font-nova font-bold text-2xl md:text-[33px] leading-[120%] md:leading-[40px] mb-[30px] md:mb-[37px]">
         {isWaitingToBeMined ? "Confirming transaction" : "Done!"}
       </div>

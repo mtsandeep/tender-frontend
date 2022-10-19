@@ -320,8 +320,8 @@ body.body__fixed {
   border-radius: 1rem !important;
   padding: 0 !important;
   margin: auto;
-  max-height: 900px;
-  overflow: hidden !important;
+  max-height: 100vh;
+  overflow: auto;
 }
 
 .textSize22 {
@@ -586,6 +586,11 @@ body.body__fixed {
   overflow: hidden;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+
+.aside__menu__container {
+  max-height: calc(100vh - 71px);
+  overflow: auto;
 }
 
 

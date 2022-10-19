@@ -19,6 +19,7 @@ import { TenderContext } from "~/contexts/tender-context";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
+import { displayErrorMessage } from "../borrow-flow/displayErrorMessage";
 export interface DepositProps {
   closeModal: Function;
   market: Market;
@@ -155,41 +156,39 @@ export default function Deposit({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="h-[100px] mt-[50px]">
-              {!isEnabled ? (
-                <div className="flex flex-col items-center mt-5 rounded-2xl px-4">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    className="w-12"
-                    alt="icon"
-                  />
-                  <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm">
-                    To supply or withdraw {market.tokenPair.token.symbol} on the
-                    Tender.fi protocol, you need to enable it first.
-                  </div>
+            {!isEnabled ? (
+              <div className="flex flex-col items-center rounded-2xl px-4 mt-[30px]">
+                <img
+                  src={market.tokenPair.token.icon}
+                  className="w-[58px] h-[58px] md:w-[70px] md:h-[70px]"
+                  alt="icon"
+                />
+                <div className="max-w-sm text-center mt-5 md:mt-6 font-normal font-nova text-white text-sm">
+                  To supply or withdraw {market.tokenPair.token.symbol} on the
+                  Tender.fi protocol, you need to enable it first.
                 </div>
-              ) : (
-                <div className="flex flex-col justify-center items-center overflow-hidden font-space">
-                  <Max
-                    maxValue={walletBalance}
-                    updateValue={() => setValue(toExactString(walletBalance))}
-                    maxValueLabel={market.tokenPair.token.symbol}
-                    color="#14F195"
-                  />
-                  <input
-                    ref={inputEl}
-                    value={value}
-                    onChange={(e) => handleCheckValue(e)}
-                    style={{ minHeight: 100 }}
-                    className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
-                      value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                    }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                    placeholder="0"
-                  />
-                </div>
-              )}
-            </div>
-            <div className="flex mt-6 uppercase">
+              </div>
+            ) : (
+              <div className="flex flex-col justify-end items-center overflow-hidden font-space pb-[15px] h-[118px] md:h-[134px] mt-[30px]">
+                <Max
+                  maxValue={walletBalance}
+                  updateValue={() => setValue(toExactString(walletBalance))}
+                  maxValueLabel={market.tokenPair.token.symbol}
+                  color="#14F195"
+                />
+                <input
+                  ref={inputEl}
+                  value={value}
+                  onChange={(e) => handleCheckValue(e)}
+                  style={{ height: 60 }}
+                  className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
+                    value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
+                  }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  placeholder="0"
+                />
+              </div>
+            )}
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
                 onClick={() => onTabSwitch("supply")}
@@ -268,7 +267,7 @@ export default function Deposit({
                       );
                       setIsEnabled(true);
                     } catch (e) {
-                      console.error(e);
+                      displayErrorMessage(e, "Could not enable.");
                     } finally {
                       setIsEnabling(false);
                     }
@@ -282,32 +281,11 @@ export default function Deposit({
               {signer &&
                 isEnabled &&
                 !isValid &&
-                (validationDetail === "Insufficient liquidity" ? (
-                  <button className="flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                    <div className="group relative cursor-pointer">
-                      <span className="uppercase line-dashed color-black black">
-                        {validationDetail}
-                      </span>
-                      <div className="hidden z-10 flex-col absolute left-[50%] translate-x-[-50%] bottom-[25px] items-center group-hover:flex rounded-[10px]">
-                        <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                          <div className="w-full h-full bg-[#181D1B] text-[#ADB5B3] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
-                            Insufficient liquidity to withdraw supply fully.
-                            Borrow utilization is currently high and borrow
-                            costs are increasing, please check back in a few
-                            hours as borrowers will be repaying their loans, or
-                            withdraw up to the current available amount
-                            "formula" {market.tokenPair.token.symbol}.
-                          </div>
-                        </div>
-                        <div className="custom__arrow__tooltip relative top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
-                      </div>
-                    </div>
-                  </button>
-                ) : (
+                (
                   <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
                     {validationDetail}
                   </button>
-                ))}
+                )}
 
               {signer && isEnabled && isValid && (
                 <button
@@ -350,7 +328,7 @@ export default function Deposit({
                           </p>
                         ));
                       } else {
-                        toast.error("Deposit unsuccessful.");
+                        displayErrorMessage(e, "Deposit unsuccessful");
                         closeModal();
                       }
                     } finally {
@@ -369,7 +347,9 @@ export default function Deposit({
                 Your Supply
               </div>
               <div className="font-nova text-base">
-                {market.supplyBalance + " " + market.tokenPair.token.symbol}
+                {toCryptoString(market.supplyBalance, tokenDecimals) +
+                  " " +
+                  market.tokenPair.token.symbol}
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">

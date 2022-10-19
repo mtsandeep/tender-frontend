@@ -66,7 +66,7 @@ export default function Withdraw({
     tokenPairs,
     market.tokenPair,
     totalBorrowedAmountInUsd,
-    99
+    100
   );
 
   const maxWithdrawAmount: number = Math.min(
@@ -153,7 +153,7 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[100px] mt-[50px]">
+            <div className="flex flex-col justify-end items-center overflow-hidden font-space pb-[15px] h-[118px] md:h-[134px] mt-[30px]">
               {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
@@ -169,14 +169,14 @@ export default function Withdraw({
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 100 }}
+                style={{ height: 60 }}
                 className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 } bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
             </div>
-            <div className="flex mt-6 uppercase">
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("supply", value)}
@@ -257,7 +257,7 @@ export default function Withdraw({
                             costs are increasing, please check back in a few
                             hours as borrowers will be repaying their loans, or
                             withdraw up to the current available amount
-                            "formula" {market.tokenPair.token.symbol}.
+                            {" "}{toExactString(maxWithdrawAmount)} {market.tokenPair.token.symbol}.
                           </div>
                         </div>
                         <div className="custom__arrow__tooltip relative top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>

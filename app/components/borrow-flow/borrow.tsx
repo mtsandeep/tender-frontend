@@ -175,7 +175,7 @@ export default function Borrow({
                 />
               )}
             </div>
-            <div className="flex mt-6 uppercase">
+            <div className="flex mt-4 md:mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#00E0FF] border-b-4 uppercase border-b-[#00E0FF] font-space font-bold text-xs sm:text-base"
                 onClick={() => onTabSwitch("borrow")}
@@ -248,12 +248,12 @@ export default function Borrow({
                       <div className="hidden z-10 flex-col absolute left-[50%] translate-x-[-50%] bottom-[25px] items-center group-hover:flex rounded-[10px]">
                         <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                           <div className="w-full h-full bg-[#181D1B] text-[#ADB5B3] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
-                            Insufficient liquidity to withdraw supply fully.
+                            Insufficient liquidity to borrow.
                             Borrow utilization is currently high and borrow
                             costs are increasing, please check back in a few
                             hours as borrowers will be repaying their loans, or
                             withdraw up to the current available amount
-                            "formula" {market.tokenPair.token.symbol}.
+                            {" "}{toMaxString(maxBorrowLimit, tokenDecimals)} {market.tokenPair.token.symbol}.
                           </div>
                         </div>
                         <div className="custom__arrow__tooltip relative top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
