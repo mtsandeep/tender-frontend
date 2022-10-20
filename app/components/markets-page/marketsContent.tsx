@@ -10,8 +10,8 @@ import { TenderContext } from "~/contexts/tender-context";
 
 export default function MarketsContent() {
   const [load, setLoad] = useState(true);
-  const [totalSuppliedUsd, setTotalSuppliedUsd] = useState([]);
-  const [totalBorrowedUsd, setTotalBorrowedUsd] = useState([]);
+  const [totalSuppliedUsd, setTotalSuppliedUsd] = useState<number>(0);
+  const [totalBorrowedUsd, setTotalBorrowedUsd] = useState<number>(0);
   const { markets, total } = useMarketsInfo();
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
