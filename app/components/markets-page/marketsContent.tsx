@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
@@ -9,6 +9,9 @@ import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
 
 export default function MarketsContent() {
+  const [load, setLoad] = useState(true);
+  const [totalSuppliedUsd, setTotalSuppliedUsd] = useState([]);
+  const [totalBorrowedUsd, setTotalBorrowedUsd] = useState([]);
   const { markets, total } = useMarketsInfo();
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
@@ -16,21 +19,31 @@ export default function MarketsContent() {
   });
   const { markets: m } = useContext(TenderContext);
 
-  const totalSuppliedUsd = m
-    .map(
-      (token: Market) =>
-        token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
-    )
-    .reduce((a: any, b: any) => a + b, 0);
+  useEffect(() => {
+    (async function () {
+      await setTotalSuppliedUsd(
+        m
+          .map(
+            (token: Market) =>
+              token.tokenPair.token.priceInUsd *
+              (token.marketData.totalBorrowed ?? 0)
+          )
+          .reduce((a: any, b: any) => a + b, 0)
+      );
+      await setTotalBorrowedUsd(
+        m
+          .map(
+            (token: Market) =>
+              token.tokenPair.token.priceInUsd *
+              (token.marketData.marketSize ?? 0)
+          )
+          .reduce((a: any, b: any) => a + b, 0)
+      );
+      setLoad(false);
+    })();
+  }, [m]);
 
-  const totalBorrowedUsd = m
-    .map(
-      (token: Market) =>
-        token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
-    )
-    .reduce((a: any, b: any) => a + b, 0);
-
-  if (!markets || !total) {
+  if (!markets || !total || load) {
     return <EmptyMarketsContent />;
   }
 
