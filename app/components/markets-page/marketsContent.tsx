@@ -9,7 +9,7 @@ import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
 
 export default function MarketsContent() {
-  const [load, setLoad] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [totalSuppliedUsd, setTotalSuppliedUsd] = useState<number>(0);
   const [totalBorrowedUsd, setTotalBorrowedUsd] = useState<number>(0);
   const { markets, total } = useMarketsInfo();
@@ -21,31 +21,31 @@ export default function MarketsContent() {
 
   useEffect(() => {
     (async function () {
-      await setTotalSuppliedUsd(
-        m
-          .map(
-            (token: Market) =>
-              token.tokenPair.token.priceInUsd *
-              (token.marketData.totalBorrowed ?? 0)
-          )
-          .reduce((a: any, b: any) => a + b, 0)
-      );
-      await setTotalBorrowedUsd(
-        m
-          .map(
-            (token: Market) =>
-              token.tokenPair.token.priceInUsd *
-              (token.marketData.marketSize ?? 0)
-          )
-          .reduce((a: any, b: any) => a + b, 0)
-      );
-      setLoad(false);
+      if (m.length) {
+        await setTotalSuppliedUsd(
+          m
+            .map(
+              (token: Market) =>
+                token.tokenPair.token.priceInUsd *
+                (token.marketData.totalBorrowed ?? 0)
+            )
+            .reduce((a: any, b: any) => a + b, 0)
+        );
+        await setTotalBorrowedUsd(
+          m
+            .map(
+              (token: Market) =>
+                token.tokenPair.token.priceInUsd *
+                (token.marketData.marketSize ?? 0)
+            )
+            .reduce((a: any, b: any) => a + b, 0)
+        );
+        await setLoading(false);
+      }
     })();
   }, [m]);
 
-  console.log(load);
-
-  if (!markets || !total || load) {
+  if (!markets || !total || loading) {
     return <EmptyMarketsContent />;
   }
 
