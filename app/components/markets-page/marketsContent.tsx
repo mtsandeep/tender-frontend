@@ -40,7 +40,7 @@ export default function MarketsContent() {
             )
             .reduce((a: any, b: any) => a + b, 0)
         );
-        await setLoading(false);
+        setLoading(false);
       }
     })();
   }, [m]);
