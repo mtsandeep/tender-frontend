@@ -43,6 +43,8 @@ export default function MarketsContent() {
     })();
   }, [m]);
 
+  console.log(load);
+
   if (!markets || !total || load) {
     return <EmptyMarketsContent />;
   }
