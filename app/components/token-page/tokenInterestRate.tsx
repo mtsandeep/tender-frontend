@@ -33,6 +33,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
               )
             )
           ) * 1.2,
+        aaValue: item.aa,
       }))
     );
 
@@ -110,8 +111,10 @@ function TokenInterestRate({ data }: { data: any[] }) {
       }
     };
 
+    console.log(props);
+
     return props.name === "ss" ? (
-      <g id="line_id">
+      <g id="line_id_three">
         <svg width="80" height="44" viewBox="0 0 80 44" x={cx - 38} y={cy - 9}>
           {checkBgDown(props.payload.ss + "%")}
           <circle cx="39" cy="10" r="10" fill="#0D0D0D" />
@@ -132,14 +135,17 @@ function TokenInterestRate({ data }: { data: any[] }) {
         </svg>
       </g>
     ) : (
-      <svg width="80" height="44" viewBox="0 0 80 44" x={cx - 40} y={cy - 34}>
+      <svg
+        width="80"
+        height="44"
+        id={props.name === "aa" ? "line_id_one" : "line_id_two"}
+        viewBox="0 0 80 44"
+        x={cx - 40}
+        y={cy - 34}
+      >
         {checkBgTop(
           props.name === "aa"
-            ? data.find(
-                (item: any) =>
-                  Number(item.ss) === Number(props.payload.ss) &&
-                  Number(item.dd) === Number(props.payload.dd)
-              )?.aa + "%"
+            ? props.payload.aaValue + "%"
             : props.payload[props.name] + "%"
         )}
         <circle cx="41" cy="34" r="10" fill={borderColor} />
@@ -151,22 +157,14 @@ function TokenInterestRate({ data }: { data: any[] }) {
           style={{
             transform: `translate(${checkPos(
               props.name === "aa"
-                ? data.find(
-                    (item: any) =>
-                      Number(item.ss) === Number(props.payload.ss) &&
-                      Number(item.dd) === Number(props.payload.dd)
-                  )?.aa + "%"
+                ? props.payload.aaValue + "%"
                 : props.payload[props.name] + "%"
             )}px, 5px)`,
             fontSize: "14px",
           }}
         >
           {props.name === "aa"
-            ? data.find(
-                (item: any) =>
-                  Number(item.ss) === Number(props.payload.ss) &&
-                  Number(item.dd) === Number(props.payload.dd)
-              )?.aa + "%"
+            ? props.payload.aaValue + "%"
             : props.payload[props.name] + "%"}
         </Text>
       </svg>
@@ -210,6 +208,8 @@ function TokenInterestRate({ data }: { data: any[] }) {
       </svg>
     );
   };
+
+  console.log(data);
 
   return isCurrentInd && isOptimalInd && actData.length ? (
     <div className="panel-custom border-custom font-nova w-full mb-[60px]">
@@ -258,7 +258,9 @@ function TokenInterestRate({ data }: { data: any[] }) {
                 }
                 activeDot={<CustomDot name="aa" borderColor="#282C2B" />}
               />
-              <use xlinkHref="#line_id"></use>
+              <use xlinkHref="#line_id_one"></use>
+              <use xlinkHref="#line_id_two"></use>
+              <use xlinkHref="#line_id_three"></use>
             </LineChart>
           </ResponsiveContainer>
         </div>
