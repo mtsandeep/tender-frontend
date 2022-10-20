@@ -320,9 +320,16 @@ body.body__fixed {
   border-radius: 1rem !important;
   padding: 0 !important;
   margin: auto;
-  max-height: 100vh;
+  max-height: calc(100vh - 40px);
   overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+.modal .ReactModal__Content--after-open::-webkit-scrollbar {
+  width: 0px;
+}
+
 
 .textSize22 {
   font-size: 22px;
