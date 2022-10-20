@@ -213,7 +213,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
 
   return isCurrentInd && isOptimalInd && actData.length ? (
     <div className="panel-custom border-custom font-nova w-full mb-[60px]">
-      <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+      <div className="px-[15px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
         Interest Rate Model
       </div>
       <p className="font-normal text-sm leading-[19px] text-[#818987] pb-[15px] pt-[15px] p-[30px] md:pt-[30px] md:pb-[30px] md:text-base  md:leading-[22px]">

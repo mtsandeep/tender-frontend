@@ -97,7 +97,7 @@ function TokenChart({
 
   return marketInfo?.underlyingSymbol ? (
     <div className="bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
-      <div className="px-[15px] textSize22 mb-[30px] md:mb-[26px] py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
+      <div className="px-[15px] mb-[30px] md:mb-[26px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
         Token Details
       </div>
       <TokenTopDetails marketInfo={marketInfo} />
