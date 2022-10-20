@@ -155,7 +155,7 @@ function TokenMarketDetails({
           })
         }
       />
-      <div className="px-[15px] md:px-[30px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B]  md:pt-[18px] md:pb-[19px] md:text-xl">
+      <div className="px-[15px] md:px-[30px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
         Market Details
       </div>
       {customData.map((item, index) => {

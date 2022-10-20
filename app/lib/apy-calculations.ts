@@ -1,12 +1,8 @@
-import { BigNumber, ethers } from "ethers";
+import type { BigNumber} from "ethers";
+import { ethers } from "ethers";
 import sampleCTokenAbi from "~/config/sample-ctoken-abi";
 import type { Token, cToken, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
-import {
-  getCurrentlySupplying,
-  getTotalSupplyBalanceInUsd,
-  getCurrentlyBorrowing,
-} from "./tender";
 
 function formatApy(apy: number): string {
   return `${apy?.toFixed(2)}%`;
@@ -113,58 +109,9 @@ async function formattedBorrowApy(
   return formatApy(apy);
 }
 
-// TODO: If we passed in the market here we wouldn't have to re-query supply and borrow amounts
-async function getNetGainOrLoss(
-  s: JsonRpcSigner,
-  p: TokenPair,
-  secondsPerBlock: number
-): Promise<number> {
-  let supplied: number = await getCurrentlySupplying(s, p.cToken, p.token);
-  let supplyApy: number =
-    (await calculateDepositApy(p.token, p.cToken, s, secondsPerBlock)) * 0.01;
-
-  let borrowed: number = await getCurrentlyBorrowing(s, p.cToken, p.token);
-  let borrowApy: number =
-    (await calculateBorrowApy(p.token, p.cToken, s, secondsPerBlock)) * 0.01;
-
-  return (
-    supplied * p.token.priceInUsd * supplyApy -
-    borrowed * p.token.priceInUsd * borrowApy
-  );
-}
-
-async function netApy(
-  signer: JsonRpcSigner,
-  tokenPairs: TokenPair[],
-  secondsPerBlock: number
-): Promise<number | null> {
-  let weightedValues: number[] = await Promise.all(
-    tokenPairs.map(async (p): Promise<number> => {
-      return await getNetGainOrLoss(signer, p, secondsPerBlock);
-    })
-  );
-
-  let sum: number = weightedValues.reduce((acc, curr) => acc + curr, 0);
-
-  let totalSupplied: number = await getTotalSupplyBalanceInUsd(
-    signer,
-    tokenPairs
-  );
-
-  // This is a percent value, i.e., if the function returns 0.1 it's 0.1%;
-  let result = (sum / totalSupplied) * 100;
-
-  if (Number.isNaN(result)) {
-    return 0;
-  }
-
-  return result;
-}
-
 export {
   formattedDepositApy,
   formattedBorrowApy,
-  netApy,
   calculateApy,
   formatApy,
 };

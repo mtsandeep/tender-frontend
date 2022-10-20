@@ -8,12 +8,11 @@ import {
 import {
   getBorrowLimitUsed,
   formatBigNumber,
-  getCurrentlySupplying,
-  getCurrentlyBorrowing, MINIMUM_REQUIRED_APPROVAL_BALANCE,
+  MINIMUM_REQUIRED_APPROVAL_BALANCE,
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
 import { TenderContext } from "~/contexts/tender-context";
-import {BigNumber, ethers, utils} from "ethers";
+import {ethers, utils} from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
