@@ -1,6 +1,7 @@
 import EmptyEarnContent from "~/components/earn-page/emptyEarnContent";
 import EarnContent from "~/components/earn-page/earnContent";
 import { useEffect, useState } from "react";
+import { MetaFunction } from "remix";
 
 export default function Earn() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -13,3 +14,8 @@ export default function Earn() {
 
   return loading ? <EmptyEarnContent /> : <EarnContent />;
 }
+
+export const meta: MetaFunction = () => ({
+  title: "Tender.fi - Earn",
+  property: [{ "og:title": "Tender.fi - Earn" }],
+});
