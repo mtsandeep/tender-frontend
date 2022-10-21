@@ -7,11 +7,9 @@ function TokenChartEmpty() {
   return (
     <div className="switch__to__network bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
       <div className="px-[15px] mb-[30px] md:mb-[26px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
-        Token Details
+        <div className="animate w-[130px] h-[22px] md:h-[28px]"></div>
       </div>
-
       <TokenTopDetailsEmpty />
-
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-xs leading-5 border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">
         <div
           onClick={() => setTabName("supply")}
