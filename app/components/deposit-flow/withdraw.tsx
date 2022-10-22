@@ -139,12 +139,12 @@ export default function Withdraw({
       ) : (
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-              <button onClick={() => closeModal()}>
-                <img src="/images/ico/close.svg" alt="close" />
-              </button>
-            </div>
-
+            <img
+              onClick={() => closeModal()}
+              className="absolute right-[16px] sm:right-[22px] top-[24px] w-[21px] h-[21px] cursor-pointer"
+              src="/images/ico/close.svg"
+              alt="close"
+            />
             <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
@@ -153,14 +153,11 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-end items-center overflow-hidden font-space pb-[15px] h-[118px] md:h-[134px] mt-[30px]">
+            <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space h-[100px] mt-[50px]">
               {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
-                  updateValue={() => {
-                    setValue(toExactString(maxWithdrawAmount));
-                  }}
-                  label="Max"
+                  updateValue={() => setValue(toExactString(maxWithdrawAmount))}
                   maxValueLabel={market.tokenPair.token.symbol}
                   color="#14F195"
                 />
@@ -169,7 +166,7 @@ export default function Withdraw({
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
-                style={{ height: 60 }}
+                style={{ minHeight: 60 }}
                 className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 }  bg-transparent text-white text-center outline-none ${inputTextClass}`}

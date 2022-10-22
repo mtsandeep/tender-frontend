@@ -139,11 +139,12 @@ export default function Borrow({
       ) : (
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-              <button onClick={() => closeModal()}>
-                <img src="/images/ico/close.svg" alt="close" />
-              </button>
-            </div>
+            <img
+              onClick={() => closeModal()}
+              className="absolute right-[16px] sm:right-[22px] top-[24px] w-[21px] h-[21px] cursor-pointer"
+              src="/images/ico/close.svg"
+              alt="close"
+            />
             <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
