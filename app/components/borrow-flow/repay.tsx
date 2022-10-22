@@ -179,10 +179,10 @@ export default function Repay({
                     ref={inputEl}
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
-                    style={{ minHeight: 100 }}
+                    style={{ minHeight: 60 }}
                     className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                       value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                    } bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                    }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                     placeholder="0"
                   />
                   <Max
@@ -283,14 +283,11 @@ export default function Repay({
                 </button>
               )}
 
-              {signer &&
-                isEnabled &&
-                !isValid &&
-                (
-                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                    {validationDetail}
-                  </button>
-                )}
+              {signer && isEnabled && !isValid && (
+                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  {validationDetail}
+                </button>
+              )}
 
               {signer && isEnabled && isValid && (
                 <button

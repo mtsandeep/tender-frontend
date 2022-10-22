@@ -157,10 +157,10 @@ export default function Borrow({
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 100 }}
+                style={{ minHeight: 60 }}
                 className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                } bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
               {parseFloat(borrowLimitUsed) < 80 && (
