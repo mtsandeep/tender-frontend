@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 import Text from "react-svg-text";
+import * as math from "mathjs";
 
 function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number>(0);
@@ -54,6 +55,12 @@ function TokenInterestRate({ data }: { data: any[] }) {
 
   const CustomDot = (props: any) => {
     const { cx, cy, borderColor } = props;
+
+    const fixedString = (str: string | number) =>
+      math.format(Number(str), {
+        notation: "fixed",
+        precision: 2,
+      });
 
     const checkBgTop = (value: string) => {
       switch (value.length) {
@@ -111,8 +118,6 @@ function TokenInterestRate({ data }: { data: any[] }) {
       }
     };
 
-    console.log(props);
-
     return props.name === "ss" ? (
       <g id="line_id_three">
         <svg width="80" height="44" viewBox="0 0 80 44" x={cx - 38} y={cy - 9}>
@@ -130,44 +135,45 @@ function TokenInterestRate({ data }: { data: any[] }) {
               fontSize: "14px",
             }}
           >
-            {props.payload.ss + "%"}
+            {fixedString(props.payload.ss) + "%"}
           </Text>
         </svg>
       </g>
     ) : (
-      <svg
-        width="80"
-        height="44"
-        id={props.name === "aa" ? "line_id_one" : "line_id_two"}
-        viewBox="0 0 80 44"
-        x={cx - 40}
-        y={cy - 34}
-      >
-        {checkBgTop(
-          props.name === "aa"
-            ? props.payload.aaValue + "%"
-            : props.payload[props.name] + "%"
-        )}
-        <circle cx="41" cy="34" r="10" fill={borderColor} />
-        <ellipse cx="41" cy="34" rx="6" ry="6" fill="white" />
-        <Text
-          width="80px"
-          fill="white"
-          verticalAnchor="start"
-          style={{
-            transform: `translate(${checkPos(
-              props.name === "aa"
-                ? props.payload.aaValue + "%"
-                : props.payload[props.name] + "%"
-            )}px, 5px)`,
-            fontSize: "14px",
-          }}
-        >
-          {props.name === "aa"
-            ? props.payload.aaValue + "%"
-            : props.payload[props.name] + "%"}
-        </Text>
-      </svg>
+      <g id={props.name === "aa" ? "line_id_one" : "line_id_two"}>
+        <svg width="80" height="44" viewBox="0 0 80 44" x={cx - 40} y={cy - 34}>
+          {checkBgTop(
+            props.name === "aa"
+              ? props.payload.aaValue == "0.0001"
+                ? "0%"
+                : fixedString(props.payload.aaValue) + "%"
+              : props.payload[props.name] + "%"
+          )}
+          <circle cx="41" cy="34" r="10" fill={borderColor} />
+          <ellipse cx="41" cy="34" rx="6" ry="6" fill="white" />
+          <Text
+            width="80px"
+            fill="white"
+            verticalAnchor="start"
+            style={{
+              transform: `translate(${checkPos(
+                props.name === "aa"
+                  ? props.payload.aaValue == "0.0001"
+                    ? "0%"
+                    : fixedString(props.payload.aaValue) + "%"
+                  : props.payload[props.name] + "%"
+              )}px, 5px)`,
+              fontSize: "14px",
+            }}
+          >
+            {props.name === "aa"
+              ? props.payload.aaValue == "0.0001"
+                ? "0%"
+                : fixedString(props.payload.aaValue) + "%"
+              : fixedString(props.payload[props.name]) + "%"}
+          </Text>
+        </svg>
+      </g>
     );
   };
 
@@ -208,8 +214,6 @@ function TokenInterestRate({ data }: { data: any[] }) {
       </svg>
     );
   };
-
-  console.log(data);
 
   return isCurrentInd && isOptimalInd && actData.length ? (
     <div className="panel-custom border-custom font-nova w-full mb-[60px]">
