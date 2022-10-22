@@ -176,7 +176,7 @@ export default function Deposit({
                   value={value}
                   onChange={(e) => handleCheckValue(e)}
                   style={{ minHeight: 60 }}
-                  className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
+                  className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
                     value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                   }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                   placeholder="0"
