@@ -2,7 +2,7 @@ import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
 import * as math from "mathjs";
 
-const DEFAULT_TEXT_CLASS = "text-6xl";
+const DEFAULT_TEXT_CLASS = "text-5xl md:text-6xl";
 
 /**
  * Used on deposit, withdraw, borrow, and repay modals
