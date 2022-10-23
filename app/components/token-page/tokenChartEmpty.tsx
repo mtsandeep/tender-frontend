@@ -1,8 +1,10 @@
 import { useState } from "react";
 import TokenTopDetailsEmpty from "./tokenTopDetailsEmpty";
+import { useParams } from "@remix-run/react";
 
 function TokenChartEmpty() {
   const [tabName, setTabName] = useState<string>("supply");
+  const params = useParams();
 
   return (
     <div className="switch__to__network bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
@@ -21,16 +23,18 @@ function TokenChartEmpty() {
         >
           supply
         </div>
-        <div
-          onClick={() => setTabName("borrow")}
-          className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
-            tabName === "borrow"
-              ? "border-[#00E0FF] text-[#00E0FF]"
-              : "border-[transparent] text-white"
-          }`}
-        >
-          borrow
-        </div>
+        {params.tokenId !== "GLP" && (
+          <div
+            onClick={() => setTabName("borrow")}
+            className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
+              tabName === "borrow"
+                ? "border-[#00E0FF] text-[#00E0FF]"
+                : "border-[transparent] text-white"
+            }`}
+          >
+            borrow
+          </div>
+        )}
       </div>
       <div className="pt-[40px] pb-[20px] md:pb-[40px] pl-[20px] pr-[20px]">
         <div className="animate w-full h-[255px] md:h-[293px]"></div>
