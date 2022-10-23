@@ -18,7 +18,7 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { useSafeMaxBorrowAmountForToken } from "~/hooks/use-safe-max-borrow-amount-for-token";
 import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
-// import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
+import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
 import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
@@ -66,14 +66,14 @@ export default function Borrow({
     newTotalBorrowedAmountInUsd,
     borrowLimit
   );
-
-  let maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
+  let maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
     borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
     market.maxBorrowLiquidity
   );
+  let maxBorrowLimit = useMaxBorrowAmount(borrowLimit, totalBorrowedAmountInUsd, market.tokenPair)
 
   let [isValid, validationDetail] = useValidInput(
     value,
@@ -164,17 +164,17 @@ export default function Borrow({
                 }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
-              {parseFloat(borrowLimitUsed) < 80 && (
-                <Max
-                  maxValue={maxBorrowLimit}
-                  updateValue={() =>
-                    setValue(toMaxString(maxBorrowLimit, tokenDecimals))
-                  }
-                  maxValueLabel={market.tokenPair.token.symbol}
-                  label="80% Max"
-                  color="#00E0FF"
-                />
-              )}
+
+              <Max
+                maxValue={maxBorrowLimit}
+                updateValue={() =>
+                  setValue(toMaxString(maxSafeBorrowLimit, tokenDecimals))
+                }
+                maxValueLabel={market.tokenPair.token.symbol}
+                label="80% Max"
+                color="#00E0FF"
+              />
+
             </div>
             <div className="flex mt-4 md:mt-6 uppercase">
               <button
