@@ -167,6 +167,7 @@ export default function Borrow({
 
               <Max
                 maxValue={maxBorrowLimit}
+                showMaxButton={parseFloat(borrowLimitUsed) < 80}
                 updateValue={() =>
                   setValue(toMaxString(maxSafeBorrowLimit, tokenDecimals))
                 }
