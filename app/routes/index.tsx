@@ -6,6 +6,7 @@ import TwoPanelsEmpty from "~/components/two-panels/two-panels-empty";
 import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
+import { MetaFunction } from "remix";
 
 export default function App() {
   let tenderContextData = useTenderContext();
@@ -28,3 +29,8 @@ export default function App() {
     </div>
   );
 }
+
+export const meta: MetaFunction = () => ({
+  title: "Tender.fi - Dashboard",
+  property: [{ "og:title": "Tender.fi - Dashboard" }],
+});

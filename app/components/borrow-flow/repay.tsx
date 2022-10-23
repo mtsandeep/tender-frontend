@@ -147,11 +147,12 @@ export default function Repay({
       ) : (
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-              <button onClick={() => closeModal()}>
-                <img src="/images/ico/close.svg" alt="close" />
-              </button>
-            </div>
+            <img
+              onClick={() => closeModal()}
+              className="absolute right-[16px] sm:right-[22px] top-[24px] w-[21px] h-[21px] cursor-pointer"
+              src="/images/ico/close.svg"
+              alt="close"
+            />
             <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
@@ -162,7 +163,7 @@ export default function Repay({
             </div>
             <div className="h-[100px] mt-[50px]">
               {!isEnabled ? (
-                <div className="flex flex-col items-center mt-5 rounded-2xl  px-4">
+                <div className="flex flex-col items-center mt-5 rounded-2xl px-4">
                   <img
                     src={market.tokenPair.token.icon}
                     className="w-12"
@@ -174,22 +175,22 @@ export default function Repay({
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col justify-center items-center overflow-hidden font-space">
+                <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space h-[100px] mt-[50px]">
                   <input
                     ref={inputEl}
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
-                    style={{ minHeight: 100 }}
-                    className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
+                    style={{ minHeight: 60 }}
+                    className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
                       value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                    } bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                    }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                     placeholder="0"
                   />
                   <Max
                     maxValue={maxRepayableAmount}
-                    updateValue={() => {
-                      setValue(toMaxString(maxRepayableAmount, tokenDecimals));
-                    }}
+                    updateValue={() =>
+                      setValue(toMaxString(maxRepayableAmount, tokenDecimals))
+                    }
                     maxValueLabel={market.tokenPair.token.symbol}
                     color="#00E0FF"
                   />
@@ -283,14 +284,11 @@ export default function Repay({
                 </button>
               )}
 
-              {signer &&
-                isEnabled &&
-                !isValid &&
-                (
-                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
-                    {validationDetail}
-                  </button>
-                )}
+              {signer && isEnabled && !isValid && (
+                <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  {validationDetail}
+                </button>
+              )}
 
               {signer && isEnabled && isValid && (
                 <button

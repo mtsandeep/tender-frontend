@@ -1,4 +1,4 @@
-import { useParams } from "remix";
+import { MetaFunction, useParams } from "remix";
 import { useTenderContext } from "~/hooks/use-tender-context";
 import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
@@ -24,3 +24,8 @@ export default function App() {
     </div>
   );
 }
+
+export const meta: MetaFunction = (data) => ({
+  title: `Tender.fi - Token ${data.params.tokenId}`,
+  property: [{ "og:title": `Tender.fi - Token ${data.params.tokenId}` }],
+});

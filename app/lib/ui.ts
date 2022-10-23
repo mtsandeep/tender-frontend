@@ -2,8 +2,6 @@ import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
 import * as math from "mathjs";
 
-const DEFAULT_TEXT_CLASS = "text-6xl";
-
 /**
  * Used on deposit, withdraw, borrow, and repay modals
  *
@@ -11,7 +9,7 @@ const DEFAULT_TEXT_CLASS = "text-6xl";
  * @returns corresponding tailwind text size class
  */
 const shrinkyInputClass = (len: number): string => {
-  let className = DEFAULT_TEXT_CLASS;
+  let className = "text-5xl md:text-6xl";
 
   if (len > 22) {
     className = "text-md";
@@ -21,10 +19,8 @@ const shrinkyInputClass = (len: number): string => {
     className = "text-2xl md:text-3xl";
   } else if (len > 10) {
     className = "text-3xl md:text-4xl";
-  } else if (len > 8) {
+  } else if (len > 4) {
     className = "text-4xl md:text-5xl";
-  } else if (len > 6) {
-    className = "text-5xl md:text-6xl";
   }
   return className;
 };

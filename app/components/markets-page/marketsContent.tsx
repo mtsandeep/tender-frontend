@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import EmptyMarketsContent from "./emptyMarketsContent";
@@ -30,7 +30,7 @@ export default function MarketsContent() {
     )
     .reduce((a: any, b: any) => a + b, 0);
 
-  if (!markets || !total) {
+  if (!markets || !total || !m.length) {
     return <EmptyMarketsContent />;
   }
 
@@ -113,7 +113,7 @@ export default function MarketsContent() {
               <p># of Suppliers</p>
             </div>
             <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
-              <div>
+              <div className={`${checkColorClass(total?.supply?.volume)}`}>
                 <span>$</span>
                 <span>{toShortFiatString(total?.supply?.volume)}</span>
               </div>
@@ -187,7 +187,7 @@ export default function MarketsContent() {
               <p># of Borrowers</p>
             </div>
             <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
-              <div>
+              <div className={`${checkColorClass(total?.borrow?.volume)}`}>
                 <span>$</span>
                 <span>{toShortFiatString(total?.borrow?.volume)}</span>
               </div>

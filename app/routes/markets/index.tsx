@@ -4,6 +4,7 @@ import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
 import MarketsContent from "~/components/markets-page/marketsContent";
 import EmptyMarketsContent from "~/components/markets-page/emptyMarketsContent";
+import { MetaFunction } from "remix";
 
 export default function App() {
   const tenderContextData = useTenderContext();
@@ -22,3 +23,8 @@ export default function App() {
     </div>
   );
 }
+
+export const meta: MetaFunction = () => ({
+  title: "Tender.fi - Markets",
+  property: [{ "og:title": "Tender.fi - Markets" }],
+});

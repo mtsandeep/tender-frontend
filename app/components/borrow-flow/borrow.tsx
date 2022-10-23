@@ -139,11 +139,12 @@ export default function Borrow({
       ) : (
         <div>
           <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
-            <div className="absolute right-[16px] sm:right-[22px] top-[24px]">
-              <button onClick={() => closeModal()}>
-                <img src="/images/ico/close.svg" alt="close" />
-              </button>
-            </div>
+            <img
+              onClick={() => closeModal()}
+              className="absolute right-[16px] sm:right-[22px] top-[24px] w-[21px] h-[21px] cursor-pointer"
+              src="/images/ico/close.svg"
+              alt="close"
+            />
             <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
@@ -157,10 +158,10 @@ export default function Borrow({
                 ref={inputEl}
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 100 }}
-                className={`input__center__custom z-20 max-w-[180px] max-w-[300px] ${
+                style={{ minHeight: 60 }}
+                className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                } bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
               {parseFloat(borrowLimitUsed) < 80 && (
