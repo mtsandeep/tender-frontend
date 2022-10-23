@@ -5,7 +5,7 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
-  secondsPerBlock: 0.2178610783,
+  secondsPerBlock: 0.48,
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0x49Ea2c991290cA13f57Ae2b8ca98bC6140925db3",
@@ -133,7 +133,7 @@ DAI: {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xa2F156bc04329f9D0C71804a5B56f130674F44c9",
+        address: "0x0920BEcbc26A84444eFaD02137F8c14D22332D5d",
       },
     },
   },

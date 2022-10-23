@@ -12,7 +12,7 @@ import {
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
 import { TenderContext } from "~/contexts/tender-context";
-import {ethers, utils} from "ethers";
+import {BigNumber, ethers, utils} from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
@@ -197,11 +197,45 @@ export function useMarkets(
         } else {
           walletBalance = formatBigNumber(token.walletBalance, tp.token.decimals);
         }
+        let depositApy;
+        if (tp.token.symbol === "GLP") {
+          const cTokenContract = new ethers.Contract(
+            tp.cToken.address,
+            SampleCTokenAbi,
+            mcProvider
+          );
+          const glpBlockDeltaPromise = cTokenContract.glpBlockDelta(); // blocks passed since last compounding
+          const lastGlpDepositAmountPromise = cTokenContract.lastGlpDepositAmount(); // last amount which was adding while compounding (reduce this as it was not compounded, just minted)
+          const prevExchangeRatePromise = cTokenContract.prevExchangeRate(); // previous exchange rate in scaled to 18 decimals
+          const exchangeRateCurrentPromise = cTokenContract.exchangeRateCurrent(); // current exchange rate after minting new glp
+          const glpBlockDelta = await glpBlockDeltaPromise;
+          const lastGlpDepositAmount = await lastGlpDepositAmountPromise;
+          const prevExchangeRate = await prevExchangeRatePromise;
+          const exchangeRateCurrent = await exchangeRateCurrentPromise;
+          const totalSupply = await cTokenContract.totalSupply();
+          // when adding money to contract, we need to consider prevExchangeRate as the rate for deposit.
+          // total glp available without compounding = prevExchangeRate*(totalSupply-lastglpDeposit)
+          let rateOfIncreasePerBlock = BigNumber.from(0);
+          if (prevExchangeRate.gt(0) && glpBlockDelta.gt(0)) {
+            const existingGlpAmount = totalSupply
+              .sub(lastGlpDepositAmount)
+              .mul(prevExchangeRate); // scaled to 18 and value in 18 decimals
+            const glpWithCompounding = existingGlpAmount.mul(exchangeRateCurrent);
+            const rateOfIncrease = glpWithCompounding
+              .sub(existingGlpAmount)
+              .div(existingGlpAmount);
+            rateOfIncreasePerBlock = rateOfIncrease.div(glpBlockDelta);
+          }
 
-        // marketData
-        const depositApy = formatApy(
+          depositApy = formatApy(
+            calculateApy(rateOfIncreasePerBlock, secondsPerBlock)
+          );
+        } else {
+          // marketData
+          depositApy = formatApy(
             calculateApy(token.supplyRatePerBlock, secondsPerBlock)
-        );
+          );
+        }
 
         const borrowApy = formatApy(
             calculateApy(token.borrowRatePerBlock, secondsPerBlock)
