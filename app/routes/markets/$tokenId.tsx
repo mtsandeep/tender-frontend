@@ -7,7 +7,7 @@ import Token from "~/components/token-page/Token";
 import TokenEmpty from "~/components/token-page/TokenEmpty";
 import { useEffect } from "react";
 
-export default function App() {
+export default function TokenPage() {
   const tenderContextData = useTenderContext();
   const chainId = metaMaskHooks.useChainId();
   const onSupportedChain = useOnSupportedNetwork(chainId);
