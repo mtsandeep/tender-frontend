@@ -115,16 +115,18 @@ function TokenChart({
         >
           supply
         </div>
-        <div
-          onClick={() => setTabName("borrow")}
-          className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
-            tabName === "borrow"
-              ? "border-[#00E0FF] text-[#00E0FF]"
-              : "border-[transparent] text-white"
-          }`}
-        >
-          borrow
-        </div>
+        {marketInfo?.tokenSymbol !== "GLP" && (
+          <div
+            onClick={() => setTabName("borrow")}
+            className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
+              tabName === "borrow"
+                ? "border-[#00E0FF] text-[#00E0FF]"
+                : "border-[transparent] text-white"
+            }`}
+          >
+            borrow
+          </div>
+        )}
       </div>
       {tabName === "supply" ? (
         supplyChartData.length ? (
