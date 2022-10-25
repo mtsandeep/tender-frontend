@@ -5,10 +5,10 @@ import * as math from "mathjs";
 /**
  * Used on deposit, withdraw, borrow, and repay modals
  *
- * @param len Lenght of input value
+ * @param len Length of input value
  * @returns corresponding tailwind text size class
  */
-const shrinkyInputClass = (len: number): string => {
+const shrinkInputClass = (len: number): string => {
   let className = "text-5xl md:text-6xl";
 
   if (len > 22) {
@@ -115,4 +115,4 @@ const formatMaxString = (v: number, precision: number = 6): string =>
 export const toExactString = (v: number) =>
   math.format(v, { notation: "fixed" });
 
-export { shrinkyInputClass };
+export { shrinkInputClass };

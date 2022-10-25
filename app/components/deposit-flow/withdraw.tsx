@@ -12,7 +12,7 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { shrinkyInputClass } from "~/lib/ui";
+import { shrinkInputClass } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
 
@@ -83,7 +83,7 @@ export default function Withdraw({
     tokenDecimals
   );
 
-  let inputTextClass = shrinkyInputClass(value.length);
+  let inputTextClass = shrinkInputClass(value.length);
 
   const collateralFactor = useCollateralFactor(
     signer,

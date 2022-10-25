@@ -4,7 +4,7 @@ import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
 import MarketsContent from "~/components/markets-page/marketsContent";
 import EmptyMarketsContent from "~/components/markets-page/emptyMarketsContent";
-import { MetaFunction } from "remix";
+import type { MetaFunction } from "remix";
 
 export default function Markets() {
   const tenderContextData = useTenderContext();

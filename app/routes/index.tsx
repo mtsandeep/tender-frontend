@@ -6,7 +6,7 @@ import TwoPanelsEmpty from "~/components/two-panels/two-panels-empty";
 import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
-import { MetaFunction } from "remix";
+import type { MetaFunction } from "remix";
 
 export default function Home() {
   let tenderContextData = useTenderContext();

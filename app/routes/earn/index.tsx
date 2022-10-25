@@ -1,7 +1,7 @@
 import EmptyEarnContent from "~/components/earn-page/emptyEarnContent";
 import EarnContent from "~/components/earn-page/earnContent";
 import { useEffect, useState } from "react";
-import { MetaFunction } from "remix";
+import type { MetaFunction } from "remix";
 
 export default function Earn() {
   const [loading, setLoading] = useState<boolean>(true);

@@ -16,7 +16,7 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
+import { shrinkInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 import { displayErrorMessage } from "../borrow-flow/displayErrorMessage";
@@ -53,7 +53,7 @@ export default function Deposit({
   let [isDepositing, setIsDepositing] = useState<boolean>(false);
   let [value, setValue] = useState<string>(initialValue);
   let [txnHash, setTxnHash] = useState<string>("");
-  let inputTextClass = shrinkyInputClass(value.length);
+  let inputTextClass = shrinkInputClass(value.length);
 
   let inputEl = useRef<HTMLInputElement>(null);
 

@@ -598,7 +598,6 @@ body.body__fixed {
 .aside__menu__container {
   max-height: calc(100vh - 71px);
   overflow: auto;
-  background-image: radial-gradient(circle farthest-corner at 0 100%, #00160d, #000 50%);
 }
 
 
