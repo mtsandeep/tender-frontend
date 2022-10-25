@@ -208,11 +208,13 @@ export function useMarkets(
           const lastGlpDepositAmountPromise = cTokenContract.lastGlpDepositAmount(); // last amount which was adding while compounding (reduce this as it was not compounded, just minted)
           const prevExchangeRatePromise = cTokenContract.prevExchangeRate(); // previous exchange rate in scaled to 18 decimals
           const exchangeRateCurrentPromise = cTokenContract.exchangeRateCurrent(); // current exchange rate after minting new glp
+          const totalSupplyPromise = cTokenContract.totalSupply();
+
           const glpBlockDelta = await glpBlockDeltaPromise;
           const lastGlpDepositAmount = await lastGlpDepositAmountPromise;
           const prevExchangeRate = await prevExchangeRatePromise;
           const exchangeRateCurrent = await exchangeRateCurrentPromise;
-          const totalSupply = await cTokenContract.totalSupply();
+          const totalSupply = await totalSupplyPromise;
           // when adding money to contract, we need to consider prevExchangeRate as the rate for deposit.
           // total glp available without compounding = prevExchangeRate*(totalSupply-lastglpDeposit)
           let rateOfIncreasePerBlock = BigNumber.from(0);
