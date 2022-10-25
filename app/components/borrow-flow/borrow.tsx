@@ -199,7 +199,7 @@ export default function Borrow({
                 rel="noreferrer"
                 className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
-                Borrow Rates
+                Borrow Market
                 <svg
                   width="16"
                   height="16"

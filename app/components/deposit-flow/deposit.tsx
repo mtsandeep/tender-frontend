@@ -216,7 +216,7 @@ export default function Deposit({
                 rel="noreferrer"
                 className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
               >
-                Supply Rates
+                Supply Market
                 <svg
                   width="16"
                   height="16"
