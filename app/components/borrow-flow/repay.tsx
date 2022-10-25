@@ -18,7 +18,7 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
-import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
+import { shrinkInputClass, toCryptoString } from "~/lib/ui";
 import { formatApy } from "~/lib/apy-calculations";
 import { displayErrorMessage } from "./displayErrorMessage";
 
@@ -62,7 +62,7 @@ export default function Repay({
   let maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
 
   let inputEl = useRef<HTMLInputElement>(null);
-  let inputTextClass = shrinkyInputClass(value.length);
+  let inputTextClass = shrinkInputClass(value.length);
 
   let newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
     market.tokenPair,
@@ -223,7 +223,7 @@ export default function Repay({
                 rel="noreferrer"
                 className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
-                Borrow Rates
+                Borrow Market
                 <svg
                   width="16"
                   height="16"

@@ -37,6 +37,16 @@ export default function MarketsContent() {
   const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
   const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
 
+  const checkZeroValue = (value: number) => {
+    return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
+  };
+
+  const replaceMinusSymbol = (value: number) => {
+    return value >= 0
+      ? "$" + toShortFiatString(value)
+      : "-$" + toShortFiatString(Math.abs(value));
+  };
+
   return (
     <div>
       <TooltipMobileMulti
@@ -113,9 +123,18 @@ export default function MarketsContent() {
               <p># of Suppliers</p>
             </div>
             <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
-              <div className={`${checkColorClass(total?.supply?.volume)}`}>
-                <span>$</span>
-                <span>{toShortFiatString(total?.supply?.volume)}</span>
+              <div
+                className={checkColorClass(
+                  checkZeroValue(total?.supply?.volume)
+                    ? 0
+                    : total?.supply?.volume
+                )}
+              >
+                {replaceMinusSymbol(
+                  checkZeroValue(total?.supply?.volume)
+                    ? 0
+                    : total?.supply?.volume
+                )}
               </div>
               <div>
                 <span>{total?.supply?.count}</span>
@@ -187,9 +206,18 @@ export default function MarketsContent() {
               <p># of Borrowers</p>
             </div>
             <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
-              <div className={`${checkColorClass(total?.borrow?.volume)}`}>
-                <span>$</span>
-                <span>{toShortFiatString(total?.borrow?.volume)}</span>
+              <div
+                className={checkColorClass(
+                  checkZeroValue(total?.borrow?.volume)
+                    ? 0
+                    : total?.borrow?.volume
+                )}
+              >
+                {replaceMinusSymbol(
+                  checkZeroValue(total?.borrow?.volume)
+                    ? 0
+                    : total?.borrow?.volume
+                )}
               </div>
               <div>
                 <span>{total?.borrow?.count}</span>

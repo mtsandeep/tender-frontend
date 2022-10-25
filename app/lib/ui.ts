@@ -5,18 +5,18 @@ import * as math from "mathjs";
 /**
  * Used on deposit, withdraw, borrow, and repay modals
  *
- * @param len Lenght of input value
+ * @param len Length of input value
  * @returns corresponding tailwind text size class
  */
-const shrinkyInputClass = (len: number): string => {
+const shrinkInputClass = (len: number): string => {
   let className = "text-5xl md:text-6xl";
 
   if (len > 22) {
     className = "text-md";
   } else if (len > 14) {
-    className = "text-xl md:text-2xl";
+    className = "text-lg md:text-2xl";
   } else if (len > 12) {
-    className = "text-2xl md:text-3xl";
+    className = "text-xl md:text-3xl";
   } else if (len > 10) {
     className = "text-3xl md:text-4xl";
   } else if (len > 4) {
@@ -115,4 +115,4 @@ const formatMaxString = (v: number, precision: number = 6): string =>
 export const toExactString = (v: number) =>
   math.format(v, { notation: "fixed" });
 
-export { shrinkyInputClass };
+export { shrinkInputClass };

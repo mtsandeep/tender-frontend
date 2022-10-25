@@ -19,7 +19,7 @@ import { useSafeMaxBorrowAmountForToken } from "~/hooks/use-safe-max-borrow-amou
 import { TenderContext } from "~/contexts/tender-context";
 import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { useMaxBorrowAmount } from "~/hooks/use-max-borrow-amount";
-import { shrinkyInputClass, toCryptoString } from "~/lib/ui";
+import { shrinkInputClass, toCryptoString } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
 
@@ -83,7 +83,7 @@ export default function Borrow({
     tokenDecimals
   );
 
-  let inputTextClass = shrinkyInputClass(value.length);
+  let inputTextClass = shrinkInputClass(value.length);
   // Highlights value input
   useEffect(() => {
     inputEl && inputEl.current && inputEl.current.focus();
@@ -200,7 +200,7 @@ export default function Borrow({
                 rel="noreferrer"
                 className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#00E0FF]"
               >
-                Borrow Rates
+                Borrow Market
                 <svg
                   width="16"
                   height="16"
