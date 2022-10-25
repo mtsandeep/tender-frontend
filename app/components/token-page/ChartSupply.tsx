@@ -20,6 +20,7 @@ import {
   Tooltip,
   Cell,
   ResponsiveContainer,
+  YAxis,
 } from "recharts";
 import { IDataSupplyDot } from "./tokenChart";
 
@@ -30,11 +31,11 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
 
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
-  //STF chart gap variable
-  const chartGap: number = window.innerWidth > 768 ? 50 : 0;
 
   const [chartConteinerWidth, setChartConteinerWidth] = useState(0);
   const chartRef = useRef<HTMLDivElement>(null);
+
+  const maxNumber = Math.max(...data.map((a) => parseInt(a.totalSupply)));
 
   useLayoutEffect(() => {
     if (chartRef.current) {
@@ -47,7 +48,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <div className="text-center w-fit bg-[#0D0D0D]">
+        <div className="text-center px-[10px] pb-[5px] rounded w-fit bg-[#0D0D0D]">
           <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Supply APY
@@ -69,7 +70,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <div className="text-center w-fit bg-[#0D0D0D]">
+        <div className="text-center px-[10px] pb-[5px] rounded w-fit bg-[#0D0D0D]">
           <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Supply
@@ -92,14 +93,14 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const tooltipOverflowBlock = useCallback(
     function () {
       if (dotX < 50) {
-        return 10;
+        return 15;
       }
 
-      if (dotX > chartConteinerWidth - 70) {
-        return dotX - 90;
+      if (dotX > chartConteinerWidth - 90) {
+        return dotX - 110;
       }
 
-      return dotX - 30;
+      return dotX - 47;
     },
     [chartConteinerWidth, dotX]
   );
@@ -117,7 +118,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const CustomLine = (props: any) => (
     <svg
       x={props.points[0].x || ""}
-      y={dotY - chartGap || ""}
+      y={dotY || ""}
       width="1"
       height="160"
       viewBox="0 0 1 160"
@@ -133,13 +134,13 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
 
   const CustomDot = (props: any) => {
     debounce(setDotX, props.cx || "", 60);
-    setDotY(props.cy || "");
+    debounce(setDotY, props.cy || "", 60);
+
     console.log(dotY);
     return (
       <circle
         cx={props.cx || 0}
-        //Stf чтобы компенсировать смешение графика
-        cy={props.cy - chartGap || 0}
+        cy={props.cy || 0}
         r={8}
         stroke="#282C2B"
         style={{ opacity: "1" }}
@@ -151,7 +152,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+      <div className="custom__scroll h-auto !overflow-y-hidden w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
         <div
           ref={chartRef}
           className="min-w-[800px]"
@@ -160,7 +161,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           <ResponsiveContainer
             width="100%"
             height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
-            className="mb-[30px] lg:mb-[0]"
+            className="mb-[30px] lg:mb-[0] "
           >
             <LineChart
               syncId="marketCharSynch"
@@ -180,10 +181,10 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                     window.innerWidth > 768
                       ? dotY < 70
                         ? -40
-                        : dotY - (chartGap + 70)
+                        : dotY - 70
                       : dotY < 90
                       ? 20
-                      : dotY - (chartGap + 70) / 2,
+                      : dotY - 70 / 2,
                 }}
                 content={<ApyTooltip />}
                 cursor={<CustomLine />}
@@ -195,14 +196,12 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
-                //SFT смешаем график как ты говорил чтобы было пространство и оставаолсь активным
-                className={`[&>*]:translate-y-[-50px]`}
               />
             </LineChart>
           </ResponsiveContainer>
           <ResponsiveContainer
             width="100%"
-            height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
+            height={isLoadPage && window.innerWidth > 768 ? 160 : 85}
             className="custom__chart__bar"
           >
             <BarChart
@@ -215,6 +214,8 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
+              {" "}
+              <YAxis hide={true} domain={[20, maxNumber + maxNumber * 0.3]} />
               <Tooltip
                 animationDuration={500}
                 position={{
@@ -222,11 +223,13 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                   y:
                     window.innerWidth > 768
                       ? dotY < 100
-                        ? dotY - 100
-                        : dotY - 175
+                        ? dotX < 100 || dotX < chartConteinerWidth - 100
+                          ? dotY + 50
+                          : dotY
+                        : dotY - 150
                       : dotY < 100
                       ? -10
-                      : dotY - (chartGap + 150) / 2,
+                      : dotY - 150 / 2,
                 }}
                 cursor={false}
                 content={<TotalTooltip />}
