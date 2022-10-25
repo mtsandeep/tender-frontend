@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import {
   ValueType,
@@ -14,6 +20,7 @@ import {
   Tooltip,
   Cell,
   ResponsiveContainer,
+  YAxis,
 } from "recharts";
 import { IDataSupplyDot } from "./tokenChart";
 
@@ -25,13 +32,23 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
 
+  const [chartConteinerWidth, setChartConteinerWidth] = useState(0);
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  const maxNumber = Math.max(...data.map((a) => parseInt(a.totalSupply)));
+
+  useLayoutEffect(() => {
+    if (chartRef.current) {
+      setChartConteinerWidth(chartRef.current.offsetWidth);
+    }
+  }, []);
   const ApyTooltip = ({
     active,
     payload,
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <div className="text-center w-fit">
+        <div className="text-center px-[10px] pb-[5px] rounded w-fit bg-[#0D0D0D]">
           <p className="label text-sm md:text-base">{`${payload[0].payload.supplyAPY}%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Supply APY
@@ -53,7 +70,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <div className="text-center w-fit">
+        <div className="text-center px-[10px] pb-[5px] rounded w-fit bg-[#0D0D0D]">
           <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Supply
@@ -71,6 +88,31 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
     } else {
       setActiveTooltip(0);
     }
+  }
+
+  const tooltipOverflowBlock = useCallback(
+    function () {
+      if (dotX < 50) {
+        return 15;
+      }
+
+      if (dotX > chartConteinerWidth - 90) {
+        return dotX - 110;
+      }
+
+      return dotX - 47;
+    },
+    [chartConteinerWidth, dotX]
+  );
+
+  function debounce(func: any, state: any, delay: number) {
+    let positionDebounce: any;
+
+    clearTimeout(positionDebounce);
+
+    positionDebounce = setTimeout(() => {
+      func(state);
+    }, delay);
   }
 
   const CustomLine = (props: any) => (
@@ -91,8 +133,10 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   );
 
   const CustomDot = (props: any) => {
-    setDotY(props.cy || "");
-    setDotX(props.cx || "");
+    debounce(setDotX, props.cx || "", 60);
+    debounce(setDotY, props.cy || "", 60);
+
+    console.log(dotY);
     return (
       <circle
         cx={props.cx || 0}
@@ -108,17 +152,18 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
-        <div className="min-w-[800px]">
+      <div className="custom__scroll h-auto !overflow-y-hidden w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+        <div
+          ref={chartRef}
+          className="min-w-[800px]"
+          onMouseLeave={() => setActiveTooltip((val: any) => (val = undefined))}
+        >
           <ResponsiveContainer
             width="100%"
             height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
-            className="mb-[30px] lg:mb-[0]"
+            className="mb-[30px] lg:mb-[0] "
           >
             <LineChart
-              onMouseLeave={() =>
-                setActiveTooltip((val: any) => (val = undefined))
-              }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
               data={data.map((item: IDataSupplyDot) => ({
@@ -126,9 +171,24 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 totalSupply: parseInt(item.totalSupply),
                 supplyAPY: parseInt(item.supplyAPY),
               }))}
-              margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+              margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
-              <Tooltip content={<ApyTooltip />} cursor={<CustomLine />} />
+              <Tooltip
+                animationDuration={500}
+                position={{
+                  x: tooltipOverflowBlock(),
+                  y:
+                    window.innerWidth > 768
+                      ? dotY < 70
+                        ? -40
+                        : dotY - 70
+                      : dotY < 90
+                      ? 20
+                      : dotY - 70 / 2,
+                }}
+                content={<ApyTooltip />}
+                cursor={<CustomLine />}
+              />
               <Line
                 type="monotone"
                 dataKey="supplyAPY"
@@ -141,13 +201,10 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           </ResponsiveContainer>
           <ResponsiveContainer
             width="100%"
-            height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
+            height={isLoadPage && window.innerWidth > 768 ? 160 : 85}
             className="custom__chart__bar"
           >
             <BarChart
-              onMouseLeave={() =>
-                setActiveTooltip((val: any) => (val = undefined))
-              }
               syncId="marketCharSynch"
               data={data.map((item: IDataSupplyDot) => ({
                 ...item,
@@ -157,7 +214,26 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
-              <Tooltip cursor={false} content={<TotalTooltip />} />
+              {" "}
+              <YAxis hide={true} domain={[20, maxNumber + maxNumber * 0.3]} />
+              <Tooltip
+                animationDuration={500}
+                position={{
+                  x: tooltipOverflowBlock(),
+                  y:
+                    window.innerWidth > 768
+                      ? dotY < 100
+                        ? dotX < 100 || dotX < chartConteinerWidth - 100
+                          ? dotY + 50
+                          : dotY
+                        : dotY - 150
+                      : dotY < 100
+                      ? -10
+                      : dotY - 150 / 2,
+                }}
+                cursor={false}
+                content={<TotalTooltip />}
+              />
               <Bar
                 dataKey="totalSupply"
                 radius={[3, 3, 0, 0]}
@@ -187,7 +263,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
       {activeTooltip !== undefined ? (
         <div
           style={{ left: Math.round(dotX) }}
-          className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
+          className="absolute translate-x-[-70%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
         >
           {data[activeTooltip]?.date}
         </div>

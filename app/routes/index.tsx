@@ -6,9 +6,9 @@ import TwoPanelsEmpty from "~/components/two-panels/two-panels-empty";
 import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
-import { MetaFunction } from "remix";
+import type { MetaFunction } from "remix";
 
-export default function App() {
+export default function Home() {
   let tenderContextData = useTenderContext();
   const chainId = metaMaskHooks.useChainId();
   let onSupportedChain = useOnSupportedNetwork(chainId);

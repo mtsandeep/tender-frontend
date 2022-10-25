@@ -25,7 +25,7 @@ import type { MetaMask } from "@web3-react/metamask";
 import { hooks as metaMaskHooks, metaMask } from "~/connectors/meta-mask";
 
 import { useOnSupportedNetwork } from "./hooks/use-on-supported-network";
-import Header from "./components/header-conponents/Header";
+import Header from "./components/header-components/Header";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },

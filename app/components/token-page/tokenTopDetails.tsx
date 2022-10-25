@@ -30,8 +30,8 @@ function TokenTopDetailsBorrow({
           })
         }
       />
-      <div className="flex flex-col ml-[15px] mr-[15px] md:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px] md:mb-[50px]">
-        <div className="flex items-center md:w-[30%] mb-[30px] md:mb-0">
+      <div className="flex flex-col ml-[15px] mr-[15px] sm:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px] md:mb-[50px]">
+        <div className="flex items-center sm:w-[30%] mb-[30px] sm:mb-0 mr-0 md:mr-[30px]">
           <img
             className="w-10 h-10 mr-[15px] md:w-[55px] md:h-[55px] md:mr-[21px]"
             src={marketInfo.icon}
@@ -42,8 +42,8 @@ function TokenTopDetailsBorrow({
           </p>
         </div>
 
-        <div className="flex md:gap-[0px] gap-x-[0px] gap-y-[12px] flex-wrap font-nova md:flex-nowrap justify-start md:justify-between md:text-center w-full md:w-[511px]">
-          <div className="w-[120px] md:w-[auto]">
+        <div className="flex font-nova justify-between md:text-center w-full md:w-[511px]">
+          <div className="w-[auto]">
             <div
               className="relative flex flex-col items-start md:items-center group"
               onClick={() =>
@@ -116,7 +116,7 @@ function TokenTopDetailsBorrow({
               {formatApy(supplyApy)}
             </p>
           </div>
-          <div className="w-[120px] md:w-[auto]">
+          <div className="w-[auto]">
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px] mb-[4px]">
               Total Supply
             </p>
@@ -124,7 +124,7 @@ function TokenTopDetailsBorrow({
               {`$${toShortFiatString(marketInfo.totalSupplyUSD)} USD`}
             </p>
           </div>
-          <div className="w-[120px] md:w-[auto]">
+          <div className="w-[auto]">
             <div
               className="relative flex flex-col items-start md:items-center group"
               onClick={() =>
@@ -197,7 +197,7 @@ function TokenTopDetailsBorrow({
               {formatApy(borrowApy)}
             </p>
           </div>
-          <div className="w-[120px] md:w-[auto]">
+          <div className="w-[auto]">
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold md:text-sm md:leading-[19px] mb-[4px]">
               Total Borrow
             </p>

@@ -88,11 +88,40 @@ export default function Display({
       </div>
       <div className="gap-[5px] md:gap-0 flex flex-col text-xs justify-center font-nova pb-[15px] md:pb-[12px]">
         <div className="flex justify-between items-center">
-          <div className="justify-self-start text-xs text-[#818987] p-[0px] md:pb-[6px] font-nova font-normal">
-            Borrow Used
+          <div className="group relative md:w-fit p-[0px] md:pb-[6px]">
+            <span className="justify-self-start text-xs text-[#818987] font-nova font-normal underline decoration-dashed underline-offset-[2px] cursor-pointer">
+              Borrow Used
+            </span>
+            <div className="hidden z-10 flex-col absolute left-0 bottom-[18px] items-start group-hover:flex rounded-[10px]">
+              <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
+                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#818987]">
+                      Liquidation Threshold
+                    </span>
+                    <span>$XXX.XX</span>
+                  </div>
+                </div>
+              </div>
+              <div className="custom__arrow__tooltip relative left-[10px] top-[-6px] z-[11] !mt-[0] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+            </div>
           </div>
-          <div className="justify-self-start text-xs text-[#818987] p-[0px] md:pb-[6px] font-nova font-normal">
-            Borrow Max
+
+          <div className="group relative md:w-fit p-[0px] md:pb-[6px]">
+            <span className="justify-self-start text-xs text-[#818987] font-nova font-normal underline decoration-dashed underline-offset-[2px] cursor-pointer">
+              Borrow Max
+            </span>
+            <div className="hidden z-10 flex-col absolute right-0 bottom-[18px] items-end group-hover:flex rounded-[10px]">
+              <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[180px] panel-custom !rounded-[10px]">
+                <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#818987]">Loan to Value (LTV)</span>
+                    <span>XX%</span>
+                  </div>
+                </div>
+              </div>
+              <div className="custom__arrow__tooltip relative right-[10px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+            </div>
           </div>
         </div>
         <div className="flex justify-between items-center">
