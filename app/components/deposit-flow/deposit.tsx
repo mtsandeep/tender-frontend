@@ -158,25 +158,25 @@ export default function Deposit({
               {market.tokenPair.token.symbol}
             </div>
             {!isEnabled ? (
-              <div className="flex flex-col items-center rounded-2xl px-4 mt-[32px]">
+              <div className="flex flex-col items-center mt-[38px] md:mt-[48px] rounded-2xl px-4">
                 <img
                   src={market.tokenPair.token.icon}
-                  className="w-[58px] h-[58px] md:w-[70px] md:h-[70px]"
+                  className="w-[58px] h-[58px]"
                   alt="icon"
                 />
-                <div className="max-w-sm text-center mt-5 md:mt-6 font-normal font-nova text-white text-sm">
+                <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm px-4 mb-[10px] md:mb-0">
                   To supply or withdraw {market.tokenPair.token.symbol} on the
                   Tender.fi protocol, you need to enable it first.
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[80px] md:mt-[96px]">
+              <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[96px]">
                 <input
                   ref={inputEl}
                   value={value}
                   onChange={(e) => handleCheckValue(e)}
                   style={{ height: 70, minHeight: 70 }}
-                  className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
+                  className={`input__center__custom z-20 max-w-[300px] ${
                     value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                   }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                   placeholder="0"
@@ -189,7 +189,7 @@ export default function Deposit({
                 />
               </div>
             )}
-            <div className="flex mt-4 md:mt-6 uppercase">
+            <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
                 onClick={() => onTabSwitch("supply")}

@@ -161,43 +161,41 @@ export default function Repay({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="h-[100px] mt-[50px]">
-              {!isEnabled ? (
-                <div className="flex flex-col items-center mt-5 rounded-2xl px-4">
-                  <img
-                    src={market.tokenPair.token.icon}
-                    className="w-12"
-                    alt="icon"
-                  />
-                  <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm px-4">
-                    To borrow or repay {market.tokenPair.token.symbol} on the
-                    Tender.fi protocol, you need to enable it first.
-                  </div>
+            {!isEnabled ? (
+              <div className="flex flex-col items-center mt-[38px] md:mt-[48px] rounded-2xl px-4">
+                <img
+                  src={market.tokenPair.token.icon}
+                  className="w-[58px] h-[58px]"
+                  alt="icon"
+                />
+                <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm px-4 mb-[10px] md:mb-0">
+                  To borrow or repay {market.tokenPair.token.symbol} on the
+                  Tender.fi protocol, you need to enable it first.
                 </div>
-              ) : (
-                <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[80px] md:mt-[96px]">
-                  <input
-                    ref={inputEl}
-                    value={value}
-                    onChange={(e) => handleCheckValue(e)}
-                    style={{ height: 70, minHeight: 70 }}
-                    className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
-                      value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                    }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                    placeholder="0"
-                  />
-                  <Max
-                    maxValue={maxRepayableAmount}
-                    updateValue={() =>
-                      setValue(toMaxString(maxRepayableAmount, tokenDecimals))
-                    }
-                    maxValueLabel={market.tokenPair.token.symbol}
-                    color="#00E0FF"
-                  />
-                </div>
-              )}
-            </div>
-            <div className="flex mt-4 md:mt-6 uppercase">
+              </div>
+            ) : (
+              <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] md:mt-[96px]">
+                <input
+                  ref={inputEl}
+                  value={value}
+                  onChange={(e) => handleCheckValue(e)}
+                  style={{ height: 70, minHeight: 70 }}
+                  className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
+                    value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
+                  }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  placeholder="0"
+                />
+                <Max
+                  maxValue={maxRepayableAmount}
+                  updateValue={() =>
+                    setValue(toMaxString(maxRepayableAmount, tokenDecimals))
+                  }
+                  maxValueLabel={market.tokenPair.token.symbol}
+                  color="#00E0FF"
+                />
+              </div>
+            )}
+            <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space font-bold border-b-4 border-b-transparent text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("borrow", value)}

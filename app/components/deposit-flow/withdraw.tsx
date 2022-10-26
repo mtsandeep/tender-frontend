@@ -153,7 +153,7 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[80px] md:mt-[96px]">
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[96px]">
               {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
@@ -167,13 +167,13 @@ export default function Withdraw({
                 value={value}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ height: 70, minHeight: 70 }}
-                className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
+                className={`input__center__custom z-20 max-w-[300px] ${
                   value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
             </div>
-            <div className="flex mt-4 md:mt-6 uppercase">
+            <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("supply", value)}
