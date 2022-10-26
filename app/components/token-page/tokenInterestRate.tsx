@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LineChart, Line, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart, Line, Tooltip, ResponsiveContainer, YAxis } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 import Text from "react-svg-text";
 import * as math from "mathjs";
@@ -231,7 +231,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
               margin={{ top: 10, right: 30, left: 30, bottom: 43 }}
             >
               <Tooltip content={<></>} cursor={<CustomLine />} />
-
+              <YAxis tickCount={1} hide={true} />
               <Line
                 type="monotone"
                 dataKey="ss"

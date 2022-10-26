@@ -32,14 +32,14 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
 
-  const [chartConteinerWidth, setChartConteinerWidth] = useState(0);
+  const [chartContainerWidth, setChartContainerWidth] = useState(0);
   const chartRef = useRef<HTMLDivElement>(null);
 
   const maxNumber = Math.max(...data.map((a) => parseInt(a.totalSupply)));
 
   useLayoutEffect(() => {
     if (chartRef.current) {
-      setChartConteinerWidth(chartRef.current.offsetWidth);
+      setChartContainerWidth(chartRef.current.offsetWidth);
     }
   }, []);
   const ApyTooltip = ({
@@ -96,13 +96,13 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
         return 15;
       }
 
-      if (dotX > chartConteinerWidth - 90) {
+      if (dotX > chartContainerWidth - 90) {
         return dotX - 110;
       }
 
       return dotX - 47;
     },
-    [chartConteinerWidth, dotX]
+    [chartContainerWidth, dotX]
   );
 
   function debounce(func: any, state: any, delay: number) {
@@ -214,7 +214,6 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
-              {" "}
               <YAxis hide={true} domain={[20, maxNumber + maxNumber * 0.3]} />
               <Tooltip
                 animationDuration={500}
@@ -223,7 +222,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                   y:
                     window.innerWidth > 768
                       ? dotY < 100
-                        ? dotX < 100 || dotX < chartConteinerWidth - 100
+                        ? dotX < 100 || dotX < chartContainerWidth - 100
                           ? dotY + 50
                           : dotY
                         : dotY - 150

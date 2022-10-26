@@ -339,20 +339,6 @@ body.body__fixed {
   transform: translate(0, -4px);
 }
 
-.current__line {
-  position: relative;
-}
-
-.current__line:after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 10px;
-  height: 10px;
-  background: red;
-  top: 10px;
-  left: 10px;
-}
 
 .aside__menu__wrap {
   position: absolute;
