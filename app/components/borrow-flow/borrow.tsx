@@ -153,7 +153,7 @@ export default function Borrow({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] mt-[96px]">
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
               <input
                 ref={inputEl}
                 value={value}
