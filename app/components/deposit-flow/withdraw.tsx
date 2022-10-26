@@ -153,7 +153,7 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[96px]">
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] mt-[96px]">
               {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
