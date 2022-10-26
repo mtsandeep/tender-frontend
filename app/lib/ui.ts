@@ -9,18 +9,18 @@ import * as math from "mathjs";
  * @returns corresponding tailwind text size class
  */
 const shrinkInputClass = (len: number): string => {
-  let className = "text-6xl";
+  let className = "text-5xl md:text-6xl";
 
   if (len > 22) {
     className = "text-md";
   } else if (len > 14) {
-    className = "text-2xl";
+    className = "text-lg md:text-2xl";
   } else if (len > 12) {
-    className = "text-3xl";
+    className = "text-xl md:text-3xl";
   } else if (len > 10) {
-    className = "text-4xl";
-  } else if (len > 7) {
-    className = "text-5xl";
+    className = "text-3xl md:text-4xl";
+  } else if (len > 4) {
+    className = "text-4xl md:text-5xl";
   }
   return className;
 };
