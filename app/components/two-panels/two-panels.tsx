@@ -84,7 +84,7 @@ export default function TwoPanels() {
           content: {
             inset: "unset",
             margin: "20px auto",
-            // zoom: "75%",
+            zoom: window.innerWidth > 768 ? "75%" : "100%",
             position: "relative",
             maxWidth: 600,
           },
