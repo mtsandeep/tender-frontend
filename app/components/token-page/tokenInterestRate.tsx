@@ -228,7 +228,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={actData}
-              margin={{ top: 10, right: 30, left: 30, bottom: 43 }}
+              margin={{ top: 20, right: 30, left: 30, bottom: 43 }}
             >
               <Tooltip content={<></>} cursor={<CustomLine />} />
               <YAxis tickCount={1} hide={true} />
