@@ -174,7 +174,7 @@ export default function Repay({
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] md:mt-[96px]">
+              <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[96px]">
                 <input
                   ref={inputEl}
                   value={value}
