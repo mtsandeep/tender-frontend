@@ -175,12 +175,12 @@ export default function Repay({
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space h-[100px] mt-[50px]">
+                <div className="flex flex-col justify-center items-center overflow-hidden font-space h-[70px] mt-[80px] md:mt-[96px]">
                   <input
                     ref={inputEl}
                     value={value}
                     onChange={(e) => handleCheckValue(e)}
-                    style={{ minHeight: 60 }}
+                    style={{ height: 70 }}
                     className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
                       value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                     }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
