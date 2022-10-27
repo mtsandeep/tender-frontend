@@ -176,14 +176,14 @@ function TokenMarketDetails({
               }
               className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
             >
-              <p
+              <span
                 className={
                   item?.tooltipText &&
                   "underline decoration-dashed underline-offset-4 cursor-pointer"
                 }
               >
                 {item.itemName}
-              </p>
+              </span>
               {item?.tooltipText && (
                 <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
                   <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
@@ -195,18 +195,18 @@ function TokenMarketDetails({
                           alt="..."
                         />
                       </button>
-                      <p className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova">
+                      <span className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova">
                         {item?.tooltipText}
-                      </p>
+                      </span>
                     </div>
                   </div>
                   <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                 </div>
               )}
             </div>
-            <p className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+            <span className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
               {item.itemData}
-            </p>
+            </span>
           </div>
         );
       })}

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { LineChart, Line, Tooltip, ResponsiveContainer, YAxis } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
-import Text from "react-svg-text";
-import * as math from "mathjs";
 
 function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number>(0);
@@ -33,7 +31,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
                 }).ss
               )
             )
-          ) * 1.2,
+          ) * 1.1,
         aaValue: item.aa,
       }))
     );
@@ -56,125 +54,48 @@ function TokenInterestRate({ data }: { data: any[] }) {
   const CustomDot = (props: any) => {
     const { cx, cy, borderColor } = props;
 
-    const fixedString = (str: string | number) =>
-      math.format(Number(str), {
-        notation: "fixed",
-        precision: 2,
-      });
-
-    const checkBgTop = (value: string) => {
-      switch (value.length) {
-        case 8:
-          return <path d="M0 0H81V20H1V0Z" fill="#0d0d0d" />;
-        case 7:
-          return <path d="M0 0H80V20H0V0Z" fill="#0d0d0d" />;
-        case 6:
-          return <path d="M0 0H75V20H7V0Z" fill="#0d0d0d" />;
-        case 5:
-          return <path d="M0 0H67V20H13V0Z" fill="#0d0d0d" />;
-        case 4:
-          return <path d="M0 0H67V20H13V0Z" fill="#0d0d0d" />;
-        case 3:
-          return <path d="M0 0H58V20H22V0Z" fill="#0d0d0d" />;
-        default:
-          return <path d="M0 0H58V20H22V0Z" fill="#0d0d0d" />;
-      }
-    };
-    const checkBgDown = (value: string) => {
-      switch (value.length) {
-        case 8:
-          return <path d="M0 24H80V44H0V24Z" fill="#0d0d0d" />;
-        case 7:
-          return <path d="M0 24H80V44H0V24Z" fill="#0d0d0d" />;
-        case 6:
-          return <path d="M0 24H72V44H7V24Z" fill="#0d0d0d" />;
-        case 5:
-          return <path d="M0 24H62V44H17V24Z" fill="#0d0d0d" />;
-        case 4:
-          return <path d="M0 24H62V44H17V24Z" fill="#0d0d0d" />;
-        case 3:
-          return <path d="M0 24H56V44H24V24Z" fill="#0d0d0d" />;
-        default:
-          return <path d="M0 24H56V44H24V24Z" fill="#0d0d0d" />;
-      }
-    };
-
-    const checkPos = (value: string) => {
-      switch (value.length) {
-        case 8:
-          return 12;
-        case 7:
-          return 18;
-        case 6:
-          return 14;
-        case 5:
-          return 22;
-        case 4:
-          return 22;
-        case 3:
-          return 28;
-        default:
-          return 28;
-      }
-    };
-
-    return props.name === "ss" ? (
-      <g id="line_id_three">
-        <svg width="80" height="44" viewBox="0 0 80 44" x={cx - 38} y={cy - 9}>
-          {checkBgDown(props.payload.ss + "%")}
-          <circle cx="39" cy="10" r="10" fill="#0D0D0D" />
-          <ellipse cx="39" cy="10" rx="6" ry="6" fill="white" />
-          <Text
-            width="80px"
-            fill="white"
-            verticalAnchor="start"
-            style={{
-              transform: `translate(${checkPos(
-                props.payload.ss + "%"
-              )}px, 28px)`,
-              fontSize: "14px",
-            }}
-          >
-            {fixedString(props.payload.ss) + "%"}
-          </Text>
-        </svg>
-      </g>
-    ) : (
-      <g id={props.name === "aa" ? "line_id_one" : "line_id_two"}>
-        <svg width="80" height="44" viewBox="0 0 80 44" x={cx - 40} y={cy - 34}>
-          {checkBgTop(
-            props.name === "aa"
-              ? props.payload.aaValue == "0.0001"
-                ? "0%"
-                : fixedString(props.payload.aaValue) + "%"
-              : props.payload[props.name] + "%"
-          )}
-          <circle cx="41" cy="34" r="10" fill={borderColor} />
-          <ellipse cx="41" cy="34" rx="6" ry="6" fill="white" />
-          <Text
-            width="80px"
-            fill="white"
-            verticalAnchor="start"
-            style={{
-              transform: `translate(${checkPos(
-                props.name === "aa"
-                  ? props.payload.aaValue == "0.0001"
-                    ? "0%"
-                    : fixedString(props.payload.aaValue) + "%"
-                  : props.payload[props.name] + "%"
-              )}px, 5px)`,
-              fontSize: "14px",
-            }}
-          >
-            {props.name === "aa"
-              ? props.payload.aaValue == "0.0001"
-                ? "0%"
-                : fixedString(props.payload.aaValue) + "%"
-              : fixedString(props.payload[props.name]) + "%"}
-          </Text>
-        </svg>
-      </g>
+    return (
+      <circle
+        r={6}
+        cx={cx}
+        cy={cy}
+        stroke={borderColor}
+        style={{ opacity: "1" }}
+        strokeWidth={4}
+        fill={"#FFFFFF"}
+      />
     );
+  };
+
+  const CustomTooltip = (props: any) => {
+    if (props?.payload[0]?.payload) {
+      return (
+        <div className="bg-[#282C2B] p-[10px] z-10 relative block">
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[0].stroke}]`}
+          >
+            <span className="mr-[20px]">Utilization</span>
+            {props?.payload[0]?.payload.aaValue === "0.0001"
+              ? "0"
+              : props?.payload[0]?.payload.aaValue}
+            %
+          </p>
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
+          >
+            <span className="mr-[20px]">Borrow APY</span>
+            {props?.payload[0]?.payload.dd}%
+          </p>
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[1].stroke}]`}
+          >
+            <span className="mr-[20px]">Supply APY</span>
+            {props?.payload[0]?.payload.ss}%
+          </p>
+        </div>
+      );
+    }
+    return null;
   };
 
   const CustomizedDot = (props: any) => {
@@ -230,24 +151,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
               data={actData}
               margin={{ top: 20, right: 30, left: 30, bottom: 43 }}
             >
-              <Tooltip content={<></>} cursor={<CustomLine />} />
               <YAxis tickCount={1} hide={true} />
-              <Line
-                type="monotone"
-                dataKey="ss"
-                stroke="#14F195"
-                strokeWidth={2}
-                dot={false}
-                activeDot={<CustomDot name="ss" borderColor="#0D0D0D" />}
-              />
-              <Line
-                type="monotone"
-                dataKey="dd"
-                stroke="#00E0FF"
-                strokeWidth={2}
-                dot={false}
-                activeDot={<CustomDot name="dd" borderColor="#0D0D0D" />}
-              />
               <Line
                 type="monotone"
                 dataKey="aa"
@@ -260,11 +164,25 @@ function TokenInterestRate({ data }: { data: any[] }) {
                     isCurrentInd={isCurrentInd}
                   />
                 }
-                activeDot={<CustomDot name="aa" borderColor="#282C2B" />}
+                activeDot={<CustomDot borderColor="#282C2B" />}
               />
-              <use xlinkHref="#line_id_one"></use>
-              <use xlinkHref="#line_id_two"></use>
-              <use xlinkHref="#line_id_three"></use>
+              <Line
+                type="monotone"
+                dataKey="ss"
+                stroke="#14F195"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
+              <Line
+                type="monotone"
+                dataKey="dd"
+                stroke="#00E0FF"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
+              <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
             </LineChart>
           </ResponsiveContainer>
         </div>
