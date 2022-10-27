@@ -49,10 +49,18 @@ function TokenMarketDetails({
             " " +
             marketInfo.tokenSymbol,
     },
+    {
+      itemName: "Your Supply",
+      itemData: "0%",
+    },
+    {
+      itemName: "Your Borrow",
+      itemData: "0%",
+    },
     { itemName: "# of Suppliers", itemData: marketInfo.totalSuppliersCount },
     { itemName: "# of Borrowers", itemData: marketInfo.totalBorrowersCount },
-    { itemName: "Borrow Cap", itemData: "No limit" },
     { itemName: "Supply Cap", itemData: "No limit" },
+    { itemName: "Borrow Cap", itemData: "No limit" },
     { itemName: "Interest Paid/Day", itemData: "0" },
     {
       itemName: "Reserves",
@@ -142,7 +150,7 @@ function TokenMarketDetails({
   ];
 
   return (
-    <div className="panel-custom border-custom font-nova w-full">
+    <div className="panel-custom border-custom font-nova w-full mb-[60px] md:mb-0">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
         handleClose={() =>
