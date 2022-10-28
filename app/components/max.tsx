@@ -24,6 +24,7 @@ export default function Max(props: MaxProps) {
       </div>
 
       <button
+        tabIndex={0}
         onClick={() => props.updateValue()}
         className={`text-xs custom_max_btn border-2 border-[${props.color}] py-1 px-3 rounded-lg bg-[#162421] uppercase text-[${props.color}]`}
       >

@@ -154,14 +154,6 @@ export default function Withdraw({
               {market.tokenPair.token.symbol}
             </div>
             <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
-              {parseFloat(borrowLimitUsed) < 100 && (
-                <Max
-                  maxValue={maxWithdrawAmount}
-                  updateValue={() => setValue(toExactString(maxWithdrawAmount))}
-                  maxValueLabel={market.tokenPair.token.symbol}
-                  color="#14F195"
-                />
-              )}
               <input
                 ref={inputEl}
                 value={value}
@@ -172,6 +164,14 @@ export default function Withdraw({
                 }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
+              {parseFloat(borrowLimitUsed) < 100 && (
+                <Max
+                  maxValue={maxWithdrawAmount}
+                  updateValue={() => setValue(toExactString(maxWithdrawAmount))}
+                  maxValueLabel={market.tokenPair.token.symbol}
+                  color="#14F195"
+                />
+              )}
             </div>
             <div className="flex mt-6 uppercase">
               <button
@@ -321,9 +321,12 @@ export default function Withdraw({
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">
-              <div className="text-[#ADB5B3] font-nova text-base font-normal line-dashed group relative cursor-pointer">
+              <div
+                tabIndex={0}
+                className="text-[#ADB5B3] font-nova text-base font-normal line-dashed group relative cursor-pointer"
+              >
                 Max LTV
-                <div className="hidden z-10 flex-col absolute left-0 bottom-[25px] items-center group-hover:flex rounded-[10px]">
+                <div className="hidden z-10 flex-col absolute left-0 bottom-[25px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                   <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                     <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
                       The Maximum LTV ratio represents the maximum borrowing

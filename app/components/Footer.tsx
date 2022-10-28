@@ -46,12 +46,14 @@ export default function Footer() {
         {links.map((item) => {
           return (
             <a
+              aria-label={item.label}
               href={item.url}
               key={item.label}
               target="_blank"
               rel="noreferrer"
             >
               <img
+                aria-hidden={true}
                 className="icons-color w-[20px] h-[20px] md:w-[20px] md:h-[20px]"
                 src={item.ico}
                 alt={item.label}

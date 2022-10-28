@@ -168,6 +168,7 @@ export default function TwoPanels() {
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
                         <div className="flex items-center justify-left">
                           <img
+                            aria-hidden={true}
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={token.tokenPair.token.icon}
                             alt={token.tokenPair.token.symbol}
@@ -204,7 +205,8 @@ export default function TwoPanels() {
                           {token.marketData.depositApy}
                         </div>
                         <div
-                          className="group"
+                          tabIndex={0}
+                          className="group focus:outline-none"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
@@ -235,22 +237,25 @@ export default function TwoPanels() {
                               className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px]"
                                 src={token.tokenPair.token.icon}
                                 alt={token.tokenPair.token.symbol}
                               />
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px] ml-[6px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
                               />
                             </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                   <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src={token.tokenPair.token.icon}
                                         alt="..."
@@ -270,6 +275,7 @@ export default function TwoPanels() {
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
@@ -305,8 +311,13 @@ export default function TwoPanels() {
             </table>
           </div>
         )}
+
         {marketsWithoutSupply.length > 0 && (
-          <div className="pb-[5px] panel-custom main border-custom md:pb-[0px]">
+          //STF
+          <div
+            tabIndex={0}
+            className="focus:outline-none pb-[5px] panel-custom main border-custom md:pb-[0px]"
+          >
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Supply Markets
             </div>
@@ -339,6 +350,7 @@ export default function TwoPanels() {
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
                         <div className="flex items-center justify-left">
                           <img
+                            aria-hidden={true}
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={token.tokenPair.token.icon}
                             alt={token.tokenPair.token.symbol}
@@ -375,7 +387,8 @@ export default function TwoPanels() {
                           {token.marketData.depositApy}
                         </div>
                         <div
-                          className="group"
+                          tabIndex={0}
+                          className="group focus:outline-none"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
@@ -406,22 +419,25 @@ export default function TwoPanels() {
                               className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px]"
                                 src={token.tokenPair.token.icon}
                                 alt={token.tokenPair.token.symbol}
                               />
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px] ml-[6px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
                               />
                             </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                   <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src={token.tokenPair.token.icon}
                                         alt="..."
@@ -441,6 +457,7 @@ export default function TwoPanels() {
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
@@ -522,6 +539,7 @@ export default function TwoPanels() {
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
                         <div className="flex items-center justify-left">
                           <img
+                            aria-hidden={true}
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={token.tokenPair.token.icon}
                             alt={token.tokenPair.token.symbol}
@@ -558,7 +576,8 @@ export default function TwoPanels() {
                           {borrowApyFormatted}
                         </div>
                         <div
-                          className="group"
+                          tabIndex={0}
+                          className="group  focus:outline-none"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
@@ -589,22 +608,25 @@ export default function TwoPanels() {
                               className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px]"
                                 src={token.tokenPair.token.icon}
                                 alt={token.tokenPair.token.symbol}
                               />
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px] ml-[6px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
                               />
                             </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                   <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src={token.tokenPair.token.icon}
                                         alt="..."
@@ -624,6 +646,7 @@ export default function TwoPanels() {
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
@@ -660,7 +683,10 @@ export default function TwoPanels() {
           </div>
         )}
         {marketsWithoutBorrow.length > 0 && (
-          <div className="pb-[5px] panel-custom main border-custom md:pb-[0px]">
+          <div
+            tabIndex={0}
+            className="focus:outline-none pb-[5px] panel-custom main border-custom md:pb-[0px]"
+          >
             <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
               Borrow Markets
             </div>
@@ -696,6 +722,7 @@ export default function TwoPanels() {
                       <td className="relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]">
                         <div className="flex items-center justify-left">
                           <img
+                            aria-hidden={true}
                             className="w-[24px] h-[24px] mr-[10px] md:mr-[16px] md:w-[40px] md:h-[40px]"
                             src={token.tokenPair.token.icon}
                             alt={token.tokenPair.token.symbol}
@@ -732,7 +759,8 @@ export default function TwoPanels() {
                           {borrowApyFormatted}
                         </div>
                         <div
-                          className="group"
+                          tabIndex={0}
+                          className="group  focus:outline-none"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
@@ -763,22 +791,25 @@ export default function TwoPanels() {
                               className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px]"
                                 src={token.tokenPair.token.icon}
                                 alt={token.tokenPair.token.symbol}
                               />
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px] ml-[6px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
                               />
                             </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                   <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src={token.tokenPair.token.icon}
                                         alt="..."
@@ -798,6 +829,7 @@ export default function TwoPanels() {
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."

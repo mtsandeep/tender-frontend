@@ -176,6 +176,7 @@ export default function Repay({
             ) : (
               <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
                 <input
+                  tabIndex={0}
                   ref={inputEl}
                   value={value}
                   onChange={(e) => handleCheckValue(e)}
