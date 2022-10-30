@@ -70,7 +70,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <div className="text-center px-[10px] pb-[5px] rounded w-fit bg-[#0D0D0D]">
+        <div className="text-center px-[10px] pb-[5px] rounded w-fit">
           <p className="label text-sm md:text-base">{`$${payload[0].payload.totalSupply}`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Supply
@@ -197,6 +197,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 dot={false}
                 activeDot={<CustomDot />}
               />
+              <YAxis tickCount={1} hide={true} />
             </LineChart>
           </ResponsiveContainer>
           <ResponsiveContainer
@@ -214,6 +215,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
+              <YAxis tickCount={1} hide={true} />
               <YAxis hide={true} domain={[20, maxNumber + maxNumber * 0.3]} />
               <Tooltip
                 animationDuration={500}
