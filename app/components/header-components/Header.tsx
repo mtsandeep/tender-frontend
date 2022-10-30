@@ -45,7 +45,6 @@ export default function Header() {
       setLoadingTndBtn(false);
     }, 1000);
   }, []);
-
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -148,7 +147,7 @@ export default function Header() {
             )}
             <NetworksDropdown />
             <ConnectWallet />
-            <div
+            <button
               className={`flex lg:hidden header__burg ${
                 activePopupMenu ? "active" : ""
               }`}
@@ -158,7 +157,7 @@ export default function Header() {
               <span></span>
               <span></span>
               <span></span>
-            </div>
+            </button>
           </div>
           <div
             className={`aside__menu__wrap top-[71px] flex lg:hidden ${

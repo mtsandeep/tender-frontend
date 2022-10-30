@@ -10,7 +10,7 @@ export default function EarnContent() {
     open: boolean;
     rewards: IReward[];
   }>({ open: false, rewards: [] });
-
+  const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
   const { connect, isDisconnected } = useAuth();
   const isActive = useIsActive();
@@ -23,7 +23,7 @@ export default function EarnContent() {
   }, [isDisconnected]);
 
   return (
-    <div className="c mt-[30px] mb-[60px] md:mb-[100px] font-nova">
+    <div className="focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
       <ClaimRewardsModal
         data={{
           open: dataClaimModal.open,
@@ -41,7 +41,7 @@ export default function EarnContent() {
           setDataClaimModal({ ...dataClaimModal, open: false })
         }
       />
-      <div className="max-w-[820px] my-o mx-auto">
+      <div tabIndex={0} className="max-w-[820px] my-o mx-auto">
         <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
         </p>
@@ -63,17 +63,23 @@ export default function EarnContent() {
           Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
         </p>
         <div className="font-[ProximaNova] w-full">
-          <div className="panel-custom">
+          <div tabIndex={0} className="panel-custom">
             <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  tabIndex={0}
+                  className="flex items-center gap-x-[10px] justify-between"
+                >
                   <span className="text-[#818987] w-fit text-base">Price</span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-sm md:text-base leading-[17px]">
+                  <div
+                    tabIndex={0}
+                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-sm md:text-base leading-[17px] tabIndex={0}"
+                  >
                     $20.16
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                           <div className="flex justify-between items-center">
@@ -88,13 +94,19 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">Wallet</span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     0.00 TND ($0.00)
                   </span>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">Staked</span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
                     0.00 TND ($0.00)
@@ -102,11 +114,17 @@ export default function EarnContent() {
                 </div>
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">APR</span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div
+                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">20.16%</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                           <div className="flex justify-between items-center mb-[4px]">
@@ -127,13 +145,19 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Rewards
                   </span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div
+                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">$0.00</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                           <div className="flex justify-between items-center mb-[4px]">
@@ -150,18 +174,30 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Multiplier Points APR
                   </span>
-                  <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
+                  <div
+                    onFocus={(e) => setTabFocus(1)}
+                    className="cursor-pointer group line-dashed text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">100.00%</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div
+                      className={`${
+                        tabFocus === 1 ? "flex" : "hidden"
+                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                    >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
                           <p className="text-[#818987] text-left">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
+                              onBlur={(e) => setTabFocus(0)}
                               target="_blank"
                               rel="noreferrer"
                               className="line-solid cursor-pointer capitalize text-white"
@@ -176,13 +212,19 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Boost Percentage
                   </span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div
+                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">0.00%</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
                           You are earning 0.00% more TND rewards using 0.00
@@ -198,15 +240,21 @@ export default function EarnContent() {
                 </div>
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Total Staked
                   </span>
-                  <div className="flex items-center line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div
+                    className="flex items-center line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">
                       6,812,217 TND ($252,353,723)
                     </span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center">
@@ -219,7 +267,10 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Total Supply
                   </span>
@@ -276,25 +327,34 @@ export default function EarnContent() {
               </div>
             </div>
           </div>
-          <div className="panel-custom mt-[31px]">
+          <div tabIndex={0} className="panel-custom mt-[31px]">
             <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               ESCROWED TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">Price</span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
                     $20.16
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">Wallet</span>
                   <div className="flex flex-wrap text-sm md:text-base leading-[17px]">
                     0.00 esTND ($0.00)
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">Staked</span>
                   <div className="flex flex-wrap  text-sm md:text-base leading-[17px]">
                     0.00 esTND ($0.00)
@@ -302,11 +362,17 @@ export default function EarnContent() {
                 </div>
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">APR</span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div
+                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">20.16%</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
                           <div className="flex justify-between items-center mb-[4px]">
@@ -335,18 +401,30 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Multiplier Points APR
                   </span>
-                  <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
+                  <div
+                    onFocus={(e) => setTabFocus(2)}
+                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">100.00%</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div
+                      className={`${
+                        tabFocus === 2 ? "flex" : "hidden"
+                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                    >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
                           <p className="text-[#818987] text-left">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
+                              onBlur={(e) => setTabFocus(0)}
                               target="_blank"
                               rel="noreferrer"
                               className="line-solid cursor-pointer capitalize text-white"
@@ -363,7 +441,10 @@ export default function EarnContent() {
                 </div>
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Total Supply
                   </span>
@@ -371,7 +452,10 @@ export default function EarnContent() {
                     1,472,862 esTND ($54,630,107)
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Total Borrow
                   </span>
@@ -420,7 +504,7 @@ export default function EarnContent() {
             </div>
           </div>
 
-          <div className="panel-custom mt-[32px]">
+          <div tabIndex={0} className="panel-custom mt-[32px]">
             <div className="flex items-center font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Supply
               <svg
@@ -439,7 +523,10 @@ export default function EarnContent() {
             </div>
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[23px] ">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Net APY
                   </span>
@@ -447,7 +534,10 @@ export default function EarnContent() {
                     20.16%
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Rewards
                   </span>
@@ -457,7 +547,10 @@ export default function EarnContent() {
                 </div>
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Your Supply
                   </span>
@@ -465,7 +558,10 @@ export default function EarnContent() {
                     $54,630
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Your Borrow
                   </span>
@@ -494,42 +590,63 @@ export default function EarnContent() {
               </div>
             </div>
           </div>
-          <div className="panel-custom mt-[32px]">
+          <div tabIndex={0} className="panel-custom mt-[32px]">
             <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] ">ETH</span>
                   <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">TND</span>
                   <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">esTND</span>
                   <div className="flex text-sm md:text-base leading-[17px]">
                     0.00 ($0.00)
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Multiplier Points
                   </span>
-                  <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
+                  <div
+                    onFocus={(e) => setTabFocus(3)}
+                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">0.000</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div
+                      className={`${
+                        tabFocus === 3 ? "flex" : "hidden"
+                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                    >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
                           <p className="text-[#818987] text-left">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
+                              onBlur={(e) => setTabFocus(0)}
                               target="_blank"
                               rel="noreferrer"
                               className="line-solid cursor-pointer capitalize text-white"
@@ -544,18 +661,30 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  onFocus={(e) => setTabFocus(4)}
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Staked Multiplier Points
                   </span>
-                  <div className=" cursor-pointer group line-dashed text-xs leading-[17px]">
+                  <div
+                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">0.000</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div
+                      className={`${
+                        tabFocus === 4 ? "flex" : "hidden"
+                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                    >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
                           <p className="text-[#818987] text-left">
                             Boost your rewards with Multiplier Points.{" "}
                             <a
+                              onBlur={(e) => setTabFocus(0)}
                               target="_blank"
                               rel="noreferrer"
                               className="line-solid cursor-pointer capitalize text-white"
@@ -570,7 +699,10 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">Total</span>
                   <div className="text-sm md:text-base leading-[17px]">
                     $0.00
@@ -638,19 +770,25 @@ export default function EarnContent() {
           before using the vault.
         </p>
         <div className="font-[ProximaNova] w-full" id="vest">
-          <div className="panel-custom">
+          <div tabIndex={0} className="panel-custom">
             <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               TENDIES Vault
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Staked Tokens
                   </span>
-                  <div className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]">
+                  <div
+                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">0.00</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987]">
                           <div className="flex justify-between items-center mb-[8px]">
@@ -674,7 +812,10 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Reserved for Vesting
                   </span>
@@ -682,13 +823,19 @@ export default function EarnContent() {
                     0.00
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Vesting Status
                   </span>
-                  <div className="flex flex-wrap group cursor-pointer line-dashed text-right w-fit text-sm md:text-base leading-[17px]">
+                  <div
+                    className="flex flex-wrap group cursor-pointer line-dashed text-right w-fit text-sm md:text-base leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span>0.0000 / 0.0000</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
                           <p className="text-[#818987] text-xs text-left leading-[17px]">
@@ -701,15 +848,21 @@ export default function EarnContent() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-[10px] justify-between">
+                <div
+                  className="flex items-center gap-x-[10px] justify-between"
+                  tabIndex={0}
+                >
                   <span className="text-[#818987] w-fit text-base">
                     Claimable
                   </span>
-                  <div className="flex flex-wrap group cursor-pointer group  line-dashed text-right w-fit text-xs leading-[17px]">
+                  <div
+                    className="flex flex-wrap group cursor-pointer group  line-dashed text-right w-fit text-xs leading-[17px]"
+                    tabIndex={0}
+                  >
                     <span className="text-sm md:text-base">
                       0.0000 / 0.0000
                     </span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex rounded-[10px]">
+                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
                           <p className="text-[#818987] text-xs text-left leading-[17px]">

@@ -44,7 +44,6 @@ const WalletDropdown = (props: Props) => {
       setTextButton("Copy Address");
     }, 1000);
   }, []);
-
   return (
     <div
       className={`relative z-40 xl:w-[auto] ${

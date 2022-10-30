@@ -45,6 +45,7 @@ function TokenTopDetailsBorrow({
         <div className="flex font-nova justify-between md:text-center w-full md:w-[511px]">
           <div className="w-[auto]">
             <div
+              tabIndex={0}
               className="relative flex flex-col items-start md:items-center group"
               onClick={() =>
                 setMultiTooltipData({
@@ -70,7 +71,7 @@ function TokenTopDetailsBorrow({
               <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
                 Supply APY
               </p>
-              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                     <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
@@ -126,6 +127,7 @@ function TokenTopDetailsBorrow({
           </div>
           <div className="w-[auto]">
             <div
+              tabIndex={0}
               className="relative flex flex-col items-start md:items-center group"
               onClick={() =>
                 setMultiTooltipData({
@@ -151,7 +153,7 @@ function TokenTopDetailsBorrow({
               <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
                 Borrow APY
               </p>
-              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+              <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                     <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">

@@ -36,7 +36,6 @@ export default function Footer() {
       ico: "/images/ico/discord.svg",
     },
   ];
-
   return (
     <div className="c h-[120px] border-t md:border-none border-[#2B2B2B] flex-col-reverse justify-center items-center md:flex-row justify-between items-center flex max-w-[1400px] md:h-[62px]">
       <div className="mb-[30px] md:mb-0 font-normal text-base text-[#818987]">
