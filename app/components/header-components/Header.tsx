@@ -148,6 +148,7 @@ export default function Header() {
             <NetworksDropdown />
             <ConnectWallet />
             <button
+              aria-label="menu"
               className={`flex lg:hidden header__burg ${
                 activePopupMenu ? "active" : ""
               }`}

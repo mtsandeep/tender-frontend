@@ -23,7 +23,12 @@ export default function TooltipMobileMulti({ ...props }) {
               className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]"
             >
               <div className="flex gap-[8px]">
-                <img className="max-w-[18px]" src={coin.iconSrc} alt="..." />
+                <img
+                  aria-hidden={true}
+                  className="max-w-[18px]"
+                  src={coin.iconSrc}
+                  alt="..."
+                />
                 <span className="font-nova text-white text-sm font-normal">
                   {coin.coinTitle}
                 </span>

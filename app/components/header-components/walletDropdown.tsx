@@ -126,12 +126,11 @@ const WalletDropdown = (props: Props) => {
             {truncateAccount(props.addresses[0])}
           </p>
         </div>
-        <div
+        <button
           tabIndex={0}
           aria-label="Copy address"
-          role="button"
           onClick={() => handleCopy(props.addresses[0])}
-          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer w-full"
         >
           <div className="flex items-center">
             <img
@@ -144,7 +143,7 @@ const WalletDropdown = (props: Props) => {
               {textButton}
             </p>
           </div>
-        </div>
+        </button>
         <a
           className="flex items-center p-[14px] hover:bg-[#2B302F] cursor-pointer"
           target="_blank"
@@ -161,11 +160,11 @@ const WalletDropdown = (props: Props) => {
             View Explorer
           </p>
         </a>
-        <div
+        <button
           onClick={() => props.handlerDisconnect()}
-          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer"
+          className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer w-full"
         >
-          <div tabIndex={0} role="button" className="flex items-center">
+          <div className="flex items-center">
             <img
               aria-hidden={true}
               className="w-[16px] h-[16px] mr-[15px]"
@@ -176,7 +175,7 @@ const WalletDropdown = (props: Props) => {
               Disconnect Wallet
             </p>
           </div>
-        </div>
+        </button>
       </div>
     </div>
   );

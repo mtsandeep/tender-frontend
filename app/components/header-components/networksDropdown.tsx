@@ -204,7 +204,7 @@ const NetworksDropdown = () => {
               {actualNetworks.map((network, index) => {
                 return (
                   <div key={network.networkName}>
-                    <div
+                    <button
                       onClick={() => {
                         handlerCLickNetwork(provider, network.networkData);
                       }}
@@ -230,7 +230,7 @@ const NetworksDropdown = () => {
                           } block rounded-full w-[6px] h-[6px] xl:w-[8px] xl:h-[8px]`}
                         ></span>
                       )}
-                    </div>
+                    </button>
                     {network.networkName === selectedNetwork.networkName && (
                       <div
                         className={`w-full ${
