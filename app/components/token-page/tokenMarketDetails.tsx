@@ -201,6 +201,8 @@ function TokenMarketDetails({
     },
   ];
 
+  console.log(marketInfo);
+
   return (
     <div className="panel-custom border-custom font-nova w-full mb-[60px] md:mb-0">
       <TooltipMobile
