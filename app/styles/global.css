@@ -316,7 +316,7 @@ body.body__fixed {
 .modal .ReactModal__Content--after-open {
   background: #0d0d0d !important;
   border: 1px solid #b5cfcc2b !important;
-  width: 550px;
+  width: 85%;
   border-radius: 1rem !important;
   padding: 0 !important;
   margin: auto;
@@ -641,19 +641,6 @@ body.body__fixed {
     transform: none;
   }
 
-  .modal .ReactModal__Content--after-open {
-    background: #0d0d0d !important;
-    border: 1px solid #b5cfcc2b !important;
-    width: 85%;
-    max-width: 550px;
-    border-radius: 1rem !important;
-    padding: 0 !important;
-    height: fit-content;
-    margin: 0 20px 0 20px;
-    inset: 0;
-    right: auto !important;
-    left: auto !important;
-  }
 
   .transform-custom {
     transform: translate(0, 2px);
