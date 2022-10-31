@@ -218,14 +218,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 animationDuration={500}
                 position={{
                   x: tooltipOverflowBlock(),
-                  y:
-                    window.innerWidth > 768
-                      ? dotY < 100
-                        ? dotY - 100
-                        : dotY - 175
-                      : dotY < 100
-                      ? -10
-                      : dotY - (chartGap + 150) / 2,
+                  y: 20,
                 }}
                 cursor={false}
                 content={<TotalTooltip />}
