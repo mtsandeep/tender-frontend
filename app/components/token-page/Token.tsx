@@ -3,6 +3,7 @@ import TokenInterestRate from "~/components/token-page/tokenInterestRate";
 import TokenMarketDetails from "~/components/token-page/tokenMarketDetails";
 import { useMarketInfo } from "~/hooks/use-market-info";
 import useInterestRateModel from "~/hooks/use-interest-rate-model";
+import VaultDetails from "./VaultDetails";
 
 const Token = ({ id }: { id: string | undefined }) => {
   const m = useMarketInfo(id);
@@ -20,7 +21,11 @@ const Token = ({ id }: { id: string | undefined }) => {
           marketInfo={m.market}
           utilizationRate={utilizationRate}
         />
-        <TokenInterestRate data={interestRateModel} />
+        <div className="w-full">
+          {(m.market.tokenSymbol === "GLP" ||
+            m.market.tokenSymbol === "GMX") && <VaultDetails />}
+          <TokenInterestRate data={interestRateModel} />
+        </div>
       </div>
     </>
   );

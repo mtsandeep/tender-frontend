@@ -191,15 +191,10 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
             <LineChart
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={data.map((item: IDataSupplyDot) => ({
-                ...item,
-                totalSupply: parseInt(item.totalSupply),
-                supplyAPY: parseInt(item.supplyAPY),
-              }))}
+              data={data}
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
               <Tooltip
-                animationDuration={500}
                 position={{
                   x: tooltipOverflowBlock(),
                   y:
@@ -221,7 +216,6 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
-                className={`[&>*]:translate-y-[-50px]`}
               />
               <YAxis tickCount={1} hide={true} />
             </LineChart>
@@ -233,16 +227,11 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           >
             <BarChart
               syncId="marketCharSynch"
-              data={data.map((item: IDataSupplyDot) => ({
-                ...item,
-                totalSupply: parseInt(item.totalSupply),
-                supplyAPY: parseInt(item.supplyAPY),
-              }))}
+              data={data}
               onMouseMove={tooltipSync}
-              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+              margin={{ top: 40, right: 0, left: 0, bottom: 0 }}
             >
               <Tooltip
-                animationDuration={500}
                 position={{
                   x: tooltipOverflowBlock(),
                   y: 20,
