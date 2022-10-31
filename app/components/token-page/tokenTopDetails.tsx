@@ -113,7 +113,11 @@ function TokenTopDetailsBorrow({
                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
               </div>
             </div>
-            <p className="text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
+            <p
+              className={`text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${checkColorClass(
+                supplyApy
+              )}`}
+            >
               {formatApy(supplyApy)}
             </p>
           </div>
@@ -121,7 +125,11 @@ function TokenTopDetailsBorrow({
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px] mb-[4px]">
               Total Supply
             </p>
-            <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
+            <p
+              className={`text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px] ${checkColorClass(
+                marketInfo.totalSupplyUSD
+              )}`}
+            >
               {`$${toShortFiatString(marketInfo.totalSupplyUSD)} USD`}
             </p>
           </div>
@@ -195,7 +203,11 @@ function TokenTopDetailsBorrow({
                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
               </div>
             </div>
-            <p className="text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
+            <p
+              className={`text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${checkColorClass(
+                borrowApy
+              )}`}
+            >
               {formatApy(borrowApy)}
             </p>
           </div>
@@ -203,7 +215,11 @@ function TokenTopDetailsBorrow({
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold md:text-sm md:leading-[19px] mb-[4px]">
               Total Borrow
             </p>
-            <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
+            <p
+              className={`mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${checkColorClass(
+                marketInfo.totalBorrowUSD
+              )}`}
+            >
               {`$${toShortFiatString(marketInfo.totalBorrowUSD)} USD`}
             </p>
           </div>
