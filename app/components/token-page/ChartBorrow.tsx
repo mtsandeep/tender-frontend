@@ -95,7 +95,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
         return 10;
       }
 
-      if (dotX > chartContainerWidth - 70) {
+      if (dotX > chartContainerWidth - 50) {
         return dotX - 90;
       }
 

@@ -68,7 +68,7 @@ function TokenTopDetailsBorrow({
                 })
               }
             >
-              <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
+              <p className="text-[10px] text-[#818987] hover:text-white leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
                 Supply APY
               </p>
               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
@@ -125,11 +125,7 @@ function TokenTopDetailsBorrow({
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px] mb-[4px]">
               Total Supply
             </p>
-            <p
-              className={`text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px] ${checkColorClass(
-                marketInfo.totalSupplyUSD
-              )}`}
-            >
+            <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
               {`$${toShortFiatString(marketInfo.totalSupplyUSD)} USD`}
             </p>
           </div>
@@ -158,7 +154,7 @@ function TokenTopDetailsBorrow({
                 })
               }
             >
-              <p className="text-[10px] text-[#818987] leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
+              <p className="text-[10px] text-[#818987] hover:text-white leading-[14px] font-semibold underline decoration-dashed underline-offset-[2px] mb-[4px] md:text-sm md:leading-[19px] cursor-pointer">
                 Borrow APY
               </p>
               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
@@ -215,11 +211,7 @@ function TokenTopDetailsBorrow({
             <p className="text-[10px] text-[#818987] leading-[14px] font-semibold md:text-sm md:leading-[19px] mb-[4px]">
               Total Borrow
             </p>
-            <p
-              className={`mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${checkColorClass(
-                marketInfo.totalBorrowUSD
-              )}`}
-            >
+            <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
               {`$${toShortFiatString(marketInfo.totalBorrowUSD)} USD`}
             </p>
           </div>
