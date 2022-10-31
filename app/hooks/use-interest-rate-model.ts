@@ -7,6 +7,7 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { calculateApy } from "~/lib/apy-calculations";
 import { providers as mcProviders } from "@0xsequence/multicall";
+import {toExactString} from "~/lib/ui";
 
 export default function useInterestRateModel(tokenId: string | undefined) {
   const [interestRateModel, setInterestRateModel] = useState<object[]>([]);
@@ -128,12 +129,12 @@ export default function useInterestRateModel(tokenId: string | undefined) {
           const util = i * 1e16;
           const cash = Math.round((currentBorrows * BASE) / util);
           const borrowRate = await interestRateModelContract.getBorrowRate(
-            cash.toString(),
+            toExactString(cash),
             currentBorrows,
             currentBorrows
           );
           const supplyRate = await interestRateModelContract.getSupplyRate(
-            cash.toString(),
+            toExactString(cash),
             currentBorrows,
             currentBorrows,
             reserveFactorMantissa
