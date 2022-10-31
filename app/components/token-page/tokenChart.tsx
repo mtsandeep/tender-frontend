@@ -111,7 +111,7 @@ function TokenChart({
         <button
           tabIndex={0}
           onClick={() => setTabName("supply")}
-          className={`cursor-pointer uppercase text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
+          className={`cursor-pointer uppercase text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] hover:text-[#14F195] ${
             tabName === "supply"
               ? "border-[#14F195] text-[#14F195]"
               : "border-[transparent] text-white"
@@ -123,7 +123,7 @@ function TokenChart({
           <button
             tabIndex={0}
             onClick={() => setTabName("borrow")}
-            className={`cursor-pointer uppercase text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
+            className={`cursor-pointer uppercase text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] hover:text-[#00E0FF] ${
               tabName === "borrow"
                 ? "border-[#00E0FF] text-[#00E0FF]"
                 : "border-[transparent] text-white"
