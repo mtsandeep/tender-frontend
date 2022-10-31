@@ -32,16 +32,19 @@ function TokenMarketDetails({
   const customData = [
     {
       itemName: "Price",
+      show: true,
       itemData: `$${toShortFiatString(
         parseFloat(marketInfo.underlyingPriceUSD)
       )}`,
     },
     {
       itemName: "Utilization",
+      show: true,
       itemData: utilizationRate?.aa ? `${utilizationRate.aa}%` : "0%",
     },
     {
       itemName: "Available Borrow",
+      show: true,
       itemData:
         marketInfo.tokenSymbol === "GLP"
           ? "-"
@@ -51,23 +54,35 @@ function TokenMarketDetails({
     },
     {
       itemName: "Your Supply",
+      show: true,
       itemData: "0%",
     },
     {
       itemName: "Your Borrow",
+      show: true,
       itemData: "0%",
     },
-    { itemName: "# of Suppliers", itemData: marketInfo.totalSuppliersCount },
-    { itemName: "# of Borrowers", itemData: marketInfo.totalBorrowersCount },
-    { itemName: "Supply Cap", itemData: "No limit" },
-    { itemName: "Borrow Cap", itemData: "No limit" },
-    { itemName: "Interest Paid/Day", itemData: "0" },
+    {
+      itemName: "# of Suppliers",
+      show: true,
+      itemData: marketInfo.totalSuppliersCount,
+    },
+    {
+      itemName: "# of Borrowers",
+      show: true,
+      itemData: marketInfo.totalBorrowersCount,
+    },
+    { itemName: "Supply Cap", show: true, itemData: "No limit" },
+    { itemName: "Borrow Cap", show: true, itemData: "No limit" },
+    { itemName: "Interest Paid/Day", show: true, itemData: "0" },
     {
       itemName: "Reserves",
+      show: true,
       itemData: marketInfo.reserves + " " + marketInfo.tokenSymbol,
     },
     {
       itemName: "Max LTV",
+      show: true,
       itemData: marketInfo.collateralFactor * 100 + "%",
       tooltipText: `The Maximum LTV ratio represents the maximum borrowing
             power of a specific collateral. For example, if a
@@ -77,16 +92,19 @@ function TokenMarketDetails({
     },
     {
       itemName: "Liquidation Threshold",
+      show: true,
       itemData: marketInfo.collateralFactor * 100 + "%",
       tooltipText: `This represents the threshold at which a borrow position will be considered undercollateralized and subject to liquidation for each collateral. For example, if a collateral has a liquidation threshold of 80%, it means that the position will be liquidated when the debt value is worth 80% of the collateral value.`,
     },
     {
       itemName: "Liquidation Penalty",
+      show: true,
       itemData: marketInfo.collateralFactor * 100 + "%",
       tooltipText: `When a liquidation occurs, liquidators repay up to 50% of the outstanding borrowed amount on behalf of the borrower. In return, they can buy the collateral at a discount and keep the difference (liquidation penalty) as a bonus.`,
     },
     {
       itemName: "Reserve Factor",
+      show: true,
       tooltipText: (
         <div>
           Reserve factor is a percentage of interest which goes to a collector
@@ -106,6 +124,7 @@ function TokenMarketDetails({
     },
     {
       itemName: "Contract",
+      show: true,
       itemData: (
         <a
           className="flex group items-center justify-between text-white hover:text-[#14F195]"
@@ -133,12 +152,14 @@ function TokenMarketDetails({
     },
     {
       itemName: marketInfo.cTokenSymbol + " Minted",
+      show: true,
       itemData: toShortCryptoString(
         Number(Number(marketInfo.totalSupply).toFixed(2))
       ),
     },
     {
       itemName: "Exchange Rate",
+      show: true,
       itemData:
         "1 " +
         marketInfo.tokenSymbol +
@@ -146,6 +167,37 @@ function TokenMarketDetails({
         exchangeRate +
         " " +
         marketInfo.cTokenSymbol,
+    },
+
+    {
+      itemName: "Management Fee",
+      show:
+        marketInfo.tokenSymbol === "GLP" || marketInfo.tokenSymbol === "GMX",
+      tooltipText: (
+        <div>
+          This market is an auto-staking vault where staking rewards are
+          automatically redeposited into the vault. This fee is taken from these
+          staking rewards and paid to stakers of the protocol governance token
+          $TND
+        </div>
+      ),
+      itemData: "15%",
+    },
+    {
+      itemName: "Deposit Fee",
+      show:
+        marketInfo.tokenSymbol === "GLP" || marketInfo.tokenSymbol === "GMX",
+      tooltipText: <div>A fee charged on supplying tokens to this market.</div>,
+      itemData: "0%",
+    },
+    {
+      itemName: "Withdrawal Fee",
+      show:
+        marketInfo.tokenSymbol === "GLP" || marketInfo.tokenSymbol === "GMX",
+      tooltipText: (
+        <div>A fee charged on withdrawing tokens from this market.</div>
+      ),
+      itemData: "0%",
     },
   ];
 
@@ -171,61 +223,63 @@ function TokenMarketDetails({
       </div>
       {customData.map((item, index) => {
         return (
-          <div
-            tabIndex={0}
-            key={index}
-            className="last:border-none h-[50px] md:h-[62px] px-[15px] md:px-[30px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
-          >
-            <span className="absolute opacity-0">{item.itemName}</span>
+          item.show && (
             <div
-              tabIndex={item?.tooltipText ? 0 : -1}
-              onClick={() =>
-                item?.tooltipText
-                  ? setMobileTooltipData({
-                      ...mobileTooltipData,
-                      open: window.innerWidth < 1023,
-                      textTop: item.tooltipText,
-                    })
-                  : false
-              }
-              className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
+              tabIndex={0}
+              key={index}
+              className="last:border-none h-[50px] md:h-[62px] px-[15px] md:px-[30px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
             >
-              <span
-                aria-hidden={true}
-                className={
-                  item?.tooltipText &&
-                  "underline group decoration-dashed underline-offset-4 cursor-pointer"
+              <span className="absolute opacity-0">{item.itemName}</span>
+              <div
+                tabIndex={item?.tooltipText ? 0 : -1}
+                onClick={() =>
+                  item?.tooltipText
+                    ? setMobileTooltipData({
+                        ...mobileTooltipData,
+                        open: window.innerWidth < 1023,
+                        textTop: item.tooltipText,
+                      })
+                    : false
                 }
+                className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
-                {item.itemName}
-              </span>
-              {item?.tooltipText && (
-                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
-                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
-                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                        <img
-                          className="w-[12px] h-[12px]"
-                          src="/images/ico/close.svg"
-                          alt="..."
-                        />
-                      </button>
-                      <p
-                        role={"status"}
-                        className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova"
-                      >
-                        {item.tooltipText}
-                      </p>
+                <span
+                  aria-hidden={true}
+                  className={
+                    item?.tooltipText &&
+                    "underline group decoration-dashed underline-offset-4 cursor-pointer"
+                  }
+                >
+                  {item.itemName}
+                </span>
+                {item?.tooltipText && (
+                  <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
+                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
+                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                          <img
+                            className="w-[12px] h-[12px]"
+                            src="/images/ico/close.svg"
+                            alt="..."
+                          />
+                        </button>
+                        <p
+                          role={"status"}
+                          className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova"
+                        >
+                          {item.tooltipText}
+                        </p>
+                      </div>
                     </div>
+                    <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                   </div>
-                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                </div>
-              )}
+                )}
+              </div>
+              <span className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+                {item.itemData}
+              </span>
             </div>
-            <span className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
-              {item.itemData}
-            </span>
-          </div>
+          )
         );
       })}
     </div>

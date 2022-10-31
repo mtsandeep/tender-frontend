@@ -119,15 +119,42 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
       x={props.points[0].x || ""}
       y={dotY - chartGap || ""}
       width="1"
-      height="160"
-      viewBox="0 0 1 160"
+      height="325"
+      viewBox="0 0 1 325"
+      fill="none"
     >
-      <path
-        d="M1.25 160.75L1.25 0.25"
-        stroke="#282C2B"
-        strokeWidth="2"
-        strokeDasharray="6 6"
-      />
+      <rect width="1" height="5" fill="#282C2B" />
+      <rect y="10" width="1" height="5" fill="#282C2B" />
+      <rect y="21" width="1" height="5" fill="#282C2B" />
+      <rect y="31" width="1" height="5" fill="#282C2B" />
+      <rect y="41" width="1" height="5" fill="#282C2B" />
+      <rect y="51" width="1" height="5" fill="#282C2B" />
+      <rect y="62" width="1" height="5" fill="#282C2B" />
+      <rect y="72" width="1" height="5" fill="#282C2B" />
+      <rect y="83" width="1" height="5" fill="#282C2B" />
+      <rect y="93" width="1" height="5" fill="#282C2B" />
+      <rect y="104" width="1" height="5" fill="#282C2B" />
+      <rect y="114" width="1" height="5" fill="#282C2B" />
+      <rect y="124" width="1" height="5" fill="#282C2B" />
+      <rect y="134" width="1" height="5" fill="#282C2B" />
+      <rect y="145" width="1" height="5" fill="#282C2B" />
+      <rect y="155" width="1" height="5" fill="#282C2B" />
+      <rect y="165" width="1" height="5" fill="#282C2B" />
+      <rect y="175" width="1" height="5" fill="#282C2B" />
+      <rect y="186" width="1" height="5" fill="#282C2B" />
+      <rect y="196" width="1" height="5" fill="#282C2B" />
+      <rect y="206" width="1" height="5" fill="#282C2B" />
+      <rect y="216" width="1" height="5" fill="#282C2B" />
+      <rect y="227" width="1" height="5" fill="#282C2B" />
+      <rect y="237" width="1" height="5" fill="#282C2B" />
+      <rect y="248" width="1" height="5" fill="#282C2B" />
+      <rect y="258" width="1" height="5" fill="#282C2B" />
+      <rect y="269" width="1" height="5" fill="#282C2B" />
+      <rect y="279" width="1" height="5" fill="#282C2B" />
+      <rect y="289" width="1" height="5" fill="#282C2B" />
+      <rect y="299" width="1" height="5" fill="#282C2B" />
+      <rect y="310" width="1" height="5" fill="#282C2B" />
+      <rect y="320" width="1" height="5" fill="#282C2B" />
     </svg>
   );
 
