@@ -7,8 +7,8 @@ const TokenEmpty = () => {
     <>
       <TokenChartEmpty />
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
-        <TokenInterestRateEmpty />
         <TokenMarketDetailsEmpty />
+        <TokenInterestRateEmpty />
       </div>
     </>
   );

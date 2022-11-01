@@ -10,6 +10,9 @@ export default function MarketRow(props: {
 }) {
   return (
     <tr
+      tabIndex={0}
+      role="row"
+      onKeyUp={(e) => e.key === "Enter" && props.openMarket()}
       onClick={() => props.openMarket()}
       className="h-[80px] md:h-auto text-gray-400 border-t border__top__custom cursor-pointer"
     >

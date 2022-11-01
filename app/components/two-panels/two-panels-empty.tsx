@@ -8,7 +8,10 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
       } flex flex-col xl:grid grid-cols-2 gap-[60px] xl:gap-[20px] mb-14`}
     >
       <div>
-        <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
+        <div
+          tabIndex={0}
+          className="panel-custom border-custom mb-[20px] md:mb-[40px]"
+        >
           <div className="px-[15px] border-b border-[#282C2B] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             Supply
           </div>
@@ -17,7 +20,10 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
             <div className="animate w-full h-[60px] md:h-[72px]"></div>
           </div>
         </div>
-        <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
+        <div
+          tabIndex={0}
+          className="panel-custom border-custom mb-[20px] md:mb-[40px]"
+        >
           <div className="px-[15px] border-b border-[#282C2B] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             Supply Markets
           </div>
@@ -30,7 +36,10 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
         </div>
       </div>
       <div>
-        <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
+        <div
+          tabIndex={0}
+          className="panel-custom border-custom mb-[20px] md:mb-[40px]"
+        >
           <div className="px-[15px] border-b border-[#282C2B] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             Borrow
           </div>
@@ -39,7 +48,10 @@ export default function TwoPanelsEmpty({ loading }: { loading: boolean }) {
             <div className="animate w-full h-[60px] md:h-[72px]"></div>
           </div>
         </div>
-        <div className="panel-custom border-custom mb-[20px] md:mb-[40px]">
+        <div
+          tabIndex={0}
+          className="panel-custom border-custom mb-[20px] md:mb-[40px]"
+        >
           <div className="px-[15px] border-b border-[#282C2B] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             Borrow Markets
           </div>

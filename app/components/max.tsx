@@ -12,7 +12,7 @@ export default function Max(props: MaxProps) {
   let label = props.label || "Max";
 
   return (
-    <div className="absolute custom_max top-[100px] right-0 mr-3.5 text-right sm:mr-10 z-10">
+    <div className="absolute custom_max top-[100px] md:top-[90px] right-0 mr-3.5 text-right sm:mr-10 z-10">
       <div className="text-[#818987] text-xs m-auto font-nova font-normal ">
         Max Available
       </div>
@@ -24,6 +24,7 @@ export default function Max(props: MaxProps) {
       </div>
 
       <button
+        tabIndex={0}
         onClick={() => props.updateValue()}
         className={`text-xs custom_max_btn border-2 border-[${props.color}] py-1 px-3 rounded-lg bg-[#162421] uppercase text-[${props.color}]`}
       >

@@ -22,7 +22,12 @@ export default function Display({
   borrowLimit,
 }: props) {
   return (
-    <div className="mb-[90px] md:mb-[62px] border-custom px-4 relative top__custom">
+    <div
+      aria-label="Account summary"
+      tabIndex={0}
+      role="presentation"
+      className="focus:outline-none mb-[90px] md:mb-[62px] border-custom px-4 relative top__custom"
+    >
       <div className="pt-[101px] md:pt-[46px] relative">
         <div
           className={`z-[3] absolute w-[130px] h-[130px] top-[-70px] md:top-[auto] bottom-[auto] md:bottom-[-12px] left-[50%] translate-x-[-50%] rounded-full md:w-[200px] md:h-[200px] top__custom__value green }`}
@@ -88,11 +93,14 @@ export default function Display({
       </div>
       <div className="gap-[5px] md:gap-0 flex flex-col text-xs justify-center font-nova pb-[15px] md:pb-[12px]">
         <div className="flex justify-between items-center">
-          <div className="group relative md:w-fit p-[0px] md:pb-[6px]">
+          <div
+            tabIndex={0}
+            className="group relative md:w-fit p-[0px] md:pb-[6px]"
+          >
             <span className="justify-self-start text-xs text-[#818987] font-nova font-normal underline decoration-dashed underline-offset-[2px] cursor-pointer">
               Borrow Used
             </span>
-            <div className="hidden z-10 flex-col absolute left-0 bottom-[18px] items-start group-hover:flex rounded-[10px]">
+            <div className="hidden z-10 flex-col absolute left-0 bottom-[18px] items-start group-hover:flex group-focus:flex rounded-[10px]">
               <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                   <div className="flex justify-between items-center">
@@ -107,11 +115,14 @@ export default function Display({
             </div>
           </div>
 
-          <div className="group relative md:w-fit p-[0px] md:pb-[6px]">
+          <div
+            tabIndex={0}
+            className="group relative md:w-fit p-[0px] md:pb-[6px]"
+          >
             <span className="justify-self-start text-xs text-[#818987] font-nova font-normal underline decoration-dashed underline-offset-[2px] cursor-pointer">
               Borrow Max
             </span>
-            <div className="hidden z-10 flex-col absolute right-0 bottom-[18px] items-end group-hover:flex rounded-[10px]">
+            <div className="hidden z-10 flex-col absolute right-0 bottom-[18px] items-end group-hover:flex group-focus:flex rounded-[10px]">
               <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[180px] panel-custom !rounded-[10px]">
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                   <div className="flex justify-between items-center">

@@ -21,6 +21,7 @@ export default function TooltipMobile(props: {
           margin: "20px auto",
           position: "relative",
           maxWidth: 300,
+          inset: "unset",
         },
       }}
     >
