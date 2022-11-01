@@ -195,16 +195,10 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
               <Tooltip
+                animationDuration={500}
                 position={{
                   x: tooltipOverflowBlock(),
-                  y:
-                    window.innerWidth > 768
-                      ? dotY < 70
-                        ? -40
-                        : dotY - (chartGap + 70)
-                      : dotY < 90
-                      ? 20
-                      : dotY - (chartGap + 70) / 2,
+                  y: 20,
                 }}
                 content={<ApyTooltip />}
                 cursor={<CustomLine />}
@@ -216,6 +210,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
+                className={`[&>*]:translate-y-[-50px]`}
               />
               <YAxis tickCount={1} hide={true} />
             </LineChart>
@@ -229,9 +224,10 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               syncId="marketCharSynch"
               data={data}
               onMouseMove={tooltipSync}
-              margin={{ top: 40, right: 0, left: 0, bottom: 0 }}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
               <Tooltip
+                animationDuration={500}
                 position={{
                   x: tooltipOverflowBlock(),
                   y: 20,
