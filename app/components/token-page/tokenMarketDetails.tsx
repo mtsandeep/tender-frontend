@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
-import { toShortCryptoString, toShortFiatString } from "~/lib/ui";
+import {toCryptoString, toShortCryptoString, toShortFiatString} from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
 
 function TokenMarketDetails({
+  id,
   marketInfo,
   utilizationRate,
 }: {
+  id: string | undefined;
   marketInfo: any | boolean;
   utilizationRate: any;
 }) {
@@ -19,9 +21,14 @@ function TokenMarketDetails({
     textBottom?: string;
   }>({ open: false, textTop: "", token: "", icon: "", textBottom: "" });
 
-  const { networkData } = useContext(TenderContext);
+  const { networkData, markets } = useContext(TenderContext);
 
-  if (!marketInfo) {
+  const tokenKey = Object.keys(markets).find(
+      (key) => markets[Number(key)].id === String(id)
+  );
+  const token = tokenKey && markets[Number(tokenKey)];
+
+  if (!marketInfo || !token) {
     return <TokenMarketDetailsEmpty />;
   }
 
@@ -45,17 +52,17 @@ function TokenMarketDetails({
       itemData:
         marketInfo.tokenSymbol === "GLP"
           ? "-"
-          : toShortCryptoString(Number(marketInfo.cash)) +
+          : toCryptoString(Number(marketInfo.cash), marketInfo.underlyingDecimals) +
             " " +
             marketInfo.tokenSymbol,
     },
     {
       itemName: "Your Supply",
-      itemData: "0%",
+      itemData: toCryptoString(token.supplyBalance, marketInfo.underlyingDecimals) + " " + marketInfo.tokenSymbol,
     },
     {
       itemName: "Your Borrow",
-      itemData: "0%",
+      itemData: toCryptoString(token.borrowBalance, marketInfo.underlyingDecimals) + " " + marketInfo.tokenSymbol,
     },
     {
       itemName: "# of Suppliers",
