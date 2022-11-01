@@ -79,7 +79,7 @@ export default function Header() {
   }, [handleClickBurger, handleChainChanged]);
 
   return (
-    <div className="relative">
+    <header className="relative">
       <ClaimRewardsModal
         data={{
           open: dataClaimModal.open,
@@ -189,6 +189,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

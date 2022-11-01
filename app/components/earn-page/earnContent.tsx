@@ -23,7 +23,7 @@ export default function EarnContent() {
   }, [isDisconnected]);
 
   return (
-    <div className="focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
+    <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
       <ClaimRewardsModal
         data={{
           open: dataClaimModal.open,
