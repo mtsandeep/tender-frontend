@@ -205,32 +205,32 @@ export function useMarkets(
             mcProvider
           );
           const glpBlockDeltaPromise = cTokenContract.glpBlockDelta(); // blocks passed since last compounding
-          const lastGlpDepositAmountPromise = cTokenContract.lastGlpDepositAmount(); // last amount which was adding while compounding (reduce this as it was not compounded, just minted)
           const prevExchangeRatePromise = cTokenContract.prevExchangeRate(); // previous exchange rate in scaled to 18 decimals
-          const exchangeRateCurrentPromise = cTokenContract.exchangeRateCurrent(); // current exchange rate after minting new glp
+          const exchangeRateCurrentPromise =
+            cTokenContract.exchangeRateCurrent(); // current exchange rate after minting new glp
           const totalSupplyPromise = cTokenContract.totalSupply();
 
           const glpBlockDelta = await glpBlockDeltaPromise;
-          const lastGlpDepositAmount = await lastGlpDepositAmountPromise;
           const prevExchangeRate = await prevExchangeRatePromise;
           const exchangeRateCurrent = await exchangeRateCurrentPromise;
-          const totalSupply = await totalSupplyPromise;
-          // when adding money to contract, we need to consider prevExchangeRate as the rate for deposit.
-          // total glp available without compounding = prevExchangeRate*(totalSupply-lastglpDeposit)
+          const totalSupply = await totalSupplyPromise; // token in tdecimal with exchange rate applied
+
           let rateOfIncreasePerBlock = BigNumber.from(0);
-          if (prevExchangeRate.gt(0) && glpBlockDelta.gt(0)) {
-            const existingGlpAmount = totalSupply
-              .sub(lastGlpDepositAmount)
-              .mul(prevExchangeRate); // scaled to 18 and value in 18 decimals
-            const glpWithCompounding = existingGlpAmount.mul(exchangeRateCurrent);
-            const rateOfIncrease = glpWithCompounding
-              .sub(existingGlpAmount)
-              .div(existingGlpAmount);
+          const ethereumSecondsPerBlock = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
+          if (
+            prevExchangeRate.gt(0) &&
+            glpBlockDelta.gt(0) &&
+            totalSupply.gt(0)
+          ) {
+            const rateOfIncrease = exchangeRateCurrent
+              .sub(prevExchangeRate)
+              .mul(BigNumber.from(10).pow(18)) //scaled to 18 decimals
+              .div(prevExchangeRate); 
             rateOfIncreasePerBlock = rateOfIncrease.div(glpBlockDelta);
           }
 
           depositApy = formatApy(
-            calculateApy(rateOfIncreasePerBlock, secondsPerBlock)
+            calculateApy(rateOfIncreasePerBlock, ethereumSecondsPerBlock)
           );
         } else {
           // marketData
@@ -240,7 +240,7 @@ export function useMarkets(
         }
 
         const borrowApy = formatApy(
-            calculateApy(token.borrowRatePerBlock, secondsPerBlock)
+          calculateApy(token.borrowRatePerBlock, secondsPerBlock)
         );
 
         const totalBorrowed = formatBigNumber(token.totalBorrows, token.tokenPair.token.decimals);
