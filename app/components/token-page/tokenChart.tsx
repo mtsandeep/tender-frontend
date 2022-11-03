@@ -96,7 +96,10 @@ function TokenChart({
   }, [historicalData, networkData]);
 
   return marketInfo?.underlyingSymbol ? (
-    <div className="bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0">
+    <div
+      tabIndex={0}
+      className="bg-[#0D0D0D] panel-custom mb-[60px] md:mb-[60px] pb-[20px] lg:pb-0"
+    >
       <div className="px-[15px] mb-[30px] md:mb-[26px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
         <a className="cursor-pointer hover:text-[#14f195]" href="/markets/">
           Markets
@@ -105,27 +108,29 @@ function TokenChart({
       </div>
       <TokenTopDetails marketInfo={marketInfo} />
       <div className="mt-[33px] flex font-[SpaceGrotesk] uppercase font-bold text-xs leading-5 border-b border-[#282C2B] md:text-[15px] md:leading-[25.5px]">
-        <div
+        <button
+          tabIndex={0}
           onClick={() => setTabName("supply")}
-          className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
+          className={`cursor-pointer uppercase text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] hover:text-[#14F195] ${
             tabName === "supply"
               ? "border-[#14F195] text-[#14F195]"
               : "border-[transparent] text-white"
           }`}
         >
           supply
-        </div>
+        </button>
         {marketInfo?.tokenSymbol !== "GLP" && (
-          <div
+          <button
+            tabIndex={0}
             onClick={() => setTabName("borrow")}
-            className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
+            className={`cursor-pointer uppercase text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] hover:text-[#00E0FF] ${
               tabName === "borrow"
                 ? "border-[#00E0FF] text-[#00E0FF]"
                 : "border-[transparent] text-white"
             }`}
           >
             borrow
-          </div>
+          </button>
         )}
       </div>
       {tabName === "supply" ? (

@@ -59,7 +59,10 @@ export default function MarketsContent() {
         }
       />
       <div className="switch__to__network max-w-[1068px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
-        <div className="panel-custom border-custom">
+        <div
+          tabIndex={0}
+          className="focus:outline-none panel-custom border-custom"
+        >
           <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Supply
           </div>
@@ -142,7 +145,10 @@ export default function MarketsContent() {
             </div>
           </div>
         </div>
-        <div className="panel-custom border-custom">
+        <div
+          tabIndex={0}
+          className="focus:outline-none panel-custom border-custom"
+        >
           <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Borrow
           </div>
@@ -227,7 +233,10 @@ export default function MarketsContent() {
         </div>
       </div>
       <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
-        <div className="pb-[5px] panel-custom markets border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
+        <div
+          tabIndex={0}
+          className="focus:outline-none pb-[5px] panel-custom markets border-custom mb-[20px] md:pb-[0px] md:mb-[40px]"
+        >
           <div className="px-[15px] textSize22 py-[17px] md:py-[20px] font-space font-bold text-lg border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] md:text-xl">
             All Markets
           </div>
@@ -268,6 +277,7 @@ export default function MarketsContent() {
                         rel="noreferrer"
                       >
                         <img
+                          aria-hidden={true}
                           className="w-[24px] h-[24px] mr-[10px] sm:mr-[16px] sm:w-[40px] sm:h-[40px]"
                           src={m.icon}
                           alt={m.symbol}
@@ -305,6 +315,7 @@ export default function MarketsContent() {
                           {formatApy(m.supplyApy)}
                         </div>
                         <div
+                          tabIndex={0}
                           className="group"
                           onClick={(e) => e.preventDefault()}
                         >
@@ -336,22 +347,25 @@ export default function MarketsContent() {
                               className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px]"
                                 src={m.icon}
                                 alt={m.symbol}
                               />
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px] ml-[6px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
                               />
                             </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex  rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                   <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src={m.icon}
                                         alt={m.symbol}
@@ -371,6 +385,7 @@ export default function MarketsContent() {
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."
@@ -423,6 +438,7 @@ export default function MarketsContent() {
                           {m.symbol === "GLP" ? "0.00%" : formatApy(borrowApy)}
                         </div>
                         <div
+                          tabIndex={0}
                           className="group"
                           onClick={(e) => e.preventDefault()}
                         >
@@ -458,22 +474,25 @@ export default function MarketsContent() {
                               className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
                             >
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px]"
                                 src={m.icon}
                                 alt={m.symbol}
                               />
                               <img
+                                aria-hidden={true}
                                 className="w-[13px] h-[13px] ml-[6px]"
                                 src="/images/wallet-icons/balance-icon.svg"
                                 alt="..."
                               />
                             </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex rounded-[10px]">
+                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex  rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                                   <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src={m.icon}
                                         alt={m.symbol}
@@ -497,6 +516,7 @@ export default function MarketsContent() {
                                   <div className="flex justify-between gap-[30px]">
                                     <div className="flex gap-[8px]">
                                       <img
+                                        aria-hidden={true}
                                         className="max-w-[18px]"
                                         src="/images/wallet-icons/balance-icon.svg"
                                         alt="..."

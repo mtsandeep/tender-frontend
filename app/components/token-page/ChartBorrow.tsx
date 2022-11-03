@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
 import {
   ValueType,
@@ -14,6 +20,7 @@ import {
   Tooltip,
   Cell,
   ResponsiveContainer,
+  YAxis,
 } from "recharts";
 import { IDataBorrowDot } from "./tokenChart";
 
@@ -24,7 +31,16 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
+  const chartGap: number = window.innerWidth > 768 ? 50 : 0;
 
+  const [chartContainerWidth, setChartContainerWidth] = useState(0);
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (chartRef.current) {
+      setChartContainerWidth(chartRef.current.offsetWidth);
+    }
+  }, []);
   const ApyTooltip = ({
     active,
     payload,
@@ -45,7 +61,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   useEffect(() => {
     setIsLoadPage(true);
-  }, []);
+  }, [data]);
 
   const TotalTooltip = ({
     active,
@@ -53,7 +69,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
   }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
-        <div className="text-center w-fit">
+        <div className="text-center w-fit bg-[#0D0D0D]">
           <p className="label text-sm md:text-base">{`$${payload[0].payload.totalBorrow}`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
             Total Borrow
@@ -73,30 +89,82 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
     }
   }
 
+  const tooltipOverflowBlock = useCallback(
+    function () {
+      if (dotX < 50) {
+        return 10;
+      }
+
+      if (dotX > chartContainerWidth - 50) {
+        return dotX - 90;
+      }
+
+      return dotX - 30;
+    },
+    [chartContainerWidth, dotX]
+  );
+
+  function debounce(func: any, state: any, delay: number) {
+    let positionDebounce: any;
+
+    clearTimeout(positionDebounce);
+
+    positionDebounce = setTimeout(() => {
+      func(state);
+    }, delay);
+  }
+
   const CustomLine = (props: any) => (
     <svg
       x={props.points[0].x || ""}
-      y={dotY || ""}
+      y={dotY - chartGap || ""}
       width="1"
-      height="160"
-      viewBox="0 0 1 160"
+      height="325"
+      viewBox="0 0 1 325"
+      fill="none"
     >
-      <path
-        d="M1.25 160.75L1.25 0.25"
-        stroke="#282C2B"
-        strokeWidth="2"
-        strokeDasharray="6 6"
-      />
+      <rect width="1" height="5" fill="#282C2B" />
+      <rect y="10" width="1" height="5" fill="#282C2B" />
+      <rect y="21" width="1" height="5" fill="#282C2B" />
+      <rect y="31" width="1" height="5" fill="#282C2B" />
+      <rect y="41" width="1" height="5" fill="#282C2B" />
+      <rect y="51" width="1" height="5" fill="#282C2B" />
+      <rect y="62" width="1" height="5" fill="#282C2B" />
+      <rect y="72" width="1" height="5" fill="#282C2B" />
+      <rect y="83" width="1" height="5" fill="#282C2B" />
+      <rect y="93" width="1" height="5" fill="#282C2B" />
+      <rect y="104" width="1" height="5" fill="#282C2B" />
+      <rect y="114" width="1" height="5" fill="#282C2B" />
+      <rect y="124" width="1" height="5" fill="#282C2B" />
+      <rect y="134" width="1" height="5" fill="#282C2B" />
+      <rect y="145" width="1" height="5" fill="#282C2B" />
+      <rect y="155" width="1" height="5" fill="#282C2B" />
+      <rect y="165" width="1" height="5" fill="#282C2B" />
+      <rect y="175" width="1" height="5" fill="#282C2B" />
+      <rect y="186" width="1" height="5" fill="#282C2B" />
+      <rect y="196" width="1" height="5" fill="#282C2B" />
+      <rect y="206" width="1" height="5" fill="#282C2B" />
+      <rect y="216" width="1" height="5" fill="#282C2B" />
+      <rect y="227" width="1" height="5" fill="#282C2B" />
+      <rect y="237" width="1" height="5" fill="#282C2B" />
+      <rect y="248" width="1" height="5" fill="#282C2B" />
+      <rect y="258" width="1" height="5" fill="#282C2B" />
+      <rect y="269" width="1" height="5" fill="#282C2B" />
+      <rect y="279" width="1" height="5" fill="#282C2B" />
+      <rect y="289" width="1" height="5" fill="#282C2B" />
+      <rect y="299" width="1" height="5" fill="#282C2B" />
+      <rect y="310" width="1" height="5" fill="#282C2B" />
+      <rect y="320" width="1" height="5" fill="#282C2B" />
     </svg>
   );
 
   const CustomDot = (props: any) => {
+    debounce(setDotX, props.cx || "", 60);
     setDotY(props.cy || "");
-    setDotX(props.cx || "");
     return (
       <circle
-        cx={props.cx}
-        cy={props.cy}
+        cx={props.cx || 0}
+        cy={props.cy - chartGap || 0}
         r={8}
         stroke="#282C2B"
         style={{ opacity: "1" }}
@@ -108,17 +176,18 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
-        <div className="min-w-[800px]">
+      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+        <div
+          ref={chartRef}
+          className="min-w-[800px]"
+          onMouseLeave={() => setActiveTooltip((val: any) => (val = undefined))}
+        >
           <ResponsiveContainer
             width="100%"
             height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
             className="mb-[30px] lg:mb-[0]"
           >
             <LineChart
-              onMouseLeave={() =>
-                setActiveTooltip((val: any) => (val = undefined))
-              }
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
               data={data.map((item: IDataBorrowDot) => ({
@@ -126,9 +195,25 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
                 totalBorrow: parseInt(item.totalBorrow),
                 borrowAPY: parseInt(item.borrowAPY),
               }))}
-              margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+              margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
-              <Tooltip content={<ApyTooltip />} cursor={<CustomLine />} />
+              <YAxis tickCount={1} hide={true} />
+              <Tooltip
+                animationDuration={500}
+                position={{
+                  x: tooltipOverflowBlock(),
+                  y:
+                    window.innerWidth > 768
+                      ? dotY < 70
+                        ? -40
+                        : dotY - (chartGap + 70)
+                      : dotY < 90
+                      ? 20
+                      : dotY - (chartGap + 70) / 2,
+                }}
+                content={<ApyTooltip />}
+                cursor={<CustomLine />}
+              />
               <Line
                 type="monotone"
                 dataKey="borrowAPY"
@@ -136,7 +221,9 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
+                className={`[&>*]:translate-y-[-50px]`}
               />
+              <YAxis tickCount={1} hide={true} />
             </LineChart>
           </ResponsiveContainer>
           <ResponsiveContainer
@@ -145,9 +232,6 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
             className="custom__chart__bar"
           >
             <BarChart
-              onMouseLeave={() =>
-                setActiveTooltip((val: any) => (val = undefined))
-              }
               syncId="marketCharSynch"
               data={data.map((item: IDataBorrowDot) => ({
                 ...item,
@@ -157,7 +241,15 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
               onMouseMove={tooltipSync}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
-              <Tooltip cursor={false} content={<TotalTooltip />} />
+              <Tooltip
+                animationDuration={500}
+                position={{
+                  x: tooltipOverflowBlock(),
+                  y: 20,
+                }}
+                cursor={false}
+                content={<TotalTooltip />}
+              />
               <Bar
                 dataKey="totalBorrow"
                 radius={[3, 3, 0, 0]}
@@ -187,7 +279,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
       {activeTooltip !== undefined ? (
         <div
           style={{ left: Math.round(dotX) }}
-          className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
+          className="absolute translate-x-[-70%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
         >
           {data[activeTooltip]?.date}
         </div>

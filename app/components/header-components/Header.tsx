@@ -45,7 +45,6 @@ export default function Header() {
       setLoadingTndBtn(false);
     }, 1000);
   }, []);
-
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -80,7 +79,7 @@ export default function Header() {
   }, [handleClickBurger, handleChainChanged]);
 
   return (
-    <div className="relative">
+    <header className="relative">
       <ClaimRewardsModal
         data={{
           open: dataClaimModal.open,
@@ -127,7 +126,9 @@ export default function Header() {
               <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
             ) : (
               <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
-                <div
+                <button
+                  aria-label="Claim Rewards"
+                  tabIndex={0}
                   className={`relative flex p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
                   onClick={() =>
                     setDataClaimModal({ ...dataClaimModal, open: true })
@@ -141,12 +142,13 @@ export default function Header() {
                   <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
                     $23.56
                   </div>
-                </div>
+                </button>
               </div>
             )}
             <NetworksDropdown />
             <ConnectWallet />
-            <div
+            <button
+              aria-label="menu"
               className={`flex lg:hidden header__burg ${
                 activePopupMenu ? "active" : ""
               }`}
@@ -156,7 +158,7 @@ export default function Header() {
               <span></span>
               <span></span>
               <span></span>
-            </div>
+            </button>
           </div>
           <div
             className={`aside__menu__wrap top-[71px] flex lg:hidden ${
@@ -187,6 +189,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

@@ -550,7 +550,7 @@ async function safeMaxBorrowAmountForToken(
   // (borrowed_amount + x*priceInUsd) / borrow_limit = 0.8
   // (borrowed_amount + x*priceInUsd) = 0.8 * borrow_limit
   // x = ((0.8 * borrow_limit) - borrowed_amount) / priceInUsd
-  let amount = (0.8 * borrowLimit - totalBorrowed) / tp.token.priceInUsd;
+  let amount = Math.abs(0.8 * borrowLimit - totalBorrowed) / tp.token.priceInUsd;
 
   return amount;
 }

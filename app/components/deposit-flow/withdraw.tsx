@@ -153,7 +153,17 @@ export default function Withdraw({
               />
               {market.tokenPair.token.symbol}
             </div>
-            <div className="flex flex-col justify-center items-center mt-[50px] overflow-hidden font-space h-[100px] mt-[50px]">
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
+              <input
+                ref={inputEl}
+                value={value}
+                onChange={(e) => handleCheckValue(e)}
+                style={{ height: 70, minHeight: 70 }}
+                className={`input__center__custom z-20 max-w-[300px] ${
+                  value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
+                }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                placeholder="0"
+              />
               {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
@@ -162,18 +172,8 @@ export default function Withdraw({
                   color="#14F195"
                 />
               )}
-              <input
-                ref={inputEl}
-                value={value}
-                onChange={(e) => handleCheckValue(e)}
-                style={{ minHeight: 60 }}
-                className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
-                  value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
-                placeholder="0"
-              />
             </div>
-            <div className="flex mt-4 md:mt-6 uppercase">
+            <div className="flex mt-6 uppercase">
               <button
                 className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
                 onClick={() => onTabSwitch("supply", value)}
@@ -321,9 +321,12 @@ export default function Withdraw({
               </div>
             </div>
             <div className="flex mt-[10px] justify-between">
-              <div className="text-[#ADB5B3] font-nova text-base font-normal line-dashed group relative cursor-pointer">
+              <div
+                tabIndex={0}
+                className="text-[#ADB5B3] font-nova text-base font-normal line-dashed group relative cursor-pointer"
+              >
                 Max LTV
-                <div className="hidden z-10 flex-col absolute left-0 bottom-[25px] items-center group-hover:flex rounded-[10px]">
+                <div className="hidden z-10 flex-col absolute left-0 bottom-[25px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                   <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                     <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
                       The Maximum LTV ratio represents the maximum borrowing
