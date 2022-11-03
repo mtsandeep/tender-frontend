@@ -73,7 +73,7 @@ export default function DepositBorrowFlow({
           </button>
         ))}
       </div>
-      <div className="w-full md:w-[460px]">
+      <div className="w-full md:w-[500px]">
         {activeTab === "supply" && (
           <Deposit
             closeModal={closeModal}

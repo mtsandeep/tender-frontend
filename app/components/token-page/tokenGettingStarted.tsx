@@ -31,7 +31,7 @@ const TokenGettingStarted = ({ market }: Props) => {
             margin: "20px auto",
             zoom: window.innerWidth > 768 ? "75%" : "100%",
             position: "relative",
-            maxWidth: 600,
+            maxWidth: 650,
           },
         }}
         closeTimeoutMS={200}
