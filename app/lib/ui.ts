@@ -109,6 +109,13 @@ export const getDisplayPriceString = (v: number) =>
     maximumSignificantDigits: v < 1 ? 4 : undefined,
   }).format(v);
 
+export const getTruncatedNumber = (v: number, decimals: number = 18) => {
+  const numberString = v.toFixed(20) // considering max of 20 decimal points
+  const regex = new RegExp("(\\d+\\.\\d{" + decimals + "})(\\d)");
+  const match = numberString.match(regex);
+  return match ? parseFloat(match[1]) : parseFloat(numberString.valueOf());
+};
+
 const formatMaxString = (v: number, precision: number = 6): string =>
   math.format(v, { notation: "fixed", precision });
 

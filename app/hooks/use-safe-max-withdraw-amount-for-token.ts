@@ -4,6 +4,7 @@ import type {TokenPair} from "~/types/global";
 import {ethers} from "ethers";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import type {JsonRpcSigner} from "@ethersproject/providers";
+import { getTruncatedNumber } from "~/lib/ui";
 
 export function useSafeMaxWithdrawAmountForToken(
     signer: JsonRpcSigner | undefined | null,
@@ -59,7 +60,7 @@ export function useSafeMaxWithdrawAmountForToken(
                 ((totalBorrowedAmountInUsd / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd)
             ) / (tp.token.priceInUsd * collateralFactor));
             console.log('safeMaxWithdrawAmount',amount)
-            setSafeMaxWithdrawAmountForToken(amount);
+            setSafeMaxWithdrawAmountForToken(getTruncatedNumber(amount, tp.token.decimals));
         };
 
         getSafeMaxWithdrawAmountForToken();

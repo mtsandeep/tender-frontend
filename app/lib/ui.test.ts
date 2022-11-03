@@ -1,5 +1,5 @@
 import { assert, describe, it } from "vitest";
-import { toFiatString, toShortCryptoString } from "./ui";
+import { getTruncatedNumber, toFiatString, toShortCryptoString } from "./ui";
 
 describe("lib/ui", () => {
   describe("toShortCryptoString", () => {
@@ -40,6 +40,25 @@ describe("lib/ui", () => {
       assert.equal(toFiatString(0.0000005), "0.00");
       assert.equal(toFiatString(0.0000006), "0.00");
       assert.equal(toFiatString(0), "0.00");
+    });
+  });
+  describe("getTruncatedNumber", () => {
+    it("should truncate number with specified decimals", () => {
+      // number greater than 1
+      assert.strictEqual(getTruncatedNumber(2.0999, 3), 2.099);
+      assert.strictEqual(getTruncatedNumber(9000, 3), 9000);
+      assert.strictEqual(getTruncatedNumber(100099.8888, 3), 100099.888);
+      assert.strictEqual(getTruncatedNumber(100999.8888, 5), 100999.8888);
+
+      //number less than 1
+      assert.strictEqual(getTruncatedNumber(1, 3), 1);
+      assert.strictEqual(getTruncatedNumber(0.9999, 3), 0.999);
+      assert.strictEqual(getTruncatedNumber(0.9999, 5), 0.9999);
+      assert.strictEqual(getTruncatedNumber(0.2222222222, 3), 0.222);
+      assert.strictEqual(getTruncatedNumber(0.0000006, 2), 0);
+      assert.strictEqual(getTruncatedNumber(0.00000000000000009999, 18), 9.9e-17);
+      assert.strictEqual(getTruncatedNumber(0, 2), 0);
+      assert.strictEqual(getTruncatedNumber(0, 0), 0);
     });
   });
 });

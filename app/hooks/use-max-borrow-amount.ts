@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getMaxBorrowAmount } from "~/lib/tender";
+import { getTruncatedNumber } from "~/lib/ui";
 import type { TokenPair } from "~/types/global";
 
 export function useMaxBorrowAmount(
@@ -15,7 +16,7 @@ export function useMaxBorrowAmount(
     }
 
     getMaxBorrowAmount(borrowLimit, totalBorrowed, tokenPair).then((v) =>
-      setMaxBorrowAmount(v)
+      setMaxBorrowAmount(getTruncatedNumber(v, tokenPair.token.decimals))
     );
   }, [borrowLimit, totalBorrowed, tokenPair]);
 
