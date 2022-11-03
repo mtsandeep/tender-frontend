@@ -54,20 +54,20 @@ const TokenGettingStarted = ({ market }: Props) => {
           <button
             onClick={() => handlerClickChangeTab("supply")}
             className="leading-[22.1px] font-bold font-space text-[13px] mr-[10px] lg:mr-[20px] bg-[#14F195] text-black
-      rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px]"
+      rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px] border-[#14F195] border-[1px] hover:bg-[#181D1B] hover:text-[#14F195]"
           >
             SUPPLY
           </button>
           <button
             onClick={() => handlerClickChangeTab("borrow")}
             className="leading-[22.1px] font-bold font-space text-[13px] mr-[12px] lg:mr-[20px] bg-[#00E0FF] text-black
-      rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px]"
+      rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px] border-[#00E0FF] border-[1px] hover:bg-[#181D1B] hover:text-[#00E0FF]"
           >
             BORROW
           </button>
           <button
             aria-label="more"
-            className="round-btn-grad flex gap-[3px] items-center justify-center bg-[#181D1B] min-w-[39px] min-h-[39px] lg:w-11 lg:h-11 rounded-full"
+            className="round-btn-grad flex gap-[3px] items-center justify-center bg-[#181D1B] min-w-[39px] min-h-[39px] lg:w-11 lg:h-11 rounded-full border-[transparent] hover:border-[#818987] border-[1px]"
             onClick={() => handlerClickChangeTab("repay")}
           >
             <svg width="18" height="4" viewBox="0 0 18 4" fill="none">

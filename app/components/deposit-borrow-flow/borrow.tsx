@@ -201,8 +201,8 @@ export default function Borrow({
                 className={`${
                   activeTab === tab.name
                     ? `text-[${tab.color}] border-[${tab.color}]`
-                    : "text-[#ADB5B3] border-[#ADB5B3]"
-                } border-[1px] text-[12px] mr-[8px] min-w-[94px] w-[94px] h-[36px] font-space text-[13px] uppercase bg-[#181D1B] rounded-[6px] font-bold font-space`}
+                    : "text-[#ADB5B3] border-[#181D1B]"
+                } ${`hover:text-[${tab.color}] `} border-[1px] text-[12px] mr-[8px] min-w-[94px] w-[94px] h-[36px] font-space uppercase bg-[#181D1B] rounded-[6px] font-bold font-space`}
               >
                 {tab.name}
               </button>

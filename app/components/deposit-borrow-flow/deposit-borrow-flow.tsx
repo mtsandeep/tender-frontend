@@ -66,8 +66,8 @@ export default function DepositBorrowFlow({
             className={`${
               activeTab === tab.name
                 ? `text-[${tab.color}] border-[${tab.color}]`
-                : "text-[#ADB5B3] border-[#ADB5B3]"
-            } border-[1px] text-[12px] mr-[8px] md:mr-[0] w-[94px] h-[36px] font-space text-[13px] uppercase md:w-[120px] md:h-[44px] bg-[#181D1B] md:text-[13px] rounded-[6px] font-bold font-space md:mb-[16px]`}
+                : "text-[#ADB5B3] border-[#181D1B]"
+            } ${`hover:text-[${tab.color}] `} border-[1px] uppercase w-[120px] h-[44px] bg-[#181D1B] text-[13px] rounded-[6px] font-bold font-space mb-[16px]`}
           >
             {tab.name}
           </button>
