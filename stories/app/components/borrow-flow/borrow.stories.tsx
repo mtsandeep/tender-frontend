@@ -8,7 +8,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Borrow, {
   type BorrowProps,
-} from "../../../../app/components/borrow-flow/borrow";
+} from "../../../../app/components/deposit-borrow-flow/borrow";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -82,7 +82,10 @@ Primary.args = {
   walletBalance: market.walletBalance,
   tokenPairs,
   totalBorrowedAmountInUsd: market.borrowBalanceInUsd,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "borrow",
+  setActiveTab: () => {},
+  tabs: [],
 } as BorrowProps;
 
 let smallMarket = {
@@ -115,5 +118,8 @@ SmallNumbers.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: smallMarket.borrowBalanceInUsd,
   market: smallMarket,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "borrow",
+  setActiveTab: () => {},
+  tabs: [],
 } as BorrowProps;

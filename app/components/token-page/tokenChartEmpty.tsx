@@ -1,6 +1,6 @@
 import { useState } from "react";
-import TokenTopDetailsEmpty from "./tokenTopDetailsEmpty";
 import { useParams } from "@remix-run/react";
+import TokenTopDetailsEmpty from "./tokenTopDetailsEmpty";
 
 function TokenChartEmpty() {
   const [tabName, setTabName] = useState<string>("supply");

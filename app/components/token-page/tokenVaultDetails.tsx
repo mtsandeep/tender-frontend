@@ -1,7 +1,8 @@
 import { useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
+import TokenVaultDetailsEmpty from "./tokenVaultDetailsEmpty";
 
-function VaultDetails() {
+function TokenVaultDetails({ marketInfo }: { marketInfo: any | boolean }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: any;
@@ -18,7 +19,7 @@ function VaultDetails() {
           This market is an auto-staking vault where staking rewards are
           automatically redeposited into the vault. This fee is taken from these
           staking rewards and paid to stakers of the protocol governance token
-          $TND
+          $TND.
         </div>
       ),
       itemData: "15%",
@@ -37,8 +38,8 @@ function VaultDetails() {
     },
   ];
 
-  return (
-    <div className="panel-custom border-custom font-nova w-full mb-[30px]">
+  return marketInfo.id ? (
+    <div className="panel-custom border-custom font-nova w-full mb-5">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
         handleClose={() =>
@@ -117,7 +118,9 @@ function VaultDetails() {
         );
       })}
     </div>
+  ) : (
+    <TokenVaultDetailsEmpty />
   );
 }
 
-export default VaultDetails;
+export default TokenVaultDetails;

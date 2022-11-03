@@ -326,7 +326,7 @@ body.body__fixed {
   border-radius: 1rem !important;
   padding: 0 !important;
   margin: auto;
-  max-height: calc(100vh - 40px);
+  max-height: calc((100vh - 40px) / 0.7);
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -659,6 +659,11 @@ body.body__fixed {
 }
 
 @media screen and (max-width: 750px) {
+
+  .modal .ReactModal__Content--after-open {
+    max-height: calc(100vh - 40px);
+  }
+
   .panel-custom.markets table {
     overflow-x: auto;
     overflow-y: hidden;
@@ -727,4 +732,16 @@ body.body__fixed {
 .recharts-tooltip-wrapper {
   position: relative;
   z-index: 10;
+}
+
+.hidden__scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.hidden__scroll {
+  -ms-overflow-style: none;
+}
+
+.hidden__scroll {
+  overflow: -moz-scrollbars-none;
 }

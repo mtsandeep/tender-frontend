@@ -22,7 +22,7 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
-import { IDataSupplyDot } from "./tokenChart";
+import { IDataSupplyDot } from "./TokenChart";
 
 const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const [activeTooltip, setActiveTooltip] =
@@ -161,7 +161,6 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const CustomDot = (props: any) => {
     debounce(setDotX, props.cx || "", 60);
     setDotY(props.cy || "");
-    console.log(dotY);
     return (
       <circle
         cx={props.cx || 0}

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import ChartBorrow from "./ChartBorrow";
 import ChartSupply from "./ChartSupply";
-import TokenTopDetails from "./tokenTopDetails";
 import { TenderContext } from "~/contexts/tender-context";
 import TokenChartEmpty from "./tokenChartEmpty";
+import TokenTopDetails from "./tokenTopDetails";
 
 export interface IDataSupplyDot {
   supplyAPY: string;
@@ -44,8 +44,6 @@ function TokenChart({
   const [borrowChartData, setBorrowChartData] = useState<IDataBorrowDot[]>([]);
 
   useEffect(() => {
-    console.log("charts data called");
-
     if (!historicalData || !networkData) {
       return;
     }

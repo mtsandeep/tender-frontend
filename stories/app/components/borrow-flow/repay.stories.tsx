@@ -8,7 +8,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Repay, {
   type RepayProps,
-} from "../../../../app/components/borrow-flow/repay";
+} from "../../../../app/components/deposit-borrow-flow/repay";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -83,7 +83,10 @@ Primary.args = {
   tokenPairs,
   borrowLimitUsed: market.borrowLimitUsed,
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "repay",
+  setActiveTab: () => {},
+  tabs: [],
 } as RepayProps;
 
 let smallMarket: Market = {
@@ -118,5 +121,8 @@ SmallNumbers.args = {
   tokenPairs,
   borrowLimitUsed: smallMarket.borrowLimitUsed,
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "repay",
+  setActiveTab: () => {},
+  tabs: [],
 } as RepayProps;
