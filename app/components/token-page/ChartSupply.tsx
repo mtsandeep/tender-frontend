@@ -215,6 +215,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
+                className={`[&>*]:translate-y-[-50px]`}
               />
               <YAxis tickCount={1} hide={true} />
             </LineChart>
