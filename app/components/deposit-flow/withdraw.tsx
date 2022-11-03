@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toCryptoString, toExactString } from "~/lib/ui";
+import { getTruncatedNumber, toCryptoString, toExactString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -280,7 +280,7 @@ export default function Withdraw({
                       }
                       setIsWithdrawing(true);
                       // entering the max amount displayed should withdraw all
-                      let isMax = value == toExactString(market.supplyBalance);
+                      let isMax = parseFloat(value) == getTruncatedNumber(market.supplyBalance, tokenDecimals);
                       // @ts-ignore existence of signer is gated above.
                       let txn = await redeem(
                         value,
