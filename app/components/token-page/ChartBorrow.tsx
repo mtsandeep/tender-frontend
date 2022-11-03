@@ -22,7 +22,7 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
-import { IDataBorrowDot } from "./TokenChart";
+import { IDataBorrowDot } from "./tokenChart";
 
 const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
   const [activeTooltip, setActiveTooltip] =

@@ -1,4 +1,3 @@
-import TokenChart from "~/components/token-page/TokenChart";
 import TokenInterestRate from "~/components/token-page/tokenInterestRate";
 import TokenMarketDetails from "~/components/token-page/tokenMarketDetails";
 import TokenGettingStarted from "./tokenGettingStarted";
@@ -8,6 +7,7 @@ import TokenVaultDetails from "./tokenVaultDetails";
 import { useContext } from "react";
 import { TenderContext } from "~/contexts/tender-context";
 import type { Market } from "~/types/global";
+import TokenChart from "./tokenChart";
 
 const Token = ({ id }: { id: string | undefined }) => {
   const tenderContextData = useContext(TenderContext);
