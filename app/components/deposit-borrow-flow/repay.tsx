@@ -60,7 +60,7 @@ export default function Repay({
   );
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
 
-  const [isRepayingTxn, setIsRepayingTxn] = useState<boolean>(false);
+  const [isRepaying, setIsRepaying] = useState<boolean>(false);
   const [value, setValue] = useState<string>(initialValue);
   const [txnHash, setTxnHash] = useState<string>("");
 
@@ -279,6 +279,7 @@ export default function Repay({
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isEnabled && (
                 <button
+                  disabled={isEnabling}
                   onClick={async () => {
                     try {
                       setIsEnabling(true);
@@ -308,6 +309,7 @@ export default function Repay({
 
               {signer && isEnabled && isValid && (
                 <button
+                  disabled={isRepaying}
                   onClick={async () => {
                     try {
                       if (!value) {
@@ -316,7 +318,7 @@ export default function Repay({
                         });
                         return;
                       }
-                      setIsRepayingTxn(true);
+                      setIsRepaying(true);
                       const isMax =
                         value == toMaxString(maxRepayableAmount, tokenDecimals);
                       // @ts-ignore existence of signer is gated above.
@@ -338,12 +340,12 @@ export default function Repay({
                       closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
-                      setIsRepayingTxn(false);
+                      setIsRepaying(false);
                     }
                   }}
                   className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#00E0FF] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
                 >
-                  {isRepayingTxn ? "Repaying..." : "Repay"}
+                  {isRepaying ? "Repaying..." : "Repay"}
                 </button>
               )}
             </div>
