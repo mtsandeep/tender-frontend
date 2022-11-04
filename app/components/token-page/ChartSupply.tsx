@@ -161,7 +161,6 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const CustomDot = (props: any) => {
     debounce(setDotX, props.cx || "", 60);
     setDotY(props.cy || "");
-    console.log(dotY);
     return (
       <circle
         cx={props.cx || 0}
@@ -216,6 +215,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
+                className={`[&>*]:translate-y-[-50px]`}
               />
               <YAxis tickCount={1} hide={true} />
             </LineChart>

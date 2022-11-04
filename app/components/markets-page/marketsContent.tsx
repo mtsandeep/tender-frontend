@@ -1,12 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
-import EmptyMarketsContent from "./emptyMarketsContent";
+import MarketsContentEmpty from "./MarketsContentEmpty";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { toFiatString, toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import { checkColorClass } from "../two-panels/two-panels";
 import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
+
+export const checkZeroValue = (value: number) => {
+  return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
+};
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
@@ -31,15 +35,11 @@ export default function MarketsContent() {
     .reduce((a: any, b: any) => a + b, 0);
 
   if (!markets || !total || !m.length) {
-    return <EmptyMarketsContent />;
+    return <MarketsContentEmpty />;
   }
 
   const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
   const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
-
-  const checkZeroValue = (value: number) => {
-    return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
-  };
 
   const replaceMinusSymbol = (value: number) => {
     return value >= 0

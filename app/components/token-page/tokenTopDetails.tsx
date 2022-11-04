@@ -3,12 +3,9 @@ import { useState } from "react";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { checkColorClass } from "../two-panels/two-panels";
 import { toShortFiatString } from "~/lib/ui";
+import { checkZeroValue } from "../markets-page/marketsContent";
 
-function TokenTopDetailsBorrow({
-  marketInfo,
-}: {
-  marketInfo: object | boolean;
-}) {
+function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
     coins: [{}],
@@ -114,9 +111,11 @@ function TokenTopDetailsBorrow({
               </div>
             </div>
             <p
-              className={`text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${checkColorClass(
-                supplyApy
-              )}`}
+              className={`text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${
+                checkZeroValue(supplyApy)
+                  ? "text-white"
+                  : checkColorClass(supplyApy)
+              }`}
             >
               {formatApy(supplyApy)}
             </p>
@@ -200,9 +199,11 @@ function TokenTopDetailsBorrow({
               </div>
             </div>
             <p
-              className={`text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${checkColorClass(
-                borrowApy
-              )}`}
+              className={`text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px] ${
+                checkZeroValue(borrowApy)
+                  ? "text-white"
+                  : checkColorClass(borrowApy)
+              }`}
             >
               {formatApy(borrowApy)}
             </p>
@@ -221,4 +222,4 @@ function TokenTopDetailsBorrow({
   );
 }
 
-export default TokenTopDetailsBorrow;
+export default TokenTopDetails;

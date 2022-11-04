@@ -3,7 +3,7 @@ import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
 import MarketsContent from "~/components/markets-page/marketsContent";
-import EmptyMarketsContent from "~/components/markets-page/emptyMarketsContent";
+import MarketsContentEmpty from "~/components/markets-page/MarketsContentEmpty";
 import type { MetaFunction } from "remix";
 
 export default function Markets() {
@@ -18,7 +18,7 @@ export default function Markets() {
           <MarketsContent />
         </TenderContext.Provider>
       ) : (
-        <EmptyMarketsContent />
+        <MarketsContentEmpty />
       )}
     </div>
   );

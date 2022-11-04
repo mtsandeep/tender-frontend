@@ -29,7 +29,7 @@ export default function TokenPage() {
           <Token id={tokenId} />
         </TenderContext.Provider>
       ) : (
-        <TokenEmpty />
+        <TokenEmpty id={tokenId} />
       )}
     </div>
   );
