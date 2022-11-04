@@ -8,7 +8,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Deposit, {
   type DepositProps,
-} from "../../../../app/components/deposit-flow/deposit";
+} from "../../../../app/components/deposit-borrow-flow/deposit";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -85,7 +85,10 @@ Primary.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
   comptrollerAddress: market.comptrollerAddress,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "supply",
+  setActiveTab: () => {},
+  tabs: [],
 } as DepositProps;
 
 let smallMarket: Market = {
@@ -121,5 +124,8 @@ SmallNumbers.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
   comptrollerAddress: smallMarket.comptrollerAddress,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "supply",
+  setActiveTab: () => {},
+  tabs: [],
 } as DepositProps;

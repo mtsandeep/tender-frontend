@@ -1,6 +1,10 @@
 import { useContext, useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
-import {toCryptoString, toShortCryptoString, toShortFiatString} from "~/lib/ui";
+import {
+  toCryptoString,
+  toShortCryptoString,
+  toShortFiatString,
+} from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
 
@@ -24,7 +28,7 @@ function TokenMarketDetails({
   const { networkData, markets } = useContext(TenderContext);
 
   const tokenKey = Object.keys(markets).find(
-      (key) => markets[Number(key)].id === String(id)
+    (key) => markets[Number(key)].id === String(id)
   );
   const token = tokenKey && markets[Number(tokenKey)];
 
@@ -52,17 +56,26 @@ function TokenMarketDetails({
       itemData:
         marketInfo.tokenSymbol === "GLP"
           ? "-"
-          : toCryptoString(Number(marketInfo.cash), marketInfo.underlyingDecimals) +
+          : toCryptoString(
+              Number(marketInfo.cash),
+              marketInfo.underlyingDecimals
+            ) +
             " " +
             marketInfo.tokenSymbol,
     },
     {
       itemName: "Your Supply",
-      itemData: toCryptoString(token.supplyBalance, marketInfo.underlyingDecimals) + " " + marketInfo.tokenSymbol,
+      itemData:
+        toCryptoString(token.supplyBalance, marketInfo.underlyingDecimals) +
+        " " +
+        marketInfo.tokenSymbol,
     },
     {
       itemName: "Your Borrow",
-      itemData: toCryptoString(token.borrowBalance, marketInfo.underlyingDecimals) + " " + marketInfo.tokenSymbol,
+      itemData:
+        toCryptoString(token.borrowBalance, marketInfo.underlyingDecimals) +
+        " " +
+        marketInfo.tokenSymbol,
     },
     {
       itemName: "# of Suppliers",
@@ -163,7 +176,7 @@ function TokenMarketDetails({
   ];
 
   return (
-    <div className="panel-custom border-custom font-nova w-full mb-[60px] md:mb-0">
+    <div className="panel-custom border-custom font-nova w-full mb-5 md:mb-0">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
         handleClose={() =>

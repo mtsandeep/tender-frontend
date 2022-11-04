@@ -3,6 +3,7 @@ import { toExactString } from "~/lib/ui";
 interface MaxProps {
   updateValue: Function;
   maxValue: number;
+  showMaxButton?: boolean;
   maxValueLabel: string;
   label?: string;
   color: string;
@@ -10,6 +11,7 @@ interface MaxProps {
 
 export default function Max(props: MaxProps) {
   let label = props.label || "Max";
+  const showMaxButton = props.showMaxButton ?? true;
 
   return (
     <div className="absolute custom_max top-[100px] md:top-[90px] right-0 mr-3.5 text-right sm:mr-10 z-10">
@@ -23,13 +25,15 @@ export default function Max(props: MaxProps) {
         {toExactString(props.maxValue) + " " + props.maxValueLabel}
       </div>
 
-      <button
-        tabIndex={0}
-        onClick={() => props.updateValue()}
-        className={`text-xs custom_max_btn border-2 border-[${props.color}] py-1 px-3 rounded-lg bg-[#162421] uppercase text-[${props.color}]`}
-      >
-        {label}
-      </button>
+      {showMaxButton && (
+        <button
+          tabIndex={0}
+          onClick={() => props.updateValue()}
+          className={`text-xs custom_max_btn border-2 border-[${props.color}] py-1 px-3 rounded-lg bg-[#162421] uppercase text-[${props.color}]`}
+        >
+          {label}
+        </button>
+      )}
     </div>
   );
 }

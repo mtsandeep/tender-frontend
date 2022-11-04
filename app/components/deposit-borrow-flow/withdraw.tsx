@@ -15,39 +15,44 @@ import { TenderContext } from "~/contexts/tender-context";
 import { shrinkInputClass } from "~/lib/ui";
 import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
+import type { ActiveTab } from "./deposit-borrow-flow";
 
 export interface WithdrawProps {
   market: Market;
   closeModal: Function;
-  onTabSwitch: Function;
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: number;
   totalBorrowedAmountInUsd: number;
   initialValue: string;
+  activeTab: ActiveTab;
+  setActiveTab: (tab: ActiveTab) => void;
+  tabs: { name: ActiveTab; color: string }[];
 }
 export default function Withdraw({
   market,
   closeModal,
-  onTabSwitch,
   borrowLimit,
   signer,
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
   initialValue,
+  activeTab,
+  setActiveTab,
+  tabs,
 }: WithdrawProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  let [value, setValue] = useState<string>(initialValue);
-  let [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
-  let [txnHash, setTxnHash] = useState<string>("");
-  let inputEl = useRef<HTMLInputElement>(null);
-
-  let { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
+  const [value, setValue] = useState<string>(initialValue);
+  const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
+  const [txnHash, setTxnHash] = useState<string>("");
+  const inputEl = useRef<HTMLInputElement>(null);
+  const scrollBlockRef = useRef<HTMLDivElement>(null);
+  const { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
     useContext(TenderContext);
 
-  let newBorrowLimit = useProjectBorrowLimit(
+  const newBorrowLimit = useProjectBorrowLimit(
     signer,
     market.comptrollerAddress,
     tokenPairs,
@@ -55,7 +60,7 @@ export default function Withdraw({
     value ? `-${value}` : "0"
   );
 
-  let newBorrowLimitUsed = useBorrowLimitUsed(
+  const newBorrowLimitUsed = useBorrowLimitUsed(
     totalBorrowedAmountInUsd,
     newBorrowLimit
   );
@@ -75,7 +80,7 @@ export default function Withdraw({
     market.maxBorrowLiquidity // how much cash the contract has
   );
 
-  let [isValid, validationDetail] = useValidInput(
+  const [isValid, validationDetail] = useValidInput(
     value,
     0,
     maxWithdrawAmount,
@@ -83,7 +88,7 @@ export default function Withdraw({
     tokenDecimals
   );
 
-  let inputTextClass = shrinkInputClass(value.length);
+  const inputTextClass = shrinkInputClass(value.length);
 
   const collateralFactor = useCollateralFactor(
     signer,
@@ -91,10 +96,16 @@ export default function Withdraw({
     market.tokenPair
   );
 
-  // Highlights value input
   useEffect(() => {
-    inputEl && inputEl.current && inputEl.current.focus();
-  }, []);
+    inputEl?.current && inputEl.current.focus();
+
+    if (
+      (activeTab === "repay" || activeTab === "borrow") &&
+      scrollBlockRef?.current
+    ) {
+      scrollBlockRef.current.scrollLeft = 200;
+    }
+  }, [activeTab]);
 
   const handleCheckValue = useCallback((e: any) => {
     const { value } = e.target;
@@ -138,7 +149,7 @@ export default function Withdraw({
         />
       ) : (
         <div>
-          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b">
+          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b pb-[30px]">
             <img
               onClick={() => closeModal()}
               className="absolute right-[16px] sm:right-[22px] top-[24px] w-[21px] h-[21px] cursor-pointer"
@@ -173,20 +184,24 @@ export default function Withdraw({
                 />
               )}
             </div>
-            <div className="flex mt-6 uppercase">
+          </div>
+          <div
+            ref={scrollBlockRef}
+            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B]"
+          >
+            {tabs.map((tab: { name: ActiveTab; color: string }) => (
               <button
-                className="flex-grow py-3 font-space border-b-4 border-b-transparent font-bold text-xs sm:text-base uppercase"
-                onClick={() => onTabSwitch("supply", value)}
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                className={`${
+                  activeTab === tab.name
+                    ? `text-[${tab.color}] border-[${tab.color}]`
+                    : "text-[#ADB5B3] border-[#181D1B]"
+                } ${`hover:text-[${tab.color}] `} border-[1px] text-[12px] mr-[8px] min-w-[94px] w-[94px] h-[36px] font-space uppercase bg-[#181D1B] rounded-[6px] font-bold font-space`}
               >
-                Supply
+                {tab.name}
               </button>
-              <button
-                className="flex-grow py-2 text-[#14F195] border-b-4 border-b-[#14F195] uppercase font-space font-bold text-xs sm:text-base"
-                onClick={() => onTabSwitch("withdraw")}
-              >
-                Withdraw
-              </button>
-            </div>
+            ))}
           </div>
           <div className="py-[30px] px-4 sm:px-12 bg-[#0D0D0D]">
             <div className="flex flex-col items-start mb-[28px] text-gray-400">
@@ -281,8 +296,9 @@ export default function Withdraw({
                       setIsWithdrawing(true);
                       // entering the max amount displayed should withdraw all
                       let isMax = parseFloat(value) == getTruncatedNumber(market.supplyBalance, tokenDecimals);
+                      
                       // @ts-ignore existence of signer is gated above.
-                      let txn = await redeem(
+                      const txn = await redeem(
                         value,
                         signer,
                         market.tokenPair.cToken,
@@ -291,7 +307,7 @@ export default function Withdraw({
                       );
                       setTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
-                      let tr = await txn.wait(); // TODO: error handle if transaction fails
+                      const tr = await txn.wait(); // TODO: error handle if transaction fails
                       setValue("");
                       updateTransaction(tr.blockHash);
                       toast.success("Withdraw successful");

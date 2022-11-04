@@ -8,7 +8,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Withdraw, {
   type WithdrawProps,
-} from "../../../../app/components/deposit-flow/withdraw";
+} from "../../../../app/components/deposit-borrow-flow/withdraw";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -85,7 +85,10 @@ Primary.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
   comptrollerAddress: market.comptrollerAddress,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "withdraw",
+  setActiveTab: () => {},
+  tabs: [],
 } as WithdrawProps;
 
 let smallMarket: Market = {
@@ -121,5 +124,8 @@ SmallNumbers.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
   comptrollerAddress: smallMarket.comptrollerAddress,
-  initialValue: ""
+  initialValue: "",
+  activeTab: "withdraw",
+  setActiveTab: () => {},
+  tabs: [],
 } as WithdrawProps;
