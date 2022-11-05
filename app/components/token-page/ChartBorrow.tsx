@@ -29,11 +29,13 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
     useState<number | undefined>(undefined);
   const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
 
+  const [minMaxTotal, setMinMaxTotal] = useState<any>({ min: 0, max: 0 });
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
-  const chartGap: number = window.innerWidth > 768 ? 50 : 0;
+  const [barTooltip, setBarTooltip] = useState<any>({ value: "", x: 0, y: 0 });
+  const [barTooltipEn, setBarTooltipEn] = useState<boolean>(false);
 
-  const [chartContainerWidth, setChartContainerWidth] = useState(0);
+  const [chartContainerWidth, setChartContainerWidth] = useState<number>(0);
   const chartRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -48,7 +50,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
     if (active && payload && payload.length) {
       return (
         <div className="text-center w-fit">
-          <p className="label text-sm md:text-base">{`${payload[0].payload.borrowAPY}%`}</p>
+          <p className="label text-sm md:text-base mb-0">{`${payload[0].payload.borrowAPY}%`}</p>
           <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
             Borrow APY
           </p>
@@ -61,27 +63,37 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   useEffect(() => {
     setIsLoadPage(true);
+    setMinMaxTotal({
+      min: Number(
+        data.sort((a: any, b: any) => a.totalBorrow - b.totalBorrow)[0]
+          .totalBorrow
+      ),
+      max: Number(
+        data.sort((a: any, b: any) => a.totalBorrow - b.totalBorrow)[
+          data.length - 1
+        ].totalBorrow
+      ),
+    });
   }, [data]);
 
-  const TotalTooltip = ({
-    active,
-    payload,
-  }: TooltipProps<ValueType, NameType>) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="text-center w-fit bg-[#0D0D0D]">
-          <p className="label text-sm md:text-base">{`$${payload[0].payload.totalBorrow}`}</p>
-          <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5">
-            Total Borrow
-          </p>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   function tooltipSync(state: CategoricalChartState): void {
+    setBarTooltipEn(true);
+    if (state?.activePayload && state?.activePayload[0]) {
+      setBarTooltip({
+        value: state.activePayload[0].payload.totalBorrow,
+        x: state.chartX,
+        y:
+          state.activePayload[0].payload.totalBorrow == 0
+            ? 15
+            : (
+                (((Number(state.activePayload[0].payload.totalBorrow) * 100) /
+                  minMaxTotal.max -
+                  minMaxTotal.min) *
+                  (window.innerWidth > 768 ? 130 : 85)) /
+                100
+              ).toFixed(0),
+      });
+    }
     if (state.isTooltipActive !== undefined) {
       setActiveTooltip(state.activeTooltipIndex);
     } else {
@@ -95,8 +107,8 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
         return 10;
       }
 
-      if (dotX > chartContainerWidth - 50) {
-        return dotX - 90;
+      if (dotX > chartContainerWidth - 60) {
+        return dotX - 80;
       }
 
       return dotX - 30;
@@ -116,8 +128,8 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   const CustomLine = (props: any) => (
     <svg
-      x={props.points[0].x || ""}
-      y={dotY - chartGap || ""}
+      x={props.points[0].x}
+      y={dotY}
       width="1"
       height="325"
       viewBox="0 0 1 325"
@@ -159,12 +171,12 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
   );
 
   const CustomDot = (props: any) => {
-    debounce(setDotX, props.cx || "", 60);
-    setDotY(props.cy || "");
+    debounce(setDotX, props.cx, 60);
+    setDotY(props.cy);
     return (
       <circle
         cx={props.cx || 0}
-        cy={props.cy - chartGap || 0}
+        cy={props.cy || 0}
         r={8}
         stroke="#282C2B"
         style={{ opacity: "1" }}
@@ -176,43 +188,47 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[30px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[40px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
         <div
           ref={chartRef}
-          className="min-w-[800px]"
+          className="min-w-[800px] relative"
           onMouseLeave={() => setActiveTooltip((val: any) => (val = undefined))}
         >
+          {barTooltipEn && (
+            <div
+              className={`pointer-events-none text-center w-fit absolute z-10 bottom-0 left-0`}
+              style={{
+                transform: `translate(calc(${tooltipOverflowBlock()}px), -${
+                  barTooltip.y
+                }px)`,
+              }}
+            >
+              <p className="label text-sm md:text-base mb-0">
+                ${barTooltip.value}
+              </p>
+              <p className="text-[#818987] font-nova font-normal text-xs md:text-sm leading-5  ">
+                Total Borrow
+              </p>
+            </div>
+          )}
           <ResponsiveContainer
             width="100%"
             height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
-            className="mb-[30px] lg:mb-[0]"
           >
             <LineChart
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
-              data={data.map((item: IDataBorrowDot) => ({
-                ...item,
-                totalBorrow: parseInt(item.totalBorrow),
-                borrowAPY: parseInt(item.borrowAPY),
-              }))}
+              onMouseLeave={() => setBarTooltipEn(false)}
+              data={data}
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
-              <YAxis tickCount={1} hide={true} />
               <Tooltip
-                animationDuration={500}
                 position={{
                   x: tooltipOverflowBlock(),
-                  y:
-                    window.innerWidth > 768
-                      ? dotY < 70
-                        ? -40
-                        : dotY - (chartGap + 70)
-                      : dotY < 90
-                      ? 20
-                      : dotY - (chartGap + 70) / 2,
+                  y: dotY - (window.innerWidth > 768 ? 60 : 50),
                 }}
                 content={<ApyTooltip />}
-                cursor={<CustomLine />}
+                cursor={window.innerWidth > 768 ? <CustomLine /> : false}
               />
               <Line
                 type="monotone"
@@ -221,9 +237,25 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
                 strokeWidth={3}
                 dot={false}
                 activeDot={<CustomDot />}
-                className={`[&>*]:translate-y-[-50px]`}
               />
               <YAxis tickCount={1} hide={true} />
+            </LineChart>
+          </ResponsiveContainer>
+          <ResponsiveContainer width="100%" height={50}>
+            <LineChart
+              syncId="marketCharSynch"
+              onMouseMove={tooltipSync}
+              onMouseLeave={() => setBarTooltipEn(false)}
+              data={data}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
+              <Tooltip content={<></>} cursor={false} />
+              <Line
+                activeDot={false}
+                dataKey="borrowAPY"
+                stroke="transparent"
+                dot={false}
+              />
             </LineChart>
           </ResponsiveContainer>
           <ResponsiveContainer
@@ -233,23 +265,13 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
           >
             <BarChart
               syncId="marketCharSynch"
-              data={data.map((item: IDataBorrowDot) => ({
-                ...item,
-                totalBorrow: parseInt(item.totalBorrow),
-                borrowAPY: parseInt(item.borrowAPY),
-              }))}
+              data={data}
               onMouseMove={tooltipSync}
+              onMouseLeave={() => setBarTooltipEn(false)}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
-              <Tooltip
-                animationDuration={500}
-                position={{
-                  x: tooltipOverflowBlock(),
-                  y: 20,
-                }}
-                cursor={false}
-                content={<TotalTooltip />}
-              />
+              <Tooltip content={<></>} cursor={false} />
+
               <Bar
                 dataKey="totalBorrow"
                 radius={[3, 3, 0, 0]}
@@ -267,7 +289,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
           {activeTooltip !== undefined ? (
             <div
               style={{ left: Math.round(dotX) < 50 ? 25 : Math.round(dotX) }}
-              className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium whitespace-nowrap bottom-[20px] block md:hidden pr-[10px]"
+              className="absolute translate-x-[-50%] text-[#ADB5B3] text-xs font-medium whitespace-nowrap bottom-[-20px] block md:hidden pr-[10px]"
             >
               {data[activeTooltip]?.date}
             </div>

@@ -475,13 +475,6 @@ async function getAssetPriceInUsd(
   cToken: cToken,
   token: Token
 ): Promise<number> {
-  // get the real eth price
-  if (token.symbol === "ETH") {
-    let res = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/sell")
-    let json = await res.json()
-    return parseFloat(json.data.amount)
-  }
-
   let contract = new ethers.Contract(
     priceOracleAddress,
     SamplePriceOracleAbi,

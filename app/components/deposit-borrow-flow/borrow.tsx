@@ -292,6 +292,7 @@ export default function Borrow({
                 ))}
               {signer && isValid && (
                 <button
+                  disabled={isBorrowing}
                   onClick={async () => {
                     try {
                       if (!value) {

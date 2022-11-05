@@ -285,6 +285,7 @@ export default function Withdraw({
 
               {signer && isValid && (
                 <button
+                  disabled={isWithdrawing}
                   onClick={async () => {
                     try {
                       if (!value) {
