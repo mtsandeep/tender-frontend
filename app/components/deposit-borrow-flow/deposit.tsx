@@ -275,6 +275,7 @@ export default function Deposit({
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isEnabled && (
                 <button
+                  disabled={isEnabling}
                   onClick={async () => {
                     try {
                       setIsEnabling(true);
@@ -305,6 +306,7 @@ export default function Deposit({
 
               {signer && isEnabled && isValid && (
                 <button
+                  disabled={isDepositing}
                   onClick={async () => {
                     try {
                       if (!value) {

@@ -104,10 +104,8 @@ export default function Display({
               <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                   <div className="flex justify-between items-center">
-                    <span className="text-[#818987]">
-                      Liquidation Threshold
-                    </span>
-                    <span>$XXX.XX</span>
+                    <span className="text-[#818987]">Loan to Value (LTV)</span>
+                    <span>XX.XX%</span>
                   </div>
                 </div>
               </div>
@@ -123,11 +121,13 @@ export default function Display({
               Borrow Max
             </span>
             <div className="hidden z-10 flex-col absolute right-0 bottom-[18px] items-end group-hover:flex group-focus:flex rounded-[10px]">
-              <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[180px] panel-custom !rounded-[10px]">
+              <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                   <div className="flex justify-between items-center">
-                    <span className="text-[#818987]">Loan to Value (LTV)</span>
-                    <span>XX%</span>
+                    <span className="text-[#818987]">
+                      Liquidation Threshold
+                    </span>
+                    <span>$XX.XX</span>
                   </div>
                 </div>
               </div>
