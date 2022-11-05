@@ -14,6 +14,7 @@ export default function AccountSummary() {
     borrowBalanceInUsd,
     borrowLimit,
     netApy,
+    ltv,
   } = useAccountSummary();
 
   const totalSuppliedUsd = tenderContextData.markets
@@ -41,6 +42,7 @@ export default function AccountSummary() {
       supplyBalanceInUsd={supplyBalanceInUsd}
       borrowBalanceInUsd={borrowBalanceInUsd}
       netApy={netApy}
+      ltv={ltv}
       borrowLimitUsed={borrowLimitUsed}
       percentUsed={percentUsed}
       borrowLimit={borrowLimit}
