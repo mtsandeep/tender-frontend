@@ -206,14 +206,18 @@ export function useMarkets(
           );
           const glpBlockDeltaPromise = cTokenContract.glpBlockDelta(); // blocks passed since last compounding
           const prevExchangeRatePromise = cTokenContract.prevExchangeRate(); // previous exchange rate in scaled to 18 decimals
-          const exchangeRateCurrentPromise =
-            cTokenContract.exchangeRateCurrent(); // current exchange rate after minting new glp
+          const exchangeRateStoredPromise =
+            cTokenContract.exchangeRateStored(); // current exchange rate after minting new glp
           const totalSupplyPromise = cTokenContract.totalSupply();
+          const depositsDuringLastIntervalPromise =
+            cTokenContract.depositsDuringLastInterval();
 
           const glpBlockDelta = await glpBlockDeltaPromise;
           const prevExchangeRate = await prevExchangeRatePromise;
-          const exchangeRateCurrent = await exchangeRateCurrentPromise;
+          const exchangeRateStored = await exchangeRateStoredPromise;
           const totalSupply = await totalSupplyPromise; // token in tdecimal with exchange rate applied
+          const depositsDuringLastInterval =
+            await depositsDuringLastIntervalPromise; // token in decimal without exchange rate
 
           let rateOfIncreasePerBlock = BigNumber.from(0);
           const ethereumSecondsPerBlock = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
@@ -222,11 +226,20 @@ export function useMarkets(
             glpBlockDelta.gt(0) &&
             totalSupply.gt(0)
           ) {
-            const rateOfIncrease = exchangeRateCurrent
-              .sub(prevExchangeRate)
-              .mul(BigNumber.from(10).pow(18)) //scaled to 18 decimals
-              .div(prevExchangeRate); 
-            rateOfIncreasePerBlock = rateOfIncrease.div(glpBlockDelta);
+            const prevGlp = totalSupply
+              .mul(prevExchangeRate)
+              .div(BigNumber.from(10).pow(18))
+              .sub(depositsDuringLastInterval);
+            const currentGlp = totalSupply
+              .mul(exchangeRateStored)
+              .div(BigNumber.from(10).pow(18))
+              .sub(depositsDuringLastInterval);
+
+            rateOfIncreasePerBlock = currentGlp
+              .mul(BigNumber.from(10).pow(18))
+              .div(prevGlp)
+              .sub(BigNumber.from(10).pow(18))
+              .div(glpBlockDelta);
           }
 
           depositApy = formatApy(

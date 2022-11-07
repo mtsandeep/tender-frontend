@@ -412,6 +412,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "function"
 }, {
     "inputs": [],
+    "name": "depositsDuringLastInterval",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "accrueInterest",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "nonpayable",
