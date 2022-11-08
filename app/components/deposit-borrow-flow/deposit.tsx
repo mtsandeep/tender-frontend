@@ -142,7 +142,7 @@ export default function Deposit({
     [tokenDecimals, changeInitialValue]
   );
 
-  const borrowApy = parseFloat(market.marketData.depositApy) * -1;
+  const borrowApy = parseFloat(market.marketData.depositApy);
   const supplyApyFormatted = formatApy(borrowApy);
 
   return (
