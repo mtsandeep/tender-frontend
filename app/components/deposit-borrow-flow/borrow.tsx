@@ -225,7 +225,7 @@ export default function Borrow({
                 )
             )}
           </div>
-          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D]">
+          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
             <div className="flex flex-col items-center mb-[40px] text-gray-400">
               <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] justify-between">
                 <div
