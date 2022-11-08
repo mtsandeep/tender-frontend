@@ -219,7 +219,11 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
               onMouseLeave={() => setBarTooltipEn(false)}
-              data={data}
+              data={data.map((item: IDataBorrowDot) => ({
+                ...item,
+                totalBorrow: parseInt(item.totalBorrow),
+                borrowAPY: parseInt(item.borrowAPY),
+              }))}
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
               <Tooltip
@@ -265,7 +269,11 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
           >
             <BarChart
               syncId="marketCharSynch"
-              data={data}
+              data={data.map((item: IDataBorrowDot) => ({
+                ...item,
+                totalBorrow: parseInt(item.totalBorrow),
+                borrowAPY: parseInt(item.borrowAPY),
+              }))}
               onMouseMove={tooltipSync}
               onMouseLeave={() => setBarTooltipEn(false)}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
