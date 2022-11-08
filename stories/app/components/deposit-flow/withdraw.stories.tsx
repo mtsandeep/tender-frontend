@@ -88,6 +88,7 @@ Primary.args = {
   initialValue: "",
   activeTab: "withdraw",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as WithdrawProps;
 
@@ -127,5 +128,6 @@ SmallNumbers.args = {
   initialValue: "",
   activeTab: "withdraw",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as WithdrawProps;

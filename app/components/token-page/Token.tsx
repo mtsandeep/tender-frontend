@@ -31,10 +31,10 @@ const Token = ({ id }: { id: string | undefined }) => {
           utilizationRate={utilizationRate}
         />
         <div className="order-1 lg:order-2 w-full">
+          <TokenGettingStarted market={token[0]} id={id} />
           {(id === "GLP" || id === "GMX") && (
             <TokenVaultDetails marketInfo={m.market} />
           )}
-          <TokenGettingStarted market={token[0]} />
           <TokenInterestRate data={interestRateModel} />
         </div>
       </div>
