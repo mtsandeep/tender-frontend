@@ -119,6 +119,7 @@ function TokenMarketDetails({
           contract that is controlled by{" "}
           <a
             target="_blank"
+            tabIndex={-1}
             className="line-solid cursor-pointer text-white"
             rel="noreferrer"
             href="https://www.tender.fi/"
