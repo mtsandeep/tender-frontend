@@ -140,7 +140,7 @@ export default function Withdraw({
     [changeInitialValue]
   );
 
-  const borrowApy = parseFloat(market.marketData.depositApy) * -1;
+  const borrowApy = parseFloat(market.marketData.depositApy);
   const supplyApyFormatted = formatApy(borrowApy);
 
   return (
@@ -247,7 +247,7 @@ export default function Withdraw({
                               borrowApy
                             )}`}
                           >
-                            {formatApy(borrowApy)}
+                            {supplyApyFormatted}
                           </span>
                         </div>
                         <div className="flex justify-between gap-[30px]">

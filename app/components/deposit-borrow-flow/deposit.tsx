@@ -262,7 +262,7 @@ export default function Deposit({
                               borrowApy
                             )}`}
                           >
-                            {formatApy(borrowApy)}
+                            {supplyApyFormatted}
                           </span>
                         </div>
                         <div className="flex justify-between gap-[30px]">
