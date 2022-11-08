@@ -147,7 +147,7 @@ export default function Deposit({
 
   return (
     <div>
-      {111 ? (
+      {txnHash !== "" ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
