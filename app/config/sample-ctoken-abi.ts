@@ -400,24 +400,6 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "function"
 }, {
     "inputs": [],
-    "name": "prevExchangeRate",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "inputs": [],
-    "name": "glpBlockDelta",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "inputs": [],
-    "name": "depositsDuringLastInterval",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-}, {
-    "inputs": [],
     "name": "accrueInterest",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "nonpayable",
@@ -512,7 +494,7 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "inputs": [],
     "name": "exchangeRateCurrent",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
 }, {
     "inputs": [],
