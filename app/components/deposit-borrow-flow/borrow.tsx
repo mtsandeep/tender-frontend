@@ -208,7 +208,7 @@ export default function Borrow({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show && (
+                tab.show ? (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -220,6 +220,8 @@ export default function Borrow({
                   >
                     {tab.name}
                   </button>
+                ) : (
+                  <></>
                 )
             )}
           </div>

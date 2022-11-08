@@ -23,7 +23,7 @@ function TokenChartEmpty() {
         >
           supply
         </div>
-        {params.tokenId !== "GLP" && (
+        {params.tokenId !== "GLP" ? (
           <div
             onClick={() => setTabName("borrow")}
             className={`cursor-pointer text-center w-full pb-[6px] md:pb-[12px] border-b-[3px] md:w-[170px] ${
@@ -34,6 +34,8 @@ function TokenChartEmpty() {
           >
             borrow
           </div>
+        ) : (
+          <></>
         )}
       </div>
       <div className="pt-[40px] pb-[20px] md:pb-[40px] pl-[20px] pr-[20px]">

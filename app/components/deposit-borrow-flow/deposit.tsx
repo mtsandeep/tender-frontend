@@ -218,7 +218,7 @@ export default function Deposit({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show && (
+                tab.show ? (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -230,6 +230,8 @@ export default function Deposit({
                   >
                     {tab.name}
                   </button>
+                ) : (
+                  <></>
                 )
             )}
           </div>

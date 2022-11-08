@@ -37,7 +37,7 @@ const TokenGettingStarted = ({ market, id }: Props) => {
         }}
         closeTimeoutMS={200}
       >
-        {openMarket?.id && (
+        {openMarket?.id ? (
           <DepositBorrowFlow
             key={openMarket.id}
             closeModal={() => setOpenMarket(null)}
@@ -45,6 +45,8 @@ const TokenGettingStarted = ({ market, id }: Props) => {
             activeTab={activeTab}
             setActiveTab={handlerClickChangeTab}
           />
+        ) : (
+          <></>
         )}
       </ReactModal>
       <div className="panel-custom border-custom font-nova w-full mb-5">
