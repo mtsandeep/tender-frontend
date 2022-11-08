@@ -107,7 +107,7 @@ export default function Repay({
       (activeTab === "repay" || activeTab === "borrow") &&
       scrollBlockRef?.current
     ) {
-      scrollBlockRef.current.scrollLeft = 200;
+      scrollBlockRef.current.scrollLeft = 400;
     }
   }, [activeTab]);
 
