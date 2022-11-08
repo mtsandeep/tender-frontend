@@ -226,7 +226,7 @@ function TokenMarketDetails({
                 {item.itemName}
               </span>
               {item?.tooltipText && (
-                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
+                <div className="hidden flex-row md:flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                   <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
                     <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
                       <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
@@ -244,7 +244,7 @@ function TokenMarketDetails({
                       </p>
                     </div>
                   </div>
-                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  <div className="custom__arrow__tooltip relative top-[-6px] left-[20px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                 </div>
               )}
             </div>

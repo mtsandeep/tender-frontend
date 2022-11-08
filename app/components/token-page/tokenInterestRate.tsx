@@ -3,8 +3,8 @@ import { LineChart, Line, Tooltip, ResponsiveContainer, YAxis } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 
 function TokenInterestRate({ data }: { data: any[] }) {
-  const [isCurrentInd, setIsCurrentInd] = useState<number>(0);
-  const [isOptimalInd, setIsOptimalInd] = useState<number>(0);
+  const [isCurrentInd, setIsCurrentInd] = useState<number | null>(null);
+  const [isOptimalInd, setIsOptimalInd] = useState<number | null>(null);
   const [actData, setActData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -99,7 +99,8 @@ function TokenInterestRate({ data }: { data: any[] }) {
   };
 
   const CustomizedDot = (props: any) => {
-    return props.isOptimalInd && props?.index === props.isOptimalInd ? (
+    return props.isOptimalInd !== null &&
+      props?.index === props.isOptimalInd ? (
       <svg
         x={props.cx - 21}
         y={props.cy - 22}
@@ -114,7 +115,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
           fill="white"
         />
       </svg>
-    ) : props.isCurrentInd && props?.index === props.isCurrentInd ? (
+    ) : props.isCurrentInd !== null && props?.index === props.isCurrentInd ? (
       <svg
         x={props.cx - 21}
         y={props.cy - 6}
@@ -136,7 +137,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
     );
   };
 
-  return isCurrentInd && isOptimalInd && actData.length ? (
+  return isCurrentInd !== null && isOptimalInd !== null && actData.length ? (
     <div className="panel-custom border-custom font-nova w-full">
       <div className="px-[15px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
         Interest Rate Model
