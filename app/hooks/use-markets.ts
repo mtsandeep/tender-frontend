@@ -19,6 +19,9 @@ import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import { providers as mcProviders } from '@0xsequence/multicall';
 import {formatUnits} from "ethers/lib/utils";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
+import GlpManager from "~/config/abi/glp/GlpManager.json"
+import RewardTracker from "~/config/abi/glp/RewardTracker.json"
+import Vault from "~/config/abi/glp/Vault.json"
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
@@ -199,51 +202,71 @@ export function useMarkets(
         }
         let depositApy;
         if (tp.token.symbol === "GLP") {
-          const cTokenContract = new ethers.Contract(
-            tp.cToken.address,
+          const tokenContract = new ethers.Contract(
+            tp.token.glpAddress!,
             SampleCTokenAbi,
             mcProvider
           );
-          const glpBlockDeltaPromise = cTokenContract.glpBlockDelta(); // blocks passed since last compounding
-          const prevExchangeRatePromise = cTokenContract.prevExchangeRate(); // previous exchange rate in scaled to 18 decimals
-          const exchangeRateStoredPromise =
-            cTokenContract.exchangeRateStored(); // current exchange rate after minting new glp
-          const totalSupplyPromise = cTokenContract.totalSupply();
-          const depositsDuringLastIntervalPromise =
-            cTokenContract.depositsDuringLastInterval();
+          const glpManagerContract = new ethers.Contract(
+            tp.token.glpManager!,
+            GlpManager.abi,
+            mcProvider
+          );
+          const rewardTrackerContract = new ethers.Contract(
+            tp.token.rewardTracker!,
+            RewardTracker.abi,
+            mcProvider
+          );
+          const vaultContract = new ethers.Contract(
+            tp.token.vault!,
+            Vault.abi,
+            mcProvider
+          );
+          const aumsPromise = glpManagerContract.getAums();
+          const tokensPerIntervalPromise =
+            rewardTrackerContract.tokensPerInterval();
+          const nativeTokenPricePromise = vaultContract.getMinPrice(
+            tp.token.nativeToken
+          );
+          const glpSupplyPromise = tokenContract.totalSupply();
 
-          const glpBlockDelta = await glpBlockDeltaPromise;
-          const prevExchangeRate = await prevExchangeRatePromise;
-          const exchangeRateStored = await exchangeRateStoredPromise;
-          const totalSupply = await totalSupplyPromise; // token in tdecimal with exchange rate applied
-          const depositsDuringLastInterval =
-            await depositsDuringLastIntervalPromise; // token in decimal without exchange rate
+          const aums = await aumsPromise;
+          const tokensPerInterval = await tokensPerIntervalPromise;
+          const nativeTokenPrice = await nativeTokenPricePromise;
+          const glpSupply = await glpSupplyPromise;
 
-          let rateOfIncreasePerBlock = BigNumber.from(0);
-          const ethereumSecondsPerBlock = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
-          if (
-            prevExchangeRate.gt(0) &&
-            glpBlockDelta.gt(0) &&
-            totalSupply.gt(0)
-          ) {
-            const prevGlp = totalSupply
-              .mul(prevExchangeRate)
-              .div(BigNumber.from(10).pow(18))
-              .sub(depositsDuringLastInterval);
-            const currentGlp = totalSupply
-              .mul(exchangeRateStored)
-              .div(BigNumber.from(10).pow(18))
-              .sub(depositsDuringLastInterval);
-
-            rateOfIncreasePerBlock = currentGlp
-              .mul(BigNumber.from(10).pow(18))
-              .div(prevGlp)
-              .sub(BigNumber.from(10).pow(18))
-              .div(glpBlockDelta);
+          const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+          const ETHEREUM_SECONDS_PER_BLOCK = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
+          const BLOCKS_PER_YEAR = Math.round(
+            SECONDS_PER_YEAR / ETHEREUM_SECONDS_PER_BLOCK
+          );
+          const BASIS_POINTS_DIVISOR = BigNumber.from(10).pow(18);
+          let aum;
+          if (aums && aums.length > 0) {
+            aum = aums[0].add(aums[1]).div(2);
           }
+          const glpPrice =
+            glpSupply && glpSupply.gt(0)
+              ? aum.mul(BigNumber.from(10).pow(18)).div(glpSupply)
+              : BigNumber.from(0);
+          const feeGlpTrackerAnnualRewardsUsd = tokensPerInterval
+            .mul(SECONDS_PER_YEAR)
+            .mul(nativeTokenPrice)
+            .div(BigNumber.from(10).pow(18));
+          const glpSupplyUsd = glpSupply
+            .mul(glpPrice)
+            .div(BigNumber.from(10).pow(18));
+          const glpAprForNativeToken =
+            glpSupplyUsd && glpSupplyUsd.gt(0)
+              ? feeGlpTrackerAnnualRewardsUsd
+                  .mul(BASIS_POINTS_DIVISOR)
+                  .div(glpSupplyUsd)
+              : BigNumber.from(0);
+
+          const aprPerBlock = glpAprForNativeToken.div(BLOCKS_PER_YEAR);
 
           depositApy = formatApy(
-            calculateApy(rateOfIncreasePerBlock, ethereumSecondsPerBlock)
+            calculateApy(aprPerBlock, ETHEREUM_SECONDS_PER_BLOCK)
           );
         } else {
           // marketData
