@@ -202,7 +202,7 @@ export default function Withdraw({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show ? (
+                tab.show && (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -214,8 +214,6 @@ export default function Withdraw({
                   >
                     {tab.name}
                   </button>
-                ) : (
-                  <></>
                 )
             )}
           </div>

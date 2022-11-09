@@ -306,15 +306,13 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
           )}
         </div>
       </div>
-      {activeTooltip !== undefined ? (
+      {activeTooltip !== undefined && (
         <div
           style={{ left: Math.round(dotX) }}
           className="absolute translate-x-[-70%] text-[#ADB5B3] text-xs font-medium bottom-[-30px] whitespace-nowrap hidden md:block"
         >
           {data[activeTooltip]?.date}
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );

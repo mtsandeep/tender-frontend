@@ -117,7 +117,7 @@ function TokenChart({
         >
           supply
         </button>
-        {marketInfo?.tokenSymbol !== "GLP" ? (
+        {marketInfo?.tokenSymbol !== "GLP" && (
           <button
             tabIndex={0}
             onClick={() => setTabName("borrow")}
@@ -129,8 +129,6 @@ function TokenChart({
           >
             borrow
           </button>
-        ) : (
-          <></>
         )}
       </div>
       {tabName === "supply" ? (
