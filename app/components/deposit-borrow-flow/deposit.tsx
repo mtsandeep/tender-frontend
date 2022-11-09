@@ -6,7 +6,7 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import {  useValidInputV2 } from "~/hooks/use-valid-input";
+import { useValidInputV2 } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
 
 import { enable, deposit } from "~/lib/tender";
@@ -15,9 +15,8 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { getAmount, shrinkInputClass,  } from "~/lib/ui";
+import { getAmount, shrinkInputClass } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
-import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 import MaxV2 from "../MaxV2";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
@@ -216,7 +215,7 @@ export default function Deposit({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show ? (
+                tab.show && (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -228,8 +227,6 @@ export default function Deposit({
                   >
                     {tab.name}
                   </button>
-                ) : (
-                  <></>
                 )
             )}
           </div>
