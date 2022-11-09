@@ -185,13 +185,13 @@ export default function Repay({
               {market.tokenPair.token.symbol}
             </div>
             {!isEnabled ? (
-              <div className="flex flex-col items-center mt-[38px] md:mt-[48px] rounded-2xl px-4">
+              <div className="flex flex-col items-center mt-[29px] md:mt-[34px] rounded-2xl px-4">
                 <img
                   src={market.tokenPair.token.icon}
                   className="w-[58px] h-[58px]"
                   alt="icon"
                 />
-                <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
+                <div className="max-w-sm text-center mt-[29px] md:mt-[34px] font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
                   To borrow or repay {market.tokenPair.token.symbol} on the
                   Tender.fi protocol, you need to enable it first.
                 </div>
@@ -228,7 +228,7 @@ export default function Repay({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show && (
+                tab.show ? (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -240,10 +240,12 @@ export default function Repay({
                   >
                     {tab.name}
                   </button>
+                ) : (
+                  <></>
                 )
             )}
           </div>
-          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D]">
+          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
             <div className="flex flex-col items-center mb-[40px] text-gray-400">
               <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] justify-between">
                 <div

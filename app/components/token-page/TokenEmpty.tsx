@@ -11,7 +11,7 @@ const TokenEmpty = ({ id }: { id: string | undefined }) => {
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
         <TokenMarketDetailsEmpty />
         <div className="order-1 lg:order-2 w-full">
-          {(id === "GLP" || id === "GMX") && <TokenVaultDetailsEmpty />}
+          {id === "GLP" || id === "GMX" ? <TokenVaultDetailsEmpty /> : <></>}
           <TokenGettingStartedEmpty />
           <TokenInterestRateEmpty />
         </div>

@@ -8,6 +8,7 @@ import TwoPanelsEmpty from "./two-panels-empty";
 import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 import * as math from "mathjs";
+import DisplayPrice from "../shared/DisplayPrice";
 
 export const checkColorClass = (value: number | string) => {
   const valueNumber = parseFloat(
@@ -513,14 +514,20 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {toShortCryptoString(token.walletBalance)}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.walletBalance}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                              decimals={token.tokenPair.token.decimals}
+                              isCompact
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${toShortFiatString(
-                              token.walletBalance *
-                                token.tokenPair.token.priceInUsd
-                            )} USD`}
+                            <DisplayPrice
+                              amount={token.walletBalance}
+                              decimals={token.tokenPair.token.decimals}
+                              baseFactor={token.tokenPair.token.priceInUsd.toString()}
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>

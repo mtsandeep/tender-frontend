@@ -314,7 +314,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
           {data[activeTooltip]?.date}
         </div>
       ) : (
-        ""
+        <></>
       )}
     </div>
   );

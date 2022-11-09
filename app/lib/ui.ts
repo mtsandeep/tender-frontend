@@ -1,7 +1,7 @@
 import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
 import * as math from "mathjs";
-
+import BigNumber from "bignumber.js"
 /**
  * Used on deposit, withdraw, borrow, and repay modals
  *
@@ -114,5 +114,79 @@ const formatMaxString = (v: number, precision: number = 6): string =>
 
 export const toExactString = (v: number) =>
   math.format(v, { notation: "fixed" });
+
+
+/**
+ * Human readable BigNumber
+ * 
+ * amount = 1000000000000000000
+ * decimals = 18
+ * returns 1 as string
+ * 
+ * @param amount 
+ * @param decimals 
+ * @returns 
+ */
+export const getHumanReadableAmount = (
+  amount: string,
+  decimals: number | string
+) => {
+  return BigNumber(amount).div(BigNumber(10).pow(decimals));
+};
+
+/**
+ * convert human readable number to smart contract BigNumber format with decimals added
+ * 
+ * amount = 1
+ * decimals = 18
+ * returns 1000000000000000000 as string
+ * 
+ * @param amount 
+ * @param decimals 
+ * @returns 
+ */
+export const getAmount = (amount: string, decimals: number) => {
+  return BigNumber(amount).multipliedBy(BigNumber(10).pow(decimals));
+};
+
+/**
+ * Display price, only use for displaying DO NOT use for calculation
+ * @param amount 
+ * @param decimals 
+ * @param multiplyFactor 
+ * @param multiplyFactorDecimals 
+ * @returns 
+ */
+export const getDisplayPrice = (
+  amount?: string,
+  decimals?: number,
+  multiplyFactor?: string,
+  multiplyFactorDecimals?: number
+) => {
+    if (!amount || !decimals) {
+      return ''
+    }
+
+    const displayPrice = BigNumber(amount).multipliedBy(
+      multiplyFactor || 1
+    ).div(BigNumber(10).pow(decimals+(multiplyFactorDecimals||0)));
+
+    return displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed()
+};
+
+export const truncatePrice = (amount: string, decimals: number = 18) => {
+  return BigNumber(amount).dp(decimals, BigNumber.ROUND_DOWN).toFixed();
+};
+export const roundPrice = (amount: string, decimals: number = 6) => {
+  return BigNumber(amount).dp(decimals).toFixed();
+};
+
+/**
+ * Temparory usage until we move all to BigNumber or find a better solution.
+ * Returns float with token decimals applied ( same error will be there in precision)
+ */
+export const getAmountFloat = (amount:string, decimals:number) => {
+  return parseFloat(BigNumber(amount).div(BigNumber(10).pow(decimals)).toFixed())
+}
 
 export { shrinkInputClass };

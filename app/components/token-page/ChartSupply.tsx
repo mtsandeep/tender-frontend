@@ -315,7 +315,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           {data[activeTooltip]?.date}
         </div>
       ) : (
-        ""
+        <></>
       )}
     </div>
   );

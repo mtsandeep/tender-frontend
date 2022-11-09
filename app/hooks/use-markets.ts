@@ -191,15 +191,8 @@ export function useMarkets(
         const maxBorrowLiquidity = parseFloat(utils.formatUnits(token.cash, tp.token.decimals));
 
         // walletBalance
-        let walletBalance;
+        const walletBalance = token.walletBalance.toString()
 
-        if (tp.token.symbol === "ETH")  {
-          walletBalance = parseFloat(
-              ethers.utils.formatEther(token.walletBalance)
-          );
-        } else {
-          walletBalance = formatBigNumber(token.walletBalance, tp.token.decimals);
-        }
         let depositApy;
         if (tp.token.symbol === "GLP") {
           const tokenContract = new ethers.Contract(
@@ -295,7 +288,7 @@ export function useMarkets(
             totalBorrowed,
             marketSize,
           },
-          walletBalance: walletBalance,
+          walletBalance,
           supplyBalance,
           supplyBalanceInUsd,
           borrowBalance,

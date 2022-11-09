@@ -25,7 +25,6 @@ export interface WithdrawProps {
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
-  walletBalance: number;
   totalBorrowedAmountInUsd: number;
   initialValue: string;
   activeTab: ActiveTab;
@@ -140,7 +139,7 @@ export default function Withdraw({
     [changeInitialValue]
   );
 
-  const borrowApy = parseFloat(market.marketData.depositApy) * -1;
+  const borrowApy = parseFloat(market.marketData.depositApy);
   const supplyApyFormatted = formatApy(borrowApy);
 
   return (
@@ -203,7 +202,7 @@ export default function Withdraw({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show && (
+                tab.show ? (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -215,10 +214,12 @@ export default function Withdraw({
                   >
                     {tab.name}
                   </button>
+                ) : (
+                  <></>
                 )
             )}
           </div>
-          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D]">
+          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
             <div className="flex flex-col items-center mb-[40px] text-gray-400">
               <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] justify-between">
                 <div
@@ -247,7 +248,7 @@ export default function Withdraw({
                               borrowApy
                             )}`}
                           >
-                            {formatApy(borrowApy)}
+                            {supplyApyFormatted}
                           </span>
                         </div>
                         <div className="flex justify-between gap-[30px]">

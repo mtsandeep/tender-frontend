@@ -6,10 +6,8 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { useValidInput } from "~/hooks/use-valid-input";
+import {  useValidInputV2 } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
-import Max from "~/components/max";
-import { toExactString } from "~/lib/ui";
 
 import { enable, deposit } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
@@ -17,8 +15,10 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { shrinkInputClass } from "~/lib/ui";
+import { getAmount, shrinkInputClass,  } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
+import { useCollateralFactor } from "~/hooks/use-collateral-factor";
+import MaxV2 from "../MaxV2";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
@@ -30,7 +30,7 @@ export interface DepositProps {
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
-  walletBalance: number;
+  walletBalance: string;
   totalBorrowedAmountInUsd: number;
   comptrollerAddress: string;
   initialValue: string;
@@ -82,12 +82,11 @@ export default function Deposit({
     newBorrowLimit
   );
 
-  const [isValid, validationDetail] = useValidInput(
-    initialValue,
-    0,
+  const [isValid, validationDetail] = useValidInputV2(
+    getAmount(initialValue, market.tokenPair.token.decimals).toFixed(),
+    "0",
     walletBalance,
-    parseFloat(newBorrowLimitUsed),
-    tokenDecimals
+    newBorrowLimitUsed
   );
   useEffect(() => {
     setIsEnabled(market.hasSufficientAllowance);
@@ -142,7 +141,7 @@ export default function Deposit({
     [tokenDecimals, changeInitialValue]
   );
 
-  const borrowApy = parseFloat(market.marketData.depositApy) * -1;
+  const borrowApy = parseFloat(market.marketData.depositApy);
   const supplyApyFormatted = formatApy(borrowApy);
 
   return (
@@ -177,13 +176,13 @@ export default function Deposit({
               {market.tokenPair.token.symbol}
             </div>
             {!isEnabled ? (
-              <div className="flex flex-col items-center mt-[38px] md:mt-[48px] rounded-2xl px-4">
+              <div className="flex flex-col items-center mt-[29px] md:mt-[34px] rounded-2xl px-4">
                 <img
                   src={market.tokenPair.token.icon}
                   className="w-[58px] h-[58px]"
                   alt="icon"
                 />
-                <div className="max-w-sm text-center mt-5 font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
+                <div className="max-w-sm text-center mt-[29px] md:mt-[34px] font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
                   To supply or withdraw {market.tokenPair.token.symbol} on the
                   Tender.fi protocol, you need to enable it first.
                 </div>
@@ -201,12 +200,11 @@ export default function Deposit({
                   }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                   placeholder="0"
                 />
-                <Max
-                  maxValue={walletBalance}
-                  updateValue={() =>
-                    changeInitialValue(toExactString(walletBalance))
-                  }
-                  maxValueLabel={market.tokenPair.token.symbol}
+                <MaxV2
+                  amount={walletBalance}
+                  decimals={market.tokenPair.token.decimals}
+                  onMaxClick={changeInitialValue}
+                  tokenSymbol={market.tokenPair.token.symbol}
                   color="#00E0FF"
                 />
               </div>
@@ -218,7 +216,7 @@ export default function Deposit({
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
-                tab.show && (
+                tab.show ? (
                   <button
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
@@ -230,10 +228,12 @@ export default function Deposit({
                   >
                     {tab.name}
                   </button>
+                ) : (
+                  <></>
                 )
             )}
           </div>
-          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D]">
+          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
             <div className="flex flex-col items-center mb-[40px] text-gray-400">
               <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] justify-between">
                 <div
@@ -262,7 +262,7 @@ export default function Deposit({
                               borrowApy
                             )}`}
                           >
-                            {formatApy(borrowApy)}
+                            {supplyApyFormatted}
                           </span>
                         </div>
                         <div className="flex justify-between gap-[30px]">
