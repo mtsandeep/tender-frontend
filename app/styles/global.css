@@ -180,6 +180,10 @@ body.body__fixed {
   border-image-slice: 1;
 }
 
+.label-total {
+  transition: 0.3s;
+}
+
 .bottom__custom {
   right: 50%;
   transform: translate(50%, 0px);

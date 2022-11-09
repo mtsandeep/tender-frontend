@@ -197,7 +197,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
         >
           {barTooltipEn && (
             <div
-              className={`pointer-events-none text-center w-fit absolute z-10 bottom-0 left-0`}
+              className={`pointer-events-none text-center w-fit absolute z-10 bottom-0 left-0 label-total`}
               style={{
                 transform: `translate(calc(${tooltipOverflowBlock()}px), -${
                   barTooltip.y
