@@ -25,7 +25,6 @@ export interface WithdrawProps {
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
-  walletBalance: number;
   totalBorrowedAmountInUsd: number;
   initialValue: string;
   activeTab: ActiveTab;

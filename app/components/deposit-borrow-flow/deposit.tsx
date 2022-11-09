@@ -6,10 +6,8 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { useValidInput } from "~/hooks/use-valid-input";
+import {  useValidInputV2 } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
-import Max from "~/components/max";
-import { toExactString } from "~/lib/ui";
 
 import { enable, deposit } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
@@ -17,8 +15,10 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { shrinkInputClass } from "~/lib/ui";
+import { getAmount, shrinkInputClass,  } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
+import { useCollateralFactor } from "~/hooks/use-collateral-factor";
+import MaxV2 from "../MaxV2";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
@@ -30,7 +30,7 @@ export interface DepositProps {
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
-  walletBalance: number;
+  walletBalance: string;
   totalBorrowedAmountInUsd: number;
   comptrollerAddress: string;
   initialValue: string;
@@ -82,12 +82,11 @@ export default function Deposit({
     newBorrowLimit
   );
 
-  const [isValid, validationDetail] = useValidInput(
-    initialValue,
-    0,
+  const [isValid, validationDetail] = useValidInputV2(
+    getAmount(initialValue, market.tokenPair.token.decimals).toFixed(),
+    "0",
     walletBalance,
-    parseFloat(newBorrowLimitUsed),
-    tokenDecimals
+    newBorrowLimitUsed
   );
   useEffect(() => {
     setIsEnabled(market.hasSufficientAllowance);
@@ -201,12 +200,11 @@ export default function Deposit({
                   }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                   placeholder="0"
                 />
-                <Max
-                  maxValue={walletBalance}
-                  updateValue={() =>
-                    changeInitialValue(toExactString(walletBalance))
-                  }
-                  maxValueLabel={market.tokenPair.token.symbol}
+                <MaxV2
+                  amount={walletBalance}
+                  decimals={market.tokenPair.token.decimals}
+                  onMaxClick={changeInitialValue}
+                  tokenSymbol={market.tokenPair.token.symbol}
                   color="#00E0FF"
                 />
               </div>

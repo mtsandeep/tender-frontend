@@ -76,7 +76,7 @@ export type Market = {
     totalBorrowedUsd?: string;
     marketSizeUsd?: string;
   };
-  walletBalance: number;
+  walletBalance: string;
   supplyBalance: number;
   supplyBalanceInUsd: number;
   borrowBalance: number;

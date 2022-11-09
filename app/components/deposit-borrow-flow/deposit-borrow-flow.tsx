@@ -9,6 +9,7 @@ import Withdraw from "~/components/deposit-borrow-flow/withdraw";
 import Borrow from "./borrow";
 import Repay from "./repay";
 import { TenderContext } from "~/contexts/tender-context";
+import { getAmountFloat } from "~/lib/ui";
 
 export type ActiveTab = "supply" | "withdraw" | "borrow" | "repay";
 
@@ -105,7 +106,6 @@ export default function DepositBorrowFlow({
             borrowLimit={market.borrowLimit}
             borrowLimitUsed={market.borrowLimitUsed}
             signer={signer}
-            walletBalance={market.walletBalance}
             totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueWithdraw}
             changeInitialValue={setInitialValueWithdraw}
@@ -123,7 +123,10 @@ export default function DepositBorrowFlow({
             borrowedAmount={market.borrowBalance}
             signer={signer}
             borrowLimitUsed={market.borrowLimitUsed}
-            walletBalance={market.walletBalance}
+            walletBalance={getAmountFloat(
+              market.walletBalance,
+              market.tokenPair.token.decimals
+            )}
             tokenPairs={tokenPairs}
             borrowLimit={market.borrowLimit}
             totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
@@ -145,7 +148,6 @@ export default function DepositBorrowFlow({
             signer={signer}
             borrowLimitUsed={market.borrowLimitUsed}
             borrowLimit={market.borrowLimit}
-            walletBalance={market.walletBalance}
             tokenPairs={tokenPairs}
             totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueBorrow}

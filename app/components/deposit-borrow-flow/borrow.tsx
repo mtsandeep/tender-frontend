@@ -31,7 +31,6 @@ export interface BorrowProps {
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   borrowLimit: number;
-  walletBalance: number;
   tokenPairs: TokenPair[];
   totalBorrowedAmountInUsd: number;
   initialValue: string;
