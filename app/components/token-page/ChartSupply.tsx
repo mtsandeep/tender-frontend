@@ -197,7 +197,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
         >
           {barTooltipEn && (
             <div
-              className={`pointer-events-none text-center w-fit absolute z-10 bottom-0 left-0`}
+              className={`pointer-events-none text-center w-fit absolute z-10 bottom-0 left-0 label-total`}
               style={{
                 transform: `translate(calc(${tooltipOverflowBlock()}px), -${
                   barTooltip.y
@@ -220,7 +220,11 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
               onMouseLeave={() => setBarTooltipEn(false)}
-              data={data}
+              data={data.map((item: IDataSupplyDot) => ({
+                ...item,
+                totalSupply: parseInt(item.totalSupply),
+                supplyAPY: parseInt(item.supplyAPY),
+              }))}
               margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
             >
               <Tooltip
@@ -266,7 +270,11 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           >
             <BarChart
               syncId="marketCharSynch"
-              data={data}
+              data={data.map((item: IDataSupplyDot) => ({
+                ...item,
+                totalSupply: parseInt(item.totalSupply),
+                supplyAPY: parseInt(item.supplyAPY),
+              }))}
               onMouseMove={tooltipSync}
               onMouseLeave={() => setBarTooltipEn(false)}
               margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
@@ -307,7 +315,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           {data[activeTooltip]?.date}
         </div>
       ) : (
-        ""
+        <></>
       )}
     </div>
   );

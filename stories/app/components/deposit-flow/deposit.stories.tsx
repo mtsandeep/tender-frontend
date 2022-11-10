@@ -88,6 +88,7 @@ Primary.args = {
   initialValue: "",
   activeTab: "supply",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as DepositProps;
 
@@ -127,5 +128,6 @@ SmallNumbers.args = {
   initialValue: "",
   activeTab: "supply",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as DepositProps;

@@ -19,6 +19,7 @@ import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import { providers as mcProviders } from '@0xsequence/multicall';
 import {formatUnits} from "ethers/lib/utils";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
+import BigNumber from "bignumber.js"
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
@@ -188,15 +189,7 @@ export function useMarkets(
         const maxBorrowLiquidity = parseFloat(utils.formatUnits(token.cash, tp.token.decimals));
 
         // walletBalance
-        let walletBalance;
-
-        if (tp.token.symbol === "ETH")  {
-          walletBalance = parseFloat(
-              ethers.utils.formatEther(token.walletBalance)
-          );
-        } else {
-          walletBalance = formatBigNumber(token.walletBalance, tp.token.decimals);
-        }
+        const walletBalance = token.walletBalance.toString()
 
         // marketData
         const depositApy = formatApy(
@@ -223,7 +216,7 @@ export function useMarkets(
             totalBorrowed,
             marketSize,
           },
-          walletBalance: walletBalance,
+          walletBalance,
           supplyBalance,
           supplyBalanceInUsd,
           borrowBalance,

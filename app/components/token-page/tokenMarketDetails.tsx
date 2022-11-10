@@ -42,16 +42,19 @@ function TokenMarketDetails({
   const contractUrl = `${networkData.blockExplorerUrl}/address/${marketInfo.id}`;
   const customData = [
     {
+      show: true,
       itemName: "Price",
       itemData: `$${toShortFiatString(
         parseFloat(marketInfo.underlyingPriceUSD)
       )}`,
     },
     {
+      show: id !== "GLP" && id !== "GMX",
       itemName: "Utilization",
       itemData: utilizationRate?.aa ? `${utilizationRate.aa}%` : "0%",
     },
     {
+      show: true,
       itemName: "Available Borrow",
       itemData:
         marketInfo.tokenSymbol === "GLP"
@@ -64,6 +67,7 @@ function TokenMarketDetails({
             marketInfo.tokenSymbol,
     },
     {
+      show: true,
       itemName: "Your Supply",
       itemData:
         toCryptoString(token.supplyBalance, marketInfo.underlyingDecimals) +
@@ -71,6 +75,7 @@ function TokenMarketDetails({
         marketInfo.tokenSymbol,
     },
     {
+      show: true,
       itemName: "Your Borrow",
       itemData:
         toCryptoString(token.borrowBalance, marketInfo.underlyingDecimals) +
@@ -78,21 +83,25 @@ function TokenMarketDetails({
         marketInfo.tokenSymbol,
     },
     {
+      show: true,
       itemName: "# of Suppliers",
       itemData: marketInfo.totalSuppliersCount,
     },
     {
+      show: true,
       itemName: "# of Borrowers",
       itemData: marketInfo.totalBorrowersCount,
     },
-    { itemName: "Supply Cap", itemData: "No limit" },
-    { itemName: "Borrow Cap", itemData: "No limit" },
-    { itemName: "Interest Paid/Day", itemData: "0" },
+    { show: true, itemName: "Supply Cap", itemData: "No limit" },
+    { show: true, itemName: "Borrow Cap", itemData: "No limit" },
+    { show: true, itemName: "Interest Paid/Day", itemData: "0" },
     {
+      show: true,
       itemName: "Reserves",
       itemData: marketInfo.reserves + " " + marketInfo.tokenSymbol,
     },
     {
+      show: true,
       itemName: "Max LTV",
       itemData: marketInfo.collateralFactor * 100 + "%",
       tooltipText: `The Maximum LTV ratio represents the maximum borrowing
@@ -102,16 +111,19 @@ function TokenMarketDetails({
             ETH worth of collateral.`,
     },
     {
+      show: true,
       itemName: "Liquidation Threshold",
       itemData: marketInfo.collateralFactor * 100 + "%",
       tooltipText: `This represents the threshold at which a borrow position will be considered undercollateralized and subject to liquidation for each collateral. For example, if a collateral has a liquidation threshold of 80%, it means that the position will be liquidated when the debt value is worth 80% of the collateral value.`,
     },
     {
+      show: true,
       itemName: "Liquidation Penalty",
       itemData: marketInfo.collateralFactor * 100 + "%",
       tooltipText: `When a liquidation occurs, liquidators repay up to 50% of the outstanding borrowed amount on behalf of the borrower. In return, they can buy the collateral at a discount and keep the difference (liquidation penalty) as a bonus.`,
     },
     {
+      show: true,
       itemName: "Reserve Factor",
       tooltipText: (
         <div>
@@ -119,6 +131,7 @@ function TokenMarketDetails({
           contract that is controlled by{" "}
           <a
             target="_blank"
+            tabIndex={-1}
             className="line-solid cursor-pointer text-white"
             rel="noreferrer"
             href="https://www.tender.fi/"
@@ -131,6 +144,7 @@ function TokenMarketDetails({
       itemData: marketInfo.reserveFactor + "%",
     },
     {
+      show: true,
       itemName: "Contract",
       itemData: (
         <a
@@ -158,12 +172,14 @@ function TokenMarketDetails({
       ),
     },
     {
+      show: true,
       itemName: marketInfo.cTokenSymbol + " Minted",
       itemData: toShortCryptoString(
         Number(Number(marketInfo.totalSupply).toFixed(2))
       ),
     },
     {
+      show: true,
       itemName: "Exchange Rate",
       itemData:
         "1 " +
@@ -195,65 +211,66 @@ function TokenMarketDetails({
       >
         Market Details
       </div>
-      {customData.map((item, index) => {
-        return (
-          <div
-            tabIndex={0}
-            key={index}
-            className="last:border-none h-[50px] md:h-[62px] px-[15px] md:px-[30px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
-          >
-            <span className="absolute opacity-0">{item.itemName}</span>
+      {customData.map(
+        (item, index) =>
+          item.show && (
             <div
-              tabIndex={item?.tooltipText ? 0 : -1}
-              onClick={() =>
-                item?.tooltipText
-                  ? setMobileTooltipData({
-                      ...mobileTooltipData,
-                      open: window.innerWidth < 1023,
-                      textTop: item.tooltipText,
-                    })
-                  : false
-              }
-              className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
+              tabIndex={0}
+              key={index}
+              className="last:border-none h-[50px] md:h-[62px] px-[15px] md:px-[30px] border-[#282C2B] flex items-center justify-between border-b-[1px] font-normal text-sm md:text-sm leading-5"
             >
-              <span
-                aria-hidden={true}
-                className={
-                  item?.tooltipText &&
-                  "underline group decoration-dashed underline-offset-4 cursor-pointer"
+              <span className="absolute opacity-0">{item.itemName}</span>
+              <div
+                tabIndex={item?.tooltipText ? 0 : -1}
+                onClick={() =>
+                  item?.tooltipText
+                    ? setMobileTooltipData({
+                        ...mobileTooltipData,
+                        open: window.innerWidth < 1023,
+                        textTop: item.tooltipText,
+                      })
+                    : false
                 }
+                className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
-                {item.itemName}
-              </span>
-              {item?.tooltipText && (
-                <div className="hidden flex-row md:flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
-                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
-                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
-                      <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
-                        <img
-                          className="w-[12px] h-[12px]"
-                          src="/images/ico/close.svg"
-                          alt="..."
-                        />
-                      </button>
-                      <p
-                        role={"status"}
-                        className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova"
-                      >
-                        {item.tooltipText}
-                      </p>
+                <span
+                  aria-hidden={true}
+                  className={
+                    item?.tooltipText &&
+                    "underline group decoration-dashed underline-offset-4 cursor-pointer"
+                  }
+                >
+                  {item.itemName}
+                </span>
+                {item?.tooltipText && (
+                  <div className="hidden flex-row md:flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
+                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] md:w-[242px] mx-[20px] md:mx-[0] !rounded-[10px] panel-custom">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pr-[15px] pb-[21px] pl-[15px] pt-[15px] md:pb-[15px] md:pr-[15px] md:pl-[15px]">
+                        <button className="absolute top-[12px] right-[12px] cursor-pointer md:hidden block">
+                          <img
+                            className="w-[12px] h-[12px]"
+                            src="/images/ico/close.svg"
+                            alt="..."
+                          />
+                        </button>
+                        <p
+                          role={"status"}
+                          className="text-[#818987] text-sm leading-5 md:text-xs text-left md:leading-[17px] font-nova"
+                        >
+                          {item.tooltipText}
+                        </p>
+                      </div>
                     </div>
+                    <div className="custom__arrow__tooltip relative top-[-6px] left-[20px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                   </div>
-                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                </div>
-              )}
+                )}
+              </div>
+              <span className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+                {item.itemData}
+              </span>
             </div>
-            <span className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
-              {item.itemData}
-            </span>
-          </div>
-        );
-      })}
+          )
+      )}
     </div>
   );
 }

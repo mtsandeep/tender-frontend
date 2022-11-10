@@ -85,6 +85,7 @@ Primary.args = {
   initialValue: "",
   activeTab: "borrow",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as BorrowProps;
 
@@ -121,5 +122,6 @@ SmallNumbers.args = {
   initialValue: "",
   activeTab: "borrow",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as BorrowProps;

@@ -86,6 +86,7 @@ Primary.args = {
   initialValue: "",
   activeTab: "repay",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as RepayProps;
 
@@ -124,5 +125,6 @@ SmallNumbers.args = {
   initialValue: "",
   activeTab: "repay",
   setActiveTab: () => {},
+  changeInitialValue: () => {},
   tabs: [],
 } as RepayProps;

@@ -1,9 +1,10 @@
+/* eslint-disable no-useless-escape */
 import type { Market } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toCryptoString, toExactString } from "~/lib/ui";
+import { toExactString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -13,9 +14,10 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkInputClass } from "~/lib/ui";
-import { useCollateralFactor } from "~/hooks/use-collateral-factor";
 import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
 import type { ActiveTab } from "./deposit-borrow-flow";
+import { checkColorClass } from "../two-panels/two-panels";
+import { formatApy } from "~/lib/apy-calculations";
 
 export interface WithdrawProps {
   market: Market;
@@ -23,12 +25,12 @@ export interface WithdrawProps {
   borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
-  walletBalance: number;
   totalBorrowedAmountInUsd: number;
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  tabs: { name: ActiveTab; color: string }[];
+  changeInitialValue: (value: string) => void;
+  tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
 export default function Withdraw({
   market,
@@ -38,13 +40,13 @@ export default function Withdraw({
   borrowLimitUsed,
   totalBorrowedAmountInUsd,
   initialValue,
+  changeInitialValue,
   activeTab,
   setActiveTab,
   tabs,
 }: WithdrawProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  const [value, setValue] = useState<string>(initialValue);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const [txnHash, setTxnHash] = useState<string>("");
   const inputEl = useRef<HTMLInputElement>(null);
@@ -57,7 +59,7 @@ export default function Withdraw({
     market.comptrollerAddress,
     tokenPairs,
     market.tokenPair,
-    value ? `-${value}` : "0"
+    initialValue ? `-${initialValue}` : "0"
   );
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
@@ -81,20 +83,14 @@ export default function Withdraw({
   );
 
   const [isValid, validationDetail] = useValidInput(
-    value,
+    initialValue,
     0,
     maxWithdrawAmount,
     parseFloat(newBorrowLimitUsed),
     tokenDecimals
   );
 
-  const inputTextClass = shrinkInputClass(value.length);
-
-  const collateralFactor = useCollateralFactor(
-    signer,
-    market.comptrollerAddress,
-    market.tokenPair
-  );
+  const inputTextClass = shrinkInputClass(initialValue.length);
 
   useEffect(() => {
     inputEl?.current && inputEl.current.focus();
@@ -103,42 +99,48 @@ export default function Withdraw({
       (activeTab === "repay" || activeTab === "borrow") &&
       scrollBlockRef?.current
     ) {
-      scrollBlockRef.current.scrollLeft = 200;
+      scrollBlockRef.current.scrollLeft = 400;
     }
   }, [activeTab]);
 
-  const handleCheckValue = useCallback((e: any) => {
-    const { value } = e.target;
-    const formattedValue = value
-      .replace(/[^.\d]+/g, "")
-      .replace(/^([^\.]*\.)|\./g, "$1");
+  const handleCheckValue = useCallback(
+    (e: any) => {
+      const { value } = e.target;
+      const formattedValue = value
+        .replace(/[^.\d]+/g, "")
+        .replace(/^([^\.]*\.)|\./g, "$1");
 
-    if (
-      formattedValue.split("")[0] === "0" &&
-      formattedValue.length === 2 &&
-      formattedValue.split("")[1] !== "."
-    ) {
-      return false;
-    } else {
       if (
         formattedValue.split("")[0] === "0" &&
-        formattedValue.length > 1 &&
-        formattedValue
-          .split("")
-          .every((item: string) => item === formattedValue.split("")[0])
+        formattedValue.length === 2 &&
+        formattedValue.split("")[1] !== "."
       ) {
         return false;
       } else {
         if (
-          formattedValue === "" ||
-          (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-            formattedValue.length <= 20)
+          formattedValue.split("")[0] === "0" &&
+          formattedValue.length > 1 &&
+          formattedValue
+            .split("")
+            .every((item: string) => item === formattedValue.split("")[0])
         ) {
-          setValue(formattedValue);
+          return false;
+        } else {
+          if (
+            formattedValue === "" ||
+            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
+              formattedValue.length <= 20)
+          ) {
+            changeInitialValue(formattedValue);
+          }
         }
       }
-    }
-  }, []);
+    },
+    [changeInitialValue]
+  );
+
+  const borrowApy = parseFloat(market.marketData.depositApy);
+  const supplyApyFormatted = formatApy(borrowApy);
 
   return (
     <div>
@@ -149,14 +151,21 @@ export default function Withdraw({
         />
       ) : (
         <div>
-          <div className="pt-5 bg-[#151515] relative border-[#B5CFCC2B] border-b pb-[30px]">
-            <img
+          <div className="bg-[#151515] relative border-[#B5CFCC2B] border-b pb-[30px]">
+            <svg
               onClick={() => closeModal()}
-              className="absolute right-[16px] sm:right-[22px] top-[24px] w-[21px] h-[21px] cursor-pointer"
-              src="/images/ico/close.svg"
-              alt="close"
-            />
-            <div className="flex align-middle justify-center items-center pb-[20px] border-b-[1px] border-[#282C2B]">
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              className="absolute right-[16px] sm:right-[22px] top-[24px] cursor-pointer group"
+            >
+              <path
+                className="group-hover:fill-[#14f195]"
+                d="M22.0567 3.05669C22.4961 3.49614 22.4961 4.20864 22.0567 4.64809L14.148 12.5567L22.0567 20.4654C22.4961 20.9048 22.4961 21.6173 22.0567 22.0568C21.6172 22.4962 20.9047 22.4962 20.4653 22.0568L12.5566 14.1481L4.64799 22.0568C4.20854 22.4962 3.49605 22.4962 3.05659 22.0568C2.61714 21.6173 2.61714 20.9048 3.05659 20.4654L10.9652 12.5567L3.05659 4.64809C2.61714 4.20864 2.61714 3.49614 3.05659 3.05669C3.49605 2.61723 4.20854 2.61723 4.64799 3.05669L12.5566 10.9653L20.4653 3.05669C20.9047 2.61724 21.6172 2.61724 22.0567 3.05669Z"
+                fill="white"
+              />
+            </svg>
+            <div className="flex align-middle justify-center items-center py-[20px] border-b-[1px] border-[#282C2B]">
               <img
                 src={market.tokenPair.token.icon}
                 className="w-[32px] mr-3"
@@ -167,18 +176,20 @@ export default function Withdraw({
             <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
               <input
                 ref={inputEl}
-                value={value}
+                value={initialValue}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ height: 70, minHeight: 70 }}
                 className={`input__center__custom z-20 max-w-[300px] ${
-                  value ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
+                  initialValue ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
                 }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
               {parseFloat(borrowLimitUsed) < 100 && (
                 <Max
                   maxValue={maxWithdrawAmount}
-                  updateValue={() => setValue(toExactString(maxWithdrawAmount))}
+                  updateValue={() =>
+                    changeInitialValue(toExactString(maxWithdrawAmount))
+                  }
                   maxValueLabel={market.tokenPair.token.symbol}
                   color="#14F195"
                 />
@@ -187,61 +198,83 @@ export default function Withdraw({
           </div>
           <div
             ref={scrollBlockRef}
-            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B]"
+            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
           >
-            {tabs.map((tab: { name: ActiveTab; color: string }) => (
-              <button
-                key={tab.name}
-                onClick={() => setActiveTab(tab.name)}
-                className={`${
-                  activeTab === tab.name
-                    ? `text-[${tab.color}] border-[${tab.color}]`
-                    : "text-[#ADB5B3] border-[#181D1B]"
-                } ${`hover:text-[${tab.color}] `} border-[1px] text-[12px] mr-[8px] min-w-[94px] w-[94px] h-[36px] font-space uppercase bg-[#181D1B] rounded-[6px] font-bold font-space`}
-              >
-                {tab.name}
-              </button>
-            ))}
+            {tabs.map(
+              (tab: { name: ActiveTab; color: string; show: boolean }) =>
+                tab.show && (
+                  <button
+                    key={tab.name}
+                    onClick={() => setActiveTab(tab.name)}
+                    className={`${
+                      activeTab === tab.name
+                        ? `text-[${tab.color}] border-[${tab.color}]`
+                        : "text-[#ADB5B3] border-[#181D1B]"
+                    } ${`hover:text-[${tab.color}] `} border-[1px] text-[12px] mr-[8px] min-w-[94px] w-[94px] h-[36px] font-space uppercase bg-[#181D1B] rounded-[6px] font-bold font-space`}
+                  >
+                    {tab.name}
+                  </button>
+                )
+            )}
           </div>
-          <div className="py-[30px] px-4 sm:px-12 bg-[#0D0D0D]">
-            <div className="flex flex-col items-start mb-[28px] text-gray-400">
-              <a
-                href={`/markets/${market.tokenPair.token.symbol}`}
-                target="_blank"
-                rel="noreferrer"
-                className="cursor-pointer flex items-center font-bold font-nova text-sm sm:text-sm text-white hover:text-[#14F195]"
-              >
-                Supply Market
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  className="ml-[10px]"
-                  fill="none"
+          <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
+            <div className="flex flex-col items-center mb-[40px] text-gray-400">
+              <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] justify-between">
+                <div
+                  tabIndex={0}
+                  className="relative flex flex-col items-start group"
                 >
-                  <path
-                    d="M7.20002 0H3.2C1.4328 0 0 1.4328 0 3.2V12.8001C0 14.5672 1.4328 16 3.2 16H12.8001C14.5672 16 16 14.5672 16 12.8001C16 10.9833 16 8.80002 16 8.80002C16 8.35842 15.6417 8.00001 15.2001 8.00001C14.7585 8.00001 14.4 8.35842 14.4 8.80002V12.8001C14.4 13.6833 13.6833 14.4 12.8001 14.4C10.136 14.4 5.86322 14.4 3.2 14.4C2.31601 14.4 1.6 13.6833 1.6 12.8001C1.6 10.136 1.6 5.86322 1.6 3.2C1.6 2.31601 2.31601 1.6 3.2 1.6H7.20002C7.64162 1.6 8.00001 1.2416 8.00001 0.799994C8.00001 0.358393 7.64162 0 7.20002 0ZM13.2688 1.6H10.4001C9.95842 1.6 9.60002 1.2416 9.60002 0.799994C9.60002 0.358393 9.95842 0 10.4001 0H15.2001C15.6417 0 16 0.358393 16 0.799994V5.60001C16 6.04161 15.6417 6.40001 15.2001 6.40001C14.7585 6.40001 14.4 6.04161 14.4 5.60001V2.73121L8.56562 8.56562C8.25362 8.87762 7.74642 8.87762 7.43441 8.56562C7.12161 8.25362 7.12161 7.74642 7.43441 7.43441L13.2688 1.6Z"
-                    fill="#14F195"
-                  />
-                </svg>
-              </a>
-              <div className="flex w-full sm:w-full items-center py-[24px] font-nova">
-                <img
-                  src={market.tokenPair.token.icon}
-                  alt="icon"
-                  className="mr-[10px] md:mr-[16px] w-[24px] h-[24px] md:w-[40px] md:h-[40px]"
-                />
-                <div className="flex-grow text-sm sm:text-base text-[#ADB5B3]">
-                  Supply APY
+                  <p className="flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] underline decoration-dashed underline-offset-[2px] cursor-pointer">
+                    Supply APY
+                  </p>
+                  <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
+                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                      <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
+                        <div className="flex justify-between gap-[30px] mb-3 last:mb-[0]">
+                          <div className="flex gap-[8px]">
+                            <img
+                              className="max-w-[18px]"
+                              src={market.tokenPair.token.icon}
+                              alt="..."
+                            />
+                            <span className="font-nova text-white text-sm font-normal">
+                              {market.tokenPair.token.symbol}
+                            </span>
+                          </div>
+                          <span
+                            className={`font-nova text-sm font-normal ${checkColorClass(
+                              borrowApy
+                            )}`}
+                          >
+                            {supplyApyFormatted}
+                          </span>
+                        </div>
+                        <div className="flex justify-between gap-[30px]">
+                          <div className="flex gap-[8px]">
+                            <img
+                              className="max-w-[18px]"
+                              src="/images/wallet-icons/balance-icon.svg"
+                              alt="..."
+                            />
+                            <span className="font-nova text-white text-sm font-normal">
+                              esTND
+                            </span>
+                          </div>
+                          <span className="font-nova text-white text-sm font-normal">
+                            0.00%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  </div>
                 </div>
-                <div className="text-sm sm:text-base">
-                  {market.marketData.depositApy}
-                </div>
+                <div>{supplyApyFormatted}</div>
               </div>
             </div>
 
             <BorrowLimit
-              value={value}
+              value={initialValue}
               isValid={isValid}
               borrowLimit={borrowLimit}
               newBorrowLimit={newBorrowLimit}
@@ -250,13 +283,13 @@ export default function Withdraw({
               urlArrow="/images/ico/arrow-green.svg"
             />
 
-            <div className="flex justify-center mb-8 h-[56px] md:h-[60px]">
+            <div className="flex justify-center h-[50px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
 
               {signer &&
                 !isValid &&
                 (validationDetail === "Insufficient liquidity" ? (
-                  <button className="flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  <button className="flex items-center justify-center h-[50px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#5B5F65] w-full">
                     <div className="group relative cursor-pointer">
                       <span className="uppercase line-dashed color-black black">
                         {validationDetail}
@@ -278,7 +311,7 @@ export default function Withdraw({
                     </div>
                   </button>
                 ) : (
-                  <button className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#5B5F65] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]">
+                  <button className="uppercase flex items-center justify-center h-[50px] md:h-[60px] text-center text-black font-space font-bold cursor-default	text-base sm:text-lg rounded bg-[#5B5F65] w-full">
                     {validationDetail}
                   </button>
                 ))}
@@ -288,7 +321,7 @@ export default function Withdraw({
                   disabled={isWithdrawing}
                   onClick={async () => {
                     try {
-                      if (!value) {
+                      if (!initialValue) {
                         toast("Please set a value", {
                           icon: "⚠️",
                         });
@@ -297,10 +330,10 @@ export default function Withdraw({
                       setIsWithdrawing(true);
                       // entering the max amount displayed should withdraw all
                       const isMax =
-                        value == toExactString(market.supplyBalance);
+                        initialValue == toExactString(market.supplyBalance);
                       // @ts-ignore existence of signer is gated above.
                       const txn = await redeem(
-                        value,
+                        initialValue,
                         signer,
                         market.tokenPair.cToken,
                         market.tokenPair.token,
@@ -309,7 +342,7 @@ export default function Withdraw({
                       setTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr = await txn.wait(); // TODO: error handle if transaction fails
-                      setValue("");
+                      changeInitialValue("");
                       updateTransaction(tr.blockHash);
                       toast.success("Withdraw successful");
                     } catch (e) {
@@ -320,45 +353,11 @@ export default function Withdraw({
                       setIsWithdrawing(false);
                     }
                   }}
-                  className="uppercase flex items-center justify-center h-[56px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded w-[auto] bg-[#14f195] min-w-[308px] max-w-[400px] pr-[40px] pl-[40px]"
+                  className="uppercase flex items-center justify-center h-[50px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#14f195] hover:bg-[#14f195ce] w-full"
                 >
                   {isWithdrawing ? "Withdrawing..." : "Withdraw"}
                 </button>
               )}
-            </div>
-
-            <div className="flex mt-8 justify-between">
-              <div className="text-[#ADB5B3] font-nova text-base">
-                Your Supply
-              </div>
-              <div className="font-nova text-base">
-                {toCryptoString(market.supplyBalance, tokenDecimals) +
-                  " " +
-                  market.tokenPair.token.symbol}
-              </div>
-            </div>
-            <div className="flex mt-[10px] justify-between">
-              <div
-                tabIndex={0}
-                className="text-[#ADB5B3] font-nova text-base font-normal line-dashed group relative cursor-pointer"
-              >
-                Max LTV
-                <div className="hidden z-10 flex-col absolute left-0 bottom-[25px] items-center group-hover:flex group-focus:flex rounded-[10px]">
-                  <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                    <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px]">
-                      The Maximum LTV ratio represents the maximum borrowing
-                      power of a specific collateral. For example, if a
-                      collateral has an LTV of 75%, the user can borrow up to
-                      0.75 worth of ETH in the principal currency for every 1
-                      ETH worth of collateral.
-                    </div>
-                  </div>
-                  <div className="custom__arrow__tooltip relative left-[-100px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
-                </div>
-              </div>
-              <div className="font-nova text-base">
-                {collateralFactor * 100}%
-              </div>
             </div>
           </div>
         </div>
