@@ -223,7 +223,7 @@ export default function Withdraw({
                 tabIndex={0}
                 className="relative flex flex-col items-start group"
               >
-                <p className="underline decoration-dashed underline-offset-[2px] cursor-pointer">
+                <p className="underline decoration-dashed underline-offset-[2px] cursor-pointer text-[#ADB5B3]">
                   Supply APY
                 </p>
                 <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
