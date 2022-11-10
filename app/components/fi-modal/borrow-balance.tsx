@@ -22,9 +22,6 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
   } = props;
   return (
     <div>
-      <div className="font-bold font-nova text-sm sm:text-sm w-full mb-[16px] md:mb-[20px]">
-        Borrow Limit
-      </div>
       <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[8px]">
         <div className="flex-grow">Borrow Capacity</div>
         <div className="text-white text-base font-nova ">

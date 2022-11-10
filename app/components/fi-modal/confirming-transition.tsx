@@ -16,7 +16,7 @@ export default function ConfirmingTransaction({
   let { blockExplorerUrl } = useBlockchainExplorer();
 
   return (
-    <div className="flex flex-col items-center justify-center overflow-hidden py-[30px] md:py-[80px] h-[607px] md:h-[580.7px] pr-[15px] pl-[15px] md:pr-[88px] md:pl-[88px] relative">
+    <div className="flex flex-col items-center justify-center overflow-hidden py-[30px] md:py-[40px] h-[542px] md:h-[510px] pr-[15px] pl-[15px] md:pr-[88px] md:pl-[88px] relative">
       <svg
         onClick={() => stopWaitingOnConfirmation()}
         width="24"
