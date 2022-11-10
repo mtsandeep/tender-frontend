@@ -114,6 +114,10 @@ export function useMarkets(
           allowancePromise = allowanceContract.allowance(address, tp.cToken.address);
         }
 
+        const autocompoundPromise = cTokenContract.autocompound();
+        /*const performanceFeePromise = cTokenContract.performanceFee();
+        const withdrawFeePromise = cTokenContract.withdrawFee();*/
+
         return {
           borrowBalance: borrowBalancePromise,
           balance: balancePromise,
@@ -127,6 +131,9 @@ export function useMarkets(
           tokenPair: tp,
           walletBalance: walletBalancePromise,
           allowance: allowancePromise,
+          autocompound: autocompoundPromise,
+          /*performanceFee: performanceFeePromise,
+          withdrawFee: withdrawFeePromise,*/
         };
       });
 
@@ -146,6 +153,9 @@ export function useMarkets(
           tokenPair: tokenPromise.tokenPair,
           walletBalance: await tokenPromise.walletBalance,
           allowance: tokenPromise.allowance ? await tokenPromise.allowance : MINIMUM_REQUIRED_APPROVAL_BALANCE,
+          autocompound: await tokenPromise.autocompound,
+          /*performanceFee: await tokenPromise.performanceFee,
+          withdrawFee: await tokenPromise.withdrawFee,*/
         });
       }
 
@@ -234,6 +244,7 @@ export function useMarkets(
           ),
           maxBorrowLiquidity,
           hasSufficientAllowance: token.allowance.gte(MINIMUM_REQUIRED_APPROVAL_BALANCE),
+          autocompound: token.autocompound,
         };
       });
 
