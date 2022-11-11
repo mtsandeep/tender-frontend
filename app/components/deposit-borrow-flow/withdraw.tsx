@@ -220,59 +220,57 @@ export default function Withdraw({
             )}
           </div>
           <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
-            <div className="flex flex-col items-center mb-[40px] text-gray-400">
-              <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] justify-between">
-                <div
-                  tabIndex={0}
-                  className="relative flex flex-col items-start group"
-                >
-                  <p className="flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-[#ADB5B3] underline decoration-dashed underline-offset-[2px] cursor-pointer">
-                    Supply APY
-                  </p>
-                  <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
-                    <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                      <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
-                        <div className="flex justify-between gap-[30px] mb-3 last:mb-[0]">
-                          <div className="flex gap-[8px]">
-                            <img
-                              className="max-w-[18px]"
-                              src={market.tokenPair.token.icon}
-                              alt="..."
-                            />
-                            <span className="font-nova text-white text-sm font-normal">
-                              {market.tokenPair.token.symbol}
-                            </span>
-                          </div>
-                          <span
-                            className={`font-nova text-sm font-normal ${checkColorClass(
-                              borrowApy
-                            )}`}
-                          >
-                            {supplyApyFormatted}
-                          </span>
-                        </div>
-                        <div className="flex justify-between gap-[30px]">
-                          <div className="flex gap-[8px]">
-                            <img
-                              className="max-w-[18px]"
-                              src="/images/wallet-icons/balance-icon.svg"
-                              alt="..."
-                            />
-                            <span className="font-nova text-white text-sm font-normal">
-                              esTND
-                            </span>
-                          </div>
+            <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-white justify-between mb-[10px]">
+              <div
+                tabIndex={0}
+                className="relative flex flex-col items-start group"
+              >
+                <p className="underline decoration-dashed underline-offset-[2px] cursor-pointer text-[#ADB5B3]">
+                  Supply APY
+                </p>
+                <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
+                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+                    <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
+                      <div className="flex justify-between gap-[30px] mb-3 last:mb-[0]">
+                        <div className="flex gap-[8px]">
+                          <img
+                            className="max-w-[18px]"
+                            src={market.tokenPair.token.icon}
+                            alt="..."
+                          />
                           <span className="font-nova text-white text-sm font-normal">
-                            0.00%
+                            {market.tokenPair.token.symbol}
                           </span>
                         </div>
+                        <span
+                          className={`font-nova text-sm font-normal ${checkColorClass(
+                            borrowApy
+                          )}`}
+                        >
+                          {supplyApyFormatted}
+                        </span>
+                      </div>
+                      <div className="flex justify-between gap-[30px]">
+                        <div className="flex gap-[8px]">
+                          <img
+                            className="max-w-[18px]"
+                            src="/images/wallet-icons/balance-icon.svg"
+                            alt="..."
+                          />
+                          <span className="font-nova text-white text-sm font-normal">
+                            esTND
+                          </span>
+                        </div>
+                        <span className="font-nova text-white text-sm font-normal">
+                          0.00%
+                        </span>
                       </div>
                     </div>
-                    <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                   </div>
+                  <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                 </div>
-                <div>{supplyApyFormatted}</div>
               </div>
+              <div>{supplyApyFormatted}</div>
             </div>
 
             <BorrowLimit

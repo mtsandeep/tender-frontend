@@ -11,9 +11,10 @@ import TokenChart from "./tokenChart";
 
 const Token = ({ id }: { id: string | undefined }) => {
   const tenderContextData = useContext(TenderContext);
-  const token = tenderContextData.markets.filter(
+  const tokens = tenderContextData.markets.filter(
     (token: Market) => token.id === id
   );
+  const token = tokens.length ? tokens[0] : null;
   const m = useMarketInfo(id);
   const interestRateModel = useInterestRateModel(id);
   const utilizationRate =
@@ -31,9 +32,9 @@ const Token = ({ id }: { id: string | undefined }) => {
           utilizationRate={utilizationRate}
         />
         <div className="order-1 lg:order-2 w-full">
-          <TokenGettingStarted market={token[0]} id={id} />
-          {id === "GLP" ||
-            (id === "GMX" && <TokenVaultDetails marketInfo={m.market} />)}
+          <TokenGettingStarted market={token} />
+          {token && token.autocompound &&
+            (<TokenVaultDetails marketInfo={m.market} />)}
           <TokenInterestRate data={interestRateModel} />
         </div>
       </div>

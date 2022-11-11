@@ -1,10 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import type { Market, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
-import {
-  calculateApy,
-  formatApy,
-} from "~/lib/apy-calculations";
+import { calculateApy, formatApy } from "~/lib/apy-calculations";
 import {
   getBorrowLimitUsed,
   formatBigNumber,
@@ -12,16 +9,16 @@ import {
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
 import { TenderContext } from "~/contexts/tender-context";
-import {BigNumber, ethers, utils} from "ethers";
+import { BigNumber, ethers, utils } from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
-import { providers as mcProviders } from '@0xsequence/multicall';
-import {formatUnits} from "ethers/lib/utils";
+import { providers as mcProviders } from "@0xsequence/multicall";
+import { formatUnits } from "ethers/lib/utils";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
-import GlpManager from "~/config/abi/glp/GlpManager.json"
-import RewardTracker from "~/config/abi/glp/RewardTracker.json"
-import Vault from "~/config/abi/glp/Vault.json"
+import GlpManager from "~/config/abi/glp/GlpManager.json";
+import RewardTracker from "~/config/abi/glp/RewardTracker.json";
+import Vault from "~/config/abi/glp/Vault.json";
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
@@ -116,6 +113,10 @@ export function useMarkets(
           allowancePromise = allowanceContract.allowance(address, tp.cToken.address);
         }
 
+        const autocompoundPromise = cTokenContract.autocompound();
+        /*const performanceFeePromise = cTokenContract.performanceFee();
+        const withdrawFeePromise = cTokenContract.withdrawFee();*/
+
         return {
           borrowBalance: borrowBalancePromise,
           balance: balancePromise,
@@ -129,6 +130,9 @@ export function useMarkets(
           tokenPair: tp,
           walletBalance: walletBalancePromise,
           allowance: allowancePromise,
+          autocompound: autocompoundPromise,
+          /*performanceFee: performanceFeePromise,
+          withdrawFee: withdrawFeePromise,*/
         };
       });
 
@@ -148,6 +152,9 @@ export function useMarkets(
           tokenPair: tokenPromise.tokenPair,
           walletBalance: await tokenPromise.walletBalance,
           allowance: tokenPromise.allowance ? await tokenPromise.allowance : MINIMUM_REQUIRED_APPROVAL_BALANCE,
+          autocompound: await tokenPromise.autocompound,
+          /*performanceFee: await tokenPromise.performanceFee,
+          withdrawFee: await tokenPromise.withdrawFee,*/
         });
       }
 
@@ -222,12 +229,14 @@ export function useMarkets(
             tp.token.nativeToken
           );
           const glpSupplyPromise = tokenContract.totalSupply();
+          const performanceFeePromise = cTokenContract.performanceFee();
 
           const aums = await aumsPromise;
           const tokensPerInterval = await tokensPerIntervalPromise;
           const nativeTokenPrice = await nativeTokenPricePromise;
           const glpSupply = await glpSupplyPromise;
 
+          const performanceFee = await performanceFeePromise;
           const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
           const ETHEREUM_SECONDS_PER_BLOCK = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
           const BLOCKS_PER_YEAR = Math.round(
@@ -255,8 +264,12 @@ export function useMarkets(
                   .mul(BASIS_POINTS_DIVISOR)
                   .div(glpSupplyUsd)
               : BigNumber.from(0);
-
-          const aprPerBlock = glpAprForNativeToken.div(BLOCKS_PER_YEAR);
+          const performanceFeeFactor =
+            BigNumber.from(10000).sub(performanceFee);
+          const aprPerBlock = glpAprForNativeToken
+            .mul(performanceFeeFactor)
+            .div(10000)
+            .div(BLOCKS_PER_YEAR);
 
           depositApy = formatApy(
             calculateApy(aprPerBlock, ETHEREUM_SECONDS_PER_BLOCK)
@@ -306,6 +319,7 @@ export function useMarkets(
           ),
           maxBorrowLiquidity,
           hasSufficientAllowance: token.allowance.gte(MINIMUM_REQUIRED_APPROVAL_BALANCE),
+          autocompound: token.autocompound,
         };
       });
 

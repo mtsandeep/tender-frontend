@@ -5,7 +5,7 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
-  secondsPerBlock: .31,
+  secondsPerBlock: 0.31,
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0x49Ea2c991290cA13f57Ae2b8ca98bC6140925db3",
@@ -58,14 +58,14 @@ export default {
       address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
       icon: "/images/coin-icons/usdt.svg",
       cToken: {
-        name: "tUSDC",
-        symbol: "tUSDC",
+        name: "tUSDT",
+        symbol: "tUSDT",
         decimals: 8,
         address: "0x102517Ea9340eDd21afdfAA911560311FeEFc607",
       },
     },
 
-DAI: {
+    DAI: {
       name: "DAI",
       symbol: "DAI",
       decimals: 18,
@@ -79,7 +79,6 @@ DAI: {
         address: "0xD0af14CEe85b6612C02F75F35E90fE1f8e0fB2fD",
       },
     },
-
 
     FRAX: {
       name: "FRAX",

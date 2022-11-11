@@ -28,13 +28,15 @@ export function useAccountSummary() {
                 m.borrowBalanceInUsd * parseFloat(m.marketData.borrowApy) * 0.01;
         });
 
-        let netApy = supplyBalanceInUsd === 0 ? 0 : (netGainOrLoss / supplyBalanceInUsd) * 100;
+        const netApy = supplyBalanceInUsd === 0 ? 0 : (netGainOrLoss / supplyBalanceInUsd) * 100;
+        const ltv = borrowBalanceInUsd * 100 / supplyBalanceInUsd;
 
         setAccountSummary({
             supplyBalanceInUsd,
             borrowBalanceInUsd,
             borrowLimit,
             netApy,
+            ltv,
         });
     }, [markets]); // we don't use interval because markets already use it
 

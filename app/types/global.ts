@@ -93,4 +93,5 @@ export type Market = {
   comptrollerAddress: string;
   maxBorrowLiquidity: number;
   hasSufficientAllowance: boolean;
+  autocompound: boolean;
 };

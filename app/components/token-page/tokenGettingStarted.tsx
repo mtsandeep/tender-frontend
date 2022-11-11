@@ -6,11 +6,10 @@ import type { ActiveTab } from "../deposit-borrow-flow/deposit-borrow-flow";
 import TokenGettingStartedEmpty from "./tokenGettingStartedEmpty";
 
 type Props = {
-  market: Market;
-  id?: string;
+  market: Market | null;
 };
 
-const TokenGettingStarted = ({ market, id }: Props) => {
+const TokenGettingStarted = ({ market }: Props) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>("supply");
   let [openMarket, setOpenMarket] = useState<Market | null>(null);
 
@@ -59,7 +58,7 @@ const TokenGettingStarted = ({ market, id }: Props) => {
           >
             SUPPLY
           </button>
-          {id !== "GLP" && id !== "GMX" && (
+          {!market.autocompound && (
             <button
               onClick={() => handlerClickChangeTab("borrow")}
               className="leading-[22.1px] font-bold font-space text-[13px] mr-[12px] lg:mr-[20px] bg-[#00E0FF] text-black
@@ -74,7 +73,7 @@ const TokenGettingStarted = ({ market, id }: Props) => {
             className="round-btn-grad flex gap-[3px] items-center justify-center bg-[#181D1B] hover:bg-[#262C2A] min-w-[39px] min-h-[39px] lg:w-11 lg:h-11 rounded-full"
             onClick={() =>
               handlerClickChangeTab(
-                id !== "GLP" && id !== "GMX" ? "repay" : "withdraw"
+                  !market.autocompound ? "repay" : "withdraw"
               )
             }
           >
