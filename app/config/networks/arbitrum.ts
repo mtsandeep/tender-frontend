@@ -58,8 +58,8 @@ export default {
       address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
       icon: "/images/coin-icons/usdt.svg",
       cToken: {
-        name: "tUSDC",
-        symbol: "tUSDC",
+        name: "tUSDT",
+        symbol: "tUSDT",
         decimals: 8,
         address: "0x102517Ea9340eDd21afdfAA911560311FeEFc607",
       },

@@ -6,6 +6,7 @@ interface props {
   borrowBalanceInUsd: number;
   supplyBalanceInUsd: number;
   netApy: number | null;
+  ltv: number;
   borrowLimitUsed: string;
   percentUsed: number;
   borrowLimit: number;
@@ -17,6 +18,7 @@ export default function Display({
   borrowBalanceInUsd,
   supplyBalanceInUsd,
   netApy,
+  ltv,
   borrowLimitUsed,
   percentUsed,
   borrowLimit,
@@ -105,7 +107,7 @@ export default function Display({
                 <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                   <div className="flex justify-between items-center">
                     <span className="text-[#818987]">Loan to Value (LTV)</span>
-                    <span>XX.XX%</span>
+                    <span>{ltv.toFixed(2)}%</span>
                   </div>
                 </div>
               </div>
@@ -127,7 +129,7 @@ export default function Display({
                     <span className="text-[#818987]">
                       Liquidation Threshold
                     </span>
-                    <span>$XX.XX</span>
+                    <span>${toFiatString(borrowLimit)}</span>
                   </div>
                 </div>
               </div>
