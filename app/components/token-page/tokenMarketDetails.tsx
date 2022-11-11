@@ -113,13 +113,13 @@ function TokenMarketDetails({
     {
       show: true,
       itemName: "Liquidation Threshold",
-      itemData: marketInfo.collateralFactor * 100 + "%",
+      itemData: token.liquidationThreshold + "%",
       tooltipText: `This represents the threshold at which a borrow position will be considered undercollateralized and subject to liquidation for each collateral. For example, if a collateral has a liquidation threshold of 80%, it means that the position will be liquidated when the debt value is worth 80% of the collateral value.`,
     },
     {
       show: true,
       itemName: "Liquidation Penalty",
-      itemData: marketInfo.collateralFactor * 100 + "%",
+      itemData: token.liquidationPenalty + "%",
       tooltipText: `When a liquidation occurs, liquidators repay up to 50% of the outstanding borrowed amount on behalf of the borrower. In return, they can buy the collateral at a discount and keep the difference (liquidation penalty) as a bonus.`,
     },
     {
