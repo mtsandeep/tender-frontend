@@ -19,6 +19,8 @@ import SampleErc20Abi from "~/config/sample-erc20-abi";
 import GlpManager from "~/config/abi/glp/GlpManager.json";
 import RewardTracker from "~/config/abi/glp/RewardTracker.json";
 import Vault from "~/config/abi/glp/Vault.json";
+import sampleErc20Abi from "~/config/sample-erc20-abi";
+import sampleCtokenAbi from "~/config/sample-ctoken-abi";
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
@@ -202,9 +204,14 @@ export function useMarkets(
 
         let depositApy;
         if (tp.token.symbol === "GLP") {
+          const cTokenContract = new ethers.Contract(
+            tp.cToken.address,
+            sampleCtokenAbi,
+            mcProvider
+        );
           const tokenContract = new ethers.Contract(
             tp.token.glpAddress!,
-            SampleCTokenAbi,
+            sampleErc20Abi,
             mcProvider
           );
           const glpManagerContract = new ethers.Contract(
