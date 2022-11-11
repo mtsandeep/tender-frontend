@@ -52,30 +52,29 @@ export function useMarketInfo(tokenId: string | undefined) {
     market: false,
     historicalData: false,
   });
-    const {networkData} = useContext(TenderContext);
+  const {networkData, tokenPairs} = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
 
   useEffect(() => {
     console.log("useMarketInfo called");
 
-    if (!networkData) {
+    if (!networkData || tokenPairs.length === 0) {
       return;
     }
 
     const getMarketInfo = async () => {
       const graphUrl = networkData.graphUrl;
-      const tokens = networkData.Tokens;
       const secondsPerBlock = networkData.secondsPerBlock;
-      const tokenKey = Object.keys(tokens).find(
-        (key) => tokens[key].symbol === String(tokenId)
-      );
-      const token = tokenKey && tokens[tokenKey];
-      const address = token ? token.cToken.address.toLowerCase() : "";
+      const tokenPair = tokenPairs.find((tp) => tp.token.symbol === String(tokenId));
 
-      if (!address) {
-        return;
+      if (!tokenPair) {
+          return;
       }
+
+      const token = tokenPair.token;
+      const address = token.cToken.address.toLowerCase();
+      const underlyingPriceUSD = token.priceInUsd;
 
             const blockNumber = await getLatestBlock(graphUrl);
 
@@ -139,6 +138,7 @@ export function useMarketInfo(tokenId: string | undefined) {
       market.icon = token?.icon;
       market.tokenSymbol = token?.symbol;
       market.cTokenSymbol = token?.cToken?.symbol;
+      market.underlyingPriceUSD = underlyingPriceUSD;
 
       market.totalBorrowersCount = response.accountCTokens.filter(
         (account: { storedBorrowBalance: number }) =>
@@ -191,7 +191,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     };
 
     getMarketInfo();
-    }, [networkData, tokenId, signer]);
+    }, [networkData, tokenId, signer, tokenPairs]);
 
   return marketInfo;
 }
