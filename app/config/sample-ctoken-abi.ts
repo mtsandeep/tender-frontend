@@ -498,6 +498,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "function"
 }, {
     "inputs": [],
+    "name": "performanceFee",
+    "outputs": [{"internalType": "uint256","name": "","type": "uint256"}],
+    "stateMutability":"view",
+    "type":"function"
+}, {
+    "inputs": [],
     "name": "exchangeRateStored",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "view",
