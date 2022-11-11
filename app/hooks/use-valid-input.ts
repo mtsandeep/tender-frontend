@@ -83,7 +83,6 @@ export function useValidInputV2(
   ceil: string,
   borrowLimitUsed: string,
 ): [boolean, InputValidationDetail | null] {
-  console.log("san1", ceil)
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
   useEffect(() => {

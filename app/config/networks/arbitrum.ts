@@ -138,7 +138,7 @@ DAI: {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xE9d91a3E4A0A929E9A34510d44dFD335F39e17cB",
+        address: "0xa79f8cE76fb7cD466Cfe13316cC146a328Eb0A55",
       },
     },
   },
