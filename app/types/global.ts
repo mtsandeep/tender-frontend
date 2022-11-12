@@ -8,6 +8,11 @@ export interface cToken {
 export interface Token extends TokenConfig {
   priceInUsd: number;
   sGLPAddress?: any;
+  glpAddress?: string;
+  glpManager?: string;
+  rewardTracker?: string;
+  vault?: string;
+  nativeToken?: string;
 }
 
 export interface TokenConfig {

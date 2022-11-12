@@ -5,7 +5,7 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
-  secondsPerBlock: 0.2178610783,
+  secondsPerBlock: 0.31,
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0x49Ea2c991290cA13f57Ae2b8ca98bC6140925db3",
@@ -65,7 +65,7 @@ export default {
       },
     },
 
-DAI: {
+    DAI: {
       name: "DAI",
       symbol: "DAI",
       decimals: 18,
@@ -79,7 +79,6 @@ DAI: {
         address: "0xD0af14CEe85b6612C02F75F35E90fE1f8e0fB2fD",
       },
     },
-
 
     FRAX: {
       name: "FRAX",
@@ -128,12 +127,17 @@ DAI: {
       sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
       // fsGLP has balanceOf
       address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+      glpAddress: "0x4277f8F2c384827B5273592FF7CeBd9f2C1ac258",
+      glpManager: "0x321F653eED006AD1C29D174e17d96351BDe22649",
+      rewardTracker: "0x4e971a87900b931fF39d1Aad67697F49835400b6",
+      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
+      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
       icon: "/images/coin-icons/glp.svg",
       cToken: {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xa2F156bc04329f9D0C71804a5B56f130674F44c9",
+        address: "0xa79f8cE76fb7cD466Cfe13316cC146a328Eb0A55",
       },
     },
   },
