@@ -67,7 +67,7 @@ export function useMarkets(
         const exchangeRateCurrentPromise = cTokenContract.exchangeRateStored();
 
         // -> collateralFactorForToken
-        const collateralFactorPromise = comptrollerContract.markets(tp.cToken.address);
+        const comptrollerMarketsPromise = comptrollerContract.markets(tp.cToken.address);
 
         // getCurrentlySupplying -> ...
         // getCurrentlyBorrowing -> ...
@@ -123,7 +123,7 @@ export function useMarkets(
           borrowBalance: borrowBalancePromise,
           balance: balancePromise,
           exchangeRateCurrent: exchangeRateCurrentPromise,
-          collateralFactor: collateralFactorPromise,
+          comptrollerMarkets: comptrollerMarketsPromise,
           cash: cashPromise,
           supplyRatePerBlock: supplyRatePerBlockPromise,
           borrowRatePerBlock: borrowRatePerBlockPromise,
@@ -140,12 +140,14 @@ export function useMarkets(
 
       const tokens = [];
 
+      const liquidationIncentiveMantissaPromise = comptrollerContract.liquidationIncentiveMantissa();
+
       for (const tokenPromise of tokenPromises) {
         tokens.push({
           borrowBalance: await tokenPromise.borrowBalance,
           balance: await tokenPromise.balance,
           exchangeRateCurrent: await tokenPromise.exchangeRateCurrent,
-          collateralFactor: await tokenPromise.collateralFactor,
+          comptrollerMarkets: await tokenPromise.comptrollerMarkets,
           cash: await tokenPromise.cash,
           supplyRatePerBlock: await tokenPromise.supplyRatePerBlock,
           borrowRatePerBlock: await tokenPromise.borrowRatePerBlock,
@@ -159,6 +161,9 @@ export function useMarkets(
           withdrawFee: await tokenPromise.withdrawFee,*/
         });
       }
+
+      const liquidationIncentiveMantissa = await liquidationIncentiveMantissaPromise;
+      const liquidationPenalty = liquidationIncentiveMantissa / 1e18;
 
       // getTotalBorrowedInUsd
       const totalBorrowedAmountInUsd = tokens.map((token) => {
@@ -177,7 +182,7 @@ export function useMarkets(
         );
 
         const collateralFactor = parseFloat(
-            formatUnits(token.collateralFactor.collateralFactorMantissa, 18)
+            formatUnits(token.comptrollerMarkets.collateralFactorMantissa, 18)
         );
 
         return suppliedAmount * token.tokenPair.token.priceInUsd * collateralFactor;
@@ -299,6 +304,8 @@ export function useMarkets(
             token.tokenPair.token.decimals
         );
 
+        const liquidationThreshold = token.comptrollerMarkets.liquidationThresholdMantissa / 1e18;
+
         return {
           id: tp.token.symbol,
           tokenPair: tp,
@@ -327,6 +334,8 @@ export function useMarkets(
           maxBorrowLiquidity,
           hasSufficientAllowance: token.allowance.gte(MINIMUM_REQUIRED_APPROVAL_BALANCE),
           autocompound: token.autocompound,
+          liquidationThreshold,
+          liquidationPenalty,
         };
       });
 

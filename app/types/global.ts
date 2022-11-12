@@ -94,4 +94,6 @@ export type Market = {
   maxBorrowLiquidity: number;
   hasSufficientAllowance: boolean;
   autocompound: boolean;
+  liquidationThreshold: number;
+  liquidationPenalty: number;
 };
