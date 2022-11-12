@@ -30,7 +30,6 @@ const GlpCooldownTimer: React.FC<GlpCooldownTimerProps> = ({
     onExpire();
   };
 
-  console.log("san4", isCoolingdown, Date.now(), cooldownTime, hasTimer);
   if (!isCoolingdown || !cooldownTime || !hasTimer) return null;
   return (
     <div>
