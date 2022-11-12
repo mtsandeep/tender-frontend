@@ -34,7 +34,7 @@ const GlpCooldownTimer: React.FC<GlpCooldownTimerProps> = ({
   if (!isCoolingdown || !cooldownTime || !hasTimer) return null;
   return (
     <div>
-      <div className="font-bold font-nova text-sm sm:text-sm w-full mb-[16px] md:mb-[20px]">
+      <div className="font-bold font-nova text-sm sm:text-sm w-full">
         GLP Cooldown
       </div>
       <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[24px]">
