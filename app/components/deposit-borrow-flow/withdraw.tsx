@@ -18,6 +18,7 @@ import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
+import GlpCooldownTimer from "./GlpCooldownTimer";
 
 export interface WithdrawProps {
   market: Market;
@@ -48,6 +49,7 @@ export default function Withdraw({
   const tokenDecimals = market.tokenPair.token.decimals;
 
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
+  const [isGlpCoolingdown, setIsGlpCoolingdown] = useState(false);
   const [txnHash, setTxnHash] = useState<string>("");
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
@@ -281,6 +283,15 @@ export default function Withdraw({
               urlArrow="/images/ico/arrow-green.svg"
             />
 
+            {signer && market.id === "GLP" && (
+              <GlpCooldownTimer
+                signer={signer}
+                tokenPair={market.tokenPair}
+                onRunning={(isRunning) => setIsGlpCoolingdown(isRunning)}
+                onExpire={() => setIsGlpCoolingdown(false)}
+              />
+            )}
+
             <div className="flex justify-center h-[50px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
 
@@ -315,46 +326,69 @@ export default function Withdraw({
                 ))}
 
               {signer && isValid && (
-                <button
-                  disabled={isWithdrawing}
-                  onClick={async () => {
-                    try {
-                      if (!initialValue) {
-                        toast("Please set a value", {
-                          icon: "⚠️",
-                        });
-                        return;
-                      }
-                      setIsWithdrawing(true);
-                      // entering the max amount displayed should withdraw all
-                      const isMax =
-                        initialValue == toExactString(market.supplyBalance);
-                      // @ts-ignore existence of signer is gated above.
-                      const txn = await redeem(
-                        initialValue,
-                        signer,
-                        market.tokenPair.cToken,
-                        market.tokenPair.token,
-                        isMax
-                      );
-                      setTxnHash(txn.hash);
-                      setIsWaitingToBeMined(true);
-                      const tr = await txn.wait(); // TODO: error handle if transaction fails
-                      changeInitialValue("");
-                      updateTransaction(tr.blockHash);
-                      toast.success("Withdraw successful");
-                    } catch (e) {
-                      toast.error("Withdraw unsuccessful");
-                      closeModal();
-                    } finally {
-                      setIsWaitingToBeMined(false);
-                      setIsWithdrawing(false);
-                    }
-                  }}
-                  className="uppercase flex items-center justify-center h-[50px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#14f195] hover:bg-[#14f195ce] w-full"
-                >
-                  {isWithdrawing ? "Withdrawing..." : "Withdraw"}
-                </button>
+                <>
+                  {isGlpCoolingdown ? (
+                    <button className="flex items-center justify-center h-[50px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#5B5F65] w-full">
+                      <div className="group relative cursor-pointer">
+                        <span className="uppercase line-dashed color-black black">
+                          GLP cooldown started
+                        </span>
+                        <div className="hidden z-10 flex-col absolute left-[50%] translate-x-[-50%] bottom-[25px] items-center group-hover:flex rounded-[10px]">
+                          <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                            <div className="w-full h-full bg-[#181D1B] text-[#ADB5B3] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px] font-normal font-nova">
+                              There is a 15 minute cooldown between minting and
+                              transferring of GLP. During compounding, new GLP
+                              tokens are minted and withdrawal during the
+                              cooldown period is restricted.
+                            </div>
+                          </div>
+                          <div className="custom__arrow__tooltip relative top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B] !border-r-[b5cfcc3c] !border-b-[b5cfcc3c]"></div>
+                        </div>
+                      </div>
+                    </button>
+                  ) : (
+                    <button
+                      disabled={isWithdrawing}
+                      onClick={async () => {
+                        try {
+                          if (!initialValue) {
+                            toast("Please set a value", {
+                              icon: "⚠️",
+                            });
+                            return;
+                          }
+                          setIsWithdrawing(true);
+                          // entering the max amount displayed should withdraw all
+                          const isMax =
+                            initialValue == toExactString(market.supplyBalance);
+                          // @ts-ignore existence of signer is gated above.
+                          const txn = await redeem(
+                            initialValue,
+                            signer,
+                            market.tokenPair.cToken,
+                            market.tokenPair.token,
+                            isMax
+                          );
+                          setTxnHash(txn.hash);
+                          setIsWaitingToBeMined(true);
+                          const tr = await txn.wait(); // TODO: error handle if transaction fails
+                          changeInitialValue("");
+                          updateTransaction(tr.blockHash);
+                          toast.success("Withdraw successful");
+                        } catch (e) {
+                          toast.error("Withdraw unsuccessful");
+                          closeModal();
+                        } finally {
+                          setIsWaitingToBeMined(false);
+                          setIsWithdrawing(false);
+                        }
+                      }}
+                      className="uppercase flex items-center justify-center h-[50px] md:h-[60px] text-center text-black font-space font-bold text-base sm:text-lg rounded bg-[#14f195] hover:bg-[#14f195ce] w-full"
+                    >
+                      {isWithdrawing ? "Withdrawing..." : "Withdraw"}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </div>
