@@ -336,7 +336,7 @@ export default function Withdraw({
                         <div className="hidden z-10 flex-col absolute left-[50%] translate-x-[-50%] bottom-[25px] items-center group-hover:flex rounded-[10px]">
                           <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                             <div className="w-full h-full bg-[#181D1B] text-[#ADB5B3] shadow-lg rounded-[10px] p-[15px] text-sm leading-[17px] font-normal font-nova">
-                              There is a 15 minute cooldown between minting and
+                              There is a 15-minute cooldown between minting and
                               transferring of GLP. During compounding, new GLP
                               tokens are minted and withdrawal during the
                               cooldown period is restricted.
