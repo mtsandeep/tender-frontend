@@ -3,9 +3,12 @@ import { gql, request } from "graphql-request";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
+import { useGlpApy } from "./use-glp-apy";
 
 const getLatestBlock = async function (graphUrl: string) {
-    const response = await request(graphUrl, gql`
+  const response = await request(
+    graphUrl,
+    gql`
       {
         _meta {
           block {
@@ -13,12 +16,17 @@ const getLatestBlock = async function (graphUrl: string) {
           }
         }
       }
-    `);
+    `
+  );
 
-    return response?._meta?.block?.number ? response._meta.block.number : 0;
+  return response?._meta?.block?.number ? response._meta.block.number : 0;
 };
 
-const getStatsQuery = function (address: string, blockNumber: any, secondsPerBlock: number): string {
+const getStatsQuery = function (
+  address: string,
+  blockNumber: any,
+  secondsPerBlock: number
+): string {
   if (!blockNumber) {
     return "";
   }
@@ -55,35 +63,38 @@ export function useMarketInfo(tokenId: string | undefined) {
     market: false,
     historicalData: false,
   });
-  const {networkData, tokenPairs} = useContext(TenderContext);
+  const { networkData, tokenPairs } = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+  const tokenPair = tokenPairs.find(
+    (tp) => tp.token.symbol === String(tokenId)
+  );
+  const getGlpApy = useGlpApy();
 
   useEffect(() => {
     console.log("useMarketInfo called");
 
-    if (!networkData || tokenPairs.length === 0) {
+    if (!signer || !networkData || tokenPairs.length === 0) {
       return;
     }
 
     const getMarketInfo = async () => {
       const graphUrl = networkData.graphUrl;
       const secondsPerBlock = networkData.secondsPerBlock;
-      const tokenPair = tokenPairs.find((tp) => tp.token.symbol === String(tokenId));
 
       if (!tokenPair) {
-          return;
+        return;
       }
 
       const token = tokenPair.token;
       const address = token.cToken.address.toLowerCase();
       const underlyingPriceUSD = token.priceInUsd;
 
-            const blockNumber = await getLatestBlock(graphUrl);
+      const blockNumber = await getLatestBlock(graphUrl);
 
-            if (blockNumber === 0) {
-                return;
-            }
+      if (blockNumber === 0) {
+        return;
+      }
 
       const statsQuery = getStatsQuery(address, blockNumber, secondsPerBlock);
 
@@ -148,25 +159,33 @@ export function useMarketInfo(tokenId: string | undefined) {
           account.storedBorrowBalance > 0
       ).length;
       market.totalSuppliersCount = response.accountCTokens.filter(
-        (account: { cTokenBalance: number }) =>
-          account.cTokenBalance > 0
+        (account: { cTokenBalance: number }) => account.cTokenBalance > 0
       ).length;
 
       // @todo refactor
-        const daysPerYear = 365;
-        const blocksPerDay = (60 * 60 * 24) / secondsPerBlock;
-        const ethBlocksPerYear = 2102400; // subgraph uses 2102400
+      const daysPerYear = 365;
+      const blocksPerDay = (60 * 60 * 24) / secondsPerBlock;
+      const ethBlocksPerYear = 2102400; // subgraph uses 2102400
 
-        const supplyRate = market.supplyRate / ethBlocksPerYear;
-        market.supplyApy = (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+      const supplyRate = market.supplyRate / ethBlocksPerYear;
+      if (tokenPair.token.symbol === "GLP") {
+        const glpApy = await getGlpApy(signer, tokenPair);
+        market.supplyApy = glpApy;
+      } else {
+        market.supplyApy =
+          (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+      }
 
-        const borrowRate = market.borrowRate / ethBlocksPerYear;
-        market.borrowApy = (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+      const borrowRate = market.borrowRate / ethBlocksPerYear;
+      market.borrowApy =
+        (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
 
-        market.totalSupplyUSD = (
-            parseFloat(market.cash) + parseFloat(market.totalBorrows) - parseFloat(market.reserves)
-        ) * market.underlyingPriceUSD;
-        market.totalBorrowUSD = market.totalBorrows * market.underlyingPriceUSD;
+      market.totalSupplyUSD =
+        (parseFloat(market.cash) +
+          parseFloat(market.totalBorrows) -
+          parseFloat(market.reserves)) *
+        market.underlyingPriceUSD;
+      market.totalBorrowUSD = market.totalBorrows * market.underlyingPriceUSD;
 
       delete response.markets;
       delete response.accountCTokens;
@@ -177,14 +196,19 @@ export function useMarketInfo(tokenId: string | undefined) {
         .sort((a, b) => a - b)
         .forEach((key) => {
           // @ts-ignore
-          historicalData[key] = response[`b${key}`].length > 0 ? response[`b${key}`] : [{
-              supplyRate: 0,
-              borrowRate: 0,
-              totalBorrows: 0,
-              cash: 0,
-              reserves: 0,
-              underlyingPriceUSD: 0,
-          }];
+          historicalData[key] =
+            response[`b${key}`].length > 0
+              ? response[`b${key}`]
+              : [
+                  {
+                    supplyRate: 0,
+                    borrowRate: 0,
+                    totalBorrows: 0,
+                    cash: 0,
+                    reserves: 0,
+                    underlyingPriceUSD: 0,
+                  },
+                ];
         });
 
       setMarketInfo({
@@ -194,7 +218,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     };
 
     getMarketInfo();
-    }, [networkData, tokenId, signer, tokenPairs]);
+  }, [networkData, tokenId, signer, tokenPairs, tokenPair, getGlpApy]);
 
   return marketInfo;
 }

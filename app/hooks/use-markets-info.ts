@@ -3,13 +3,19 @@ import { gql, request } from "graphql-request";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
+import { useGlpApy } from "./use-glp-apy";
 
-const getPercentageChange = function (currentValue: number, prevValue: number): number {
-    return ((currentValue - prevValue) / currentValue) * 100;
+const getPercentageChange = function (
+  currentValue: number,
+  prevValue: number
+): number {
+  return ((currentValue - prevValue) / currentValue) * 100;
 };
 
 const getLatestBlock = async function (graphUrl: string) {
-    const response = await request(graphUrl, gql`
+  const response = await request(
+    graphUrl,
+    gql`
       {
         _meta {
           block {
@@ -17,9 +23,10 @@ const getLatestBlock = async function (graphUrl: string) {
           }
         }
       }
-    `);
+    `
+  );
 
-    return response?._meta?.block?.number ? response._meta.block.number : 0;
+  return response?._meta?.block?.number ? response._meta.block.number : 0;
 };
 
 export function useMarketsInfo() {
@@ -30,11 +37,12 @@ export function useMarketsInfo() {
   const { networkData, tokenPairs } = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+  const getGlpApy = useGlpApy();
 
   useEffect(() => {
     console.log("useMarketsInfo called");
 
-    if (!networkData || tokenPairs.length === 0) {
+    if (!signer || !networkData || tokenPairs.length === 0) {
       return;
     }
 
@@ -49,7 +57,7 @@ export function useMarketsInfo() {
       const blockNumber = await getLatestBlock(graphUrl);
 
       if (blockNumber === 0) {
-          return;
+        return;
       }
 
       const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
@@ -150,7 +158,8 @@ export function useMarketsInfo() {
       const uniqueSuppliers = {};
       const uniqueBorrowers = {};
 
-      response.prevMarkets.forEach((m: {
+      response.prevMarkets.forEach(
+        (m: {
           reserves: string;
           borrowRate: number;
           underlyingPriceUSD: any;
@@ -158,18 +167,21 @@ export function useMarketsInfo() {
           cash: string;
           supplyRate: number;
           id: string;
-      }) => {
+        }) => {
           prevMarkets[m.id.toLowerCase()] = m;
-      });
+        }
+      );
 
       let prevSupplyUsd = 0;
       let prevBorrowUsd = 0;
 
       const usdPricesByCToken = {};
       const usdPricesByToken = {};
+      const glpTokenPair = tokenPairs.find((tp) => tp.token.symbol === "GLP");
+      const glpApy = await getGlpApy(signer, glpTokenPair!);
 
       response.markets.forEach(
-        (m: {
+        async (m: {
           reserves: string;
           borrowRate: number;
           underlyingPriceUSD: any;
@@ -181,14 +193,27 @@ export function useMarketsInfo() {
           underlyingSymbol: string;
         }) => {
           const id = m.id.toLowerCase();
-          const tokenPair = tokenPairs.find((tp) => tp.cToken.address.toLowerCase() === id);
-          const underlyingPriceUSD = tokenPair ? tokenPair.token.priceInUsd : m.underlyingPriceUSD;
+          const tokenPair = tokenPairs.find(
+            (tp) => tp.cToken.address.toLowerCase() === id
+          );
+          const underlyingPriceUSD = tokenPair
+            ? tokenPair.token.priceInUsd
+            : m.underlyingPriceUSD;
 
           const supplyRate = m.supplyRate / ethBlocksPerYear;
-          markets[id].supplyApy =
-            (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
-          markets[id].totalSupply = parseFloat(m.cash) + parseFloat(m.totalBorrows) - parseFloat(m.reserves);
-          markets[id].totalSupplyUsd = markets[id].totalSupply * underlyingPriceUSD;
+          if (tokenPair?.token?.symbol === "GLP") {
+            markets[id].supplyApy = glpApy;
+          } else {
+            markets[id].supplyApy =
+              (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+          }
+
+          markets[id].totalSupply =
+            parseFloat(m.cash) +
+            parseFloat(m.totalBorrows) -
+            parseFloat(m.reserves);
+          markets[id].totalSupplyUsd =
+            markets[id].totalSupply * underlyingPriceUSD;
 
           const borrowRate = m.borrowRate / ethBlocksPerYear;
           markets[id].borrowApy =
@@ -234,44 +259,66 @@ export function useMarketsInfo() {
           usdPricesByToken[m.underlyingSymbol] = underlyingPriceUSD;
 
           // @todo refactor
-          if (typeof prevMarkets[id] !== 'undefined') {
-              const prevSupplyRate = prevMarkets[id].supplyRate / ethBlocksPerYear;
-              const prevSupplyApy = (Math.pow(prevSupplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
-              const prevTotalSupplyUsd =
-                  (parseFloat(prevMarkets[id].cash) +
-                      parseFloat(prevMarkets[id].totalBorrows) -
-                      parseFloat(prevMarkets[id].reserves)) *
-                  prevMarkets[id].underlyingPriceUSD;
+          if (typeof prevMarkets[id] !== "undefined") {
+            const prevSupplyRate =
+              prevMarkets[id].supplyRate / ethBlocksPerYear;
+            const prevSupplyApy =
+              (Math.pow(prevSupplyRate * blocksPerDay + 1, daysPerYear) - 1) *
+              100;
+            const prevTotalSupplyUsd =
+              (parseFloat(prevMarkets[id].cash) +
+                parseFloat(prevMarkets[id].totalBorrows) -
+                parseFloat(prevMarkets[id].reserves)) *
+              prevMarkets[id].underlyingPriceUSD;
 
-              const prevBorrowRate = prevMarkets[id].borrowRate / ethBlocksPerYear;
-              const prevBorrowApy =
-                  (Math.pow(prevBorrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
-              const prevTotalBorrowUsd = prevMarkets[id].totalBorrows * prevMarkets[id].underlyingPriceUSD;
+            const prevBorrowRate =
+              prevMarkets[id].borrowRate / ethBlocksPerYear;
+            const prevBorrowApy =
+              (Math.pow(prevBorrowRate * blocksPerDay + 1, daysPerYear) - 1) *
+              100;
+            const prevTotalBorrowUsd =
+              prevMarkets[id].totalBorrows * prevMarkets[id].underlyingPriceUSD;
 
-              markets[id].supplyApyDiff = markets[id].supplyApy - prevSupplyApy;
-              markets[id].totalSupplyUsdDiff = markets[id].totalSupplyUsd !== 0
-                  ? getPercentageChange(markets[id].totalSupplyUsd, prevTotalSupplyUsd) : 0;
+            markets[id].supplyApyDiff = markets[id].supplyApy - prevSupplyApy;
+            markets[id].totalSupplyUsdDiff =
+              markets[id].totalSupplyUsd !== 0
+                ? getPercentageChange(
+                    markets[id].totalSupplyUsd,
+                    prevTotalSupplyUsd
+                  )
+                : 0;
 
-              markets[id].borrowApyDiff = markets[id].borrowApy - prevBorrowApy;
-              markets[id].totalBorrowUsdDiff = markets[id].totalBorrowUsd !== 0
-                  ? getPercentageChange(markets[id].totalBorrowUsd, prevTotalBorrowUsd) : 0;
+            markets[id].borrowApyDiff = markets[id].borrowApy - prevBorrowApy;
+            markets[id].totalBorrowUsdDiff =
+              markets[id].totalBorrowUsd !== 0
+                ? getPercentageChange(
+                    markets[id].totalBorrowUsd,
+                    prevTotalBorrowUsd
+                  )
+                : 0;
 
-              prevBorrowUsd += prevTotalBorrowUsd;
-              prevSupplyUsd += prevTotalSupplyUsd;
+            prevBorrowUsd += prevTotalBorrowUsd;
+            prevSupplyUsd += prevTotalSupplyUsd;
 
-              // console.log('prevMarkets',{prevSupplyApy,prevTotalSupplyUsd,prevBorrowApy,prevTotalBorrowUsd})
-              // console.log('markets',markets[id])
+            // console.log('prevMarkets',{prevSupplyApy,prevTotalSupplyUsd,prevBorrowApy,prevTotalBorrowUsd})
+            // console.log('markets',markets[id])
           } else {
-              markets[id].supplyApyDiff = 0;
-              markets[id].totalSupplyUsdDiff = 0;
-              markets[id].borrowApyDiff = 0;
-              markets[id].totalBorrowUsdDiff = 0;
+            markets[id].supplyApyDiff = 0;
+            markets[id].totalSupplyUsdDiff = 0;
+            markets[id].borrowApyDiff = 0;
+            markets[id].totalBorrowUsdDiff = 0;
           }
         }
       );
 
-      total.supply.usdDiff = getPercentageChange(total.supply.usd, prevSupplyUsd);
-      total.borrow.usdDiff = getPercentageChange(total.borrow.usd, prevBorrowUsd);
+      total.supply.usdDiff = getPercentageChange(
+        total.supply.usd,
+        prevSupplyUsd
+      );
+      total.borrow.usdDiff = getPercentageChange(
+        total.borrow.usd,
+        prevBorrowUsd
+      );
 
       total.borrow.count = Object.keys(uniqueBorrowers).length;
       total.supply.count = Object.keys(uniqueSuppliers).length;
@@ -287,18 +334,34 @@ export function useMarketsInfo() {
       total.borrow.topMarkets.length = 3;
 
       // volumes
-      const supplyVolume = response.supplyVolume.map(
-          (supply) => typeof usdPricesByCToken[supply.cTokenSymbol] !== 'undefined' ? supply.underlyingAmount * usdPricesByCToken[supply.cTokenSymbol] : 0
-      ).reduce((previous: number, current: number) => previous + current, 0);
-      const redeemVolume = response.redeemVolume.map(
-          (redeem) => typeof usdPricesByCToken[redeem.cTokenSymbol] !== 'undefined' ? redeem.underlyingAmount * usdPricesByCToken[redeem.cTokenSymbol] : 0
-      ).reduce((previous: number, current: number) => previous + current, 0);
-      const borrowVolume = response.borrowVolume.map(
-          (borrow) => typeof usdPricesByToken[borrow.underlyingSymbol] !== 'undefined' ? borrow.amount * usdPricesByToken[borrow.underlyingSymbol] : 0
-      ).reduce((previous: number, current: number) => previous + current, 0);
-      const repayVolume = response.repayVolume.map(
-          (repay) => typeof usdPricesByToken[repay.underlyingSymbol] !== 'undefined' ? repay.amount * usdPricesByToken[repay.underlyingSymbol] : 0
-      ).reduce((previous: number, current: number) => previous + current, 0);
+      const supplyVolume = response.supplyVolume
+        .map((supply) =>
+          typeof usdPricesByCToken[supply.cTokenSymbol] !== "undefined"
+            ? supply.underlyingAmount * usdPricesByCToken[supply.cTokenSymbol]
+            : 0
+        )
+        .reduce((previous: number, current: number) => previous + current, 0);
+      const redeemVolume = response.redeemVolume
+        .map((redeem) =>
+          typeof usdPricesByCToken[redeem.cTokenSymbol] !== "undefined"
+            ? redeem.underlyingAmount * usdPricesByCToken[redeem.cTokenSymbol]
+            : 0
+        )
+        .reduce((previous: number, current: number) => previous + current, 0);
+      const borrowVolume = response.borrowVolume
+        .map((borrow) =>
+          typeof usdPricesByToken[borrow.underlyingSymbol] !== "undefined"
+            ? borrow.amount * usdPricesByToken[borrow.underlyingSymbol]
+            : 0
+        )
+        .reduce((previous: number, current: number) => previous + current, 0);
+      const repayVolume = response.repayVolume
+        .map((repay) =>
+          typeof usdPricesByToken[repay.underlyingSymbol] !== "undefined"
+            ? repay.amount * usdPricesByToken[repay.underlyingSymbol]
+            : 0
+        )
+        .reduce((previous: number, current: number) => previous + current, 0);
 
       total.supply.volume = supplyVolume - redeemVolume;
       total.borrow.volume = borrowVolume - repayVolume;
@@ -310,7 +373,7 @@ export function useMarketsInfo() {
     };
 
     getMarketsInfo();
-  }, [networkData, signer, tokenPairs]);
+  }, [getGlpApy, networkData, signer, tokenPairs]);
 
   return marketsInfo;
 }
