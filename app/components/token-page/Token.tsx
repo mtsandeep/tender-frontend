@@ -36,10 +36,9 @@ const Token = ({ id }: { id: string | undefined }) => {
           {token && token.autocompound && (
             <TokenVaultDetails marketInfo={m.market} />
           )}
-          <TokenInterestRate
-            data={interestRateModel}
-            isBorrowable={m.market.tokenSymbol !== "GLP"}
-          />
+          {m.market.tokenSymbol !== "GLP" && (
+            <TokenInterestRate data={interestRateModel} isBorrowable />
+          )}
         </div>
       </div>
     </>
