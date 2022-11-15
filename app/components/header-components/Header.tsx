@@ -15,11 +15,12 @@ const menuLinks = [
     link: "/markets",
     target: "_self",
   },
-  {
-    name: "Earn",
-    link: "/earn",
-    target: "_self",
-  },
+  // hiding temporarily, will need it later
+  // {
+  //   name: "Earn",
+  //   link: "/earn",
+  //   target: "_self",
+  // },
   {
     name: "Docs",
     link: "https://docs.tender.fi",
@@ -38,13 +39,13 @@ export default function Header() {
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
   const [dataClaimModal, setDataClaimModal] = useState<any>({ open: false });
-  const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
+  // const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoadingTndBtn(false);
-    }, 1000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoadingTndBtn(false);
+  //   }, 1000);
+  // }, []);
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -122,6 +123,8 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
+            {/* 
+            // hiding temporarily, will need it later
             {loadingTndBtn ? (
               <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
             ) : (
@@ -144,7 +147,7 @@ export default function Header() {
                   </div>
                 </button>
               </div>
-            )}
+            )} */}
             <NetworksDropdown />
             <ConnectWallet />
             <button

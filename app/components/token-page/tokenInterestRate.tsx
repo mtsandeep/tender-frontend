@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { LineChart, Line, Tooltip, ResponsiveContainer, YAxis } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 
-function TokenInterestRate({ data }: { data: any[] }) {
+function TokenInterestRate({
+  data,
+  isBorrowable,
+}: {
+  data: any[];
+  isBorrowable: boolean;
+}) {
   const [isCurrentInd, setIsCurrentInd] = useState<number | null>(null);
   const [isOptimalInd, setIsOptimalInd] = useState<number | null>(null);
   const [actData, setActData] = useState<any[]>([]);
@@ -80,12 +86,14 @@ function TokenInterestRate({ data }: { data: any[] }) {
               : props?.payload[0]?.payload.aaValue}
             %
           </p>
-          <p
-            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
-          >
-            <span className="mr-[20px]">Borrow APY</span>
-            {props?.payload[0]?.payload.dd}%
-          </p>
+          {isBorrowable && (
+            <p
+              className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
+            >
+              <span className="mr-[20px]">Borrow APY</span>
+              {props?.payload[0]?.payload.dd}%
+            </p>
+          )}
           <p
             className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[1].stroke}]`}
           >
@@ -175,14 +183,16 @@ function TokenInterestRate({ data }: { data: any[] }) {
                 dot={false}
                 activeDot={<CustomDot borderColor="#0D0D0D" />}
               />
-              <Line
-                type="monotone"
-                dataKey="dd"
-                stroke="#00E0FF"
-                strokeWidth={2}
-                dot={false}
-                activeDot={<CustomDot borderColor="#0D0D0D" />}
-              />
+              {isBorrowable && (
+                <Line
+                  type="monotone"
+                  dataKey="dd"
+                  stroke="#00E0FF"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={<CustomDot borderColor="#0D0D0D" />}
+                />
+              )}
               <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
             </LineChart>
           </ResponsiveContainer>
