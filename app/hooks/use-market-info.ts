@@ -48,7 +48,10 @@ const getStatsQuery = function (address: string, blockNumber: any, secondsPerBlo
 };
 
 export function useMarketInfo(tokenId: string | undefined) {
-  const [marketInfo, setMarketInfo] = useState({
+  const [marketInfo, setMarketInfo] = useState<{
+    market: any;
+    historicalData: any;
+  }>({
     market: false,
     historicalData: false,
   });
