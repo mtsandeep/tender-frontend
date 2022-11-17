@@ -350,9 +350,8 @@ export default function Repay({
                         return;
                       }
                       setIsRepaying(true);
-                      const isMax =
-                        initialValue ==
-                        toMaxString(maxRepayableAmount, tokenDecimals);
+                      const isMax = initialValue === borrowedAmount.toString();
+                      
                       // @ts-ignore existence of signer is gated above.
                       const txn = await repay(
                         initialValue,
