@@ -29,7 +29,9 @@ export function useAccountSummary() {
         });
 
         const netApy = supplyBalanceInUsd === 0 ? 0 : (netGainOrLoss / supplyBalanceInUsd) * 100;
-        const ltv = borrowBalanceInUsd * 100 / supplyBalanceInUsd;
+        const ltv = supplyBalanceInUsd
+          ? (borrowBalanceInUsd * 100) / supplyBalanceInUsd
+          : 0;
 
         setAccountSummary({
             supplyBalanceInUsd,
