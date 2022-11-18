@@ -204,7 +204,7 @@ export default function Deposit({
                   decimals={market.tokenPair.token.decimals}
                   onMaxClick={changeInitialValue}
                   tokenSymbol={market.tokenPair.token.symbol}
-                  color="#00E0FF"
+                  color="#14F195"
                 />
               </div>
             )}
