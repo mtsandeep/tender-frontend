@@ -189,11 +189,12 @@ export default function Borrow({
               {parseFloat(borrowLimitUsed) < 80 && (
                 <Max
                   maxValue={maxBorrowLimit}
-                  updateValue={() =>
+                  updateValue={() => {
+                    inputEl?.current && inputEl.current.focus();
                     changeInitialValue(
                       toMaxString(maxBorrowLimit, tokenDecimals)
-                    )
-                  }
+                    );
+                  }}
                   maxValueLabel={market.tokenPair.token.symbol}
                   label="80% Max"
                   color="#00E0FF"

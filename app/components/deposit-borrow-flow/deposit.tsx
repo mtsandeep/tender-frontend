@@ -202,7 +202,10 @@ export default function Deposit({
                 <MaxV2
                   amount={walletBalance}
                   decimals={market.tokenPair.token.decimals}
-                  onMaxClick={changeInitialValue}
+                  onMaxClick={(value: string) => {
+                    changeInitialValue(value);
+                    inputEl?.current && inputEl.current.focus();
+                  }}
                   tokenSymbol={market.tokenPair.token.symbol}
                   color="#14F195"
                 />

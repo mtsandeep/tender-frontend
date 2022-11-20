@@ -211,11 +211,12 @@ export default function Repay({
                 />
                 <Max
                   maxValue={maxRepayableAmount}
-                  updateValue={() =>
+                  updateValue={() => {
+                    inputEl?.current && inputEl.current.focus();
                     changeInitialValue(
                       toMaxString(maxRepayableAmount, tokenDecimals)
-                    )
-                  }
+                    );
+                  }}
                   maxValueLabel={market.tokenPair.token.symbol}
                   color="#00E0FF"
                 />
@@ -351,7 +352,7 @@ export default function Repay({
                       }
                       setIsRepaying(true);
                       const isMax = initialValue === borrowedAmount.toString();
-                      
+
                       // @ts-ignore existence of signer is gated above.
                       const txn = await repay(
                         initialValue,
