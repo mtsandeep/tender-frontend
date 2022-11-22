@@ -90,7 +90,8 @@ export default function Repay({
     0,
     maxRepayableAmount,
     parseFloat(newBorrowLimitUsed),
-    tokenDecimals
+    tokenDecimals,
+    true
   );
 
   const { updateTransaction, setIsWaitingToBeMined } =

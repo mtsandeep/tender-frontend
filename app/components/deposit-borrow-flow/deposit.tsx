@@ -85,7 +85,8 @@ export default function Deposit({
     getAmount(initialValue, market.tokenPair.token.decimals).toFixed(),
     "0",
     walletBalance,
-    newBorrowLimitUsed
+    newBorrowLimitUsed,
+    true
   );
   useEffect(() => {
     setIsEnabled(market.hasSufficientAllowance);

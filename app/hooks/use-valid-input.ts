@@ -14,7 +14,8 @@ export function useValidInput(
   floor: number,
   ceil: number,
   borrowLimitUsed: number,
-  precision: number
+  precision: number,
+  isRepayingOrSupplying?: boolean
 ): [boolean, InputValidationDetail | null] {
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
@@ -55,7 +56,8 @@ export function useValidInput(
       } else if (v > ceil) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
-      } else if (borrowLimitUsed > 100 || borrowLimitUsed < -0) {
+      } else if ((!isRepayingOrSupplying && borrowLimitUsed > 100) || borrowLimitUsed < -0) {
+        // when repaying or supplying, allow borrwLimitUsed to be more than 100 also, as user is adding money or repaying we don't need to restrict user here
         setReason(InputValidationDetail.INSUFFICIENT_EQUITY);
         setIsValid(false);
       } else {
@@ -64,7 +66,7 @@ export function useValidInput(
     } catch (e) {
       setIsValid(false);
     }
-  }, [inputValue, floor, ceil, borrowLimitUsed]);
+  }, [inputValue, floor, ceil, borrowLimitUsed, isRepayingOrSupplying]);
 
   return [isValid, reason];
 }
@@ -82,6 +84,7 @@ export function useValidInputV2(
   floor: string,
   ceil: string,
   borrowLimitUsed: string,
+  isRepayingOrSupplying?: boolean
 ): [boolean, InputValidationDetail | null] {
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
@@ -109,7 +112,7 @@ export function useValidInputV2(
       } else if (value.isGreaterThan(ceil)) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
-      } else if (BigNumber(borrowLimitUsed).isGreaterThan(100) || BigNumber(borrowLimitUsed).isLessThan(-0)) {
+      } else if ((!isRepayingOrSupplying && BigNumber(borrowLimitUsed).isGreaterThan(100)) || BigNumber(borrowLimitUsed).isLessThan(-0)) {
         setReason(InputValidationDetail.INSUFFICIENT_EQUITY);
         setIsValid(false);
       } else {
@@ -118,7 +121,7 @@ export function useValidInputV2(
     } catch (e) {
       setIsValid(false);
     }
-  }, [inputValue, floor, ceil, borrowLimitUsed]);
+  }, [inputValue, floor, ceil, borrowLimitUsed, isRepayingOrSupplying]);
 
   return [isValid, reason];
 }
