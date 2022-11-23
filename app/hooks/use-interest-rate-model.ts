@@ -18,7 +18,7 @@ export default function useInterestRateModel(tokenId: string | undefined) {
   useEffect(() => {
     console.log("useInterestRateModel called");
 
-    if (!networkData || !signer) {
+    if (!networkData || !signer|| !provider) {
       return;
     }
 
@@ -89,7 +89,7 @@ export default function useInterestRateModel(tokenId: string | undefined) {
       const BASE = 1e18;
       const kinkMantissa = 1e16;
       const kinkPercentage = (kink / kinkMantissa).toFixed(2);
-      const utilPercentage = (currentUtil / kinkMantissa).toFixed(2);
+      const utilPercentage = parseFloat((currentUtil / kinkMantissa).toFixed(2)).toString();
 
       const currentValue = {
         aa: utilPercentage,
@@ -169,7 +169,7 @@ export default function useInterestRateModel(tokenId: string | undefined) {
     };
 
     getInterestRateModel();
-  }, [networkData, signer, tokenId]);
+  }, [networkData, provider, signer, tokenId]);
 
   return interestRateModel;
 }
