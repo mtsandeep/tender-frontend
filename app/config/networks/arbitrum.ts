@@ -8,8 +8,8 @@ export default {
   secondsPerBlock: 0.31,
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
-    Comptroller: "0x49Ea2c991290cA13f57Ae2b8ca98bC6140925db3",
-    PriceOracle: "0xfc2e8e087Ce399aA40c868402d8643f3F53b89eA",
+    Comptroller: "0x5D57328423BEd206E0EE41c32bbCE4252E303d54",
+    PriceOracle: "0x7aa74f173bf3FF1Dc43858b8C109E9002F152FdC",
   },
   Tokens: {
     ETH: {
@@ -22,7 +22,7 @@ export default {
         name: "tETH",
         symbol: "tETH",
         decimals: 8,
-        address: "0x593b3eF799b219d80dD8F0556d1aA8bC362fe48C",
+        address: "0x0706905b2b21574DEFcF00B5fc48068995FCdCdf",
       },
     },
     WBTC: {
@@ -35,7 +35,7 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
-        address: "0x27cE5A4a632a0A835D7569e1c2aE7B5AA183d6B0",
+        address: "0x0A2f8B6223EB7DE26c810932CCA488A4936cF391",
       },
     },
     USDC: {
@@ -48,7 +48,7 @@ export default {
         name: "tUSDC",
         symbol: "tUSDC",
         decimals: 8,
-        address: "0xB1087a450373BB26BCf1A18E788269bde9c8fc85",
+        address: "0x068485a0f964B4c3D395059a19A05a8741c48B4E",
       },
     },
     USDT: {
@@ -61,7 +61,7 @@ export default {
         name: "tUSDT",
         symbol: "tUSDT",
         decimals: 8,
-        address: "0x102517Ea9340eDd21afdfAA911560311FeEFc607",
+        address: "0x4A5806A3c4fBB32F027240F80B18b26E40BF7E31",
       },
     },
 
@@ -76,7 +76,7 @@ export default {
         name: "tDAI",
         symbol: "tDAI",
         decimals: 8,
-        address: "0xD0af14CEe85b6612C02F75F35E90fE1f8e0fB2fD",
+        address: "0xB287180147EF1A97cbfb07e2F1788B75df2f6299",
       },
     },
 
@@ -90,35 +90,35 @@ export default {
         name: "tFRAX",
         symbol: "tFRAX",
         decimals: 8,
-        address: "0x038A8c9B8f25Fdb6d306FE1F4D99Ad9B3b3Ab722",
+        address: "0x27846A0f11EDC3D59EA227bAeBdFa1330a69B9ab",
       },
     },
-    // UNI: {
-    //   name: "UNI",
-    //   symbol: "UNI",
-    //   decimals: 18,
-    //   address: "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
-    //   icon: "/images/coin-icons/uni.svg",
-    //   cToken: {
-    //     name: "tUNI",
-    //     symbol: "tUNI",
-    //     decimals: 8,
-    //     address: "0x75095636CD74FdDA8bC36a2bdC455489C86B30bf",
-    //   },
-    // },
-    // LINK: {
-    //   name: "LINK",
-    //   symbol: "LINK",
-    //   decimals: 18,
-    //   address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
-    //   icon: "/images/coin-icons/link.svg",
-    //   cToken: {
-    //     name: "tLINK",
-    //     symbol: "tLINK",
-    //     decimals: 8,
-    //     address: "0xE30a6c7caBFB3b509EC2e765A70cA399a4d9e2f1",
-    //   },
-    // },
+    UNI: {
+      name: "UNI",
+      symbol: "UNI",
+      decimals: 18,
+      address: "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
+      icon: "/images/coin-icons/uni.svg",
+      cToken: {
+        name: "tUNI",
+        symbol: "tUNI",
+        decimals: 8,
+        address: "0x8b44D3D286C64C8aAA5d445cFAbF7a6F4e2B3A71",
+      },
+    },
+    LINK: {
+      name: "LINK",
+      symbol: "LINK",
+      decimals: 18,
+      address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+      icon: "/images/coin-icons/link.svg",
+      cToken: {
+        name: "tLINK",
+        symbol: "tLINK",
+        decimals: 8,
+        address: "0x87D06b55e122a0d0217d9a4f85E983AC3d7a1C35",
+      },
+    },
     GLP: {
       name: "GLP",
       symbol: "GLP",
@@ -137,7 +137,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0xa79f8cE76fb7cD466Cfe13316cC146a328Eb0A55",
+        address: "0xFF2073D3810754D6da4783235c8647e11e43C943",
       },
     },
   },
