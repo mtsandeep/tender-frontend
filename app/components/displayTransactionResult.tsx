@@ -5,6 +5,8 @@ export function displayTransactionResult(hash: string, message: string) {
   toast.success(() => (
     <p>
       <a
+        target="_blank"
+        rel="noreferrer"
         href={`https://andromeda-explorer.metis.io/tx/${hash}/internal-transactions/`}
       >
         {message}

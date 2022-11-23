@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { useState, useEffect } from "react";
 import { toMaxNumber } from "~/lib/ui";
 
@@ -12,7 +13,9 @@ export function useValidInput(
   inputValue: string,
   floor: number,
   ceil: number,
-  borrowLimitUsed: number
+  borrowLimitUsed: number,
+  precision: number,
+  isRepayingOrSupplying?: boolean
 ): [boolean, InputValidationDetail | null] {
   let [isValid, setIsValid] = useState<boolean>(false);
   let [reason, setReason] = useState<InputValidationDetail | null>(null);
@@ -21,6 +24,11 @@ export function useValidInput(
     setReason(null);
 
     try {
+      if (ceil === 0) {
+        setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
+        throw "Ceil is zero";
+      }
+
       // Remove insignificant 0's
       let value = inputValue.replace(/^0+|0+$/g, "");
 
@@ -45,10 +53,11 @@ export function useValidInput(
       if (v <= floor) {
         setReason(InputValidationDetail.NEGATIVE_OR_ZERO);
         setIsValid(false);
-      } else if (v > toMaxNumber(ceil)) {
+      } else if (v > ceil) {
         setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
         setIsValid(false);
-      } else if (borrowLimitUsed >= 100 || borrowLimitUsed < -0) {
+      } else if ((!isRepayingOrSupplying && borrowLimitUsed > 100) || borrowLimitUsed < -0) {
+        // when repaying or supplying, allow borrwLimitUsed to be more than 100 also, as user is adding money or repaying we don't need to restrict user here
         setReason(InputValidationDetail.INSUFFICIENT_EQUITY);
         setIsValid(false);
       } else {
@@ -57,7 +66,62 @@ export function useValidInput(
     } catch (e) {
       setIsValid(false);
     }
-  }, [inputValue, floor, ceil, borrowLimitUsed]);
+  }, [inputValue, floor, ceil, borrowLimitUsed, isRepayingOrSupplying]);
+
+  return [isValid, reason];
+}
+
+/**
+ * validate input with messages
+ * @param inputValue 
+ * @param floor 
+ * @param ceil 
+ * @param borrowLimitUsed 
+ * @returns [isValid, reasonString]
+ */
+export function useValidInputV2(
+  inputValue: string,
+  floor: string,
+  ceil: string,
+  borrowLimitUsed: string,
+  isRepayingOrSupplying?: boolean
+): [boolean, InputValidationDetail | null] {
+  let [isValid, setIsValid] = useState<boolean>(false);
+  let [reason, setReason] = useState<InputValidationDetail | null>(null);
+  useEffect(() => {
+    // Reset reason on each run
+    setReason(null);
+
+    try {
+      if (BigNumber(ceil).isEqualTo(0)) {
+        setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
+        throw "Ceil is zero";
+      }
+
+      const value = BigNumber(inputValue)
+
+      let isNaNValue: boolean = BigNumber(value).isNaN();
+      if (isNaNValue) {
+        setReason(InputValidationDetail.NON_NUMERIC_INPUT);
+        throw "NaN";
+      }
+
+      if (value.isLessThanOrEqualTo(floor)) {
+        setReason(InputValidationDetail.NEGATIVE_OR_ZERO);
+        setIsValid(false);
+      } else if (value.isGreaterThan(ceil)) {
+        setReason(InputValidationDetail.INSUFFICIENT_LIQUIDITY);
+        setIsValid(false);
+      } else if ((!isRepayingOrSupplying && BigNumber(borrowLimitUsed).isGreaterThan(100)) || BigNumber(borrowLimitUsed).isLessThan(-0)) {
+        setReason(InputValidationDetail.INSUFFICIENT_EQUITY);
+        setIsValid(false);
+      } else {
+        setIsValid(true);
+      }
+    } catch (e) {
+      setIsValid(false);
+    }
+  }, [inputValue, floor, ceil, borrowLimitUsed, isRepayingOrSupplying]);
 
   return [isValid, reason];
 }

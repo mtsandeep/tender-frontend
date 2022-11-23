@@ -8,7 +8,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Borrow, {
   type BorrowProps,
-} from "../../../../app/components/borrow-flow/borrow";
+} from "../../../../app/components/deposit-borrow-flow/borrow";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -36,7 +36,7 @@ let cToken: cTokenType = {
 let token: Token = {
   priceInUsd: 2,
   symbol: "TOK",
-  icon: "/images/coin-icons/metis.png",
+  icon: "/images/coin-icons/metis.svg",
   name: "token",
   decimals: 18,
   address: "0x02",
@@ -75,13 +75,18 @@ let tokenPairs: TokenPair[] = [tokenPair];
 Primary.args = {
   market,
   closeModal: () => {},
-  setIsRepaying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimitUsed: market.borrowLimitUsed,
   borrowLimit: market.borrowLimit,
   walletBalance: market.walletBalance,
   tokenPairs,
   totalBorrowedAmountInUsd: market.borrowBalanceInUsd,
+  initialValue: "",
+  activeTab: "borrow",
+  setActiveTab: () => {},
+  changeInitialValue: () => {},
+  tabs: [],
 } as BorrowProps;
 
 let smallMarket = {
@@ -106,7 +111,7 @@ let smallMarket = {
 };
 SmallNumbers.args = {
   closeModal: () => {},
-  setIsRepaying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimitUsed: smallMarket.borrowLimitUsed,
   borrowLimit: smallMarket.borrowLimit,
@@ -114,4 +119,9 @@ SmallNumbers.args = {
   tokenPairs,
   totalBorrowedAmountInUsd: smallMarket.borrowBalanceInUsd,
   market: smallMarket,
+  initialValue: "",
+  activeTab: "borrow",
+  setActiveTab: () => {},
+  changeInitialValue: () => {},
+  tabs: [],
 } as BorrowProps;

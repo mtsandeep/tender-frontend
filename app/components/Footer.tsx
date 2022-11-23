@@ -4,7 +4,7 @@ export default function Footer() {
     url: string;
     ico: string;
   }
-  let productLinks: Link[] = [
+  let links: Link[] = [
     {
       label: "Docs",
       url: "https://docs.tender.fi",
@@ -17,16 +17,13 @@ export default function Footer() {
     },
     {
       label: "Support",
-      url: "mailto:support@tender.fi",
       ico: "/images/ico/email.svg",
+      url: "mailto:support@tender.fi",
     },
-  ];
-
-  let resourceLinks: Link[] = [
     {
       label: "Telegram",
-      ico: "/images/ico/telegram.svg",
       url: "http://t.me/tenderFi",
+      ico: "/images/ico/telegram.svg",
     },
     {
       label: "Twitter",
@@ -35,46 +32,37 @@ export default function Footer() {
     },
     {
       label: "Discord",
-      ico: "/images/ico/discord.svg",
       url: "https://discord.com/invite/Tender-Fi",
+      ico: "/images/ico/discord.svg",
     },
   ];
-
   return (
-    <div className="c h-[120px] border-t md:border-none border-[#2B2B2B] flex-col-reverse justify-center items-center md:flex-row justify-between items-center flex max-w-[1400px] md:h-[62px]">
-      <div className="mb-[30px] md:mb-5 md:mb-0">
-        <a href="/">
-          <img
-            className="w-[120px] h-[20px]"
-            src="/images/ico/smallLogo.svg"
-            alt="..."
-          />
-        </a>
+    <footer className="border-t border-[#2B2B2B] w-full">
+      <div className="h-[120px] md:h-[62px] c flex-col-reverse items-center md:flex-row justify-between w-full flex max-w-[1400px]">
+        <div className="mb-[30px] md:mb-0 font-normal text-base text-[#818987]">
+          © {new Date().getFullYear()} Tender Finance
+        </div>
+        <div className="pt-[30px] flex gap-[20px] md:flex md:py-4 justify-center items-center">
+          {links.map((item) => {
+            return (
+              <a
+                aria-label={item.label}
+                href={item.url}
+                key={item.label}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  aria-hidden={true}
+                  className="icons-color w-[20px] h-[20px] md:w-[20px] md:h-[20px]"
+                  src={item.ico}
+                  alt={item.label}
+                />
+              </a>
+            );
+          })}
+        </div>
       </div>
-      <div className=" pt-[30px] flex gap-[20px] md:flex md:py-4 justify-center items-center">
-        {productLinks.map((item, index) => {
-          return (
-            <a className="" href={item.url} key={index}>
-              <img
-                className="icons-color w-[20px] h-[20px] md:w-[20px] md:h-[20px]"
-                src={item.ico}
-                alt=""
-              />
-            </a>
-          );
-        })}
-        {resourceLinks.map((item, index) => {
-          return (
-            <a className="" key={index} href={item.url}>
-              <img
-                className="icons-color md:w-[20px] md:h-[20px]"
-                src={item.ico}
-                alt=""
-              />
-            </a>
-          );
-        })}
-      </div>
-    </div>
+    </footer>
   );
 }

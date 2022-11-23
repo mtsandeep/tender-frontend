@@ -22,36 +22,27 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
   } = props;
   return (
     <div>
-      <div className="font-bold mr-3 border-b border-[#282C2B] font-nova text-sm sm:text-sm w-full pb-4 sm:pb-5">
-        Borrow Limit
-      </div>
-
-      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base border-b border-[#282C2B]">
-        <div className="flex-grow py-4 sm:py-5 ">Borrow Balance</div>
+      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[8px]">
+        <div className="flex-grow">Borrow Capacity</div>
         <div className="text-white text-base font-nova ">
-          {(value == "0" || !isValid) && <>{toFiatString(borrowBalance)}</>}
+          {(value == "0" || !isValid) && <>${toFiatString(borrowBalance)}</>}
           {isValid && value != "0" && (
-            <div className="flex">
+            <div className="flex items-center">
               ${toFiatString(borrowBalance)}
-              <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
-                <img className="mx-3" src={urlArrow} alt="" />
-              </span>
-              ${toFiatString(newBorrowBalance)}
+              <img className="mx-3" src={urlArrow} alt="" />$
+              {toFiatString(newBorrowBalance)}
             </div>
           )}
         </div>
       </div>
-
-      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base pb-4 sm:pb-5">
-        <div className="flex-grow py-4 sm:py-5">Borrow Used</div>
+      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[24px] md:mb-[30px]">
+        <div className="flex-grow">Borrow Used</div>
         <div className="text-white text-sm sm:text-base font-nova">
           {(value == "0" || !isValid) && <>{borrowLimitUsed}%</>}
           {isValid && value != "0" && (
-            <div className="flex">
+            <div className="flex items-center">
               {borrowLimitUsed}%
-              <span className="flex items-center justify-center text-[#14f195] text-sm sm:text-base">
-                <img className="mx-3" src={urlArrow} alt="" />
-              </span>
+              <img className="mx-3" src={urlArrow} alt="" />
               {newBorrowLimitUsed}%
             </div>
           )}

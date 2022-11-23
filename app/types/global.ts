@@ -8,6 +8,11 @@ export interface cToken {
 export interface Token extends TokenConfig {
   priceInUsd: number;
   sGLPAddress?: any;
+  glpAddress?: string;
+  glpManager?: string;
+  rewardTracker?: string;
+  vault?: string;
+  nativeToken?: string;
 }
 
 export interface TokenConfig {
@@ -17,7 +22,6 @@ export interface TokenConfig {
   decimals: number;
   address: string;
   cToken: cToken;
-  priceDecimals: number;
 }
 
 export interface NetworkData {
@@ -27,6 +31,8 @@ export interface NetworkData {
   blockExplorerUrl: string;
   userExplorerUrl?: string;
   rpcUrls?: string[];
+  secondsPerBlock: number;
+  graphUrl: string;
   Contracts: {
     Comptroller: string;
     PriceOracle: string;
@@ -61,6 +67,7 @@ export type TenderContext = {
   updateTransaction: Function;
   isWaitingToBeMined: boolean;
   setIsWaitingToBeMined: Function;
+  blockNumber: number | boolean;
 };
 
 export type Market = {
@@ -74,7 +81,7 @@ export type Market = {
     totalBorrowedUsd?: string;
     marketSizeUsd?: string;
   };
-  walletBalance: number;
+  walletBalance: string;
   supplyBalance: number;
   supplyBalanceInUsd: number;
   borrowBalance: number;
@@ -85,4 +92,8 @@ export type Market = {
   totalBorrowedAmountInUsd: number;
   comptrollerAddress: string;
   maxBorrowLiquidity: number;
+  hasSufficientAllowance: boolean;
+  autocompound: boolean;
+  liquidationThreshold: number;
+  liquidationPenalty: number;
 };

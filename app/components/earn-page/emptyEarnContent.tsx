@@ -2,7 +2,7 @@ export default function EmptyEarnContent() {
   return (
     <div className="switch__to__network c mt-[30px] mb-[60px] md:mb-[100px]">
       <div className="max-w-[820px] my-o mx-auto">
-        <p className="font-space text-[30px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
+        <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
         </p>
         <p className="md:text-base md:leading-[22px] text-sm leading-5 font-normal mb-[31px] font-nova text-[#ADB5B3]">
@@ -22,75 +22,51 @@ export default function EmptyEarnContent() {
           <br />
           Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
         </p>
-        <div className="font-[ProximaNova] w-full">
-          <div key="1" className="panel-custom">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-              TND
+        <div className="font-nova w-full">
+          <div className="panel-custom">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+              TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div
-                key="1"
-                className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]"
-              >
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
+              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
               </div>
-              <div
-                key="2"
-                className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]"
-              >
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
               </div>
-              <div
-                key="3"
-                className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]"
-              >
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]">
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
               </div>
-              <div
-                key="4"
-                className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]"
-              >
+              <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
                 <div className="animate w-full h-[33px] md:h-[38px]"></div>
               </div>
             </div>
           </div>
-          <div key="2" className="panel-custom mt-[31px]">
-            <div className="font-space text-lg md:text-[20px] leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px]  border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-              Escrowed <span className="uppercase">TND</span>
+          <div className="panel-custom mt-[31px]">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+              Escrowed <span className="uppercase">TENDIES</span>
             </div>
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div
-                key="1"
-                className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] "
-              >
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
+              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
               </div>
-              <div
-                key="2"
-                className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] "
-              >
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
               </div>
-              <div
-                key="3"
-                className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]"
-              >
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
-                <div className="animate w-full h-[20px] md:h-[22px]"></div>
+              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[20px] md:pt-[24px]">
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
+                <div className="animate w-full h-[20px] md:h-[24px]"></div>
               </div>
-              <div
-                key="4"
-                className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]"
-              >
+              <div className="font-space flex flex-wrap items-center pt-[32px] gap-[12px] gap-y-[13px] md:gap-x-[17px]">
                 <div className="animate w-full h-[33px] md:h-[38px]"></div>
               </div>
             </div>

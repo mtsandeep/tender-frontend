@@ -8,7 +8,7 @@ import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Repay, {
   type RepayProps,
-} from "../../../../app/components/borrow-flow/repay";
+} from "../../../../app/components/deposit-borrow-flow/repay";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -36,7 +36,7 @@ let cToken: cTokenType = {
 let token: Token = {
   priceInUsd: 2,
   symbol: "TOK",
-  icon: "/images/coin-icons/metis.png",
+  icon: "/images/coin-icons/metis.svg",
   name: "token",
   decimals: 18,
   priceDecimals: 18,
@@ -75,7 +75,7 @@ let tokenPairs: TokenPair[] = [tokenPair];
 Primary.args = {
   market,
   closeModal: () => {},
-  setIsRepaying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimit: market.borrowLimit,
   borrowedAmount: market.borrowBalance,
@@ -83,6 +83,11 @@ Primary.args = {
   tokenPairs,
   borrowLimitUsed: market.borrowLimitUsed,
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
+  initialValue: "",
+  activeTab: "repay",
+  setActiveTab: () => {},
+  changeInitialValue: () => {},
+  tabs: [],
 } as RepayProps;
 
 let smallMarket: Market = {
@@ -109,7 +114,7 @@ let smallMarket: Market = {
 SmallNumbers.args = {
   market: smallMarket,
   closeModal: () => {},
-  setIsRepaying: () => {},
+  onTabSwitch: () => {},
   signer: null,
   borrowLimit: smallMarket.borrowLimit,
   borrowedAmount: smallMarket.borrowBalance,
@@ -117,4 +122,9 @@ SmallNumbers.args = {
   tokenPairs,
   borrowLimitUsed: smallMarket.borrowLimitUsed,
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
+  initialValue: "",
+  activeTab: "repay",
+  setActiveTab: () => {},
+  changeInitialValue: () => {},
+  tabs: [],
 } as RepayProps;

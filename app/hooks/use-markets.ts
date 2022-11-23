@@ -1,127 +1,306 @@
 import { useState, useEffect, useContext } from "react";
 import type { Market, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
+import { calculateApy, formatApy } from "~/lib/apy-calculations";
 import {
-  formattedBorrowApy,
-  formattedDepositApy,
-} from "~/lib/apy-calculations";
-import {
-  getAccountBorrowLimitInUsd,
   getBorrowLimitUsed,
-  getCurrentlyBorrowing,
-  getCurrentlySupplying,
-  getTotalSupply,
-  getTotalBorrowed,
-  getWalletBalance,
-  getTotalBorrowedInUsd,
-  getMaxBorrowLiquidity,
+  formatBigNumber,
+  MINIMUM_REQUIRED_APPROVAL_BALANCE,
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
 import { TenderContext } from "~/contexts/tender-context";
+import { ethers, utils } from "ethers";
+import SampleCTokenAbi from "~/config/sample-ctoken-abi";
+import SampleCEtherAbi from "~/config/sample-CEther-abi";
+import SampleErc20Abi from "~/config/sample-erc20-abi";
+import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
+import { providers as mcProviders } from "@0xsequence/multicall";
+import { formatUnits } from "ethers/lib/utils";
+import { useGlpApy } from "./use-glp-apy";
 
-const getMarketData = async (
-  signer: JsonRpcSigner,
-  tp: TokenPair
-): Promise<Market["marketData"]> => {
-  const depositApy: string = await formattedDepositApy(
-    tp.token,
-    tp.cToken,
-    signer
-  );
-  const borrowApy: string = await formattedBorrowApy(
-    tp.token,
-    tp.cToken,
-    signer
-  );
-
-  // TODO: don't think we're using these two fields,
-  // but we might when we build the individual market pages?
-  let totalBorrowed = await getTotalBorrowed(signer, tp);
-  let marketSize = await getTotalSupply(signer, tp);
-
-  return {
-    depositApy,
-    borrowApy,
-    totalBorrowed,
-    marketSize,
-  };
-};
-
+// @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
   signer: JsonRpcSigner | null | undefined,
   supportedTokenPairs: TokenPair[],
-  comptrollerAddress: string | undefined
+  comptrollerAddress: string | undefined,
+  secondsPerBlock: number | undefined
 ) {
   let [markets, setMarkets] = useState<Market[]>([]);
 
   let pollingKey = useInterval(7_000);
   let { currentTransaction } = useContext(TenderContext);
 
+  const getGlpApy = useGlpApy();
+
   useEffect(() => {
-    if (!signer || !comptrollerAddress) {
+    if (!signer || !comptrollerAddress || !secondsPerBlock) {
       return;
     }
 
-    let newMarkets = supportedTokenPairs.map(async (tp): Promise<Market> => {
-      // TODO: optimize with parallelization
-      let totalBorrowedAmountInUsd = await getTotalBorrowedInUsd(
-        signer,
-        supportedTokenPairs
-      );
-      let accountBorrowLimitInUsd = await getAccountBorrowLimitInUsd(
-        signer,
+    const mcProvider = new mcProviders.MulticallProvider(signer.provider);
+
+    const getMarkets = async () => {
+      const comptrollerContract = new ethers.Contract(
         comptrollerAddress,
-        supportedTokenPairs
+        SampleComptrollerAbi,
+        mcProvider
       );
 
-      let supplyBalance = await getCurrentlySupplying(
-        signer,
-        tp.cToken,
-        tp.token
-      );
+      const address: string = await signer.getAddress();
 
-      let borrowBalance = await getCurrentlyBorrowing(
-        signer,
-        tp.cToken,
-        tp.token
-      );
+      const tokenPromises = supportedTokenPairs.map((tp) => {
+        const abi =
+          tp.token.symbol === "ETH" ? SampleCEtherAbi : SampleCTokenAbi;
+        const cTokenContract = new ethers.Contract(
+          tp.cToken.address,
+          abi,
+          mcProvider
+        );
 
-      let supplyBalanceInUsd = supplyBalance * tp.token.priceInUsd;
-      let borrowBalanceInUsd = borrowBalance * tp.token.priceInUsd;
+        // getTotalBorrowedInUsd -> getCurrentlyBorrowing
+        const borrowBalancePromise =
+          cTokenContract.borrowBalanceStored(address);
 
-      let maxBorrowLiquidity = await getMaxBorrowLiquidity(signer, tp);
+        // getAccountBorrowLimitInUsd -> borrowLimitForTokenInUsd ->
+        // -> getCurrentlySupplying
+        const balancePromise = cTokenContract.callStatic.balanceOf(address);
+        const exchangeRateCurrentPromise = cTokenContract.exchangeRateStored();
 
-      return {
-        id: tp.token.symbol,
-        tokenPair: tp,
-        marketData: await getMarketData(signer, tp),
-        walletBalance: await getWalletBalance(signer, tp.token),
-        supplyBalance,
-        supplyBalanceInUsd,
-        borrowBalance,
-        borrowBalanceInUsd,
-        comptrollerAddress,
-        borrowLimit: accountBorrowLimitInUsd,
-        totalBorrowedAmountInUsd,
-        borrowLimitUsedOfToken: await getBorrowLimitUsed(
+        // -> collateralFactorForToken
+        const comptrollerMarketsPromise = comptrollerContract.markets(
+          tp.cToken.address
+        );
+
+        // getCurrentlySupplying -> ...
+        // getCurrentlyBorrowing -> ...
+
+        // getMaxBorrowLiquidity
+        let cashPromise = cTokenContract.getCash();
+
+        // getMarketData ->
+        // -> formattedDepositApy -> calculateDepositApy
+        const supplyRatePerBlockPromise = cTokenContract.supplyRatePerBlock();
+
+        // -> formattedBorrowApy -> calculateBorrowApy
+        const borrowRatePerBlockPromise = cTokenContract.borrowRatePerBlock();
+
+        // -> getTotalBorrowed
+        const totalBorrowsPromise = cTokenContract.totalBorrows();
+
+        // -> getTotalSupply
+        const totalReservesPromise = cTokenContract.totalReserves();
+
+        // getWalletBalance
+        let walletBalancePromise;
+
+        if (tp.token.symbol === "ETH") {
+          walletBalancePromise = signer.getBalance();
+        } else {
+          const tokenContract = new ethers.Contract(
+            tp.token.address,
+            SampleErc20Abi,
+            mcProvider
+          );
+          walletBalancePromise = tokenContract.balanceOf(address);
+        }
+
+        // hasSufficientAllowance
+        let allowancePromise;
+        const allowanceAddress = tp.token.sGLPAddress || tp.token.address;
+
+        if (allowanceAddress) {
+          // workaround for native token
+          let allowanceContract = new ethers.Contract(
+            allowanceAddress,
+            SampleErc20Abi,
+            mcProvider
+          );
+          allowancePromise = allowanceContract.allowance(
+            address,
+            tp.cToken.address
+          );
+        }
+
+        const autocompoundPromise = cTokenContract.autocompound();
+        /*const performanceFeePromise = cTokenContract.performanceFee();
+        const withdrawFeePromise = cTokenContract.withdrawFee();*/
+
+        return {
+          borrowBalance: borrowBalancePromise,
+          balance: balancePromise,
+          exchangeRateCurrent: exchangeRateCurrentPromise,
+          comptrollerMarkets: comptrollerMarketsPromise,
+          cash: cashPromise,
+          supplyRatePerBlock: supplyRatePerBlockPromise,
+          borrowRatePerBlock: borrowRatePerBlockPromise,
+          totalBorrows: totalBorrowsPromise,
+          totalReserves: totalReservesPromise,
+          tokenPair: tp,
+          walletBalance: walletBalancePromise,
+          allowance: allowancePromise,
+          autocompound: autocompoundPromise,
+          /*performanceFee: performanceFeePromise,
+          withdrawFee: withdrawFeePromise,*/
+        };
+      });
+
+      const tokens = [];
+
+      const liquidationIncentiveMantissaPromise =
+        comptrollerContract.liquidationIncentiveMantissa();
+
+      for (const tokenPromise of tokenPromises) {
+        tokens.push({
+          borrowBalance: await tokenPromise.borrowBalance,
+          balance: await tokenPromise.balance,
+          exchangeRateCurrent: await tokenPromise.exchangeRateCurrent,
+          comptrollerMarkets: await tokenPromise.comptrollerMarkets,
+          cash: await tokenPromise.cash,
+          supplyRatePerBlock: await tokenPromise.supplyRatePerBlock,
+          borrowRatePerBlock: await tokenPromise.borrowRatePerBlock,
+          totalBorrows: await tokenPromise.totalBorrows,
+          totalReserves: await tokenPromise.totalReserves,
+          tokenPair: tokenPromise.tokenPair,
+          walletBalance: await tokenPromise.walletBalance,
+          allowance: tokenPromise.allowance
+            ? await tokenPromise.allowance
+            : MINIMUM_REQUIRED_APPROVAL_BALANCE,
+          autocompound: await tokenPromise.autocompound,
+          /*performanceFee: await tokenPromise.performanceFee,
+          withdrawFee: await tokenPromise.withdrawFee,*/
+        });
+      }
+
+      const liquidationIncentiveMantissa =
+        await liquidationIncentiveMantissaPromise;
+      const liquidationPenalty = liquidationIncentiveMantissa / 1e18;
+
+      // getTotalBorrowedInUsd
+      const totalBorrowedAmountInUsd = tokens
+        .map((token) => {
+          return (
+            formatBigNumber(
+              token.borrowBalance,
+              token.tokenPair.token.decimals
+            ) * token.tokenPair.token.priceInUsd
+          );
+        })
+        .reduce((acc, curr) => acc + curr, 0);
+
+      // getAccountBorrowLimitInUsd
+      const accountBorrowLimitInUsd = tokens
+        .map((token) => {
+          // the exchange rate is scaled by 18 decimals
+          const suppliedAmount = formatBigNumber(
+            token.balance.mul(token.exchangeRateCurrent),
+            token.tokenPair.token.decimals + 18
+          );
+
+          const collateralFactor = parseFloat(
+            formatUnits(token.comptrollerMarkets.collateralFactorMantissa, 18)
+          );
+
+          return (
+            suppliedAmount * token.tokenPair.token.priceInUsd * collateralFactor
+          );
+        })
+        .reduce((acc, curr) => acc + curr, 0);
+
+      const newMarkets = tokens.map(async (token): Promise<Market> => {
+        const tp = token.tokenPair;
+        const supplyBalance = formatBigNumber(
+          token.balance.mul(token.exchangeRateCurrent),
+          tp.token.decimals + 18
+        );
+        const borrowBalance = formatBigNumber(
+          token.borrowBalance,
+          tp.token.decimals
+        );
+
+        const supplyBalanceInUsd = supplyBalance * tp.token.priceInUsd;
+        const borrowBalanceInUsd = borrowBalance * tp.token.priceInUsd;
+
+        const maxBorrowLiquidity = parseFloat(
+          utils.formatUnits(token.cash, tp.token.decimals)
+        );
+
+        // walletBalance
+        const walletBalance = token.walletBalance.toString();
+        let depositApy;
+        if (tp.token.symbol === "GLP") {
+          const glpApy = await getGlpApy(signer, tp);
+          depositApy = formatApy(glpApy);
+        } else {
+          // marketData
+          depositApy = formatApy(
+            calculateApy(token.supplyRatePerBlock, secondsPerBlock)
+          );
+        }
+
+        const borrowApy = formatApy(
+          calculateApy(token.borrowRatePerBlock, secondsPerBlock)
+        );
+
+        const totalBorrowed = formatBigNumber(
+          token.totalBorrows,
+          token.tokenPair.token.decimals
+        );
+
+        let marketSize = formatBigNumber(
+          token.cash.add(token.totalBorrows).sub(token.totalReserves),
+          token.tokenPair.token.decimals
+        );
+
+        const liquidationThreshold =
+          token.comptrollerMarkets.liquidationThresholdMantissa / 1e18;
+
+        return {
+          id: tp.token.symbol,
+          tokenPair: tp,
+          marketData: {
+            depositApy,
+            borrowApy,
+            totalBorrowed,
+            marketSize,
+          },
+          walletBalance,
+          supplyBalance,
+          supplyBalanceInUsd,
+          borrowBalance,
           borrowBalanceInUsd,
-          accountBorrowLimitInUsd
-        ),
-        borrowLimitUsed: await getBorrowLimitUsed(
+          comptrollerAddress,
+          borrowLimit: accountBorrowLimitInUsd,
           totalBorrowedAmountInUsd,
-          accountBorrowLimitInUsd
-        ),
-        maxBorrowLiquidity,
-      };
-    });
+          borrowLimitUsedOfToken: await getBorrowLimitUsed(
+            borrowBalanceInUsd,
+            accountBorrowLimitInUsd
+          ),
+          borrowLimitUsed: await getBorrowLimitUsed(
+            totalBorrowedAmountInUsd,
+            accountBorrowLimitInUsd
+          ),
+          maxBorrowLiquidity,
+          hasSufficientAllowance: token.allowance.gte(
+            MINIMUM_REQUIRED_APPROVAL_BALANCE
+          ),
+          autocompound: token.autocompound,
+          liquidationThreshold,
+          liquidationPenalty,
+        };
+      });
 
-    Promise.all(newMarkets).then((nm) => setMarkets(nm));
+      Promise.all(newMarkets).then((nm) => setMarkets(nm));
+    };
+
+    getMarkets();
   }, [
     signer,
     supportedTokenPairs,
     comptrollerAddress,
     pollingKey,
     currentTransaction,
+    secondsPerBlock,
+    getGlpApy,
   ]);
 
   return markets;
