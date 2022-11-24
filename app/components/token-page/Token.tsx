@@ -34,7 +34,7 @@ const Token = ({ id }: { id: string | undefined }) => {
         <div className="order-1 lg:order-2 w-full">
           <TokenGettingStarted market={token} />
           {token && token.autocompound && (
-            <TokenVaultDetails marketInfo={m.market} />
+            <TokenVaultDetails market={token} />
           )}
           {m.market.tokenSymbol !== "GLP" && (
             <TokenInterestRate data={interestRateModel} isBorrowable />

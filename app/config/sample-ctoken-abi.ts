@@ -92,16 +92,14 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "error"
 }, {"inputs": [], "name": "SetReserveFactorFreshCheck", "type": "error"}, {
     "inputs": [],
-    "name": "SetRewardRouterAddressOwnerCheck",
+    "name": "SetStakedGlpAddressOwnerCheck",
     "type": "error"
-}, {"inputs": [], "name": "SetStakedGlpAddressOwnerCheck", "type": "error"}, {
-    "inputs": [],
-    "name": "SignalTransferOwnerCheck",
-    "type": "error"
-}, {
-    "inputs": [{"internalType": "uint256", "name": "errorCode", "type": "uint256"}],
-    "name": "TransferComptrollerRejection",
-    "type": "error"
+}, {"inputs": [], "name": "SignalTransferOwnerCheck", "type": "error"}, {
+    "inputs": [{
+        "internalType": "uint256",
+        "name": "errorCode",
+        "type": "uint256"
+    }], "name": "TransferComptrollerRejection", "type": "error"
 }, {"inputs": [], "name": "TransferNotAllowed", "type": "error"}, {
     "inputs": [],
     "name": "TransferNotEnough",
@@ -345,6 +343,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
+    "inputs": [{"internalType": "uint256", "name": "autoCompoundBlockThreshold_", "type": "uint256"}],
+    "name": "_setAutoCompoundBlockThreshold",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
     "inputs": [{"internalType": "bool", "name": "autocompound_", "type": "bool"}],
     "name": "_setAutocompoundRewards",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
@@ -353,6 +357,28 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
 }, {
     "inputs": [{"internalType": "contract ComptrollerInterface", "name": "newComptroller", "type": "address"}],
     "name": "_setComptroller",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [{
+        "internalType": "contract IStakedGlp",
+        "name": "stakedGLP_",
+        "type": "address"
+    }, {
+        "internalType": "contract IGmxRewardRouter",
+        "name": "glpRewardRouter_",
+        "type": "address"
+    }, {"internalType": "address", "name": "glpManager_", "type": "address"}, {
+        "internalType": "address",
+        "name": "gmxToken_",
+        "type": "address"
+    }, {"internalType": "address", "name": "stakedGmxTracker_", "type": "address"}, {
+        "internalType": "address",
+        "name": "sbfGMX_",
+        "type": "address"
+    }],
+    "name": "_setGlpAddresses",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -375,14 +401,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "stateMutability": "nonpayable",
     "type": "function"
 }, {
-    "inputs": [{"internalType": "contract IGmxRewardRouter", "name": "glpRewardRouter_", "type": "address"}],
-    "name": "_setRewardRouterAddress",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "nonpayable",
-    "type": "function"
-}, {
-    "inputs": [{"internalType": "contract IStakedGlp", "name": "stakedGLP_", "type": "address"}],
-    "name": "_setStakedGlpAddress",
+    "inputs": [{"internalType": "uint256", "name": "withdrawFee_", "type": "uint256"}, {
+        "internalType": "uint256",
+        "name": "performanceFee_",
+        "type": "uint256"
+    }],
+    "name": "_setVaultFees",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -432,6 +456,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "function"
 }, {
     "inputs": [],
+    "name": "autoCompoundBlockThreshold",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "autocompound",
     "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
     "stateMutability": "view",
@@ -447,6 +477,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "name": "balanceOfUnderlying",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "blocksBetweenRateChange",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
     "type": "function"
 }, {
     "inputs": [{"internalType": "uint256", "name": "borrowAmount", "type": "uint256"}],
@@ -480,6 +516,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "function"
 }, {
     "inputs": [],
+    "name": "compoundGlp",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "comptroller",
     "outputs": [{"internalType": "contract ComptrollerInterface", "name": "", "type": "address"}],
     "stateMutability": "view",
@@ -491,17 +533,29 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [{"internalType": "address", "name": "_NFTAddress", "type": "address"}, {
+        "internalType": "uint256",
+        "name": "_TokenID",
+        "type": "uint256"
+    }], "name": "depositNFT", "outputs": [], "stateMutability": "nonpayable", "type": "function"
+}, {
+    "inputs": [],
+    "name": "depositsDuringLastInterval",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "exchangeRateBefore",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "inputs": [],
     "name": "exchangeRateCurrent",
     "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "nonpayable",
     "type": "function"
-}, {
-    "inputs": [],
-    "name": "performanceFee",
-    "outputs": [{"internalType": "uint256","name": "","type": "uint256"}],
-    "stateMutability":"view",
-    "type":"function"
 }, {
     "inputs": [],
     "name": "exchangeRateStored",
@@ -530,8 +584,26 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "type": "function"
 }, {
     "inputs": [],
+    "name": "glpBlockDelta",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "glpManager",
+    "outputs": [{"internalType": "address", "name": "", "type": "address"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
     "name": "glpRewardRouter",
     "outputs": [{"internalType": "contract IGmxRewardRouter", "name": "", "type": "address"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "gmxToken",
+    "outputs": [{"internalType": "address", "name": "", "type": "address"}],
     "stateMutability": "view",
     "type": "function"
 }, {
@@ -607,6 +679,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [],
+    "name": "lastGlpDepositAmount",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "inputs": [{"internalType": "address", "name": "borrower", "type": "address"}, {
         "internalType": "uint256",
         "name": "repayAmount",
@@ -629,9 +707,41 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [{"internalType": "address", "name": "", "type": "address"}, {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+    }, {"internalType": "uint256", "name": "", "type": "uint256"}, {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+    }],
+    "name": "onERC721Received",
+    "outputs": [{"internalType": "bytes4", "name": "", "type": "bytes4"}],
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
     "inputs": [],
     "name": "pendingAdmin",
     "outputs": [{"internalType": "address payable", "name": "", "type": "address"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "performanceFee",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "performanceFeeMAX",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "prevExchangeRate",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "view",
     "type": "function"
 }, {
@@ -675,6 +785,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "stateMutability": "view",
     "type": "function"
 }, {
+    "inputs": [],
+    "name": "sbfGMX",
+    "outputs": [{"internalType": "address", "name": "", "type": "address"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
     "inputs": [{"internalType": "address", "name": "liquidator", "type": "address"}, {
         "internalType": "address",
         "name": "borrower",
@@ -688,6 +804,12 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "inputs": [],
     "name": "stakedGLP",
     "outputs": [{"internalType": "contract IStakedGlp", "name": "", "type": "address"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "stakedGmxTracker",
+    "outputs": [{"internalType": "contract IRewardTracker", "name": "", "type": "address"}],
     "stateMutability": "view",
     "type": "function"
 }, {
@@ -708,32 +830,6 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "outputs": [{"internalType": "string", "name": "", "type": "string"}],
     "stateMutability": "view",
     "type": "function"
-}, {
-    "inputs": [{
-        "internalType": "address",
-        "name": "underlying_",
-        "type": "address"
-    }, {
-        "internalType": "contract ComptrollerInterface",
-        "name": "comptroller_",
-        "type": "address"
-    }, {
-        "internalType": "contract InterestRateModel",
-        "name": "interestRateModel_",
-        "type": "address"
-    }, {
-        "internalType": "uint256",
-        "name": "initialExchangeRateMantissa_",
-        "type": "uint256"
-    }, {"internalType": "string", "name": "name_", "type": "string"}, {
-        "internalType": "string",
-        "name": "symbol_",
-        "type": "string"
-    }, {"internalType": "uint8", "name": "decimals_", "type": "uint8"}, {
-        "internalType": "bool",
-        "name": "isGLP_",
-        "type": "bool"
-    }], "name": "tinit", "outputs": [], "stateMutability": "nonpayable", "type": "function"
 }, {
     "inputs": [],
     "name": "totalBorrows",
@@ -784,4 +880,22 @@ export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constru
     "outputs": [{"internalType": "address", "name": "", "type": "address"}],
     "stateMutability": "view",
     "type": "function"
+}, {
+    "inputs": [],
+    "name": "withdrawFee",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [],
+    "name": "withdrawFeeMAX",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{"internalType": "address", "name": "_NFTAddress", "type": "address"}, {
+        "internalType": "uint256",
+        "name": "_TokenID",
+        "type": "uint256"
+    }], "name": "withdrawNFT", "outputs": [], "stateMutability": "nonpayable", "type": "function"
 }]
