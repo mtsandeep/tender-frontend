@@ -35,7 +35,7 @@ export default {
         name: "tWBTC",
         symbol: "tWBTC",
         decimals: 8,
-        address: "0x1400d8CD69115EB312F9FEc3B0191167138AE3f3",
+        address: "0x0A2f8B6223EB7DE26c810932CCA488A4936cF391",
       },
     },
     USDC: {
@@ -48,7 +48,7 @@ export default {
         name: "tUSDC",
         symbol: "tUSDC",
         decimals: 8,
-        address: "0x335372f4998b1b9152E0117476D5d34690174643",
+        address: "0x068485a0f964B4c3D395059a19A05a8741c48B4E",
       },
     },
     USDT: {
@@ -61,7 +61,7 @@ export default {
         name: "tUSDT",
         symbol: "tUSDT",
         decimals: 8,
-        address: "0x6d692b9076AfFaDA37AD470a52979303F974C7e7",
+        address: "0x4A5806A3c4fBB32F027240F80B18b26E40BF7E31",
       },
     },
 
@@ -76,7 +76,7 @@ export default {
         name: "tDAI",
         symbol: "tDAI",
         decimals: 8,
-        address: "0xE03e8575F397fF0aE6FC07133797203d73CE915d",
+        address: "0xB287180147EF1A97cbfb07e2F1788B75df2f6299",
       },
     },
 
@@ -90,7 +90,7 @@ export default {
         name: "tFRAX",
         symbol: "tFRAX",
         decimals: 8,
-        address: "0x9746B7d3D9f13db877Cb362904B9691685F80203",
+        address: "0x27846A0f11EDC3D59EA227bAeBdFa1330a69B9ab",
       },
     },
     UNI: {
@@ -103,7 +103,7 @@ export default {
         name: "tUNI",
         symbol: "tUNI",
         decimals: 8,
-        address: "0xd40872EFfB7681Ac5A533177F5c3ee416294C843",
+        address: "0x8b44D3D286C64C8aAA5d445cFAbF7a6F4e2B3A71",
       },
     },
     LINK: {
@@ -116,7 +116,7 @@ export default {
         name: "tLINK",
         symbol: "tLINK",
         decimals: 8,
-        address: "0x644B7b3E29Cf8a2298322f1e1fdb2fE251379f77",
+        address: "0x87D06b55e122a0d0217d9a4f85E983AC3d7a1C35",
       },
     },
     GLP: {
@@ -137,7 +137,7 @@ export default {
         name: "tGLP",
         symbol: "tGLP",
         decimals: 8,
-        address: "0x29d096714818B96770216FdCe54a8384d0ac9AF9",
+        address: "0xFF2073D3810754D6da4783235c8647e11e43C943",
       },
     },
   },
