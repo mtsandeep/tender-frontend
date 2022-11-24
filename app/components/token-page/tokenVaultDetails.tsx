@@ -1,8 +1,9 @@
 import { useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
 import TokenVaultDetailsEmpty from "./tokenVaultDetailsEmpty";
+import {Market} from "~/types/global";
 
-function TokenVaultDetails({ marketInfo }: { marketInfo: any | boolean }) {
+function TokenVaultDetails({ market }: { market: Market }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
     textTop?: any;
@@ -22,7 +23,7 @@ function TokenVaultDetails({ marketInfo }: { marketInfo: any | boolean }) {
           $TND.
         </div>
       ),
-      itemData: "15%",
+      itemData: `${market.performanceFee.toString()}%`,
     },
     {
       itemName: "Deposit Fee",
@@ -34,11 +35,11 @@ function TokenVaultDetails({ marketInfo }: { marketInfo: any | boolean }) {
       tooltipText: (
         <div>A fee charged on withdrawing tokens from this market.</div>
       ),
-      itemData: "0%",
+      itemData: `${market.withdrawFee.toString()}%`,
     },
   ];
 
-  return marketInfo.id ? (
+  return market ? (
     <div className="panel-custom border-custom font-nova w-full mb-5">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}

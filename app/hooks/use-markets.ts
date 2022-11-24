@@ -122,8 +122,21 @@ export function useMarkets(
         }
 
         const autocompoundPromise = cTokenContract.autocompound();
-        /*const performanceFeePromise = cTokenContract.performanceFee();
-        const withdrawFeePromise = cTokenContract.withdrawFee();*/
+
+        let performanceFeePromise;
+        let withdrawFeePromise;
+
+        if (tp.token.symbol === "GLP") {
+          performanceFeePromise = cTokenContract.performanceFee();
+          withdrawFeePromise = cTokenContract.withdrawFee();
+        } else {
+          performanceFeePromise = new Promise((resolve) => {
+            resolve(0);
+          });
+          withdrawFeePromise = new Promise((resolve) => {
+            resolve(0);
+          });
+        }
 
         return {
           borrowBalance: borrowBalancePromise,
@@ -139,8 +152,8 @@ export function useMarkets(
           walletBalance: walletBalancePromise,
           allowance: allowancePromise,
           autocompound: autocompoundPromise,
-          /*performanceFee: performanceFeePromise,
-          withdrawFee: withdrawFeePromise,*/
+          performanceFee: performanceFeePromise,
+          withdrawFee: withdrawFeePromise,
         };
       });
 
@@ -166,8 +179,8 @@ export function useMarkets(
             ? await tokenPromise.allowance
             : MINIMUM_REQUIRED_APPROVAL_BALANCE,
           autocompound: await tokenPromise.autocompound,
-          /*performanceFee: await tokenPromise.performanceFee,
-          withdrawFee: await tokenPromise.withdrawFee,*/
+          performanceFee: await tokenPromise.performanceFee,
+          withdrawFee: await tokenPromise.withdrawFee,
         });
       }
 
@@ -284,6 +297,8 @@ export function useMarkets(
             MINIMUM_REQUIRED_APPROVAL_BALANCE
           ),
           autocompound: token.autocompound,
+          performanceFee: token.performanceFee,
+          withdrawFee: token.withdrawFee,
           liquidationThreshold,
           liquidationPenalty,
         };
