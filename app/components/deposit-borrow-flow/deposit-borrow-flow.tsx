@@ -46,12 +46,12 @@ export default function DepositBorrowFlow({
     {
       name: "borrow",
       color: "#00E0FF",
-      show: market.id !== "GLP" && market.id !== "GMX",
+      show: !market.autocompound,
     },
     {
       name: "repay",
       color: "#00E0FF",
-      show: market.id !== "GLP" && market.id !== "GMX",
+      show: !market.autocompound,
     },
   ];
 
@@ -111,29 +111,27 @@ export default function DepositBorrowFlow({
             tabs={tabs}
           />
         )}
-        {activeTab === "repay" &&
-          market.id !== "GLP" &&
-          market.id !== "GMX" && (
-            <Repay
-              market={market}
-              closeModal={closeModal}
-              borrowedAmount={market.borrowBalance}
-              signer={signer}
-              borrowLimitUsed={market.borrowLimitUsed}
-              walletBalance={getAmountFloat(
-                market.walletBalance,
-                market.tokenPair.token.decimals
-              )}
-              tokenPairs={tokenPairs}
-              borrowLimit={market.borrowLimit}
-              totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
-              initialValue={initialValueRepay}
-              changeInitialValue={setInitialValueRepay}
-              activeTab={activeTab}
-              setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
-              tabs={tabs}
-            />
-          )}
+        {activeTab === "repay" && !market.autocompound && (
+          <Repay
+            market={market}
+            closeModal={closeModal}
+            borrowedAmount={market.borrowBalance}
+            signer={signer}
+            borrowLimitUsed={market.borrowLimitUsed}
+            walletBalance={getAmountFloat(
+              market.walletBalance,
+              market.tokenPair.token.decimals
+            )}
+            tokenPairs={tokenPairs}
+            borrowLimit={market.borrowLimit}
+            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+            initialValue={initialValueRepay}
+            changeInitialValue={setInitialValueRepay}
+            activeTab={activeTab}
+            setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
+            tabs={tabs}
+          />
+        )}
         {activeTab === "borrow" &&
           market.id !== "GLP" &&
           market.id !== "GMX" && (
