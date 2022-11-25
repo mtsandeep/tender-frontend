@@ -16,7 +16,9 @@ export default function TokenPage() {
   useEffect(() => {
     if (
       tenderContextData?.markets?.length &&
-      !tenderContextData?.markets?.find((t) => t.id === tokenId)
+      !tenderContextData?.markets?.find(
+        (t) => t.id.toLowerCase() === tokenId?.toLowerCase()
+      )
     ) {
       window.location.replace(`/markets`);
     }
