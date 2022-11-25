@@ -132,24 +132,22 @@ export default function DepositBorrowFlow({
             tabs={tabs}
           />
         )}
-        {activeTab === "borrow" &&
-          market.id !== "GLP" &&
-          market.id !== "GMX" && (
-            <Borrow
-              market={market}
-              closeModal={closeModal}
-              signer={signer}
-              borrowLimitUsed={market.borrowLimitUsed}
-              borrowLimit={market.borrowLimit}
-              tokenPairs={tokenPairs}
-              totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
-              initialValue={initialValueBorrow}
-              changeInitialValue={setInitialValueBorrow}
-              activeTab={activeTab}
-              setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
-              tabs={tabs}
-            />
-          )}
+        {activeTab === "borrow" && !market.autocompound && (
+          <Borrow
+            market={market}
+            closeModal={closeModal}
+            signer={signer}
+            borrowLimitUsed={market.borrowLimitUsed}
+            borrowLimit={market.borrowLimit}
+            tokenPairs={tokenPairs}
+            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+            initialValue={initialValueBorrow}
+            changeInitialValue={setInitialValueBorrow}
+            activeTab={activeTab}
+            setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
+            tabs={tabs}
+          />
+        )}
       </div>
     </div>
   );
