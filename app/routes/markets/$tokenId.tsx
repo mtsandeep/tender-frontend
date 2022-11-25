@@ -13,13 +13,11 @@ export default function TokenPage() {
   const onSupportedChain = useOnSupportedNetwork(chainId);
   const { tokenId } = useParams();
 
-  console.log(tokenId);
-
   useEffect(() => {
     if (
       tenderContextData?.markets?.length &&
       !tenderContextData?.markets?.find(
-        (t) => t.id.toLowerCase() === tokenId?.toLowerCase()
+        (t) => t.id.toUpperCase() === tokenId?.toUpperCase()
       )
     ) {
       window.location.replace(`/markets`);
@@ -30,10 +28,10 @@ export default function TokenPage() {
     <div className="c mt-[30px] mb-[60px] md:mb-[100px] max-w-[1068px] switch__to__network">
       {tenderContextData && onSupportedChain ? (
         <TenderContext.Provider value={tenderContextData}>
-          <Token id={tokenId} />
+          <Token id={tokenId?.toUpperCase()} />
         </TenderContext.Provider>
       ) : (
-        <TokenEmpty id={tokenId} />
+        <TokenEmpty id={tokenId?.toUpperCase()} />
       )}
     </div>
   );

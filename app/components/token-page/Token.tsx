@@ -12,13 +12,13 @@ import TokenChart from "./tokenChart";
 const Token = ({ id }: { id: string | undefined }) => {
   const tenderContextData = useContext(TenderContext);
   const tokens = tenderContextData.markets.filter(
-    (token: Market) => token.id.toLowerCase() === id?.toLowerCase()
+    (token: Market) => token.id.toUpperCase() === id?.toUpperCase()
   );
 
-  console.log(tokens);
   const token = tokens.length ? tokens[0] : null;
   const m = useMarketInfo(id);
   const interestRateModel = useInterestRateModel(id);
+
   const utilizationRate =
     interestRateModel.length > 0
       ? interestRateModel.find((rate) => rate.isCurrent)
