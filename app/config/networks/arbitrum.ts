@@ -5,10 +5,10 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
-  secondsPerBlock: 12,
+  secondsPerBlock: 12, // L1 value
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
-    Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e",
+    Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e", // address of unitroller contract
     PriceOracle: "0x7aa74f173bf3FF1Dc43858b8C109E9002F152FdC",
   },
   Tokens: {
