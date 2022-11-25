@@ -12,8 +12,10 @@ import TokenChart from "./tokenChart";
 const Token = ({ id }: { id: string | undefined }) => {
   const tenderContextData = useContext(TenderContext);
   const tokens = tenderContextData.markets.filter(
-    (token: Market) => token.id === id
+    (token: Market) => token.id.toLowerCase() === id?.toLowerCase()
   );
+
+  console.log(tokens);
   const token = tokens.length ? tokens[0] : null;
   const m = useMarketInfo(id);
   const interestRateModel = useInterestRateModel(id);
@@ -33,9 +35,7 @@ const Token = ({ id }: { id: string | undefined }) => {
         />
         <div className="order-1 lg:order-2 w-full">
           <TokenGettingStarted market={token} />
-          {token && token.autocompound && (
-            <TokenVaultDetails market={token} />
-          )}
+          {token && token.autocompound && <TokenVaultDetails market={token} />}
           {m.market.tokenSymbol !== "GLP" && (
             <TokenInterestRate data={interestRateModel} isBorrowable />
           )}

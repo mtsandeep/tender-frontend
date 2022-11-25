@@ -13,6 +13,8 @@ export default function TokenPage() {
   const onSupportedChain = useOnSupportedNetwork(chainId);
   const { tokenId } = useParams();
 
+  console.log(tokenId);
+
   useEffect(() => {
     if (
       tenderContextData?.markets?.length &&
@@ -38,6 +40,8 @@ export default function TokenPage() {
 }
 
 export const meta: MetaFunction = (data) => ({
-  title: `Tender.fi - Token ${data.params.tokenId}`,
-  property: [{ "og:title": `Tender.fi - Token ${data.params.tokenId}` }],
+  title: `Tender.fi - Token ${data.params.tokenId?.toUpperCase()}`,
+  property: [
+    { "og:title": `Tender.fi - Token ${data.params.tokenId?.toUpperCase()}` },
+  ],
 });
