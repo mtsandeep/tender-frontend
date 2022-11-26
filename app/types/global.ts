@@ -96,6 +96,7 @@ export type Market = {
   autocompound: boolean;
   performanceFee: number;
   withdrawFee: number;
+  isBorrowable: boolean;
   liquidationThreshold: number;
   liquidationPenalty: number;
 };

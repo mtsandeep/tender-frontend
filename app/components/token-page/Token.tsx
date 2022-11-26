@@ -16,7 +16,7 @@ const Token = ({ id }: { id: string | undefined }) => {
   );
 
   const token = tokens.length ? tokens[0] : null;
-  const m = useMarketInfo(id);
+  const marketInfo = useMarketInfo(id);
   const interestRateModel = useInterestRateModel(id);
 
   const utilizationRate =
@@ -26,19 +26,17 @@ const Token = ({ id }: { id: string | undefined }) => {
 
   return (
     <>
-      <TokenChart marketInfo={m.market} historicalData={m.historicalData} />
+      <TokenChart marketInfo={marketInfo.market} historicalData={marketInfo.historicalData} />
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
         <TokenMarketDetails
           id={id}
-          marketInfo={m.market}
+          marketInfo={marketInfo.market}
           utilizationRate={utilizationRate}
         />
         <div className="order-1 lg:order-2 w-full">
           <TokenGettingStarted market={token} />
           {token && token.autocompound && <TokenVaultDetails market={token} />}
-          {m.market.tokenSymbol !== "GLP" && (
-            <TokenInterestRate data={interestRateModel} isBorrowable />
-          )}
+          <TokenInterestRate data={interestRateModel} isBorrowable={marketInfo.market.isBorrowable} />
         </div>
       </div>
     </>

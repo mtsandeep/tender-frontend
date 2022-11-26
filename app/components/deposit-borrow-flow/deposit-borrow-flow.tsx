@@ -46,12 +46,12 @@ export default function DepositBorrowFlow({
     {
       name: "borrow",
       color: "#00E0FF",
-      show: !market.autocompound,
+      show: market.isBorrowable,
     },
     {
       name: "repay",
       color: "#00E0FF",
-      show: !market.autocompound,
+      show: market.isBorrowable,
     },
   ];
 
@@ -111,7 +111,7 @@ export default function DepositBorrowFlow({
             tabs={tabs}
           />
         )}
-        {activeTab === "repay" && !market.autocompound && (
+        {activeTab === "repay" && (
           <Repay
             market={market}
             closeModal={closeModal}
@@ -132,7 +132,7 @@ export default function DepositBorrowFlow({
             tabs={tabs}
           />
         )}
-        {activeTab === "borrow" && !market.autocompound && (
+        {activeTab === "borrow" && (
           <Borrow
             market={market}
             closeModal={closeModal}
