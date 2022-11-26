@@ -134,8 +134,8 @@ export default {
       nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
       icon: "/images/coin-icons/glp.svg",
       cToken: {
-        name: "tGLP",
-        symbol: "tGLP",
+        name: "tfsGLP",
+        symbol: "tfsGLP",
         decimals: 8,
         address: "0xFF2073D3810754D6da4783235c8647e11e43C943",
       },
