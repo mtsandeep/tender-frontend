@@ -26,7 +26,10 @@ const Token = ({ id }: { id: string | undefined }) => {
 
   return (
     <>
-      <TokenChart marketInfo={marketInfo.market} historicalData={marketInfo.historicalData} />
+      <TokenChart
+        marketInfo={marketInfo.market}
+        historicalData={marketInfo.historicalData}
+      />
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
         <TokenMarketDetails
           id={id}
@@ -35,8 +38,12 @@ const Token = ({ id }: { id: string | undefined }) => {
         />
         <div className="order-1 lg:order-2 w-full">
           <TokenGettingStarted market={token} />
-          {token && token.tokenPair.cToken.isVault && <TokenVaultDetails market={token} />}
-          <TokenInterestRate data={interestRateModel} isBorrowable={marketInfo.market.isBorrowable} />
+          {token && token.tokenPair.cToken.isVault && (
+            <TokenVaultDetails market={token} />
+          )}
+          {marketInfo.market.isBorrowable && (
+            <TokenInterestRate data={interestRateModel} />
+          )}
         </div>
       </div>
     </>

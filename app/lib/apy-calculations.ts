@@ -1,7 +1,7 @@
-import type { BigNumber} from "ethers";
+import { BigNumber} from "ethers";
 import { ethers } from "ethers";
 import sampleCTokenAbi from "~/config/sample-ctoken-abi";
-import type { Token, cToken, TokenPair } from "~/types/global";
+import type { Token, cToken } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 
 function formatApy(apy: number): string {
@@ -109,9 +109,51 @@ async function formattedBorrowApy(
   return formatApy(apy);
 }
 
+function getGlpAprPerBlock(
+  aums: BigNumber[],
+  glpSupply: BigNumber,
+  tokensPerInterval: BigNumber,
+  nativeTokenPrice: BigNumber,
+  performanceFee: BigNumber,
+  ETHEREUM_SECONDS_PER_BLOCK: number
+): BigNumber {
+  const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+  const BLOCKS_PER_YEAR = Math.round(
+    SECONDS_PER_YEAR / ETHEREUM_SECONDS_PER_BLOCK
+  );
+  const BASIS_POINTS_DIVISOR = BigNumber.from(10).pow(18);
+  let aum = BigNumber.from(0);
+  if (aums && aums.length > 0) {
+    aum = aums[0].add(aums[1]).div(2);
+  }
+  const glpPrice =
+    glpSupply && glpSupply.gt(0)
+      ? aum.mul(BigNumber.from(10).pow(18)).div(glpSupply)
+      : BigNumber.from(0);
+  const feeGlpTrackerAnnualRewardsUsd = tokensPerInterval
+    .mul(SECONDS_PER_YEAR)
+    .mul(nativeTokenPrice)
+    .div(BigNumber.from(10).pow(18));
+  const glpSupplyUsd = glpSupply.mul(glpPrice).div(BigNumber.from(10).pow(18));
+  const glpAprForNativeToken =
+    glpSupplyUsd && glpSupplyUsd.gt(0)
+      ? feeGlpTrackerAnnualRewardsUsd
+          .mul(BASIS_POINTS_DIVISOR)
+          .div(glpSupplyUsd)
+      : BigNumber.from(0);
+  const performanceFeeFactor = BigNumber.from(10000).sub(performanceFee);
+  const aprPerBlock = glpAprForNativeToken
+    .mul(performanceFeeFactor)
+    .div(10000)
+    .div(BLOCKS_PER_YEAR);
+
+  return aprPerBlock;
+}
+
 export {
   formattedDepositApy,
   formattedBorrowApy,
   calculateApy,
   formatApy,
+  getGlpAprPerBlock
 };
