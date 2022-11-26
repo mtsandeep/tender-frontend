@@ -189,4 +189,15 @@ export const getAmountFloat = (amount:string, decimals:number) => {
   return parseFloat(BigNumber(amount).div(BigNumber(10).pow(decimals)).toFixed())
 }
 
+export const getPercentageString = (
+  amount: string,
+  basicPointDivisor = "10000"
+) => {
+  return `${BigNumber(amount)
+    .div(basicPointDivisor)
+    .multipliedBy(100)
+    .dp(2)
+    .toFixed()}%`;
+};
+
 export { shrinkInputClass };

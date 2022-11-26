@@ -3,6 +3,7 @@ export interface cToken {
   address: string;
   decimals: number;
   symbol: string;
+  isVault: boolean;
 }
 
 export interface Token extends TokenConfig {
