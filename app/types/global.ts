@@ -33,6 +33,7 @@ export interface NetworkData {
   userExplorerUrl?: string;
   rpcUrls?: string[];
   secondsPerBlock: number;
+  l2SecondsPerBlock: number;
   graphUrl: string;
   Contracts: {
     Comptroller: string;

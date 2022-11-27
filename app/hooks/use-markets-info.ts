@@ -50,18 +50,20 @@ export function useMarketsInfo() {
       const markets = {};
       const prevMarkets = {};
       const secondsPerBlock = networkData.secondsPerBlock;
+      const l2SecondsPerBlock = networkData.l2SecondsPerBlock;
       const graphUrl = networkData.graphUrl;
       const tokens = networkData.Tokens;
       const addresses: string[] = [];
 
-      const blockNumber = await getLatestBlock(graphUrl);
+      const l2BlockNumber = await getLatestBlock(graphUrl);
 
-      if (blockNumber === 0) {
+      if (l2BlockNumber === 0) {
         return;
       }
 
       const blocksPerDay = Math.round((60 * 60 * 24) / secondsPerBlock);
-      const prevDayBlock = blockNumber - blocksPerDay;
+      const l2BlocksPerDay = Math.round((60 * 60 * 24) / l2SecondsPerBlock);
+      const l2PrevDayBlock = l2BlockNumber - l2BlocksPerDay;
 
       Object.keys(tokens).forEach((key) => {
         const address = tokens[key].cToken.address.toLowerCase();
@@ -91,7 +93,7 @@ export function useMarketsInfo() {
     totalBorrows
     underlyingPriceUSD
   },
-  prevMarkets:markets(block:{number: ${prevDayBlock}} where: {id_in: ["${searchStr}"]}) {
+  prevMarkets:markets(block:{number: ${l2PrevDayBlock}} where: {id_in: ["${searchStr}"]}) {
     borrowRate
     cash
     reserves
@@ -100,19 +102,19 @@ export function useMarketsInfo() {
     totalBorrows
     underlyingPriceUSD
   },
-  borrowVolume:borrowEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+  borrowVolume:borrowEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
     underlyingSymbol
     amount
   },
-  repayVolume:repayEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+  repayVolume:repayEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
     underlyingSymbol
     amount
   },
-  supplyVolume:mintEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+  supplyVolume:mintEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
     cTokenSymbol
     underlyingAmount
   },
-  redeemVolume:redeemEvents(where:{blockNumber_gt:${prevDayBlock}}) {
+  redeemVolume:redeemEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
     cTokenSymbol
     underlyingAmount
   },

@@ -90,6 +90,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     const getMarketInfo = async () => {
       const graphUrl = networkData.graphUrl;
       const secondsPerBlock = networkData.secondsPerBlock;
+      const l2SecondsPerBlock = networkData.l2SecondsPerBlock;
 
       if (!tokenPair) {
         return;
@@ -105,7 +106,7 @@ export function useMarketInfo(tokenId: string | undefined) {
         return;
       }
 
-      const statsQuery = getStatsQuery(address, blockNumber, secondsPerBlock);
+      const statsQuery = getStatsQuery(address, blockNumber, l2SecondsPerBlock);
 
       if (statsQuery.length === 0) {
         return;
