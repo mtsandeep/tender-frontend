@@ -16,7 +16,9 @@ export default function TokenPage() {
   useEffect(() => {
     if (
       tenderContextData?.markets?.length &&
-      !tenderContextData?.markets?.find((t) => t.id === tokenId)
+      !tenderContextData?.markets?.find(
+        (t) => t.id.toUpperCase() === tokenId?.toUpperCase()
+      )
     ) {
       window.location.replace(`/markets`);
     }
@@ -26,16 +28,18 @@ export default function TokenPage() {
     <div className="c mt-[30px] mb-[60px] md:mb-[100px] max-w-[1068px] switch__to__network">
       {tenderContextData && onSupportedChain ? (
         <TenderContext.Provider value={tenderContextData}>
-          <Token id={tokenId} />
+          <Token id={tokenId?.toUpperCase()} />
         </TenderContext.Provider>
       ) : (
-        <TokenEmpty id={tokenId} />
+        <TokenEmpty id={tokenId?.toUpperCase()} />
       )}
     </div>
   );
 }
 
 export const meta: MetaFunction = (data) => ({
-  title: `Tender.fi - Token ${data.params.tokenId}`,
-  property: [{ "og:title": `Tender.fi - Token ${data.params.tokenId}` }],
+  title: `Tender.fi - Token ${data.params.tokenId?.toUpperCase()}`,
+  property: [
+    { "og:title": `Tender.fi - Token ${data.params.tokenId?.toUpperCase()}` },
+  ],
 });

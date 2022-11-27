@@ -90,6 +90,9 @@ export function useMarkets(
         // -> getTotalSupply
         const totalReservesPromise = cTokenContract.totalReserves();
 
+        // -> isGLP flag
+        const isGLPPromise = cTokenContract.isGLP();
+
         // getWalletBalance
         let walletBalancePromise;
 
@@ -154,6 +157,7 @@ export function useMarkets(
           autocompound: autocompoundPromise,
           performanceFee: performanceFeePromise,
           withdrawFee: withdrawFeePromise,
+          isGLPPromise: isGLPPromise
         };
       });
 
@@ -181,6 +185,7 @@ export function useMarkets(
           autocompound: await tokenPromise.autocompound,
           performanceFee: await tokenPromise.performanceFee,
           withdrawFee: await tokenPromise.withdrawFee,
+          isGLP: await tokenPromise.isGLPPromise,
         });
       }
 
@@ -299,6 +304,8 @@ export function useMarkets(
           autocompound: token.autocompound,
           performanceFee: token.performanceFee,
           withdrawFee: token.withdrawFee,
+          // -> for now, isBorrowable is derived from isGLP this can change in future, update when it changes 
+          isBorrowable: !token.isGLP,
           liquidationThreshold,
           liquidationPenalty,
         };

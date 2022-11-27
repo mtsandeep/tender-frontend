@@ -58,7 +58,7 @@ const TokenGettingStarted = ({ market }: Props) => {
           >
             SUPPLY
           </button>
-          {!market.autocompound && (
+          {market.isBorrowable && (
             <button
               onClick={() => handlerClickChangeTab("borrow")}
               className="leading-[22.1px] font-bold font-space text-[13px] mr-[12px] lg:mr-[20px] bg-[#00E0FF] text-black
@@ -67,14 +67,11 @@ const TokenGettingStarted = ({ market }: Props) => {
               BORROW
             </button>
           )}
-
           <button
             aria-label="more"
             className="round-btn-grad flex gap-[3px] items-center justify-center bg-[#181D1B] hover:bg-[#262C2A] min-w-[39px] min-h-[39px] lg:w-11 lg:h-11 rounded-full"
             onClick={() =>
-              handlerClickChangeTab(
-                  !market.autocompound ? "repay" : "withdraw"
-              )
+              handlerClickChangeTab(market.isBorrowable ? "repay" : "withdraw")
             }
           >
             <svg width="18" height="4" viewBox="0 0 18 4" fill="none">

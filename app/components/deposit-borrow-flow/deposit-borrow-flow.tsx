@@ -46,12 +46,12 @@ export default function DepositBorrowFlow({
     {
       name: "borrow",
       color: "#00E0FF",
-      show: market.id !== "GLP" && market.id !== "GMX",
+      show: market.isBorrowable,
     },
     {
       name: "repay",
       color: "#00E0FF",
-      show: market.id !== "GLP" && market.id !== "GMX",
+      show: market.isBorrowable,
     },
   ];
 
@@ -111,47 +111,43 @@ export default function DepositBorrowFlow({
             tabs={tabs}
           />
         )}
-        {activeTab === "repay" &&
-          market.id !== "GLP" &&
-          market.id !== "GMX" && (
-            <Repay
-              market={market}
-              closeModal={closeModal}
-              borrowedAmount={market.borrowBalance}
-              signer={signer}
-              borrowLimitUsed={market.borrowLimitUsed}
-              walletBalance={getAmountFloat(
-                market.walletBalance,
-                market.tokenPair.token.decimals
-              )}
-              tokenPairs={tokenPairs}
-              borrowLimit={market.borrowLimit}
-              totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
-              initialValue={initialValueRepay}
-              changeInitialValue={setInitialValueRepay}
-              activeTab={activeTab}
-              setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
-              tabs={tabs}
-            />
-          )}
-        {activeTab === "borrow" &&
-          market.id !== "GLP" &&
-          market.id !== "GMX" && (
-            <Borrow
-              market={market}
-              closeModal={closeModal}
-              signer={signer}
-              borrowLimitUsed={market.borrowLimitUsed}
-              borrowLimit={market.borrowLimit}
-              tokenPairs={tokenPairs}
-              totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
-              initialValue={initialValueBorrow}
-              changeInitialValue={setInitialValueBorrow}
-              activeTab={activeTab}
-              setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
-              tabs={tabs}
-            />
-          )}
+        {activeTab === "repay" && (
+          <Repay
+            market={market}
+            closeModal={closeModal}
+            borrowedAmount={market.borrowBalance}
+            signer={signer}
+            borrowLimitUsed={market.borrowLimitUsed}
+            walletBalance={getAmountFloat(
+              market.walletBalance,
+              market.tokenPair.token.decimals
+            )}
+            tokenPairs={tokenPairs}
+            borrowLimit={market.borrowLimit}
+            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+            initialValue={initialValueRepay}
+            changeInitialValue={setInitialValueRepay}
+            activeTab={activeTab}
+            setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
+            tabs={tabs}
+          />
+        )}
+        {activeTab === "borrow" && (
+          <Borrow
+            market={market}
+            closeModal={closeModal}
+            signer={signer}
+            borrowLimitUsed={market.borrowLimitUsed}
+            borrowLimit={market.borrowLimit}
+            tokenPairs={tokenPairs}
+            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
+            initialValue={initialValueBorrow}
+            changeInitialValue={setInitialValueBorrow}
+            activeTab={activeTab}
+            setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
+            tabs={tabs}
+          />
+        )}
       </div>
     </div>
   );

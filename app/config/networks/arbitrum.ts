@@ -5,10 +5,11 @@ export default {
   blockExplorerUrl: "https://arbiscan.io",
   rpcUrls: ["https://arb1.arbitrum.io/rpc", "https://rpc.ankr.com/arbitrum"],
   userExplorerUrl: "https://arbiscan.io/address/",
-  secondsPerBlock: 12,
+  secondsPerBlock: 12, // L1 value
+  l2SecondsPerBlock: 0.31, // L2 value
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
-    Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e",
+    Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e", // address of unitroller contract
     PriceOracle: "0x7aa74f173bf3FF1Dc43858b8C109E9002F152FdC",
   },
   Tokens: {
@@ -23,6 +24,7 @@ export default {
         symbol: "tETH",
         decimals: 8,
         address: "0x0706905b2b21574DEFcF00B5fc48068995FCdCdf",
+        isVault: false,
       },
     },
     WBTC: {
@@ -36,6 +38,7 @@ export default {
         symbol: "tWBTC",
         decimals: 8,
         address: "0x0A2f8B6223EB7DE26c810932CCA488A4936cF391",
+        isVault: false,
       },
     },
     USDC: {
@@ -49,6 +52,7 @@ export default {
         symbol: "tUSDC",
         decimals: 8,
         address: "0x068485a0f964B4c3D395059a19A05a8741c48B4E",
+        isVault: false,
       },
     },
     USDT: {
@@ -62,6 +66,7 @@ export default {
         symbol: "tUSDT",
         decimals: 8,
         address: "0x4A5806A3c4fBB32F027240F80B18b26E40BF7E31",
+        isVault: false,
       },
     },
 
@@ -77,6 +82,7 @@ export default {
         symbol: "tDAI",
         decimals: 8,
         address: "0xB287180147EF1A97cbfb07e2F1788B75df2f6299",
+        isVault: false,
       },
     },
 
@@ -91,6 +97,7 @@ export default {
         symbol: "tFRAX",
         decimals: 8,
         address: "0x27846A0f11EDC3D59EA227bAeBdFa1330a69B9ab",
+        isVault: false,
       },
     },
     UNI: {
@@ -104,6 +111,7 @@ export default {
         symbol: "tUNI",
         decimals: 8,
         address: "0x8b44D3D286C64C8aAA5d445cFAbF7a6F4e2B3A71",
+        isVault: false,
       },
     },
     LINK: {
@@ -117,6 +125,7 @@ export default {
         symbol: "tLINK",
         decimals: 8,
         address: "0x87D06b55e122a0d0217d9a4f85E983AC3d7a1C35",
+        isVault: false,
       },
     },
     GLP: {
@@ -134,10 +143,11 @@ export default {
       nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
       icon: "/images/coin-icons/glp.svg",
       cToken: {
-        name: "tGLP",
-        symbol: "tGLP",
+        name: "tfsGLP",
+        symbol: "tfsGLP",
         decimals: 8,
         address: "0xFF2073D3810754D6da4783235c8647e11e43C943",
+        isVault: true,
       },
     },
   },

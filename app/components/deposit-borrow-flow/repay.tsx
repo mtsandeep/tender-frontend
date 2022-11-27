@@ -287,8 +287,8 @@ export default function Repay({
                             esTND
                           </span>
                         </div>
-                        <span className="font-nova text-white text-sm font-normal">
-                          0.00%
+                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
+                          ?.??%
                         </span>
                       </div>
                     </div>

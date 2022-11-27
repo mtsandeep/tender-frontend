@@ -61,7 +61,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                     {
                       coinTitle: "esTND",
                       iconSrc: "/images/wallet-icons/balance-icon.svg",
-                      data: "0.00%",
+                      data: "?.??%",
                       color: "text-white",
                     },
                   ],
@@ -104,8 +104,8 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                           esTND
                         </span>
                       </div>
-                      <span className="font-nova text-white text-sm font-normal">
-                        0.00%
+                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
+                        ?.??%
                       </span>
                     </div>
                   </div>
@@ -150,7 +150,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                       {
                         coinTitle: "esTND",
                         iconSrc: "/images/wallet-icons/balance-icon.svg",
-                        data: "0.00%",
+                        data: "?.??%",
                         color: "text-white",
                       },
                     ],
@@ -193,8 +193,8 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                             esTND
                           </span>
                         </div>
-                        <span className="font-nova text-white text-sm font-normal">
-                          0.00%
+                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
+                          ?.??%
                         </span>
                       </div>
                     </div>

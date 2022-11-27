@@ -3,6 +3,7 @@ export interface cToken {
   address: string;
   decimals: number;
   symbol: string;
+  isVault: boolean;
 }
 
 export interface Token extends TokenConfig {
@@ -32,6 +33,7 @@ export interface NetworkData {
   userExplorerUrl?: string;
   rpcUrls?: string[];
   secondsPerBlock: number;
+  l2SecondsPerBlock: number;
   graphUrl: string;
   Contracts: {
     Comptroller: string;
@@ -96,6 +98,7 @@ export type Market = {
   autocompound: boolean;
   performanceFee: number;
   withdrawFee: number;
+  isBorrowable: boolean;
   liquidationThreshold: number;
   liquidationPenalty: number;
 };

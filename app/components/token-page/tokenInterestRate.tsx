@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { LineChart, Line, Tooltip, ResponsiveContainer, YAxis } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 
-function TokenInterestRate({
-  data,
-  isBorrowable,
-}: {
-  data: any[];
-  isBorrowable: boolean;
-}) {
+function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number | null>(null);
   const [isOptimalInd, setIsOptimalInd] = useState<number | null>(null);
   const [actData, setActData] = useState<any[]>([]);
@@ -37,7 +31,7 @@ function TokenInterestRate({
                 }).ss
               )
             )
-          ) * 1.1,
+          ) * 1.17,
         aaValue: item.aa,
       }))
     );
@@ -86,14 +80,12 @@ function TokenInterestRate({
               : props?.payload[0]?.payload.aaValue}
             %
           </p>
-          {isBorrowable && (
-            <p
-              className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
-            >
-              <span className="mr-[20px]">Borrow APY</span>
-              {props?.payload[0]?.payload.dd}%
-            </p>
-          )}
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
+          >
+            <span className="mr-[20px]">Borrow APY</span>
+            {props?.payload[0]?.payload.dd}%
+          </p>
           <p
             className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[1].stroke}]`}
           >
@@ -150,15 +142,12 @@ function TokenInterestRate({
       <div className="px-[15px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">
         Interest Rate Model
       </div>
-      <p className="font-normal text-sm leading-[19px] text-[#818987] pb-[15px] pt-[15px] p-[30px] md:pt-[30px] md:pb-[30px] md:text-base  md:leading-[22px]">
-        Utilization vs. APY
-      </p>
       <div className="h-[280px] md:h-[390px] pb-[0px] flex flex-col items-end justify-start">
         <div className="relative w-full h-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={actData}
-              margin={{ top: 20, right: 30, left: 30, bottom: 43 }}
+              margin={{ top: 0, right: 30, left: 30, bottom: 30 }}
             >
               <YAxis tickCount={1} hide={true} />
               <Line
@@ -183,16 +172,14 @@ function TokenInterestRate({
                 dot={false}
                 activeDot={<CustomDot borderColor="#0D0D0D" />}
               />
-              {isBorrowable && (
-                <Line
-                  type="monotone"
-                  dataKey="dd"
-                  stroke="#00E0FF"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={<CustomDot borderColor="#0D0D0D" />}
-                />
-              )}
+              <Line
+                type="monotone"
+                dataKey="dd"
+                stroke="#00E0FF"
+                strokeWidth={2}
+                dot={false}
+                activeDot={<CustomDot borderColor="#0D0D0D" />}
+              />
               <Tooltip content={<CustomTooltip />} cursor={<CustomLine />} />
             </LineChart>
           </ResponsiveContainer>

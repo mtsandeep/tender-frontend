@@ -1,7 +1,8 @@
 import { useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
 import TokenVaultDetailsEmpty from "./tokenVaultDetailsEmpty";
-import {Market} from "~/types/global";
+import { Market } from "~/types/global";
+import { getPercentageString } from "~/lib/ui";
 
 function TokenVaultDetails({ market }: { market: Market }) {
   let [mobileTooltipData, setMobileTooltipData] = useState<{
@@ -23,7 +24,7 @@ function TokenVaultDetails({ market }: { market: Market }) {
           $TND.
         </div>
       ),
-      itemData: `${market.performanceFee.toString()}%`,
+      itemData: getPercentageString(market.performanceFee.toString()),
     },
     {
       itemName: "Deposit Fee",
@@ -35,7 +36,7 @@ function TokenVaultDetails({ market }: { market: Market }) {
       tooltipText: (
         <div>A fee charged on withdrawing tokens from this market.</div>
       ),
-      itemData: `${market.withdrawFee.toString()}%`,
+      itemData: getPercentageString(market.withdrawFee.toString()),
     },
   ];
 

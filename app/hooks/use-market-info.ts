@@ -4,6 +4,9 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
+import { calculateApy, getGlpAprPerBlock } from "~/lib/apy-calculations";
+import { BigNumber } from "ethers";
+import { parseUnits } from "ethers/lib/utils";
 
 const getLatestBlock = async function (graphUrl: string) {
   const response = await request(
@@ -48,6 +51,12 @@ const getStatsQuery = function (
                 cash
                 reserves
                 underlyingPriceUSD
+                totalSupply
+                aum0
+                aum1
+                tokensPerInterval
+                nativeTokenPrice
+                performanceFee
             }
         `;
   }
@@ -81,6 +90,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     const getMarketInfo = async () => {
       const graphUrl = networkData.graphUrl;
       const secondsPerBlock = networkData.secondsPerBlock;
+      const l2SecondsPerBlock = networkData.l2SecondsPerBlock;
 
       if (!tokenPair) {
         return;
@@ -96,7 +106,7 @@ export function useMarketInfo(tokenId: string | undefined) {
         return;
       }
 
-      const statsQuery = getStatsQuery(address, blockNumber, secondsPerBlock);
+      const statsQuery = getStatsQuery(address, blockNumber, l2SecondsPerBlock);
 
       if (statsQuery.length === 0) {
         return;
@@ -176,6 +186,7 @@ export function useMarketInfo(tokenId: string | undefined) {
           (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
       }
 
+      market.isBorrowable = tokenPair.token.symbol !== "GLP";
       const borrowRate = market.borrowRate / ethBlocksPerYear;
       market.borrowApy =
         (Math.pow(borrowRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
@@ -209,6 +220,41 @@ export function useMarketInfo(tokenId: string | undefined) {
                     underlyingPriceUSD: 0,
                   },
                 ];
+          if (
+            tokenPair.token.symbol === "GLP" &&
+            response[`b${key}`].length > 0
+          ) {
+            const ETHEREUM_SECONDS_PER_BLOCK = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
+            const {
+              aum0,
+              aum1,
+              tokensPerInterval,
+              nativeTokenPrice,
+              totalSupply,
+              performanceFee,
+              ...rest
+            } = response[`b${key}`][0];
+
+            const glpAprPerBlock = getGlpAprPerBlock(
+              [BigNumber.from(aum0), BigNumber.from(aum1)],
+              parseUnits(totalSupply, 8),
+              BigNumber.from(tokensPerInterval),
+              BigNumber.from(nativeTokenPrice),
+              BigNumber.from(performanceFee),
+              ETHEREUM_SECONDS_PER_BLOCK
+            );
+
+            // @ts-ignore
+            historicalData[key] = [
+              {
+                ...rest,
+                supplyRate: calculateApy(
+                  glpAprPerBlock,
+                  ETHEREUM_SECONDS_PER_BLOCK
+                ),
+              },
+            ];
+          }
         });
 
       setMarketInfo({

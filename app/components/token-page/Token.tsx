@@ -12,11 +12,13 @@ import TokenChart from "./tokenChart";
 const Token = ({ id }: { id: string | undefined }) => {
   const tenderContextData = useContext(TenderContext);
   const tokens = tenderContextData.markets.filter(
-    (token: Market) => token.id === id
+    (token: Market) => token.id.toUpperCase() === id?.toUpperCase()
   );
+
   const token = tokens.length ? tokens[0] : null;
-  const m = useMarketInfo(id);
+  const marketInfo = useMarketInfo(id);
   const interestRateModel = useInterestRateModel(id);
+
   const utilizationRate =
     interestRateModel.length > 0
       ? interestRateModel.find((rate) => rate.isCurrent)
@@ -24,20 +26,23 @@ const Token = ({ id }: { id: string | undefined }) => {
 
   return (
     <>
-      <TokenChart marketInfo={m.market} historicalData={m.historicalData} />
+      <TokenChart
+        marketInfo={marketInfo.market}
+        historicalData={marketInfo.historicalData}
+      />
       <div className="flex items-center flex-col w-full md:flex-row md:items-start md:gap-[20px] ">
         <TokenMarketDetails
           id={id}
-          marketInfo={m.market}
+          marketInfo={marketInfo.market}
           utilizationRate={utilizationRate}
         />
         <div className="order-1 lg:order-2 w-full">
           <TokenGettingStarted market={token} />
-          {token && token.autocompound && (
+          {token && token.tokenPair.cToken.isVault && (
             <TokenVaultDetails market={token} />
           )}
-          {m.market.tokenSymbol !== "GLP" && (
-            <TokenInterestRate data={interestRateModel} isBorrowable />
+          {marketInfo.market.isBorrowable && (
+            <TokenInterestRate data={interestRateModel} />
           )}
         </div>
       </div>
