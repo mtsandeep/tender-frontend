@@ -339,7 +339,7 @@ export default function MarketsContent() {
                                       coinTitle: "esTND",
                                       iconSrc:
                                         "/images/wallet-icons/balance-icon.svg",
-                                      data: "0.00%",
+                                      data: "?.??%",
                                       color: "text-white",
                                     },
                                   ],
@@ -395,8 +395,8 @@ export default function MarketsContent() {
                                         esTND
                                       </span>
                                     </div>
-                                    <span className="font-nova text-white text-sm font-normal">
-                                      0.00%
+                                    <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
+                                      ?.??%
                                     </span>
                                   </div>
                                 </div>
@@ -464,7 +464,7 @@ export default function MarketsContent() {
                                           coinTitle: "esTND",
                                           iconSrc:
                                             "/images/wallet-icons/balance-icon.svg",
-                                          data: "0.00%",
+                                          data: "?.??%",
                                           color: "text-white",
                                         },
                                       ],
@@ -520,8 +520,8 @@ export default function MarketsContent() {
                                             esTND
                                           </span>
                                         </div>
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          0.00%
+                                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
+                                          ?.??%
                                         </span>
                                       </div>
                                     </div>
