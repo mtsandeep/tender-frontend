@@ -58,37 +58,28 @@ const TokenGettingStarted = ({ market }: Props) => {
           >
             SUPPLY
           </button>
-          {market.isBorrowable ? (
-            <>
-              <button
-                onClick={() => handlerClickChangeTab("borrow")}
-                className="leading-[22.1px] font-bold font-space text-[13px] mr-[12px] lg:mr-[20px] bg-[#00E0FF] text-black
-            rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px] border-[#00E0FF] border-[1px] hover:bg-[#00e1ffd0]"
-              >
-                BORROW
-              </button>
-
-              <button
-                aria-label="more"
-                className="round-btn-grad flex gap-[3px] items-center justify-center bg-[#181D1B] hover:bg-[#262C2A] min-w-[39px] min-h-[39px] lg:w-11 lg:h-11 rounded-full"
-                onClick={() => handlerClickChangeTab("repay")}
-              >
-                <svg width="18" height="4" viewBox="0 0 18 4" fill="none">
-                  <circle cx="2" cy="2" r="2" fill="#9DA7A3" />
-                  <circle cx="9" cy="2" r="2" fill="#9DA7A3" />
-                  <circle cx="16" cy="2" r="2" fill="#9DA7A3" />
-                </svg>
-              </button>
-            </>
-          ) : (
+          {market.isBorrowable && (
             <button
-              onClick={() => handlerClickChangeTab("withdraw")}
-              className="leading-[22.1px] font-bold font-space text-[13px] mr-[10px] lg:mr-[20px] bg-[#14F195] text-black
-              rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px] border-[#14F195] border-[1px] hover:bg-[#14f195ce]"
+              onClick={() => handlerClickChangeTab("borrow")}
+              className="leading-[22.1px] font-bold font-space text-[13px] mr-[12px] lg:mr-[20px] bg-[#00E0FF] text-black
+            rounded-[6px] lg:w-[144px] lg:h-[44px] min-w-[100px] h-[40px] border-[#00E0FF] border-[1px] hover:bg-[#00e1ffd0]"
             >
-              WITHDRAW
+              BORROW
             </button>
           )}
+          <button
+            aria-label="more"
+            className="round-btn-grad flex gap-[3px] items-center justify-center bg-[#181D1B] hover:bg-[#262C2A] min-w-[39px] min-h-[39px] lg:w-11 lg:h-11 rounded-full"
+            onClick={() =>
+              handlerClickChangeTab(market.isBorrowable ? "repay" : "withdraw")
+            }
+          >
+            <svg width="18" height="4" viewBox="0 0 18 4" fill="none">
+              <circle cx="2" cy="2" r="2" fill="#9DA7A3" />
+              <circle cx="9" cy="2" r="2" fill="#9DA7A3" />
+              <circle cx="16" cy="2" r="2" fill="#9DA7A3" />
+            </svg>
+          </button>
         </div>
       </div>
     </>
