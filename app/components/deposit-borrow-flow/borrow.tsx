@@ -36,6 +36,8 @@ export interface BorrowProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -51,12 +53,13 @@ export default function Borrow({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  changeTxnHash,
+  txnHash,
   tabs,
 }: BorrowProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
   const [isBorrowing, setIsBorrowing] = useState<boolean>(false);
-  const [txnHash, setTxnHash] = useState<string>("");
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
@@ -341,7 +344,7 @@ export default function Borrow({
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      setTxnHash(txn.hash);
+                      changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
@@ -350,6 +353,7 @@ export default function Borrow({
                         "Borrow successful"
                       );
                       changeInitialValue("");
+                      changeTxnHash("");
                     } catch (e: any) {
                       toast.dismiss();
                       if (e.transaction?.hash) {

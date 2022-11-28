@@ -39,6 +39,8 @@ export interface RepayProps {
   changeInitialValue: (value: string) => void;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
 
@@ -55,6 +57,8 @@ export default function Repay({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  txnHash,
+  changeTxnHash,
   tabs,
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -65,7 +69,6 @@ export default function Repay({
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
 
   const [isRepaying, setIsRepaying] = useState<boolean>(false);
-  const [txnHash, setTxnHash] = useState<string>("");
 
   const maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
 
@@ -362,12 +365,13 @@ export default function Repay({
                         market.tokenPair.token,
                         isMax
                       );
-                      setTxnHash(txn.hash);
+                      changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
                       changeInitialValue("");
                       updateTransaction(tr.blockHash);
                       toast.success("Repayment successful");
+                      changeTxnHash("");
                     } catch (e) {
                       displayErrorMessage(e, "Repayment unsuccessful");
                       closeModal();

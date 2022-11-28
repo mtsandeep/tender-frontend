@@ -87,8 +87,10 @@ Primary.args = {
   comptrollerAddress: market.comptrollerAddress,
   initialValue: "",
   activeTab: "withdraw",
+  txnHash: "",
   setActiveTab: () => {},
   changeInitialValue: () => {},
+  changeTxnHash: () => {},
   tabs: [],
 } as WithdrawProps;
 
@@ -127,7 +129,9 @@ SmallNumbers.args = {
   comptrollerAddress: smallMarket.comptrollerAddress,
   initialValue: "",
   activeTab: "withdraw",
+  txnHash: "",
   setActiveTab: () => {},
   changeInitialValue: () => {},
+  changeTxnHash: () => {},
   tabs: [],
 } as WithdrawProps;
