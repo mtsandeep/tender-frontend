@@ -31,6 +31,9 @@ const DisplayPrice: React.FC<DisplayPriceProps> = ({
     baseFactor,
     baseFactorDecimals
   );
+
+  if(displayPrice === '') return null
+
   const isLargeNumber = BigNumber(displayPrice).isGreaterThan(LARGE_NUMBER);
 
   if (isCompact && isLargeNumber) {
