@@ -101,4 +101,6 @@ export type Market = {
   isBorrowable: boolean;
   liquidationThreshold: number;
   liquidationPenalty: number;
+  borrowCaps: string,
+  supplyCaps: string
 };

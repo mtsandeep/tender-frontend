@@ -71,6 +71,16 @@ export function useMarkets(
           tp.cToken.address
         );
 
+        // -> borrowCaps
+        const borrowCapsPromise = comptrollerContract.borrowCaps(
+          tp.cToken.address
+        );
+
+        // -> supplyCaps
+        const supplyCapsPromise = comptrollerContract.supplyCaps(
+          tp.cToken.address
+        );
+
         // getCurrentlySupplying -> ...
         // getCurrentlyBorrowing -> ...
 
@@ -157,7 +167,9 @@ export function useMarkets(
           autocompound: autocompoundPromise,
           performanceFee: performanceFeePromise,
           withdrawFee: withdrawFeePromise,
-          isGLPPromise: isGLPPromise
+          isGLP: isGLPPromise,
+          borrowCaps: borrowCapsPromise,
+          supplyCaps: supplyCapsPromise
         };
       });
 
@@ -185,7 +197,9 @@ export function useMarkets(
           autocompound: await tokenPromise.autocompound,
           performanceFee: await tokenPromise.performanceFee,
           withdrawFee: await tokenPromise.withdrawFee,
-          isGLP: await tokenPromise.isGLPPromise,
+          isGLP: await tokenPromise.isGLP,
+          borrowCaps: await tokenPromise.borrowCaps,
+          supplyCaps: await tokenPromise.supplyCaps,
         });
       }
 
@@ -304,10 +318,12 @@ export function useMarkets(
           autocompound: token.autocompound,
           performanceFee: token.performanceFee,
           withdrawFee: token.withdrawFee,
-          // -> for now, isBorrowable is derived from isGLP this can change in future, update when it changes 
+          // -> for now, isBorrowable is derived from isGLP this can change in future, update when it changes
           isBorrowable: !token.isGLP,
           liquidationThreshold,
           liquidationPenalty,
+          borrowCaps: token.borrowCaps.toString(),
+          supplyCaps: token.supplyCaps.toString(),
         };
       });
 

@@ -7,6 +7,7 @@ import {
 } from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
+import DisplayPrice from "../shared/DisplayPrice";
 
 function TokenMarketDetails({
   id,
@@ -92,8 +93,34 @@ function TokenMarketDetails({
       itemName: "# of Borrowers",
       itemData: marketInfo.totalBorrowersCount,
     },
-    { show: true, itemName: "Supply Cap", itemData: "No limit" },
-    { show: true, itemName: "Borrow Cap", itemData: "No limit" },
+    {
+      show: true,
+      itemName: "Supply Cap",
+      itemData:
+        token.supplyCaps === "0" ? (
+          "No limit"
+        ) : (
+          <DisplayPrice
+            amount={token.supplyCaps}
+            decimals={marketInfo.underlyingDecimals}
+            tokenSymbol={marketInfo.tokenSymbol}
+          />
+        ),
+    },
+    {
+      show: true,
+      itemName: "Borrow Cap",
+      itemData:
+        token.borrowCaps === "0" ? (
+          "No limit"
+        ) : (
+          <DisplayPrice
+            amount={token.borrowCaps}
+            decimals={marketInfo.underlyingDecimals}
+            tokenSymbol={marketInfo.tokenSymbol}
+          />
+        ),
+    },
     { show: true, itemName: "Interest Paid/Day", itemData: "0" },
     {
       show: true,
