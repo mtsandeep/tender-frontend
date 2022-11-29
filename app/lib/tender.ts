@@ -369,7 +369,7 @@ async function repay(
 
     if (isMax) {
       const address = await signer.getAddress();
-      repayValue = await contract.borrowBalanceStored(address);
+      repayValue = await contract.callStatic.borrowBalanceCurrent(address);
     } else {
       repayValue = ethers.utils.parseEther(value);
     }
