@@ -73,7 +73,6 @@ export default function Withdraw({
   );
 
   const safeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
-    market,
     signer,
     market.comptrollerAddress,
     tokenPairs,
@@ -377,10 +376,10 @@ export default function Withdraw({
                           changeTxnHash(txn.hash);
                           setIsWaitingToBeMined(true);
                           const tr = await txn.wait(); // TODO: error handle if transaction fails
+                          await updateTransaction(tr.blockHash);
                           changeInitialValue("");
-                          updateTransaction(tr.blockHash);
-                          toast.success("Withdraw successful");
                           changeTxnHash("");
+                          toast.success("Withdraw successful");
                         } catch (e) {
                           toast.error("Withdraw unsuccessful");
                           closeModal();

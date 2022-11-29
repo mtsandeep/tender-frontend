@@ -18,7 +18,7 @@ const TokenGettingStarted = ({ market }: Props) => {
     setOpenMarket(true);
   };
 
-  return market ? (
+  return market?.id ? (
     <>
       <ReactModal
         shouldCloseOnOverlayClick={true}
@@ -36,15 +36,13 @@ const TokenGettingStarted = ({ market }: Props) => {
         }}
         closeTimeoutMS={200}
       >
-        {market?.id && (
-          <DepositBorrowFlow
-            key={market.id}
-            closeModal={() => setOpenMarket(false)}
-            market={market}
-            activeTab={activeTab}
-            setActiveTab={handlerClickChangeTab}
-          />
-        )}
+        <DepositBorrowFlow
+          key={market.id}
+          closeModal={() => setOpenMarket(false)}
+          market={market}
+          activeTab={activeTab}
+          setActiveTab={handlerClickChangeTab}
+        />
       </ReactModal>
       <div className="panel-custom border-custom font-nova w-full mb-5">
         <div className="px-[15px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">

@@ -79,7 +79,6 @@ export default function Borrow({
   );
 
   const maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    market,
     borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
@@ -348,13 +347,13 @@ export default function Borrow({
                       changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
-                      updateTransaction(tr.blockHash);
+                      await updateTransaction(tr.blockHash);
+                      changeInitialValue("");
+                      changeTxnHash("");
                       displayTransactionResult(
                         tr.transactionHash,
                         "Borrow successful"
                       );
-                      changeInitialValue("");
-                      changeTxnHash("");
                     } catch (e: any) {
                       toast.dismiss();
                       if (e.transaction?.hash) {

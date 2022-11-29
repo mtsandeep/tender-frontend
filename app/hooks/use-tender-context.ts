@@ -7,7 +7,7 @@ import { useNetworkData } from "./use-network-data";
 import { useMarkets } from "./use-markets";
 import { useInterval } from "./use-interval";
 import { useWeb3Signer } from "./use-web3-signer";
-import {useBlockNumber} from "~/hooks/use-block-number";
+import { useBlockNumber } from "~/hooks/use-block-number";
 
 export function useTenderContext() {
   let [currentTransaction, updateTransaction] = useState<string | null>(null);
@@ -16,6 +16,8 @@ export function useTenderContext() {
   const chainId = Web3Hooks.useChainId();
   let provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+
+  console.log(currentTransaction);
 
   let networkData = useNetworkData(chainId);
   let onSupportedNetwork = useOnSupportedNetwork(chainId);

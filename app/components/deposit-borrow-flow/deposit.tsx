@@ -354,13 +354,13 @@ export default function Deposit({
                       changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
+                      await updateTransaction(tr.blockHash);
+                      changeInitialValue("");
+                      changeTxnHash("");
                       displayTransactionResult(
                         tr.transactionHash,
                         "Deposit successful"
                       );
-                      changeInitialValue("");
-                      updateTransaction(tr.blockHash);
-                      changeTxnHash("");
                     } catch (e: any) {
                       toast.dismiss();
                       if (e.transaction?.hash) {

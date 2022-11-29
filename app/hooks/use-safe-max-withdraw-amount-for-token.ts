@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   collateralFactorForToken,
   getAccountBorrowLimitInUsd,
 } from "~/lib/tender";
-import type { Market, TokenPair } from "~/types/global";
+import { TenderContext } from "~/contexts/tender-context";
+import type { TokenPair } from "~/types/global";
 import { ethers } from "ethers";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 
 export function useSafeMaxWithdrawAmountForToken(
-  market: Market,
   signer: JsonRpcSigner | undefined | null,
   comptrollerAddress: string,
   tokenPairs: TokenPair[],
@@ -19,6 +19,8 @@ export function useSafeMaxWithdrawAmountForToken(
 ): number {
   let [safeMaxWithdrawAmount, setSafeMaxWithdrawAmountForToken] =
     useState<number>(0);
+
+  let { currentTransaction } = useContext(TenderContext);
 
   useEffect(() => {
     /**
@@ -70,7 +72,7 @@ export function useSafeMaxWithdrawAmountForToken(
 
     getSafeMaxWithdrawAmountForToken();
   }, [
-    market,
+    currentTransaction,
     totalBorrowedAmountInUsd,
     borrowLimitUsed,
     comptrollerAddress,
