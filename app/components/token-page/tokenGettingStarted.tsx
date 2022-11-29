@@ -11,19 +11,19 @@ type Props = {
 
 const TokenGettingStarted = ({ market }: Props) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>("supply");
-  let [openMarket, setOpenMarket] = useState<Market | null>(null);
+  let [openMarket, setOpenMarket] = useState<boolean>(false);
 
   const handlerClickChangeTab = (tab: ActiveTab) => {
     setActiveTab(tab);
-    setOpenMarket(market);
+    setOpenMarket(true);
   };
 
   return market ? (
     <>
       <ReactModal
         shouldCloseOnOverlayClick={true}
-        isOpen={openMarket !== null}
-        onRequestClose={() => setOpenMarket(null)}
+        isOpen={openMarket}
+        onRequestClose={() => setOpenMarket(false)}
         portalClassName="modal"
         style={{
           content: {
@@ -36,11 +36,11 @@ const TokenGettingStarted = ({ market }: Props) => {
         }}
         closeTimeoutMS={200}
       >
-        {openMarket?.id && (
+        {market?.id && (
           <DepositBorrowFlow
-            key={openMarket.id}
-            closeModal={() => setOpenMarket(null)}
-            market={openMarket}
+            key={market.id}
+            closeModal={() => setOpenMarket(false)}
+            market={market}
             activeTab={activeTab}
             setActiveTab={handlerClickChangeTab}
           />

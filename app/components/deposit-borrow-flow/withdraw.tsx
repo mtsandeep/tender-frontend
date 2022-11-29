@@ -73,6 +73,7 @@ export default function Withdraw({
   );
 
   const safeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
+    market,
     signer,
     market.comptrollerAddress,
     tokenPairs,

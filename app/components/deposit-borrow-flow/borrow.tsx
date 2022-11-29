@@ -79,6 +79,7 @@ export default function Borrow({
   );
 
   const maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
+    market,
     borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
