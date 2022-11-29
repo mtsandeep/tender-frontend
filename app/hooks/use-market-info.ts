@@ -7,6 +7,7 @@ import { useGlpApy } from "./use-glp-apy";
 import { calculateApy, getGlpAprPerBlock } from "~/lib/apy-calculations";
 import { BigNumber } from "ethers";
 import { parseUnits } from "ethers/lib/utils";
+import {useInterval} from "~/hooks/use-interval";
 
 const getLatestBlock = async function (graphUrl: string) {
   const response = await request(
@@ -72,7 +73,8 @@ export function useMarketInfo(tokenId: string | undefined) {
     market: false,
     historicalData: false,
   });
-  const { networkData, tokenPairs } = useContext(TenderContext);
+  const pollingKey = useInterval(7_000);
+  const { networkData, tokenPairs, currentTransaction } = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
   const tokenPair = tokenPairs.find(
@@ -264,7 +266,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     };
 
     getMarketInfo();
-  }, [networkData, tokenId, signer, tokenPairs, tokenPair, getGlpApy]);
+  }, [networkData, tokenId, signer, tokenPairs, tokenPair, getGlpApy, currentTransaction, pollingKey]);
 
   return marketInfo;
 }
