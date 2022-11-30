@@ -6,6 +6,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number | null>(null);
   const [isOptimalInd, setIsOptimalInd] = useState<number | null>(null);
   const [actData, setActData] = useState<any[]>([]);
+
   useEffect(() => {
     setActData(
       data.map((item) => {
@@ -27,10 +28,10 @@ function TokenInterestRate({ data }: { data: any[] }) {
             }).ss
           )
         );
-        const maxY = Math.ceil(ddMax / 5) * 5;
+        const maxY = Math.ceil(ddMax > 50 ? ddMax * 1.15 : ddMax * 1.1);
         return {
           ...item,
-          aa: maxY - ddMax > 0.1 * ddMax ? maxY : maxY + 5,
+          aa: maxY,
           aaValue: item.aa,
         };
       })
@@ -149,7 +150,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
               data={actData}
               margin={{ top: 35, right: 30, left: 30, bottom: 30 }}
             >
-              <YAxis tickCount={1} hide={true} />
+              <YAxis tickCount={0} hide />
               <Line
                 type="monotone"
                 dataKey="aa"
