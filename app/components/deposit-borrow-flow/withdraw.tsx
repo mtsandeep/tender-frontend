@@ -375,8 +375,8 @@ export default function Withdraw({
                           );
                           changeTxnHash(txn.hash);
                           setIsWaitingToBeMined(true);
-                          const tr = await txn.wait(); // TODO: error handle if transaction fails
-                          await updateTransaction(tr.blockHash);
+                          const tr = await txn.wait(2); // TODO: error handle if transaction fails
+                          updateTransaction(tr.blockHash);
                           changeInitialValue("");
                           changeTxnHash("");
                           toast.success("Withdraw successful");

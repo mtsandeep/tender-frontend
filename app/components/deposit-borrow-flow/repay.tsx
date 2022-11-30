@@ -368,7 +368,7 @@ export default function Repay({
                       changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
-                      await updateTransaction(tr.blockHash);
+                      updateTransaction(tr.blockHash);
                       changeInitialValue("");
                       changeTxnHash("");
                       toast.success("Repayment successful");

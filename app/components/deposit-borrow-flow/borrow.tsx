@@ -347,7 +347,7 @@ export default function Borrow({
                       changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
-                      await updateTransaction(tr.blockHash);
+                      updateTransaction(tr.blockHash);
                       changeInitialValue("");
                       changeTxnHash("");
                       displayTransactionResult(
