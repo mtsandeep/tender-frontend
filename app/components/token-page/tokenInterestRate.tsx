@@ -6,34 +6,34 @@ function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number | null>(null);
   const [isOptimalInd, setIsOptimalInd] = useState<number | null>(null);
   const [actData, setActData] = useState<any[]>([]);
-
   useEffect(() => {
     setActData(
-      data.map((item) => ({
-        ...item,
-        aa:
-          Math.trunc(
-            Math.max(
-              Number(
-                data.reduce((prev: any, cur: any) => {
-                  if (Number(prev.dd) > Number(cur.dd)) {
-                    return prev;
-                  }
-                  return cur;
-                }).dd
-              ),
-              Number(
-                data.reduce((prev: any, cur: any) => {
-                  if (Number(prev.ss) > Number(cur.ss)) {
-                    return prev;
-                  }
-                  return cur;
-                }).ss
-              )
-            )
-          ) * 1.17,
-        aaValue: item.aa,
-      }))
+      data.map((item) => {
+        const ddMax = Math.max(
+          Number(
+            data.reduce((prev: any, cur: any) => {
+              if (Number(prev.dd) > Number(cur.dd)) {
+                return prev;
+              }
+              return cur;
+            }).dd
+          ),
+          Number(
+            data.reduce((prev: any, cur: any) => {
+              if (Number(prev.ss) > Number(cur.ss)) {
+                return prev;
+              }
+              return cur;
+            }).ss
+          )
+        );
+        const maxY = Math.ceil(ddMax / 5) * 5;
+        return {
+          ...item,
+          aa: maxY - ddMax > 0.1 * ddMax ? maxY : maxY + 5,
+          aaValue: item.aa,
+        };
+      })
     );
 
     setIsCurrentInd(data.indexOf(data.find((item) => item.isCurrent)));
@@ -147,7 +147,7 @@ function TokenInterestRate({ data }: { data: any[] }) {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={actData}
-              margin={{ top: 0, right: 30, left: 30, bottom: 30 }}
+              margin={{ top: 35, right: 30, left: 30, bottom: 30 }}
             >
               <YAxis tickCount={1} hide={true} />
               <Line
