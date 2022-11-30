@@ -210,7 +210,7 @@ async function getCurrentlyBorrowing(
     signer
   );
   let address: string = await signer.getAddress();
-  let balance: BigNumber = await contract.borrowBalanceStored(address);
+  let balance: BigNumber = await contract.callStatic.borrowBalanceCurrent(address);
   
   return formatBigNumber(balance, token.decimals);
 }
