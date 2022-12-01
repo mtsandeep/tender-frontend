@@ -120,6 +120,7 @@ export function useMarketsInfo() {
   },
     accountCTokens (where: {enteredMarket: true}) {
       id
+      cTokenBalance
       totalUnderlyingBorrowed
       totalUnderlyingSupplied
     }
@@ -239,10 +240,10 @@ export function useMarketsInfo() {
           ).length;
 
           markets[id].totalSuppliersCount = response.accountCTokens.filter(
-            (account: { id: string; totalUnderlyingSupplied: number }) => {
+            (account: { id: string; cTokenBalance: number }) => {
               const [accountMarketId, accountId] = account.id.split("-");
               const valid =
-                account.totalUnderlyingSupplied > 0 &&
+                account.cTokenBalance > 0 &&
                 accountMarketId.toLowerCase() === id;
 
               if (valid) {
