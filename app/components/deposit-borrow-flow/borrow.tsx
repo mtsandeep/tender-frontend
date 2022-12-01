@@ -24,6 +24,7 @@ import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
+import { MAX_BORROW_LIMIT_PERCENTAGE } from "~/lib/constants";
 
 export interface BorrowProps {
   market: Market;
@@ -83,7 +84,17 @@ export default function Borrow({
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
-    market.maxBorrowLiquidity
+    market.maxBorrowLiquidity,
+    100
+  );
+
+  const maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
+    borrowLimit,
+    totalBorrowedAmountInUsd,
+    market.comptrollerAddress,
+    market.tokenPair,
+    market.maxBorrowLiquidity,
+    MAX_BORROW_LIMIT_PERCENTAGE
   );
 
   const [isValid, validationDetail] = useValidInput(
@@ -146,7 +157,10 @@ export default function Borrow({
 
   const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
   const borrowApyFormatted = formatApy(borrowApy);
-
+/*console.log('maxBorrowLimit',maxBorrowLimit)
+console.log('maxSafeBorrowLimit',maxSafeBorrowLimit)
+console.log('market.maxBorrowLiquidity',market.maxBorrowLiquidity)
+console.log('borrowLimit',borrowLimit)*/
   return (
     <div>
       {txnHash !== "" ? (
@@ -189,20 +203,20 @@ export default function Borrow({
                 }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
                 placeholder="0"
               />
-              {parseFloat(borrowLimitUsed) < 80 && (
-                <Max
-                  maxValue={maxBorrowLimit}
+              <Max
+                  maxValue={parseFloat(toMaxString(maxBorrowLimit, tokenDecimals))}
                   updateValue={() => {
                     inputEl?.current && inputEl.current.focus();
                     changeInitialValue(
-                      toMaxString(maxBorrowLimit, tokenDecimals)
+                        toMaxString(maxSafeBorrowLimit, tokenDecimals)
                     );
                   }}
                   maxValueLabel={market.tokenPair.token.symbol}
-                  label="80% Max"
+                  label={`${MAX_BORROW_LIMIT_PERCENTAGE}% Max`}
+                  borrowLimitUsed={parseFloat(borrowLimitUsed)}
+                  maxPercentage={MAX_BORROW_LIMIT_PERCENTAGE}
                   color="#00E0FF"
-                />
-              )}
+              />
             </div>
           </div>
           <div
@@ -307,7 +321,7 @@ export default function Borrow({
                             please check back in a few hours as borrowers will
                             be repaying their loans, or borrow up to the current
                             available amount{" "}
-                            {toMaxString(maxBorrowLimit, tokenDecimals)}{" "}
+                            {maxBorrowLimit > 0 ? toMaxString(maxBorrowLimit, tokenDecimals) : 0}{" "}
                             {market.tokenPair.token.symbol}.
                           </div>
                         </div>

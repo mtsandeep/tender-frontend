@@ -8,14 +8,15 @@ export function useSafeMaxBorrowAmountForToken(
   totalBorrowed: number,
   comptrollerAddress: string,
   tokenPair: TokenPair,
-  maxBorrowLiquidity: number
+  maxBorrowLiquidity: number,
+  maxBorrowLimitPercentage: number,
 ): number {
   let [safeMaxBorrowAmount, setSafeMaxBorrowAmountForToken] =
     useState<number>(0);
   let { currentTransaction } = useContext(TenderContext);
 
   useEffect(() => {
-    safeMaxBorrowAmountForToken(borrowLimit, totalBorrowed, tokenPair).then(
+    safeMaxBorrowAmountForToken(borrowLimit, totalBorrowed, tokenPair, maxBorrowLimitPercentage).then(
       (v) => {
         let max = Math.min(v, maxBorrowLiquidity);
         setSafeMaxBorrowAmountForToken(max);
@@ -28,6 +29,7 @@ export function useSafeMaxBorrowAmountForToken(
     comptrollerAddress,
     tokenPair,
     maxBorrowLiquidity,
+    maxBorrowLimitPercentage,
   ]);
 
   return safeMaxBorrowAmount;
