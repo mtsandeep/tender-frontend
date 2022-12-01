@@ -4,6 +4,7 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
+import { useInterval } from "./use-interval";
 
 const getPercentageChange = function (
   currentValue: number,
@@ -30,6 +31,7 @@ const getLatestBlock = async function (graphUrl: string) {
 };
 
 export function useMarketsInfo() {
+  const pollingKey = useInterval(7_000);
   const [marketsInfo, setMarketsInfo] = useState<object>({
     markets: false,
     total: false,
@@ -376,7 +378,7 @@ export function useMarketsInfo() {
     };
 
     getMarketsInfo();
-  }, [getGlpApy, networkData, signer, tokenPairs]);
+  }, [getGlpApy, networkData, signer, tokenPairs, pollingKey]);
 
   return marketsInfo;
 }
