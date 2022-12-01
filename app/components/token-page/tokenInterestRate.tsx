@@ -9,31 +9,32 @@ function TokenInterestRate({ data }: { data: any[] }) {
 
   useEffect(() => {
     setActData(
-      data.map((item) => ({
-        ...item,
-        aa:
-          Math.trunc(
-            Math.max(
-              Number(
-                data.reduce((prev: any, cur: any) => {
-                  if (Number(prev.dd) > Number(cur.dd)) {
-                    return prev;
-                  }
-                  return cur;
-                }).dd
-              ),
-              Number(
-                data.reduce((prev: any, cur: any) => {
-                  if (Number(prev.ss) > Number(cur.ss)) {
-                    return prev;
-                  }
-                  return cur;
-                }).ss
-              )
-            )
-          ) * 1.17,
-        aaValue: item.aa,
-      }))
+      data.map((item) => {
+        const ddMax = Math.max(
+          Number(
+            data.reduce((prev: any, cur: any) => {
+              if (Number(prev.dd) > Number(cur.dd)) {
+                return prev;
+              }
+              return cur;
+            }).dd
+          ),
+          Number(
+            data.reduce((prev: any, cur: any) => {
+              if (Number(prev.ss) > Number(cur.ss)) {
+                return prev;
+              }
+              return cur;
+            }).ss
+          )
+        );
+        const maxY = Math.ceil(ddMax > 50 ? ddMax * 1.15 : ddMax * 1.1);
+        return {
+          ...item,
+          aa: maxY,
+          aaValue: item.aa,
+        };
+      })
     );
 
     setIsCurrentInd(data.indexOf(data.find((item) => item.isCurrent)));
@@ -147,9 +148,9 @@ function TokenInterestRate({ data }: { data: any[] }) {
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={actData}
-              margin={{ top: 0, right: 30, left: 30, bottom: 30 }}
+              margin={{ top: 35, right: 30, left: 30, bottom: 30 }}
             >
-              <YAxis tickCount={1} hide={true} />
+              <YAxis tickCount={0} hide />
               <Line
                 type="monotone"
                 dataKey="aa"

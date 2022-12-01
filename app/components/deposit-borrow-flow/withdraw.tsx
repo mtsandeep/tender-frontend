@@ -30,6 +30,8 @@ export interface WithdrawProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -44,13 +46,14 @@ export default function Withdraw({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  txnHash,
+  changeTxnHash,
   tabs,
 }: WithdrawProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const [isGlpCoolingdown, setIsGlpCoolingdown] = useState(false);
-  const [txnHash, setTxnHash] = useState<string>("");
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
   const { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
@@ -370,11 +373,12 @@ export default function Withdraw({
                             market.tokenPair.token,
                             isMax
                           );
-                          setTxnHash(txn.hash);
+                          changeTxnHash(txn.hash);
                           setIsWaitingToBeMined(true);
-                          const tr = await txn.wait(); // TODO: error handle if transaction fails
-                          changeInitialValue("");
+                          const tr = await txn.wait(2); // TODO: error handle if transaction fails
                           updateTransaction(tr.blockHash);
+                          changeInitialValue("");
+                          changeTxnHash("");
                           toast.success("Withdraw successful");
                         } catch (e) {
                           toast.error("Withdraw unsuccessful");

@@ -11,19 +11,19 @@ type Props = {
 
 const TokenGettingStarted = ({ market }: Props) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>("supply");
-  let [openMarket, setOpenMarket] = useState<Market | null>(null);
+  let [openMarket, setOpenMarket] = useState<boolean>(false);
 
   const handlerClickChangeTab = (tab: ActiveTab) => {
     setActiveTab(tab);
-    setOpenMarket(market);
+    setOpenMarket(true);
   };
 
-  return market ? (
+  return market?.id ? (
     <>
       <ReactModal
         shouldCloseOnOverlayClick={true}
-        isOpen={openMarket !== null}
-        onRequestClose={() => setOpenMarket(null)}
+        isOpen={openMarket}
+        onRequestClose={() => setOpenMarket(false)}
         portalClassName="modal"
         style={{
           content: {
@@ -36,15 +36,13 @@ const TokenGettingStarted = ({ market }: Props) => {
         }}
         closeTimeoutMS={200}
       >
-        {openMarket?.id && (
-          <DepositBorrowFlow
-            key={openMarket.id}
-            closeModal={() => setOpenMarket(null)}
-            market={openMarket}
-            activeTab={activeTab}
-            setActiveTab={handlerClickChangeTab}
-          />
-        )}
+        <DepositBorrowFlow
+          key={market.id}
+          closeModal={() => setOpenMarket(false)}
+          market={market}
+          activeTab={activeTab}
+          setActiveTab={handlerClickChangeTab}
+        />
       </ReactModal>
       <div className="panel-custom border-custom font-nova w-full mb-5">
         <div className="px-[15px] py-[17px] md:py-[20px] border-b border-[#282C2B] md:px-[30px] md:pt-[18px] md:pb-[19px] leading-[22px] font-semibold text-base md:text-lg font-nova">

@@ -85,8 +85,10 @@ Primary.args = {
   totalBorrowedAmountInUsd: market.totalBorrowedAmountInUsd,
   initialValue: "",
   activeTab: "repay",
+  txnHash: "",
   setActiveTab: () => {},
   changeInitialValue: () => {},
+  changeTxnHash: () => {},
   tabs: [],
 } as RepayProps;
 
@@ -124,7 +126,9 @@ SmallNumbers.args = {
   totalBorrowedAmountInUsd: smallMarket.totalBorrowedAmountInUsd,
   initialValue: "",
   activeTab: "repay",
+  txnHash: "",
   setActiveTab: () => {},
   changeInitialValue: () => {},
+  changeTxnHash: () => {},
   tabs: [],
 } as RepayProps;

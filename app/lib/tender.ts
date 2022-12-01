@@ -210,7 +210,7 @@ async function getCurrentlyBorrowing(
     signer
   );
   let address: string = await signer.getAddress();
-  let balance: BigNumber = await contract.borrowBalanceStored(address);
+  let balance: BigNumber = await contract.callStatic.borrowBalanceCurrent(address);
   
   return formatBigNumber(balance, token.decimals);
 }
@@ -369,7 +369,7 @@ async function repay(
 
     if (isMax) {
       const address = await signer.getAddress();
-      repayValue = await contract.borrowBalanceStored(address);
+      repayValue = await contract.callStatic.borrowBalanceCurrent(address);
     } else {
       repayValue = ethers.utils.parseEther(value);
     }

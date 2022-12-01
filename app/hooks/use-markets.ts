@@ -59,7 +59,7 @@ export function useMarkets(
 
         // getTotalBorrowedInUsd -> getCurrentlyBorrowing
         const borrowBalancePromise =
-          cTokenContract.borrowBalanceStored(address);
+          cTokenContract.callStatic.borrowBalanceCurrent(address);
 
         // getAccountBorrowLimitInUsd -> borrowLimitForTokenInUsd ->
         // -> getCurrentlySupplying
