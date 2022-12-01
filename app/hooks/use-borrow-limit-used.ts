@@ -13,10 +13,6 @@ export function useBorrowLimitUsed(
   let pollKey = useInterval(7_000);
 
   useEffect(() => {
-    if (!borrowLimit) {
-      return;
-    }
-
     getBorrowLimitUsed(borrowedAmount, borrowLimit).then((b) =>
       setBorrowLimitUsed(b)
     );
