@@ -163,15 +163,15 @@ export const getDisplayPrice = (
   multiplyFactor?: string,
   multiplyFactorDecimals?: number
 ) => {
-    if (!amount || !decimals) {
-      return ''
-    }
+  if (amount === undefined) {
+    return "";
+  }
 
-    const displayPrice = BigNumber(amount).multipliedBy(
-      multiplyFactor || 1
-    ).div(BigNumber(10).pow(decimals+(multiplyFactorDecimals||0)));
+  const displayPrice = BigNumber(amount)
+    .multipliedBy(multiplyFactor ?? 1)
+    .div(BigNumber(10).pow((decimals || 0) + (multiplyFactorDecimals || 0)));
 
-    return displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed()
+  return decimals ? displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed() : displayPrice.toFixed();
 };
 
 export const truncatePrice = (amount: string, decimals: number = 18) => {

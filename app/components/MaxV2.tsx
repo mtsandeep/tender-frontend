@@ -1,5 +1,5 @@
 import { getDisplayPrice } from "~/lib/ui";
-import DisplayPrice from "./shared/DisplayPrice";
+import DisplayPrice from "~/components/shared/DisplayPrice";
 
 interface MaxProps {
   onMaxClick: (maxValue: string) => void;
@@ -26,7 +26,9 @@ export default function MaxV2(props: MaxProps) {
           amount={props.amount}
           decimals={props.decimals}
           tokenSymbol={props.tokenSymbol}
-          truncatingDecimals={props.decimals}
+          maxDecimals={props.decimals}
+          disableRounding
+          disableGrouping
         />
       </div>
 
