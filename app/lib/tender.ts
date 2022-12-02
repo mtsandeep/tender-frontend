@@ -529,21 +529,22 @@ async function getTotalBorrowedInUsd(
 
 /**
  *
- * @param signer
  * @param borrowLimit
  * @param totalBorrowed
  * @param tp
+ * @param maxBorrowLimitPercentage
  * @returns theoretical max borrow limit with a saftey margin of 80%
  */
 async function safeMaxBorrowAmountForToken(
   borrowLimit: number,
   totalBorrowed: number,
-  tp: TokenPair
+  tp: TokenPair,
+  maxBorrowLimitPercentage: number,
 ): Promise<number> {
   // (borrowed_amount + x*priceInUsd) / borrow_limit = 0.8
   // (borrowed_amount + x*priceInUsd) = 0.8 * borrow_limit
   // x = ((0.8 * borrow_limit) - borrowed_amount) / priceInUsd
-  let amount = Math.abs(0.8 * borrowLimit - totalBorrowed) / tp.token.priceInUsd;
+  let amount = ((maxBorrowLimitPercentage / 100) * borrowLimit - totalBorrowed) / tp.token.priceInUsd;
 
   return amount;
 }
