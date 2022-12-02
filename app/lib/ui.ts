@@ -102,13 +102,6 @@ export const toMaxString = (v: number, precision: number = 6): string => {
 export const toMaxNumber = (v: number, precision: number = 6): number =>
   parseFloat(formatMaxString(v, precision));
 
-// return decimal with precision 4 for values less than 1 and round to 2 decimals for number greater than 1
-export const getDisplayPriceString = (v: number) =>
-  Intl.NumberFormat("en-US", {
-    notation: "standard",
-    maximumSignificantDigits: v < 1 ? 4 : undefined,
-  }).format(v);
-
 const formatMaxString = (v: number, precision: number = 6): string =>
   math.format(v, { notation: "fixed", precision });
 
