@@ -14,6 +14,14 @@ describe("components/shared/DisplayPrice", () => {
       render(<DisplayPrice amount="0.000001" tokenSymbol="USDT" />);
       screen.getByText("0.000001 USDT");
     });
+    it("should render value 0.0000001", () => {
+      render(<DisplayPrice amount="0.0000001" tokenSymbol="USDT" />);
+      screen.getByText("0 USDT");
+    });
+    it("should render value 0.00000099", () => {
+      render(<DisplayPrice amount="0.00000099" tokenSymbol="USDT" />);
+      screen.getByText("0.000001 USDT");
+    });
     it("should render value 0.1", () => {
       render(<DisplayPrice amount="0.1" tokenSymbol="USDT" />);
       screen.getByText("0.1 USDT");
@@ -87,6 +95,10 @@ describe("components/shared/DisplayPrice", () => {
       render(<DisplayPrice amount="100000" tokenSymbol="USDT" />);
       screen.getByText("100,000 USDT");
     });
+    it("should render value 1000000", () => {
+      render(<DisplayPrice amount="1000000" tokenSymbol="USDT" />);
+      screen.getByText("1,000,000 USDT");
+    });
     it("should render value 100000 with isCompact", () => {
       render(<DisplayPrice amount="100000" tokenSymbol="USDT" isCompact />);
       screen.getByText("100,000 USDT");
@@ -149,10 +161,30 @@ describe("components/shared/DisplayPrice", () => {
       render(<DisplayPrice amount="100005440000000000000" decimals={16} maxDecimals={3} tokenSymbol="USDT" />);
       screen.getByText("10,000.544 USDT");
     });
+    it("should render value dollar value $1", () => {
+      render(<DisplayPrice amount="1" baseFactor="1" />);
+      screen.getByText("$1.00 USD");
+    });
+    it("should render value dollar value $100", () => {
+      render(<DisplayPrice amount="100" baseFactor="1" />);
+      screen.getByText("$100.00 USD");
+    });
+    it("should render value dollar value $100.5555555", () => {
+      render(<DisplayPrice amount="100.5555555" baseFactor="1" />);
+      screen.getByText("$100.56 USD");
+    });
+    it("should render value dollar value 100000000 with decimal and baseFactor", () => {
+      render(<DisplayPrice amount="100000000" decimals={6} baseFactor="2" />);
+      screen.getByText("$200.00 USD");
+    });
+    it("should render value dollar value 100000000 with decimal and baseFactor", () => {
+      render(<DisplayPrice amount="100000000" decimals={6} baseFactor="2" hideBaseCurrencyCode />);
+      screen.getByText("$200.00");
+    });
   });
 });
 
-// Values less than 1, max 6 decimals are shown, minimum 2 decimals shown always
+// Values less than 10, max 6 decimals are shown, no minimum decimals
 // tokenDecimals = 8
 // 0.99999900  -> 0.999999
 // 0.99999999  -> 1.00
@@ -160,9 +192,11 @@ describe("components/shared/DisplayPrice", () => {
 // 0           -> 0.00
 // 0.00000011  -> 0.00
 
-// values less than 10, max 6 decimals shown, minimum 2 decimals
-// values less than 100, max 4 decimals shown, minimum 2 decimals
+// values less than 10, max 6 decimals shown, no minimum decimals
+// values less than 1000, max 4 decimals shown, no minimum decimals
 
-// values less greater than 100, max 2 decimals shown, minimum 2 decimals
-// comma formating for numbers freater than 1000
-// million, billion in places where space is constra
+// values less greater than 1000, max 2 decimals shown, no minimum decimals
+// comma formating for numbers greater than 1000
+// million, billion in places where space is constrained
+
+// dollar values will have max 2 decimals and min 2 decimals always
