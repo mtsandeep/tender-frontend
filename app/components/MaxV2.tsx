@@ -27,8 +27,7 @@ export default function MaxV2(props: MaxProps) {
           decimals={props.decimals}
           tokenSymbol={props.tokenSymbol}
           maxDecimals={props.decimals}
-          disableRounding
-          disableGrouping
+          disableFormatting
         />
       </div>
 

@@ -115,6 +115,10 @@ describe("components/shared/DisplayPrice", () => {
       render(<DisplayPrice amount="128888" tokenSymbol="USDT" isCompact />);
       screen.getByText("128.89K USDT");
     });
+    it("should render value 128888000 with isCompact", () => {
+      render(<DisplayPrice amount="128888000" tokenSymbol="USDT" isCompact />);
+      screen.getByText("128.89M USDT");
+    });
   });
 
   describe("cases for value negative", () => {
@@ -181,6 +185,16 @@ describe("components/shared/DisplayPrice", () => {
       render(<DisplayPrice amount="100000000" decimals={6} baseFactor="2" hideBaseCurrencyCode />);
       screen.getByText("$200.00");
     });
+    it("should render value dollar value 123123123154121.3123123123123132 with disableFormatting", () => {
+      render(<DisplayPrice amount="123123123154121.3123123123123132" maxDecimals={16} disableFormatting/>);
+      screen.getByText("123123123154121.3123123123123132");
+    });
+
+    //TODO: this is not working in test, may be happy-dom doesn't support. tried polyfill but still same, check this again later
+    // it("should render value dollar value 123123123154121.3123123123123132 with maxDecimals", () => {
+    //   render(<DisplayPrice amount="123123123154121.3123123123123132" maxDecimals={16} />);
+    //   screen.getByText("123,123,123,154,121.3123123123123132");
+    // });
   });
 });
 

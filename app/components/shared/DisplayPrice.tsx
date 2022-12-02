@@ -16,6 +16,7 @@ type DisplayPriceProps = {
   disableGrouping?: boolean; // remove thousand separator
   disableRounding?: boolean; // when using maxDecimals, disableRounding will use truncating instead of rounding
   hideBaseCurrencyCode?: boolean;
+  disableFormatting?: boolean; // only maxDecimals has effect when disableFormatting is present
 };
 
 // USD values will have 2 decimals rounded. Other tokens will be truncated to 6 decimals, use truncatingDecimals to override
@@ -30,6 +31,7 @@ const DisplayPrice: React.FC<DisplayPriceProps> = ({
   disableGrouping,
   disableRounding,
   hideBaseCurrencyCode,
+  disableFormatting,
 }) => {
   let displayPrice = getDisplayPrice(
     amount,
@@ -47,6 +49,12 @@ const DisplayPrice: React.FC<DisplayPriceProps> = ({
   const trimmer = disableRounding ? truncatePrice : roundPrice;
 
   if (displayPrice === "") return null;
+
+  if (disableFormatting) {
+    return (
+      <>{maxDecimals ? trimmer(displayPrice, maxDecimals) : displayPrice}</>
+    );
+  }
 
   const isLargeNumber = BigNumber(displayPrice)
     .abs()
@@ -69,24 +77,24 @@ const DisplayPrice: React.FC<DisplayPriceProps> = ({
     );
   }
 
-  let trimmedAmount;
+  let trimmedPrice;
   let maximumFractionDigits = 2;
   if (hasBaseFactor) {
-    trimmedAmount = BigNumber(displayPrice).toFixed(2); // for all dollar values, we show 2 decimals
+    trimmedPrice = BigNumber(displayPrice).toFixed(2); // for all dollar values, we show 2 decimals
   } else if (BigNumber(displayPrice).abs().isLessThan(10)) {
     maximumFractionDigits = maxDecimals ?? 6;
-    trimmedAmount = trimmer(displayPrice, maximumFractionDigits);
+    trimmedPrice = trimmer(displayPrice, maximumFractionDigits);
   } else if (BigNumber(displayPrice).abs().isLessThan(1000)) {
     maximumFractionDigits = maxDecimals ?? 4;
-    trimmedAmount = trimmer(displayPrice, maximumFractionDigits);
+    trimmedPrice = trimmer(displayPrice, maximumFractionDigits);
   } else {
     maximumFractionDigits = maxDecimals ?? 2;
-    trimmedAmount = trimmer(displayPrice, maximumFractionDigits);
+    trimmedPrice = trimmer(displayPrice, maximumFractionDigits);
   }
 
   // remove negative symbol from zero, like -0 -> 0
-  if (BigNumber(trimmedAmount).abs().isEqualTo(0)) {
-    trimmedAmount = "0";
+  if (BigNumber(trimmedPrice).abs().isEqualTo(0)) {
+    trimmedPrice = "0";
   }
 
   return (
@@ -96,7 +104,7 @@ const DisplayPrice: React.FC<DisplayPriceProps> = ({
         currency: BASE_CURRENCY_CODE,
         maximumFractionDigits,
         useGrouping: !disableGrouping,
-      }).format(trimmedAmount)} ${trailingTokenSymbol}`}
+      }).format(trimmedPrice)} ${trailingTokenSymbol}`}
     </>
   );
 };
