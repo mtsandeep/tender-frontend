@@ -169,7 +169,7 @@ export function useMarkets(
           withdrawFee: withdrawFeePromise,
           isGLP: isGLPPromise,
           borrowCaps: borrowCapsPromise,
-          supplyCaps: supplyCapsPromise
+          supplyCaps: supplyCapsPromise,
         };
       });
 
@@ -205,7 +205,9 @@ export function useMarkets(
 
       const liquidationIncentiveMantissa =
         await liquidationIncentiveMantissaPromise;
-      const liquidationPenalty = liquidationIncentiveMantissa / 1e18;
+      const liquidationPenalty = liquidationIncentiveMantissa
+        ? (liquidationIncentiveMantissa / 1e18) * 100 - 100
+        : 0;
 
       // getTotalBorrowedInUsd
       const totalBorrowedAmountInUsd = tokens
@@ -284,7 +286,7 @@ export function useMarkets(
         );
 
         const liquidationThreshold =
-          token.comptrollerMarkets.liquidationThresholdMantissa / 1e18;
+          (token.comptrollerMarkets.liquidationThresholdMantissa / 1e18) * 100;
 
         return {
           id: tp.token.symbol,
