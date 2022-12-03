@@ -296,7 +296,7 @@ console.log('borrowLimit',borrowLimit)*/
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowBalance={totalBorrowedAmountInUsd}
+              borrowBalance={borrowLimit}
               newBorrowBalance={newTotalBorrowedAmountInUsd}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}

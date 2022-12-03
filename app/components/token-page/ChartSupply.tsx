@@ -66,11 +66,11 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
     setIsLoadPage(true);
     setMinMaxTotal({
       min: Number(
-        data.sort((a: any, b: any) => a.totalSupply - b.totalSupply)[0]
+        [...data].sort((a: any, b: any) => a.totalSupply - b.totalSupply)[0]
           .totalSupply
       ),
       max: Number(
-        data.sort((a: any, b: any) => a.totalSupply - b.totalSupply)[
+        [...data].sort((a: any, b: any) => a.totalSupply - b.totalSupply)[
           data.length - 1
         ].totalSupply
       ),
