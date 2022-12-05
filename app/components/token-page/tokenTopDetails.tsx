@@ -26,7 +26,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
           })
         }
       />
-      <div className="flex flex-col ml-[15px] mr-[15px] sm:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px] md:mb-[50px]">
+      <div className="flex flex-col ml-[15px] mr-[15px] sm:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px]">
         <div className="flex items-center sm:w-[30%] mb-[30px] sm:mb-0 mr-0 md:mr-[30px]">
           <img
             className="w-10 h-10 mr-[15px] md:w-[55px] md:h-[55px] md:mr-[21px]"

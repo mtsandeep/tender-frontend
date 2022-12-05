@@ -80,19 +80,16 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
   function tooltipSync(state: CategoricalChartState): void {
     setBarTooltipEn(true);
     if (state?.activePayload && state?.activePayload[0]) {
+      const y =
+        (((Number(state.activePayload[0].payload.totalBorrow) * 100) /
+          minMaxTotal.max -
+          minMaxTotal.min) *
+          85) /
+        100;
       setBarTooltip({
         value: state.activePayload[0].payload.totalBorrow,
         x: state.chartX,
-        y:
-          state.activePayload[0].payload.totalBorrow == 0
-            ? 15
-            : (
-                (((Number(state.activePayload[0].payload.totalBorrow) * 100) /
-                  minMaxTotal.max -
-                  minMaxTotal.min) *
-                  (window.innerWidth > 768 ? 130 : 85)) /
-                100
-              ).toFixed(0),
+        y: y > 15 ? y : 15,
       });
     }
     if (state.isTooltipActive !== undefined) {
@@ -189,7 +186,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[40px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[40px] pb-[45px] lg:pb-[0px] relative custom__chart">
         <div
           ref={chartRef}
           className="min-w-[800px] relative"
@@ -212,10 +209,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
               </p>
             </div>
           )}
-          <ResponsiveContainer
-            width="100%"
-            height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
-          >
+          <ResponsiveContainer width="100%" height={88}>
             <LineChart
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
@@ -230,12 +224,13 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
               <Tooltip
                 position={{
                   x: tooltipOverflowBlock(),
-                  y: dotY - (window.innerWidth > 768 ? 60 : 50),
+                  y: dotY - 50,
                 }}
                 content={<ApyTooltip />}
                 cursor={window.innerWidth > 768 ? <CustomLine /> : false}
               />
               <Line
+                isAnimationActive={false}
                 type="monotone"
                 dataKey="borrowAPY"
                 stroke="#00E0FF"
@@ -256,6 +251,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
             >
               <Tooltip content={<></>} cursor={false} />
               <Line
+                isAnimationActive={false}
                 activeDot={false}
                 dataKey="borrowAPY"
                 stroke="transparent"
@@ -265,7 +261,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
           </ResponsiveContainer>
           <ResponsiveContainer
             width="100%"
-            height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
+            height={85}
             className="custom__chart__bar"
           >
             <BarChart
@@ -282,6 +278,7 @@ const ChartBorrow = ({ data }: { data: IDataBorrowDot[] }) => {
               <Tooltip content={<></>} cursor={false} />
 
               <Bar
+                isAnimationActive={false}
                 dataKey="totalBorrow"
                 radius={[3, 3, 0, 0]}
                 minPointSize={10}

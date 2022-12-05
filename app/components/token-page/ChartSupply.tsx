@@ -27,8 +27,6 @@ import { IDataSupplyDot } from "./tokenChart";
 const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   const [activeTooltip, setActiveTooltip] =
     useState<number | undefined>(undefined);
-  const [isLoadPage, setIsLoadPage] = useState<boolean>(false);
-
   const [minMaxTotal, setMinMaxTotal] = useState<any>({ min: 0, max: 0 });
   const [dotY, setDotY] = useState<number>(0);
   const [dotX, setDotX] = useState<number>(0);
@@ -63,7 +61,6 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   };
 
   useEffect(() => {
-    setIsLoadPage(true);
     setMinMaxTotal({
       min: Number(
         [...data].sort((a: any, b: any) => a.totalSupply - b.totalSupply)[0]
@@ -80,19 +77,16 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
   function tooltipSync(state: CategoricalChartState): void {
     setBarTooltipEn(true);
     if (state?.activePayload && state?.activePayload[0]) {
+      const y =
+        (((Number(state.activePayload[0].payload.totalSupply) * 100) /
+          minMaxTotal.max -
+          minMaxTotal.min) *
+          85) /
+        100;
       setBarTooltip({
         value: state.activePayload[0].payload.totalSupply,
         x: state.chartX,
-        y:
-          state.activePayload[0].payload.totalSupply == 0
-            ? 15
-            : (
-                (((Number(state.activePayload[0].payload.totalSupply) * 100) /
-                  minMaxTotal.max -
-                  minMaxTotal.min) *
-                  (window.innerWidth > 768 ? 130 : 85)) /
-                100
-              ).toFixed(0),
+        y: y > 15 ? y : 15,
       });
     }
     if (state.isTooltipActive !== undefined) {
@@ -189,7 +183,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
 
   return (
     <div className="relative">
-      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[40px] md:pt-[63px] pb-[45px] lg:pb-[0px] relative custom__chart">
+      <div className="custom__scroll !overflow-y-hidden w-full flex-col pt-[40px] pb-[45px] lg:pb-[0px] relative custom__chart">
         <div
           ref={chartRef}
           className="min-w-[800px] relative"
@@ -212,10 +206,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               </p>
             </div>
           )}
-          <ResponsiveContainer
-            width="100%"
-            height={isLoadPage && window.innerWidth > 768 ? 180 : 88}
-          >
+          <ResponsiveContainer width="100%" height={88}>
             <LineChart
               syncId="marketCharSynch"
               onMouseMove={tooltipSync}
@@ -230,12 +221,13 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               <Tooltip
                 position={{
                   x: tooltipOverflowBlock(),
-                  y: dotY - (window.innerWidth > 768 ? 60 : 50),
+                  y: dotY - 50,
                 }}
                 content={<ApyTooltip />}
                 cursor={window.innerWidth > 768 ? <CustomLine /> : false}
               />
               <Line
+                isAnimationActive={false}
                 type="monotone"
                 dataKey="supplyAPY"
                 stroke="#14F195"
@@ -256,6 +248,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
             >
               <Tooltip content={<></>} cursor={false} />
               <Line
+                isAnimationActive={false}
                 activeDot={false}
                 dataKey="supplyAPY"
                 stroke="transparent"
@@ -265,7 +258,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
           </ResponsiveContainer>
           <ResponsiveContainer
             width="100%"
-            height={isLoadPage && window.innerWidth > 768 ? 130 : 85}
+            height={85}
             className="custom__chart__bar"
           >
             <BarChart
@@ -282,6 +275,7 @@ const ChartSupply = ({ data }: { data: IDataSupplyDot[] }) => {
               <Tooltip content={<></>} cursor={false} />
 
               <Bar
+                isAnimationActive={false}
                 dataKey="totalSupply"
                 radius={[3, 3, 0, 0]}
                 minPointSize={10}
