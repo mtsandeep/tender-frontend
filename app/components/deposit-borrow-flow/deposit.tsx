@@ -68,8 +68,12 @@ export default function Deposit({
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
-  const { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
-    useContext(TenderContext);
+  const {
+    currentTransaction,
+    tokenPairs,
+    updateTransaction,
+    setIsWaitingToBeMined,
+  } = useContext(TenderContext);
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
@@ -149,7 +153,7 @@ export default function Deposit({
 
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}

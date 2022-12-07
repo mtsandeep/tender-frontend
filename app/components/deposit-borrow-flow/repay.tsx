@@ -97,7 +97,7 @@ export default function Repay({
     true
   );
 
-  const { updateTransaction, setIsWaitingToBeMined } =
+  const { currentTransaction, updateTransaction, setIsWaitingToBeMined } =
     useContext(TenderContext);
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function Repay({
 
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}

@@ -19,7 +19,7 @@ import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
 import GlpCooldownTimer from "./GlpCooldownTimer";
-import {MAX_WITHDRAW_LIMIT_PERCENTAGE} from "~/lib/constants";
+import { MAX_WITHDRAW_LIMIT_PERCENTAGE } from "~/lib/constants";
 
 export interface WithdrawProps {
   market: Market;
@@ -57,8 +57,12 @@ export default function Withdraw({
   const [isGlpCoolingdown, setIsGlpCoolingdown] = useState(false);
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
-  const { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
-    useContext(TenderContext);
+  const {
+    currentTransaction,
+    tokenPairs,
+    updateTransaction,
+    setIsWaitingToBeMined,
+  } = useContext(TenderContext);
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
@@ -89,18 +93,18 @@ export default function Withdraw({
   );
 
   const rawSafeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
-      signer,
-      market.comptrollerAddress,
-      tokenPairs,
-      market.tokenPair,
-      totalBorrowedAmountInUsd,
-      MAX_WITHDRAW_LIMIT_PERCENTAGE
+    signer,
+    market.comptrollerAddress,
+    tokenPairs,
+    market.tokenPair,
+    totalBorrowedAmountInUsd,
+    MAX_WITHDRAW_LIMIT_PERCENTAGE
   );
 
   const safeMaxWithdrawAmount: number = Math.min(
-      rawSafeMaxWithdrawAmount,
-      market.supplyBalance, // how much we're supplying
-      market.maxBorrowLiquidity // how much cash the contract has
+    rawSafeMaxWithdrawAmount,
+    market.supplyBalance, // how much we're supplying
+    market.maxBorrowLiquidity // how much cash the contract has
   );
 
   const [isValid, validationDetail] = useValidInput(
@@ -165,7 +169,7 @@ export default function Withdraw({
 
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
@@ -334,7 +338,9 @@ export default function Withdraw({
                             costs are increasing, please check back in a few
                             hours as borrowers will be repaying their loans, or
                             withdraw up to the current available amount{" "}
-                            {maxWithdrawAmount > 0 ? toExactString(maxWithdrawAmount) : 0}{" "}
+                            {maxWithdrawAmount > 0
+                              ? toExactString(maxWithdrawAmount)
+                              : 0}{" "}
                             {market.tokenPair.token.symbol}.
                           </div>
                         </div>

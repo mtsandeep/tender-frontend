@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import type { Market, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import { calculateApy, formatApy } from "~/lib/apy-calculations";
@@ -8,7 +8,6 @@ import {
   MINIMUM_REQUIRED_APPROVAL_BALANCE,
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
-import { TenderContext } from "~/contexts/tender-context";
 import { ethers, utils } from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
@@ -28,7 +27,6 @@ export function useMarkets(
   let [markets, setMarkets] = useState<Market[]>([]);
 
   let pollingKey = useInterval(7_000);
-  let { currentTransaction } = useContext(TenderContext);
 
   const getGlpApy = useGlpApy();
 
@@ -338,7 +336,6 @@ export function useMarkets(
     supportedTokenPairs,
     comptrollerAddress,
     pollingKey,
-    currentTransaction,
     secondsPerBlock,
     getGlpApy,
   ]);
