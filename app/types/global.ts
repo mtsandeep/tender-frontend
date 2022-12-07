@@ -102,5 +102,6 @@ export type Market = {
   liquidationThreshold: number;
   liquidationPenalty: number;
   borrowCaps: string,
-  supplyCaps: string
+  supplyCaps: string,
+  collateralFactor: number
 };

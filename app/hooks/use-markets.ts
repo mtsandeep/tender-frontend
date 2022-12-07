@@ -286,6 +286,10 @@ export function useMarkets(
         const liquidationThreshold =
           (token.comptrollerMarkets.liquidationThresholdMantissa / 1e18) * 100;
 
+        const collateralFactor = parseFloat(
+            formatUnits(token.comptrollerMarkets.collateralFactorMantissa, 18)
+        );
+
         return {
           id: tp.token.symbol,
           tokenPair: tp,
@@ -324,6 +328,7 @@ export function useMarkets(
           liquidationPenalty,
           borrowCaps: token.borrowCaps.toString(),
           supplyCaps: token.supplyCaps.toString(),
+          collateralFactor,
         };
       });
 

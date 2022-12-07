@@ -14,7 +14,6 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkInputClass } from "~/lib/ui";
-import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
@@ -36,6 +35,40 @@ export interface WithdrawProps {
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
+
+const getSafeMaxWithdrawAmountForToken = (
+    tokenPriceInUsd: number,
+    totalBorrowedAmountInUsd: number,
+    currentBorrowLimitInUsd: number,
+    collateralFactor: number,
+    borrowLimitUsed: number,
+) => {
+  /**
+   * //getBorrowLimitUsed
+   * (borrowedAmount / borrowedLimit) * 100
+   *
+   * //projectBorrowLimit
+   * borrowLimitChangeInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
+   * borrowedLimit = currentBorrowLimitInUsd + borrowLimitChangeInUsd
+   *
+   * //result
+   * borrowLimitUsed = (borrowedAmount / (currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor))) * 100
+   * borrowLimitUsed / 100 = borrowedAmount / (currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor))
+   * borrowedAmount / (borrowLimitUsed / 100) = currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor)
+   * (borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
+   * (((borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd)) / (tp.token.priceInUsd * collateralFactor) = tokenAmount
+   * */
+  const amount: number = Math.abs(
+      (totalBorrowedAmountInUsd / (borrowLimitUsed / 100) -
+          currentBorrowLimitInUsd) /
+      (tokenPriceInUsd * collateralFactor)
+  );
+
+  console.log("safeMaxWithdrawAmount", amount);
+
+  return amount;
+};
+
 export default function Withdraw({
   market,
   closeModal,
@@ -77,13 +110,12 @@ export default function Withdraw({
     newBorrowLimit
   );
 
-  const rawMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
-    signer,
-    market.comptrollerAddress,
-    tokenPairs,
-    market.tokenPair,
-    totalBorrowedAmountInUsd,
-    100
+  const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
+      market.tokenPair.token.priceInUsd,
+      totalBorrowedAmountInUsd,
+      borrowLimit,
+      market.collateralFactor,
+      100
   );
 
   const maxWithdrawAmount: number = Math.min(
@@ -92,13 +124,12 @@ export default function Withdraw({
     market.maxBorrowLiquidity // how much cash the contract has
   );
 
-  const rawSafeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
-    signer,
-    market.comptrollerAddress,
-    tokenPairs,
-    market.tokenPair,
-    totalBorrowedAmountInUsd,
-    MAX_WITHDRAW_LIMIT_PERCENTAGE
+  const rawSafeMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
+      market.tokenPair.token.priceInUsd,
+      totalBorrowedAmountInUsd,
+      borrowLimit,
+      market.collateralFactor,
+      MAX_WITHDRAW_LIMIT_PERCENTAGE
   );
 
   const safeMaxWithdrawAmount: number = Math.min(

@@ -9,6 +9,15 @@ import { ethers } from "ethers";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 
+/**
+ * @deprecated use getSafeMaxWithdrawAmountForToken instead
+ * @param signer
+ * @param comptrollerAddress
+ * @param tokenPairs
+ * @param tp
+ * @param totalBorrowedAmountInUsd
+ * @param borrowLimitUsed
+ */
 export function useSafeMaxWithdrawAmountForToken(
   signer: JsonRpcSigner | undefined | null,
   comptrollerAddress: string,
