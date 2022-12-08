@@ -1,13 +1,8 @@
 import { useContext, useState } from "react";
 import TooltipMobile from "../two-panels/tooltip-mobile";
-import {
-  toCryptoString,
-  toShortCryptoString,
-  toShortFiatString,
-} from "~/lib/ui";
 import TokenMarketDetailsEmpty from "~/components/token-page/tokenMarketDetailsEmpty";
 import { TenderContext } from "~/contexts/tender-context";
-import DisplayPrice from "../shared/DisplayPrice";
+import DisplayPrice from "~/components/shared/DisplayPrice";
 
 function TokenMarketDetails({
   id,
@@ -37,17 +32,18 @@ function TokenMarketDetails({
     return <TokenMarketDetailsEmpty />;
   }
 
-  const exchangeRate = toShortCryptoString(
-    Number((1 / Number(marketInfo.exchangeRate)).toFixed(2))
-  );
   const contractUrl = `${networkData.blockExplorerUrl}/address/${marketInfo.id}`;
   const customData = [
     {
       show: true,
       itemName: "Price",
-      itemData: `$${toShortFiatString(
-        parseFloat(marketInfo.underlyingPriceUSD)
-      )}`,
+      itemData: (
+        <DisplayPrice
+          amount={marketInfo.underlyingPriceUSD}
+          baseFactor="1"
+          isCompact
+        />
+      ),
     },
     {
       show: id !== "GLP" && id !== "GMX",
@@ -58,30 +54,37 @@ function TokenMarketDetails({
       show: true,
       itemName: "Available Borrow",
       itemData:
-        marketInfo.tokenSymbol === "GLP"
-          ? "-"
-          : toCryptoString(
-              Number(marketInfo.cash),
-              marketInfo.underlyingDecimals
-            ) +
-            " " +
-            marketInfo.tokenSymbol,
+        marketInfo.tokenSymbol === "GLP" ? (
+          "-"
+        ) : (
+          <DisplayPrice
+            amount={marketInfo.cash}
+            maxDecimals={marketInfo.underlyingDecimals}
+            tokenSymbol={marketInfo.tokenSymbol}
+          />
+        ),
     },
     {
       show: true,
       itemName: "Your Supply",
-      itemData:
-        toCryptoString(token.supplyBalance, marketInfo.underlyingDecimals) +
-        " " +
-        marketInfo.tokenSymbol,
+      itemData: (
+        <DisplayPrice
+          amount={token.supplyBalance.toString()}
+          maxDecimals={marketInfo.underlyingDecimals}
+          tokenSymbol={marketInfo.tokenSymbol}
+        />
+      ),
     },
     {
       show: true,
       itemName: "Your Borrow",
-      itemData:
-        toCryptoString(token.borrowBalance, marketInfo.underlyingDecimals) +
-        " " +
-        marketInfo.tokenSymbol,
+      itemData: (
+        <DisplayPrice
+          amount={token.borrowBalance.toString()}
+          maxDecimals={marketInfo.underlyingDecimals}
+          tokenSymbol={marketInfo.tokenSymbol}
+        />
+      ),
     },
     {
       show: true,
@@ -201,20 +204,20 @@ function TokenMarketDetails({
     {
       show: true,
       itemName: marketInfo.cTokenSymbol + " Minted",
-      itemData: toShortCryptoString(
-        Number(Number(marketInfo.totalSupply).toFixed(2))
-      ),
+      itemData: <DisplayPrice amount={marketInfo.totalSupply} />,
     },
     {
       show: true,
       itemName: "Exchange Rate",
-      itemData:
-        "1 " +
-        marketInfo.tokenSymbol +
-        " = " +
-        exchangeRate +
-        " " +
-        marketInfo.cTokenSymbol,
+      itemData: (
+        <>
+          1 {marketInfo.tokenSymbol} = {" "}
+          <DisplayPrice
+            amount={(1 / Number(marketInfo.exchangeRate)).toString()}
+            tokenSymbol={marketInfo.cTokenSymbol}
+          />
+        </>
+      ),
     },
   ];
 

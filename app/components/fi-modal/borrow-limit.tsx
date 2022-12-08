@@ -1,4 +1,4 @@
-import { toFiatString } from "~/lib/ui";
+import DisplayPrice from "~/components/shared/DisplayPrice";
 
 interface BorrowLimitProps {
   value: string;
@@ -27,13 +27,25 @@ export default function BorrowLimit(props: BorrowLimitProps) {
         <div className="flex-grow">Borrow Capacity</div>
         <div className="text-white text-base font-nova">
           {(value == "0" || !isValid || borrowLimit == newBorrowLimit) && (
-            <>${toFiatString(borrowLimit)}</>
+            <DisplayPrice
+              amount={borrowLimit.toString()}
+              baseFactor="1"
+              hideBaseCurrencyCode
+            />
           )}
           {isValid && value != "0" && borrowLimit != newBorrowLimit && (
             <div className="flex items-center">
-              ${toFiatString(borrowLimit)}
+              <DisplayPrice
+                amount={borrowLimit.toString()}
+                baseFactor="1"
+                hideBaseCurrencyCode
+              />
               <img className="mx-3" src={urlArrow} alt="" />$
-              {toFiatString(newBorrowLimit)}
+              <DisplayPrice
+                amount={newBorrowLimit.toString()}
+                baseFactor="1"
+                hideBaseCurrencyCode
+              />
             </div>
           )}
           {}

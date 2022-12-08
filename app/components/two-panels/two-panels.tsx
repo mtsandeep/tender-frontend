@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import type { Market } from "~/types/global";
-import { toShortFiatString, toShortCryptoString } from "~/lib/ui";
 import TooltipMobile from "./tooltip-mobile";
 
 import TooltipMobileMulti from "./tooltip-mobile-MULTI";
@@ -8,7 +7,7 @@ import TwoPanelsEmpty from "./two-panels-empty";
 import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 import * as math from "mathjs";
-import DisplayPrice from "../shared/DisplayPrice";
+import DisplayPrice from "~/components/shared/DisplayPrice";
 
 export const checkColorClass = (value: number | string) => {
   const valueNumber = parseFloat(
@@ -57,7 +56,7 @@ export default function TwoPanels() {
       (token: Market) => !token.borrowBalance || token.borrowBalanceInUsd <= 0
     );
 
-  return tenderContextData.markets.length ? (
+    return tenderContextData.markets.length ? (
     <div className="flex flex-col xl:grid grid-cols-2 gap-[60px] xl:gap-[20px] mb-14">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
@@ -155,20 +154,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {token.marketData.marketSize &&
-                              toShortCryptoString(
-                                token.marketData.marketSize
-                              )}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.marketData.marketSize?.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${
-                              token.marketData.marketSize &&
-                              toShortFiatString(
-                                token.marketData.marketSize *
-                                  token.tokenPair.token.priceInUsd
-                              )
-                            } USD`}
+                            <DisplayPrice
+                              amount={token.marketData.marketSize?.toString()}
+                              baseFactor={token.tokenPair.token.priceInUsd.toString()}
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
@@ -290,11 +286,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {toShortCryptoString(token.supplyBalance)}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.supplyBalance.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${token.supplyBalanceInUsd.toFixed(2)} USD`}
+                            <DisplayPrice
+                              amount={token.supplyBalanceInUsd.toString()}
+                              baseFactor="1" // amount is already in usd
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
@@ -379,20 +381,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {token.marketData.marketSize &&
-                              toShortCryptoString(
-                                token.marketData.marketSize
-                              )}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.marketData.marketSize?.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${
-                              token.marketData.marketSize &&
-                              toShortFiatString(
-                                token.marketData.marketSize *
-                                  token.tokenPair.token.priceInUsd
-                              )
-                            } USD`}
+                            <DisplayPrice
+                              amount={token.marketData.marketSize?.toString()}
+                              baseFactor={token.tokenPair.token.priceInUsd.toString()}
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
@@ -518,7 +517,6 @@ export default function TwoPanels() {
                               amount={token.walletBalance}
                               tokenSymbol={token.tokenPair.token.symbol}
                               decimals={token.tokenPair.token.decimals}
-                              isCompact
                             />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
@@ -617,20 +615,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {token.marketData?.totalBorrowed &&
-                              toShortCryptoString(
-                                token.marketData.totalBorrowed
-                              )}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.marketData?.totalBorrowed?.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${
-                              token.marketData?.totalBorrowed &&
-                              toShortFiatString(
-                                token.marketData.totalBorrowed *
-                                  token.tokenPair.token.priceInUsd
-                              )
-                            } USD`}
+                            <DisplayPrice
+                              amount={token.marketData?.totalBorrowed?.toString()}
+                              baseFactor={token.tokenPair.token.priceInUsd.toString()}
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
@@ -748,11 +743,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {toShortCryptoString(token.borrowBalance)}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.borrowBalance.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${token.borrowBalanceInUsd.toFixed(2)} USD`}
+                            <DisplayPrice
+                              amount={token.borrowBalanceInUsd.toString()}
+                              baseFactor="1"
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
@@ -836,20 +837,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {token.marketData?.totalBorrowed &&
-                              toShortCryptoString(
-                                token.marketData.totalBorrowed
-                              )}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.marketData?.totalBorrowed?.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${
-                              token.marketData?.totalBorrowed &&
-                              toShortFiatString(
-                                token.marketData.totalBorrowed *
-                                  token.tokenPair.token.priceInUsd
-                              )
-                            } USD`}
+                            <DisplayPrice
+                              amount={token.marketData?.totalBorrowed?.toString()}
+                              baseFactor={token.tokenPair.token.priceInUsd.toString()}
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
@@ -967,14 +965,17 @@ export default function TwoPanels() {
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
-                            {toShortCryptoString(token.maxBorrowLiquidity)}{" "}
-                            {token.tokenPair.token.symbol}
+                            <DisplayPrice
+                              amount={token.maxBorrowLiquidity.toString()}
+                              tokenSymbol={token.tokenPair.token.symbol}
+                            />
                           </div>
                           <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[25px] md:top-[61px] left-[15px]">
-                            {`$${toShortFiatString(
-                              token.maxBorrowLiquidity *
-                                token.tokenPair.token.priceInUsd
-                            )} USD`}
+                            <DisplayPrice
+                              amount={token.maxBorrowLiquidity.toString()}
+                              baseFactor={token.tokenPair.token.priceInUsd.toString()}
+                              isCompact
+                            />
                           </div>
                         </a>
                       </td>
