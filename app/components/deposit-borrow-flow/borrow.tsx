@@ -6,7 +6,7 @@ import type {
   TransactionReceipt,
 } from "@ethersproject/providers";
 
-import { toMaxString } from "~/lib/ui";
+import { isValidInput, toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
@@ -118,42 +118,12 @@ export default function Borrow({
     }
   }, [activeTab]);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      const formattedValue = value
-        .replace(/[^.\d]+/g, "")
-        .replace(/^([^\.]*\.)|\./g, "$1");
-      const decimals = (formattedValue.split(".")[1] || []).length;
-      if (
-        formattedValue.split("")[0] === "0" &&
-        formattedValue.length === 2 &&
-        formattedValue.split("")[1] !== "."
-      ) {
-        return false;
-      } else {
-        if (
-          formattedValue.split("")[0] === "0" &&
-          formattedValue.length > 1 &&
-          formattedValue
-            .split("")
-            .every((item: string) => item === formattedValue.split("")[0])
-        ) {
-          return false;
-        } else {
-          if (
-            formattedValue === "" ||
-            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-              formattedValue.length <= 20 &&
-              decimals <= tokenDecimals)
-          ) {
-            changeInitialValue(formattedValue);
-          }
-        }
-      }
-    },
-    [tokenDecimals, changeInitialValue]
-  );
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (isValidInput(value, tokenDecimals)) {
+      changeInitialValue(value);
+    }
+  };
 
   const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
   const borrowApyFormatted = formatApy(borrowApy);
@@ -196,7 +166,7 @@ console.log('borrowLimit',borrowLimit)*/
               <input
                 ref={inputEl}
                 value={initialValue}
-                onChange={(e) => handleCheckValue(e)}
+                onChange={handleValueChange}
                 style={{ height: 70, minHeight: 70 }}
                 className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
                   !initialValue && "pl-[80px]"

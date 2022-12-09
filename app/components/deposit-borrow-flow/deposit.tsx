@@ -15,7 +15,7 @@ import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { getAmount, shrinkInputClass } from "~/lib/ui";
+import { getAmount, isValidInput, shrinkInputClass } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import MaxV2 from "../MaxV2";
 import { displayErrorMessage } from "./displayErrorMessage";
@@ -110,43 +110,12 @@ export default function Deposit({
     }
   }, [activeTab]);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      const formattedValue = value
-        .replace(/[^.\d]+/g, "")
-        .replace(/^([^\.]*\.)|\./g, "$1");
-      const decimals = (formattedValue.split(".")[1] || []).length;
-
-      if (
-        formattedValue.split("")[0] === "0" &&
-        formattedValue.length === 2 &&
-        formattedValue.split("")[1] !== "."
-      ) {
-        return false;
-      } else {
-        if (
-          formattedValue.split("")[0] === "0" &&
-          formattedValue.length > 1 &&
-          formattedValue
-            .split("")
-            .every((item: string) => item === formattedValue.split("")[0])
-        ) {
-          return false;
-        } else {
-          if (
-            formattedValue === "" ||
-            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-              formattedValue.length <= 20 &&
-              decimals <= tokenDecimals)
-          ) {
-            changeInitialValue(formattedValue);
-          }
-        }
-      }
-    },
-    [tokenDecimals, changeInitialValue]
-  );
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (isValidInput(value, tokenDecimals)) {
+      changeInitialValue(value);
+    }
+  };
 
   const borrowApy = parseFloat(market.marketData.depositApy);
   const supplyApyFormatted = formatApy(borrowApy);
@@ -200,7 +169,7 @@ export default function Deposit({
                   tabIndex={0}
                   ref={inputEl}
                   value={initialValue}
-                  onChange={(e) => handleCheckValue(e)}
+                  onChange={handleValueChange}
                   style={{ height: 70, minHeight: 70 }}
                   className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
                     !initialValue && "pl-[80px]"

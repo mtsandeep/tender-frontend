@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toExactString } from "~/lib/ui";
+import { isValidInput, toExactString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
 import { useValidInput } from "~/hooks/use-valid-input";
@@ -37,11 +37,11 @@ export interface WithdrawProps {
 }
 
 const getSafeMaxWithdrawAmountForToken = (
-    tokenPriceInUsd: number,
-    totalBorrowedAmountInUsd: number,
-    currentBorrowLimitInUsd: number,
-    collateralFactor: number,
-    borrowLimitUsed: number,
+  tokenPriceInUsd: number,
+  totalBorrowedAmountInUsd: number,
+  currentBorrowLimitInUsd: number,
+  collateralFactor: number,
+  borrowLimitUsed: number
 ) => {
   /**
    * //getBorrowLimitUsed
@@ -59,8 +59,8 @@ const getSafeMaxWithdrawAmountForToken = (
    * (((borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd)) / (tp.token.priceInUsd * collateralFactor) = tokenAmount
    * */
   const amount: number = Math.abs(
-      (totalBorrowedAmountInUsd / (borrowLimitUsed / 100) -
-          currentBorrowLimitInUsd) /
+    (totalBorrowedAmountInUsd / (borrowLimitUsed / 100) -
+      currentBorrowLimitInUsd) /
       (tokenPriceInUsd * collateralFactor)
   );
 
@@ -111,11 +111,11 @@ export default function Withdraw({
   );
 
   const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
-      market.tokenPair.token.priceInUsd,
-      totalBorrowedAmountInUsd,
-      borrowLimit,
-      market.collateralFactor,
-      100
+    market.tokenPair.token.priceInUsd,
+    totalBorrowedAmountInUsd,
+    borrowLimit,
+    market.collateralFactor,
+    100
   );
 
   const maxWithdrawAmount: number = Math.min(
@@ -125,11 +125,11 @@ export default function Withdraw({
   );
 
   const rawSafeMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
-      market.tokenPair.token.priceInUsd,
-      totalBorrowedAmountInUsd,
-      borrowLimit,
-      market.collateralFactor,
-      MAX_WITHDRAW_LIMIT_PERCENTAGE
+    market.tokenPair.token.priceInUsd,
+    totalBorrowedAmountInUsd,
+    borrowLimit,
+    market.collateralFactor,
+    MAX_WITHDRAW_LIMIT_PERCENTAGE
   );
 
   const safeMaxWithdrawAmount: number = Math.min(
@@ -159,41 +159,12 @@ export default function Withdraw({
     }
   }, [activeTab]);
 
-  const handleCheckValue = useCallback(
-    (e: any) => {
-      const { value } = e.target;
-      const formattedValue = value
-        .replace(/[^.\d]+/g, "")
-        .replace(/^([^\.]*\.)|\./g, "$1");
-
-      if (
-        formattedValue.split("")[0] === "0" &&
-        formattedValue.length === 2 &&
-        formattedValue.split("")[1] !== "."
-      ) {
-        return false;
-      } else {
-        if (
-          formattedValue.split("")[0] === "0" &&
-          formattedValue.length > 1 &&
-          formattedValue
-            .split("")
-            .every((item: string) => item === formattedValue.split("")[0])
-        ) {
-          return false;
-        } else {
-          if (
-            formattedValue === "" ||
-            (formattedValue.match(/^(([1-9]\d*)|0|.)(.|.\d+)?$/) &&
-              formattedValue.length <= 20)
-          ) {
-            changeInitialValue(formattedValue);
-          }
-        }
-      }
-    },
-    [changeInitialValue]
-  );
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (isValidInput(value, tokenDecimals)) {
+      changeInitialValue(value);
+    }
+  };
 
   const borrowApy = parseFloat(market.marketData.depositApy);
   const supplyApyFormatted = formatApy(borrowApy);
@@ -233,7 +204,7 @@ export default function Withdraw({
               <input
                 ref={inputEl}
                 value={initialValue}
-                onChange={(e) => handleCheckValue(e)}
+                onChange={handleValueChange}
                 style={{ height: 70, minHeight: 70 }}
                 className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
                   !initialValue && "pl-[80px]"

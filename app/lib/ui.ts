@@ -1,14 +1,14 @@
 import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
 import * as math from "mathjs";
-import BigNumber from "bignumber.js"
+import BigNumber from "bignumber.js";
 /**
  * Used on deposit, withdraw, borrow, and repay modals
  *
  * @param len Length of input value
  * @returns corresponding tailwind text size class
  */
-const shrinkInputClass = (len: number): string => {
+export const shrinkInputClass = (len: number): string => {
   let className = "text-5xl md:text-6xl";
 
   if (len > 22) {
@@ -108,17 +108,16 @@ const formatMaxString = (v: number, precision: number = 6): string =>
 export const toExactString = (v: number) =>
   math.format(v, { notation: "fixed" });
 
-
 /**
  * Human readable BigNumber
- * 
+ *
  * amount = 1000000000000000000
  * decimals = 18
  * returns 1 as string
- * 
- * @param amount 
- * @param decimals 
- * @returns 
+ *
+ * @param amount
+ * @param decimals
+ * @returns
  */
 export const getHumanReadableAmount = (
   amount: string,
@@ -129,14 +128,14 @@ export const getHumanReadableAmount = (
 
 /**
  * convert human readable number to smart contract BigNumber format with decimals added
- * 
+ *
  * amount = 1
  * decimals = 18
  * returns 1000000000000000000 as string
- * 
- * @param amount 
- * @param decimals 
- * @returns 
+ *
+ * @param amount
+ * @param decimals
+ * @returns
  */
 export const getAmount = (amount: string, decimals: number) => {
   return BigNumber(amount).multipliedBy(BigNumber(10).pow(decimals));
@@ -144,11 +143,11 @@ export const getAmount = (amount: string, decimals: number) => {
 
 /**
  * Display price, only use for displaying DO NOT use for calculation
- * @param amount 
- * @param decimals 
- * @param multiplyFactor 
- * @param multiplyFactorDecimals 
- * @returns 
+ * @param amount
+ * @param decimals
+ * @param multiplyFactor
+ * @param multiplyFactorDecimals
+ * @returns
  */
 export const getDisplayPrice = (
   amount?: string,
@@ -164,7 +163,9 @@ export const getDisplayPrice = (
     .multipliedBy(multiplyFactor ?? 1)
     .div(BigNumber(10).pow((decimals || 0) + (multiplyFactorDecimals || 0)));
 
-  return decimals ? displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed() : displayPrice.toFixed();
+  return decimals
+    ? displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed()
+    : displayPrice.toFixed();
 };
 
 export const truncatePrice = (amount: string, decimals: number = 18) => {
@@ -178,9 +179,11 @@ export const roundPrice = (amount: string, decimals: number = 6) => {
  * Temparory usage until we move all to BigNumber or find a better solution.
  * Returns float with token decimals applied ( same error will be there in precision)
  */
-export const getAmountFloat = (amount:string, decimals:number) => {
-  return parseFloat(BigNumber(amount).div(BigNumber(10).pow(decimals)).toFixed())
-}
+export const getAmountFloat = (amount: string, decimals: number) => {
+  return parseFloat(
+    BigNumber(amount).div(BigNumber(10).pow(decimals)).toFixed()
+  );
+};
 
 export const getPercentageString = (
   amount: string,
@@ -193,4 +196,28 @@ export const getPercentageString = (
     .toFixed()}%`;
 };
 
-export { shrinkInputClass };
+export const isValidInput = (amount: string, decimalPlaces: number = 18) => {
+  if (amount === "" || amount === "0" || amount === ".") {
+    return true;
+  }
+
+  const amountNumber = new BigNumber(amount);
+
+  if (!amountNumber.isFinite()) {
+    return false;
+  }
+
+  if (amountNumber.isLessThan(0)) {
+    return false;
+  }
+
+  if (amount.split(".")[1] && amount.split(".")[1].length > decimalPlaces) {
+    return false;
+  }
+
+  if (amount !== amount.trim()) {
+    return false;
+  }
+
+  return true;
+};
