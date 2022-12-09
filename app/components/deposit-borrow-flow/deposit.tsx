@@ -202,9 +202,9 @@ export default function Deposit({
                   value={initialValue}
                   onChange={(e) => handleCheckValue(e)}
                   style={{ height: 70, minHeight: 70 }}
-                  className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
-                    initialValue ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                  }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                    !initialValue && "pl-[80px]"
+                  } ${inputTextClass}`}
                   placeholder="0"
                 />
                 <MaxV2
