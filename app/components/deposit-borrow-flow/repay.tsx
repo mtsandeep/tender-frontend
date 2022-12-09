@@ -121,8 +121,10 @@ export default function Repay({
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (isValidInput(value, tokenDecimals)) {
-      changeInitialValue(value);
+    const trimmedValue = value.trim()
+
+    if (isValidInput(trimmedValue, tokenDecimals)) {
+      changeInitialValue(trimmedValue);
     }
   };
 
