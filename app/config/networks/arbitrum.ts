@@ -11,6 +11,7 @@ export default {
   Contracts: {
     Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e", // address of unitroller contract
     PriceOracle: "0x7aa74f173bf3FF1Dc43858b8C109E9002F152FdC",
+    Maximillion: "0x1834a5C13EE814ADCCd8D012E0356A3E836208Fc",
   },
   Tokens: {
     ETH: {

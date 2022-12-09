@@ -97,7 +97,7 @@ export default function Repay({
     true
   );
 
-  const { currentTransaction, updateTransaction, setIsWaitingToBeMined } =
+  const { currentTransaction, updateTransaction, setIsWaitingToBeMined, networkData } =
     useContext(TenderContext);
 
   useEffect(() => {
@@ -363,6 +363,7 @@ export default function Repay({
                         signer,
                         market.tokenPair.cToken,
                         market.tokenPair.token,
+                        networkData.Contracts.Maximillion,
                         isMax
                       );
                       changeTxnHash(txn.hash);

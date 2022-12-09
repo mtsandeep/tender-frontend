@@ -7,6 +7,7 @@ import SampleErc20Abi from "~/config/sample-erc20-abi";
 import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SamplePriceOracleAbi from "~/config/sample-price-oracle-abi";
+import maximillionAbi from "~/config/abi/maximillion.json";
 
 import type { TokenPair } from "~/types/global";
 import { formatEther, formatUnits } from "ethers/lib/utils";
@@ -352,6 +353,7 @@ async function getBorrowLimitUsed(
  * @param signer
  * @param cToken
  * @param token
+ * @param maximillionAddress
  * @param isMax
  */
 async function repay(
@@ -359,6 +361,7 @@ async function repay(
   signer: Signer,
   cToken: cToken,
   token: Token,
+  maximillionAddress: string,
   isMax: boolean
 ): Promise<Txn> {
   if (token.symbol === "ETH") {
@@ -368,15 +371,22 @@ async function repay(
     let repayValue;
 
     if (isMax) {
+      const maximillionContract = new ethers.Contract(maximillionAddress, maximillionAbi, signer);
       const address = await signer.getAddress();
+
       repayValue = await contract.callStatic.borrowBalanceCurrent(address);
+
+      // adjust repay value with 0.35% to take into account the accrued interest (based on compound solution)
+      repayValue = repayValue.add(
+          repayValue.mul(ethers.BigNumber.from(35)).div(ethers.BigNumber.from(10000))
+      );
+
+      return await maximillionContract.repayBehalf(address, {value: repayValue});
     } else {
       repayValue = ethers.utils.parseEther(value);
+      console.log("input value:", value, "repayValue:", repayValue.toString());
+      return await contract.repayBorrow({value: repayValue});
     }
-
-    console.log("input value:", value, "repayValue:", repayValue.toString());
-
-    return await contract.repayBorrow({value: repayValue});
   }
 
   const formattedValue: BigNumber = isMax ? ethers.BigNumber.from(NEGATIVE_UINT) : ethers.utils.parseUnits(
