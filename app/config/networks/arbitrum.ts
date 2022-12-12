@@ -10,7 +10,7 @@ export default {
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e", // address of unitroller contract
-    PriceOracle: "0x7aa74f173bf3FF1Dc43858b8C109E9002F152FdC",
+    PriceOracle: "0x626fEE808A206dF7529B5AB7E5a6E8FC98509cEA",
   },
   Tokens: {
     ETH: {
