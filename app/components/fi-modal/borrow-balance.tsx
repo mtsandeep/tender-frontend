@@ -1,4 +1,5 @@
 import DisplayPrice from "~/components/shared/DisplayPrice";
+import { getPercentageString } from "~/lib/ui";
 
 interface BorrowBalanceProps {
   value: string;
@@ -52,12 +53,14 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
       <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[24px] md:mb-[30px]">
         <div className="flex-grow">Borrow Used</div>
         <div className="text-white text-sm sm:text-base font-nova">
-          {(value == "0" || !isValid) && <>{borrowLimitUsed}%</>}
+          {(value == "0" || !isValid) && (
+            <>{getPercentageString(borrowLimitUsed, "100")}</>
+          )}
           {isValid && value != "0" && (
             <div className="flex items-center">
-              {borrowLimitUsed}%
+              {getPercentageString(borrowLimitUsed, "100")}
               <img className="mx-3" src={urlArrow} alt="" />
-              {newBorrowLimitUsed}%
+              {getPercentageString(newBorrowLimitUsed, "100")}
             </div>
           )}
         </div>

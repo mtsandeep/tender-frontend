@@ -1,4 +1,5 @@
 import DisplayPrice from "~/components/shared/DisplayPrice";
+import { getPercentageString } from "~/lib/ui";
 
 interface BorrowLimitProps {
   value: string;
@@ -57,15 +58,17 @@ export default function BorrowLimit(props: BorrowLimitProps) {
           {(value == "0" ||
             !isValid ||
             borrowLimitUsed == newBorrowLimitUsed ||
-            !newBorrowLimitUsed) && <>{borrowLimitUsed}%</>}
+            !newBorrowLimitUsed) && (
+            <>{getPercentageString(borrowLimitUsed, "100")}</>
+          )}
           {isValid &&
             value != "0" &&
             newBorrowLimitUsed &&
             borrowLimitUsed != newBorrowLimitUsed && (
               <div className="flex items-center">
-                {borrowLimitUsed}%
+                {getPercentageString(borrowLimitUsed, "100")}
                 <img className="mx-3" src={urlArrow} alt="" />
-                {newBorrowLimitUsed}%
+                {getPercentageString(newBorrowLimitUsed, "100")}
               </div>
             )}
         </div>
