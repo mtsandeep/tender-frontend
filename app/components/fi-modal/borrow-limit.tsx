@@ -40,7 +40,7 @@ export default function BorrowLimit(props: BorrowLimitProps) {
                 baseFactor="1"
                 hideBaseCurrencyCode
               />
-              <img className="mx-3" src={urlArrow} alt="" />$
+              <img className="mx-3" src={urlArrow} alt="" />
               <DisplayPrice
                 amount={newBorrowLimit.toString()}
                 baseFactor="1"
