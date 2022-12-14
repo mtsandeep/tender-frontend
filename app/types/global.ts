@@ -38,6 +38,7 @@ export interface NetworkData {
   Contracts: {
     Comptroller: string;
     PriceOracle: string;
+    Maximillion: string;
   };
   Tokens: {
     [key: string]: TokenConfig;
@@ -101,4 +102,7 @@ export type Market = {
   isBorrowable: boolean;
   liquidationThreshold: number;
   liquidationPenalty: number;
+  borrowCaps: string,
+  supplyCaps: string,
+  collateralFactor: number
 };

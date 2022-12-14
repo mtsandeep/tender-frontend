@@ -24,6 +24,7 @@ import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
+import { MAX_BORROW_LIMIT_PERCENTAGE } from "~/lib/constants";
 
 export interface BorrowProps {
   market: Market;
@@ -36,6 +37,8 @@ export interface BorrowProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -51,17 +54,18 @@ export default function Borrow({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  changeTxnHash,
+  txnHash,
   tabs,
 }: BorrowProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
   const [isBorrowing, setIsBorrowing] = useState<boolean>(false);
-  const [txnHash, setTxnHash] = useState<string>("");
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
 
-  const { updateTransaction, setIsWaitingToBeMined } =
+  const { currentTransaction, updateTransaction, setIsWaitingToBeMined } =
     useContext(TenderContext);
 
   const newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
@@ -80,7 +84,17 @@ export default function Borrow({
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
-    market.maxBorrowLiquidity
+    market.maxBorrowLiquidity,
+    100
+  );
+
+  const maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
+    borrowLimit,
+    totalBorrowedAmountInUsd,
+    market.comptrollerAddress,
+    market.tokenPair,
+    market.maxBorrowLiquidity,
+    MAX_BORROW_LIMIT_PERCENTAGE
   );
 
   const [isValid, validationDetail] = useValidInput(
@@ -143,10 +157,13 @@ export default function Borrow({
 
   const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
   const borrowApyFormatted = formatApy(borrowApy);
-
+  /*console.log('maxBorrowLimit',maxBorrowLimit)
+console.log('maxSafeBorrowLimit',maxSafeBorrowLimit)
+console.log('market.maxBorrowLiquidity',market.maxBorrowLiquidity)
+console.log('borrowLimit',borrowLimit)*/
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
@@ -181,25 +198,27 @@ export default function Borrow({
                 value={initialValue}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ height: 70, minHeight: 70 }}
-                className={`input__center__custom z-20 max-w-[300px] ${
-                  initialValue ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                  !initialValue && "pl-[80px]"
+                } ${inputTextClass}`}
                 placeholder="0"
               />
-              {parseFloat(borrowLimitUsed) < 80 && (
-                <Max
-                  maxValue={maxBorrowLimit}
-                  updateValue={() => {
-                    inputEl?.current && inputEl.current.focus();
-                    changeInitialValue(
-                      toMaxString(maxBorrowLimit, tokenDecimals)
-                    );
-                  }}
-                  maxValueLabel={market.tokenPair.token.symbol}
-                  label="80% Max"
-                  color="#00E0FF"
-                />
-              )}
+              <Max
+                maxValue={parseFloat(
+                  toMaxString(maxBorrowLimit, tokenDecimals)
+                )}
+                updateValue={() => {
+                  inputEl?.current && inputEl.current.focus();
+                  changeInitialValue(
+                    toMaxString(maxSafeBorrowLimit, tokenDecimals)
+                  );
+                }}
+                maxValueLabel={market.tokenPair.token.symbol}
+                label={`${MAX_BORROW_LIMIT_PERCENTAGE}% Max`}
+                borrowLimitUsed={parseFloat(borrowLimitUsed)}
+                maxPercentage={MAX_BORROW_LIMIT_PERCENTAGE}
+                color="#00E0FF"
+              />
             </div>
           </div>
           <div
@@ -279,7 +298,7 @@ export default function Borrow({
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowBalance={totalBorrowedAmountInUsd}
+              borrowBalance={borrowLimit}
               newBorrowBalance={newTotalBorrowedAmountInUsd}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
@@ -304,7 +323,9 @@ export default function Borrow({
                             please check back in a few hours as borrowers will
                             be repaying their loans, or borrow up to the current
                             available amount{" "}
-                            {toMaxString(maxBorrowLimit, tokenDecimals)}{" "}
+                            {maxBorrowLimit > 0
+                              ? toMaxString(maxBorrowLimit, tokenDecimals)
+                              : 0}{" "}
                             {market.tokenPair.token.symbol}.
                           </div>
                         </div>
@@ -341,15 +362,16 @@ export default function Borrow({
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      setTxnHash(txn.hash);
+                      changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
+                      changeInitialValue("");
+                      changeTxnHash("");
                       displayTransactionResult(
                         tr.transactionHash,
                         "Borrow successful"
                       );
-                      changeInitialValue("");
                     } catch (e: any) {
                       toast.dismiss();
                       if (e.transaction?.hash) {

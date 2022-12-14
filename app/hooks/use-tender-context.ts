@@ -7,10 +7,12 @@ import { useNetworkData } from "./use-network-data";
 import { useMarkets } from "./use-markets";
 import { useInterval } from "./use-interval";
 import { useWeb3Signer } from "./use-web3-signer";
-import {useBlockNumber} from "~/hooks/use-block-number";
+import { useBlockNumber } from "~/hooks/use-block-number";
 
 export function useTenderContext() {
   let [currentTransaction, updateTransaction] = useState<string | null>(null);
+  let [transactionCompleted, setTransactionCompleted] = useState(false);
+  let [prevMarkets, setPrevMarkets] = useState<Market[] | null>(null);
   let [tenderContext, setTenderContext] = useState<TenderContext | null>();
   let [isWaitingToBeMined, setIsWaitingToBeMined] = useState<boolean>(false);
   const chainId = Web3Hooks.useChainId();
@@ -58,6 +60,22 @@ export function useTenderContext() {
     isWaitingToBeMined,
     blockNumber,
   ]);
+
+  useEffect(() => {
+    setTransactionCompleted(!isWaitingToBeMined);
+  }, [isWaitingToBeMined]);
+
+  useEffect(() => {
+    if (markets !== prevMarkets) {
+      setPrevMarkets(markets);
+    }
+  }, [markets, prevMarkets]);
+
+  useEffect(() => {
+    if (currentTransaction && transactionCompleted && markets !== prevMarkets) {
+      updateTransaction(null);
+    }
+  }, [transactionCompleted, markets, currentTransaction, prevMarkets]);
 
   return tenderContext;
 }

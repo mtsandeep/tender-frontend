@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useContext} from "react";
 import type { TokenPair } from "~/types/global";
+import {TenderContext} from "~/contexts/tender-context";
 
 export function useNewTotalBorrowedAmountInUsd(
   tokenPair: TokenPair,
@@ -8,6 +9,7 @@ export function useNewTotalBorrowedAmountInUsd(
 ): number {
   let [newTotalBorrowedAmountInUsd, setNewTotalBorrowedAmountInUsd] =
     useState<number>(0);
+  let { currentTransaction } = useContext(TenderContext);
 
   useEffect(() => {
     if (!tokenPair) {
@@ -20,7 +22,7 @@ export function useNewTotalBorrowedAmountInUsd(
     setNewTotalBorrowedAmountInUsd(
       currentTotalBorrowedInUsd + newBorrowAmountInUsd
     );
-  }, [tokenPair, currentTotalBorrowedInUsd, newTokenBorrowAmount]);
+  }, [tokenPair, currentTotalBorrowedInUsd, newTokenBorrowAmount, currentTransaction]);
 
   return newTotalBorrowedAmountInUsd;
 }

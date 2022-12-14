@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import type { Market, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import { calculateApy, formatApy } from "~/lib/apy-calculations";
@@ -8,7 +8,6 @@ import {
   MINIMUM_REQUIRED_APPROVAL_BALANCE,
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
-import { TenderContext } from "~/contexts/tender-context";
 import { ethers, utils } from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
@@ -28,7 +27,6 @@ export function useMarkets(
   let [markets, setMarkets] = useState<Market[]>([]);
 
   let pollingKey = useInterval(7_000);
-  let { currentTransaction } = useContext(TenderContext);
 
   const getGlpApy = useGlpApy();
 
@@ -59,7 +57,7 @@ export function useMarkets(
 
         // getTotalBorrowedInUsd -> getCurrentlyBorrowing
         const borrowBalancePromise =
-          cTokenContract.borrowBalanceStored(address);
+          cTokenContract.callStatic.borrowBalanceCurrent(address);
 
         // getAccountBorrowLimitInUsd -> borrowLimitForTokenInUsd ->
         // -> getCurrentlySupplying
@@ -68,6 +66,16 @@ export function useMarkets(
 
         // -> collateralFactorForToken
         const comptrollerMarketsPromise = comptrollerContract.markets(
+          tp.cToken.address
+        );
+
+        // -> borrowCaps
+        const borrowCapsPromise = comptrollerContract.borrowCaps(
+          tp.cToken.address
+        );
+
+        // -> supplyCaps
+        const supplyCapsPromise = comptrollerContract.supplyCaps(
           tp.cToken.address
         );
 
@@ -157,7 +165,9 @@ export function useMarkets(
           autocompound: autocompoundPromise,
           performanceFee: performanceFeePromise,
           withdrawFee: withdrawFeePromise,
-          isGLPPromise: isGLPPromise
+          isGLP: isGLPPromise,
+          borrowCaps: borrowCapsPromise,
+          supplyCaps: supplyCapsPromise,
         };
       });
 
@@ -185,13 +195,17 @@ export function useMarkets(
           autocompound: await tokenPromise.autocompound,
           performanceFee: await tokenPromise.performanceFee,
           withdrawFee: await tokenPromise.withdrawFee,
-          isGLP: await tokenPromise.isGLPPromise,
+          isGLP: await tokenPromise.isGLP,
+          borrowCaps: await tokenPromise.borrowCaps,
+          supplyCaps: await tokenPromise.supplyCaps,
         });
       }
 
       const liquidationIncentiveMantissa =
         await liquidationIncentiveMantissaPromise;
-      const liquidationPenalty = liquidationIncentiveMantissa / 1e18;
+      const liquidationPenalty = liquidationIncentiveMantissa
+        ? (liquidationIncentiveMantissa / 1e18) * 100 - 100
+        : 0;
 
       // getTotalBorrowedInUsd
       const totalBorrowedAmountInUsd = tokens
@@ -270,7 +284,11 @@ export function useMarkets(
         );
 
         const liquidationThreshold =
-          token.comptrollerMarkets.liquidationThresholdMantissa / 1e18;
+          (token.comptrollerMarkets.liquidationThresholdMantissa / 1e18) * 100;
+
+        const collateralFactor = parseFloat(
+            formatUnits(token.comptrollerMarkets.collateralFactorMantissa, 18)
+        );
 
         return {
           id: tp.token.symbol,
@@ -304,10 +322,13 @@ export function useMarkets(
           autocompound: token.autocompound,
           performanceFee: token.performanceFee,
           withdrawFee: token.withdrawFee,
-          // -> for now, isBorrowable is derived from isGLP this can change in future, update when it changes 
+          // -> for now, isBorrowable is derived from isGLP this can change in future, update when it changes
           isBorrowable: !token.isGLP,
           liquidationThreshold,
           liquidationPenalty,
+          borrowCaps: token.borrowCaps.toString(),
+          supplyCaps: token.supplyCaps.toString(),
+          collateralFactor,
         };
       });
 
@@ -320,7 +341,6 @@ export function useMarkets(
     supportedTokenPairs,
     comptrollerAddress,
     pollingKey,
-    currentTransaction,
     secondsPerBlock,
     getGlpApy,
   ]);

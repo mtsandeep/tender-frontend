@@ -2,8 +2,8 @@ import { formatApy } from "~/lib/apy-calculations";
 import { useState } from "react";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { checkColorClass } from "../two-panels/two-panels";
-import { toShortFiatString } from "~/lib/ui";
 import { checkZeroValue } from "../markets-page/marketsContent";
+import DisplayPrice from "../shared/DisplayPrice";
 
 function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
   let [multiTooltipData, setMultiTooltipData] = useState({
@@ -26,7 +26,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
           })
         }
       />
-      <div className="flex flex-col ml-[15px] mr-[15px] sm:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px] md:mb-[50px]">
+      <div className="flex flex-col ml-[15px] mr-[15px] sm:flex-row md:justify-between md:mr-[30px] md:ml-[30px] mb-[30px]">
         <div className="flex items-center sm:w-[30%] mb-[30px] sm:mb-0 mr-0 md:mr-[30px]">
           <img
             className="w-10 h-10 mr-[15px] md:w-[55px] md:h-[55px] md:mr-[21px]"
@@ -128,7 +128,11 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
               Total Supply
             </p>
             <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
-              {`$${toShortFiatString(marketInfo.totalSupplyUSD)} USD`}
+              <DisplayPrice
+                amount={marketInfo.totalSupplyUSD.toString()}
+                baseFactor="1"
+                isCompact
+              />
             </p>
           </div>
           {isBorrowable && (
@@ -219,7 +223,11 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                 Total Borrow
               </p>
               <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
-                {`$${toShortFiatString(marketInfo.totalBorrowUSD)} USD`}
+                <DisplayPrice
+                  amount={marketInfo.totalBorrowUSD.toString()}
+                  baseFactor="1"
+                  isCompact
+                />
               </p>
             </div>
           )}

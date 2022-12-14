@@ -102,13 +102,6 @@ export const toMaxString = (v: number, precision: number = 6): string => {
 export const toMaxNumber = (v: number, precision: number = 6): number =>
   parseFloat(formatMaxString(v, precision));
 
-// return decimal with precision 4 for values less than 1 and round to 2 decimals for number greater than 1
-export const getDisplayPriceString = (v: number) =>
-  Intl.NumberFormat("en-US", {
-    notation: "standard",
-    maximumSignificantDigits: v < 1 ? 4 : undefined,
-  }).format(v);
-
 const formatMaxString = (v: number, precision: number = 6): string =>
   math.format(v, { notation: "fixed", precision });
 
@@ -163,15 +156,15 @@ export const getDisplayPrice = (
   multiplyFactor?: string,
   multiplyFactorDecimals?: number
 ) => {
-    if (!amount || !decimals) {
-      return ''
-    }
+  if (amount === undefined) {
+    return "";
+  }
 
-    const displayPrice = BigNumber(amount).multipliedBy(
-      multiplyFactor || 1
-    ).div(BigNumber(10).pow(decimals+(multiplyFactorDecimals||0)));
+  const displayPrice = BigNumber(amount)
+    .multipliedBy(multiplyFactor ?? 1)
+    .div(BigNumber(10).pow((decimals || 0) + (multiplyFactorDecimals || 0)));
 
-    return displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed()
+  return decimals ? displayPrice.dp(decimals, BigNumber.ROUND_DOWN).toFixed() : displayPrice.toFixed();
 };
 
 export const truncatePrice = (amount: string, decimals: number = 18) => {

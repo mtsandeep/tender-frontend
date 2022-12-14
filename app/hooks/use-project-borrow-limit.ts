@@ -1,7 +1,8 @@
 import type { JsonRpcSigner } from "@ethersproject/providers";
-import { useState, useEffect } from "react";
+import {useState, useEffect, useContext} from "react";
 import { projectBorrowLimit } from "~/lib/tender";
 import type { TokenPair } from "~/types/global";
+import {TenderContext} from "~/contexts/tender-context";
 
 export function useProjectBorrowLimit(
   signer: JsonRpcSigner | undefined | null,
@@ -11,6 +12,7 @@ export function useProjectBorrowLimit(
   value: string
 ): number {
   let [newBorrowLimit, setNewBorrowLimit] = useState<number>(0);
+  let { currentTransaction } = useContext(TenderContext);
 
   useEffect(() => {
     if (!signer) {
@@ -24,7 +26,7 @@ export function useProjectBorrowLimit(
       tokenPair,
       parseFloat(value)
     ).then((v) => setNewBorrowLimit(v));
-  }, [signer, comptrollerAddress, tokenPairs, tokenPair, value]);
+  }, [signer, comptrollerAddress, tokenPairs, tokenPair, value, currentTransaction]);
 
   return newBorrowLimit;
 }

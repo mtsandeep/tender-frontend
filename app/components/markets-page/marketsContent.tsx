@@ -3,10 +3,10 @@ import { useMarketsInfo } from "~/hooks/use-markets-info";
 import { formatApy } from "~/lib/apy-calculations";
 import MarketsContentEmpty from "./MarketsContentEmpty";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
-import { toFiatString, toShortCryptoString, toShortFiatString } from "~/lib/ui";
 import { checkColorClass } from "../two-panels/two-panels";
 import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
+import DisplayPrice from "~/components/shared/DisplayPrice";
 
 export const checkZeroValue = (value: number) => {
   return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
@@ -41,12 +41,6 @@ export default function MarketsContent() {
   const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
   const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
 
-  const replaceMinusSymbol = (value: number) => {
-    return value >= 0
-      ? "$" + toShortFiatString(value)
-      : "-$" + toShortFiatString(Math.abs(value));
-  };
-
   return (
     <div>
       <TooltipMobileMulti
@@ -69,7 +63,12 @@ export default function MarketsContent() {
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
             <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
-                ${toFiatString(totalSuppliedUsd)}
+                <DisplayPrice
+                  amount={totalSuppliedUsd.toString()}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
               {totalSupplyDiff !== 0 && (
                 <div
@@ -133,11 +132,12 @@ export default function MarketsContent() {
                     : total?.supply?.volume
                 )}
               >
-                {replaceMinusSymbol(
-                  checkZeroValue(total?.supply?.volume)
-                    ? 0
-                    : total?.supply?.volume
-                )}
+                <DisplayPrice
+                  amount={total?.supply?.volume}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
               <div>
                 <span>{total?.supply?.count}</span>
@@ -155,7 +155,12 @@ export default function MarketsContent() {
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
             <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
-                ${toFiatString(totalBorrowedUsd)}
+                <DisplayPrice
+                  amount={totalBorrowedUsd.toString()}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
               {totalBorrowDiff !== 0 && (
                 <div
@@ -219,11 +224,12 @@ export default function MarketsContent() {
                     : total?.borrow?.volume
                 )}
               >
-                {replaceMinusSymbol(
-                  checkZeroValue(total?.borrow?.volume)
-                    ? 0
-                    : total?.borrow?.volume
-                )}
+                <DisplayPrice
+                  amount={total?.borrow?.volume}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
               <div>
                 <span>{total?.borrow?.count}</span>
@@ -294,10 +300,17 @@ export default function MarketsContent() {
                         rel="noreferrer"
                       >
                         <div className="custom__hidden text-sm md:text-base">
-                          {toShortCryptoString(m?.totalSupply)} {m.symbol}
+                          <DisplayPrice
+                            amount={m?.totalSupply.toString()}
+                            tokenSymbol={m.symbol}
+                          />
                         </div>
                         <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
-                          {`$${toShortFiatString(m.totalSupplyUsd)} USD`}
+                          <DisplayPrice
+                            amount={m.totalSupplyUsd.toString()}
+                            baseFactor="1"
+                            isCompact
+                          />
                         </div>
                       </a>
                     </td>
@@ -417,10 +430,17 @@ export default function MarketsContent() {
                         {isBorrowable && (
                           <>
                             <div className="custom__hidden text-sm md:text-base">
-                              {toShortCryptoString(m.totalBorrow)} {m.symbol}
+                              <DisplayPrice
+                                amount={m.totalBorrow.toString()}
+                                tokenSymbol={m.symbol}
+                              />
                             </div>
                             <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
-                              {`$${toShortFiatString(m.totalBorrowUsd)} USD`}
+                              <DisplayPrice
+                                amount={m.totalBorrowUsd.toString()}
+                                baseFactor="1"
+                                isCompact
+                              />
                             </div>
                           </>
                         )}

@@ -12,7 +12,7 @@ export default function ConfirmingTransaction({
   stopWaitingOnConfirmation,
   txnHash,
 }: Props) {
-  let { isWaitingToBeMined } = useContext(TenderContext);
+  let { isWaitingToBeMined, currentTransaction } = useContext(TenderContext);
   let { blockExplorerUrl } = useBlockchainExplorer();
 
   return (
@@ -31,7 +31,7 @@ export default function ConfirmingTransaction({
         />
       </svg>
       <div className="flex w-[120px] h-[120px] md:w-[160px] md:h-[160px] max-w-[100%] items-end justify-center mb-[20px] md:mb-[70px] svg_animation_custom">
-        {isWaitingToBeMined ? (
+        {isWaitingToBeMined || currentTransaction ? (
           <Lottie
             loop={true}
             animationData={animationData}
@@ -46,7 +46,9 @@ export default function ConfirmingTransaction({
         )}
       </div>
       <div className="text-center font-nova font-bold text-2xl md:text-[33px] leading-[120%] md:leading-[40px] mb-[30px] md:mb-[37px]">
-        {isWaitingToBeMined ? "Confirming transaction" : "Done!"}
+        {isWaitingToBeMined || currentTransaction
+          ? "Confirming transaction"
+          : "Done!"}
       </div>
       <a
         href={`${blockExplorerUrl}/tx/${txnHash}`}

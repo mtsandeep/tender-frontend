@@ -30,6 +30,10 @@ export default function DepositBorrowFlow({
   const [initialValueWithdraw, setInitialValueWithdraw] = useState<string>("");
   const [initialValueRepay, setInitialValueRepay] = useState<string>("");
   const [initialValueBorrow, setInitialValueBorrow] = useState<string>("");
+  const [txnHashDeposit, setTxnHashDeposit] = useState<string>("");
+  const [txnHashWithdraw, setTxnHashWithdraw] = useState<string>("");
+  const [txnHashRepay, setTxnHashRepay] = useState<string>("");
+  const [txnHashBorrow, setTxnHashBorrow] = useState<string>("");
 
   const { tokenPairs } = useContext(TenderContext);
   const tabs: { name: ActiveTab; color: string; show: boolean }[] = [
@@ -91,6 +95,8 @@ export default function DepositBorrowFlow({
             comptrollerAddress={market.comptrollerAddress}
             initialValue={initialValueDeposit}
             changeInitialValue={setInitialValueDeposit}
+            txnHash={txnHashDeposit}
+            changeTxnHash={setTxnHashDeposit}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}
@@ -106,6 +112,8 @@ export default function DepositBorrowFlow({
             totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueWithdraw}
             changeInitialValue={setInitialValueWithdraw}
+            txnHash={txnHashWithdraw}
+            changeTxnHash={setTxnHashWithdraw}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}
@@ -127,6 +135,8 @@ export default function DepositBorrowFlow({
             totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueRepay}
             changeInitialValue={setInitialValueRepay}
+            txnHash={txnHashRepay}
+            changeTxnHash={setTxnHashRepay}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}
@@ -143,6 +153,8 @@ export default function DepositBorrowFlow({
             totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueBorrow}
             changeInitialValue={setInitialValueBorrow}
+            txnHash={txnHashBorrow}
+            changeTxnHash={setTxnHashBorrow}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}

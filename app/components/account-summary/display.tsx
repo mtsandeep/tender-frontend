@@ -1,4 +1,4 @@
-import { toFiatString } from "~/lib/ui";
+import DisplayPrice from "~/components/shared/DisplayPrice";
 import Ring from "./ring";
 interface props {
   totalSuppliedUsd: number;
@@ -56,7 +56,12 @@ export default function Display({
                 Total Supply
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalSuppliedUsd)}
+                <DisplayPrice
+                  amount={totalSuppliedUsd.toString()}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
             </div>
             <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center mb-[36px] md:mb-[0px]">
@@ -64,7 +69,12 @@ export default function Display({
                 Your Supply
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(supplyBalanceInUsd)}
+                <DisplayPrice
+                  amount={supplyBalanceInUsd.toString()}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
             </div>
           </div>
@@ -79,7 +89,12 @@ export default function Display({
                 Total Borrow
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(totalBorrowedUsd)}
+                <DisplayPrice
+                  amount={totalBorrowedUsd.toString()}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
             </div>
             <div className="w-full mt-[0px] md:mt-[23px] text-right flex flex-col justify-center items-center">
@@ -87,7 +102,12 @@ export default function Display({
                 Your Borrow
               </div>
               <div className="text-2xl font-space md:text-[26px] font-normal">
-                ${toFiatString(borrowBalanceInUsd)}
+                <DisplayPrice
+                  amount={borrowBalanceInUsd.toString()}
+                  baseFactor="1"
+                  isCompact
+                  hideBaseCurrencyCode
+                />
               </div>
             </div>
           </div>
@@ -129,7 +149,14 @@ export default function Display({
                     <span className="text-[#818987]">
                       Liquidation Threshold
                     </span>
-                    <span>${toFiatString(borrowLimit)}</span>
+                    <span>
+                      <DisplayPrice
+                        amount={borrowLimit.toString()}
+                        baseFactor="1"
+                        isCompact
+                        hideBaseCurrencyCode
+                      />
+                    </span>
                   </div>
                 </div>
               </div>
@@ -140,7 +167,12 @@ export default function Display({
         <div className="flex justify-between items-center">
           <div className="mr-2 font-nova text-sm text-white">0%</div>
           <div className="font-nova text-sm text-white">
-            ${toFiatString(borrowLimit)}
+            <DisplayPrice
+              amount={borrowLimit.toString()}
+              baseFactor="1"
+              isCompact
+              hideBaseCurrencyCode
+            />
           </div>
         </div>
       </div>

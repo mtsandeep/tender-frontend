@@ -35,6 +35,8 @@ export interface DepositProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -51,6 +53,8 @@ export default function Deposit({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  txnHash,
+  changeTxnHash,
   tabs,
 }: DepositProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -60,13 +64,16 @@ export default function Deposit({
   );
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
   const [isDepositing, setIsDepositing] = useState<boolean>(false);
-  const [txnHash, setTxnHash] = useState<string>("");
   const inputTextClass = shrinkInputClass(initialValue.length);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
-  const { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
-    useContext(TenderContext);
+  const {
+    currentTransaction,
+    tokenPairs,
+    updateTransaction,
+    setIsWaitingToBeMined,
+  } = useContext(TenderContext);
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
@@ -146,7 +153,7 @@ export default function Deposit({
 
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
@@ -195,9 +202,9 @@ export default function Deposit({
                   value={initialValue}
                   onChange={(e) => handleCheckValue(e)}
                   style={{ height: 70, minHeight: 70 }}
-                  className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
-                    initialValue ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                  }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                    !initialValue && "pl-[80px]"
+                  } ${inputTextClass}`}
                   placeholder="0"
                 />
                 <MaxV2
@@ -348,15 +355,16 @@ export default function Deposit({
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      setTxnHash(txn.hash);
+                      changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
+                      updateTransaction(tr.blockHash);
+                      changeInitialValue("");
+                      changeTxnHash("");
                       displayTransactionResult(
                         tr.transactionHash,
                         "Deposit successful"
                       );
-                      changeInitialValue("");
-                      updateTransaction(tr.blockHash);
                     } catch (e: any) {
                       toast.dismiss();
                       if (e.transaction?.hash) {

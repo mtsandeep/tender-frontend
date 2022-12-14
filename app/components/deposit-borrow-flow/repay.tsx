@@ -39,6 +39,8 @@ export interface RepayProps {
   changeInitialValue: (value: string) => void;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
 
@@ -55,6 +57,8 @@ export default function Repay({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  txnHash,
+  changeTxnHash,
   tabs,
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -65,7 +69,6 @@ export default function Repay({
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
 
   const [isRepaying, setIsRepaying] = useState<boolean>(false);
-  const [txnHash, setTxnHash] = useState<string>("");
 
   const maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
 
@@ -94,7 +97,7 @@ export default function Repay({
     true
   );
 
-  const { updateTransaction, setIsWaitingToBeMined } =
+  const { currentTransaction, updateTransaction, setIsWaitingToBeMined, networkData } =
     useContext(TenderContext);
 
   useEffect(() => {
@@ -156,7 +159,7 @@ export default function Repay({
 
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
@@ -205,9 +208,9 @@ export default function Repay({
                   value={initialValue}
                   onChange={(e) => handleCheckValue(e)}
                   style={{ height: 70, minHeight: 70 }}
-                  className={`input__center__custom z-20 max-w-[240px] md:max-w-[300px] ${
-                    initialValue ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                  }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                  className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                    !initialValue && "pl-[80px]"
+                  } ${inputTextClass}`}
                   placeholder="0"
                 />
                 <Max
@@ -302,7 +305,7 @@ export default function Repay({
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowBalance={market.totalBorrowedAmountInUsd}
+              borrowBalance={borrowLimit}
               newBorrowBalance={newTotalBorrowedAmountInUsd}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
@@ -360,13 +363,15 @@ export default function Repay({
                         signer,
                         market.tokenPair.cToken,
                         market.tokenPair.token,
+                        networkData.Contracts.Maximillion,
                         isMax
                       );
-                      setTxnHash(txn.hash);
+                      changeTxnHash(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
-                      changeInitialValue("");
                       updateTransaction(tr.blockHash);
+                      changeInitialValue("");
+                      changeTxnHash("");
                       toast.success("Repayment successful");
                     } catch (e) {
                       displayErrorMessage(e, "Repayment unsuccessful");

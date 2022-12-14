@@ -1,25 +1,43 @@
-import {useCallback} from "react";
-import {metaMask} from "~/connectors/meta-mask";
+import { useEffect } from "react";
+import { metaMask } from "~/connectors/meta-mask";
 
-const DISCONNECTED_LOCAL_STORAGE_KEY = 'tenderWalletDisconnected';
+const DISCONNECTED_LOCAL_STORAGE_KEY = "tenderWalletDisconnected";
+
+const connect = () => {
+  metaMask.activate().then(() => {
+    window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, "0");
+  });
+};
+
+const disconnect = () => {
+  metaMask.deactivate();
+  window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, "1");
+};
+
+const isDisconnected = () => {
+  return window.localStorage.getItem(DISCONNECTED_LOCAL_STORAGE_KEY) === "1";
+};
 
 const useAuth = () => {
-    const connect = useCallback(() => {
-        metaMask.activate().then(() => {
-            window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, '0');
-        });
-    }, []);
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === DISCONNECTED_LOCAL_STORAGE_KEY) {
+        if (event.newValue === "0") {
+          connect();
+        } else {
+          disconnect();
+        }
+      }
+    };
 
-    const disconnect = useCallback(() => {
-        metaMask.deactivate();
-        window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, '1');
-    }, []);
+    window.addEventListener("storage", handleStorageChange);
 
-    const isDisconnected = useCallback(() => {
-        return window.localStorage.getItem(DISCONNECTED_LOCAL_STORAGE_KEY) === '1';
-    }, []);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
-    return {connect, disconnect, isDisconnected};
+  return { connect, disconnect, isDisconnected };
 };
 
 export default useAuth;

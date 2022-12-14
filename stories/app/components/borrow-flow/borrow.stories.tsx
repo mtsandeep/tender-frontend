@@ -84,8 +84,10 @@ Primary.args = {
   totalBorrowedAmountInUsd: market.borrowBalanceInUsd,
   initialValue: "",
   activeTab: "borrow",
+  txnHash: "",
   setActiveTab: () => {},
   changeInitialValue: () => {},
+  changeTxnHash: () => {},
   tabs: [],
 } as BorrowProps;
 
@@ -121,7 +123,9 @@ SmallNumbers.args = {
   market: smallMarket,
   initialValue: "",
   activeTab: "borrow",
+  txnHash: "",
   setActiveTab: () => {},
   changeInitialValue: () => {},
+  changeTxnHash: () => {},
   tabs: [],
 } as BorrowProps;

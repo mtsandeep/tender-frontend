@@ -14,11 +14,11 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkInputClass } from "~/lib/ui";
-import { useSafeMaxWithdrawAmountForToken } from "~/hooks/use-safe-max-withdraw-amount-for-token";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
 import GlpCooldownTimer from "./GlpCooldownTimer";
+import { MAX_WITHDRAW_LIMIT_PERCENTAGE } from "~/lib/constants";
 
 export interface WithdrawProps {
   market: Market;
@@ -30,9 +30,45 @@ export interface WithdrawProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  txnHash: string;
+  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
+
+const getSafeMaxWithdrawAmountForToken = (
+    tokenPriceInUsd: number,
+    totalBorrowedAmountInUsd: number,
+    currentBorrowLimitInUsd: number,
+    collateralFactor: number,
+    borrowLimitUsed: number,
+) => {
+  /**
+   * //getBorrowLimitUsed
+   * (borrowedAmount / borrowedLimit) * 100
+   *
+   * //projectBorrowLimit
+   * borrowLimitChangeInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
+   * borrowedLimit = currentBorrowLimitInUsd + borrowLimitChangeInUsd
+   *
+   * //result
+   * borrowLimitUsed = (borrowedAmount / (currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor))) * 100
+   * borrowLimitUsed / 100 = borrowedAmount / (currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor))
+   * borrowedAmount / (borrowLimitUsed / 100) = currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor)
+   * (borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
+   * (((borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd)) / (tp.token.priceInUsd * collateralFactor) = tokenAmount
+   * */
+  const amount: number = Math.abs(
+      (totalBorrowedAmountInUsd / (borrowLimitUsed / 100) -
+          currentBorrowLimitInUsd) /
+      (tokenPriceInUsd * collateralFactor)
+  );
+
+  console.log("safeMaxWithdrawAmount", amount);
+
+  return amount;
+};
+
 export default function Withdraw({
   market,
   closeModal,
@@ -44,17 +80,22 @@ export default function Withdraw({
   changeInitialValue,
   activeTab,
   setActiveTab,
+  txnHash,
+  changeTxnHash,
   tabs,
 }: WithdrawProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const [isGlpCoolingdown, setIsGlpCoolingdown] = useState(false);
-  const [txnHash, setTxnHash] = useState<string>("");
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
-  const { tokenPairs, updateTransaction, setIsWaitingToBeMined } =
-    useContext(TenderContext);
+  const {
+    currentTransaction,
+    tokenPairs,
+    updateTransaction,
+    setIsWaitingToBeMined,
+  } = useContext(TenderContext);
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
@@ -69,17 +110,30 @@ export default function Withdraw({
     newBorrowLimit
   );
 
-  const safeMaxWithdrawAmount = useSafeMaxWithdrawAmountForToken(
-    signer,
-    market.comptrollerAddress,
-    tokenPairs,
-    market.tokenPair,
-    totalBorrowedAmountInUsd,
-    100
+  const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
+      market.tokenPair.token.priceInUsd,
+      totalBorrowedAmountInUsd,
+      borrowLimit,
+      market.collateralFactor,
+      100
   );
 
   const maxWithdrawAmount: number = Math.min(
-    safeMaxWithdrawAmount,
+    rawMaxWithdrawAmount,
+    market.supplyBalance, // how much we're supplying
+    market.maxBorrowLiquidity // how much cash the contract has
+  );
+
+  const rawSafeMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
+      market.tokenPair.token.priceInUsd,
+      totalBorrowedAmountInUsd,
+      borrowLimit,
+      market.collateralFactor,
+      MAX_WITHDRAW_LIMIT_PERCENTAGE
+  );
+
+  const safeMaxWithdrawAmount: number = Math.min(
+    rawSafeMaxWithdrawAmount,
     market.supplyBalance, // how much we're supplying
     market.maxBorrowLiquidity // how much cash the contract has
   );
@@ -146,7 +200,7 @@ export default function Withdraw({
 
   return (
     <div>
-      {txnHash !== "" ? (
+      {txnHash !== "" || currentTransaction ? (
         <ConfirmingTransaction
           txnHash={txnHash}
           stopWaitingOnConfirmation={() => closeModal()}
@@ -181,9 +235,9 @@ export default function Withdraw({
                 value={initialValue}
                 onChange={(e) => handleCheckValue(e)}
                 style={{ height: 70, minHeight: 70 }}
-                className={`input__center__custom z-20 max-w-[300px] ${
-                  initialValue ? "w-full" : "w-[calc(100%-40px)] pl-[40px]"
-                }  bg-transparent text-white text-center outline-none ${inputTextClass}`}
+                className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                  !initialValue && "pl-[80px]"
+                } ${inputTextClass}`}
                 placeholder="0"
               />
               {parseFloat(borrowLimitUsed) < 100 && (
@@ -191,9 +245,12 @@ export default function Withdraw({
                   maxValue={maxWithdrawAmount}
                   updateValue={() => {
                     inputEl?.current && inputEl.current.focus();
-                    changeInitialValue(toExactString(maxWithdrawAmount));
+                    changeInitialValue(toExactString(safeMaxWithdrawAmount));
                   }}
                   maxValueLabel={market.tokenPair.token.symbol}
+                  label={`${MAX_WITHDRAW_LIMIT_PERCENTAGE}% Max`}
+                  borrowLimitUsed={parseFloat(borrowLimitUsed)}
+                  maxPercentage={MAX_WITHDRAW_LIMIT_PERCENTAGE}
                   color="#14F195"
                 />
               )}
@@ -312,7 +369,9 @@ export default function Withdraw({
                             costs are increasing, please check back in a few
                             hours as borrowers will be repaying their loans, or
                             withdraw up to the current available amount{" "}
-                            {toExactString(maxWithdrawAmount)}{" "}
+                            {maxWithdrawAmount > 0
+                              ? toExactString(maxWithdrawAmount)
+                              : 0}{" "}
                             {market.tokenPair.token.symbol}.
                           </div>
                         </div>
@@ -370,11 +429,12 @@ export default function Withdraw({
                             market.tokenPair.token,
                             isMax
                           );
-                          setTxnHash(txn.hash);
+                          changeTxnHash(txn.hash);
                           setIsWaitingToBeMined(true);
-                          const tr = await txn.wait(); // TODO: error handle if transaction fails
-                          changeInitialValue("");
+                          const tr = await txn.wait(2); // TODO: error handle if transaction fails
                           updateTransaction(tr.blockHash);
+                          changeInitialValue("");
+                          changeTxnHash("");
                           toast.success("Withdraw successful");
                         } catch (e) {
                           toast.error("Withdraw unsuccessful");
