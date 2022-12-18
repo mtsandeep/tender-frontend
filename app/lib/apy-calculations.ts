@@ -1,4 +1,4 @@
-import { BigNumber} from "ethers";
+import { BigNumber } from "ethers";
 import { ethers } from "ethers";
 import sampleCTokenAbi from "~/config/sample-ctoken-abi";
 import type { Token, cToken } from "~/types/global";
@@ -150,10 +150,46 @@ function getGlpAprPerBlock(
   return aprPerBlock;
 }
 
+function getGmxAprPerBlock(
+  feeGmxSupply: BigNumber,
+  gmxPrice: BigNumber,
+  tokensPerInterval: BigNumber,
+  nativeTokenPrice: BigNumber,
+  performanceFee: BigNumber,
+  ETHEREUM_SECONDS_PER_BLOCK: number
+): BigNumber {
+  const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+  const BLOCKS_PER_YEAR = Math.round(
+    SECONDS_PER_YEAR / ETHEREUM_SECONDS_PER_BLOCK
+  );
+  const BASIS_POINTS_DIVISOR = BigNumber.from(10).pow(18);
+
+  const feeGmxTrackerAnnualRewardsUsd = tokensPerInterval
+    .mul(SECONDS_PER_YEAR)
+    .mul(nativeTokenPrice)
+    .div(BigNumber.from(10).pow(18));
+  const feeGmxSupplyUsd = feeGmxSupply
+    .mul(gmxPrice.mul(BigNumber.from(10).pow(12))) // gmxPrice is having additional 12 decimals in gmx
+    .div(BigNumber.from(10).pow(18));
+  const gmxAprForNativeToken =
+    feeGmxSupplyUsd && feeGmxSupplyUsd.gt(0)
+      ? feeGmxTrackerAnnualRewardsUsd
+          .mul(BASIS_POINTS_DIVISOR)
+          .div(feeGmxSupplyUsd)
+      : BigNumber.from(0);
+  const performanceFeeFactor = BigNumber.from(10000).sub(performanceFee);
+  const aprPerBlock = gmxAprForNativeToken
+    .mul(performanceFeeFactor)
+    .div(10000)
+    .div(BLOCKS_PER_YEAR);
+  return aprPerBlock;
+}
+
 export {
   formattedDepositApy,
   formattedBorrowApy,
   calculateApy,
   formatApy,
-  getGlpAprPerBlock
+  getGlpAprPerBlock,
+  getGmxAprPerBlock,
 };

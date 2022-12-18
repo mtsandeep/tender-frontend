@@ -5,6 +5,7 @@ import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
 import { useInterval } from "./use-interval";
+import { useGmxApy } from "./use-gmx-apy";
 
 const getPercentageChange = function (
   currentValue: number,
@@ -40,6 +41,7 @@ export function useMarketsInfo() {
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
   const getGlpApy = useGlpApy();
+  const getGmxApy = useGmxApy();
 
   useEffect(() => {
     console.log("useMarketsInfo called");
@@ -183,7 +185,13 @@ export function useMarketsInfo() {
       const usdPricesByCToken = {};
       const usdPricesByToken = {};
       const glpTokenPair = tokenPairs.find((tp) => tp.token.symbol === "GLP");
+      const gmxTokenPair = tokenPairs.find((tp) => tp.token.symbol === "GMX");
       const glpApy = await getGlpApy(signer, glpTokenPair!);
+      const gmxApy = await getGmxApy(
+        signer,
+        gmxTokenPair!,
+        networkData.Contracts.PriceOracle
+      );
 
       response.markets.forEach(
         async (m: {
@@ -208,6 +216,10 @@ export function useMarketsInfo() {
           const supplyRate = m.supplyRate / ethBlocksPerYear;
           if (tokenPair?.token?.symbol === "GLP") {
             markets[id].supplyApy = glpApy;
+          } else if (tokenPair?.token?.symbol === "GMX") {
+            const tokenSupplyApy =
+              (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+            markets[id].supplyApy = gmxApy + tokenSupplyApy;
           } else {
             markets[id].supplyApy =
               (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
@@ -378,7 +390,7 @@ export function useMarketsInfo() {
     };
 
     getMarketsInfo();
-  }, [getGlpApy, networkData, signer, tokenPairs, pollingKey]);
+  }, [getGlpApy, networkData, signer, tokenPairs, pollingKey, getGmxApy]);
 
   return marketsInfo;
 }

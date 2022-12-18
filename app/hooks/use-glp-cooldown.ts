@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import type { JsonRpcSigner } from "@ethersproject/providers";
-import GlpManager from "~/config/abi/glp/GlpManager.json";
+import GlpManager from "~/config/abi/gmx/GlpManager.json";
 import { providers as mcProviders } from "@0xsequence/multicall";
 import { useInterval } from "./use-interval";
 

@@ -29,6 +29,7 @@ export function useTenderContext() {
     signer,
     tokenPairs,
     networkData?.Contracts?.Comptroller,
+    networkData?.Contracts?.PriceOracle,
     networkData?.secondsPerBlock
   );
 

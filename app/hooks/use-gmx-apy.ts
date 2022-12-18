@@ -2,31 +2,21 @@ import { useCallback } from "react";
 import { providers as mcProviders } from "@0xsequence/multicall";
 import { ethers } from "ethers";
 import type { JsonRpcSigner } from "@ethersproject/providers";
-import { calculateApy, getGlpAprPerBlock } from "~/lib/apy-calculations";
-import GlpManager from "~/config/abi/gmx/GlpManager.json";
+import { calculateApy, getGmxAprPerBlock } from "~/lib/apy-calculations";
 import RewardTracker from "~/config/abi/gmx/RewardTracker.json";
 import Vault from "~/config/abi/gmx/Vault.json";
-import sampleErc20Abi from "~/config/sample-erc20-abi";
 import sampleCtokenAbi from "~/config/sample-ctoken-abi";
 import type { TokenPair } from "~/types/global";
+import samplePriceOracleAbi from "~/config/sample-price-oracle-abi";
 
-export function useGlpApy() {
-  return useCallback(async (signer: JsonRpcSigner, tokenPair: TokenPair) => {
+
+export function useGmxApy() {
+  return useCallback(async (signer: JsonRpcSigner, tokenPair: TokenPair, priceOracleAddress:string) => {
     const mcProvider = new mcProviders.MulticallProvider(signer.provider);
 
     const cTokenContract = new ethers.Contract(
       tokenPair.cToken.address,
       sampleCtokenAbi,
-      mcProvider
-    );
-    const tokenContract = new ethers.Contract(
-      tokenPair.token.glpAddress!,
-      sampleErc20Abi,
-      mcProvider
-    );
-    const glpManagerContract = new ethers.Contract(
-      tokenPair.token.glpManager!,
-      GlpManager.abi,
       mcProvider
     );
     const rewardTrackerContract = new ethers.Contract(
@@ -39,30 +29,38 @@ export function useGlpApy() {
       Vault.abi,
       mcProvider
     );
-    const aumsPromise = glpManagerContract.getAums();
+    const priceOracleContract = new ethers.Contract(
+      priceOracleAddress,
+      samplePriceOracleAbi,
+      mcProvider
+    );
+
+    const gmxPricePromise = priceOracleContract.getUnderlyingPrice(tokenPair.cToken.address)
+
     const tokensPerIntervalPromise = rewardTrackerContract.tokensPerInterval();
+    const feeGmxSupplyPromise = rewardTrackerContract.totalSupply();
     const nativeTokenPricePromise = vaultContract.getMinPrice(
       tokenPair.token.nativeToken
     );
-    const glpSupplyPromise = tokenContract.totalSupply();
+    
     const performanceFeePromise = cTokenContract.performanceFee();
 
-    const aums = await aumsPromise;
+    const feeGmxSupply = await feeGmxSupplyPromise
     const tokensPerInterval = await tokensPerIntervalPromise;
     const nativeTokenPrice = await nativeTokenPricePromise;
-    const glpSupply = await glpSupplyPromise;
+    const gmxPrice = await gmxPricePromise;
 
     const performanceFee = await performanceFeePromise;
     const ETHEREUM_SECONDS_PER_BLOCK = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
-    const aprPerBlock = getGlpAprPerBlock(
-      aums,
-      glpSupply,
+
+    const aprPerBlock = getGmxAprPerBlock(
+      feeGmxSupply,
+      gmxPrice,
       tokensPerInterval,
       nativeTokenPrice,
       performanceFee,
       ETHEREUM_SECONDS_PER_BLOCK
     );
-
     return calculateApy(aprPerBlock, ETHEREUM_SECONDS_PER_BLOCK);
   }, []);
 }

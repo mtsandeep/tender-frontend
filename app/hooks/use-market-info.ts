@@ -4,10 +4,15 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
-import { calculateApy, getGlpAprPerBlock } from "~/lib/apy-calculations";
+import {
+  calculateApy,
+  getGlpAprPerBlock,
+  getGmxAprPerBlock,
+} from "~/lib/apy-calculations";
 import { BigNumber } from "ethers";
 import { parseUnits } from "ethers/lib/utils";
-import {useInterval} from "~/hooks/use-interval";
+import { useInterval } from "~/hooks/use-interval";
+import { useGmxApy } from "./use-gmx-apy";
 
 const getLatestBlock = async function (graphUrl: string) {
   const response = await request(
@@ -55,6 +60,7 @@ const getStatsQuery = function (
                 totalSupply
                 aum0
                 aum1
+                feeGmxSupply
                 tokensPerInterval
                 nativeTokenPrice
                 performanceFee
@@ -74,13 +80,15 @@ export function useMarketInfo(tokenId: string | undefined) {
     historicalData: false,
   });
   const pollingKey = useInterval(7_000);
-  const { networkData, tokenPairs, currentTransaction } = useContext(TenderContext);
+  const { networkData, tokenPairs, currentTransaction } =
+    useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
   const tokenPair = tokenPairs.find(
     (tp) => tp.token.symbol === String(tokenId)
   );
   const getGlpApy = useGlpApy();
+  const getGmxApy = useGmxApy();
 
   useEffect(() => {
     console.log("useMarketInfo called");
@@ -183,6 +191,15 @@ export function useMarketInfo(tokenId: string | undefined) {
       if (tokenPair.token.symbol === "GLP") {
         const glpApy = await getGlpApy(signer, tokenPair);
         market.supplyApy = glpApy;
+      } else if (tokenPair.token.symbol === "GMX") {
+        const gmxApy = await getGmxApy(
+          signer,
+          tokenPair,
+          networkData.Contracts.PriceOracle
+        );
+        const tokenSupplyApy =
+          (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
+        market.supplyApy = gmxApy + tokenSupplyApy;
       } else {
         market.supplyApy =
           (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
@@ -257,6 +274,42 @@ export function useMarketInfo(tokenId: string | undefined) {
               },
             ];
           }
+
+          if (
+            tokenPair.token.symbol === "GMX" &&
+            response[`b${key}`].length > 0
+          ) {
+            const ETHEREUM_SECONDS_PER_BLOCK = 12.05; // ethereum blocktime as blocktime is calulated in L1 blocktime
+            const {
+              feeGmxSupply,
+              tokensPerInterval,
+              nativeTokenPrice,
+              totalSupply,
+              performanceFee,
+              supplyRate,
+              ...rest
+            } = response[`b${key}`][0];
+
+            const gmxAprPerBlock = getGmxAprPerBlock(
+              BigNumber.from(feeGmxSupply),
+              parseUnits(rest.underlyingPriceUSD, 18),
+              BigNumber.from(tokensPerInterval),
+              BigNumber.from(nativeTokenPrice),
+              BigNumber.from(performanceFee),
+              ETHEREUM_SECONDS_PER_BLOCK
+            );
+
+            // @ts-ignore
+            historicalData[key] = [
+              {
+                ...rest,
+                supplyRate: calculateApy(
+                  gmxAprPerBlock,
+                  ETHEREUM_SECONDS_PER_BLOCK
+                ),
+              },
+            ];
+          }
         });
 
       setMarketInfo({
@@ -266,7 +319,17 @@ export function useMarketInfo(tokenId: string | undefined) {
     };
 
     getMarketInfo();
-  }, [networkData, tokenId, signer, tokenPairs, tokenPair, getGlpApy, currentTransaction, pollingKey]);
+  }, [
+    networkData,
+    tokenId,
+    signer,
+    tokenPairs,
+    tokenPair,
+    getGlpApy,
+    currentTransaction,
+    pollingKey,
+    getGmxApy,
+  ]);
 
   return marketInfo;
 }
