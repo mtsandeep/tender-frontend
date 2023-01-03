@@ -16,12 +16,14 @@ import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import { providers as mcProviders } from "@0xsequence/multicall";
 import { formatUnits } from "ethers/lib/utils";
 import { useGlpApy } from "./use-glp-apy";
+import { useGmxApy } from "./use-gmx-apy";
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
   signer: JsonRpcSigner | null | undefined,
   supportedTokenPairs: TokenPair[],
   comptrollerAddress: string | undefined,
+  priceOracleAddress: string | undefined,
   secondsPerBlock: number | undefined
 ) {
   let [markets, setMarkets] = useState<Market[]>([]);
@@ -29,9 +31,15 @@ export function useMarkets(
   let pollingKey = useInterval(7_000);
 
   const getGlpApy = useGlpApy();
+  const getGmxApy = useGmxApy();
 
   useEffect(() => {
-    if (!signer || !comptrollerAddress || !secondsPerBlock) {
+    if (
+      !signer ||
+      !comptrollerAddress ||
+      !priceOracleAddress ||
+      !secondsPerBlock
+    ) {
       return;
     }
 
@@ -137,7 +145,7 @@ export function useMarkets(
         let performanceFeePromise;
         let withdrawFeePromise;
 
-        if (tp.token.symbol === "GLP") {
+        if (tp.token.cToken.isVault) {
           performanceFeePromise = cTokenContract.performanceFee();
           withdrawFeePromise = cTokenContract.withdrawFee();
         } else {
@@ -262,6 +270,14 @@ export function useMarkets(
         if (tp.token.symbol === "GLP") {
           const glpApy = await getGlpApy(signer, tp);
           depositApy = formatApy(glpApy);
+        } else if (tp.token.symbol === "GMX") {
+          const gmxApy = await getGmxApy(signer, tp, priceOracleAddress);
+
+          const tokenSupplyApy = calculateApy(
+            token.supplyRatePerBlock,
+            secondsPerBlock
+          );
+          depositApy = formatApy(gmxApy + tokenSupplyApy);
         } else {
           // marketData
           depositApy = formatApy(
@@ -287,7 +303,7 @@ export function useMarkets(
           (token.comptrollerMarkets.liquidationThresholdMantissa / 1e18) * 100;
 
         const collateralFactor = parseFloat(
-            formatUnits(token.comptrollerMarkets.collateralFactorMantissa, 18)
+          formatUnits(token.comptrollerMarkets.collateralFactorMantissa, 18)
         );
 
         return {
@@ -343,6 +359,8 @@ export function useMarkets(
     pollingKey,
     secondsPerBlock,
     getGlpApy,
+    priceOracleAddress,
+    getGmxApy,
   ]);
 
   return markets;

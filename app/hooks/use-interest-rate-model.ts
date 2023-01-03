@@ -7,18 +7,21 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { calculateApy } from "~/lib/apy-calculations";
 import { providers as mcProviders } from "@0xsequence/multicall";
-import {toExactString} from "~/lib/ui";
+import { toExactString } from "~/lib/ui";
+import { useGmxApy } from "./use-gmx-apy";
+import { TokenPair } from "~/types/global";
 
 export default function useInterestRateModel(tokenId: string | undefined) {
   const [interestRateModel, setInterestRateModel] = useState<object[]>([]);
-  const { networkData } = useContext(TenderContext);
+  const { networkData, tokenPairs } = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+  const getGmxApy = useGmxApy();
 
   useEffect(() => {
     console.log("useInterestRateModel called");
 
-    if (!networkData || !signer|| !provider) {
+    if (!networkData || !signer || !provider) {
       return;
     }
 
@@ -85,15 +88,29 @@ export default function useInterestRateModel(tokenId: string | undefined) {
         ]);
 
       const currentBorrowApy = calculateApy(currentBorrowRate, secondsPerBlock);
+      let additionalApy = 0;
+      if (token && token?.symbol === "GMX") {
+        const { cToken, ...rest } = token;
+        const gmxTokenPair = { cToken, token: rest } as TokenPair;
+        additionalApy =
+          gmxTokenPair &&
+          (await getGmxApy(
+            signer,
+            gmxTokenPair,
+            networkData.Contracts.PriceOracle
+          ));
+      }
       const currentSupplyApy = calculateApy(currentSupplyRate, secondsPerBlock);
       const BASE = 1e18;
       const kinkMantissa = 1e16;
       const kinkPercentage = (kink / kinkMantissa).toFixed(2);
-      const utilPercentage = parseFloat((currentUtil / kinkMantissa).toFixed(2)).toString();
+      const utilPercentage = parseFloat(
+        (currentUtil / kinkMantissa).toFixed(2)
+      ).toString();
 
       const currentValue = {
         aa: utilPercentage,
-        ss: currentSupplyApy.toFixed(2),
+        ss: (additionalApy + currentSupplyApy).toFixed(2),
         dd: currentBorrowApy.toFixed(2),
         isCurrent: true,
         isOptimal: kinkPercentage === utilPercentage,
@@ -142,7 +159,9 @@ export default function useInterestRateModel(tokenId: string | undefined) {
 
           return {
             aa: i.toString(),
-            ss: calculateApy(supplyRate, secondsPerBlock).toFixed(2),
+            ss: (
+              additionalApy + calculateApy(supplyRate, secondsPerBlock)
+            ).toFixed(2),
             dd: calculateApy(borrowRate, secondsPerBlock).toFixed(2),
             isCurrent: false,
             isOptimal: kinkPercentage === i.toFixed(2),

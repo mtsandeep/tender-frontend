@@ -64,7 +64,7 @@ function TokenChart({
       const data = historicalData[i][0];
       const supplyRate = data.supplyRate / ethBlocksPerYear;
       const supplyApy =
-        marketInfo?.tokenSymbol === "GLP"
+        marketInfo?.tokenSymbol === "GLP" || marketInfo?.tokenSymbol === "GMX"
           ? data.supplyRate
           : (Math.pow(supplyRate * blocksPerDay + 1, daysPerYear) - 1) * 100;
       const totalSupply =

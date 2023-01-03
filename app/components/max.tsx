@@ -21,7 +21,7 @@ export default function Max(props: MaxProps) {
       </div>
 
       <div
-        className={`text-[${props.color}] custom_max_text font-nova font-bold text-xs sm:text-base mb-4`}
+        className={`text-[${props.color}] custom_max_text font-nova font-bold text-xs sm:text-base mb-1`}
       >
         {maxValue + " " + props.maxValueLabel}
       </div>
