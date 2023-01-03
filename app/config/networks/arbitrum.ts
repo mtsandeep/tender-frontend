@@ -151,7 +151,7 @@ export default {
         isVault: true,
       },
     },
-    GMX: {
+    /*GMX: {
       name: "GMX",
       symbol: "GMX",
       decimals: 18,
@@ -167,6 +167,6 @@ export default {
         address: "0x20a6768F6AABF66B787985EC6CE0EBEa6D7Ad497",
         isVault: true,
       },
-    },
+    },*/
   },
 };
