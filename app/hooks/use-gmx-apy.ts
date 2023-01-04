@@ -14,6 +14,10 @@ export function useGmxApy() {
   return useCallback(async (signer: JsonRpcSigner, tokenPair: TokenPair, priceOracleAddress:string) => {
     const mcProvider = new mcProviders.MulticallProvider(signer.provider);
 
+    if (!tokenPair) {
+      return 0;
+    }
+
     const cTokenContract = new ethers.Contract(
       tokenPair.cToken.address,
       sampleCtokenAbi,
