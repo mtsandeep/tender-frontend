@@ -32,7 +32,7 @@ export default function Footer() {
     },
     {
       label: "Discord",
-      url: "https://discord.com/invite/Tender-Fi",
+      url: "https://discord.com/invite/TenderFi",
       ico: "/images/ico/discord.svg",
     },
   ];
