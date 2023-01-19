@@ -7,8 +7,6 @@ import { TenderContext } from "~/contexts/tender-context";
 import {useAccountSummary} from "~/hooks/use-account-summary";
 
 export default function AccountSummary() {
-  const tenderContextData = useContext(TenderContext);
-
   const {
     supplyBalanceInUsd,
     borrowBalanceInUsd,

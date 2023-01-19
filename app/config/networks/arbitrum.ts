@@ -138,6 +138,9 @@ export default {
       vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
       nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
       icon: "/images/coin-icons/gmx.svg",
+      // min transaction amount
+      // GMX fails for small amounts
+      floor: "500",
       cToken: {
         name: "tGMX",
         symbol: "tGMX",

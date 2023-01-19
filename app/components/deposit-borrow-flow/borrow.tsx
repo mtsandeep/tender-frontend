@@ -6,12 +6,12 @@ import type {
   TransactionReceipt,
 } from "@ethersproject/providers";
 
-import { toMaxString } from "~/lib/ui";
+import { getAmount, toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
 import { borrow } from "~/lib/tender";
-import { useValidInput } from "~/hooks/use-valid-input";
+import { useValidInputV2 } from "~/hooks/use-valid-input";
 import BorrowBalance from "../fi-modal/borrow-balance";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 
@@ -25,6 +25,7 @@ import { formatApy } from "~/lib/apy-calculations";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
 import { MAX_BORROW_LIMIT_PERCENTAGE } from "~/lib/constants";
+import { displayErrorMessage } from "./displayErrorMessage";
 
 export interface BorrowProps {
   market: Market;
@@ -65,8 +66,9 @@ export default function Borrow({
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
 
-  const { currentTransaction, updateTransaction, setIsWaitingToBeMined } =
-    useContext(TenderContext);
+  const {
+    networkData, currentTransaction, updateTransaction, setIsWaitingToBeMined
+  } = useContext(TenderContext);
 
   const newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
     market.tokenPair,
@@ -96,13 +98,13 @@ export default function Borrow({
     market.maxBorrowLiquidity,
     MAX_BORROW_LIMIT_PERCENTAGE
   );
-
-  const [isValid, validationDetail] = useValidInput(
-    initialValue,
-    0,
-    maxBorrowLimit,
-    parseFloat(newBorrowLimitUsed),
-    tokenDecimals
+  
+  const [isValid, validationDetail] = useValidInputV2(
+    getAmount(initialValue, market.tokenPair.token.decimals),
+    market.tokenPair.token.floor ?? "0",
+    getAmount(maxBorrowLimit, market.tokenPair.token.decimals),
+    newBorrowLimitUsed,
+    false
   );
 
   const inputTextClass = shrinkInputClass(initialValue.length);
@@ -369,27 +371,13 @@ console.log('borrowLimit',borrowLimit)*/
                       changeInitialValue("");
                       changeTxnHash("");
                       displayTransactionResult(
+                        networkData,
                         tr.transactionHash,
                         "Borrow successful"
                       );
+                      closeModal();
                     } catch (e: any) {
-                      toast.dismiss();
-                      if (e.transaction?.hash) {
-                        toast.error(() => (
-                          <p>
-                            <a
-                              target="_blank"
-                              href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
-                              rel="noreferrer"
-                            >
-                              Borrow unsuccessful
-                            </a>
-                          </p>
-                        ));
-                      } else {
-                        toast.error("Borrow unsuccessful");
-                        closeModal();
-                      }
+                      displayErrorMessage(networkData, e, "Borrow unsuccessful");
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsBorrowing(false);

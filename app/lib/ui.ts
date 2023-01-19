@@ -138,7 +138,7 @@ export const getHumanReadableAmount = (
  * @param decimals 
  * @returns 
  */
-export const getAmount = (amount: string, decimals: number) => {
+export const getAmount = (amount: BigNumber.Value, decimals: number) => {
   return BigNumber(amount).multipliedBy(BigNumber(10).pow(decimals));
 };
 

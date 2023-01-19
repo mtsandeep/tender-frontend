@@ -4,10 +4,10 @@ import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
-import { toExactString } from "~/lib/ui";
+import { getAmount, toExactString } from "~/lib/ui";
 
 import { redeem } from "~/lib/tender";
-import { useValidInput } from "~/hooks/use-valid-input";
+import { useValidInputV2 } from "~/hooks/use-valid-input";
 import BorrowLimit from "../fi-modal/borrow-limit";
 import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
@@ -138,12 +138,12 @@ export default function Withdraw({
     market.maxBorrowLiquidity // how much cash the contract has
   );
 
-  const [isValid, validationDetail] = useValidInput(
-    initialValue,
-    0,
-    maxWithdrawAmount,
-    parseFloat(newBorrowLimitUsed),
-    tokenDecimals
+  const [isValid, validationDetail] = useValidInputV2(
+    getAmount(initialValue, market.tokenPair.token.decimals),
+    market.tokenPair.token.floor || "0",
+    getAmount(maxWithdrawAmount, market.tokenPair.token.decimals),
+    newBorrowLimitUsed,
+    false
   );
 
   const inputTextClass = shrinkInputClass(initialValue.length);

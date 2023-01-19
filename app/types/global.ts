@@ -14,6 +14,7 @@ export interface Token extends TokenConfig {
   rewardTracker?: string;
   vault?: string;
   nativeToken?: string;
+  floor?: string; // the min amount to transfer
 }
 
 export interface TokenConfig {
