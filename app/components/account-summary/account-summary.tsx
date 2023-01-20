@@ -14,7 +14,8 @@ export default function AccountSummary() {
     netApy,
     ltv,
   } = useAccountSummary();
-
+  const tenderContextData = useContext(TenderContext);
+  
   const totalSuppliedUsd = tenderContextData.markets
     .map(
       (token: Market) =>
