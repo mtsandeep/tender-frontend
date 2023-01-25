@@ -28,7 +28,8 @@ export function useAccountSummary() {
                 m.borrowBalanceInUsd * parseFloat(m.marketData.borrowApy) * 0.01;
         });
 
-        const netApy = supplyBalanceInUsd === 0 ? 0 : (netGainOrLoss / supplyBalanceInUsd) * 100;
+        const netApy = supplyBalanceInUsd === 0 ? 0 : (netGainOrLoss / (supplyBalanceInUsd - borrowBalanceInUsd)) * 100;
+        
         const ltv = supplyBalanceInUsd
           ? (borrowBalanceInUsd * 100) / supplyBalanceInUsd
           : 0;
