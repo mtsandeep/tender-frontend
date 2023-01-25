@@ -12,37 +12,39 @@ interface Txn {
 }
 
 const UINT_MAX = ethers.constants.MaxUint256
-const { Trackers, Tokens }= Tendies
+const { Trackers, Tokens } = Tendies
 
-const getToken = (token: IncentiveToken) => { return Tokens[token] }
-const getTracker = (tracker: IncentiveTracker) => { return Trackers[tracker] }
-const getTokenTracker = (token: IncentiveToken) => { return getTracker(getToken(token).tracker) }
+const getToken = (token: IncentiveToken) => Tokens[token]
+const getTracker = (tracker: IncentiveTracker) => Trackers[tracker]
+const getTokenTracker = (token: IncentiveToken) => getTracker(getToken(token).tracker)
 
-const getContract = (contractName: IncentiveToken | IncentiveTracker, signer: Signer): Contract  => {
-  const isToken = contractName in Object.keys(Tokens)
-  const abi = isToken ? rewardTokenAbi : rewardTrackerAbi;
-  // @ts-ignore
-  const address = isToken ? getToken(contractName).address : getTracker(contractName).address;
-  return new ethers.Contract(address, abi, signer);
+const getTrackerContract = (contractName: IncentiveTracker, signer: Signer): Contract  => {
+  const address =  getTracker(contractName).address;
+  return new ethers.Contract(address, rewardTrackerAbi, signer)
+}
+
+const getTokenContract = (contractName: IncentiveToken, signer: Signer): Contract  => {
+  const address = getToken(contractName).address;
+  return new ethers.Contract(address, rewardTokenAbi, signer)
 }
 
 export const getClaimable = async (token: IncentiveToken, signer: Signer): Promise<BigNumber> => {
-  const trackerContract = getContract(getToken(token).tracker, signer)
+  const trackerContract = getTrackerContract(getToken(token).tracker, signer)
   return trackerContract.claimable(await signer.getAddress());
 }
 
 export const getBalance = async (token: IncentiveToken, signer: Signer): Promise<BigNumber> => {
-  const tokenContract = getContract(token, signer)
+  const tokenContract = getTokenContract(token, signer)
   return tokenContract.balanceOf(await signer.getAddress());
 }
 
 export const getStaked = async (token: IncentiveToken, signer: Signer): Promise<BigNumber> => {
-  const tokenContract = getContract(token, signer);
+  const tokenContract = getTrackerContract(getToken(token).tracker, signer);
   return tokenContract.depositBalances(await signer.getAddress(), tokenContract.address);
 }
 
 export const enable = async (token: IncentiveToken, signer: Signer): Promise<Txn> => {
-  const tokenContract = getContract(token, signer);
+  const tokenContract = getTokenContract(token, signer);
   const trackerAddress = getTokenTracker(token).address
   return tokenContract.approve(trackerAddress, UINT_MAX)
 }

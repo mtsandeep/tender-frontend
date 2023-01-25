@@ -3,6 +3,14 @@ import { hooks, metaMask } from "~/connectors/meta-mask";
 import useAuth from "~/hooks/use-auth";
 import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
 import type { IReward } from "../claimRewardsModal/claimRewardsModal";
+import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+import { useWeb3Signer } from "~/hooks/use-web3-signer";
+import { getAllData } from "~/lib/tnd";
+
+// gets the return type of an async function
+// https://stackoverflow.com/a/59774789
+type AsyncReturnType<T extends (...args: any) => Promise<any>> =
+    T extends (...args: any) => Promise<infer R> ? R : any
 
 export default function EarnContent() {
   const { useIsActive } = hooks;
@@ -13,8 +21,18 @@ export default function EarnContent() {
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
   const { connect, isDisconnected } = useAuth();
-  const isActive = useIsActive();
+  // const { TNDData, setTNDData} = useState<object>({null})
 
+  const isActive = useIsActive();
+  
+  const provider = Web3Hooks.useProvider();
+  const signer = useWeb3Signer(provider);
+  const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
+
+  if (signer) {
+    getAllData(signer).then(setData);
+  }
+  console.log(data)
   useEffect(() => {
     setOnClient(true);
     if (!isDisconnected()) {

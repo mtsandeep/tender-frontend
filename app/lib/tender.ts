@@ -473,7 +473,7 @@ async function hasSufficientAllowance(
 
   // @ts-ignore
   let contract = new ethers.Contract(contractAddress, SampleErc20Abi, signer);
-  let address = await signer.getAddress();
+  let address = await getAddress();
   let allowance: BigNumber = await contract.allowance(address, cToken.address);
 
   return allowance.gte(MINIMUM_REQUIRED_APPROVAL_BALANCE);
