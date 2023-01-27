@@ -28,7 +28,7 @@ const menuLinks = [
   },
   {
     name: "Community",
-    link: "https://discord.com/invite/Tender-Fi",
+    link: "https://discord.com/invite/TenderFi",
     target: "_blank",
   },
 ];
