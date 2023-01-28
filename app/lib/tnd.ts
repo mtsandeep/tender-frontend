@@ -1,10 +1,13 @@
+import type { Signer, Contract, BigNumber, BigNumberish, ContractTransaction }  from "ethers";
+import type { TransactionReceipt } from "@ethersproject/providers";
 import type { IncentiveTracker, IncentiveToken } from "~/types/global";
-import { type Signer, type Contract, type BigNumber, type BigNumberish, ethers }  from "ethers";
+
+import { ethers } from "ethers";
+import  { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
+
 import { Tendies } from "~/config/networks/arbitrum"
-import rewardRouterAbi from "~/config/sample-reward-router-abi"
 import rewardTrackerAbi from "~/config/sample-reward-tracker-abi"
 import rewardTokenAbi from "~/config/sample-reward-token-abi"
-import type { TransactionReceipt } from "@ethersproject/providers";
 
 interface Txn {
   wait: (n?: number) => TransactionReceipt;
@@ -33,90 +36,99 @@ export const getClaimable = async (token: IncentiveToken, signer: Signer): Promi
   return trackerContract.claimable(await signer.getAddress());
 }
 
-export const getBalance = async (token: IncentiveToken, signer: Signer): Promise<BigNumber> => {
-  const tokenContract = getTokenContract(token, signer)
-  return tokenContract.balanceOf(await signer.getAddress());
-}
-
-export const getStaked = async (token: IncentiveToken, signer: Signer): Promise<BigNumber> => {
-  const tokenContract = getTrackerContract(getToken(token).tracker, signer);
-  return tokenContract.depositBalances(await signer.getAddress(), tokenContract.address);
-}
-
 export const enable = async (token: IncentiveToken, signer: Signer): Promise<Txn> => {
   const tokenContract = getTokenContract(token, signer);
   const trackerAddress = getTokenTracker(token).address
   return tokenContract.approve(trackerAddress, UINT_MAX)
 }
 
-const callRewardRouterFn = async (fnName: string, signer: Signer, ...args: any[]): Promise<Txn>  => {
-  const routerContract = new ethers.Contract(Tendies.RewardRouter, rewardRouterAbi, signer);
-  return routerContract[fnName](...args)
+export const stakeTnd = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  let amount = sdk.TND.balanceOf(await signer.getAddress())
+
+  let approval = await sdk.TND.allowance(await signer.getAddress(), sdk.sTND.address)
+
+  if (approval.lt(1)) {
+    await enable("TND", signer);
+  }
+
+  return sdk.RewardRouter.stakeTnd(amount)
 }
 
-export const stakeTnd = async (amount: BigNumberish, signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('stakeTnd', signer, [amount])
+export const stakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.RewardRouter.stakeEsTnd(amount)
 }
 
-export const stakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('stakeEsTnd', signer, [amount])
+export const unstakeTnd = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  let amount = sdk.TND.balanceOf(await signer.getAddress())
+  return sdk.RewardRouter.unstakeTnd(amount)
 }
 
-export const unstakeTnd = async (amount: BigNumberish, signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('unstakeTnd', signer, [amount])
+export const unstakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.RewardRouter.unstakeEsTnd(amount)
 }
 
-export const unstakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('unstakeEsTnd', signer, [amount])
+export const compound = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.RewardRouter.compound()
 }
 
-export const compound = async (signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('compound', signer)
+export const claim = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.RewardRouter.claim()
 }
 
-export const claim = async (signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('claimTnd', signer)
+export const claimEsTnd = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.RewardRouter.claimEsTnd()
 }
 
-export const claimEsTnd = async (signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('claimEsTnd', signer)
+export const claimFees = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.RewardRouter.claimFees()
 }
 
-export const claimFees = async (signer: Signer): Promise<Txn> => {
-  return callRewardRouterFn('claimFees', signer)
+export async function quotePriceInUSDC() {
+  let contract = Tendies.Tokens.TND.address
+  let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)
+  let json = await response.json() as {[contract: string]: {"usd": number}}
+  console.log(json[contract].usd)
+  return json[contract].usd
 }
 
-export const getStakingData = async (signer: Signer) => {
-  const [ tndStaked, esTndStaked, bnTndStaked ] = await Promise.all([
-    getStaked('TND', signer),
-    getStaked('esTND', signer),
-    getStaked('bnTND', signer),
-  ]);
-  return { tndStaked, esTndStaked, bnTndStaked };
-}
-
-export const getClaimableData = async (signer: Signer) => {
-  const [ tndClaimable, esTndClaimable, bnTndClaimable ] = await Promise.all([
-    getClaimable('TND', signer),
-    getClaimable('esTND', signer),
-    getClaimable('bnTND', signer),
-  ]);
-  return { tndClaimable, esTndClaimable, bnTndClaimable };
-}
-
-export const getBalanceData = async (signer: Signer) => {
-  const [ tndBalance, esTndBalance ] = await Promise.all([
-    getBalance('TND', signer),
-    getBalance('esTND', signer),
-  ]);
-  return { tndBalance, esTndBalance };
-}
 
 export const getAllData = async (signer: Signer) => {
-  const [ stakingData, claimableData, balanceData ] = await Promise.all([
-    getStakingData(signer),
-    getClaimableData(signer),
-    getBalanceData(signer),
-  ]);
-  return { stakingData, claimableData, balanceData };
+  let sdk = getArbitrumOneSdk(signer)
+  let address = signer.getAddress()
+
+  const dataPromises = {
+    TNDBalance: sdk.TND.balanceOf(address),
+    esTNDBalance: sdk.esTND.balanceOf(address),
+    bnBalance: sdk.bnTND.balanceOf(address),
+
+    TNDTotalSupply: sdk.TND.totalSupply(),
+
+    claimableTND: sdk.sbTND.claimable(address),
+    claimableBNTND: sdk.sbfTND.claimable(address),
+
+    stakedTND: sdk.sTND.stakedBalance(address),
+    stakedESTND: sdk.esTND.stakedBalance(address),
+    stakedBNTND: sdk.bnTND.stakedBalance(address)
+  }
+
+  await Promise.all(Object.values(dataPromises))
+ 
+  type Datum = keyof typeof dataPromises
+  let data: Record<Datum, BigNumber> = Object.create(dataPromises)
+
+  // await all the promises for the return objet
+  for (const [key, value] of Object.entries(dataPromises)) {
+    data[key as Datum]  = await value
+  }
+
+  return data;
+
 }

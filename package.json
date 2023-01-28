@@ -73,6 +73,8 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.18.2",
+    "@dethcrypto/eth-sdk": "^0.3.3",
+    "@dethcrypto/eth-sdk-client": "^0.1.6",
     "@remix-run/dev": "^1.2.3",
     "@remix-run/eslint-config": "^1.2.3",
     "@remix-run/serve": "^1.2.3",
@@ -84,6 +86,7 @@
     "@storybook/manager-webpack4": "^6.5.6",
     "@storybook/react": "^6.5.6",
     "@storybook/testing-library": "^0.0.11",
+    "@typechain/ethers-v5": "^10.2.0",
     "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
     "@types/react-modal": "^3.13.1",
@@ -95,6 +98,7 @@
     "msw": "^0.39.2",
     "npm-run-all": "^4.1.5",
     "tailwindcss": "^3.0.23",
+    "ts-node": "^10.9.1",
     "typescript": "^4.5.5"
   },
   "engines": {

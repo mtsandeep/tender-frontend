@@ -1,4 +1,4 @@
-import { IncentiveContractsConfig, IncentivesConfig } from "~/types/global";
+import { IncentiveContractsConfig } from "~/types/global";
 
 export default {
   ChainId: 42161,
@@ -177,13 +177,15 @@ export default {
 };
 export const Tendies: IncentiveContractsConfig= {
   RewardRouter: "0xca11F41b1384A7Af40be244eFb602F1a5aFeFf61",
-  RewardDistributor: "0x705B3d2DF6e8F8E0e7007f52A7BD66086A12E9aE",
+  RewardDistributor: "0x705B3d2DF6e8F8E0e7007f52A7BD66086A12E9aE", 
+  TND_USDC_UNISWAP_POOL: "0x3E746b61A371D952947c22fBC19f8049F000BCF6",
+  UNISWAP_QUOTER: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
   Tokens: {
     TND: {
       name: "TND",
       symbol: "TND",
       decimals: 18,
-      address: "0xc47d9753f3b32aa9548a7c3f30b6aec3b2d2798c",
+      address: "0xc47d9753f3b32aa9548a7c3f30b6aec3b2d2798c", 
       tracker: 'sTND'
     },
     esTND: {

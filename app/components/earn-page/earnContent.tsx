@@ -5,7 +5,8 @@ import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
 import type { IReward } from "../claimRewardsModal/claimRewardsModal";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
-import { getAllData } from "~/lib/tnd";
+import { getAllData, quotePriceInUSDC } from "~/lib/tnd";
+import * as TND from "~/lib/tnd";
 
 // gets the return type of an async function
 // https://stackoverflow.com/a/59774789
@@ -20,25 +21,28 @@ export default function EarnContent() {
   }>({ open: false, rewards: [] });
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
+  const [tndPrice, setTNDPrice] = useState<number | null>(null);
+  const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
+
   const { connect, isDisconnected } = useAuth();
-  // const { TNDData, setTNDData} = useState<object>({null})
 
   const isActive = useIsActive();
   
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
-  const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
 
-  if (signer) {
-    getAllData(signer).then(setData);
-  }
   console.log(data)
   useEffect(() => {
+    quotePriceInUSDC().then(setTNDPrice)
+    if(signer) getAllData(signer).then( data => {
+      console.log("ALL DATA", data)
+      setData(data)
+    });
     setOnClient(true);
-    if (!isDisconnected()) {
-      void metaMask.connectEagerly();
+    if (isDisconnected()) {
+      metaMask.connectEagerly();
     }
-  }, [isDisconnected]);
+  }, [isDisconnected, signer]);
 
   return (
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
@@ -76,9 +80,12 @@ export default function EarnContent() {
           </a>{" "}
           to learn more.
           <br />
-          You are earning TND rewards with 20.13 tokens.
-          <br />
-          Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
+          {data && <span>
+            You are earning TND rewards with {data.TNDBalance.toString()} tokens.
+            <br />
+            Tokens: {data.TNDBalance.toString()}, {data.esTNDBalance.toString()} esTND, {data.bnBalance.toString()} MP.
+            </span>
+          }
         </p>
         <div className="font-[ProximaNova] w-full">
           <div tabIndex={0} className="panel-custom">
@@ -96,8 +103,8 @@ export default function EarnContent() {
                     tabIndex={0}
                     className="line-dashed group relative cursor-pointer md:w-fit text-right text-sm md:text-base leading-[17px] tabIndex={0}"
                   >
-                    $20.16
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
+                    {tndPrice && tndPrice.toString() }
+                    {/* <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
                           <div className="flex justify-between items-center">
@@ -109,7 +116,7 @@ export default function EarnContent() {
                         </div>
                       </div>
                       <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div
@@ -118,7 +125,7 @@ export default function EarnContent() {
                 >
                   <span className="text-[#818987] w-fit text-base">Wallet</span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
-                    0.00 TND ($0.00)
+                    {data?.TNDBalance.toString() ?? "."} ($0.00)
                   </span>
                 </div>
                 <div
@@ -127,7 +134,7 @@ export default function EarnContent() {
                 >
                   <span className="text-[#818987] w-fit text-base">Staked</span>
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
-                    0.00 TND ($0.00)
+                    {data?.stakedTND.toString() ?? "."} TND ($0.00)
                   </span>
                 </div>
               </div>
@@ -292,9 +299,11 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-base">
                     Total Supply
                   </span>
+                  { data  &&
                   <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
-                    6,812,217 TND ($252,353,723)
+                    {data.TNDTotalSupply.toString() ?? "."} ({tndPrice && data.TNDTotalSupply.mul(tndPrice*100).div(100).toString()})
                   </span>
+                  }
                 </div>
               </div>
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
@@ -306,12 +315,16 @@ export default function EarnContent() {
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                      <button
+                        onClick={()=> signer && TND.stakeTnd(signer)}
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                         STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button
+                        onClick={()=> signer && TND.unstakeTnd(signer)}
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         unStake
                       </button>
                     </div>
@@ -357,7 +370,7 @@ export default function EarnContent() {
                 >
                   <span className="text-[#818987] w-fit text-base">Price</span>
                   <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
-                    $20.16
+                    {tndPrice && tndPrice.toString()}
                   </div>
                 </div>
                 <div
@@ -466,9 +479,11 @@ export default function EarnContent() {
                   <span className="text-[#818987] w-fit text-base">
                     Total Supply
                   </span>
-                  <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
-                    1,472,862 esTND ($54,630,107)
-                  </div>
+                  {data && tndPrice &&
+                    <div className="flex flex-wrap flex-col md:flex-row justify-end gap-x-[6px] text-right w-fit text-sm md:text-base leading-[17px]">
+                      {data.TNDTotalSupply.toString() ?? "."} ({data.TNDTotalSupply.mul(tndPrice*100).div(100).toString()})
+                    </div>
+                  }
                 </div>
                 <div
                   className="flex items-center gap-x-[10px] justify-between"
@@ -522,7 +537,7 @@ export default function EarnContent() {
             </div>
           </div>
 
-          <div tabIndex={0} className="panel-custom mt-[32px]">
+          {/* <div tabIndex={0} className="panel-custom mt-[32px]">
             <div className="flex items-center font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Supply
               <svg
@@ -607,7 +622,7 @@ export default function EarnContent() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div tabIndex={0} className="panel-custom mt-[32px]">
             <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
@@ -731,7 +746,9 @@ export default function EarnContent() {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button
+                        onClick={ ()=> { signer && TND.compound(signer) } }
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Compound
                       </button>
                     </div>
@@ -741,7 +758,9 @@ export default function EarnContent() {
                         setDataClaimModal({ ...dataClaimModal, open: true })
                       }
                     >
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button
+                        onClick={ ()=> { signer && TND.claim(signer) } }
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Claim
                       </button>
                     </div>
