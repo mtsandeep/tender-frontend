@@ -74,7 +74,7 @@ export const toCryptoString = (value: number | string, precision: number = 6): s
 
     // note, safari does not support regexp look behind
     // If there is a decimal, remove trailing 0's, leaving at least one left
-    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "");
+    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0");
   }
   return s;
 };

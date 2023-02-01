@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import useAuth from "~/hooks/use-auth";
 import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
@@ -7,13 +7,16 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { getAllData, quotePriceInUSDC } from "~/lib/tnd";
 import * as TND from "~/lib/tnd";
-import { getDisplayPrice, getHumanReadableAmount, toCryptoString } from "~/lib/ui";
+import { toCryptoString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import { TenderContext } from "~/contexts/tender-context";
 import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
 import { BigNumber } from "@ethersproject/bignumber";
-import { data } from "msw/lib/types/context";
 import { formatUnits } from "@ethersproject/units";
+import Modal from "./modal";
+import ReactModal from "react-modal";
+
+const PriceContext = createContext<{tnd?: number, eth?: number}>({});
 
 // gets the return type of an async function
 // https://stackoverflow.com/a/59774789
@@ -89,17 +92,18 @@ type RowArgs = {
   right?: string | ReactNode,
   symbol?: string,
   amount?: BigNumber,
-  TNDPrice?: number | null
 }
 
 function Row(args: RowArgs) {
+  let context = useContext(PriceContext)
+  let price = args.symbol === "eth" ? context.eth : context.tnd;
   return <div className="flex items-center gap-x-[10px] justify-between" tabIndex={0}>
     <span className="text-[#818987] w-fit text-base">{args.left}</span>
     <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
       <>
         {args.right && args.right } 
-        {args.amount && args.TNDPrice && <>
-          {displayTND(args.amount)} (${displayTNDInUSD(args.amount, args.TNDPrice)})
+        {args.amount && price && <>
+          {displayTND(args.amount)} (${displayTNDInUSD(args.amount, price)})
         </>}
       </>
     </span>
@@ -114,6 +118,7 @@ export default function EarnContent(): JSX.Element {
   }>({ open: false, rewards: [] });
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
+  const [currentModal, setCurrentModal] = useState<"stake" | "unstake" | null>(null);
   const [tndPrice, setTNDPrice] = useState<number | null>(null);
   const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
 
@@ -136,20 +141,20 @@ export default function EarnContent(): JSX.Element {
   }, [isDisconnected, signer]);
 
 
-  const onStake = async () => {
-    if (!signer) return
+  const onStake = async (amount: BigNumber) => {
+    if (!signer || amount.lte(0)) return
     try {
-      await TND.stakeTnd(signer)
+      await TND.stakeTnd(signer, amount)
       toast.success("Stake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Stake unsuccessful");
     }
   }
 
-  const onUnStake = async () => {
-    if (!signer) return
+  const onUnStake = async (amount: BigNumber) => {
+    if (!signer || amount.lte(0)) return
     try {
-      await TND.unstakeTnd(signer)
+      await TND.unstakeTnd(signer, amount)
       toast.success("unstake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Unstake unsuccessful");
@@ -163,6 +168,45 @@ export default function EarnContent(): JSX.Element {
   }
 
   return (
+    <PriceContext.Provider value={{ tnd: tndPrice ?? undefined, eth: undefined}}>
+      <ReactModal
+        ariaHideApp={false}
+        shouldCloseOnOverlayClick={true}
+        isOpen={currentModal !== null}
+        onRequestClose={() => setCurrentModal(null)}
+        portalClassName="modal"
+        style={{
+          content: {
+            inset: "unset",
+            margin: "20px auto",
+            position: "relative",
+            maxWidth: 450,
+          },
+        }}
+        closeTimeoutMS={200}
+      >
+        { currentModal === "stake" && <Modal
+          closeModal={()=> setCurrentModal(null)}
+          balance={data?.TNDBalance ?? BigNumber.from(0)}
+          signer={signer}
+          sTNDAllowance={data?.sTNDAllowance}
+          complete={onStake}
+          action="Stake"
+        />
+      }
+
+        { currentModal === "unstake" && <Modal
+          closeModal={()=> setCurrentModal(null)}
+          balance={data?.stakedTND ?? BigNumber.from(0)}
+          signer={signer}
+          sTNDAllowance={data?.sTNDAllowance}
+          complete={onUnStake}
+          action="Unstake"
+        />
+      }
+
+      </ReactModal>
+
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
       <ClaimRewardsModal
         data={{
@@ -201,7 +245,7 @@ export default function EarnContent(): JSX.Element {
           {data && <span>
             You are earning TND rewards with {displayTND(data.TNDBalance)} tokens.
             <br />
-            Tokens: {displayTND(data.TNDBalance)}, {displayTND(data.esTNDBalance)} esTND, {data.multiplierPoints.toString()} MP.
+            Tokens: {displayTND(data.TNDBalance)}, {displayTND(data.esTNDBalance)} esTND, {data.bonusPoints.toString()} MP.
             </span>
           }
         </p>
@@ -213,8 +257,8 @@ export default function EarnContent(): JSX.Element {
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
                 <Row left="Price" right={tndPrice} />
-                <Row left="Wallet" TNDPrice={tndPrice} amount={data?.TNDBalance} symbol="TND" />
-                <Row left="Staked" TNDPrice={tndPrice} amount={data?.stakedTND} symbol="TND" />
+                <Row left="Wallet" amount={data?.TNDBalance} symbol="TND" />
+                <Row left="Staked" amount={data?.stakedTND} symbol="TND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
                 <Row left="APR" right={<APRWidget />} />
@@ -280,7 +324,14 @@ export default function EarnContent(): JSX.Element {
                     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">0.00%</span>
+                    <span className="text-sm md:text-base">
+                      {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
+                      { (data?.bonusPoints && data?.stakedTND.gt(0) && data?.stakedESTND.gt(0)) ?
+                      `${100 * (data?.bonusPoints.toNumber() / (data?.stakedTND.toNumber() + data?.stakedESTND.toNumber())) }%`
+                      : "0.00%"
+                    }
+                      
+                    </span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
@@ -298,8 +349,8 @@ export default function EarnContent(): JSX.Element {
 
               </div>
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]">
-                <Row left="Total Staked" amount={data?.totalTNDStaked} TNDPrice={tndPrice} symbol="TND" />
-                <Row left="Total Supply" amount={data?.TNDTotalSupply} TNDPrice={tndPrice} symbol="TND" />
+                <Row left="Total Staked" amount={data?.totalTNDStaked}  symbol="TND" />
+                <Row left="Total Supply" amount={data?.TNDTotalSupply}  symbol="TND" />
               </div>
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && isActive ? (
@@ -311,25 +362,18 @@ export default function EarnContent(): JSX.Element {
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
                       <button
-                        onClick={onStake}
+                        onClick={()=> setCurrentModal("stake") }
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
                         STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
                       <button
-                        onClick={onUnStake}
+                        onClick={()=> setCurrentModal("unstake")}
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         unStake
                       </button>
                     </div>
-                    {/*
-                    TODO: Later
-                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                        Transfer account
-                      </button>
-                    </div> */}
                   </>
                 ) : !window.ethereum ? (
                   <a
@@ -362,8 +406,8 @@ export default function EarnContent(): JSX.Element {
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
                 <Row left="Price" right={tndPrice?.toString()} />
-                <Row left="Wallet" amount={data?.esTNDBalance} TNDPrice={tndPrice} symbol="esTND" />
-                <Row left="Staked" amount={data?.stakedESTND} TNDPrice={tndPrice} symbol="esTND" />
+                <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
+                <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
                 <Row left="APR" right={<APRWidget/>} />                
@@ -379,7 +423,7 @@ export default function EarnContent(): JSX.Element {
                     className=" cursor-pointer group line-dashed text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">100.00%</span>
+                    <span className="text-sm md:text-base">100.00%</span> {/** this is Fixed on gmx  */}
                     <div
                       className={`${
                         tabFocus === 2 ? "flex" : "hidden"
@@ -452,15 +496,15 @@ export default function EarnContent(): JSX.Element {
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
                 <Row left="ETH" right="0.00 ($0.00)" />
-                <Row left="TND" right="0.00 ($0.00)" />
-                <Row left="esTND" right="0.00 ($0.00)" />
+                <Row left="TND" amount={data?.claimableTND} />
+                <Row left="esTND" amount={data?.claimableESTND} />
                 <Row left="Multiplier Points" right={<>
                   <div
                     onFocus={(e) => setTabFocus(3)}
                     className=" cursor-pointer group line-dashed text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">0.000</span>
+                    <span className="text-sm md:text-base">{(data?.bonusPoints)?.toString()}</span>
                     <div
                       className={`${
                         tabFocus === 3 ? "flex" : "hidden"
@@ -498,7 +542,7 @@ export default function EarnContent(): JSX.Element {
                     className=" cursor-pointer group line-dashed text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">0.000</span>
+                    <span className="text-sm md:text-base">{data?.stakedBNTND.toString() ?? "bntd"}</span>
                     <div
                       className={`${
                         tabFocus === 4 ? "flex" : "hidden"
@@ -744,5 +788,6 @@ export default function EarnContent(): JSX.Element {
         </div>
       </div>
     </div>
+    </PriceContext.Provider>
   );
 }

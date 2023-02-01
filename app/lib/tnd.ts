@@ -44,18 +44,9 @@ export const enable = async (token: IncentiveToken, signer: Signer): Promise<Txn
   return tokenContract.approve(trackerAddress, UINT_MAX)
 }
 
-export const stakeTnd = async (signer: Signer): Promise<ContractTransaction> => {
+export const stakeTnd = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
   const address = await signer.getAddress();
-
-  let amount = sdk.TND.balanceOf(address)
-
-  let approval = await sdk.TND.allowance(address, sdk.sTND.address)
-
-  if (approval.lt(1)) {
-    await sdk.TND.approve(sdk.sTND.address, UINT_MAX.sub(1))
-  }
-
   return sdk.RewardRouter.stakeTnd(amount)
 }
 
@@ -64,9 +55,8 @@ export const stakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<
   return sdk.RewardRouter.stakeEsTnd(amount)
 }
 
-export const unstakeTnd = async (signer: Signer): Promise<ContractTransaction> => {
+export const unstakeTnd = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  let amount = sdk.TND.balanceOf(await signer.getAddress())
   return sdk.RewardRouter.unstakeTnd(amount)
 }
 
@@ -120,9 +110,18 @@ export const getAllData = async (signer: Signer) => {
     stakedESTND: sdk.sTND.depositBalances(address, sdk.esTND.address),
     stakedBNTND: sdk.bnTND.stakedBalance(address),
 
-    multiplierPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
+    // bonus points are multipleir points
+    bonusPoints: sdk.sbTND.depositBalances(address, sdk.bnTND.address),
 
-    // multiplierPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
+    claimableESTND: sdk.sTND.claimable(address),
+    claimableFees: sdk.sbfTND.claimable(address),
+    claimableBonusPoints: sdk.sbTND.claimable(address),
+
+    sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),
+
+    // bonus points = depositbalancesTND
+    // boostPercentage: MP / bonusPoints+amountstaked // : 100 * (4.5656) / (7.54 + 2.00) = 47.85%
+
 
     totalTNDStaked: sdk.sTND.totalSupply()
   }
