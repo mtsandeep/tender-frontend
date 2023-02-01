@@ -90,13 +90,13 @@ function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
 type RowArgs = {
   left: string | ReactNode,
   right?: string | ReactNode,
-  symbol?: string,
+  symbol?: "TND" | "ETH" | "esTND",
   amount?: BigNumber,
 }
 
 function Row(args: RowArgs) {
   let context = useContext(PriceContext)
-  let price = args.symbol === "eth" ? context.eth : context.tnd;
+  let price = args.symbol === "ETH" ? context.eth : context.tnd;
   return <div className="flex items-center gap-x-[10px] justify-between" tabIndex={0}>
     <span className="text-[#818987] w-fit text-base">{args.left}</span>
     <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
@@ -173,10 +173,10 @@ export default function EarnContent(): JSX.Element {
     }
   }
 
-  const APR = (): string => {
+  const APR = (totalStaked): string => {
     if (!tndPrice || !networkData || !data) return ""
     const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 * networkData.l2SecondsPerBlock
-    return ((tndPrice * (BLOCKS_PER_YEAR) * EMISSION_RATE)/data.totalStaked.toNumber() * 100).toString()
+    return ((tndPrice * (BLOCKS_PER_YEAR) * EMISSION_RATE)/totalStaked.toNumber() * 100).toString()
   }
 
   return (
@@ -533,7 +533,7 @@ export default function EarnContent(): JSX.Element {
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <Row left="ETH" right="0.00 ($0.00)" />
+                <Row left="ETH" amount={data?.claimableFees} symbol="ETH" />
                 <Row left="TND" amount={data?.claimableTND} />
                 <Row left="esTND" amount={data?.claimableESTND} />
                 <Row left="Multiplier Points" right={<>
@@ -543,6 +543,7 @@ export default function EarnContent(): JSX.Element {
                     tabIndex={0}
                   >
                     <span className="text-sm md:text-base">{(data?.bonusPoints)?.toString()}</span>
+
                     <div
                       className={`${
                         tabFocus === 3 ? "flex" : "hidden"
