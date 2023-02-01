@@ -9,6 +9,8 @@ import { Tendies } from "~/config/networks/arbitrum"
 import rewardTrackerAbi from "~/config/sample-reward-tracker-abi"
 import rewardTokenAbi from "~/config/sample-reward-token-abi"
 
+export const TND_DECIMALS = Tendies.Tokens.TND.decimals
+
 interface Txn {
   wait: (n?: number) => TransactionReceipt;
   hash: string;
@@ -44,12 +46,14 @@ export const enable = async (token: IncentiveToken, signer: Signer): Promise<Txn
 
 export const stakeTnd = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  let amount = sdk.TND.balanceOf(await signer.getAddress())
+  const address = await signer.getAddress();
 
-  let approval = await sdk.TND.allowance(await signer.getAddress(), sdk.sTND.address)
+  let amount = sdk.TND.balanceOf(address)
+
+  let approval = await sdk.TND.allowance(address, sdk.sTND.address)
 
   if (approval.lt(1)) {
-    await enable("TND", signer);
+    await sdk.TND.approve(sdk.sTND.address, UINT_MAX.sub(1))
   }
 
   return sdk.RewardRouter.stakeTnd(amount)
@@ -95,10 +99,8 @@ export async function quotePriceInUSDC() {
   let contract = Tendies.Tokens.TND.address
   let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)
   let json = await response.json() as {[contract: string]: {"usd": number}}
-  console.log(json[contract].usd)
   return json[contract].usd
 }
-
 
 export const getAllData = async (signer: Signer) => {
   let sdk = getArbitrumOneSdk(signer)
@@ -114,9 +116,15 @@ export const getAllData = async (signer: Signer) => {
     claimableTND: sdk.sbTND.claimable(address),
     claimableBNTND: sdk.sbfTND.claimable(address),
 
-    stakedTND: sdk.sTND.stakedBalance(address),
-    stakedESTND: sdk.esTND.stakedBalance(address),
-    stakedBNTND: sdk.bnTND.stakedBalance(address)
+    stakedTND: sdk.sTND.depositBalances(address, sdk.TND.address),
+    stakedESTND: sdk.sTND.depositBalances(address, sdk.esTND.address),
+    stakedBNTND: sdk.bnTND.stakedBalance(address),
+
+    multiplierPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
+
+    // multiplierPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
+
+    totalTNDStaked: sdk.sTND.totalSupply()
   }
 
   await Promise.all(Object.values(dataPromises))

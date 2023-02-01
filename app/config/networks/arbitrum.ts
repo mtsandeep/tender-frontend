@@ -214,7 +214,7 @@ export const Tendies: IncentiveContractsConfig= {
       name: "Staked TND",
       symbol: "sTND",
       decimals: 18,
-      address: "0x8a3aB81902E1b3D4A3C73AD3CE250D1A584fE925",
+      address: "0x88514c9be4aa9ac1a4e42a9c4cdff81f62c26a96",
     },
     sbTND: {
       name: "Staked + Bonus TND",
