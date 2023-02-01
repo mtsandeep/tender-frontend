@@ -16,6 +16,7 @@ export interface EarnModalProps {
   sTNDAllowance?: BigNumber;
   complete: (amount: BigNumber) => void;
   action: string;
+  symbol?: string;
 }
 
 export default function Modal({
@@ -24,7 +25,8 @@ export default function Modal({
   signer,
   sTNDAllowance,
   complete,
-  action="Stake"
+  action="Stake",
+  symbol="TND"
 }: EarnModalProps) {
   const tokenDecimals = TND_DECIMALS;
   
@@ -67,20 +69,20 @@ export default function Modal({
               className="absolute right-[16px] sm:right-[22px] top-[24px] cursor-pointer group"
             >
               <path
-                className="group-hover:fill-[#00E0FF]"
+                className="group-hover:fill-[#14f195]"
                 d="M22.0567 3.05669C22.4961 3.49614 22.4961 4.20864 22.0567 4.64809L14.148 12.5567L22.0567 20.4654C22.4961 20.9048 22.4961 21.6173 22.0567 22.0568C21.6172 22.4962 20.9047 22.4962 20.4653 22.0568L12.5566 14.1481L4.64799 22.0568C4.20854 22.4962 3.49605 22.4962 3.05659 22.0568C2.61714 21.6173 2.61714 20.9048 3.05659 20.4654L10.9652 12.5567L3.05659 4.64809C2.61714 4.20864 2.61714 3.49614 3.05659 3.05669C3.49605 2.61723 4.20854 2.61723 4.64799 3.05669L12.5566 10.9653L20.4653 3.05669C20.9047 2.61724 21.6172 2.61724 22.0567 3.05669Z"
                 fill="white"
               />
             </svg>
             <div className="flex align-middle justify-center items-center py-[20px] border-b-[1px] border-[#282C2B]">
-              Stake TND
+              Stake ${symbol}
             </div>
 
             {!isEnabled ? (
               <div className="flex flex-col items-center mt-[29px] md:mt-[34px] rounded-2xl px-4">
                 <img src={""} className="w-[58px] h-[58px]" alt="icon" />
                 <div className="max-w-sm text-center mt-[29px] md:mt-[34px] font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
-                  To stake TND on Tender.fi, you need to enable it first.
+                  To stake ${symbol} on Tender.fi, you need to enable it first.
                 </div>
               </div>
             ) : (
@@ -100,8 +102,8 @@ export default function Modal({
                     inputEl?.current && inputEl.current.focus();
                     if (inputEl.current) inputEl.current.value = formatUnits(balance, tokenDecimals)
                   }}
-                  maxValueLabel="TND"
-                  color="#00E0FF"
+                  maxValueLabel={symbol}
+                  color="#14f195"
                 />
               </div>
             )}
@@ -122,7 +124,7 @@ export default function Modal({
                         complete(parseUnits(inputEl.current.value, tokenDecimals))
                     }
                 }}
-                className="flex items-center justify-center h-[50px] md:h-[60px] text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#00E0FF] hover:bg-[#00e1ffd0]"
+                className="flex items-center justify-center h-[50px] md:h-[60px] text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14f195] hover:bg-[#00e1ffd0]"
                 >
                     {validationDetail ?? action}
                 </button>

@@ -118,7 +118,7 @@ export default function EarnContent(): JSX.Element {
   }>({ open: false, rewards: [] });
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
-  const [currentModal, setCurrentModal] = useState<"stake" | "unstake" | null>(null);
+  const [currentModal, setCurrentModal] = useState<"stake" | "unstake" | "stakeESTND" | "unstakeESTND" | null>(null);
   const [tndPrice, setTNDPrice] = useState<number | null>(null);
   const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
 
@@ -127,6 +127,10 @@ export default function EarnContent(): JSX.Element {
   const isActive = useIsActive();
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+
+  function closeModal() {
+    return setCurrentModal(null);
+  }
 
   useEffect(() => {
     quotePriceInUSDC().then(setTNDPrice)
@@ -141,20 +145,28 @@ export default function EarnContent(): JSX.Element {
   }, [isDisconnected, signer]);
 
 
-  const onStake = async (amount: BigNumber) => {
+  const onStake = async (amount: BigNumber, symbol: "TND" | "ESTND" = "TND") => {
     if (!signer || amount.lte(0)) return
     try {
-      await TND.stakeTnd(signer, amount)
+      if (symbol === "TND") {
+        await TND.stakeTnd(signer, amount)
+      } else {
+        await TND.stakeEsTnd(signer, amount)
+      }
       toast.success("Stake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Stake unsuccessful");
     }
   }
 
-  const onUnStake = async (amount: BigNumber) => {
+  const onUnStake = async (amount: BigNumber, symbol: "TND" | "ESTND" = "TND") => {
     if (!signer || amount.lte(0)) return
     try {
-      await TND.unstakeTnd(signer, amount)
+      if (symbol === "TND") {
+        await TND.unstakeTnd(signer, amount)
+      } else {
+        await TND.unstakeEsTnd(signer, amount)
+      }
       toast.success("unstake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Unstake unsuccessful");
@@ -186,7 +198,7 @@ export default function EarnContent(): JSX.Element {
         closeTimeoutMS={200}
       >
         { currentModal === "stake" && <Modal
-          closeModal={()=> setCurrentModal(null)}
+          closeModal={closeModal}
           balance={data?.TNDBalance ?? BigNumber.from(0)}
           signer={signer}
           sTNDAllowance={data?.sTNDAllowance}
@@ -196,7 +208,7 @@ export default function EarnContent(): JSX.Element {
       }
 
         { currentModal === "unstake" && <Modal
-          closeModal={()=> setCurrentModal(null)}
+          closeModal={closeModal}
           balance={data?.stakedTND ?? BigNumber.from(0)}
           signer={signer}
           sTNDAllowance={data?.sTNDAllowance}
@@ -205,6 +217,28 @@ export default function EarnContent(): JSX.Element {
         />
       }
 
+      { currentModal === "stakeESTND" && <Modal
+          closeModal={closeModal}
+          balance={data?.esTNDBalance ?? BigNumber.from(0)}
+          signer={signer}
+          sTNDAllowance={data?.sESTNDAllowance}
+          complete={(amount) => onStake(amount, "ESTND")}
+          action="stake"
+          symbol="ESTND"
+        />
+
+      }
+
+      { currentModal === "unstakeESTND" && <Modal
+          closeModal={closeModal}
+          balance={data?.stakedESTND ?? BigNumber.from(0)}
+          signer={signer}
+          sTNDAllowance={data?.sESTNDAllowance}
+          complete={(amount) => onUnStake(amount, "ESTND")}
+          action="Unstake"
+          symbol="ESTND"
+        />
+      }
       </ReactModal>
 
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
@@ -212,12 +246,12 @@ export default function EarnContent(): JSX.Element {
         data={{
           open: dataClaimModal.open,
           rewards: [
-            {
+          {
               title: "Protocol Rewards (esTND)",
-              exchange: "1 esTND = $0.0035",
-              unclaimed: "0 esTND",
-              unclaimedUsd: "$0",
-              onClickClaim: () => console.log(""),
+              exchange: `1 esTND = ${tndPrice ?? "?"}`,
+              unclaimed: `${data?.claimableESTND ?? "?"} esTND`,
+              unclaimedUsd: `$${data ? displayTNDInUSD(data?.claimableESTND, tndPrice ?? 0) : "?"}`,
+              onClickClaim: () => signer && TND.claimEsTnd(signer)
             },
           ],
         }}
@@ -455,12 +489,16 @@ export default function EarnContent(): JSX.Element {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                      onClick={() => setCurrentModal("stakeESTND")}
+                      >
                         STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                        onClick={() => setCurrentModal("unstakeESTND")}
+                      >
                         unStake
                       </button>
                     </div>
@@ -593,7 +631,6 @@ export default function EarnContent(): JSX.Element {
                       }
                     >
                       <button
-                        onClick={ ()=> { signer && TND.claim(signer) } }
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Claim
                       </button>

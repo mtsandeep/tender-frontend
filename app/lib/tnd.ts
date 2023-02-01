@@ -50,7 +50,7 @@ export const stakeTnd = async (signer: Signer, amount: BigNumber): Promise<Contr
   return sdk.RewardRouter.stakeTnd(amount)
 }
 
-export const stakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<ContractTransaction> => {
+export const stakeEsTnd = async (signer: Signer, amount: BigNumberish): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
   return sdk.RewardRouter.stakeEsTnd(amount)
 }
@@ -60,7 +60,7 @@ export const unstakeTnd = async (signer: Signer, amount: BigNumber): Promise<Con
   return sdk.RewardRouter.unstakeTnd(amount)
 }
 
-export const unstakeEsTnd = async (amount: BigNumberish, signer: Signer): Promise<ContractTransaction> => {
+export const unstakeEsTnd = async (signer: Signer, amount: BigNumberish): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
   return sdk.RewardRouter.unstakeEsTnd(amount)
 }
@@ -118,6 +118,7 @@ export const getAllData = async (signer: Signer) => {
     claimableBonusPoints: sdk.sbTND.claimable(address),
 
     sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),
+    sESTNDAllowance: sdk.TND.allowance(address, sdk.esTND.address),
 
     // bonus points = depositbalancesTND
     // boostPercentage: MP / bonusPoints+amountstaked // : 100 * (4.5656) / (7.54 + 2.00) = 47.85%
