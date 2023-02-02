@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { TenderContext } from "~/contexts/tender-context";
 import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
 import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits } from "@ethersproject/units";
+import { formatUnits, parseUnits } from "@ethersproject/units";
 import Modal from "./modal";
 import ReactModal from "react-modal";
 
@@ -23,7 +23,43 @@ const PriceContext = createContext<{tnd?: number, eth?: number}>({});
 type AsyncReturnType<T extends (...args: any) => Promise<any>> =
     T extends (...args: any) => Promise<infer R> ? R : any
 
-function APRWidget () {
+
+
+function MultiplierPointsExplainer() {
+  return <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
+  <p className="text-[#818987] text-left">
+    Boost your rewards with Multiplier Points.{" "}
+    <a
+      target="_blank"
+      rel="noreferrer"
+      className="line-solid cursor-pointer capitalize text-white"
+      href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
+    >
+      More info.
+    </a>
+  </p>
+</div>
+}
+
+const APR = (totalStaked: BigNumber, emissions: BigNumber, price?: number, l2SecondsPerBlock?: number): string => {
+  if (totalStaked.eq(0)) return "0.00 staked"
+  if (!price || !l2SecondsPerBlock) return "?"
+
+  const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 / l2SecondsPerBlock
+  const EMISSION_VALUE_PER_YEAR_IN_CENTS = emissions.mul(Math.floor(100 * price * BLOCKS_PER_YEAR))
+  return formatUnits(EMISSION_VALUE_PER_YEAR_IN_CENTS.div(totalStaked), 2) + "%"
+}
+
+type APRwidgetArgs = {
+  staked: BigNumber;
+  emissions: BigNumber;
+  l2SecondsPerBlock: number;
+}
+
+function APRWidget({staked, emissions, l2SecondsPerBlock}: APRwidgetArgs) {
+  let { tnd, eth } = useContext(PriceContext)
+  console.log(staked, "emissions", emissions)
+  let formattedAPR = APR(staked, emissions, tnd, l2SecondsPerBlock)
   return <div
     className="flex items-center gap-x-[10px] justify-between"
     tabIndex={0}
@@ -32,7 +68,7 @@ function APRWidget () {
     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
     tabIndex={0}
   >
-    <span className="text-sm md:text-base">20.16%</span>
+    <span className="text-sm md:text-base">{formattedAPR}</span>
     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -41,7 +77,7 @@ function APRWidget () {
               ETH APR
             </span>
             <div className="text-xs leading-[17px]">
-              <span>5.58%</span>
+              <span>0.00%</span>
             </div>
           </div>
           <div className="flex justify-between items-center mb-[12px]">
@@ -49,7 +85,7 @@ function APRWidget () {
               esTND APR
             </span>
             <div className="text-xs leading-[17px]">
-              <span>15.18%</span>
+              <span>{formattedAPR}</span>
             </div>
           </div>
           <p className="text-[#818987] text-xs  text-left leading-[17px]">
@@ -132,12 +168,16 @@ export default function EarnContent(): JSX.Element {
     return setCurrentModal(null);
   }
 
+  function RefreshData() {
+    if(signer) getAllData(signer).then(setData);
+
+  }
+  console.log(networkData)
+
   useEffect(() => {
-    quotePriceInUSDC().then(setTNDPrice)
-    if(signer) getAllData(signer).then( data => {
-      console.log("ALL DATA", data)
-      setData(data)
-    });
+    quotePriceInUSDC().then(setTNDPrice)   
+    RefreshData()
+
     setOnClient(true);
     if (isDisconnected()) {
       metaMask.connectEagerly();
@@ -149,35 +189,37 @@ export default function EarnContent(): JSX.Element {
     if (!signer || amount.lte(0)) return
     try {
       if (symbol === "TND") {
-        await TND.stakeTnd(signer, amount)
+        var tx = await TND.stakeTnd(signer, amount)
       } else {
-        await TND.stakeEsTnd(signer, amount)
+        tx = await TND.stakeEsTnd(signer, amount)
       }
+      toast.success("Submitting transaction")
+      await tx.wait(1)
       toast.success("Stake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Stake unsuccessful");
     }
-  }
+
+    RefreshData()
+ }
 
   const onUnStake = async (amount: BigNumber, symbol: "TND" | "ESTND" = "TND") => {
     if (!signer || amount.lte(0)) return
     try {
       if (symbol === "TND") {
-        await TND.unstakeTnd(signer, amount)
+        var tx = await TND.unstakeTnd(signer, amount)
       } else {
-        await TND.unstakeEsTnd(signer, amount)
+        tx = await TND.unstakeEsTnd(signer, amount)
       }
+      toast.success("Submitting transaction")
+      await tx.wait(1)
       toast.success("unstake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Unstake unsuccessful");
+      RefreshData()
     }
   }
 
-  const APR = (totalStaked): string => {
-    if (!tndPrice || !networkData || !data) return ""
-    const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 * networkData.l2SecondsPerBlock
-    return ((tndPrice * (BLOCKS_PER_YEAR) * EMISSION_RATE)/totalStaked.toNumber() * 100).toString()
-  }
 
   return (
     <PriceContext.Provider value={{ tnd: tndPrice ?? undefined, eth: undefined}}>
@@ -249,7 +291,7 @@ export default function EarnContent(): JSX.Element {
           {
               title: "Protocol Rewards (esTND)",
               exchange: `1 esTND = ${tndPrice ?? "?"}`,
-              unclaimed: `${data?.claimableESTND ?? "?"} esTND`,
+              unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
               unclaimedUsd: `$${data ? displayTNDInUSD(data?.claimableESTND, tndPrice ?? 0) : "?"}`,
               onClickClaim: () => signer && TND.claimEsTnd(signer)
             },
@@ -295,7 +337,10 @@ export default function EarnContent(): JSX.Element {
                 <Row left="Staked" amount={data?.stakedTND} symbol="TND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
-                <Row left="APR" right={<APRWidget />} />
+                {data &&
+                  <Row left="APR" right={<APRWidget staked={data.stakedTND} emissions={data.stakedTND}
+                    l2SecondsPerBlock={networkData.l2SecondsPerBlock} />} />              
+                }
                 <Row left="Rewards" right={<>
                   <div
                     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
@@ -333,20 +378,7 @@ export default function EarnContent(): JSX.Element {
                       } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
                     >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-left">
-                            Boost your rewards with Multiplier Points.{" "}
-                            <a
-                              onBlur={(e) => setTabFocus(0)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-white"
-                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
-                            >
-                              More info.
-                            </a>
-                          </p>
-                        </div>
+                        <MultiplierPointsExplainer />
                       </div>
                       <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
@@ -358,14 +390,15 @@ export default function EarnContent(): JSX.Element {
                     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
                     tabIndex={0}
                   >
+                    {data && 
                     <span className="text-sm md:text-base">
                       {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
                       { (data?.bonusPoints && data?.stakedTND.gt(0) && data?.stakedESTND.gt(0)) ?
-                      `${100 * (data?.bonusPoints.toNumber() / (data?.stakedTND.toNumber() + data?.stakedESTND.toNumber())) }%`
-                      : "0.00%"
+                        `${formatUnits(data.bonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)), 0) }%`
+                        : "0.00%"
+                      }
+                      </span>
                     }
-                      
-                    </span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
@@ -444,7 +477,9 @@ export default function EarnContent(): JSX.Element {
                 <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                <Row left="APR" right={<APRWidget/>} />                
+                {data &&
+                  <Row left="APR" right={<APRWidget l2SecondsPerBlock={networkData.l2SecondsPerBlock} staked={data.esTNDBalance} emissions={data.tndEmissions} />} />                
+                }
                 <div
                   className="flex items-center gap-x-[10px] justify-between"
                   tabIndex={0}
@@ -464,20 +499,7 @@ export default function EarnContent(): JSX.Element {
                       } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
                     >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-left">
-                            Boost your rewards with Multiplier Points.{" "}
-                            <a
-                              onBlur={(e) => setTabFocus(0)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-white"
-                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
-                            >
-                              More info.
-                            </a>
-                          </p>
-                        </div>
+                        <MultiplierPointsExplainer />
                       </div>
                       <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
@@ -550,20 +572,7 @@ export default function EarnContent(): JSX.Element {
                       } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
                     >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-left">
-                            Boost your rewards with Multiplier Points.{" "}
-                            <a
-                              onBlur={(e) => setTabFocus(0)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-white"
-                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
-                            >
-                              More info.
-                            </a>
-                          </p>
-                        </div>
+                        <MultiplierPointsExplainer />
                       </div>
                       <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
@@ -588,20 +597,7 @@ export default function EarnContent(): JSX.Element {
                       } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
                     >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
-                          <p className="text-[#818987] text-left">
-                            Boost your rewards with Multiplier Points.{" "}
-                            <a
-                              onBlur={(e) => setTabFocus(0)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="line-solid cursor-pointer capitalize text-white"
-                              href="https://docs.tender.fi/tendienomics/rewards-and-incentives#multiplier-points"
-                            >
-                              More info.
-                            </a>
-                          </p>
-                        </div>
+                        <MultiplierPointsExplainer />
                       </div>
                       <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>

@@ -120,6 +120,8 @@ export const getAllData = async (signer: Signer) => {
     sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),
     sESTNDAllowance: sdk.TND.allowance(address, sdk.esTND.address),
 
+    tndEmissions: sdk.sTND.tokensPerInterval(),
+
     // bonus points = depositbalancesTND
     // boostPercentage: MP / bonusPoints+amountstaked // : 100 * (4.5656) / (7.54 + 2.00) = 47.85%
 

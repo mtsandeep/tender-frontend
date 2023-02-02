@@ -44,7 +44,7 @@ export default function Modal({
   const onChange = () => {
       if (inputEl.current) {
         try {
-            var value = parseUnits(inputEl.current.value , tokenDecimals)
+            var value = parseUnits(inputEl.current.value.replace(/,/g, "") , tokenDecimals)
         } catch (e) {
             setValidationDetail("Invalid input")           
             return
