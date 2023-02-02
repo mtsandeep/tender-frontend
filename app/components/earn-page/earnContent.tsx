@@ -711,42 +711,38 @@ export default function EarnContent(): JSX.Element {
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <div
-                  className="flex items-center gap-x-[10px] justify-between"
+                <Row left="Staked Tokens" right={ !data ? "?" :
+                  <div
+                  className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
                   tabIndex={0}
                 >
-                  <span className="text-[#818987] w-fit text-base">
-                    Staked Tokens
-                  </span>
-                  <div
-                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">0.00</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987]">
-                          <div className="flex justify-between items-center mb-[8px]">
-                            <span className="text-xs leading-[17px]">
-                              0.00 TND
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center mb-[8px]">
-                            <span className="text-xs leading-[17px]">
-                              0.00 esTND
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs leading-[17px]">
-                              0.00 Multiplier Points
-                            </span>
-                          </div>
+                  <span className="text-sm md:text-base">{displayTND(data.stakedAmounts)}</span>
+                  <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987]">
+                        <div className="flex justify-between items-center mb-[8px]">
+                          <span className="text-xs leading-[17px]">
+                            0.00 TND
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center mb-[8px]">
+                          <span className="text-xs leading-[17px]">
+                            0.00 esTND
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs leading-[17px]">
+                            0.00 Multiplier Points
+                          </span>
                         </div>
                       </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                   </div>
                 </div>
+
+                }/>
+
                 <div
                   className="flex items-center gap-x-[10px] justify-between"
                   tabIndex={0}
