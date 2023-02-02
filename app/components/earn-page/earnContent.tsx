@@ -122,6 +122,10 @@ function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
   return toCryptoString(formatUnits(tndInUSD, TND.TND_DECIMALS), 4)
 }
 
+function displayTNDWithUSD(amount?: BigNumber, price?: number | null): string {
+  if (!amount) return "?"
+  return `${displayTND(amount)} (${price ? displayTNDInUSD(amount, price) : "?"})`
+}
 
 type RowArgs = {
   left: string | ReactNode,
@@ -138,9 +142,7 @@ function Row(args: RowArgs) {
     <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
       <>
         {args.right && args.right } 
-        {args.amount && price && <>
-          {displayTND(args.amount)} (${displayTNDInUSD(args.amount, price)})
-        </>}
+        {args.amount && price && displayTNDWithUSD(args.amount, price)}
       </>
     </span>
   </div>
@@ -220,6 +222,31 @@ export default function EarnContent(): JSX.Element {
     }
   }
 
+  const onClaimmESTND = async ()=> {
+    if (!signer || data?.claimableESTND.eq(0)) return
+    try {
+      var tx = await TND.claimEsTnd(signer)
+      toast.success("Submitting transaction")
+      await tx.wait(1)
+      toast.success("Claim successful")
+    } catch (e) {
+      displayErrorMessage(networkData, e, "Compound unsuccessful");
+      RefreshData()
+    }
+  }
+
+  const onCompound = async ()=> {
+    if (!signer) return
+    try {
+      var tx = await TND.compound(signer)
+      toast.success("Submitting transaction")
+      await tx.wait(1)
+      toast.success("Compound successful")
+    } catch (e) {
+      displayErrorMessage(networkData, e, "Compound unsuccessful");
+      RefreshData()
+    }
+  }
 
   return (
     <PriceContext.Provider value={{ tnd: tndPrice ?? undefined, eth: undefined}}>
@@ -293,7 +320,7 @@ export default function EarnContent(): JSX.Element {
               exchange: `1 esTND = ${tndPrice ?? "?"}`,
               unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
               unclaimedUsd: `$${data ? displayTNDInUSD(data?.claimableESTND, tndPrice ?? 0) : "?"}`,
-              onClickClaim: () => signer && TND.claimEsTnd(signer)
+              onClickClaim: onClaimmESTND
             },
           ],
         }}
@@ -321,7 +348,7 @@ export default function EarnContent(): JSX.Element {
           {data && <span>
             You are earning TND rewards with {displayTND(data.TNDBalance)} tokens.
             <br />
-            Tokens: {displayTND(data.TNDBalance)}, {displayTND(data.esTNDBalance)} esTND, {data.bonusPoints.toString()} MP.
+            Tokens: {displayTND(data.TNDBalance)}, {displayTND(data.esTNDBalance)} esTND, {displayTND(data.claimableBonusPoints)} MP.
             </span>
           }
         </p>
@@ -346,7 +373,7 @@ export default function EarnContent(): JSX.Element {
                     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">$0.00</span>
+                    <span className="text-sm md:text-base">${data && tndPrice ? displayTNDInUSD(data?.claimableESTND, tndPrice) : "?"}</span>
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
@@ -356,7 +383,7 @@ export default function EarnContent(): JSX.Element {
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-[#818987]">esTND</span>
-                            <span className="">0.00 ($0.00)</span>
+                            <span className="">{displayTNDWithUSD(data?.claimableESTND, tndPrice)}</span>
                           </div>
                         </div>
                       </div>
@@ -393,8 +420,8 @@ export default function EarnContent(): JSX.Element {
                     {data && 
                     <span className="text-sm md:text-base">
                       {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
-                      { (data?.bonusPoints && data?.stakedTND.gt(0) && data?.stakedESTND.gt(0)) ?
-                        `${formatUnits(data.bonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)), 0) }%`
+                      { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
+                        `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())} %`
                         : "0.00%"
                       }
                       </span>
@@ -402,7 +429,11 @@ export default function EarnContent(): JSX.Element {
                     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
-                          You are earning 0.00% more TND rewards using 0.00
+                          You are earning
+                          { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
+                            ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())} % `
+                            : "0.00% " }
+                          more TND rewards using {data ? displayTND(data?.stakedBonusPoints) : " 0.00 "}
                           Staked Multiplier Points. <br />
                           <br />
                           Use the "Compound" button to stake your Multiplier
@@ -564,8 +595,7 @@ export default function EarnContent(): JSX.Element {
                     className=" cursor-pointer group line-dashed text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">{(data?.bonusPoints)?.toString()}</span>
-
+                    <span className="text-sm md:text-base">{data ? displayTND(data.claimableBonusPoints) : ""}</span>
                     <div
                       className={`${
                         tabFocus === 3 ? "flex" : "hidden"
@@ -590,7 +620,7 @@ export default function EarnContent(): JSX.Element {
                     className=" cursor-pointer group line-dashed text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span className="text-sm md:text-base">{data?.stakedBNTND.toString() ?? "bntd"}</span>
+                    <span className="text-sm md:text-base">{data ? displayTND(data.stakedBonusPoints) : ""}</span>
                     <div
                       className={`${
                         tabFocus === 4 ? "flex" : "hidden"
@@ -616,7 +646,7 @@ export default function EarnContent(): JSX.Element {
                   <>
                     <div className="btn-custom-border rounded-[6px]">
                       <button
-                        onClick={ ()=> { signer && TND.compound(signer) } }
+                        onClick={onCompound}
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Compound
                       </button>

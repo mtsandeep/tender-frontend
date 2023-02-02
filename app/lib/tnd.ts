@@ -110,12 +110,13 @@ export const getAllData = async (signer: Signer) => {
     stakedESTND: sdk.sTND.depositBalances(address, sdk.esTND.address),
     stakedBNTND: sdk.bnTND.stakedBalance(address),
 
-    // bonus points are multipleir points
-    bonusPoints: sdk.sbTND.depositBalances(address, sdk.bnTND.address),
+    // bonus points are multiplier points
+    stakedBonusPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
+
+    claimableBonusPoints: sdk.sbTND.claimable(address),
 
     claimableESTND: sdk.sTND.claimable(address),
     claimableFees: sdk.sbfTND.claimable(address),
-    claimableBonusPoints: sdk.sbTND.claimable(address),
 
     sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),
     sESTNDAllowance: sdk.TND.allowance(address, sdk.esTND.address),
