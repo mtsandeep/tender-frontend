@@ -121,8 +121,9 @@ function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
   if (amount.eq(0)) return "0.00"
 
   // BigNumber only works for ints, and price is in cents
-  let tndInUSD = amount.mul(tndPrice * 100).div(100)
-  return toCryptoString(formatUnits(tndInUSD, TND.TND_DECIMALS), 4)
+  let TND_VALUE_IN_CENTS = amount.mul(Math.floor(tndPrice * 100))
+  // add 2 decimals because we're in cents
+  return toCryptoString(formatUnits(TND_VALUE_IN_CENTS, TND.TND_DECIMALS + 2), 4)
 }
 
 function displayTNDWithUSD(amount?: BigNumber, price?: number | null): string {
@@ -369,7 +370,7 @@ export default function EarnContent(): JSX.Element {
           symbol="ESTND"
         />
       }
-      { currentModal === "withdrawESTND" && <Modal
+      {/* { currentModal === "withdrawESTND" && <Modal
           closeModal={closeModal}
           balance={data?.sdsad ?? BigNumber.from(0)}
           signer={signer}
@@ -378,7 +379,7 @@ export default function EarnContent(): JSX.Element {
           action="Withdraw"
           symbol="ESTND"
         />
-      }
+      } */}
       </ReactModal>
 
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
@@ -390,7 +391,7 @@ export default function EarnContent(): JSX.Element {
               title: "Protocol Rewards (esTND)",
               exchange: `1 esTND = ${tndPrice ?? "?"}`,
               unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
-              unclaimedUsd: `$${data ? displayTNDInUSD(data?.claimableESTND, tndPrice ?? 0) : "?"}`,
+              unclaimedUsd: `$${data ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0) : "?"}`,
               onClickClaim: onClaimESTND
             },
           ],
@@ -425,7 +426,7 @@ export default function EarnContent(): JSX.Element {
         </p>
         <div className="font-[ProximaNova] w-full">
           <div tabIndex={0} className="panel-custom">
-            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
               TENDIES
             </div>
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
@@ -787,7 +788,8 @@ export default function EarnContent(): JSX.Element {
           before using the vault.
         </p>
         {data && <Vault data={data}
-          setCurrentModal={(m) =>  m=== "withdrawESTND" ? onWithdraw() : setCurrentModal} /> }
+          setCurrentModal={
+            (m) =>  m === "withdrawESTND" ? onWithdraw() : setCurrentModal("depositESTND")} /> }
       </div>
     </div>
     </PriceContext.Provider>
