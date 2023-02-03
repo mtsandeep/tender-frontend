@@ -75,7 +75,7 @@ export default function Modal({
               />
             </svg>
             <div className="flex align-middle justify-center items-center py-[20px] border-b-[1px] border-[#282C2B]">
-              Stake ${symbol}
+              ${action.toLocaleUpperCase()} ${symbol}
             </div>
 
             {!isEnabled ? (

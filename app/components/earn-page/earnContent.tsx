@@ -124,7 +124,7 @@ function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
 
 function displayTNDWithUSD(amount?: BigNumber, price?: number | null): string {
   if (!amount) return "?"
-  return `${displayTND(amount)} (${price ? displayTNDInUSD(amount, price) : "?"})`
+  return `${displayTND(amount)} ($${price ? displayTNDInUSD(amount, price) : "?"})`
 }
 
 type RowArgs = {
@@ -193,11 +193,13 @@ export default function EarnContent(): JSX.Element {
       } else {
         tx = await TND.stakeEsTnd(signer, amount)
       }
-      toast.success("Submitting transaction")
+      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("Stake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Stake unsuccessful");
+    } finally {
+      toast.dismiss(id)
     }
 
     RefreshData()
@@ -211,12 +213,14 @@ export default function EarnContent(): JSX.Element {
       } else {
         tx = await TND.unstakeEsTnd(signer, amount)
       }
-      toast.success("Submitting transaction")
+      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("unstake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Unstake unsuccessful");
       RefreshData()
+    } finally {
+      toast.dismiss(id)
     }
   }
 
@@ -224,12 +228,14 @@ export default function EarnContent(): JSX.Element {
     if (!signer || data?.claimableESTND.eq(0)) return
     try {
       var tx = await TND.claimEsTnd(signer)
-      toast.success("Submitting transaction")
+      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("Claim successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Claim unsuccessful");
       RefreshData()
+    } finally {
+      toast.dismiss(id)
     }
   }
 
@@ -237,7 +243,7 @@ export default function EarnContent(): JSX.Element {
     if (!signer) return
     try {
       var tx = await TND.compound(signer)
-      toast.success("Submitting transaction")
+      var id = toast.loading("Submitting transaction")
       console.log(tx)
       await tx.wait(1)
       console.log(1111)
@@ -245,6 +251,8 @@ export default function EarnContent(): JSX.Element {
     } catch (e) {
       displayErrorMessage(networkData, e, "Compound unsuccessful");
       RefreshData()
+    } finally {
+      toast.dismiss(id)
     }
   }
 
@@ -252,11 +260,13 @@ export default function EarnContent(): JSX.Element {
     if (!signer || amount.lte(0)) return
     try {
       var tx = await TND.depositESTND(signer, amount)
-      toast.success("Submitting transaction")
+      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("Deposit successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Deposit unsuccessful");
+    } finally {
+      toast.dismiss(id)
     }
 
     RefreshData()
@@ -448,7 +458,7 @@ export default function EarnContent(): JSX.Element {
                     <span className="text-sm md:text-base">
                       {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
                       { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
-                        `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())} %`
+                        `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())}%`
                         : "0.00%"
                       }
                       </span>
@@ -565,8 +575,8 @@ export default function EarnContent(): JSX.Element {
               </div>
 
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
                 <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
+                <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
               </div>
 
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
