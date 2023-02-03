@@ -193,13 +193,13 @@ export default function EarnContent(): JSX.Element {
 
   const onStake = async (amount: BigNumber, symbol: "TND" | "ESTND" = "TND") => {
     if (!signer || amount.lte(0)) return
+    var id = toast.loading("Submitting transaction")
     try {
       if (symbol === "TND") {
         var tx = await TND.stakeTnd(signer, amount)
       } else {
         tx = await TND.stakeEsTnd(signer, amount)
       }
-      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("Stake successful")
     } catch (e) {
@@ -213,13 +213,13 @@ export default function EarnContent(): JSX.Element {
 
   const onUnStake = async (amount: BigNumber, symbol: "TND" | "ESTND" = "TND") => {
     if (!signer || amount.lte(0)) return
+    var id = toast.loading("Submitting transaction")
     try {
       if (symbol === "TND") {
         var tx = await TND.unstakeTnd(signer, amount)
       } else {
         tx = await TND.unstakeEsTnd(signer, amount)
       }
-      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("unstake successful")
     } catch (e) {
@@ -232,9 +232,9 @@ export default function EarnContent(): JSX.Element {
 
   const onClaimESTND = async ()=> {
     if (!signer || data?.claimableESTND.eq(0)) return
+    var id = toast.loading("Submitting transaction")
     try {
       var tx = await TND.claimEsTnd(signer)
-      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("Claim successful")
     } catch (e) {
@@ -247,9 +247,9 @@ export default function EarnContent(): JSX.Element {
 
   const onCompound = async ()=> {
     if (!signer) return
+    var id = toast.loading("Submitting transaction")
     try {
       var tx = await TND.compound(signer)
-      var id = toast.loading("Submitting transaction")
       console.log(tx)
       await tx.wait(1)
       console.log(1111)
@@ -264,9 +264,9 @@ export default function EarnContent(): JSX.Element {
 
   const onDeposit = async (amount: BigNumber) => {
     if (!signer || amount.lte(0)) return
+    var id = toast.loading("Submitting transaction")
     try {
       var tx = await TND.depositESTND(signer, amount)
-      var id = toast.loading("Submitting transaction")
       await tx.wait(1)
       toast.success("Deposit successful")
     } catch (e) {
@@ -279,14 +279,15 @@ export default function EarnContent(): JSX.Element {
    }
 
    const onWithdraw = async (amount: BigNumber) => {
-    if (!signer || amount.lte(0)) return
+    if (!signer) return
+    var id = toast.loading("Submitting transaction")
     try {
-      var tx = await TND.depositESTND(signer, amount)
-      var id = toast.loading("Submitting transaction")
+      var tx = await TND.withdrawESTND(signer)
       await tx.wait(1)
-      toast.success("Deposit successful")
+      toast.success("Withdraw successful")
+      toast.dismiss(id)
     } catch (e) {
-      displayErrorMessage(networkData, e, "Deposit unsuccessful");
+      displayErrorMessage(networkData, e, "Withdraw unsuccessful");
     } finally {
       toast.dismiss(id)
     }
@@ -523,8 +524,14 @@ export default function EarnContent(): JSX.Element {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
+                      
                       <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                        Buy TND
+                        <a 
+                          target="_blank"
+                          href="https://app.uniswap.org/#/swap?outputCurrency=0xc47d9753f3b32aa9548a7c3f30b6aec3b2d2798c"
+                        >
+                          Buy TND
+                        </a>
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
@@ -625,7 +632,9 @@ export default function EarnContent(): JSX.Element {
                   tabIndex={0}
                 >
                   <span className="text-[#818987] w-fit text-base">Total</span>
-                  <div className="text-sm md:text-base leading-[17px]">$0.00</div>
+                  <div className="text-sm md:text-base leading-[17px]">
+                   ${tndPrice && data && displayTNDInUSD(data.claimableESTND.add(data.claimableTND), tndPrice)}
+                  </div>
                 </div>
               </div>
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">

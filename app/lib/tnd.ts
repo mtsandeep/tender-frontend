@@ -89,7 +89,7 @@ export const depositESTND = async (signer: Signer, amount: BigNumber): Promise<C
   return sdk.vTND.deposit(amount)
 }
 
-export const onWithdrawESTND = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
+export const withdrawESTND = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
   return sdk.vTND.withdraw()
 }

@@ -26,6 +26,6 @@ export function displayErrorMessage(networkData: NetworkData, error: any, defaul
     // when the requested amount is too small, GMX truncates to 0 and the transaction fails
     toast.error("Requested transaction amount too small.")
    } else {
-    toast.error(defaultMessage);
+    toast.error(error?.reason ?? defaultMessage);
   }
 }
