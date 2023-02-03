@@ -66,12 +66,12 @@ export const unstakeEsTnd = async (signer: Signer, amount: BigNumberish): Promis
 
 export const compound = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  return sdk.RewardRouter.compound()
+  return sdk.RewardRouter.handleRewards(true, true, true, true, true, true, true)
 }
 
 export const claim = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  return sdk.RewardRouter.claim()
+  return sdk.RewardRouter.handleRewards(true, false, true, false, false, true, true)
 }
 
 export const claimEsTnd = async (signer: Signer): Promise<ContractTransaction> => {
