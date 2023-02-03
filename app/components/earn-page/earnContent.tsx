@@ -252,7 +252,6 @@ export default function EarnContent(): JSX.Element {
       var tx = await TND.compound(signer)
       console.log(tx)
       await tx.wait(1)
-      console.log(1111)
       toast.success("Compound successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Compound unsuccessful");
@@ -278,7 +277,7 @@ export default function EarnContent(): JSX.Element {
     RefreshData()
    }
 
-   const onWithdraw = async (amount: BigNumber) => {
+   const onWithdraw = async (amount?: BigNumber) => {
     if (!signer) return
     var id = toast.loading("Submitting transaction")
     try {
@@ -787,7 +786,8 @@ export default function EarnContent(): JSX.Element {
           </a>{" "}
           before using the vault.
         </p>
-        {data && <Vault data={data} setCurrentModal={setCurrentModal} /> }
+        {data && <Vault data={data}
+          setCurrentModal={(m) =>  m=== "withdrawESTND" ? onWithdraw() : setCurrentModal} /> }
       </div>
     </div>
     </PriceContext.Provider>
