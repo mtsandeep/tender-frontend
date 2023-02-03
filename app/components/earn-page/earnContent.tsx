@@ -225,10 +225,10 @@ export default function EarnContent(): JSX.Element {
       toast.success("unstake successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Unstake unsuccessful");
-      RefreshData()
     } finally {
       toast.dismiss(id)
     }
+    RefreshData()
   }
 
   const onClaimESTND = async ()=> {
@@ -240,10 +240,10 @@ export default function EarnContent(): JSX.Element {
       toast.success("Claim successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Claim unsuccessful");
-      RefreshData()
     } finally {
       toast.dismiss(id)
     }
+    RefreshData()
   }
 
   const onCompound = async ()=> {
@@ -256,10 +256,11 @@ export default function EarnContent(): JSX.Element {
       toast.success("Compound successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Compound unsuccessful");
-      RefreshData()
     } finally {
       toast.dismiss(id)
     }
+
+    RefreshData()
   }
 
   const onDeposit = async (amount: BigNumber) => {
@@ -418,9 +419,8 @@ export default function EarnContent(): JSX.Element {
           to learn more.
           <br />
           {data && <span>
-            You are earning TND rewards with {displayTND(data.TNDBalance)} tokens.
-            <br />
-            Tokens: {displayTND(data.TNDBalance)}, {displayTND(data.esTNDBalance)} esTND, {displayTND(data.claimableBonusPoints)} MP.
+            You are earning rewards with <br/>
+            {displayTND(data.stakedTND)} TND, {displayTND(data.stakedESTND)} esTND, and {displayTND(data.stakedBonusPoints)} Multiplier Points.
             </span>
           }
         </p>
