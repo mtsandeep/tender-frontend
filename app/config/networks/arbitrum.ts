@@ -222,5 +222,11 @@ export const Tendies: IncentiveContractsConfig= {
       decimals: 18,
       address: "0x510894845E7f632222bd8a912855Aa82ba3f7eD0",
     },
+    vTND: {
+      name: "Vester TND",
+      symbol: "vTND",
+      decimals: 18,
+      address: "0x7Bec2668587b1F83aA60bF273864808d11794951"
+    }
   }
 }

@@ -26,7 +26,9 @@ export default defineConfig({
       sTND: Tendies.Trackers.sTND.address,
 
       // staked bonus tnd
-      sbTND: Tendies.Trackers.sbTND.address
+      sbTND: Tendies.Trackers.sbTND.address,
+
+      vTND: Tendies.Trackers.vTND.address
     },
   },
 })

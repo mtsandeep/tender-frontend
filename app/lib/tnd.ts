@@ -46,7 +46,6 @@ export const enable = async (token: IncentiveToken, signer: Signer): Promise<Txn
 
 export const stakeTnd = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  const address = await signer.getAddress();
   return sdk.RewardRouter.stakeTnd(amount)
 }
 
@@ -85,6 +84,16 @@ export const claimFees = async (signer: Signer): Promise<ContractTransaction> =>
   return sdk.RewardRouter.claimFees()
 }
 
+export const depositESTND = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.vTND.deposit(amount)
+}
+
+export const onWithdrawTND = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.vTND.deposit(amount)
+}
+
 export async function quotePriceInUSDC() {
   let contract = Tendies.Tokens.TND.address
   let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)
@@ -102,31 +111,34 @@ export const getAllData = async (signer: Signer) => {
     bnBalance: sdk.bnTND.balanceOf(address),
 
     TNDTotalSupply: sdk.TND.totalSupply(),
-
-    claimableTND: sdk.sbTND.claimable(address),
-    claimableBNTND: sdk.sbfTND.claimable(address),
+    totalTNDStaked: sdk.sTND.totalSupply(),
 
     stakedTND: sdk.sTND.depositBalances(address, sdk.TND.address),
     stakedESTND: sdk.sTND.depositBalances(address, sdk.esTND.address),
-    stakedBNTND: sdk.bnTND.stakedBalance(address),
-
-    // bonus points are multiplier points
     stakedBonusPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
 
-    claimableBonusPoints: sdk.sbTND.claimable(address),
+    // bonus points are multiplier points
+    // bonus points = depositbalancesTND
+    // boostPercentage: MP / bonusPoints+amountstaked // : 100 * (4.5656) / (7.54 + 2.00) = 47.85%
 
+    claimableBonusPoints: sdk.sbTND.claimable(address),
     claimableESTND: sdk.sTND.claimable(address),
     claimableFees: sdk.sbfTND.claimable(address),
 
     sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),
     sESTNDAllowance: sdk.TND.allowance(address, sdk.esTND.address),
-    tndEmissions: sdk.sTND.tokensPerInterval(),
 
+    // an interval is a block
+    emissionsPerBlock: sdk.sTND.tokensPerInterval(),
     stakedAmounts: sdk.sbfTND.stakedAmounts(address),
 
-    // bonus points = depositbalancesTND
-    // boostPercentage: MP / bonusPoints+amountstaked // : 100 * (4.5656) / (7.54 + 2.00) = 47.85%
-    totalTNDStaked: sdk.sTND.totalSupply()
+    // Vester
+    // claimableTND: sdk.v
+    vestedTND: sdk.vTND.getVestedAmount(address),
+    claimableTND: sdk.vTND.claimable(address),
+    claimedTND: sdk.vTND.claimedAmounts(address),
+    vTNDAllowance: sdk.esTND.allowance(address, sdk.vTND.address),
+    maxVestableAmount: sdk.vTND.getMaxVestableAmount(address)
   }
 
   await Promise.all(Object.values(dataPromises))

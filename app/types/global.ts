@@ -110,7 +110,7 @@ export type Market = {
   collateralFactor: number
 };
 
-export type IncentiveTracker = "sTND" | "sbTND" | "sbfTND";
+export type IncentiveTracker = "sTND" | "sbTND" | "sbfTND" | "vTND";
 export type IncentiveToken = "TND" | "esTND" | "bnTND";
 
 export type IncentiveConfig = {

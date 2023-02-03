@@ -41,25 +41,25 @@ function MultiplierPointsExplainer() {
 </div>
 }
 
-const APR = (totalStaked: BigNumber, emissions: BigNumber, price?: number, l2SecondsPerBlock?: number): string => {
-  if (totalStaked.eq(0)) return "0.00 staked"
-  if (!price || !l2SecondsPerBlock) return "?"
+const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber, secondsPerBlock: number): string => {
+  if (totalStaked.eq(0)) return "0.00"
 
-  const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 / l2SecondsPerBlock
-  const EMISSION_VALUE_PER_YEAR_IN_CENTS = emissions.mul(Math.floor(100 * price * BLOCKS_PER_YEAR))
-  return formatUnits(EMISSION_VALUE_PER_YEAR_IN_CENTS.div(totalStaked), 2) + "%"
+  const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 / secondsPerBlock
+  const EMISSION_VALUE_PER_YEAR = rewardPerBlock.mul(Math.floor(100 * BLOCKS_PER_YEAR))
+  return EMISSION_VALUE_PER_YEAR.div(totalStaked).toString() + "%"
 }
 
 type APRwidgetArgs = {
-  staked: BigNumber;
-  emissions: BigNumber;
-  l2SecondsPerBlock: number;
+  totalStaked: BigNumber;
+  rewardPerBlock: BigNumber;
 }
 
-function APRWidget({staked, emissions, l2SecondsPerBlock}: APRwidgetArgs) {
-  let { tnd, eth } = useContext(PriceContext)
-  console.log(staked, "emissions", emissions)
-  let formattedAPR = APR(staked, emissions, tnd, l2SecondsPerBlock)
+function APRWidget({totalStaked, rewardPerBlock}: APRwidgetArgs) {
+  let { networkData } = useContext(TenderContext)
+  let { secondsPerBlock } = networkData
+
+  let formattedAPR = APR(totalStaked, rewardPerBlock, secondsPerBlock)
+
   return <div
     className="flex items-center gap-x-[10px] justify-between"
     tabIndex={0}
@@ -156,7 +156,7 @@ export default function EarnContent(): JSX.Element {
   }>({ open: false, rewards: [] });
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
-  const [currentModal, setCurrentModal] = useState<"stake" | "unstake" | "stakeESTND" | "unstakeESTND" | null>(null);
+  const [currentModal, setCurrentModal] = useState<"stake" | "unstake" | "stakeESTND" | "unstakeESTND" | "depositESTND" | null>(null);
   const [tndPrice, setTNDPrice] = useState<number | null>(null);
   const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
 
@@ -172,9 +172,7 @@ export default function EarnContent(): JSX.Element {
 
   function RefreshData() {
     if(signer) getAllData(signer).then(setData);
-
   }
-  console.log(networkData)
 
   useEffect(() => {
     quotePriceInUSDC().then(setTNDPrice)   
@@ -222,7 +220,7 @@ export default function EarnContent(): JSX.Element {
     }
   }
 
-  const onClaimmESTND = async ()=> {
+  const onClaimESTND = async ()=> {
     if (!signer || data?.claimableESTND.eq(0)) return
     try {
       var tx = await TND.claimEsTnd(signer)
@@ -230,7 +228,7 @@ export default function EarnContent(): JSX.Element {
       await tx.wait(1)
       toast.success("Claim successful")
     } catch (e) {
-      displayErrorMessage(networkData, e, "Compound unsuccessful");
+      displayErrorMessage(networkData, e, "Claim unsuccessful");
       RefreshData()
     }
   }
@@ -240,13 +238,29 @@ export default function EarnContent(): JSX.Element {
     try {
       var tx = await TND.compound(signer)
       toast.success("Submitting transaction")
+      console.log(tx)
       await tx.wait(1)
+      console.log(1111)
       toast.success("Compound successful")
     } catch (e) {
       displayErrorMessage(networkData, e, "Compound unsuccessful");
       RefreshData()
     }
   }
+
+  const onDeposit = async (amount: BigNumber) => {
+    if (!signer || amount.lte(0)) return
+    try {
+      var tx = await TND.depositESTND(signer, amount)
+      toast.success("Submitting transaction")
+      await tx.wait(1)
+      toast.success("Deposit successful")
+    } catch (e) {
+      displayErrorMessage(networkData, e, "Deposit unsuccessful");
+    }
+
+    RefreshData()
+ }
 
   return (
     <PriceContext.Provider value={{ tnd: tndPrice ?? undefined, eth: undefined}}>
@@ -308,6 +322,18 @@ export default function EarnContent(): JSX.Element {
           symbol="ESTND"
         />
       }
+
+      { currentModal === "depositESTND" && <Modal
+          closeModal={closeModal}
+          balance={data?.maxVestableAmount ?? BigNumber.from(0)}
+          signer={signer}
+          sTNDAllowance={data?.vTNDAllowance}
+          complete={onDeposit}
+          action="Deposit"
+          symbol="ESTND"
+        />
+      }
+
       </ReactModal>
 
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
@@ -320,7 +346,7 @@ export default function EarnContent(): JSX.Element {
               exchange: `1 esTND = ${tndPrice ?? "?"}`,
               unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
               unclaimedUsd: `$${data ? displayTNDInUSD(data?.claimableESTND, tndPrice ?? 0) : "?"}`,
-              onClickClaim: onClaimmESTND
+              onClickClaim: onClaimESTND
             },
           ],
         }}
@@ -365,8 +391,11 @@ export default function EarnContent(): JSX.Element {
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
                 {data &&
-                  <Row left="APR" right={<APRWidget staked={data.stakedTND} emissions={data.stakedTND}
-                    l2SecondsPerBlock={networkData.l2SecondsPerBlock} />} />              
+                  <Row left="APR" right={
+                  <APRWidget
+                    totalStaked={data.totalTNDStaked}
+                    rewardPerBlock={data.emissionsPerBlock} 
+                    />} />              
                 }
                 <Row left="Rewards" right={<>
                   <div
@@ -509,7 +538,7 @@ export default function EarnContent(): JSX.Element {
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
                 {data &&
-                  <Row left="APR" right={<APRWidget l2SecondsPerBlock={networkData.l2SecondsPerBlock} staked={data.esTNDBalance} emissions={data.tndEmissions} />} />                
+                  <Row left="APR" right={<APRWidget totalStaked={data.esTNDBalance} rewardPerBlock={data.emissionsPerBlock} />} />                
                 }
                 <div
                   className="flex items-center gap-x-[10px] justify-between"
@@ -811,7 +840,9 @@ export default function EarnContent(): JSX.Element {
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button 
+                      onClick={()=>setCurrentModal("depositESTND")}
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Deposit
                       </button>
                     </div>
