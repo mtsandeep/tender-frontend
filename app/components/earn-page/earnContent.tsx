@@ -262,6 +262,10 @@ export default function EarnContent(): JSX.Element {
     RefreshData()
  }
 
+ const APRRow = data && <Row left="APR" right={
+    <APRWidget totalStaked={data.totalTNDStaked} rewardPerBlock={data.emissionsPerBlock} />
+  }/>
+
   return (
     <PriceContext.Provider value={{ tnd: tndPrice ?? undefined, eth: undefined}}>
       <ReactModal
@@ -390,13 +394,7 @@ export default function EarnContent(): JSX.Element {
                 <Row left="Staked" amount={data?.stakedTND} symbol="TND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
-                {data &&
-                  <Row left="APR" right={
-                  <APRWidget
-                    totalStaked={data.totalTNDStaked}
-                    rewardPerBlock={data.emissionsPerBlock} 
-                    />} />              
-                }
+                {data && APRRow}
                 <Row left="Rewards" right={<>
                   <div
                     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
@@ -537,9 +535,7 @@ export default function EarnContent(): JSX.Element {
                 <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                {data &&
-                  <Row left="APR" right={<APRWidget totalStaked={data.esTNDBalance} rewardPerBlock={data.emissionsPerBlock} />} />                
-                }
+                {APRRow}
                 <div
                   className="flex items-center gap-x-[10px] justify-between"
                   tabIndex={0}
@@ -615,7 +611,7 @@ export default function EarnContent(): JSX.Element {
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <Row left="ETH" amount={data?.claimableFees} symbol="ETH" />
+                <Row left="ETH" amount={data?.claimableFees} />
                 <Row left="TND" amount={data?.claimableTND} />
                 <Row left="esTND" amount={data?.claimableESTND} />
                 <Row left="Multiplier Points" right={<>
@@ -735,8 +731,8 @@ export default function EarnContent(): JSX.Element {
         </p>
         <div className="font-[ProximaNova] w-full" id="vest">
           <div tabIndex={0} className="panel-custom">
-            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-              TENDIES Vault
+            <div className="text-[#818987]     font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+              Coming Soon: TENDIES Vault
             </div>
             <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
@@ -841,13 +837,16 @@ export default function EarnContent(): JSX.Element {
                   <>
                     <div className="btn-custom-border rounded-[6px]">
                       <button 
+                      disabled
                       onClick={()=>setCurrentModal("depositESTND")}
                       className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Deposit
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      <button
+                        disabled
+                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Withdraw
                       </button>
                     </div>
