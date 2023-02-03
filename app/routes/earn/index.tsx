@@ -18,7 +18,7 @@ export default function Earn() {
 
   return (loading || !tenderContextData) ? <EmptyEarnContent /> : 
   <TenderContext.Provider value={tenderContextData}>
-    <EarnContent />;
+    <EarnContent />
   </TenderContext.Provider>
 }
 

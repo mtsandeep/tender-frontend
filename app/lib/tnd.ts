@@ -89,9 +89,9 @@ export const depositESTND = async (signer: Signer, amount: BigNumber): Promise<C
   return sdk.vTND.deposit(amount)
 }
 
-export const onWithdrawTND = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
+export const onWithdrawESTND = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  return sdk.vTND.deposit(amount)
+  return sdk.vTND.withdraw()
 }
 
 export async function quotePriceInUSDC() {
@@ -104,6 +104,7 @@ export async function quotePriceInUSDC() {
 export const getAllData = async (signer: Signer) => {
   let sdk = getArbitrumOneSdk(signer)
   let address = signer.getAddress()
+  let vestedTND = sdk.vTND.getVestedAmount(address)
 
   const dataPromises = {
     TNDBalance: sdk.TND.balanceOf(address),
@@ -137,11 +138,12 @@ export const getAllData = async (signer: Signer) => {
 
     // Vester
     // claimableTND: sdk.v
-    vestedTND: sdk.vTND.getVestedAmount(address),
+    vestedTND: vestedTND,
     claimableTND: sdk.vTND.claimable(address),
     claimedTND: sdk.vTND.claimedAmounts(address),
     vTNDAllowance: sdk.esTND.allowance(address, sdk.vTND.address),
-    maxVestableAmount: sdk.vTND.getMaxVestableAmount(address)
+    maxVestableAmount: sdk.vTND.getMaxVestableAmount(address),
+    reservedForVesting: vestedTND.then((tnd)=> sdk.vTND.getPairAmount(address, tnd))
   }
 
   await Promise.all(Object.values(dataPromises))

@@ -15,6 +15,9 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
 import Modal from "./modal";
 import ReactModal from "react-modal";
+import { JsonRpcSigner } from "@ethersproject/providers";
+import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
+import { Vault } from "./Vault";
 
 const PriceContext = createContext<{tnd?: number, eth?: number}>({});
 
@@ -100,7 +103,7 @@ function APRWidget({totalStaked, rewardPerBlock}: APRwidgetArgs) {
 </div>
 }
   
-function displayTND(amount: BigNumber) {
+export function displayTND(amount: BigNumber) {
   if (amount.eq(0)) return "0.00"
   let formatted = formatUnits(amount, TND.TND_DECIMALS);
   return toCryptoString(formatted, 6);
@@ -134,7 +137,7 @@ type RowArgs = {
   amount?: BigNumber,
 }
 
-function Row(args: RowArgs) {
+export function Row(args: RowArgs) {
   let context = useContext(PriceContext)
   let price = args.symbol === "ETH" ? context.eth : context.tnd;
   return <div className="flex items-center gap-x-[10px] justify-between" tabIndex={0}>
@@ -148,6 +151,9 @@ function Row(args: RowArgs) {
   </div>
 }
 
+export type allData = AsyncReturnType<(typeof getAllData)>
+export type Modals = "stake" | "unstake" | "stakeESTND" | "unstakeESTND" | "depositESTND" | "withdrawESTND" | null
+
 export default function EarnContent(): JSX.Element {
   const { useIsActive } = hooks;
   const [dataClaimModal, setDataClaimModal] = useState<{
@@ -156,9 +162,9 @@ export default function EarnContent(): JSX.Element {
   }>({ open: false, rewards: [] });
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
-  const [currentModal, setCurrentModal] = useState<"stake" | "unstake" | "stakeESTND" | "unstakeESTND" | "depositESTND" | null>(null);
+  const [currentModal, setCurrentModal] = useState<Modals>(null);
   const [tndPrice, setTNDPrice] = useState<number | null>(null);
-  const [data, setData] = useState<AsyncReturnType<(typeof getAllData)> | null>(null)  
+  const [data, setData] = useState<allData | null>(null)  
 
   const { networkData } = useContext(TenderContext);
   const { connect, isDisconnected } = useAuth();
@@ -270,7 +276,23 @@ export default function EarnContent(): JSX.Element {
     }
 
     RefreshData()
- }
+   }
+
+   const onWithdraw = async (amount: BigNumber) => {
+    if (!signer || amount.lte(0)) return
+    try {
+      var tx = await TND.depositESTND(signer, amount)
+      var id = toast.loading("Submitting transaction")
+      await tx.wait(1)
+      toast.success("Deposit successful")
+    } catch (e) {
+      displayErrorMessage(networkData, e, "Deposit unsuccessful");
+    } finally {
+      toast.dismiss(id)
+    }
+
+    RefreshData()
+   }
 
  const APRRow = data && <Row left="APR" right={
     <APRWidget totalStaked={data.totalESTNDStaked.add(data.totalTNDStaked)} rewardPerBlock={data.emissionsPerBlock} />
@@ -347,7 +369,16 @@ export default function EarnContent(): JSX.Element {
           symbol="ESTND"
         />
       }
-
+      { currentModal === "withdrawESTND" && <Modal
+          closeModal={closeModal}
+          balance={data?.sdsad ?? BigNumber.from(0)}
+          signer={signer}
+          sTNDAllowance={data?.vTNDAllowance}
+          complete={onWithdraw}
+          action="Withdraw"
+          symbol="ESTND"
+        />
+      }
       </ReactModal>
 
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
@@ -535,92 +566,7 @@ export default function EarnContent(): JSX.Element {
               </div>
             </div>
           </div>
-          <div tabIndex={0} className="panel-custom mt-[31px]">
-            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
-              ESCROWED TENDIES
-            </div>
-            <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
-                <Row left="Price" right={tndPrice?.toString()} />
-                <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
-                <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
-              </div>
-              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                {APRRow}
-                <div
-                  className="flex items-center gap-x-[10px] justify-between"
-                  tabIndex={0}
-                >
-                  <span className="text-[#818987] w-fit text-base">
-                    Multiplier Points APR
-                  </span>
-                  <div
-                    onFocus={(e) => setTabFocus(2)}
-                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">100.00%</span> {/** this is Fixed on gmx  */}
-                    <div
-                      className={`${
-                        tabFocus === 2 ? "flex" : "hidden"
-                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
-                    >
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <MultiplierPointsExplainer />
-                      </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
-                <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
-              </div>
-
-              <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
-                {onClient && isActive ? (
-                  <>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                      onClick={() => setCurrentModal("stakeESTND")}
-                      >
-                        STAKE
-                      </button>
-                    </div>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
-                        onClick={() => setCurrentModal("unstakeESTND")}
-                      >
-                        unStake
-                      </button>
-                    </div>
-                  </>
-                ) : !window.ethereum ? (
-                  <a
-                    className="btn-custom-border rounded-[6px]"
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://metamask.io/"
-                  >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                      CONNECT WALLET
-                    </button>
-                  </a>
-                ) : (
-                  !isActive && (
-                    <button
-                      onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                    >
-                      CONNECT WALLET
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
           <div tabIndex={0} className="panel-custom mt-[32px]">
             <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
               Total Rewards
@@ -728,142 +674,66 @@ export default function EarnContent(): JSX.Element {
               </div>
             </div>
           </div>
-        </div>
 
-        <p className="font-space text-3xl mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
-          Vest
-        </p>
-        <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
-          Convert esTND tokens to TND tokens. Please read the{" "}
-          <a
-            className="cursor-pointer line-solid text-white"
-            href="https://docs.tender.fi/tendienomics/rewards-and-incentives#vesting"
-            target="_blank"
-            rel="noreferrer"
-          >
-            vesting details
-          </a>{" "}
-          before using the vault.
-        </p>
-        <div className="font-[ProximaNova] w-full" id="vest">
-          <div tabIndex={0} className="panel-custom">
-            <div className="text-[#818987]     font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-              Coming Soon: TENDIES Vault
+          <div tabIndex={0} className="panel-custom mt-[31px]">
+            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+              ESCROWED TENDIES
             </div>
-            <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <Row left="Staked Tokens" right={ !data ? "?" :
-                  <div
-                  className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
-                  tabIndex={0}
-                >
-                  <span className="text-sm md:text-base">{displayTND(data.stakedAmounts)}</span>
-                  <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
-                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987]">
-                        <div className="flex justify-between items-center mb-[8px]">
-                          <span className="text-xs leading-[17px]">
-                            0.00 TND
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center mb-[8px]">
-                          <span className="text-xs leading-[17px]">
-                            0.00 esTND
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-xs leading-[17px]">
-                            0.00 Multiplier Points
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                  </div>
-                </div>
-
-                }/>
-
+            <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
+                <Row left="Price" right={tndPrice?.toString()} />
+                <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
+                <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
+              </div>
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+                {APRRow}
                 <div
                   className="flex items-center gap-x-[10px] justify-between"
                   tabIndex={0}
                 >
                   <span className="text-[#818987] w-fit text-base">
-                    Reserved for Vesting
-                  </span>
-                  <div className="flex flex-wrap text-right w-fit text-sm md:text-base leading-[17px]">
-                    0.00
-                  </div>
-                </div>
-                <div
-                  className="flex items-center gap-x-[10px] justify-between"
-                  tabIndex={0}
-                >
-                  <span className="text-[#818987] w-fit text-base">
-                    Vesting Status
+                    Multiplier Points APR
                   </span>
                   <div
-                    className="flex flex-wrap group cursor-pointer line-dashed text-right w-fit text-sm md:text-base leading-[17px]"
+                    onFocus={(e) => setTabFocus(2)}
+                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
                     tabIndex={0}
                   >
-                    <span>0.0000 / 0.0000</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex group-focus:flex rounded-[10px]">
+                    <span className="text-sm md:text-base">100.00%</span> {/** this is Fixed on gmx  */}
+                    <div
+                      className={`${
+                        tabFocus === 2 ? "flex" : "hidden"
+                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                    >
                       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
-                          <p className="text-[#818987] text-xs text-left leading-[17px]">
-                            0.0000 tokens have been converted to TND from the
-                            0.0000 esTND deposited for vesting.
-                          </p>
-                        </div>
-                      </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="flex items-center gap-x-[10px] justify-between"
-                  tabIndex={0}
-                >
-                  <span className="text-[#818987] w-fit text-base">
-                    Claimable
-                  </span>
-                  <div
-                    className="flex flex-wrap group cursor-pointer group  line-dashed text-right w-fit text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">
-                      0.0000 / 0.0000
-                    </span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[24px] items-center group-hover:flex group-focus:flex rounded-[10px]">
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[13px]">
-                          <p className="text-[#818987] text-xs text-left leading-[17px]">
-                            0.0000 TND tokens can be claimed, use the options
-                            under the Total Rewards section to claim them.
-                          </p>
-                        </div>
+                        <MultiplierPointsExplainer />
                       </div>
                       <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+                <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
+                <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
+              </div>
+
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && isActive ? (
                   <>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button 
-                      disabled
-                      onClick={()=>setCurrentModal("depositESTND")}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                        Deposit
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                      onClick={() => setCurrentModal("stakeESTND")}
+                      >
+                        STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
-                      <button
-                        disabled
-                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                        Withdraw
+                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                        onClick={() => setCurrentModal("unstakeESTND")}
+                      >
+                        unStake
                       </button>
                     </div>
                   </>
@@ -892,8 +762,25 @@ export default function EarnContent(): JSX.Element {
             </div>
           </div>
         </div>
+
+        <p className="font-space text-3xl mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
+          Vest
+        </p>
+        <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
+          Convert esTND tokens to TND tokens. Please read the{" "}
+          <a
+            className="cursor-pointer line-solid text-white"
+            href="https://docs.tender.fi/tendienomics/rewards-and-incentives#vesting"
+            target="_blank"
+            rel="noreferrer"
+          >
+            vesting details
+          </a>{" "}
+          before using the vault.
+        </p>
+        {data && <Vault data={data} setCurrentModal={setCurrentModal} /> }
       </div>
     </div>
     </PriceContext.Provider>
-  );
+  )
 }
