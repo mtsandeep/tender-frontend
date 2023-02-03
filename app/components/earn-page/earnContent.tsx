@@ -263,7 +263,7 @@ export default function EarnContent(): JSX.Element {
  }
 
  const APRRow = data && <Row left="APR" right={
-    <APRWidget totalStaked={data.totalTNDStaked} rewardPerBlock={data.emissionsPerBlock} />
+    <APRWidget totalStaked={data.totalESTNDStaked.add(data.totalTNDStaked)} rewardPerBlock={data.emissionsPerBlock} />
   }/>
 
   return (
@@ -459,8 +459,9 @@ export default function EarnContent(): JSX.Element {
                           You are earning
                           { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
                             ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())} % `
-                            : "0.00% " }
+                            : "0.00%" }
                           more TND rewards using {data ? displayTND(data?.stakedBonusPoints) : " 0.00 "}
+                          &nbsp;
                           Staked Multiplier Points. <br />
                           <br />
                           Use the "Compound" button to stake your Multiplier
@@ -473,9 +474,9 @@ export default function EarnContent(): JSX.Element {
                 </>} />
 
               </div>
-              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[19px] md:pt-[24px]">
-                <Row left="Total Staked" amount={data?.totalTNDStaked}  symbol="TND" />
-                <Row left="Total Supply" amount={data?.TNDTotalSupply}  symbol="TND" />
+              <div className="flex  flex-col gap-y-[12px] md:gap-y-[15px] pt-[39px] md:pt-[24px]">
+                <Row left="Total Staked" amount={data?.totalTNDStaked} symbol="TND" />
+                <Row left="Total Supply" amount={data?.totalTNDSupply} symbol="TND" />
               </div>
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && isActive ? (
@@ -562,7 +563,12 @@ export default function EarnContent(): JSX.Element {
                   </div>
                 </div>
               </div>
-          
+
+              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+                <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
+                <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
+              </div>
+
               <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
                 {onClient && isActive ? (
                   <>

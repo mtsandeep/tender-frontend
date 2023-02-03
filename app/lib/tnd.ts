@@ -110,8 +110,11 @@ export const getAllData = async (signer: Signer) => {
     esTNDBalance: sdk.esTND.balanceOf(address),
     bnBalance: sdk.bnTND.balanceOf(address),
 
-    TNDTotalSupply: sdk.TND.totalSupply(),
-    totalTNDStaked: sdk.sTND.totalSupply(),
+    totalTNDSupply: sdk.TND.totalSupply(),
+    totalTNDStaked: sdk.sTND.totalDepositSupply(sdk.TND.address),
+
+    totalESTNDSupply: sdk.esTND.totalSupply(),
+    totalESTNDStaked: sdk.sTND.totalDepositSupply(sdk.esTND.address),
 
     stakedTND: sdk.sTND.depositBalances(address, sdk.TND.address),
     stakedESTND: sdk.sTND.depositBalances(address, sdk.esTND.address),
