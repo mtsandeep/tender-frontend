@@ -18,6 +18,7 @@ import ReactModal from "react-modal";
 import { JsonRpcSigner } from "@ethersproject/providers";
 import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
 import { Vault } from "./Vault";
+import { Tendies } from "~/config/networks/arbitrum";
 
 const PriceContext = createContext<{tnd?: number, eth?: number}>({});
 
@@ -345,7 +346,7 @@ export default function EarnContent(): JSX.Element {
           sTNDAllowance={data?.sESTNDAllowance}
           complete={(amount) => onStake(amount, "ESTND")}
           action="stake"
-          symbol="ESTND"
+          symbol="esTND"
         />
 
       }
@@ -357,7 +358,7 @@ export default function EarnContent(): JSX.Element {
           sTNDAllowance={data?.sESTNDAllowance}
           complete={(amount) => onUnStake(amount, "ESTND")}
           action="Unstake"
-          symbol="ESTND"
+          symbol="esTND"
         />
       }
 
@@ -368,7 +369,7 @@ export default function EarnContent(): JSX.Element {
           sTNDAllowance={data?.vTNDAllowance}
           complete={onDeposit}
           action="Deposit"
-          symbol="ESTND"
+          symbol="esTND"
         />
       }
       {/* { currentModal === "withdrawESTND" && <Modal

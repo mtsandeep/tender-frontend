@@ -130,7 +130,7 @@ export const getAllData = async (signer: Signer) => {
     claimableFees: sdk.sbfTND.claimable(address),
 
     sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),
-    sESTNDAllowance: sdk.TND.allowance(address, sdk.esTND.address),
+    sESTNDAllowance: sdk.esTND.allowance(address, sdk.sTND.address),
 
     // an interval is a block
     emissionsPerBlock: sdk.sTND.tokensPerInterval(),

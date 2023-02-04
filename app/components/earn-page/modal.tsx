@@ -5,9 +5,10 @@ import type {
 } from "@ethersproject/providers";
 import Max from "~/components/max";
 
-import { TND_DECIMALS } from "~/lib/tnd";
+import { enable, TND_DECIMALS } from "~/lib/tnd";
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
+import toast from "react-hot-toast";
 
 export interface EarnModalProps {
   closeModal: Function;
@@ -16,7 +17,7 @@ export interface EarnModalProps {
   sTNDAllowance?: BigNumber;
   complete: (amount: BigNumber) => void;
   action: string;
-  symbol?: string;
+  symbol?: "TND" | "esTND";
 }
 
 export default function Modal({
@@ -26,20 +27,16 @@ export default function Modal({
   sTNDAllowance,
   complete,
   action="Stake",
-  symbol="TND"
+  symbol="TND",
 }: EarnModalProps) {
   const tokenDecimals = TND_DECIMALS;
   
-  const [isEnabled, setIsEnabled] = useState<boolean>(true);
+  const [isEnabled, setIsEnabled] = useState<boolean>(sTNDAllowance?.gt(1) ?? false );
   const [validationDetail, setValidationDetail] = useState<string | null>(null);
   const inputEl = useRef<HTMLInputElement>(null);
   const isValid = validationDetail === null
 
   const maxAmount = parseFloat(formatUnits(balance, tokenDecimals))
-
-  if (sTNDAllowance && sTNDAllowance.gt(1) && !isEnabled) {
-      setIsEnabled(true)
-  }
 
   const onChange = () => {
       if (inputEl.current) {
@@ -56,6 +53,16 @@ export default function Modal({
             setValidationDetail(null)
         }
       }
+  }
+
+  const onEnable = async ()=> {
+    if (!signer) return
+    let id =  toast.loading("Waiting for transaction")
+    let tx = await enable(symbol, signer)
+    await tx.wait(1)
+    toast.dismiss(id)
+    toast.success("Enabled")
+    setIsEnabled(true)
   }
 
 
@@ -78,35 +85,27 @@ export default function Modal({
               {action.toLocaleUpperCase()} ${symbol}
             </div>
 
-            {!isEnabled ? (
-              <div className="flex flex-col items-center mt-[29px] md:mt-[34px] rounded-2xl px-4">
-                <img src={""} className="w-[58px] h-[58px]" alt="icon" />
-                <div className="max-w-sm text-center mt-[29px] md:mt-[34px] font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
-                  To stake ${symbol} on Tender.fi, you need to enable it first.
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
-                <input
-                  tabIndex={0}
-                  ref={inputEl}
-                  pattern="[0-9]*([\.,][0-9]+)?"
-                  defaultValue={0}
-                  style={{ height: 70, minHeight: 70 }}
-                  onChange={onChange}
-                  className={`input__center__custom z-20 w-full text-3xl px-[40px] bg-transparent text-white text-center outline-none`}
-                />
-                <Max
-                  maxValue={maxAmount}
-                  updateValue={() => {
-                    inputEl?.current && inputEl.current.focus();
-                    if (inputEl.current) inputEl.current.value = formatUnits(balance, tokenDecimals)
-                  }}
-                  maxValueLabel={symbol}
-                  color="#14f195"
-                />
-              </div>
-            )}
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
+              <input
+                tabIndex={0}
+                ref={inputEl}
+                pattern="[0-9]*([\.,][0-9]+)?"
+                defaultValue={0}
+                style={{ height: 70, minHeight: 70 }}
+                onChange={onChange}
+                className={`input__center__custom z-20 w-full text-3xl px-[40px] bg-transparent text-white text-center outline-none`}
+              />
+              <Max
+                maxValue={maxAmount}
+                updateValue={() => {
+                  inputEl?.current && inputEl.current.focus();
+                  if (inputEl.current) inputEl.current.value = formatUnits(balance, tokenDecimals)
+                }}
+                maxValueLabel={symbol}
+                color="#14f195"
+              />
+            </div>
+          
 
             <div className="flex justify-center h-[50px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
@@ -117,6 +116,12 @@ export default function Modal({
                 </button>
               )}
 
+              {!isEnabled && <button disabled={!isValid} onClick={onEnable}
+                className="flex items-center justify-center h-[50px] md:h-[60px] text-black font-space font-bold text-base sm:text-lg rounded w-full bg-[#14f195] hover:bg-[#00e1ffd0]"
+                >
+                  Enable
+                </button>
+                }
               {signer && isEnabled && isValid && (
                 <button disabled={!isValid} onClick={() => {
                     if (isValid && inputEl.current) { 
