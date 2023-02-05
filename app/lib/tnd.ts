@@ -71,7 +71,7 @@ export const compound = async (signer: Signer): Promise<ContractTransaction> => 
 
 export const claim = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  return sdk.RewardRouter.handleRewards(true, false, true, false, false, true, true)
+  return sdk.RewardRouter.handleRewards(false, false, true, false, false, true, true)
 }
 
 export const claimEsTnd = async (signer: Signer): Promise<ContractTransaction> => {
