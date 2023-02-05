@@ -1,6 +1,8 @@
+import { Address } from "@dethcrypto/eth-sdk";
+
 export interface cToken {
   name: string;
-  address: string;
+  address: Address;
   decimals: number;
   symbol: string;
   isVault: boolean;
@@ -9,11 +11,12 @@ export interface cToken {
 export interface Token extends TokenConfig {
   priceInUsd: number;
   sGLPAddress?: any;
-  glpAddress?: string;
+  glpAddress?: Address;
   glpManager?: string;
   rewardTracker?: string;
   vault?: string;
   nativeToken?: string;
+  floor?: string; // the min amount to transfer
 }
 
 export interface TokenConfig {
@@ -21,7 +24,7 @@ export interface TokenConfig {
   icon: string;
   name: string;
   decimals: number;
-  address: string;
+  address: Address;
   cToken: cToken;
 }
 
@@ -36,9 +39,9 @@ export interface NetworkData {
   l2SecondsPerBlock: number;
   graphUrl: string;
   Contracts: {
-    Comptroller: string;
-    PriceOracle: string;
-    Maximillion: string;
+    Comptroller: Address;
+    PriceOracle: Address;
+    Maximillion: Address;
   };
   Tokens: {
     [key: string]: TokenConfig;
@@ -106,3 +109,30 @@ export type Market = {
   supplyCaps: string,
   collateralFactor: number
 };
+
+export type IncentiveTracker = "sTND" | "sbTND" | "sbfTND" | "vTND";
+export type IncentiveToken = "TND" | "esTND" | "bnTND";
+
+export type IncentiveConfig = {
+  name: string;
+  address: Address;
+  decimals: number;
+  symbol: string;
+}
+
+export type IncentiveTokenConfig = IncentiveConfig & {
+  tracker: IncentiveTracker
+}
+
+export type IncentiveContractsConfig = {
+  RewardRouter: Address,
+  RewardDistributor: Address,
+  TND_USDC_UNISWAP_POOL: Address,
+  UNISWAP_QUOTER: Address,
+  Tokens: {
+    [key in IncentiveToken]: IncentiveTokenConfig;
+  }
+  Trackers: {
+    [key in IncentiveTracker]: IncentiveConfig;
+  }
+}

@@ -2,6 +2,7 @@ import { roundNumber } from "./tender";
 import * as HRNumbers from "human-readable-numbers";
 import * as math from "mathjs";
 import BigNumber from "bignumber.js"
+import { BigNumberish, BigNumber as EthersBigNumber } from "@ethersproject/bignumber";
 /**
  * Used on deposit, withdraw, borrow, and repay modals
  *
@@ -60,8 +61,9 @@ export const toShortCryptoString = (v: number): string => {
  * @param precision
  * @returns A human-readable string for this value
  */
-export const toCryptoString = (v: number, precision: number = 6): string => {
+export const toCryptoString = (value: number | string, precision: number = 6): string => {
   let s: string;
+  let v: number = typeof value === "string" ? parseFloat(value) : value 
 
   if (v > 1) {
     // Applies commas to large numbers
@@ -72,7 +74,7 @@ export const toCryptoString = (v: number, precision: number = 6): string => {
 
     // note, safari does not support regexp look behind
     // If there is a decimal, remove trailing 0's, leaving at least one left
-    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "");
+    if (s.indexOf(".") !== -1) s = s.replace(/0+$/g, "0");
   }
   return s;
 };
@@ -138,7 +140,7 @@ export const getHumanReadableAmount = (
  * @param decimals 
  * @returns 
  */
-export const getAmount = (amount: string, decimals: number) => {
+export const getAmount = (amount: BigNumber.Value, decimals: number) => {
   return BigNumber(amount).multipliedBy(BigNumber(10).pow(decimals));
 };
 
@@ -148,10 +150,10 @@ export const getAmount = (amount: string, decimals: number) => {
  * @param decimals 
  * @param multiplyFactor 
  * @param multiplyFactorDecimals 
- * @returns 
+ * @returns string
  */
 export const getDisplayPrice = (
-  amount?: string,
+  amount?: string | BigNumberish,
   decimals?: number,
   multiplyFactor?: string,
   multiplyFactorDecimals?: number
@@ -160,7 +162,7 @@ export const getDisplayPrice = (
     return "";
   }
 
-  const displayPrice = BigNumber(amount)
+  const displayPrice = BigNumber(amount.toString())
     .multipliedBy(multiplyFactor ?? 1)
     .div(BigNumber(10).pow((decimals || 0) + (multiplyFactorDecimals || 0)));
 

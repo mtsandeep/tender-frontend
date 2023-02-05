@@ -1,13 +1,15 @@
 import toast from "react-hot-toast";
+import { NetworkData } from "~/types/global";
 
-export function displayTransactionResult(hash: string, message: string) {
+export function displayTransactionResult(networkData: NetworkData, hash: string, message: string) {
+
   toast.dismiss();
   toast.success(() => (
     <p>
       <a
         target="_blank"
         rel="noreferrer"
-        href={`https://andromeda-explorer.metis.io/tx/${hash}/internal-transactions/`}
+        href={`${networkData.blockExplorerUrl}/tx/${hash}`}
       >
         {message}
       </a>

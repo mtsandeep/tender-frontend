@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react/jsx-no-target-blank */
-import type { Market } from "~/types/global";
+import { Market, NetworkData } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
   JsonRpcSigner,
@@ -73,6 +73,7 @@ export default function Deposit({
     tokenPairs,
     updateTransaction,
     setIsWaitingToBeMined,
+    networkData
   } = useContext(TenderContext);
 
   const newBorrowLimit = useProjectBorrowLimit(
@@ -89,8 +90,8 @@ export default function Deposit({
   );
 
   const [isValid, validationDetail] = useValidInputV2(
-    getAmount(initialValue, market.tokenPair.token.decimals).toFixed(),
-    "0",
+    getAmount(initialValue, market.tokenPair.token.decimals),
+    market.tokenPair.token.floor || 0,
     walletBalance,
     newBorrowLimitUsed,
     true
@@ -320,7 +321,7 @@ export default function Deposit({
                       );
                       setIsEnabled(true);
                     } catch (e) {
-                      displayErrorMessage(e, "Could not enable.");
+                      displayErrorMessage(networkData, e, "Could not enable.");
                     } finally {
                       setIsEnabling(false);
                     }
@@ -362,27 +363,13 @@ export default function Deposit({
                       changeInitialValue("");
                       changeTxnHash("");
                       displayTransactionResult(
+                        networkData,
                         tr.transactionHash,
                         "Deposit successful"
                       );
                     } catch (e: any) {
-                      toast.dismiss();
-                      if (e.transaction?.hash) {
-                        toast.error(() => (
-                          <p>
-                            <a
-                              target="_blank"
-                              rel="noreferrer"
-                              href={`https://andromeda-explorer.metis.io/tx/${e.transactionHash}/internal-transactions/`}
-                            >
-                              Deposit unsuccessful
-                            </a>
-                          </p>
-                        ));
-                      } else {
-                        displayErrorMessage(e, "Deposit unsuccessful");
-                        closeModal();
-                      }
+                      displayErrorMessage(networkData, e, "Deposit unsuccessful");
+                      closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsDepositing(false);

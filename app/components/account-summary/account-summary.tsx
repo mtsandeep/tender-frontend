@@ -7,8 +7,6 @@ import { TenderContext } from "~/contexts/tender-context";
 import {useAccountSummary} from "~/hooks/use-account-summary";
 
 export default function AccountSummary() {
-  const tenderContextData = useContext(TenderContext);
-
   const {
     supplyBalanceInUsd,
     borrowBalanceInUsd,
@@ -16,7 +14,8 @@ export default function AccountSummary() {
     netApy,
     ltv,
   } = useAccountSummary();
-
+  const tenderContextData = useContext(TenderContext);
+  
   const totalSuppliedUsd = tenderContextData.markets
     .map(
       (token: Market) =>

@@ -16,11 +16,11 @@ const menuLinks = [
     target: "_self",
   },
   // hiding temporarily, will need it later
-  // {
-  //   name: "Earn",
-  //   link: "/earn",
-  //   target: "_self",
-  // },
+  {
+    name: "Earn",
+    link: "/earn",
+    target: "_self",
+  },
   {
     name: "Docs",
     link: "https://docs.tender.fi",

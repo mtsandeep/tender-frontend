@@ -5,14 +5,14 @@ import type {
   JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { toMaxString } from "~/lib/ui";
+import { getAmount, toMaxString } from "~/lib/ui";
 
 import toast from "react-hot-toast";
 
 import Max from "~/components/max";
 
 import { enable, repay } from "~/lib/tender";
-import { useValidInput } from "~/hooks/use-valid-input";
+import { useValidInputV2 } from "~/hooks/use-valid-input";
 import BorrowBalance from "../fi-modal/borrow-balance";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 
@@ -88,13 +88,12 @@ export default function Repay({
     borrowLimit
   );
 
-  const [isValid, validationDetail] = useValidInput(
-    initialValue,
-    0,
-    maxRepayableAmount,
-    parseFloat(newBorrowLimitUsed),
-    tokenDecimals,
-    true
+  const [isValid, validationDetail] = useValidInputV2(
+    getAmount(initialValue, market.tokenPair.token.decimals),
+    market.tokenPair.token.floor || 0,
+    getAmount(maxRepayableAmount, market.tokenPair.token.decimals),
+    newBorrowLimitUsed,
+    true,
   );
 
   const { currentTransaction, updateTransaction, setIsWaitingToBeMined, networkData } =
@@ -374,7 +373,7 @@ export default function Repay({
                       changeTxnHash("");
                       toast.success("Repayment successful");
                     } catch (e) {
-                      displayErrorMessage(e, "Repayment unsuccessful");
+                      displayErrorMessage(networkData, e, "Repayment unsuccessful");
                       closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
