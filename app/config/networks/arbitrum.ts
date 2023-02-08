@@ -131,6 +131,26 @@ export default {
         isVault: false,
       },
     },
+    GMX: {
+      name: "GMX",
+      symbol: "GMX",
+      decimals: 18,
+      address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+      rewardTracker: "0xd2D1162512F927a7e282Ef43a362659E4F2a728F",
+      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
+      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
+      icon: "/images/coin-icons/gmx.svg",
+      // min transaction amount
+      // GMX fails for small amounts
+      floor: "500",
+      cToken: {
+        name: "tGMX",
+        symbol: "tGMX",
+        decimals: 8,
+        address: "0x20a6768F6AABF66B787985EC6CE0EBEa6D7Ad497",
+        isVault: true,
+      },
+    },
     GLP: {
       name: "GLP",
       symbol: "GLP",
