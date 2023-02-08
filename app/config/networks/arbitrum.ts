@@ -1,3 +1,5 @@
+import { IncentiveContractsConfig } from "~/types/global";
+
 export default {
   ChainId: 42161,
   name: "Arbitrum",
@@ -129,26 +131,6 @@ export default {
         isVault: false,
       },
     },
-    GMX: {
-      name: "GMX",
-      symbol: "GMX",
-      decimals: 18,
-      address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
-      rewardTracker: "0xd2D1162512F927a7e282Ef43a362659E4F2a728F",
-      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
-      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
-      icon: "/images/coin-icons/gmx.svg",
-      // min transaction amount
-      // GMX fails for small amounts
-      floor: "500",
-      cToken: {
-        name: "tGMX",
-        symbol: "tGMX",
-        decimals: 8,
-        address: "0x20a6768F6AABF66B787985EC6CE0EBEa6D7Ad497",
-        isVault: true,
-      },
-    },
     GLP: {
       name: "GLP",
       symbol: "GLP",
@@ -173,3 +155,58 @@ export default {
     },
   },
 };
+export const Tendies: IncentiveContractsConfig= {
+  RewardRouter: "0xD9105a45D680c5eFb55f298FB95117a8c74e9938",
+  RewardDistributor: "0x705B3d2DF6e8F8E0e7007f52A7BD66086A12E9aE", 
+  TND_USDC_UNISWAP_POOL: "0x3E746b61A371D952947c22fBC19f8049F000BCF6",
+  UNISWAP_QUOTER: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
+  Tokens: {
+    TND: {
+      name: "TND",
+      symbol: "TND",
+      decimals: 18,
+      address: "0xc47d9753f3b32aa9548a7c3f30b6aec3b2d2798c", 
+      tracker: 'sTND'
+    },
+    esTND: {
+      name: "Escrowed TND",
+      symbol: "esTND",
+      decimals: 18,
+      address: "0xff9bD42211F12e2de6599725895F37b4cE654ab2",
+      tracker: 'sTND'
+    },
+    bnTND: {
+      name: "Bonus TND",
+      symbol: "bnTND",
+      decimals: 18,
+      address: "0x0d2ebf71aFdfAfe8E3fde3eAf9C502896F9e3718",
+      tracker: 'sbTND'
+    },
+  },
+  Trackers: {
+    sbfTND: {
+      name: "Staked + Bonus + Fee TND",
+      symbol: "sbfTND",
+      decimals: 18,
+      address: "0x6c6F25C37Db5620389E02B78Ef4664874B69539c",
+    },
+    sTND: {
+      name: "Staked TND",
+      symbol: "sTND",
+      decimals: 18,
+      address: "0x0597c60BD1230A040953CB1C54d0e854CD522932",
+    },
+    sbTND: {
+      name: "Staked + Bonus TND",
+      symbol: "sbTND",
+      decimals: 18,
+      address: "0xE5538bfCCbA7456A66d4C5f9019988c1E5F09E91",
+    },
+    vTND: {
+      name: "Vester TND",
+      symbol: "vTND",
+      decimals: 18,
+      address: "0x0980Be03452364EBd9F654ca409d2C630c5AAFa3"
+    }
+  }
+}

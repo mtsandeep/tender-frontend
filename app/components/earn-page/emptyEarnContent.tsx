@@ -18,9 +18,7 @@ export default function EmptyEarnContent() {
           </a>{" "}
           to learn more.
           <br />
-          You are earning TND rewards with 20.13 tokens.
-          <br />
-          Tokens: 0.21 TND, 56.43 esTND, 15.93 MP.
+          Please connect your wallet.
         </p>
         <div className="font-nova w-full">
           <div className="panel-custom">

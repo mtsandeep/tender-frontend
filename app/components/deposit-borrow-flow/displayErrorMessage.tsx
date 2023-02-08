@@ -22,10 +22,10 @@ export function displayErrorMessage(networkData: NetworkData, error: any, defaul
     ));
   } else if (error?.data?.message?.includes("insufficient funds")) {
     toast.error("Insufficient gas for the transaction.");
-  } else if (error.reason.includes("invalid _amount")) {
+  } else if (error?.reason?.includes("invalid _amount")) {
     // when the requested amount is too small, GMX truncates to 0 and the transaction fails
     toast.error("Requested transaction amount too small.")
    } else {
-    toast.error(defaultMessage);
+    toast.error(error?.reason ?? defaultMessage);
   }
 }
