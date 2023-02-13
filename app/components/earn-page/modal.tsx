@@ -18,6 +18,8 @@ export interface EarnModalProps {
   complete: (amount: BigNumber) => void;
   action: string;
   symbol?: "TND" | "esTND";
+  totalStaked?: BigNumber;
+  totalBonusPoints?: BigNumber;
 }
 
 export default function Modal({
@@ -28,30 +30,43 @@ export default function Modal({
   complete,
   action="Stake",
   symbol="TND",
+  totalStaked,
+  totalBonusPoints,
 }: EarnModalProps) {
   const tokenDecimals = TND_DECIMALS;
   
   const [isEnabled, setIsEnabled] = useState<boolean>(sTNDAllowance?.gt(1) ?? false );
   const [validationDetail, setValidationDetail] = useState<string | null>(null);
+  const [willLose, setWillLose] = useState<string | null>(null);
   const inputEl = useRef<HTMLInputElement>(null);
   const isValid = validationDetail === null
 
   const maxAmount = parseFloat(formatUnits(balance, tokenDecimals))
 
   const onChange = () => {
-      if (inputEl.current) {
-        try {
-            var value = parseUnits(inputEl.current.value.replace(/,/g, "") , tokenDecimals)
-        } catch (e) {
-            setValidationDetail("Invalid input")           
-            return
-        }
+      if (null === inputEl.current) { return }
+      try {
+        var value = parseUnits(inputEl.current.value.replace(/,/g, "") , tokenDecimals)
+      } catch (e) {
+        setValidationDetail("Invalid input")           
+        return
+      }
 
-        if (value.gt(balance)) {
-            setValidationDetail("Insufficient Balance")
-        } else {
-            setValidationDetail(null)
-        }
+      if (value.gt(balance)) {
+        setValidationDetail("Insufficient Balance")
+      } else {
+        setValidationDetail(null)      
+      }
+
+      if (action === "Unstake" && totalStaked && totalBonusPoints && value.gt(0)) {
+        let withdrawAmount = parseFloat(inputEl.current.value)
+        let staked = parseFloat(formatUnits(totalStaked, TND_DECIMALS))
+        let downAmount =  parseFloat(formatUnits(totalBonusPoints, TND_DECIMALS)) * withdrawAmount / staked
+        setWillLose(
+          `You will lose ${downAmount.toPrecision(4)} (${(100 * withdrawAmount / staked).toPrecision(4)}%)
+          Multiplier Points when you withdraw`)
+      } else {
+        setWillLose(null)
       }
   }
 
@@ -106,6 +121,8 @@ export default function Modal({
               />
             </div>
           
+          {willLose && <p className="pb-4 t-center">{willLose}</p>
+}
 
             <div className="flex justify-center h-[50px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
