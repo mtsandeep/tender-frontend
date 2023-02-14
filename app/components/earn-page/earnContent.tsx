@@ -50,7 +50,7 @@ const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber, secondsPerBlock:
 
   const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 / secondsPerBlock
   const EMISSION_VALUE_PER_YEAR = rewardPerBlock.mul(Math.floor(100 * BLOCKS_PER_YEAR))
-  return EMISSION_VALUE_PER_YEAR.div(totalStaked).toString() + "%"
+  return EMISSION_VALUE_PER_YEAR.div(totalStaked).toNumber().toPrecision(3) + "%"
 }
 
 type APRwidgetArgs = {
@@ -419,7 +419,9 @@ export default function EarnContent(): JSX.Element {
           </a>{" "}
           to learn more.
           <br />
-          {data && <span>
+          {data && (
+            data.stakedTND.eq(0) || data.stakedESTND.eq(0)
+           ) && <span>
             You are earning rewards with <br/>
             {displayTND(data.stakedTND)} TND, {displayTND(data.stakedESTND)} esTND, and {displayTND(data.stakedBonusPoints)} Multiplier Points.
             </span>
@@ -432,7 +434,7 @@ export default function EarnContent(): JSX.Element {
             </div>
             <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
-                <Row left="Price" right={tndPrice} />
+                <Row left="Price" right={"$" + tndPrice} />
                 <Row left="Wallet" amount={data?.TNDBalance} symbol="TND" />
                 <Row left="Staked" amount={data?.stakedTND} symbol="TND" />
               </div>
@@ -491,7 +493,7 @@ export default function EarnContent(): JSX.Element {
                     <span className="text-sm md:text-base">
                       {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
                       { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
-                        `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())}%`
+                        `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))}%`
                         : "0.00%"
                       }
                       </span>
@@ -501,7 +503,7 @@ export default function EarnContent(): JSX.Element {
                         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
                           You are earning
                           { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
-                            ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toString())} % `
+                            ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))} % `
                             : "0.00%" }
                           more TND rewards using {data ? displayTND(data?.stakedBonusPoints) : " 0.00 "}
                           &nbsp;
@@ -691,7 +693,7 @@ export default function EarnContent(): JSX.Element {
             </div>
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
-                <Row left="Price" right={tndPrice?.toString()} />
+                <Row left="Price" right={tndPrice?.toPrecision(4)} />
                 <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
                 <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
               </div>
