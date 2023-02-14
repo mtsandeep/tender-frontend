@@ -19,6 +19,7 @@ export default function MarketsContent() {
     coins: [{}],
   });
   const { markets: m } = useContext(TenderContext);
+  console.log(markets)
 
   const totalSuppliedUsd = m
     .map(
