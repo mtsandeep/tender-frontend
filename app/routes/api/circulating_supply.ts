@@ -16,6 +16,14 @@ export const loader:LoaderFunction = async ({ request }) => {
     // Use the Alchemy API
     // https://docs.alchemy.com/reference/arbitrum-api-quickstart
 
+    // result =
+    // 10 Million
+    // -  Multisig Balance      (0x80b54e18e5Bb556C6503e1C6F2655749c9e41Da2)
+    // -  Team Vesting Contract 
+    // -  escrow vester contract (0x2da1594d3642B85CD83b9e13d70756337F4c5C7e)
+    // -  angel vesting contract
+    // -  advisor vesting
+
     return new Response("100000000", {
         status: 200,
         headers: {
