@@ -4,6 +4,7 @@ import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { checkColorClass } from "../two-panels/two-panels";
 import { checkZeroValue } from "../markets-page/marketsContent";
 import DisplayPrice from "../shared/DisplayPrice";
+import ESTNDAPR from "../shared/EstndApr";
 
 function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
   let [multiTooltipData, setMultiTooltipData] = useState({
@@ -93,21 +94,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                         {formatApy(supplyApy)}
                       </span>
                     </div>
-                    <div className="flex justify-between gap-[30px]">
-                      <div className="flex gap-[8px]">
-                        <img
-                          className="max-w-[18px]"
-                          src="/images/wallet-icons/balance-icon.svg"
-                          alt="..."
-                        />
-                        <span className="font-nova text-white text-sm font-normal">
-                          esTND
-                        </span>
-                      </div>
-                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                        ?.??%
-                      </span>
-                    </div>
+                    <ESTNDAPR />
                   </div>
                 </div>
                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -186,21 +173,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                           {formatApy(borrowApy)}
                         </span>
                       </div>
-                      <div className="flex justify-between gap-[30px]">
-                        <div className="flex gap-[8px]">
-                          <img
-                            className="max-w-[18px]"
-                            src="/images/wallet-icons/balance-icon.svg"
-                            alt="..."
-                          />
-                          <span className="font-nova text-white text-sm font-normal">
-                            esTND
-                          </span>
-                        </div>
-                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                          ?.??%
-                        </span>
-                      </div>
+                      <ESTNDAPR />
                     </div>
                   </div>
                   <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>

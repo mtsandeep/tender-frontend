@@ -8,6 +8,7 @@ import  { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
 import { Tendies } from "~/config/networks/arbitrum"
 import rewardTrackerAbi from "~/config/sample-reward-tracker-abi"
 import rewardTokenAbi from "~/config/sample-reward-token-abi"
+import { Address } from "@dethcrypto/eth-sdk";
 
 export const TND_DECIMALS = Tendies.Tokens.TND.decimals
 
@@ -92,6 +93,11 @@ export const depositESTND = async (signer: Signer, amount: BigNumber): Promise<C
 export const withdrawESTND = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
   return sdk.vTND.withdraw()
+}
+
+export const getTNDIncentives = async (signer: Signer, cToken: Address): Promise<BigNumber> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.Comptroller.compSpeeds(cToken)
 }
 
 export async function quotePriceInUSDC() {

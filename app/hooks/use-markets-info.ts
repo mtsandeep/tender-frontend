@@ -31,9 +31,19 @@ const getLatestBlock = async function (graphUrl: string) {
   return response?._meta?.block?.number ? response._meta.block.number : 0;
 };
 
+type MarketMeta = {
+  symbol: string;
+  totalSupply: number;
+}
+
+type MarketsInfo = {
+  markets: Record<string, MarketMeta>| false,
+  total: number | false
+}
+
 export function useMarketsInfo() {
   const pollingKey = useInterval(7_000);
-  const [marketsInfo, setMarketsInfo] = useState<object>({
+  const [marketsInfo, setMarketsInfo] = useState<MarketsInfo>({
     markets: false,
     total: false,
   });
@@ -51,7 +61,7 @@ export function useMarketsInfo() {
     }
 
     const getMarketsInfo = async () => {
-      const markets = {};
+      const markets: Record<string, MarketMeta> = {};
       const prevMarkets = {};
       const secondsPerBlock = networkData.secondsPerBlock;
       const l2SecondsPerBlock = networkData.l2SecondsPerBlock;
