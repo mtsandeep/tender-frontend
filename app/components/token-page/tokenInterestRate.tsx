@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { LineChart, Line, Tooltip, ResponsiveContainer, YAxis } from "recharts";
 import TokenInterestRateEmpty from "./tokenInterestRateEmpty";
 
-function TokenInterestRate({ data, isBorrowable }: { data: any[], isBorrowable: boolean }) {
+function TokenInterestRate({ data }: { data: any[] }) {
   const [isCurrentInd, setIsCurrentInd] = useState<number | null>(null);
   const [isOptimalInd, setIsOptimalInd] = useState<number | null>(null);
   const [actData, setActData] = useState<any[]>([]);
@@ -81,14 +81,12 @@ function TokenInterestRate({ data, isBorrowable }: { data: any[], isBorrowable: 
               : props?.payload[0]?.payload.aaValue}
             %
           </p>
-          { props?.payload[2] && // borrow apy is not there for unborrowable markets
-            <p
-              className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
-            >
-              <span className="mr-[20px]">Borrow APY</span>
-              {props?.payload[0]?.payload.dd}%
-            </p>
-          }
+          <p
+            className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[2].stroke}]`}
+          >
+            <span className="mr-[20px]">Borrow APY</span>
+            {props?.payload[0]?.payload.dd}%
+          </p>
           <p
             className={`flex items-center text-sm md:text-base justify-between label text-[${props.payload[1].stroke}]`}
           >

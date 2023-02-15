@@ -8,12 +8,15 @@ import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { calculateApy } from "~/lib/apy-calculations";
 import { providers as mcProviders } from "@0xsequence/multicall";
 import { toExactString } from "~/lib/ui";
+import { useGmxApy } from "./use-gmx-apy";
+import { TokenPair } from "~/types/global";
 
 export default function useInterestRateModel(tokenId: string | undefined) {
   const [interestRateModel, setInterestRateModel] = useState<object[]>([]);
   const { networkData, tokenPairs } = useContext(TenderContext);
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+  const getGmxApy = useGmxApy();
 
   useEffect(() => {
     console.log("useInterestRateModel called");
@@ -86,22 +89,17 @@ export default function useInterestRateModel(tokenId: string | undefined) {
 
       const currentBorrowApy = calculateApy(currentBorrowRate, secondsPerBlock);
       let additionalApy = 0;
-
-      // I dont know why this was here
-      // if (token && token?.symbol === "GMX") {
-      //   const { cToken, ...rest } = token;
-      //   const gmxTokenPair = { cToken, token: rest } as TokenPair;
-      //   additionalApy =
-      //     gmxTokenPair &&
-      //     (await getGmxApy(
-      //       signer,
-      //       gmxTokenPair,
-      //       networkData.Contracts.PriceOracle
-      //     ));
-      // }
-
-      console.log(additionalApy, "GMXXXX")
-
+      if (token && token?.symbol === "GMX") {
+        const { cToken, ...rest } = token;
+        const gmxTokenPair = { cToken, token: rest } as TokenPair;
+        additionalApy =
+          gmxTokenPair &&
+          (await getGmxApy(
+            signer,
+            gmxTokenPair,
+            networkData.Contracts.PriceOracle
+          ));
+      }
       const currentSupplyApy = calculateApy(currentSupplyRate, secondsPerBlock);
       const BASE = 1e18;
       const kinkMantissa = 1e16;
