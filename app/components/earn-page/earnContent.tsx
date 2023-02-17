@@ -165,10 +165,10 @@ export default function EarnContent(): JSX.Element {
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<Modals>(null);
-  const [tndPrice, setTNDPrice] = useState<number | null>(null);
   const [data, setData] = useState<allData | null>(null)  
 
-  const { networkData } = useContext(TenderContext);
+  const { networkData, tndPrice } = useContext(TenderContext);
+
   const { connect, isDisconnected } = useAuth();
   const isActive = useIsActive();
   const provider = Web3Hooks.useProvider();
@@ -183,7 +183,6 @@ export default function EarnContent(): JSX.Element {
   }
 
   useEffect(() => {
-    quotePriceInUSDC().then(setTNDPrice)   
     RefreshData()
 
     setOnClient(true);

@@ -100,11 +100,19 @@ export const getTNDIncentives = async (signer: Signer, cToken: Address): Promise
   return sdk.Comptroller.compSpeeds(cToken)
 }
 
-export async function quotePriceInUSDC() {
-  let contract = Tendies.Tokens.TND.address
-  let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)
-  let json = await response.json() as {[contract: string]: {"usd": number}}
-  return json[contract].usd
+export async function quotePriceInUSDC(): Promise<number> {
+  // try the coingecko api and fallback to server
+  try {
+    let contract = Tendies.Tokens.TND.address
+    let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)
+    let json = await response.json() as {[contract: string]: {"usd": number}}
+    let usd = json[contract].usd
+    return usd
+  } catch (e) {
+    let response = await fetch(`/api/tnd_price`)
+    let json = await response.json() as {"usd": number}
+    return json.usd  
+  }
 }
 
 export const getAllData = async (signer: Signer) => {

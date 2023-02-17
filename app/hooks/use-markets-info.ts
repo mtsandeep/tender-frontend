@@ -32,6 +32,8 @@ const getLatestBlock = async function (graphUrl: string) {
 };
 
 type MarketMeta = {
+  name: string;
+  icon: string;
   symbol: string;
   totalSupply: number;
 }
