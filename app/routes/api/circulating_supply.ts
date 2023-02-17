@@ -19,12 +19,14 @@ export const loader: LoaderFunction = async ({ request }) => {
   // result =
   // 10 Million
   // -  Multisig Balance      (0x80b54e18e5Bb556C6503e1C6F2655749c9e41Da2)
-  // -  Team Vesting Contract
+  // -  Team Vesting Contract (0xE356aB88bA1a4f9D36928407fEAD0FbA50Eb139d)
   // -  escrow vester contract (0x2da1594d3642B85CD83b9e13d70756337F4c5C7e)
   // -  angel vesting contract
-  // -  advisor vesting
+  // -  advisor vesting         (0x2da1594d3642B85CD83b9e13d70756337F4c5C7e)
   const multisigAddress = "0x80b54e18e5Bb556C6503e1C6F2655749c9e41Da2";
+  const teamVestingAddress = "0xE356aB88bA1a4f9D36928407fEAD0FbA50Eb139d";
   const esTNDvesterAddress = "0x2da1594d3642B85CD83b9e13d70756337F4c5C7e";
+  const advisorVestingAddress = "0x2da1594d3642B85CD83b9e13d70756337F4c5C7e";
 
   async function getTokenData(hash: string) {
     const tokenData = await alchemy.core.getTokensForOwner(hash);
@@ -42,12 +44,16 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   const multisigSupply = await getTokenData(multisigAddress);
+  const teamVestingSupply = await getTokenData(teamVestingAddress);
   const esTNDvestingSupply = await getTokenData(esTNDvesterAddress);
+  const advisorVestingSupply = await getTokenData(advisorVestingAddress);
 
   const result: string = (
     10000000 -
     multisigSupply -
-    esTNDvestingSupply
+    teamVestingSupply -
+    esTNDvestingSupply -
+    advisorVestingSupply
   ).toString();
 
   return new Response(result, {
