@@ -634,7 +634,7 @@ export default function EarnContent(): JSX.Element {
                 >
                   <span className="text-[#818987] w-fit text-base">Total</span>
                   <div className="text-sm md:text-base leading-[17px]">
-                   ${tndPrice && data && displayTNDInUSD(data.claimableESTND.add(data.claimableTND), tndPrice)}
+                   ${tndPrice && data && displayTNDInUSD(data.claimableTND.add(data.claimableESTND.mul(0)), tndPrice)}
                   </div>
                 </div>
               </div>
