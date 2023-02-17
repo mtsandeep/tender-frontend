@@ -108,17 +108,17 @@ export const getAllData = async (signer: Signer) => {
 
   const dataPromises = {
     TNDBalance: sdk.TND.balanceOf(address),
-    esTNDBalance: ethers.BigNumber.from(0), // sdk.esTND.balanceOf(address),
+    esTNDBalance: sdk.esTND.balanceOf(address),
     bnBalance: sdk.bnTND.balanceOf(address),
 
     totalTNDSupply: sdk.TND.totalSupply(),
     totalTNDStaked: sdk.sTND.totalDepositSupply(sdk.TND.address),
 
     totalESTNDSupply: sdk.esTND.totalSupply(),
-    totalESTNDStaked: ethers.BigNumber.from(0), // sdk.sTND.totalDepositSupply(sdk.esTND.address),
+    totalESTNDStaked: sdk.sTND.totalDepositSupply(sdk.esTND.address),
 
     stakedTND: sdk.sTND.depositBalances(address, sdk.TND.address),
-    stakedESTND: ethers.BigNumber.from(0), // sdk.sTND.depositBalances(address, sdk.esTND.address),
+    stakedESTND: sdk.sTND.depositBalances(address, sdk.esTND.address),
     stakedBonusPoints: sdk.sbfTND.depositBalances(address, sdk.bnTND.address),
 
     // bonus points are multiplier points
@@ -126,7 +126,7 @@ export const getAllData = async (signer: Signer) => {
     // boostPercentage: MP / bonusPoints+amountstaked // : 100 * (4.5656) / (7.54 + 2.00) = 47.85%
 
     claimableBonusPoints: sdk.sbTND.claimable(address),
-    claimableESTND: ethers.BigNumber.from(0), //  sdk.sTND.claimable(address),
+    claimableESTND: sdk.sTND.claimable(address),
     claimableFees: sdk.sbfTND.claimable(address),
 
     sTNDAllowance: sdk.TND.allowance(address, sdk.sTND.address),

@@ -372,7 +372,7 @@ export default function EarnContent(): JSX.Element {
           symbol="esTND"
         />
       }
-      { currentModal === "withdrawESTND" && <Modal
+      {/* { currentModal === "withdrawESTND" && <Modal
           closeModal={closeModal}
           balance={data?.sdsad ?? BigNumber.from(0)}
           signer={signer}
@@ -381,7 +381,7 @@ export default function EarnContent(): JSX.Element {
           action="Withdraw"
           symbol="ESTND"
         />
-      }
+      } */}
       </ReactModal>
 
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
@@ -634,7 +634,7 @@ export default function EarnContent(): JSX.Element {
                 >
                   <span className="text-[#818987] w-fit text-base">Total</span>
                   <div className="text-sm md:text-base leading-[17px]">
-                   ${tndPrice && data && displayTNDInUSD(data.claimableTND.add(data.claimableESTND.mul(0)), tndPrice)}
+                   ${tndPrice && data && displayTNDInUSD(data.claimableESTND.add(data.claimableTND), tndPrice)}
                   </div>
                 </div>
               </div>
@@ -643,16 +643,16 @@ export default function EarnContent(): JSX.Element {
                   <>
                     <div className="btn-custom-border rounded-[6px]">
                       <button
-                        // onClick={onCompound}
+                        onClick={onCompound}
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         Compound
                       </button>
                     </div>
                     <div
                       className="btn-custom-border rounded-[6px]"
-                      // onClick={() =>
-                      //   setDataClaimModal({ ...dataClaimModal, open: true })
-                      // }
+                      onClick={() =>
+                        setDataClaimModal({ ...dataClaimModal, open: true })
+                      }
                     >
                       <button
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
@@ -692,8 +692,8 @@ export default function EarnContent(): JSX.Element {
             <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
               <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
                 <Row left="Price" right={tndPrice?.toString()} />
-                <Row left="Wallet" amount={BigNumber.from(0)} symbol="esTND" />
-                <Row left="Staked" amount={BigNumber.from(0)} symbol="esTND" />
+                <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
+                <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
               </div>
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
                 {APRRow}
@@ -725,7 +725,7 @@ export default function EarnContent(): JSX.Element {
               </div>
 
               <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                <Row left="Total Staked" amount={BigNumber.from(0)} symbol="esTND" />
+                <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
                 <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
               </div>
 
@@ -734,14 +734,14 @@ export default function EarnContent(): JSX.Element {
                   <>
                     <div className="btn-custom-border rounded-[6px]">
                       <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                      // onClick={() => setCurrentModal("stakeESTND")}
+                      onClick={() => setCurrentModal("stakeESTND")}
                       >
                         STAKE
                       </button>
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
                       <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
-                        // onClick={() => setCurrentModal("unstakeESTND")}
+                        onClick={() => setCurrentModal("unstakeESTND")}
                       >
                         unStake
                       </button>
