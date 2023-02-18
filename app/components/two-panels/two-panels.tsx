@@ -8,6 +8,8 @@ import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 import * as math from "mathjs";
 import DisplayPrice from "~/components/shared/DisplayPrice";
+import ESTNDAPR from "../shared/EstndApr";
+import APY from "../shared/APY";
 
 export const checkColorClass = (value: number | string) => {
   const valueNumber = parseFloat(
@@ -232,44 +234,7 @@ export default function TwoPanels() {
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src={token.tokenPair.token.icon}
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          {token.tokenPair.token.symbol}
-                                        </span>
-                                      </div>
-                                      <span
-                                        className={`font-nova text-sm font-normal ${checkColorClass(
-                                          parseFloat(
-                                            token.marketData.depositApy
-                                          )
-                                        )}`}
-                                      >
-                                        {token.marketData.depositApy}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-between gap-[30px]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          esTND
-                                        </span>
-                                      </div>
-                                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                                        ?.??%
-                                      </span>
-                                    </div>
+                                  <APY market={token} type="borrow" />
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -459,44 +424,7 @@ export default function TwoPanels() {
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src={token.tokenPair.token.icon}
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          {token.tokenPair.token.symbol}
-                                        </span>
-                                      </div>
-                                      <span
-                                        className={`font-nova text-sm font-normal ${checkColorClass(
-                                          parseFloat(
-                                            token.marketData.depositApy
-                                          )
-                                        )}`}
-                                      >
-                                        {token.marketData.depositApy}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-between gap-[30px]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          esTND
-                                        </span>
-                                      </div>
-                                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                                        ?.??%
-                                      </span>
-                                    </div>
+                                  <APY market={token} type="supply" />
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -691,42 +619,7 @@ export default function TwoPanels() {
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src={token.tokenPair.token.icon}
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          {token.tokenPair.token.symbol}
-                                        </span>
-                                      </div>
-                                      <span
-                                        className={`font-nova text-sm font-normal ${checkColorClass(
-                                          parseFloat(borrowApyFormatted)
-                                        )}`}
-                                      >
-                                        {borrowApyFormatted}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-between gap-[30px]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          esTND
-                                        </span>
-                                      </div>
-                                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                                        ?.??%
-                                      </span>
-                                    </div>
+                                    <APY market={token} type="supply" />
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -913,42 +806,7 @@ export default function TwoPanels() {
                               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
                                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src={token.tokenPair.token.icon}
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          {token.tokenPair.token.symbol}
-                                        </span>
-                                      </div>
-                                      <span
-                                        className={`font-nova text-sm font-normal ${checkColorClass(
-                                          parseFloat(borrowApyFormatted)
-                                        )}`}
-                                      >
-                                        {borrowApyFormatted}
-                                      </span>
-                                    </div>
-                                    <div className="flex justify-between gap-[30px]">
-                                      <div className="flex gap-[8px]">
-                                        <img
-                                          aria-hidden={true}
-                                          className="max-w-[18px]"
-                                          src="/images/wallet-icons/balance-icon.svg"
-                                          alt="..."
-                                        />
-                                        <span className="font-nova text-white text-sm font-normal">
-                                          esTND
-                                        </span>
-                                      </div>
-                                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                                        ?.??%
-                                      </span>
-                                    </div>
+                                  <APY market={token} type="supply" />
                                   </div>
                                 </div>
                                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>

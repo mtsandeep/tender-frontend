@@ -1,4 +1,5 @@
 import { Address } from "@dethcrypto/eth-sdk";
+import { BigNumber } from "@ethersproject/bignumber";
 
 export interface cToken {
   name: string;
@@ -74,6 +75,7 @@ export type TenderContext = {
   isWaitingToBeMined: boolean;
   setIsWaitingToBeMined: Function;
   blockNumber: number | boolean;
+  tndPrice: number | null;
 };
 
 export type Market = {
@@ -87,6 +89,7 @@ export type Market = {
     totalBorrowedUsd?: string;
     marketSizeUsd?: string;
   };
+  compSupplySpeeds?: BigNumber;
   walletBalance: string;
   supplyBalance: number;
   supplyBalanceInUsd: number;
@@ -107,7 +110,7 @@ export type Market = {
   liquidationPenalty: number;
   borrowCaps: string,
   supplyCaps: string,
-  collateralFactor: number
+  collateralFactor: number;
 };
 
 export type IncentiveTracker = "sTND" | "sbTND" | "sbfTND" | "vTND";

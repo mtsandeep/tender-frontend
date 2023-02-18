@@ -7,6 +7,7 @@ import { checkColorClass } from "../two-panels/two-panels";
 import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
 import DisplayPrice from "~/components/shared/DisplayPrice";
+import APY, { ESTNDAPR } from "../shared/APY";
 
 export const checkZeroValue = (value: number) => {
   return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
@@ -18,24 +19,24 @@ export default function MarketsContent() {
     open: false,
     coins: [{}],
   });
-  const { markets: m } = useContext(TenderContext);
-  console.log(markets)
+  const context = useContext(TenderContext);
+  const MARKETS = context.markets
 
-  const totalSuppliedUsd = m
+  const totalSuppliedUsd = MARKETS
     .map(
       (token: Market) =>
         token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
     )
     .reduce((a: any, b: any) => a + b, 0);
 
-  const totalBorrowedUsd = m
+  const totalBorrowedUsd = MARKETS
     .map(
       (token: Market) =>
         token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
     )
     .reduce((a: any, b: any) => a + b, 0);
 
-  if (!markets || !total || !m.length) {
+  if (!markets || !total || !MARKETS.length) {
     return <MarketsContentEmpty />;
   }
 
@@ -377,42 +378,7 @@ export default function MarketsContent() {
                             <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex  rounded-[10px]">
                               <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                 <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        aria-hidden={true}
-                                        className="max-w-[18px]"
-                                        src={m.icon}
-                                        alt={m.symbol}
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        {m.symbol}
-                                      </span>
-                                    </div>
-                                    <span
-                                      className={`font-nova text-sm font-normal ${checkColorClass(
-                                        parseFloat(m.supplyApy)
-                                      )}`}
-                                    >
-                                      {formatApy(m.supplyApy)}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between gap-[30px]">
-                                    <div className="flex gap-[8px]">
-                                      <img
-                                        aria-hidden={true}
-                                        className="max-w-[18px]"
-                                        src="/images/wallet-icons/balance-icon.svg"
-                                        alt="..."
-                                      />
-                                      <span className="font-nova text-white text-sm font-normal">
-                                        esTND
-                                      </span>
-                                    </div>
-                                    <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                                      ?.??%
-                                    </span>
-                                  </div>
+                                  <APY market={MARKETS.find(M => M.id === m.symbol)} type="supply" />
                                 </div>
                               </div>
                               <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -509,42 +475,7 @@ export default function MarketsContent() {
                                 <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex  rounded-[10px]">
                                   <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                                     <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                      <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                                        <div className="flex gap-[8px]">
-                                          <img
-                                            aria-hidden={true}
-                                            className="max-w-[18px]"
-                                            src={m.icon}
-                                            alt={m.symbol}
-                                          />
-                                          <span className="font-nova text-white text-sm font-normal">
-                                            {m.symbol}
-                                          </span>
-                                        </div>
-                                        <span
-                                          className={`font-nova text-white text-sm font-normal ${checkColorClass(
-                                            borrowApy
-                                          )}`}
-                                        >
-                                          {formatApy(borrowApy)}
-                                        </span>
-                                      </div>
-                                      <div className="flex justify-between gap-[30px]">
-                                        <div className="flex gap-[8px]">
-                                          <img
-                                            aria-hidden={true}
-                                            className="max-w-[18px]"
-                                            src="/images/wallet-icons/balance-icon.svg"
-                                            alt="..."
-                                          />
-                                          <span className="font-nova text-white text-sm font-normal">
-                                            esTND
-                                          </span>
-                                        </div>
-                                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                                          ?.??%
-                                        </span>
-                                      </div>
+                                    <APY market={MARKETS.find(M => M.id === m.symbol)} type="borrow" />
                                     </div>
                                   </div>
                                   <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
