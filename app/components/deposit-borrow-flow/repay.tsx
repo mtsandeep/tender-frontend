@@ -24,6 +24,8 @@ import { formatApy } from "~/lib/apy-calculations";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { checkColorClass } from "../two-panels/two-panels";
+import ESTNDAPR from "../shared/EstndApr";
+import APY from "../shared/APY";
 
 export interface RepayProps {
   closeModal: Function;
@@ -258,42 +260,7 @@ export default function Repay({
                 </p>
                 <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
                   <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                    <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
-                      <div className="flex justify-between gap-[30px] mb-3 last:mb-[0]">
-                        <div className="flex gap-[8px]">
-                          <img
-                            className="max-w-[18px]"
-                            src={market.tokenPair.token.icon}
-                            alt="..."
-                          />
-                          <span className="font-nova text-white text-sm font-normal">
-                            {market.tokenPair.token.symbol}
-                          </span>
-                        </div>
-                        <span
-                          className={`font-nova text-sm font-normal ${checkColorClass(
-                            borrowApy
-                          )}`}
-                        >
-                          {borrowApyFormatted}
-                        </span>
-                      </div>
-                      <div className="flex justify-between gap-[30px]">
-                        <div className="flex gap-[8px]">
-                          <img
-                            className="max-w-[18px]"
-                            src="/images/wallet-icons/balance-icon.svg"
-                            alt="..."
-                          />
-                          <span className="font-nova text-white text-sm font-normal">
-                            esTND
-                          </span>
-                        </div>
-                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                          ?.??%
-                        </span>
-                      </div>
-                    </div>
+                    <APY market={market} type="supply" />     
                   </div>
                   <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                 </div>

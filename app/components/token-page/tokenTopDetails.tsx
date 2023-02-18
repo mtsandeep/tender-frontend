@@ -4,16 +4,22 @@ import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { checkColorClass } from "../two-panels/two-panels";
 import { checkZeroValue } from "../markets-page/marketsContent";
 import DisplayPrice from "../shared/DisplayPrice";
+import ESTNDAPY from "../shared/APY";
+import { useTenderContext } from "~/hooks/use-tender-context";
+import APY from "../shared/APY";
 
 function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
+  let context  = useTenderContext() 
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
     coins: [{}],
   });
   const isBorrowable = marketInfo.tokenSymbol !== "GLP";
   const borrowApy = isBorrowable ? marketInfo.borrowApy * -1 : 0;
-
   const supplyApy = marketInfo.supplyApy;
+
+
+  let market = context?.markets.find(m => m.id === marketInfo.tokenSymbol) 
 
   return (
     <>
@@ -74,40 +80,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
               <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
                 <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                   <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                    <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                      <div className="flex gap-[8px]">
-                        <img
-                          className="max-w-[18px]"
-                          src={marketInfo.icon}
-                          alt="..."
-                        />
-                        <span className="font-nova text-white text-sm font-normal">
-                          {marketInfo.tokenSymbol}
-                        </span>
-                      </div>
-                      <span
-                        className={`font-nova text-sm font-normal ${checkColorClass(
-                          supplyApy
-                        )}`}
-                      >
-                        {formatApy(supplyApy)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between gap-[30px]">
-                      <div className="flex gap-[8px]">
-                        <img
-                          className="max-w-[18px]"
-                          src="/images/wallet-icons/balance-icon.svg"
-                          alt="..."
-                        />
-                        <span className="font-nova text-white text-sm font-normal">
-                          esTND
-                        </span>
-                      </div>
-                      <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                        ?.??%
-                      </span>
-                    </div>
+                    <APY market={market} type="supply"  />
                   </div>
                 </div>
                 <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -167,40 +140,7 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | boolean }) {
                 <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
                   <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                     <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                      <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
-                        <div className="flex gap-[8px]">
-                          <img
-                            className="max-w-[18px]"
-                            src={marketInfo.icon}
-                            alt="..."
-                          />
-                          <span className="font-nova text-white text-sm font-normal">
-                            {marketInfo.tokenSymbol}
-                          </span>
-                        </div>
-                        <span
-                          className={`font-nova text-sm font-normal ${checkColorClass(
-                            borrowApy
-                          )}`}
-                        >
-                          {formatApy(borrowApy)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between gap-[30px]">
-                        <div className="flex gap-[8px]">
-                          <img
-                            className="max-w-[18px]"
-                            src="/images/wallet-icons/balance-icon.svg"
-                            alt="..."
-                          />
-                          <span className="font-nova text-white text-sm font-normal">
-                            esTND
-                          </span>
-                        </div>
-                        <span className="font-nova text-white text-sm font-normal whitespace-nowrap">
-                          ?.??%
-                        </span>
-                      </div>
+                    <APY market={market} type="borrow" />
                     </div>
                   </div>
                   <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
