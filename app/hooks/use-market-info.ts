@@ -174,6 +174,8 @@ export function useMarketInfo(tokenId: string | undefined) {
       market.cTokenSymbol = token?.cToken?.symbol;
       market.underlyingPriceUSD = underlyingPriceUSD;
 
+      market.reserveFactor = market.reserveFactor / Math.pow(10, 16);
+
       market.totalBorrowersCount = response.accountCTokens.filter(
         (account: { storedBorrowBalance: number }) =>
           account.storedBorrowBalance > 0
