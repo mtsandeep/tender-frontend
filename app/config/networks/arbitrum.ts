@@ -16,6 +16,28 @@ export default {
     Maximillion: "0x1834a5C13EE814ADCCd8D012E0356A3E836208Fc",
   },
   Tokens: {
+    GLP: {
+      name: "GLP",
+      symbol: "GLP",
+      decimals: 18,
+      // staked glp is for approve
+      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
+      // fsGLP has balanceOf
+      address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
+      glpAddress: "0x4277f8F2c384827B5273592FF7CeBd9f2C1ac258",
+      glpManager: "0x321F653eED006AD1C29D174e17d96351BDe22649",
+      rewardTracker: "0x4e971a87900b931fF39d1Aad67697F49835400b6",
+      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
+      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
+      icon: "/images/coin-icons/glp.svg",
+      cToken: {
+        name: "tfsGLP",
+        symbol: "tfsGLP",
+        decimals: 8,
+        address: "0xFF2073D3810754D6da4783235c8647e11e43C943",
+        isVault: true,
+      },
+    },
     ETH: {
       name: "ETH",
       symbol: "ETH",
@@ -148,28 +170,6 @@ export default {
         symbol: "tGMX",
         decimals: 8,
         address: "0x20a6768F6AABF66B787985EC6CE0EBEa6D7Ad497",
-        isVault: true,
-      },
-    },
-    GLP: {
-      name: "GLP",
-      symbol: "GLP",
-      decimals: 18,
-      // staked glp is for approve
-      sGLPAddress: "0x2F546AD4eDD93B956C8999Be404cdCAFde3E89AE",
-      // fsGLP has balanceOf
-      address: "0x1aDDD80E6039594eE970E5872D247bf0414C8903",
-      glpAddress: "0x4277f8F2c384827B5273592FF7CeBd9f2C1ac258",
-      glpManager: "0x321F653eED006AD1C29D174e17d96351BDe22649",
-      rewardTracker: "0x4e971a87900b931fF39d1Aad67697F49835400b6",
-      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
-      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
-      icon: "/images/coin-icons/glp.svg",
-      cToken: {
-        name: "tfsGLP",
-        symbol: "tfsGLP",
-        decimals: 8,
-        address: "0xFF2073D3810754D6da4783235c8647e11e43C943",
         isVault: true,
       },
     },

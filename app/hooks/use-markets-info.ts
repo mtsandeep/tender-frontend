@@ -14,23 +14,6 @@ const getPercentageChange = function (
   return ((currentValue - prevValue) / currentValue) * 100;
 };
 
-const getLatestBlock = async function (graphUrl: string) {
-  const response = await request(
-    graphUrl,
-    gql`
-      {
-        _meta {
-          block {
-            number
-          }
-        }
-      }
-    `
-  );
-
-  return response?._meta?.block?.number ? response._meta.block.number : 0;
-};
-
 type MarketMeta = {
   name: string;
   icon: string;
@@ -71,7 +54,9 @@ export function useMarketsInfo() {
       const tokens = networkData.Tokens;
       const addresses: string[] = [];
 
-      const l2BlockNumber = await getLatestBlock(graphUrl);
+      // arbitrum has a block time of ~.34 seconds, so sometimes
+      // the graph endpoint cannot keep up with the latest block 
+      const l2BlockNumber = await signer.provider.getBlockNumber() - 10
 
       if (l2BlockNumber === 0) {
         return;

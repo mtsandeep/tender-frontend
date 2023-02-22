@@ -27,8 +27,6 @@ const PriceContext = createContext<{tnd?: number, eth?: number}>({});
 type AsyncReturnType<T extends (...args: any) => Promise<any>> =
     T extends (...args: any) => Promise<infer R> ? R : any
 
-
-
 function MultiplierPointsExplainer() {
   return <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[14px]">
   <p className="text-[#818987] text-left">
@@ -45,11 +43,11 @@ function MultiplierPointsExplainer() {
 </div>
 }
 
-const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber, secondsPerBlock: number): string => {
+const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber): string => {
   if (totalStaked.eq(0)) return "0.00"
-
-  const BLOCKS_PER_YEAR = 365 * 24 * 60 * 60 / secondsPerBlock
-  const EMISSION_VALUE_PER_YEAR = rewardPerBlock.mul(Math.floor(100 * BLOCKS_PER_YEAR))
+  // unlike compound markets, staking markets are coded to pay in terms of seconds, not blocks
+  const SECONDS_PER_YEAR = 365 * 24 * 60 * 60
+  const EMISSION_VALUE_PER_YEAR = rewardPerBlock.mul(Math.floor(100 * SECONDS_PER_YEAR))
   return EMISSION_VALUE_PER_YEAR.div(totalStaked).toNumber().toPrecision(3) + "%"
 }
 
@@ -60,9 +58,8 @@ type APRwidgetArgs = {
 
 function APRWidget({totalStaked, rewardPerBlock}: APRwidgetArgs) {
   let { networkData } = useContext(TenderContext)
-  let { secondsPerBlock } = networkData
 
-  let formattedAPR = APR(totalStaked, rewardPerBlock, secondsPerBlock)
+  let formattedAPR = APR(totalStaked, rewardPerBlock)
 
   return <div
     className="flex items-center gap-x-[10px] justify-between"

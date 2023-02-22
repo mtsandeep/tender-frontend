@@ -14,22 +14,7 @@ import { parseUnits } from "ethers/lib/utils";
 import { useInterval } from "~/hooks/use-interval";
 import { useGmxApy } from "./use-gmx-apy";
 
-const getLatestBlock = async function (graphUrl: string) {
-  const response = await request(
-    graphUrl,
-    gql`
-      {
-        _meta {
-          block {
-            number
-          }
-        }
-      }
-    `
-  );
 
-  return response?._meta?.block?.number ? response._meta.block.number : 0;
-};
 
 const getStatsQuery = function (
   address: string,
@@ -110,7 +95,9 @@ export function useMarketInfo(tokenId: string | undefined) {
       const address = token.cToken.address.toLowerCase();
       const underlyingPriceUSD = token.priceInUsd;
 
-      const blockNumber = await getLatestBlock(graphUrl);
+      // sometimes there is a lag between this block and the graph indexer,
+      // so subtract 10
+      const blockNumber = await signer.provider.getBlockNumber() - 10 
 
       if (blockNumber === 0) {
         return;
@@ -173,6 +160,8 @@ export function useMarketInfo(tokenId: string | undefined) {
       market.tokenSymbol = token?.symbol;
       market.cTokenSymbol = token?.cToken?.symbol;
       market.underlyingPriceUSD = underlyingPriceUSD;
+
+      market.reserveFactor = market.reserveFactor / Math.pow(10, 16);
 
       market.totalBorrowersCount = response.accountCTokens.filter(
         (account: { storedBorrowBalance: number }) =>

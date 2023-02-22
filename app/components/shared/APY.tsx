@@ -21,18 +21,19 @@ function getBlocksPerYear(secondsPerBlock: number) {
 export default function APY({market, type}: APY_PROPS) {
     let context = useTenderContext()
     if (!context || !market) return null
+    let incentive = "?.??"
 
-    let tndPrice = context.tndPrice
+    // let tndPrice = context.tndPrice
     
     let apy = type === "borrow" ? market.marketData.borrowApy : market.marketData.depositApy;
-    var incentive = type === "borrow" ? "" : "?"
+    // var incentive = type === "borrow" ? "" : "?"
 
-    if (tndPrice && market.compSupplySpeeds && market.marketData.marketSize) {
-        let compSupplySpeeds = parseFloat(formatUnits(market.compSupplySpeeds, TND_DECIMALS))
-        let esTNDPerYear = compSupplySpeeds * getBlocksPerYear(context.networkData.secondsPerBlock)
-        let esTNDAPY = 100 * esTNDPerYear * tndPrice / market.marketData.marketSize
-        incentive = formatApy(esTNDAPY)
-    }
+    // if (tndPrice && market.compSupplySpeeds && market.marketData.marketSize) {
+    //     let compSupplySpeeds = parseFloat(formatUnits(market.compSupplySpeeds, TND_DECIMALS))
+    //     let esTNDPerYear = compSupplySpeeds * getBlocksPerYear(context.networkData.secondsPerBlock)
+    //     let esTNDAPY = 100 * esTNDPerYear * tndPrice / market.marketData.marketSize
+    //     incentive = formatApy(esTNDAPY)
+    // }
 
     return <>
     <div className="flex justify-between gap-[30px] mb-[12px] last:mb-[0]">
