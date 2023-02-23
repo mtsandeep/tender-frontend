@@ -121,8 +121,7 @@ export default function Modal({
               />
             </div>
           
-          {willLose && isValid && <p className="pb-4 text-center">{willLose}</p>
-}
+          {willLose && isValid && <p className="pb-4 text-center">{willLose}</p>}
 
             <div className="flex justify-center h-[50px] md:h-[60px]">
               {!signer && <div>Connect wallet to get started</div>}
