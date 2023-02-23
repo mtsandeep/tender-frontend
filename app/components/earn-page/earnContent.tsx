@@ -217,8 +217,6 @@ export default function EarnContent(): JSX.Element {
     if (!signer || amount.lte(0)) return
     var id = toast.loading("Submitting transaction")
 
-    console.log(msg)
-
     try {
       if (symbol === "TND") {
         var tx = await TND.unstakeTnd(signer, amount)

@@ -64,7 +64,7 @@ export default function Modal({
         let downAmount =  parseFloat(formatUnits(totalBonusPoints, TND_DECIMALS)) * withdrawAmount / staked
         setWillLose(
           `You will lose ${downAmount.toPrecision(4)} (${(100 * withdrawAmount / staked).toPrecision(4)}%)
-          Multiplier Points when you withdraw`)
+          Multiplier Points when you unstake`)
       } else {
         setWillLose(null)
       }
@@ -121,7 +121,7 @@ export default function Modal({
               />
             </div>
           
-          {willLose && <p className="pb-4 t-center">{willLose}</p>
+          {willLose && isValid && <p className="pb-4 text-center">{willLose}</p>
 }
 
             <div className="flex justify-center h-[50px] md:h-[60px]">
