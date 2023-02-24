@@ -119,7 +119,6 @@ export default function APY({market, type}: APY_PROPS) {
         info.APY
       )}`}
     >
-    {type === "borrow" ? "-" : null}
       {info.formattedAPY}
     </span>
   </div>
