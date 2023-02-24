@@ -1,13 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
-import { formatApy } from "~/lib/apy-calculations";
 import MarketsContentEmpty from "./MarketsContentEmpty";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
 import { checkColorClass, useMultiTooltip } from "../two-panels/two-panels";
 import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
 import DisplayPrice from "~/components/shared/DisplayPrice";
-import APY, { ESTNDAPR, HoverableAPY } from "../shared/APY";
+import { HoverableAPY } from "../shared/APY";
 
 export const checkZeroValue = (value: number) => {
   return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
@@ -268,7 +267,6 @@ export default function MarketsContent() {
             <tbody>
               {Object.keys(markets).map((id: string, index: number) => {
                 const m = markets[id];
-                const borrowApy = m.borrowApy * -1;
                 const isBorrowable = m.symbol !== "GLP";
                 let market = MARKETS.find(M => M.id === m.symbol)
                 return (
