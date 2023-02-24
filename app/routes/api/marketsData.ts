@@ -22,7 +22,7 @@ export const getLatestBlock = async function (graphUrl: string) {
     return response?._meta?.block?.number ?? 0;
 };
 
-export async function fetchMarketData(addresses: string) {
+export async function fetchMarketData(addresses: string[]) {
   const l2BlocksPerDay = Math.round((60 * 60 * 24) / config.l2SecondsPerBlock);
   const latestblock = await getLatestBlock(config.graphUrl);
 
@@ -32,10 +32,11 @@ export async function fetchMarketData(addresses: string) {
     }
 
     const l2PrevDayBlock = latestblock - l2BlocksPerDay;
+    const addressFilter = addresses.join('","');
 
     return request(config.graphUrl, gql`
   {
-  markets(where: {id_in: ["${addresses}"]}) {
+  markets(where: {id_in: ["${addressFilter}"]}) {
   symbol
   underlyingSymbol
   borrowRate
@@ -46,7 +47,7 @@ export async function fetchMarketData(addresses: string) {
   totalBorrows
   underlyingPriceUSD
   },
-  prevMarkets:markets(block:{number: ${l2PrevDayBlock}} where: {id_in: ["${addresses}"]}) {
+  prevMarkets:markets(block:{number: ${l2PrevDayBlock}} where: {id_in: ["${addressFilter}"]}) {
   borrowRate
   cash
   reserves
@@ -82,12 +83,14 @@ export async function fetchMarketData(addresses: string) {
 
 }
 
-export const loader:LoaderFunction = async ({ params }) => {
-  let addresses: string = params.addresses ?? ""
-  let res = await fetchMarketData(addresses)
+export const loader:LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const addresses: string = url.searchParams.get("addresses") ?? "";
+  let res = await fetchMarketData(addresses.split(","))
   return json(res, {
     headers: {
-        "Cache-Control": "max-age=120, public",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": `max-age=45, public, stale-if-error=${60*60*12}`,
     },
   });
 }

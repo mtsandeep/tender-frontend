@@ -77,57 +77,13 @@ export function useMarketsInfo() {
         addresses.push(address);
       });
 
-      const searchStr = addresses.join('","');
 
-      const response = await request(
-        graphUrl,
-        gql`
-    {
-  markets(where: {id_in: ["${searchStr}"]}) {
-    symbol
-    underlyingSymbol
-    borrowRate
-    cash
-    reserves
-    supplyRate
-    id
-    totalBorrows
-    underlyingPriceUSD
-  },
-  prevMarkets:markets(block:{number: ${l2PrevDayBlock}} where: {id_in: ["${searchStr}"]}) {
-    borrowRate
-    cash
-    reserves
-    supplyRate
-    id
-    totalBorrows
-    underlyingPriceUSD
-  },
-  borrowVolume:borrowEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    underlyingSymbol
-    amount
-  },
-  repayVolume:repayEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    underlyingSymbol
-    amount
-  },
-  supplyVolume:mintEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    cTokenSymbol
-    underlyingAmount
-  },
-  redeemVolume:redeemEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    cTokenSymbol
-    underlyingAmount
-  },
-    accountCTokens (where: {enteredMarket: true}) {
-      id
-      cTokenBalance
-      totalUnderlyingBorrowed
-      totalUnderlyingSupplied
-    }
-}
-`
-      );
+      // make uri deterministic and more cacheable
+      addresses.sort()
+      let host = "https://api.tender.fi";
+      // if running on prod, use api.tender.fi, which is behind cloudflare
+      const request = await fetch(`${host}/api/marketsData?addresses=${addresses.join(",")}`);
+      const response = await request.json()
 
       if (
         !response ||

@@ -9,7 +9,8 @@ export const loader:LoaderFunction = async ({ request }) => {
     
     return json(data[contract].usd, {
         headers: {
-            "Cache-Control": "max-age=45, public",
+            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": `max-age=30, public, stale-if-error=${60*5}`,
         },
     });
 };
