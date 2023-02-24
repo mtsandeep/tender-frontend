@@ -81,11 +81,13 @@ export function getAPY(type: string, market: Market, context?: TenderContext | n
   let tndPrice = context?.tndPrice
 
   let apyString = type === "supply" ? market.marketData.depositApy : market.marketData.borrowApy;
+  let compSeeds = type === "supply" ? market.compSupplySpeeds : market.compBorrowSpeeds
   var apy = parseFloat(apyString) * (type === "borrow" ? -1 : 1);
   var ESTNDAPY = 0
-  if (context && tndPrice && market.compSupplySpeeds && market.marketData.marketSize) {
-    let compSupplySpeeds = parseFloat(formatUnits(market.compSupplySpeeds, TND_DECIMALS))
-    let esTNDPerYear = compSupplySpeeds * getBlocksPerYear(context.networkData.secondsPerBlock)
+  
+  if (context && tndPrice && compSeeds && market.marketData.marketSize) {
+    let seeds = parseFloat(formatUnits(compSeeds, TND_DECIMALS))
+    let esTNDPerYear = seeds * getBlocksPerYear(context.networkData.secondsPerBlock)
     ESTNDAPY = (100 * esTNDPerYear * tndPrice) / (market.marketData.marketSize * market.tokenPair.token.priceInUsd )
   }
 

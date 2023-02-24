@@ -566,7 +566,7 @@ export default function TwoPanels() {
                         </a>
                       </td>
                       <td className="p-0">
-                        <HoverableAPY market={token} type={"borrow"} onClick={getOnClick(token, "supply")} />
+                        <HoverableAPY market={token} type={"borrow"} onClick={getOnClick(token, "borrow")} />
                       </td>
                       <td className="p-0">
                         <a
