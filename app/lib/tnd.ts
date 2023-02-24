@@ -102,7 +102,6 @@ export const getTNDIncentives = async (signer: Signer, cToken: Address): Promise
 
 export async function quotePriceInUSDC(): Promise<number> {
   // try the coingecko api and fallback to server
-  return 3.5
   try {
     let contract = Tendies.Tokens.TND.address
     let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)

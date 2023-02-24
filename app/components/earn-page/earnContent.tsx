@@ -1,11 +1,11 @@
-import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { hooks, metaMask } from "~/connectors/meta-mask";
 import useAuth from "~/hooks/use-auth";
 import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
 import type { IReward } from "../claimRewardsModal/claimRewardsModal";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
-import { getAllData, quotePriceInUSDC } from "~/lib/tnd";
+import { getAllData } from "~/lib/tnd";
 import * as TND from "~/lib/tnd";
 import { toCryptoString } from "~/lib/ui";
 import toast from "react-hot-toast";
