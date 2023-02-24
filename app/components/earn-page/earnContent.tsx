@@ -12,13 +12,12 @@ import toast from "react-hot-toast";
 import { TenderContext } from "~/contexts/tender-context";
 import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
 import { BigNumber } from "@ethersproject/bignumber";
-import { formatUnits, parseUnits } from "@ethersproject/units";
+import { formatUnits } from "@ethersproject/units";
 import Modal from "./modal";
 import ReactModal from "react-modal";
-import { JsonRpcSigner } from "@ethersproject/providers";
-import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
 import { Vault } from "./Vault";
-import { Tendies } from "~/config/networks/arbitrum";
+import UnstakeModal from "../unstakeModal";
+
 
 const PriceContext = createContext<{tnd?: number, eth?: number}>({});
 
@@ -159,6 +158,7 @@ export default function EarnContent(): JSX.Element {
     open: boolean;
     rewards: IReward[];
   }>({ open: false, rewards: [] });
+  const [isWithdrawOpen, setIsWithdrawOpen] = useState<boolean>(false);
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<Modals>(null);
@@ -212,6 +212,7 @@ export default function EarnContent(): JSX.Element {
   const onUnStake = async (amount: BigNumber, symbol: "TND" | "ESTND" = "TND") => {
     if (!signer || amount.lte(0)) return
     var id = toast.loading("Submitting transaction")
+
     try {
       if (symbol === "TND") {
         var tx = await TND.unstakeTnd(signer, amount)
@@ -332,6 +333,8 @@ export default function EarnContent(): JSX.Element {
           sTNDAllowance={data?.sTNDAllowance}
           complete={onUnStake}
           action="Unstake"
+          totalStaked={data.stakedTND.add(data.stakedESTND)}
+          totalBonusPoints={data.stakedBonusPoints.add(data.claimableBonusPoints)}
         />
       }
 
@@ -355,6 +358,8 @@ export default function EarnContent(): JSX.Element {
           complete={(amount) => onUnStake(amount, "ESTND")}
           action="Unstake"
           symbol="esTND"
+          totalStaked={data.stakedTND.add(data.stakedESTND)}
+          totalBonusPoints={data.stakedBonusPoints.add(data.claimableBonusPoints)}
         />
       }
 
@@ -365,7 +370,7 @@ export default function EarnContent(): JSX.Element {
           sTNDAllowance={data?.vTNDAllowance}
           complete={onDeposit}
           action="Deposit"
-          symbol="esTND"
+          symbol="ESTND"
         />
       }
       {/* { currentModal === "withdrawESTND" && <Modal
@@ -381,6 +386,7 @@ export default function EarnContent(): JSX.Element {
       </ReactModal>
 
     <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
+      <UnstakeModal isOpen={isWithdrawOpen} handlerClose={()=> setIsWithdrawOpen(false)} />
       <ClaimRewardsModal
         data={{
           open: dataClaimModal.open,
@@ -542,7 +548,9 @@ export default function EarnContent(): JSX.Element {
                     </div>
                     <div className="btn-custom-border rounded-[6px]">
                       <button
-                        onClick={()=> setCurrentModal("unstake")}
+                        onClick={()=> {
+                          setCurrentModal("unstake")
+                        }}
                         className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
                         unStake
                       </button>
