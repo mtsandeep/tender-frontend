@@ -506,7 +506,7 @@ export default function EarnContent(): JSX.Element {
                           You are earning
                           { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
                             ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))} % `
-                            : "0.00%" }
+                            :  "0.00%" }
                           more TND rewards using {data ? displayTND(data?.stakedBonusPoints) : " 0.00 "}
                           &nbsp;
                           Staked Multiplier Points. <br />
