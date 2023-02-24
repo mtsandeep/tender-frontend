@@ -76,18 +76,17 @@ type APYObject = {
   formattedAPY: string
 }
 
-export function getAPY(type: string, market: Market, context: TenderContext | null | undefined): APYObject {
+export function getAPY(type: string, market: Market, context?: TenderContext | null | undefined): APYObject {
   context = context ?? useTenderContext()
+  let tndPrice = context?.tndPrice
 
   let apyString = type === "supply" ? market.marketData.depositApy : market.marketData.borrowApy;
   var apy = parseFloat(apyString) * (type === "borrow" ? -1 : 1);
   var ESTNDAPY = 0
-
-  let tndPrice = context?.tndPrice
   if (context && tndPrice && market.compSupplySpeeds && market.marketData.marketSize) {
     let compSupplySpeeds = parseFloat(formatUnits(market.compSupplySpeeds, TND_DECIMALS))
     let esTNDPerYear = compSupplySpeeds * getBlocksPerYear(context.networkData.secondsPerBlock)
-    ESTNDAPY = 100 * esTNDPerYear * tndPrice / market.marketData.marketSize
+    ESTNDAPY = (100 * esTNDPerYear * tndPrice) / (market.marketData.marketSize * market.tokenPair.token.priceInUsd )
   }
 
   let formattedESTND = formatApy(ESTNDAPY)
