@@ -3,6 +3,14 @@ import NetworksDropdown from "./networksDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useLocation } from "react-router-dom";
 import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
+import { allData, displayTND, displayTNDInUSD } from "../earn-page/earnContent";
+import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
+import { getAllData, quotePriceInUSDC } from "~/lib/tnd";
+import { useWeb3Signer } from "~/hooks/use-web3-signer";
+import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+import useAuth from "~/hooks/use-auth";
+import * as TND from "~/lib/tnd";
+import toast from "react-hot-toast";
 
 const menuLinks = [
   {
@@ -39,13 +47,18 @@ export default function Header() {
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
   const [dataClaimModal, setDataClaimModal] = useState<any>({ open: false });
-  // const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
+  const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
+  const [tndPrice, setTNDPrice] = useState<number | null>(null);
+  const [TNDData, setTNDData] = useState<allData | null>(null);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoadingTndBtn(false);
-  //   }, 1000);
-  // }, []);
+  const provider = Web3Hooks.useProvider();
+  const signer = useWeb3Signer(provider);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingTndBtn(false);
+    }, 1000);
+  }, []);
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -79,6 +92,30 @@ export default function Header() {
     window.addEventListener("click", closeDropdown);
   }, [handleClickBurger, handleChainChanged]);
 
+  useEffect(() => {
+    quotePriceInUSDC().then(setTNDPrice);
+    RefreshData();
+  }, [signer]);
+
+  function RefreshData() {
+    if (signer) getAllData(signer).then(setTNDData);
+  }
+
+  const onClaimESTND = async () => {
+    if (!signer || TNDData?.claimableESTND.eq(0)) return;
+    var id = toast.loading("Submitting transaction");
+    try {
+      var tx = await TND.claimEsTnd(signer);
+      await tx.wait(1);
+      toast.success("Claim successful");
+    } catch (e) {
+      displayErrorMessage(networkData, e, "Claim unsuccessful");
+    } finally {
+      toast.dismiss(id);
+    }
+    RefreshData();
+  };
+
   return (
     <header className="relative">
       <ClaimRewardsModal
@@ -87,10 +124,16 @@ export default function Header() {
           rewards: [
             {
               title: "Protocol Rewards (esTND)",
-              exchange: "1 esTND = $0.0035",
-              unclaimed: "0 esTND",
-              unclaimedUsd: "$0",
-              onClickClaim: () => console.log(""),
+              exchange: `1 esTND = ${tndPrice ?? "?"}`,
+              unclaimed: TNDData
+                ? `${displayTND(TNDData.claimableESTND)} esTND`
+                : "?",
+              unclaimedUsd: `$${
+                TNDData
+                  ? displayTNDInUSD(TNDData.claimableESTND, tndPrice ?? 0)
+                  : "?"
+              }`,
+              onClickClaim: onClaimESTND,
             },
           ],
         }}
@@ -123,8 +166,6 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
-            {/* 
-            // hiding temporarily, will need it later
             {loadingTndBtn ? (
               <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
             ) : (
@@ -143,11 +184,13 @@ export default function Header() {
                     alt="..."
                   />
                   <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
-                    $23.56
+                    {TNDData
+                      ? `${displayTND(TNDData.claimableESTND)} esTND`
+                      : "?"}
                   </div>
                 </button>
               </div>
-            )} */}
+            )}
             <NetworksDropdown />
             <ConnectWallet />
             <button
