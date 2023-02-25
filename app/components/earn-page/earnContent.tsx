@@ -118,7 +118,7 @@ const EMISSION_RATE = 100
  * @param the price of TND in USD as a number
  * @returns string
  */
-function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
+export function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
   if (amount.eq(0)) return "0.00"
 
   // BigNumber only works for ints, and price is in cents

@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import NetworksDropdown from "./networksDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useLocation } from "react-router-dom";
 import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
 import { allData, displayTND, displayTNDInUSD } from "../earn-page/earnContent";
+import { TenderContext } from "~/contexts/tender-context";
 import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
 import { getAllData, quotePriceInUSDC } from "~/lib/tnd";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
@@ -50,6 +51,7 @@ export default function Header() {
   const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
   const [tndPrice, setTNDPrice] = useState<number | null>(null);
   const [TNDData, setTNDData] = useState<allData | null>(null);
+  const {networkData} = useContext(TenderContext);
 
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
@@ -92,14 +94,15 @@ export default function Header() {
     window.addEventListener("click", closeDropdown);
   }, [handleClickBurger, handleChainChanged]);
 
+  function RefreshData() {
+    if (signer) getAllData(signer).then(setTNDData);
+  }
+
   useEffect(() => {
     quotePriceInUSDC().then(setTNDPrice);
     RefreshData();
   }, [signer]);
 
-  function RefreshData() {
-    if (signer) getAllData(signer).then(setTNDData);
-  }
 
   const onClaimESTND = async () => {
     if (!signer || TNDData?.claimableESTND.eq(0)) return;
