@@ -105,6 +105,7 @@ export async function quotePriceInUSDC(): Promise<number> {
   try {
     let response = await fetch(`https://api.tender.fi/api/tnd_price`)
     let json = await response.json() as {"usd": number}
+    console.log(json)
     return json.usd  
   } catch (e) {
     let contract = Tendies.Tokens.TND.address
