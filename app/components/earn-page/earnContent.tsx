@@ -11,7 +11,7 @@ import { toCryptoString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import { TenderContext } from "~/contexts/tender-context";
 import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
-import { BigNumber } from "@ethersproject/bignumber";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 import Modal from "./modal";
 import ReactModal from "react-modal";
@@ -57,8 +57,8 @@ function APRWidget({totalStaked, rewardPerSecond, ethPerSecond }: APRwidgetArgs)
   let { ethPrice, tndPrice } = useContext(TenderContext)
   tndPrice = tndPrice ?? 0
 
-  let formattedAPR = APR(totalStaked, rewardPerSecond).toPrecision(3) + "%"
-  let formattedETHAPR = (APR(totalStaked, ethPerSecond.mul(Math.round(ethPrice))) / tndPrice).toPrecision(3) + "%"
+  let formattedAPR = APR(totalStaked, rewardPerSecond)
+  let formattedETHAPR = (APR(totalStaked, ethPerSecond.mul(Math.round(ethPrice))) / tndPrice)
 
   return <div
     className="flex items-center gap-x-[10px] justify-between"
@@ -68,7 +68,7 @@ function APRWidget({totalStaked, rewardPerSecond, ethPerSecond }: APRwidgetArgs)
     className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
     tabIndex={0}
   >
-    <span className="text-sm md:text-base">{formattedAPR}</span>
+    <span className="text-sm md:text-base">{(formattedAPR + formattedETHAPR).toPrecision(3) + "%"}</span>
     <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
       <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
         <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px]">
@@ -77,7 +77,7 @@ function APRWidget({totalStaked, rewardPerSecond, ethPerSecond }: APRwidgetArgs)
               ETH APR
             </span>
             <div className="text-xs leading-[17px]">
-              <span>{formattedETHAPR}</span>
+              <span>{formattedETHAPR.toPrecision(3) + "%"}</span>
             </div>
           </div>
           <div className="flex justify-between items-center mb-[12px]">
@@ -85,7 +85,7 @@ function APRWidget({totalStaked, rewardPerSecond, ethPerSecond }: APRwidgetArgs)
               esTND APR
             </span>
             <div className="text-xs leading-[17px]">
-              <span>{formattedAPR}</span>
+              <span>{formattedAPR.toPrecision(3) + "%"}</span>
             </div>
           </div>
           <p className="text-[#818987] text-xs  text-left leading-[17px]">
@@ -106,6 +106,9 @@ export function displayTND(amount: BigNumber) {
   return toCryptoString(formatted, 6);
 }
 
+function displayETHWithUSD(amount: BigNumber, ethPrice: BigNumberish) {
+  return `${formatUnits(amount, 18)} ($${formatUnits(amount.mul(ethPrice), 18)})`
+}
 
 /**
  * Display value of TND in USD
@@ -385,16 +388,18 @@ export default function EarnContent(): JSX.Element {
 
   <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
     <UnstakeModal isOpen={isWithdrawOpen} handlerClose={()=> setIsWithdrawOpen(false)} />
-    <ClaimRewardsModal
+    <ClaimRewardsModal title="Protocol Rewards (esTND)" onClickClaim={onClaimESTND}
       data={{
-        open: dataClaimModal.open,
+      open: dataClaimModal.open,
         rewards: [
-        {
-            title: "Protocol Rewards (esTND)",
+          {
             exchange: `1 esTND = ${tndPrice ?? "?"}`,
             unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
             unclaimedUsd: `$${data ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0) : "?"}`,
-            onClickClaim: onClaimESTND
+          },
+          {
+            unclaimed:  data ? `${formatUnits(data.claimableFees, 18)} ETH` : "?",
+            unclaimedUsd: data ? `$${parseFloat(formatUnits(data.claimableFees.mul(ethPrice), 18)).toPrecision(3)}` : "?",
           },
         ],
       }}
@@ -420,7 +425,7 @@ export default function EarnContent(): JSX.Element {
         to learn more.
         <br />
         {data && (
-          data.stakedTND.eq(0) || data.stakedESTND.eq(0)
+          (data.stakedTND.gt(0) || data.stakedESTND.gt(0))
           ) && <span>
           You are earning rewards with <br/>
           {displayTND(data.stakedTND)} TND, {displayTND(data.stakedESTND)} esTND, and {displayTND(data.stakedBonusPoints)} Multiplier Points.
@@ -452,7 +457,7 @@ export default function EarnContent(): JSX.Element {
                         <div className="flex justify-between items-center mb-[4px]">
                           <span className="text-[#818987]">ETH</span>
                           {data?.claimableFees &&
-                              <span className="">{formatUnits(data.claimableFees, 18)} (${formatUnits(data.claimableFees.mul(ethPrice), 18)})</span>
+                            <span className="">{displayETHWithUSD(data.claimableFees, ethPrice)}</span>
                           }
                         </div>
                         <div className="flex justify-between items-center">
@@ -587,7 +592,7 @@ export default function EarnContent(): JSX.Element {
           </div>
           <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
             <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-              <Row left="ETH" amount={data?.claimableFees} />
+              <Row left="ETH" right={displayETHWithUSD(data?.claimableFees ?? BigNumber.from(0), ethPrice)} />
               <Row left="TND" amount={data?.claimableTND} />
               <Row left="esTND" amount={data?.claimableESTND} />
               <Row left="Multiplier Points" right={<>
@@ -640,7 +645,10 @@ export default function EarnContent(): JSX.Element {
               >
                 <span className="text-[#818987] w-fit text-base">Total</span>
                 <div className="text-sm md:text-base leading-[17px]">
-                  ${tndPrice && data && displayTNDInUSD(data.claimableESTND.add(data.claimableTND), tndPrice)}
+                  ${tndPrice && data && displayTNDInUSD(
+                    data.claimableESTND.add(data.claimableTND).add(
+                      data.claimableFees.mul(Math.round(ethPrice/tndPrice * 100)).div(100)
+                  ), tndPrice)}
                 </div>
               </div>
             </div>

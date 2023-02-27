@@ -1,19 +1,19 @@
 import ReactModal from "react-modal";
 
 export interface IReward {
-  title: string;
-  exchange: string;
   unclaimed: string;
   unclaimedUsd: string;
-  onClickClaim: () => void;
+  exchange?: string;
 }
 
 interface IProps {
+  onClickClaim: () => void;
   handlerClose: () => void;
+  title: string;
   data: { open: boolean; rewards: IReward[] };
 }
 
-const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
+const ClaimRewardsModal = ({ data, handlerClose, onClickClaim, title }: IProps) => {
   return (
     <ReactModal
       shouldCloseOnOverlayClick={true}
@@ -25,7 +25,7 @@ const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
           inset: "unset",
           margin: "50px auto",
           position: "relative",
-          maxWidth: 500,
+          maxWidth: 600,
         },
       }}
       closeTimeoutMS={200}
@@ -40,10 +40,7 @@ const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
             alt="close"
           />
         </div>
-        {data?.rewards?.map((reward: IReward, index: number) => (
-          <div
-            key={index}
-            className="py-[26px] px-[15px] md:p-[30px] font-nova leading-[140%] border-b-[1px] border-[#282C2B] last:border-b-0"
+          <div className="py-[26px] px-[15px] md:p-[30px] font-nova leading-[140%] border-b-[1px] border-[#282C2B] last:border-b-0"
           >
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-[12px] md:mb-[26px]">
               <div className="flex items-center mr-0 md:mr-[20px] mb-[12px] md:mb-0">
@@ -53,11 +50,11 @@ const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
                   alt="..."
                 />
                 <div className="text-sm md:text-lg font-semibold">
-                  {reward.title}
+                  {title}
                 </div>
               </div>
               <div className="text-right font-normal text-sm md:text-base text-[#818987]">
-                {reward.exchange}
+                {data.rewards[0]?.exchange ?? ""}
               </div>
             </div>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center text-base">
@@ -73,15 +70,17 @@ const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="w-fit font-normal">{reward.unclaimed}</td>
-                    <td className="w-fit font-normal">{reward.unclaimedUsd}</td>
-                  </tr>
+                  {data?.rewards?.map((reward: IReward, index: number) => (
+                    <tr>
+                      <td className="w-fit font-normal text-left">{reward.unclaimed}</td>
+                      <td className="w-fit font-normal text-right">{reward.unclaimedUsd}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <div className="btn-custom-border rounded-[6px] mt-[20px] md:mt-0">
                 <button
-                  onClick={reward.onClickClaim}
+                  onClick={onClickClaim}
                   className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
                 >
                   Claim
@@ -89,7 +88,6 @@ const ClaimRewardsModal = ({ data, handlerClose }: IProps) => {
               </div>
             </div>
           </div>
-        ))}
       </div>
 
     </ReactModal>
