@@ -10,6 +10,7 @@ export default defineConfig({
     arbitrumOne: {
       RewardRouter: Tendies.RewardRouter,
       RewardDistributor: Tendies.RewardDistributor,
+      EthRewardDistributor: Tendies.EthRewardDistributor,
 
       Comptroller: config.default.Contracts.Comptroller as Address,
 

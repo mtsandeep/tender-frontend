@@ -76,6 +76,7 @@ export type TenderContext = {
   setIsWaitingToBeMined: Function;
   blockNumber: number | boolean;
   tndPrice: number | null;
+  ethPrice: number;
 };
 
 export type Market = {
@@ -131,6 +132,7 @@ export type IncentiveTokenConfig = IncentiveConfig & {
 export type IncentiveContractsConfig = {
   RewardRouter: Address,
   RewardDistributor: Address,
+  EthRewardDistributor: Address,
   TND_USDC_UNISWAP_POOL: Address,
   UNISWAP_QUOTER: Address,
   Tokens: {

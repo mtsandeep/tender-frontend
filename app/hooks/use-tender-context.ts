@@ -36,6 +36,10 @@ export function useTenderContext() {
     networkData?.secondsPerBlock
   );
 
+  let ethPrice = markets.find(
+    m => m.tokenPair.token.symbol === "ETH"
+  )?.tokenPair.token.priceInUsd ?? 0
+
   const blockNumber = useBlockNumber();
 
   useEffect(() => {
@@ -53,6 +57,7 @@ export function useTenderContext() {
       setIsWaitingToBeMined,
       blockNumber,
       tndPrice,
+      ethPrice,
     });
   }, [
     signer,

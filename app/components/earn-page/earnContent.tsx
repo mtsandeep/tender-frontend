@@ -18,9 +18,6 @@ import ReactModal from "react-modal";
 import { Vault } from "./Vault";
 import UnstakeModal from "../unstakeModal";
 
-
-const PriceContext = createContext<{tnd?: number, eth?: number}>({});
-
 // gets the return type of an async function
 // https://stackoverflow.com/a/59774789
 type AsyncReturnType<T extends (...args: any) => Promise<any>> =
@@ -42,23 +39,26 @@ function MultiplierPointsExplainer() {
 </div>
 }
 
-const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber): string => {
-  if (totalStaked.eq(0)) return "0.00"
+const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber): number => {
+  if (totalStaked.eq(0)) return 0;
   // unlike compound markets, staking markets are coded to pay in terms of seconds, not blocks
   const SECONDS_PER_YEAR = 365 * 24 * 60 * 60
   const EMISSION_VALUE_PER_YEAR = rewardPerBlock.mul(Math.floor(100 * SECONDS_PER_YEAR))
-  return EMISSION_VALUE_PER_YEAR.div(totalStaked).toNumber().toPrecision(3) + "%"
+  return EMISSION_VALUE_PER_YEAR.div(totalStaked).toNumber()
 }
 
 type APRwidgetArgs = {
   totalStaked: BigNumber;
-  rewardPerBlock: BigNumber;
+  rewardPerSecond: BigNumber;
+  ethPerSecond: BigNumber;
 }
 
-function APRWidget({totalStaked, rewardPerBlock}: APRwidgetArgs) {
-  let { networkData } = useContext(TenderContext)
+function APRWidget({totalStaked, rewardPerSecond, ethPerSecond }: APRwidgetArgs) {
+  let { ethPrice, tndPrice } = useContext(TenderContext)
+  tndPrice = tndPrice ?? 0
 
-  let formattedAPR = APR(totalStaked, rewardPerBlock)
+  let formattedAPR = APR(totalStaked, rewardPerSecond).toPrecision(3) + "%"
+  let formattedETHAPR = (APR(totalStaked, ethPerSecond.mul(Math.round(ethPrice))) / tndPrice).toPrecision(3) + "%"
 
   return <div
     className="flex items-center gap-x-[10px] justify-between"
@@ -77,7 +77,7 @@ function APRWidget({totalStaked, rewardPerBlock}: APRwidgetArgs) {
               ETH APR
             </span>
             <div className="text-xs leading-[17px]">
-              <span>0.00%</span>
+              <span>{formattedETHAPR}</span>
             </div>
           </div>
           <div className="flex justify-between items-center mb-[12px]">
@@ -106,7 +106,6 @@ export function displayTND(amount: BigNumber) {
   return toCryptoString(formatted, 6);
 }
 
-const EMISSION_RATE = 100
 
 /**
  * Display value of TND in USD
@@ -136,8 +135,8 @@ type RowArgs = {
 }
 
 export function Row(args: RowArgs) {
-  let context = useContext(PriceContext)
-  let price = args.symbol === "ETH" ? context.eth : context.tnd;
+  let context = useContext(TenderContext)
+  let price = args.symbol === "ETH" ? context.ethPrice : context.tndPrice;
   return <div className="flex items-center gap-x-[10px] justify-between" tabIndex={0}>
     <span className="text-[#818987] w-fit text-base">{args.left}</span>
     <span className="flex flex-wrap w-fit text-sm md:text-base leading-[17px]">
@@ -164,7 +163,7 @@ export default function EarnContent(): JSX.Element {
   const [currentModal, setCurrentModal] = useState<Modals>(null);
   const [data, setData] = useState<allData | null>(null)  
 
-  const { networkData, tndPrice } = useContext(TenderContext);
+  const { networkData, tndPrice, ethPrice } = useContext(TenderContext);
 
   const { connect, isDisconnected } = useAuth();
   const isActive = useIsActive();
@@ -295,510 +294,510 @@ export default function EarnContent(): JSX.Element {
    }
 
  const APRRow = data && <Row left="APR" right={
-    <APRWidget totalStaked={data.totalESTNDStaked.add(data.totalTNDStaked)} rewardPerBlock={data.emissionsPerBlock} />
+    <APRWidget totalStaked={data.totalESTNDStaked.add(data.totalTNDStaked)} ethPerSecond={data.ethEmissionsPerSecond} rewardPerSecond={data.emissionsPerBlock} />
   }/>
 
-  return (
-    <PriceContext.Provider value={{ tnd: tndPrice ?? undefined, eth: undefined}}>
-      <ReactModal
-        ariaHideApp={false}
-        shouldCloseOnOverlayClick={true}
-        isOpen={currentModal !== null}
-        onRequestClose={() => setCurrentModal(null)}
-        portalClassName="modal"
-        style={{
-          content: {
-            inset: "unset",
-            margin: "20px auto",
-            position: "relative",
-            maxWidth: 450,
-          },
-        }}
-        closeTimeoutMS={200}
-      >
-        { currentModal === "stake" && <Modal
-          closeModal={closeModal}
-          balance={data?.TNDBalance ?? BigNumber.from(0)}
-          signer={signer}
-          sTNDAllowance={data?.sTNDAllowance}
-          complete={onStake}
-          action="Stake"
-        />
-      }
-
-        { currentModal === "unstake" && <Modal
-          closeModal={closeModal}
-          balance={data?.stakedTND ?? BigNumber.from(0)}
-          signer={signer}
-          sTNDAllowance={data?.sTNDAllowance}
-          complete={onUnStake}
-          action="Unstake"
-          totalStaked={data.stakedTND.add(data.stakedESTND)}
-          totalBonusPoints={data.stakedBonusPoints.add(data.claimableBonusPoints)}
-        />
-      }
-
-      { currentModal === "stakeESTND" && <Modal
-          closeModal={closeModal}
-          balance={data?.esTNDBalance ?? BigNumber.from(0)}
-          signer={signer}
-          sTNDAllowance={data?.sESTNDAllowance}
-          complete={(amount) => onStake(amount, "ESTND")}
-          action="stake"
-          symbol="esTND"
-        />
-
-      }
-
-      { currentModal === "unstakeESTND" && <Modal
-          closeModal={closeModal}
-          balance={data?.stakedESTND ?? BigNumber.from(0)}
-          signer={signer}
-          sTNDAllowance={data?.sESTNDAllowance}
-          complete={(amount) => onUnStake(amount, "ESTND")}
-          action="Unstake"
-          symbol="esTND"
-          totalStaked={data.stakedTND.add(data.stakedESTND)}
-          totalBonusPoints={data.stakedBonusPoints.add(data.claimableBonusPoints)}
-        />
-      }
-
-      { currentModal === "depositESTND" && <Modal
-          closeModal={closeModal}
-          balance={data?.maxVestableAmount ?? BigNumber.from(0)}
-          signer={signer}
-          sTNDAllowance={data?.vTNDAllowance}
-          complete={onDeposit}
-          action="Deposit"
-          symbol="ESTND"
-        />
-      }
-      {/* { currentModal === "withdrawESTND" && <Modal
-          closeModal={closeModal}
-          balance={data?.sdsad ?? BigNumber.from(0)}
-          signer={signer}
-          sTNDAllowance={data?.vTNDAllowance}
-          complete={onWithdraw}
-          action="Withdraw"
-          symbol="ESTND"
-        />
-      } */}
-      </ReactModal>
-
-    <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
-      <UnstakeModal isOpen={isWithdrawOpen} handlerClose={()=> setIsWithdrawOpen(false)} />
-      <ClaimRewardsModal
-        data={{
-          open: dataClaimModal.open,
-          rewards: [
-          {
-              title: "Protocol Rewards (esTND)",
-              exchange: `1 esTND = ${tndPrice ?? "?"}`,
-              unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
-              unclaimedUsd: `$${data ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0) : "?"}`,
-              onClickClaim: onClaimESTND
-            },
-          ],
-        }}
-        handlerClose={() =>
-          setDataClaimModal({ ...dataClaimModal, open: false })
-        }
+  return (<>
+    <ReactModal
+      ariaHideApp={false}
+      shouldCloseOnOverlayClick={true}
+      isOpen={currentModal !== null}
+      onRequestClose={() => setCurrentModal(null)}
+      portalClassName="modal"
+      style={{
+        content: {
+          inset: "unset",
+          margin: "20px auto",
+          position: "relative",
+          maxWidth: 450,
+        },
+      }}
+      closeTimeoutMS={200}
+    >
+      { currentModal === "stake" && <Modal
+        closeModal={closeModal}
+        balance={data?.TNDBalance ?? BigNumber.from(0)}
+        signer={signer}
+        sTNDAllowance={data?.sTNDAllowance}
+        complete={onStake}
+        action="Stake"
       />
-      <div tabIndex={0} className="max-w-[820px] my-o mx-auto">
-        <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
-          Earn
-        </p>
-        <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
-          Stake TND to earn rewards. <br />
-          Please read the{" "}
-          <a
-            className="line-solid cursor-pointer text-white"
-            href="https://docs.tender.fi/tendienomics/rewards-and-incentives"
-            target="_blank"
-            rel="noreferrer"
-          >
-            staking details
-          </a>{" "}
-          to learn more.
-          <br />
-          {data && (
-            data.stakedTND.eq(0) || data.stakedESTND.eq(0)
-           ) && <span>
-            You are earning rewards with <br/>
-            {displayTND(data.stakedTND)} TND, {displayTND(data.stakedESTND)} esTND, and {displayTND(data.stakedBonusPoints)} Multiplier Points.
-            </span>
-          }
-        </p>
-        <div className="font-[ProximaNova] w-full">
-          <div tabIndex={0} className="panel-custom">
-            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
-              TENDIES
+    }
+
+      { currentModal === "unstake" && <Modal
+        closeModal={closeModal}
+        balance={data?.stakedTND ?? BigNumber.from(0)}
+        signer={signer}
+        sTNDAllowance={data?.sTNDAllowance}
+        complete={onUnStake}
+        action="Unstake"
+        totalStaked={data.stakedTND.add(data.stakedESTND)}
+        totalBonusPoints={data.stakedBonusPoints.add(data.claimableBonusPoints)}
+      />
+    }
+
+    { currentModal === "stakeESTND" && <Modal
+        closeModal={closeModal}
+        balance={data?.esTNDBalance ?? BigNumber.from(0)}
+        signer={signer}
+        sTNDAllowance={data?.sESTNDAllowance}
+        complete={(amount) => onStake(amount, "ESTND")}
+        action="stake"
+        symbol="esTND"
+      />
+
+    }
+
+    { currentModal === "unstakeESTND" && <Modal
+        closeModal={closeModal}
+        balance={data?.stakedESTND ?? BigNumber.from(0)}
+        signer={signer}
+        sTNDAllowance={data?.sESTNDAllowance}
+        complete={(amount) => onUnStake(amount, "ESTND")}
+        action="Unstake"
+        symbol="esTND"
+        totalStaked={data.stakedTND.add(data.stakedESTND)}
+        totalBonusPoints={data.stakedBonusPoints.add(data.claimableBonusPoints)}
+      />
+    }
+
+    { currentModal === "depositESTND" && <Modal
+        closeModal={closeModal}
+        balance={data?.maxVestableAmount ?? BigNumber.from(0)}
+        signer={signer}
+        sTNDAllowance={data?.vTNDAllowance}
+        complete={onDeposit}
+        action="Deposit"
+        symbol="ESTND"
+      />
+    }
+    {/* { currentModal === "withdrawESTND" && <Modal
+        closeModal={closeModal}
+        balance={data?.sdsad ?? BigNumber.from(0)}
+        signer={signer}
+        sTNDAllowance={data?.vTNDAllowance}
+        complete={onWithdraw}
+        action="Withdraw"
+        symbol="ESTND"
+      />
+    } */}
+    </ReactModal>
+
+  <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
+    <UnstakeModal isOpen={isWithdrawOpen} handlerClose={()=> setIsWithdrawOpen(false)} />
+    <ClaimRewardsModal
+      data={{
+        open: dataClaimModal.open,
+        rewards: [
+        {
+            title: "Protocol Rewards (esTND)",
+            exchange: `1 esTND = ${tndPrice ?? "?"}`,
+            unclaimed:  data ? `${displayTND(data.claimableESTND)} esTND` : "?",
+            unclaimedUsd: `$${data ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0) : "?"}`,
+            onClickClaim: onClaimESTND
+          },
+        ],
+      }}
+      handlerClose={() =>
+        setDataClaimModal({ ...dataClaimModal, open: false })
+      }
+    />
+    <div tabIndex={0} className="max-w-[820px] my-o mx-auto">
+      <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
+        Earn
+      </p>
+      <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
+        Stake TND to earn rewards. <br />
+        Please read the{" "}
+        <a
+          className="line-solid cursor-pointer text-white"
+          href="https://docs.tender.fi/tendienomics/rewards-and-incentives"
+          target="_blank"
+          rel="noreferrer"
+        >
+          staking details
+        </a>{" "}
+        to learn more.
+        <br />
+        {data && (
+          data.stakedTND.eq(0) || data.stakedESTND.eq(0)
+          ) && <span>
+          You are earning rewards with <br/>
+          {displayTND(data.stakedTND)} TND, {displayTND(data.stakedESTND)} esTND, and {displayTND(data.stakedBonusPoints)} Multiplier Points.
+          </span>
+        }
+      </p>
+      <div className="font-[ProximaNova] w-full">
+        <div tabIndex={0} className="panel-custom">
+          <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            TENDIES
+          </div>
+          <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+            <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
+              <Row left="Price" right={"$" + tndPrice} />
+              <Row left="Wallet" amount={data?.TNDBalance} symbol="TND" />
+              <Row left="Staked" amount={data?.stakedTND} symbol="TND" />
             </div>
-            <div className="px-[15px] pt-[20px] pb-[16.9px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[20px] md:pb-[24px]">
-                <Row left="Price" right={"$" + tndPrice} />
-                <Row left="Wallet" amount={data?.TNDBalance} symbol="TND" />
-                <Row left="Staked" amount={data?.stakedTND} symbol="TND" />
-              </div>
-              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
-                {data && APRRow}
-                <Row left="Rewards" right={<>
-                  <div
-                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">${data && tndPrice ? displayTNDInUSD(data?.claimableESTND, tndPrice) : "?"}</span>
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
-                          <div className="flex justify-between items-center mb-[4px]">
-                            <span className="text-[#818987]">ETH</span>
-                            <span className="">0.00 ($0.00)</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-[#818987]">esTND</span>
-                            <span className="">{displayTNDWithUSD(data?.claimableESTND, tndPrice)}</span>
-                          </div>
+            <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[18.5px] md:pt-[23px] pb-[20px] md:pb-[24px]">
+              {data && APRRow}
+              <Row left="Rewards" right={<>
+                <div
+                  className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                  tabIndex={0}
+                >
+                  <span className="text-sm md:text-base">${data && tndPrice ? displayTNDInUSD(data?.claimableESTND, tndPrice) : "?"}</span>
+                  <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
+                        <div className="flex justify-between items-center mb-[4px]">
+                          <span className="text-[#818987]">ETH</span>
+                          {data?.claimableFees &&
+                              <span className="">{formatUnits(data.claimableFees, 18)} (${formatUnits(data.claimableFees.mul(ethPrice), 18)})</span>
+                          }
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-[#818987]">esTND</span>
+                          <span className="">{displayTNDWithUSD(data?.claimableESTND, tndPrice)}</span>
                         </div>
                       </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                   </div>
-                
-                </>} />
-                <Row left="Multiplier Points APR" right={<>
+                </div>
+              
+              </>} />
+              <Row left="Multiplier Points APR" right={<>
+                <div
+                  onFocus={(e) => setTabFocus(1)}
+                  className="cursor-pointer group line-dashed text-xs leading-[17px]"
+                  tabIndex={0}
+                >
+                  <span className="text-sm md:text-base">100.00%</span>
                   <div
-                    onFocus={(e) => setTabFocus(1)}
-                    className="cursor-pointer group line-dashed text-xs leading-[17px]"
-                    tabIndex={0}
+                    className={`${
+                      tabFocus === 1 ? "flex" : "hidden"
+                    } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
                   >
-                    <span className="text-sm md:text-base">100.00%</span>
-                    <div
-                      className={`${
-                        tabFocus === 1 ? "flex" : "hidden"
-                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
-                    >
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <MultiplierPointsExplainer />
-                      </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <MultiplierPointsExplainer />
                     </div>
-                  </div>                
-                </>} />
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  </div>
+                </div>                
+              </>} />
 
-                <Row left="Boost Percentage" right={<>
-                  <div
-                    className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    {data && 
-                    <span className="text-sm md:text-base">
-                      {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
-                      { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
-                        `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))}%`
-                        : "0.00%"
-                      }
-                      </span>
+              <Row left="Boost Percentage" right={<>
+                <div
+                  className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
+                  tabIndex={0}
+                >
+                  {data && 
+                  <span className="text-sm md:text-base">
+                    {/*100 * (Staked Multiplier Points) / (Staked tND + Staked esTND)*/}
+                    { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
+                      `${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))}%`
+                      : "0.00%"
                     }
-                    <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
-                          You are earning
-                          { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
-                            ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))} % `
-                            :  " 0.00% " }
-                          more TND rewards using {data ? displayTND(data?.stakedBonusPoints) : " 0.00 "}
-                          &nbsp;
-                          Staked Multiplier Points. <br />
-                          <br />
-                          Use the "Compound" button to stake your Multiplier
-                          Points.
-                        </div>
+                    </span>
+                  }
+                  <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987] text-start">
+                        You are earning
+                        { (data?.stakedBonusPoints && data?.stakedTND.add(data?.stakedESTND).gt(0)) ?
+                          ` ${(data.stakedBonusPoints.mul(100).div(data.stakedTND.add(data.stakedESTND)).toNumber().toPrecision(3))} % `
+                          :  " 0.00% " }
+                        more TND rewards using {data ? displayTND(data?.stakedBonusPoints) : " 0.00 "}
+                        &nbsp;
+                        Staked Multiplier Points. <br />
+                        <br />
+                        Use the "Compound" button to stake your Multiplier
+                        Points.
                       </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                     </div>
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
                   </div>
-                </>} />
+                </div>
+              </>} />
 
-              </div>
-              <div className="flex  flex-col gap-y-[12px] md:gap-y-[15px] pt-[39px] md:pt-[24px]">
-                <Row left="Total Staked" amount={data?.totalTNDStaked} symbol="TND" />
-                <Row left="Total Supply" amount={data?.totalTNDSupply} symbol="TND" />
-              </div>
-              <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
-                {onClient && isActive ? (
-                  <>
-                    <div className="btn-custom-border rounded-[6px]">
-                      
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                        <a 
-                          target="_blank"
-                          href="https://app.uniswap.org/#/swap?outputCurrency=0xc47d9753f3b32aa9548a7c3f30b6aec3b2d2798c"
-                        >
-                          Buy TND
-                        </a>
-                      </button>
-                    </div>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button
-                        onClick={()=> setCurrentModal("stake") }
-                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                        STAKE
-                      </button>
-                    </div>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button
-                        onClick={()=> {
-                          setCurrentModal("unstake")
-                        }}
-                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                        unStake
-                      </button>
-                    </div>
-                  </>
-                ) : !window.ethereum ? (
-                  <a
-                    className="btn-custom-border rounded-[6px]"
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://metamask.io/"
-                  >
+            </div>
+            <div className="flex  flex-col gap-y-[12px] md:gap-y-[15px] pt-[39px] md:pt-[24px]">
+              <Row left="Total Staked" amount={data?.totalTNDStaked} symbol="TND" />
+              <Row left="Total Supply" amount={data?.totalTNDSupply} symbol="TND" />
+            </div>
+            <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
+              {onClient && isActive ? (
+                <>
+                  <div className="btn-custom-border rounded-[6px]">
+                    
                     <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                      CONNECT WALLET
-                    </button>
-                  </a>
-                ) : (
-                  !isActive && (
-                    <button
-                      onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                    >
-                      CONNECT WALLET
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div tabIndex={0} className="panel-custom mt-[32px]">
-            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-              Total Rewards
-            </div>
-            <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-                <Row left="ETH" amount={data?.claimableFees} />
-                <Row left="TND" amount={data?.claimableTND} />
-                <Row left="esTND" amount={data?.claimableESTND} />
-                <Row left="Multiplier Points" right={<>
-                  <div
-                    onFocus={(e) => setTabFocus(3)}
-                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">{data ? displayTND(data.claimableBonusPoints) : ""}</span>
-                    <div
-                      className={`${
-                        tabFocus === 3 ? "flex" : "hidden"
-                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
-                    >
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <MultiplierPointsExplainer />
-                      </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                    </div>
-                  </div>                
-                </>} />
-                <div
-                  onFocus={(e) => setTabFocus(4)}
-                  className="flex items-center gap-x-[10px] justify-between"
-                  tabIndex={0}
-                >
-                  <span className="text-[#818987] w-fit text-base">
-                    Staked Multiplier Points
-                  </span>
-                  <div
-                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">{data ? displayTND(data.stakedBonusPoints) : ""}</span>
-                    <div
-                      className={`${
-                        tabFocus === 4 ? "flex" : "hidden"
-                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
-                    >
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <MultiplierPointsExplainer />
-                      </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="flex items-center gap-x-[10px] justify-between"
-                  tabIndex={0}
-                >
-                  <span className="text-[#818987] w-fit text-base">Total</span>
-                  <div className="text-sm md:text-base leading-[17px]">
-                   ${tndPrice && data && displayTNDInUSD(data.claimableESTND.add(data.claimableTND), tndPrice)}
-                  </div>
-                </div>
-              </div>
-              <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
-                {onClient && isActive ? (
-                  <>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button
-                        onClick={onCompound}
-                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                        Compound
-                      </button>
-                    </div>
-                    <div
-                      className="btn-custom-border rounded-[6px]"
-                      onClick={() =>
-                        setDataClaimModal({ ...dataClaimModal, open: true })
-                      }
-                    >
-                      <button
-                        className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-                        Claim
-                      </button>
-                    </div>
-                  </>
-                ) : !window.ethereum ? (
-                  <a
-                    className="btn-custom-border rounded-[6px]"
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://metamask.io/"
-                  >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                      CONNECT WALLET
-                    </button>
-                  </a>
-                ) : (
-                  !isActive && (
-                    <button
-                      onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                    >
-                      CONNECT WALLET
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div tabIndex={0} className="panel-custom mt-[31px]">
-            <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
-              ESCROWED TENDIES
-            </div>
-            <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
-              <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
-                <Row left="Price" right={tndPrice?.toPrecision(4)} />
-                <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
-                <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
-              </div>
-              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                {APRRow}
-                <div
-                  className="flex items-center gap-x-[10px] justify-between"
-                  tabIndex={0}
-                >
-                  <span className="text-[#818987] w-fit text-base">
-                    Multiplier Points APR
-                  </span>
-                  <div
-                    onFocus={(e) => setTabFocus(2)}
-                    className=" cursor-pointer group line-dashed text-xs leading-[17px]"
-                    tabIndex={0}
-                  >
-                    <span className="text-sm md:text-base">100.00%</span> {/** this is Fixed on gmx  */}
-                    <div
-                      className={`${
-                        tabFocus === 2 ? "flex" : "hidden"
-                      } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
-                    >
-                      <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
-                        <MultiplierPointsExplainer />
-                      </div>
-                      <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
-                <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
-                <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
-              </div>
-
-              <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
-                {onClient && isActive ? (
-                  <>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                      onClick={() => setCurrentModal("stakeESTND")}
+                      <a 
+                        target="_blank"
+                        href="https://app.uniswap.org/#/swap?outputCurrency=0xc47d9753f3b32aa9548a7c3f30b6aec3b2d2798c"
                       >
-                        STAKE
-                      </button>
-                    </div>
-                    <div className="btn-custom-border rounded-[6px]">
-                      <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
-                        onClick={() => setCurrentModal("unstakeESTND")}
-                      >
-                        unStake
-                      </button>
-                    </div>
-                  </>
-                ) : !window.ethereum ? (
-                  <a
-                    className="btn-custom-border rounded-[6px]"
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://metamask.io/"
-                  >
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
-                      CONNECT WALLET
+                        Buy TND
+                      </a>
                     </button>
-                  </a>
-                ) : (
-                  !isActive && (
+                  </div>
+                  <div className="btn-custom-border rounded-[6px]">
                     <button
-                      onClick={() => connect()}
-                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
-                    >
-                      CONNECT WALLET
+                      onClick={()=> setCurrentModal("stake") }
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                      STAKE
                     </button>
-                  )
-                )}
-              </div>
+                  </div>
+                  <div className="btn-custom-border rounded-[6px]">
+                    <button
+                      onClick={()=> {
+                        setCurrentModal("unstake")
+                      }}
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      unStake
+                    </button>
+                  </div>
+                </>
+              ) : !window.ethereum ? (
+                <a
+                  className="btn-custom-border rounded-[6px]"
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://metamask.io/"
+                >
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    CONNECT WALLET
+                  </button>
+                </a>
+              ) : (
+                !isActive && (
+                  <button
+                    onClick={() => connect()}
+                    className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                  >
+                    CONNECT WALLET
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>
 
-        <p className="font-space text-3xl mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
-          Vest
-        </p>
-        <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
-          Convert esTND tokens to TND tokens. Please read the{" "}
-          <a
-            className="cursor-pointer line-solid text-white"
-            href="https://docs.tender.fi/tendienomics/rewards-and-incentives#vesting"
-            target="_blank"
-            rel="noreferrer"
-          >
-            vesting details
-          </a>{" "}
-          before using the vault.
-        </p>
-        {data && <Vault data={data}
-          setCurrentModal={
-            (m) =>  m === "withdrawESTND" ? onWithdraw() : setCurrentModal("depositESTND")} /> }
+        <div tabIndex={0} className="panel-custom mt-[32px]">
+          <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            Total Rewards
+          </div>
+          <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+            <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
+              <Row left="ETH" amount={data?.claimableFees} />
+              <Row left="TND" amount={data?.claimableTND} />
+              <Row left="esTND" amount={data?.claimableESTND} />
+              <Row left="Multiplier Points" right={<>
+                <div
+                  onFocus={(e) => setTabFocus(3)}
+                  className=" cursor-pointer group line-dashed text-xs leading-[17px]"
+                  tabIndex={0}
+                >
+                  <span className="text-sm md:text-base">{data ? displayTND(data.claimableBonusPoints) : ""}</span>
+                  <div
+                    className={`${
+                      tabFocus === 3 ? "flex" : "hidden"
+                    } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                  >
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <MultiplierPointsExplainer />
+                    </div>
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  </div>
+                </div>                
+              </>} />
+              <div
+                onFocus={(e) => setTabFocus(4)}
+                className="flex items-center gap-x-[10px] justify-between"
+                tabIndex={0}
+              >
+                <span className="text-[#818987] w-fit text-base">
+                  Staked Multiplier Points
+                </span>
+                <div
+                  className=" cursor-pointer group line-dashed text-xs leading-[17px]"
+                  tabIndex={0}
+                >
+                  <span className="text-sm md:text-base">{data ? displayTND(data.stakedBonusPoints) : ""}</span>
+                  <div
+                    className={`${
+                      tabFocus === 4 ? "flex" : "hidden"
+                    } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                  >
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <MultiplierPointsExplainer />
+                    </div>
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="flex items-center gap-x-[10px] justify-between"
+                tabIndex={0}
+              >
+                <span className="text-[#818987] w-fit text-base">Total</span>
+                <div className="text-sm md:text-base leading-[17px]">
+                  ${tndPrice && data && displayTNDInUSD(data.claimableESTND.add(data.claimableTND), tndPrice)}
+                </div>
+              </div>
+            </div>
+            <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
+              {onClient && isActive ? (
+                <>
+                  <div className="btn-custom-border rounded-[6px]">
+                    <button
+                      onClick={onCompound}
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      Compound
+                    </button>
+                  </div>
+                  <div
+                    className="btn-custom-border rounded-[6px]"
+                    onClick={() =>
+                      setDataClaimModal({ ...dataClaimModal, open: true })
+                    }
+                  >
+                    <button
+                      className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+                      Claim
+                    </button>
+                  </div>
+                </>
+              ) : !window.ethereum ? (
+                <a
+                  className="btn-custom-border rounded-[6px]"
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://metamask.io/"
+                >
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    CONNECT WALLET
+                  </button>
+                </a>
+              ) : (
+                !isActive && (
+                  <button
+                    onClick={() => connect()}
+                    className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                  >
+                    CONNECT WALLET
+                  </button>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div tabIndex={0} className="panel-custom mt-[31px]">
+          <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+            ESCROWED TENDIES
+          </div>
+          <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
+            <div className="border-[#282C2B] border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pb-[19px] md:pb-[23px] ">
+              <Row left="Price" right={tndPrice?.toPrecision(4)} />
+              <Row left="Wallet" amount={data?.esTNDBalance} symbol="esTND" />
+              <Row left="Staked" amount={data?.stakedESTND} symbol="esTND" />
+            </div>
+            <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+              {APRRow}
+              <div
+                className="flex items-center gap-x-[10px] justify-between"
+                tabIndex={0}
+              >
+                <span className="text-[#818987] w-fit text-base">
+                  Multiplier Points APR
+                </span>
+                <div
+                  onFocus={(e) => setTabFocus(2)}
+                  className=" cursor-pointer group line-dashed text-xs leading-[17px]"
+                  tabIndex={0}
+                >
+                  <span className="text-sm md:text-base">100.00%</span> {/** this is Fixed on gmx  */}
+                  <div
+                    className={`${
+                      tabFocus === 2 ? "flex" : "hidden"
+                    } z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]`}
+                  >
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
+                      <MultiplierPointsExplainer />
+                    </div>
+                    <div className="custom__arrow__tooltip relative right-[-95px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-[#282C2B]  border-b-[1px] flex flex-col gap-y-[12px] md:gap-y-[15px] pt-[13px] pb-[20px] md:pt-[24px] md:pb-[23px] ">
+              <Row left="Total Staked" amount={data?.totalESTNDStaked} symbol="esTND" />
+              <Row left="Total Supply" amount={data?.totalESTNDSupply} symbol="esTND" />
+            </div>
+
+            <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
+              {onClient && isActive ? (
+                <>
+                  <div className="btn-custom-border rounded-[6px]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                    onClick={() => setCurrentModal("stakeESTND")}
+                    >
+                      STAKE
+                    </button>
+                  </div>
+                  <div className="btn-custom-border rounded-[6px]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                      onClick={() => setCurrentModal("unstakeESTND")}
+                    >
+                      unStake
+                    </button>
+                  </div>
+                </>
+              ) : !window.ethereum ? (
+                <a
+                  className="btn-custom-border rounded-[6px]"
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://metamask.io/"
+                >
+                  <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]">
+                    CONNECT WALLET
+                  </button>
+                </a>
+              ) : (
+                !isActive && (
+                  <button
+                    onClick={() => connect()}
+                    className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] hover:bg-[#1e573fb5]"
+                  >
+                    CONNECT WALLET
+                  </button>
+                )
+              )}
+            </div>
+          </div>
+        </div>
       </div>
+
+      <p className="font-space text-3xl mt-[61px] leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
+        Vest
+      </p>
+      <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">
+        Convert esTND tokens to TND tokens. Please read the{" "}
+        <a
+          className="cursor-pointer line-solid text-white"
+          href="https://docs.tender.fi/tendienomics/rewards-and-incentives#vesting"
+          target="_blank"
+          rel="noreferrer"
+        >
+          vesting details
+        </a>{" "}
+        before using the vault.
+      </p>
+      {data && <Vault data={data}
+        setCurrentModal={
+          (m) =>  m === "withdrawESTND" ? onWithdraw() : setCurrentModal("depositESTND")} /> }
     </div>
-    </PriceContext.Provider>
-  )
+  </div>
+  </>)
 }
