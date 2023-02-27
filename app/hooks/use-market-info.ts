@@ -64,7 +64,7 @@ export function useMarketInfo(tokenId: string | undefined) {
     market: false,
     historicalData: false,
   });
-  const pollingKey = useInterval(7_000);
+  const pollingKey = useInterval(30_000);
   const { networkData, tokenPairs, currentTransaction } =
     useContext(TenderContext);
   const provider = Web3Hooks.useProvider();

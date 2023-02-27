@@ -65,6 +65,18 @@ export const unstakeEsTnd = async (signer: Signer, amount: BigNumberish): Promis
   return sdk.RewardRouter.unstakeEsTnd(amount)
 }
 
+export const getUnclaimedRewards = async (signer: Signer): Promise<BigNumber> => {
+  // returns unclaimed supply / borrow incentives
+  let sdk = getArbitrumOneSdk(signer);
+  return sdk.Comptroller.compAccrued(await signer.getAddress());
+}
+
+export const claimedRewards = async (signer: Signer): Promise<BigNumber> => {
+  // returns unclaimed supply / borrow incentives
+  let sdk = getArbitrumOneSdk(signer);
+  return sdk.Comptroller.claimComp(await signer.getAddress());
+}
+
 export const compound = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
   return sdk.RewardRouter.handleRewards(false, false, true, true, true, true, true)
@@ -77,7 +89,7 @@ export const claim = async (signer: Signer): Promise<ContractTransaction> => {
 
 export const claimEsTnd = async (signer: Signer): Promise<ContractTransaction> => {
   let sdk = getArbitrumOneSdk(signer)
-  return sdk.RewardRouter.claimEsTnd()
+  return sdk.RewardRouter.handleRewards(true,false,true,false,false,true,true)
 }
 
 export const claimFees = async (signer: Signer): Promise<ContractTransaction> => {
@@ -101,17 +113,18 @@ export const getTNDIncentives = async (signer: Signer, cToken: Address): Promise
 }
 
 export async function quotePriceInUSDC(): Promise<number> {
-  // try the coingecko api and fallback to server
+  // try the server and fallback to coingecko
   try {
+    let response = await fetch(`https://api.tender.fi/api/tnd_price`)
+    let json = await response.json() as {"usd": number}
+    console.log(json)
+    return json.usd  
+  } catch (e) {
     let contract = Tendies.Tokens.TND.address
     let response = await fetch(`https://api.coingecko.com/api/v3/simple/token_price/arbitrum-one?contract_addresses=${contract}&vs_currencies=usd`)
     let json = await response.json() as {[contract: string]: {"usd": number}}
     let usd = json[contract].usd
     return usd
-  } catch (e) {
-    let response = await fetch(`/api/tnd_price`)
-    let json = await response.json() as {"usd": number}
-    return json.usd  
   }
 }
 
@@ -149,6 +162,7 @@ export const getAllData = async (signer: Signer) => {
     // an interval is a block
     emissionsPerBlock: sdk.sTND.tokensPerInterval(),
     stakedAmounts: sdk.sbfTND.stakedAmounts(address),
+    ethEmissionsPerSecond: sdk.EthRewardDistributor.tokensPerInterval(),  
 
     // Vester
     // claimableTND: sdk.v

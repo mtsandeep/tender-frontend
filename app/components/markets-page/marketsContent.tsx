@@ -1,13 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
-import { formatApy } from "~/lib/apy-calculations";
 import MarketsContentEmpty from "./MarketsContentEmpty";
 import TooltipMobileMulti from "../two-panels/tooltip-mobile-MULTI";
-import { checkColorClass } from "../two-panels/two-panels";
+import { checkColorClass, useMultiTooltip } from "../two-panels/two-panels";
 import type { Market } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
 import DisplayPrice from "~/components/shared/DisplayPrice";
-import APY, { ESTNDAPR } from "../shared/APY";
+import { HoverableAPY } from "../shared/APY";
 
 export const checkZeroValue = (value: number) => {
   return (value <= 0.01 && value > 0) || (value < 0 && value >= -0.01);
@@ -15,10 +14,8 @@ export const checkZeroValue = (value: number) => {
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
-  let [multiTooltipData, setMultiTooltipData] = useState({
-    open: false,
-    coins: [{}],
-  });
+  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip()
+
   const context = useContext(TenderContext);
   const MARKETS = context.markets
 
@@ -42,7 +39,6 @@ export default function MarketsContent() {
 
   const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
   const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
-
   return (
     <div>
       <TooltipMobileMulti
@@ -93,7 +89,7 @@ export default function MarketsContent() {
                   (m.totalSupplyUsd * 100) /
                   total?.supply?.usd
                 )?.toFixed(2);
-
+                
                 return (
                   <div key={index} className="flex flex-col gap-y-[10px]">
                     <label className="flex justify-between text-sm md:text-base leading-[20px] md:leading-[22px]">
@@ -271,8 +267,8 @@ export default function MarketsContent() {
             <tbody>
               {Object.keys(markets).map((id: string, index: number) => {
                 const m = markets[id];
-                const borrowApy = m.borrowApy * -1;
                 const isBorrowable = m.symbol !== "GLP";
+                let market = MARKETS.find(M => M.id === m.symbol)
                 return (
                   <tr
                     key={index}
@@ -317,79 +313,11 @@ export default function MarketsContent() {
                       </a>
                     </td>
                     <td>
-                      <a
-                        className="relative text-white font-nova font-normal flex items-center w-full h-full pl-[15px] pb-[30px] pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]"
-                        href={`/markets/${m.symbol}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <div
-                          className={`custom__hidden text-sm md:text-base ${checkColorClass(
-                            parseFloat(m.supplyApy)
-                          )} `}
-                        >
-                          {formatApy(m.supplyApy)}
-                        </div>
-                        <div
-                          tabIndex={0}
-                          className="group"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
-                            <div
-                              onClick={() =>
-                                setMultiTooltipData({
-                                  ...multiTooltipData,
-                                  open: window.innerWidth < 1023,
-                                  coins: [
-                                    {
-                                      coinTitle: m.symbol,
-                                      iconSrc: m.icon,
-                                      data: formatApy(m.supplyApy),
-                                      color: checkColorClass(
-                                        parseFloat(m.supplyApy)
-                                      ),
-                                    },
-                                    {
-                                      coinTitle: "esTND",
-                                      iconSrc:
-                                        "/images/wallet-icons/balance-icon.svg",
-                                      data: "?.??%",
-                                      color: "text-white",
-                                    },
-                                  ],
-                                })
-                              }
-                              className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
-                            >
-                              <img
-                                aria-hidden={true}
-                                className="w-[13px] h-[13px]"
-                                src={m.icon}
-                                alt={m.symbol}
-                              />
-                              <img
-                                aria-hidden={true}
-                                className="w-[13px] h-[13px] ml-[6px]"
-                                src="/images/wallet-icons/balance-icon.svg"
-                                alt="..."
-                              />
-                            </div>
-                            <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex  rounded-[10px]">
-                              <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                                <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                  <APY market={MARKETS.find(M => M.id === m.symbol)} type="supply" />
-                                </div>
-                              </div>
-                              <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
+                      {market && <HoverableAPY type="supply" market={market} onClick={getOnClick(market, "supply")} /> }
                     </td>
                     <td>
                       <a
-                        className="relative text-white font-nova font-normal flex items-center w-full h-full pl-[15px] pb-[30px] pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]"
+                        className="relative text-white font-nova font-normal flex items-center w-full h-full pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px]"
                         href={`/markets/${m.symbol}`}
                         target="_blank"
                         rel="noreferrer"
@@ -414,77 +342,7 @@ export default function MarketsContent() {
                       </a>
                     </td>
                     <td>
-                      <a
-                        className="relative text-white font-nova font-normal flex items-center w-full h-full pb-[30px] md:pt-[24px] pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[45px] md:pr-[30px]"
-                        href={`/markets/${m.symbol}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {isBorrowable && (
-                          <>
-                            <div
-                              className={`custom__hidden text-sm md:text-base ${checkColorClass(
-                                borrowApy
-                              )} `}
-                            >
-                              {formatApy(borrowApy)}
-                            </div>
-                            <div
-                              tabIndex={0}
-                              className="group"
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <div className="absolute top-[40px] md:top-[61px] left-[15px] h-[22px]">
-                                <div
-                                  onClick={() =>
-                                    setMultiTooltipData({
-                                      ...multiTooltipData,
-                                      open: window.innerWidth < 1023,
-                                      coins: [
-                                        {
-                                          coinTitle: m.symbol,
-                                          iconSrc: m.icon,
-                                          data: formatApy(borrowApy),
-                                          color: checkColorClass(borrowApy),
-                                        },
-                                        {
-                                          coinTitle: "esTND",
-                                          iconSrc:
-                                            "/images/wallet-icons/balance-icon.svg",
-                                          data: "?.??%",
-                                          color: "text-white",
-                                        },
-                                      ],
-                                    })
-                                  }
-                                  className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
-                                >
-                                  <img
-                                    aria-hidden={true}
-                                    className="w-[13px] h-[13px]"
-                                    src={m.icon}
-                                    alt={m.symbol}
-                                  />
-                                  <img
-                                    aria-hidden={true}
-                                    className="w-[13px] h-[13px] ml-[6px]"
-                                    src="/images/wallet-icons/balance-icon.svg"
-                                    alt="..."
-                                  />
-                                </div>
-                                <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex  rounded-[10px]">
-                                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                                    <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
-                                    <APY market={MARKETS.find(M => M.id === m.symbol)} type="borrow" />
-                                    </div>
-                                  </div>
-                                  <div className="custom__arrow__tooltip relative top-[-6px] left-[0.5px] w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                                </div>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </a>
+                      {market && <HoverableAPY type="borrow" market={market} onClick={getOnClick(market, "borrow")} /> }
                     </td>
                   </tr>
                 );
