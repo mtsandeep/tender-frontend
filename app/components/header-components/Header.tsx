@@ -185,7 +185,9 @@ export default function Header() {
                   />
                   <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
                     {TNDData
-                      ? `${displayTND(TNDData.claimableESTND)} esTND`
+                      ? `${displayTND(
+                          TNDData.getUnclaimedRewards(signer)
+                        )} esTND`
                       : "?"}
                   </div>
                 </button>
