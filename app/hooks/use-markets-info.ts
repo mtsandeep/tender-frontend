@@ -14,26 +14,21 @@ const getPercentageChange = function (
   return ((currentValue - prevValue) / currentValue) * 100;
 };
 
-const getLatestBlock = async function (graphUrl: string) {
-  const response = await request(
-    graphUrl,
-    gql`
-      {
-        _meta {
-          block {
-            number
-          }
-        }
-      }
-    `
-  );
+type MarketMeta = {
+  name: string;
+  icon: string;
+  symbol: string;
+  totalSupply: number;
+}
 
-  return response?._meta?.block?.number ? response._meta.block.number : 0;
-};
+type MarketsInfo = {
+  markets: Record<string, MarketMeta>| false,
+  total: number | false
+}
 
 export function useMarketsInfo() {
   const pollingKey = useInterval(7_000);
-  const [marketsInfo, setMarketsInfo] = useState<object>({
+  const [marketsInfo, setMarketsInfo] = useState<MarketsInfo>({
     markets: false,
     total: false,
   });
@@ -51,7 +46,7 @@ export function useMarketsInfo() {
     }
 
     const getMarketsInfo = async () => {
-      const markets = {};
+      const markets: Record<string, MarketMeta> = {};
       const prevMarkets = {};
       const secondsPerBlock = networkData.secondsPerBlock;
       const l2SecondsPerBlock = networkData.l2SecondsPerBlock;
@@ -59,7 +54,9 @@ export function useMarketsInfo() {
       const tokens = networkData.Tokens;
       const addresses: string[] = [];
 
-      const l2BlockNumber = await getLatestBlock(graphUrl);
+      // arbitrum has a block time of ~.34 seconds, so sometimes
+      // the graph endpoint cannot keep up with the latest block 
+      const l2BlockNumber = await signer.provider.getBlockNumber() - 10
 
       if (l2BlockNumber === 0) {
         return;
@@ -80,57 +77,13 @@ export function useMarketsInfo() {
         addresses.push(address);
       });
 
-      const searchStr = addresses.join('","');
 
-      const response = await request(
-        graphUrl,
-        gql`
-    {
-  markets(where: {id_in: ["${searchStr}"]}) {
-    symbol
-    underlyingSymbol
-    borrowRate
-    cash
-    reserves
-    supplyRate
-    id
-    totalBorrows
-    underlyingPriceUSD
-  },
-  prevMarkets:markets(block:{number: ${l2PrevDayBlock}} where: {id_in: ["${searchStr}"]}) {
-    borrowRate
-    cash
-    reserves
-    supplyRate
-    id
-    totalBorrows
-    underlyingPriceUSD
-  },
-  borrowVolume:borrowEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    underlyingSymbol
-    amount
-  },
-  repayVolume:repayEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    underlyingSymbol
-    amount
-  },
-  supplyVolume:mintEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    cTokenSymbol
-    underlyingAmount
-  },
-  redeemVolume:redeemEvents(where:{blockNumber_gt:${l2PrevDayBlock}}) {
-    cTokenSymbol
-    underlyingAmount
-  },
-    accountCTokens (where: {enteredMarket: true}) {
-      id
-      cTokenBalance
-      totalUnderlyingBorrowed
-      totalUnderlyingSupplied
-    }
-}
-`
-      );
+      // make uri deterministic and more cacheable
+      addresses.sort()
+      let host = "https://api.tender.fi";
+      // if running on prod, use api.tender.fi, which is behind cloudflare
+      const request = await fetch(`${host}/api/marketsData?addresses=${addresses.join(",")}`);
+      const response = await request.json()
 
       if (
         !response ||

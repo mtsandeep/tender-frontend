@@ -1,4 +1,5 @@
-import { defineConfig } from '@dethcrypto/eth-sdk'
+import { Address, defineConfig } from '@dethcrypto/eth-sdk'
+import * as config from "../app/config/networks/arbitrum"
 import { Tendies } from "../app/config/networks/arbitrum"
 
 export default defineConfig({
@@ -9,6 +10,9 @@ export default defineConfig({
     arbitrumOne: {
       RewardRouter: Tendies.RewardRouter,
       RewardDistributor: Tendies.RewardDistributor,
+      EthRewardDistributor: Tendies.EthRewardDistributor,
+
+      Comptroller: config.default.Contracts.Comptroller as Address,
 
       TND_USDC_UNISWAP_POOL: Tendies.TND_USDC_UNISWAP_POOL,
       UNISWAP_QUOTER: Tendies.UNISWAP_QUOTER,

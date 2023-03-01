@@ -8,6 +8,7 @@ import { useMarkets } from "./use-markets";
 import { useInterval } from "./use-interval";
 import { useWeb3Signer } from "./use-web3-signer";
 import { useBlockNumber } from "~/hooks/use-block-number";
+import { useTndPrice } from "./useTndPrice";
 
 export function useTenderContext() {
   let [currentTransaction, updateTransaction] = useState<string | null>(null);
@@ -15,6 +16,8 @@ export function useTenderContext() {
   let [prevMarkets, setPrevMarkets] = useState<Market[] | null>(null);
   let [tenderContext, setTenderContext] = useState<TenderContext | null>();
   let [isWaitingToBeMined, setIsWaitingToBeMined] = useState<boolean>(false);
+  let tndPrice = useTndPrice()
+
   const chainId = Web3Hooks.useChainId();
   let provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
@@ -33,6 +36,10 @@ export function useTenderContext() {
     networkData?.secondsPerBlock
   );
 
+  let ethPrice = markets.find(
+    m => m.tokenPair.token.symbol === "ETH"
+  )?.tokenPair.token.priceInUsd ?? 0
+
   const blockNumber = useBlockNumber();
 
   useEffect(() => {
@@ -49,6 +56,8 @@ export function useTenderContext() {
       isWaitingToBeMined,
       setIsWaitingToBeMined,
       blockNumber,
+      tndPrice,
+      ethPrice,
     });
   }, [
     signer,
@@ -60,6 +69,7 @@ export function useTenderContext() {
     currentTransaction,
     isWaitingToBeMined,
     blockNumber,
+    tndPrice
   ]);
 
   useEffect(() => {
