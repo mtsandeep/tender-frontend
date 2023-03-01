@@ -71,7 +71,7 @@ export const getUnclaimedRewards = async (signer: Signer): Promise<BigNumber> =>
   return sdk.Comptroller.compAccrued(await signer.getAddress());
 }
 
-export const claimedRewards = async (signer: Signer): Promise<BigNumber> => {
+export const claimRewards = async (signer: Signer): Promise<BigNumber> => {
   // returns unclaimed supply / borrow incentives
   let sdk = getArbitrumOneSdk(signer);
   return sdk.Comptroller.claimComp(await signer.getAddress());

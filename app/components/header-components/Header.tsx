@@ -10,6 +10,7 @@ import { getAllData, quotePriceInUSDC } from "~/lib/tnd";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import useAuth from "~/hooks/use-auth";
+import { useTndPrice } from "~/hooks/useTndPrice";
 import * as TND from "~/lib/tnd";
 import toast from "react-hot-toast";
 
@@ -49,12 +50,12 @@ export default function Header() {
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
   const [dataClaimModal, setDataClaimModal] = useState<any>({ open: false });
   const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
-  const [tndPrice, setTNDPrice] = useState<number | null>(null);
   const [TNDData, setTNDData] = useState<allData | null>(null);
-  const {networkData} = useContext(TenderContext);
+  const { networkData } = useContext(TenderContext);
 
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
+  let tndPrice: null | number = useTndPrice();
 
   useEffect(() => {
     setTimeout(() => {
@@ -98,17 +99,11 @@ export default function Header() {
     if (signer) getAllData(signer).then(setTNDData);
   }
 
-  useEffect(() => {
-    quotePriceInUSDC().then(setTNDPrice);
-    RefreshData();
-  }, [signer]);
-
-
-  const onClaimESTND = async () => {
-    if (!signer || TNDData?.claimableESTND.eq(0)) return;
+  const onClaimRewards = async () => {
+    if (!signer || TNDData?.getUnclaimedRewards(signer).eq(0)) return;
     var id = toast.loading("Submitting transaction");
     try {
-      var tx = await TND.claimEsTnd(signer);
+      var tx = await TND.claimRewards(signer);
       await tx.wait(1);
       toast.success("Claim successful");
     } catch (e) {
@@ -122,27 +117,30 @@ export default function Header() {
   return (
     <header className="relative">
       <ClaimRewardsModal
+        title="Protocol Rewards (esTND)"
+        onClickClaim={onClaimRewards}
+        handlerClose={() =>
+          setDataClaimModal({ ...dataClaimModal, open: false })
+        }
         data={{
           open: dataClaimModal.open,
           rewards: [
             {
-              title: "Protocol Rewards (esTND)",
               exchange: `1 esTND = ${tndPrice ?? "?"}`,
               unclaimed: TNDData
-                ? `${displayTND(TNDData.claimableESTND)} esTND`
+                ? `${displayTND(TNDData.getUnclaimedRewards(signer))} esTND`
                 : "?",
               unclaimedUsd: `$${
                 TNDData
-                  ? displayTNDInUSD(TNDData.claimableESTND, tndPrice ?? 0)
+                  ? displayTNDInUSD(
+                      TNDData.getUnclaimedRewards(signer),
+                      tndPrice ?? 0
+                    )
                   : "?"
               }`,
-              onClickClaim: onClaimESTND,
             },
           ],
         }}
-        handlerClose={() =>
-          setDataClaimModal({ ...dataClaimModal, open: false })
-        }
       />
       <div className="header__block bg-black z-20 relative h-[71px] lg:h-[110px] flex items-center justify-between">
         <div className="flex w-full c items-center justify-between max-w-[1400px]">
