@@ -104,7 +104,7 @@ export default function Header() {
     var id = toast.loading("Submitting transaction");
     try {
       var tx = await TND.claimRewards(signer);
-      toast.success(`Successfully Claimed: $${tx}`);
+      toast.success(`Successfully Claimed: ${displayTND(tx)} esTND`);
     } catch (e) {
       displayErrorMessage(networkData, e, "Claim unsuccessful");
     } finally {
