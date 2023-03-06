@@ -68,7 +68,10 @@ export default function Borrow({
   const scrollBlockRef = useRef<HTMLDivElement>(null);
 
   const {
-    networkData, currentTransaction, updateTransaction, setIsWaitingToBeMined
+    networkData,
+    currentTransaction,
+    updateTransaction,
+    setIsWaitingToBeMined,
   } = useContext(TenderContext);
 
   const newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
@@ -99,7 +102,7 @@ export default function Borrow({
     market.maxBorrowLiquidity,
     MAX_BORROW_LIMIT_PERCENTAGE
   );
-  
+
   const [isValid, validationDetail] = useValidInputV2(
     getAmount(initialValue, market.tokenPair.token.decimals),
     market.tokenPair.token.floor ?? "0",
@@ -345,7 +348,11 @@ console.log('borrowLimit',borrowLimit)*/
                       );
                       closeModal();
                     } catch (e: any) {
-                      displayErrorMessage(networkData, e, "Borrow unsuccessful");
+                      displayErrorMessage(
+                        networkData,
+                        e,
+                        "Borrow unsuccessful"
+                      );
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsBorrowing(false);

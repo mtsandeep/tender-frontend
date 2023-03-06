@@ -10,6 +10,7 @@ interface props {
   borrowLimitUsed: string;
   percentUsed: number;
   borrowLimit: number;
+  liquidationThresholdInUsd: number;
 }
 
 export default function Display({
@@ -22,6 +23,7 @@ export default function Display({
   borrowLimitUsed,
   percentUsed,
   borrowLimit,
+  liquidationThresholdInUsd,
 }: props) {
   return (
     <div
@@ -120,7 +122,7 @@ export default function Display({
             className="group relative md:w-fit p-[0px] md:pb-[6px]"
           >
             <span className="justify-self-start text-xs text-[#818987] font-nova font-normal underline decoration-dashed underline-offset-[2px] cursor-pointer">
-              Borrow Used
+              Account Liquidity
             </span>
             <div className="hidden z-10 flex-col absolute left-0 bottom-[18px] items-start group-hover:flex group-focus:flex rounded-[10px]">
               <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
@@ -151,7 +153,7 @@ export default function Display({
                     </span>
                     <span>
                       <DisplayPrice
-                        amount={borrowLimit.toString()}
+                        amount={liquidationThresholdInUsd.toString()}
                         baseFactor="1"
                         isCompact
                         hideBaseCurrencyCode
@@ -165,7 +167,9 @@ export default function Display({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <div className="mr-2 font-nova text-sm text-white">0%</div>
+          <div className="mr-2 font-nova text-sm text-white">
+            {(supplyBalanceInUsd - borrowBalanceInUsd).toFixed(2)}$
+          </div>
           <div className="font-nova text-sm text-white">
             <DisplayPrice
               amount={borrowLimit.toString()}

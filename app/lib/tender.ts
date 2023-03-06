@@ -18,7 +18,9 @@ import type {
 import sampleCEtherAbi from "~/config/sample-CEther-abi";
 
 // more info: https://github.com/ethereum/solidity/issues/533#issuecomment-218776352
-const NEGATIVE_UINT = BigNumber.from("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+const NEGATIVE_UINT = BigNumber.from(
+  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+);
 export const MINIMUM_REQUIRED_APPROVAL_BALANCE = BigNumber.from("1");
 interface Txn {
   wait: (n?: number) => TransactionReceipt;
@@ -52,10 +54,14 @@ async function enable(
   cToken: cToken
 ): Promise<void> {
   // Eth is always enabled
-  if (token.symbol === "ETH") return
+  if (token.symbol === "ETH") return;
 
   // @ts-ignore
-  let contract = new ethers.Contract(token.sGLPAddress || token.address, SampleErc20Abi, signer);
+  let contract = new ethers.Contract(
+    token.sGLPAddress || token.address,
+    SampleErc20Abi,
+    signer
+  );
   let approvalVal = BigNumber.from(2).pow(256).sub(1).toString(); // Max approval value, 2^256 - 1
   await contract.approve(cToken.address, approvalVal);
 }
@@ -68,7 +74,7 @@ async function enable(
  */
 async function getWalletBalance(signer: Signer, token: Token): Promise<number> {
   // ETH is a special case
-  if (token.symbol === "ETH")  {
+  if (token.symbol === "ETH") {
     const balance = await signer.getBalance();
     const balanceInEth = formatEther(balance);
     return parseFloat(balanceInEth);
@@ -102,20 +108,29 @@ async function deposit(
   token: Token
 ): Promise<Txn> {
   let formattedValue;
-  
+
   if (token.symbol === "ETH") {
     let contract = new ethers.Contract(cToken.address, SampleCEtherAbi, signer);
     console.log("supply() w/ cEth");
     formattedValue = ethers.utils.parseEther(value);
-    console.log(formattedValue.toString())
-    console.log("input value:", value, "formattedValue:", formattedValue.toString());
-    return await contract.mint({value: formattedValue});
-
+    console.log(formattedValue.toString());
+    console.log(
+      "input value:",
+      value,
+      "formattedValue:",
+      formattedValue.toString()
+    );
+    return await contract.mint({ value: formattedValue });
   } else {
     let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
     console.log("supply() with Token", cToken.symbol, cToken.address);
     formattedValue = ethers.utils.parseUnits(value, token.decimals);
-    console.log("input value:", value, "formattedValue:", formattedValue.toString());
+    console.log(
+      "input value:",
+      value,
+      "formattedValue:",
+      formattedValue.toString()
+    );
     return await contract.mint(formattedValue);
   }
 }
@@ -135,7 +150,6 @@ async function redeem(
   token: Token,
   isMax: boolean
 ): Promise<Txn> {
-
   // the exchange rate is scaled by 18 decimals
   const formattedValue = ethers.utils.parseUnits(value, token.decimals + 18);
 
@@ -149,7 +163,7 @@ async function redeem(
 
   // if there is a token balance so small it rounds to 0, then withdraw all tokens.
   if (isMax || formattedValue.div(exchangeRate).eq(0)) {
-    console.log("Withdrawing all tokens")
+    console.log("Withdrawing all tokens");
     return redeemAll(cTokenContract, signer);
   }
 
@@ -158,9 +172,9 @@ async function redeem(
 
 /**
  * Redeems the entire user balance of the smart contract.
- * Fails if there is not enough cash in the contract. 
+ * Fails if there is not enough cash in the contract.
  * @param cTokenContract
- * @param signer 
+ * @param signer
  */
 async function redeemAll(cTokenContract: Contract, signer: Signer) {
   let address = await signer.getAddress();
@@ -183,9 +197,9 @@ async function getCurrentlySupplying(
   let contract = new ethers.Contract(cToken.address, abi, signer);
   let address = await signer.getAddress();
 
-  let balance = await contract.callStatic.balanceOf(address)
+  let balance = await contract.callStatic.balanceOf(address);
   let exchangeRateCurrent: BigNumber = await contract.exchangeRateStored();
-  let tokens = balance.mul(exchangeRateCurrent)
+  let tokens = balance.mul(exchangeRateCurrent);
 
   // the exchange rate is scaled by 18 decimals
   return formatBigNumber(tokens, token.decimals + 18);
@@ -205,14 +219,12 @@ async function getCurrentlyBorrowing(
 ): Promise<number> {
   let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
 
-  let contract: Contract = new ethers.Contract(
-    cToken.address,
-    abi,
-    signer
-  );
+  let contract: Contract = new ethers.Contract(cToken.address, abi, signer);
   let address: string = await signer.getAddress();
-  let balance: BigNumber = await contract.callStatic.borrowBalanceCurrent(address);
-  
+  let balance: BigNumber = await contract.callStatic.borrowBalanceCurrent(
+    address
+  );
+
   return formatBigNumber(balance, token.decimals);
 }
 
@@ -225,12 +237,24 @@ async function collateralFactorForToken(
     tokenPair.cToken.address
   );
 
+  let { 3: rawCollateralFactorVip } = await comptrollerContract.markets(
+    tokenPair.cToken.address
+  );
+
   // Collateral factors are always 1e18
   let collateralFactor: number = parseFloat(
     formatUnits(rawCollateralFactor, 18)
   );
 
-  return collateralFactor;
+  let collateralFactorVip: number = parseFloat(
+    formatUnits(rawCollateralFactorVip, 18)
+  );
+
+  if ((await comptrollerContract.getIsAccountVip(signer)) === true) {
+    return collateralFactorVip;
+  } else {
+    return collateralFactor;
+  }
 }
 
 async function borrowLimitForTokenInUsd(
@@ -320,10 +344,15 @@ async function projectBorrowLimit(
   let borrowLimitChangeInUsd: number =
     tokenAmount * tp.token.priceInUsd * collateralFactor;
 
-    console.log("CF", collateralFactor, tp.token.symbol, "price", tp.token.priceInUsd)
+  console.log(
+    "CF",
+    collateralFactor,
+    tp.token.symbol,
+    "price",
+    tp.token.priceInUsd
+  );
   return currentBorrowLimitInUsd + borrowLimitChangeInUsd;
 }
-
 
 /**
  *
@@ -339,6 +368,148 @@ async function getBorrowLimitUsed(
 
   let borrowLimitUsed = ((borrowedAmount / borrowedLimit) * 100).toFixed(2);
   return borrowLimitUsed === "NaN" ? "0" : borrowLimitUsed; // NaN safeguard for new wallets
+}
+
+async function liquidationThresholdForToken(
+  signer: Signer,
+  comptrollerContract: Contract,
+  tokenPair: TokenPair
+): Promise<number> {
+  let { 2: rawLiquidationThreshold } = await comptrollerContract.markets(
+    tokenPair.cToken.address
+  );
+
+  let { 4: rawLiquidationThresholdVip } = await comptrollerContract.markets(
+    tokenPair.cToken.address
+  );
+
+  // Collateral factors are always 1e18
+  let liquidationThresholdMantissa: number = parseFloat(
+    formatUnits(rawLiquidationThreshold, 18)
+  );
+
+  let liquidationThresholdMantissaVip: number = parseFloat(
+    formatUnits(rawLiquidationThresholdVip, 18)
+  );
+
+  if ((await comptrollerContract.getIsAccountVip(signer)) === true) {
+    return liquidationThresholdMantissaVip;
+  } else {
+    return liquidationThresholdMantissa;
+  }
+}
+
+async function liquidationThresholdForTokenInUsd(
+  signer: Signer,
+  comptrollerContract: Contract,
+  tp: TokenPair
+): Promise<number> {
+  let suppliedAmount: number = await getCurrentlySupplying(
+    signer,
+    tp.cToken,
+    tp.token
+  );
+
+  let liquidationThresholdMantissa: number = await liquidationThresholdForToken(
+    signer,
+    comptrollerContract,
+    tp
+  );
+
+  let amount =
+    suppliedAmount * tp.token.priceInUsd * liquidationThresholdMantissa;
+
+  return amount;
+}
+
+async function getAccountLiquidationThresholdInUsd(
+  signer: Signer,
+  comptrollerAddress: string,
+  tokenPairs: TokenPair[]
+): Promise<number> {
+  let comptrollerContract = new ethers.Contract(
+    comptrollerAddress,
+    SampleComptrollerAbi,
+    signer
+  );
+
+  let tokenBalancesInUsd = await Promise.all(
+    tokenPairs.map(async (tokenPair: TokenPair): Promise<number> => {
+      return liquidationThresholdForTokenInUsd(
+        signer,
+        comptrollerContract,
+        tokenPair
+      );
+    })
+  );
+
+  let liquidationThresholdInUsd = tokenBalancesInUsd.reduce(
+    (acc, curr) => acc + curr,
+    0
+  );
+
+  return liquidationThresholdInUsd;
+}
+
+async function projectLiquidationThreshold(
+  signer: Signer,
+  comptrollerAddress: string,
+  tokenPairs: TokenPair[],
+  tp: TokenPair,
+  tokenAmount: number
+): Promise<number> {
+  let currentLiquidationThresholdInUsd =
+    await getAccountLiquidationThresholdInUsd(
+      signer,
+      comptrollerAddress,
+      tokenPairs
+    );
+
+  let comptrollerContract = new ethers.Contract(
+    comptrollerAddress,
+    SampleComptrollerAbi,
+    signer
+  );
+
+  let liquidationThresholdMantissa: number = await liquidationThresholdForToken(
+    signer,
+    comptrollerContract,
+    tp
+  );
+
+  // Borrow limit changes by the dollar amount of this amount of tokens
+  // times its collateral factor (what % of that dollar amount you can borrow against).
+  // `tokenAmount` might be a negative number and thus reduce the limit.
+  let liquidationThesholdChangeInUsd: number =
+    tokenAmount * tp.token.priceInUsd * liquidationThresholdMantissa;
+
+  console.log(
+    "CF",
+    liquidationThresholdMantissa,
+    tp.token.symbol,
+    "price",
+    tp.token.priceInUsd
+  );
+  return currentLiquidationThresholdInUsd + liquidationThesholdChangeInUsd;
+}
+
+/**
+ *
+ * @param borrowedAmount
+ * @param borrowedLimit
+ * @returns
+ */
+async function getliquidationThresholdUsed(
+  borrowedAmount: number,
+  liquidationThresholdInUsd: number
+): Promise<string> {
+  if (liquidationThresholdInUsd === 0) return "0"; // Infinite Protection
+
+  let liquidationThresholdUsed = (
+    (borrowedAmount / liquidationThresholdInUsd) *
+    100
+  ).toFixed(2);
+  return liquidationThresholdUsed === "NaN" ? "0" : liquidationThresholdUsed; // NaN safeguard for new wallets
 }
 
 /**
@@ -371,28 +542,35 @@ async function repay(
     let repayValue;
 
     if (isMax) {
-      const maximillionContract = new ethers.Contract(maximillionAddress, maximillionAbi, signer);
+      const maximillionContract = new ethers.Contract(
+        maximillionAddress,
+        maximillionAbi,
+        signer
+      );
       const address = await signer.getAddress();
 
       repayValue = await contract.callStatic.borrowBalanceCurrent(address);
 
       // adjust repay value with 0.35% to take into account the accrued interest (based on compound solution)
       repayValue = repayValue.add(
-          repayValue.mul(ethers.BigNumber.from(35)).div(ethers.BigNumber.from(10000))
+        repayValue
+          .mul(ethers.BigNumber.from(35))
+          .div(ethers.BigNumber.from(10000))
       );
 
-      return await maximillionContract.repayBehalf(address, {value: repayValue});
+      return await maximillionContract.repayBehalf(address, {
+        value: repayValue,
+      });
     } else {
       repayValue = ethers.utils.parseEther(value);
       console.log("input value:", value, "repayValue:", repayValue.toString());
-      return await contract.repayBorrow({value: repayValue});
+      return await contract.repayBorrow({ value: repayValue });
     }
   }
 
-  const formattedValue: BigNumber = isMax ? ethers.BigNumber.from(NEGATIVE_UINT) : ethers.utils.parseUnits(
-    value,
-    token.decimals
-  );
+  const formattedValue: BigNumber = isMax
+    ? ethers.BigNumber.from(NEGATIVE_UINT)
+    : ethers.utils.parseUnits(value, token.decimals);
   let contract = new ethers.Contract(cToken.address, SampleCTokenAbi, signer);
   return await contract.repayBorrow(formattedValue);
 }
@@ -410,16 +588,14 @@ async function borrow(
   token: Token
 ): Promise<Txn> {
   if (token.symbol === "ETH") {
-      console.log("borrow() with cEth");
+    console.log("borrow() with cEth");
 
-      const formattedValue = ethers.utils.parseEther(value);
-      console.log("input value:", value, "formattedValue:", formattedValue);
+    const formattedValue = ethers.utils.parseEther(value);
+    console.log("input value:", value, "formattedValue:", formattedValue);
 
-      let contract = new ethers.Contract(cToken.address, sampleCEtherAbi, signer);
-      return await contract.borrow(formattedValue);
-    }
-  else {
-
+    let contract = new ethers.Contract(cToken.address, sampleCEtherAbi, signer);
+    return await contract.borrow(formattedValue);
+  } else {
     const formattedValue: BigNumber = ethers.utils.parseUnits(
       value,
       token.decimals
@@ -467,7 +643,8 @@ async function hasSufficientAllowance(
 ): Promise<boolean> {
   const contractAddress = token.sGLPAddress || token.address;
 
-  if (!contractAddress) { // workaround for native token
+  if (!contractAddress) {
+    // workaround for native token
     return true;
   }
 
@@ -549,12 +726,14 @@ async function safeMaxBorrowAmountForToken(
   borrowLimit: number,
   totalBorrowed: number,
   tp: TokenPair,
-  maxBorrowLimitPercentage: number,
+  maxBorrowLimitPercentage: number
 ): Promise<number> {
   // (borrowed_amount + x*priceInUsd) / borrow_limit = 0.8
   // (borrowed_amount + x*priceInUsd) = 0.8 * borrow_limit
   // x = ((0.8 * borrow_limit) - borrowed_amount) / priceInUsd
-  let amount = ((maxBorrowLimitPercentage / 100) * borrowLimit - totalBorrowed) / tp.token.priceInUsd;
+  let amount =
+    ((maxBorrowLimitPercentage / 100) * borrowLimit - totalBorrowed) /
+    tp.token.priceInUsd;
 
   return amount;
 }
@@ -592,7 +771,9 @@ export {
   getCurrentlySupplying,
   getCurrentlyBorrowing,
   getAccountBorrowLimitInUsd,
+  getAccountLiquidationThresholdInUsd,
   getBorrowLimitUsed,
+  getliquidationThresholdUsed,
   getTotalSupplyBalanceInUsd,
   repay,
   borrow,
@@ -600,11 +781,13 @@ export {
   getTotalBorrowed,
   hasSufficientAllowance,
   projectBorrowLimit,
+  projectLiquidationThreshold,
   getAssetPriceInUsd,
   getTotalBorrowedInUsd,
   safeMaxBorrowAmountForToken,
   getMaxBorrowAmount,
   getMaxBorrowLiquidity,
   collateralFactorForToken,
+  liquidationThresholdForToken,
   formatBigNumber,
 };

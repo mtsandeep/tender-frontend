@@ -109,9 +109,10 @@ export type Market = {
   withdrawFee: number;
   isBorrowable: boolean;
   liquidationThreshold: number;
+  liquidationThresholdInUsd: number;
   liquidationPenalty: number;
-  borrowCaps: string,
-  supplyCaps: string,
+  borrowCaps: string;
+  supplyCaps: string;
   collateralFactor: number;
 };
 
@@ -123,22 +124,22 @@ export type IncentiveConfig = {
   address: Address;
   decimals: number;
   symbol: string;
-}
+};
 
 export type IncentiveTokenConfig = IncentiveConfig & {
-  tracker: IncentiveTracker
-}
+  tracker: IncentiveTracker;
+};
 
 export type IncentiveContractsConfig = {
-  RewardRouter: Address,
-  RewardDistributor: Address,
-  EthRewardDistributor: Address,
-  TND_USDC_UNISWAP_POOL: Address,
-  UNISWAP_QUOTER: Address,
+  RewardRouter: Address;
+  RewardDistributor: Address;
+  EthRewardDistributor: Address;
+  TND_USDC_UNISWAP_POOL: Address;
+  UNISWAP_QUOTER: Address;
   Tokens: {
     [key in IncentiveToken]: IncentiveTokenConfig;
-  }
+  };
   Trackers: {
     [key in IncentiveTracker]: IncentiveConfig;
-  }
-}
+  };
+};
