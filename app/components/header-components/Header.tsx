@@ -84,15 +84,15 @@ export default function Header() {
       setTransactionInProgress(true);
       let tx = await TND.claimRewards(signer);
       await tx.wait(1);
+      let newEsTNDBalance = await TND.getESTNDBalance(signer);
+      let reward = newEsTNDBalance.sub(esTNDBalance);
+      toast.success(`Claimed ${displayTND(reward)} esTND`)
     } catch (e) {
       console.error(e);
       displayErrorMessage(networkData, e, "Claim unsuccessful");
     } finally {
-      let newEsTNDBalance = await TND.getESTNDBalance(signer);
-      let reward = newEsTNDBalance.sub(esTNDBalance);
       setTransactionInProgress(false)
       toast.dismiss(id);
-      toast.success(`Claimed ${displayTND(reward)} esTND`)
     }
   }, [signer]);
 
