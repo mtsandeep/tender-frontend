@@ -325,6 +325,11 @@ export function useMarkets(
           token.tokenPair.token.decimals
         );
 
+        const reserves = formatBigNumber(
+          token.totalReserves,
+          token.tokenPair.token.decimals
+        );
+
         let marketSize = formatBigNumber(
           token.cash.add(token.totalBorrows).sub(token.totalReserves),
           token.tokenPair.token.decimals
@@ -345,6 +350,7 @@ export function useMarkets(
             borrowApy,
             totalBorrowed,
             marketSize,
+            reserves,
           },
           walletBalance,
           supplyBalance,
