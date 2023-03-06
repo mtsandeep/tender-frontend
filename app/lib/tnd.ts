@@ -65,16 +65,15 @@ export const unstakeEsTnd = async (signer: Signer, amount: BigNumberish): Promis
   return sdk.RewardRouter.unstakeEsTnd(amount)
 }
 
-export const getUnclaimedRewards = async (signer: Signer): Promise<BigNumber> => {
-  // returns unclaimed supply / borrow incentives
-  let sdk = getArbitrumOneSdk(signer);
-  return sdk.Comptroller.compAccrued(await signer.getAddress());
-}
-
 export const claimRewards = async (signer: Signer): Promise<ContractTransaction> => {
   // returns unclaimed supply / borrow incentives
   let sdk = getArbitrumOneSdk(signer);
-  return sdk.Comptroller.claimComp(await signer.getAddress());
+  return sdk.Comptroller["claimComp(address)"](await signer.getAddress())
+}
+
+export const getESTNDBalance = async (signer: Signer): Promise<BigNumber> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.esTND.balanceOf(await signer.getAddress());
 }
 
 export const compound = async (signer: Signer): Promise<ContractTransaction> => {
@@ -117,7 +116,6 @@ export async function quotePriceInUSDC(): Promise<number> {
   try {
     let response = await fetch(`https://api.tender.fi/api/tnd_price`)
     let json = await response.json() as {"usd": number}
-    console.log(json)
     return json.usd  
   } catch (e) {
     let contract = Tendies.Tokens.TND.address

@@ -11,7 +11,7 @@ import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useTndPrice } from "~/hooks/useTndPrice";
 import * as TND from "~/lib/tnd";
 import toast from "react-hot-toast";
-import { BigNumber } from "@ethersproject/bignumber";
+import { formatUnits } from "@ethersproject/units";
 
 const menuLinks = [
   {
@@ -47,13 +47,11 @@ export default function Header() {
   const burgerRef = useRef<any>(null);
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
-  const [dataClaimModal, setDataClaimModal] = useState<any>({ open: false });
-  const [unclaimedRewards, setUnclaimedRewards] = useState<null | BigNumber>(null);
+  const [transactionInProgress, setTransactionInProgress] = useState(false);
   const { networkData } = useContext(TenderContext);
 
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
-  let tndPrice: null | number = useTndPrice();
 
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
@@ -70,9 +68,35 @@ export default function Header() {
     });
   }, []);
 
-  useEffect(() => {
-    RefreshData()
+  const onClaimRewards = useCallback(async () => {
+    if (transactionInProgress) return;
 
+    if (!signer) {
+      console.error(`Signer undefined (${signer})`);
+      return
+    }
+
+    var esTNDBalance = await TND.getESTNDBalance(signer);
+
+    var id = toast.loading("Submitting transaction");
+
+    try {
+      setTransactionInProgress(true);
+      let tx = await TND.claimRewards(signer);
+      await tx.wait(1);
+    } catch (e) {
+      console.error(e);
+      displayErrorMessage(networkData, e, "Claim unsuccessful");
+    } finally {
+      let newEsTNDBalance = await TND.getESTNDBalance(signer);
+      let reward = newEsTNDBalance.sub(esTNDBalance);
+      setTransactionInProgress(false)
+      toast.dismiss(id);
+      toast.success(`Claimed ${displayTND(reward)} esTND`)
+    }
+  }, [signer]);
+
+  useEffect(() => {
     if (window.ethereum) {
       handleChainChanged(window.ethereum);
     }
@@ -90,56 +114,8 @@ export default function Header() {
     window.addEventListener("click", closeDropdown);
   }, [handleClickBurger, handleChainChanged, signer]);
 
-  async function RefreshData() {
-    if (signer) {
-      let unclaimed = await TND.getUnclaimedRewards(signer)
-      setUnclaimedRewards(unclaimed)
-    }
-  }
-
-  const onClaimRewards = async () => {
-    if (!signer || !unclaimedRewards || unclaimedRewards.eq(0)) {
-      console.error(`Signer undefined (${signer}) or unclaimedRewards(${unclaimedRewards?.toString()})==0`)
-      return
-    };
-
-    var id = toast.loading("Submitting transaction");
-    try {
-      var tx = await TND.claimRewards(signer);
-      toast.success(`Successfully Claimed: ${displayTND(unclaimedRewards)} esTND`);
-    } catch (e) {
-      displayErrorMessage(networkData, e, "Claim unsuccessful");
-    } finally {
-      toast.dismiss(id);
-    }
-    RefreshData();
-  };
-
   return (
     <header className="relative">
-      <ClaimRewardsModal
-        title="Protocol Rewards (esTND)"
-        onClickClaim={onClaimRewards}
-        handlerClose={() =>
-          setDataClaimModal({ ...dataClaimModal, open: false })
-        }
-        data={{
-          open: dataClaimModal.open,
-          rewards: [
-            {
-              exchange: `1 esTND = ${tndPrice ?? "?"}`,
-              unclaimed: unclaimedRewards
-                ? `${displayTND(unclaimedRewards)} esTND`
-                : "?",
-              unclaimedUsd: `$${
-                unclaimedRewards && tndPrice
-                  ? displayTNDInUSD(unclaimedRewards, tndPrice)
-                  : "?"
-              }`,
-            },
-          ],
-        }}
-      />
       <div className="header__block bg-black z-20 relative h-[71px] lg:h-[110px] flex items-center justify-between">
         <div className="flex w-full c items-center justify-between max-w-[1400px]">
           <div className="w-[104px] block lg:w-[196px] z-20 relative">
@@ -165,29 +141,23 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
-            {!unclaimedRewards ? (
-              <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
-            ) : (
-              <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
-                <button
-                  aria-label="Claim Rewards"
-                  tabIndex={0}
-                  className={`relative p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
-                  onClick={() =>
-                    setDataClaimModal({ ...dataClaimModal, open: true })
-                  }
-                >
-                  <img
-                    className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
-                    src="/images/wallet-icons/balance-icon.svg"
-                    alt="..."
-                  />
-                  <div className="whitespace-nowrap text-ellipsis overflow-hidden text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
-                    {`${displayTND(unclaimedRewards)} esTND`}
-                  </div>
-                </button>
-              </div>
-            )}
+            <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
+              <button
+                aria-label="Claim Rewards"
+                tabIndex={0}
+                className={`relative p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
+                onClick={onClaimRewards}
+              >
+                <img
+                  className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
+                  src="/images/wallet-icons/balance-icon.svg"
+                  alt="..."
+                />
+                <div className="whitespace-nowrap text-ellipsis overflow-hidden text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
+                  Claim esTND
+                </div>
+              </button>
+            </div>
             <NetworksDropdown />
             <ConnectWallet />
             <button
