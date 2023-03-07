@@ -253,7 +253,7 @@ export default function EarnContent(): JSX.Element {
       let newEsTNDBalance = await TND.getESTNDBalance(signer)
       let reward = newEsTNDBalance.sub(esTNDBalance)
 
-      toast.success(`Claim successful ${displayTND(reward)}`);
+      toast.success(`Claim successful ${displayTND(reward)} esTND`);
       RefreshData();
     } catch (e) {
       console.error(e);
