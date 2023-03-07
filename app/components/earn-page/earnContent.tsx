@@ -58,7 +58,7 @@ function APRWidget({totalStaked, rewardPerSecond, ethPerSecond }: APRwidgetArgs)
   tndPrice = tndPrice ?? 0
 
   let formattedAPR = APR(totalStaked, rewardPerSecond)
-  let formattedETHAPR = (APR(totalStaked, ethPerSecond.mul(Math.round(ethPrice))) / tndPrice)
+  let formattedETHAPR = (APR(totalStaked, ethPerSecond.mul(Math.round(ethPrice * 100 ))) / (tndPrice * 100))
 
   return <div
     className="flex items-center gap-x-[10px] justify-between"
@@ -106,8 +106,8 @@ export function displayTND(amount: BigNumber) {
   return toCryptoString(formatted, 6);
 }
 
-function displayETHWithUSD(amount: BigNumber, ethPrice: BigNumberish) {
-  return `${formatUnits(amount, 18)} ($${formatUnits(amount.mul(ethPrice), 18)})`
+function displayETHWithUSD(amount: BigNumber, ethPrice: number) {
+  return `${formatUnits(amount, 18)} ($${formatUnits(amount.mul(Math.round(ethPrice)), 18)})`
 }
 
 /**
@@ -425,7 +425,7 @@ export default function EarnContent(): JSX.Element {
           },
           {
             unclaimed:  data ? `${formatUnits(data.claimableFees, 18)} ETH` : "?",
-            unclaimedUsd: data ? `$${parseFloat(formatUnits(data.claimableFees.mul(ethPrice), 18)).toPrecision(3)}` : "?",
+            unclaimedUsd: data ? `$${parseFloat(formatUnits(data.claimableFees.mul(Math.round(ethPrice)), 18)).toPrecision(3)}` : "?",
           },
         ],
       }}
@@ -483,7 +483,7 @@ export default function EarnContent(): JSX.Element {
                         <div className="flex justify-between items-center mb-[4px]">
                           <span className="text-[#818987]">ETH</span>
                           {data?.claimableFees &&
-                            <span className="">{displayETHWithUSD(data.claimableFees, ethPrice)}</span>
+                            <span className="">{displayETHWithUSD(data.claimableFees, Math.round(ethPrice))}</span>
                           }
                         </div>
                         <div className="flex justify-between items-center">
@@ -618,7 +618,7 @@ export default function EarnContent(): JSX.Element {
           </div>
           <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
             <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-              <Row left="ETH" right={displayETHWithUSD(data?.claimableFees ?? BigNumber.from(0), ethPrice)} />
+              <Row left="ETH" right={displayETHWithUSD(data?.claimableFees ?? BigNumber.from(0), Math.round(ethPrice))} />
               <Row left="TND" amount={data?.claimableTND} />
               <Row left="esTND" amount={data?.claimableESTND} />
               <Row left="Multiplier Points" right={<>

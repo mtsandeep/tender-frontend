@@ -43,6 +43,17 @@ export default function Footer() {
           © {new Date().getFullYear()} Tender Finance
         </div>
         <div className="pt-[30px] flex gap-[20px] md:flex md:py-4 justify-center items-center">
+          <a
+            className="font-normal text-base text-[#818987]"
+            aria-label={"Report a Bug"}
+            href={"https://github.com/tender-finance/tender-frontend/issues/new"}
+            key={"ghr"}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Report a Bug
+          </a>
+
           {links.map((item) => {
             return (
               <a
