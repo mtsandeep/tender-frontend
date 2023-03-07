@@ -94,7 +94,7 @@ export default function Header() {
       setTransactionInProgress(false)
       toast.dismiss(id);
     }
-  }, [signer]);
+  }, [signer, transactionInProgress]);
 
   useEffect(() => {
     if (window.ethereum) {
