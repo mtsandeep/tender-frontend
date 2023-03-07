@@ -457,6 +457,14 @@ export default function EarnContent(): JSX.Element {
           {displayTND(data.stakedTND)} TND, {displayTND(data.stakedESTND)} esTND, and {displayTND(data.stakedBonusPoints)} Multiplier Points.
           </span>
         }
+        <br/><br/>
+
+        <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+          onClick={onClaimEsTNDRewards}
+        >
+          Claim Supply Rewards
+        </button>
+
       </p>
       <div className="font-[ProximaNova] w-full">
         <div tabIndex={0} className="panel-custom">
@@ -784,13 +792,6 @@ export default function EarnContent(): JSX.Element {
                       onClick={() => setCurrentModal("unstakeESTND")}
                     >
                       unStake
-                    </button>
-                  </div>
-                  <div className="btn-custom-border rounded-[6px]">
-                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
-                      onClick={onClaimEsTNDRewards}
-                    >
-                      Claim esTND Rewards
                     </button>
                   </div>
                 </>
