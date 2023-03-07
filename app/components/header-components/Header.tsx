@@ -49,7 +49,6 @@ export default function Header() {
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
   const [transactionInProgress, setTransactionInProgress] = useState(false);
-  const [esTNDBalance, setESTNDBalance] = useState(BigNumber.from(0));
   const { networkData } = useContext(TenderContext);
 
   const provider = Web3Hooks.useProvider();
@@ -82,14 +81,9 @@ export default function Header() {
 
     try {
       setTransactionInProgress(true);
-
-      let tx = await TND.claimRewards(signer);
-      await tx.wait(1);
-
+      await TND.claimRewards(signer);
       let newEsTNDBalance = await TND.getESTNDBalance(signer);
-      let reward = newEsTNDBalance.sub(esTNDBalance);
-      toast.success(`Claimed ${displayTND(reward)} esTND`)
-      setESTNDBalance(newEsTNDBalance)
+      toast.success(`esTND balance: ${displayTND(newEsTNDBalance)}`)
     } catch (e) {
       console.error(e);
       displayErrorMessage(networkData, e, "Claim unsuccessful");
@@ -100,11 +94,6 @@ export default function Header() {
   }
 
   useEffect(() => {
-
-    if (signer) TND.getESTNDBalance(signer).then((balance)=> {
-      setESTNDBalance(balance)
-    })
-
     if (window.ethereum) {
       handleChainChanged(window.ethereum);
     }
