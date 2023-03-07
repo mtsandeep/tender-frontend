@@ -1,7 +1,7 @@
 export default function EmptyEarnContent() {
   return (
     <div className="switch__to__network c mt-[30px] mb-[60px] md:mb-[100px]">
-      <div className="max-w-[820px] my-o mx-auto">
+      <div className="max-w-[1080] my-o mx-auto">
         <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
           Earn
         </p>
