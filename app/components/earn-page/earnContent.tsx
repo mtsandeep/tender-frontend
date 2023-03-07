@@ -244,8 +244,16 @@ export default function EarnContent(): JSX.Element {
 
     try {
       setTransactionInProgress(true);
-      await TND.claimRewards(signer);
-      toast.success("Claim successful");
+
+      let esTNDBalance = data?.esTNDBalance ?? BigNumber.from(0)
+
+      let tx = await TND.claimRewards(signer);
+      await tx.wait(1)
+
+      let newEsTNDBalance = await TND.getESTNDBalance(signer)
+      let reward = newEsTNDBalance.sub(esTNDBalance)
+
+      toast.success(`Claim successful ${displayTND(reward)}`);
       RefreshData();
     } catch (e) {
       console.error(e);
