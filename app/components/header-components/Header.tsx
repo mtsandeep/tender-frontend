@@ -12,6 +12,7 @@ import { useTndPrice } from "~/hooks/useTndPrice";
 import * as TND from "~/lib/tnd";
 import toast from "react-hot-toast";
 import { formatUnits } from "@ethersproject/units";
+import { BigNumber }  from "ethers";
 
 const menuLinks = [
   {
@@ -48,6 +49,7 @@ export default function Header() {
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
   const [transactionInProgress, setTransactionInProgress] = useState(false);
+  const [esTNDBalance, setESTNDBalance] = useState(BigNumber.from(0));
   const { networkData } = useContext(TenderContext);
 
   const provider = Web3Hooks.useProvider();
@@ -68,7 +70,7 @@ export default function Header() {
     });
   }, []);
 
-  const onClaimRewards = useCallback(async () => {
+  const onClaimRewards = async () => {
     if (transactionInProgress) return;
 
     if (!signer) {
@@ -76,17 +78,18 @@ export default function Header() {
       return
     }
 
-    var esTNDBalance = await TND.getESTNDBalance(signer);
-
     var id = toast.loading("Submitting transaction");
 
     try {
       setTransactionInProgress(true);
+
       let tx = await TND.claimRewards(signer);
       await tx.wait(1);
+
       let newEsTNDBalance = await TND.getESTNDBalance(signer);
       let reward = newEsTNDBalance.sub(esTNDBalance);
       toast.success(`Claimed ${displayTND(reward)} esTND`)
+      setESTNDBalance(newEsTNDBalance)
     } catch (e) {
       console.error(e);
       displayErrorMessage(networkData, e, "Claim unsuccessful");
@@ -94,9 +97,14 @@ export default function Header() {
       setTransactionInProgress(false)
       toast.dismiss(id);
     }
-  }, [signer, transactionInProgress]);
+  }
 
   useEffect(() => {
+
+    if (signer) TND.getESTNDBalance(signer).then((balance)=> {
+      setESTNDBalance(balance)
+    })
+
     if (window.ethereum) {
       handleChainChanged(window.ethereum);
     }
