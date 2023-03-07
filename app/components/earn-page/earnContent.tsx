@@ -245,8 +245,8 @@ export default function EarnContent(): JSX.Element {
     try {
       setTransactionInProgress(true);
       await TND.claimRewards(signer);
-      let newEsTNDBalance = await TND.getESTNDBalance(signer);
-      toast.success(`esTND balance: ${displayTND(newEsTNDBalance)}`)
+      toast.success("Claim successful");
+      RefreshData();
     } catch (e) {
       console.error(e);
       displayErrorMessage(networkData, e, "Claim unsuccessful");
