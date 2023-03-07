@@ -2,17 +2,8 @@ import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import NetworksDropdown from "./networksDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useLocation } from "react-router-dom";
-import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
-import { displayTND, displayTNDInUSD } from "../earn-page/earnContent";
-import { TenderContext } from "~/contexts/tender-context";
-import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
 import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useTndPrice } from "~/hooks/useTndPrice";
-import * as TND from "~/lib/tnd";
-import toast from "react-hot-toast";
-import { formatUnits } from "@ethersproject/units";
-import { BigNumber }  from "ethers";
 
 const menuLinks = [
   {
@@ -48,8 +39,6 @@ export default function Header() {
   const burgerRef = useRef<any>(null);
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
-  const [transactionInProgress, setTransactionInProgress] = useState(false);
-  const { networkData } = useContext(TenderContext);
 
   const provider = Web3Hooks.useProvider();
   const signer = useWeb3Signer(provider);
@@ -68,30 +57,6 @@ export default function Header() {
       window.location.reload();
     });
   }, []);
-
-  const onClaimRewards = async () => {
-    if (transactionInProgress) return;
-
-    if (!signer) {
-      console.error(`Signer undefined (${signer})`);
-      return
-    }
-
-    var id = toast.loading("Submitting transaction");
-
-    try {
-      setTransactionInProgress(true);
-      await TND.claimRewards(signer);
-      let newEsTNDBalance = await TND.getESTNDBalance(signer);
-      toast.success(`esTND balance: ${displayTND(newEsTNDBalance)}`)
-    } catch (e) {
-      console.error(e);
-      displayErrorMessage(networkData, e, "Claim unsuccessful");
-    } finally {
-      setTransactionInProgress(false)
-      toast.dismiss(id);
-    }
-  }
 
   useEffect(() => {
     if (window.ethereum) {
@@ -138,23 +103,6 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
-            <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
-              <button
-                aria-label="Claim Rewards"
-                tabIndex={0}
-                className={`relative p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
-                onClick={onClaimRewards}
-              >
-                <img
-                  className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
-                  src="/images/wallet-icons/balance-icon.svg"
-                  alt="..."
-                />
-                <div className="whitespace-nowrap text-ellipsis overflow-hidden text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
-                  Claim esTND
-                </div>
-              </button>
-            </div>
             <NetworksDropdown />
             <ConnectWallet />
             <button

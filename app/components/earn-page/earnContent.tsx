@@ -165,6 +165,7 @@ export default function EarnContent(): JSX.Element {
   const [onClient, setOnClient] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<Modals>(null);
   const [data, setData] = useState<allData | null>(null)  
+  const [transactionInProgress, setTransactionInProgress] = useState(false);
 
   const { networkData, tndPrice, ethPrice } = useContext(TenderContext);
 
@@ -230,6 +231,31 @@ export default function EarnContent(): JSX.Element {
     }
     RefreshData()
   }
+
+  const onClaimEsTNDRewards = async () => {
+    if (transactionInProgress) return;
+
+    if (!signer) {
+      console.error(`Signer undefined (${signer})`);
+      return
+    }
+
+    var id = toast.loading("Submitting transaction");
+
+    try {
+      setTransactionInProgress(true);
+      await TND.claimRewards(signer);
+      let newEsTNDBalance = await TND.getESTNDBalance(signer);
+      toast.success(`esTND balance: ${displayTND(newEsTNDBalance)}`)
+    } catch (e) {
+      console.error(e);
+      displayErrorMessage(networkData, e, "Claim unsuccessful");
+    } finally {
+      setTransactionInProgress(false)
+      toast.dismiss(id);
+    }
+  }
+
 
   const onClaimESTND = async ()=> {
     if (!signer || data?.claimableESTND.eq(0)) return
@@ -758,6 +784,13 @@ export default function EarnContent(): JSX.Element {
                       onClick={() => setCurrentModal("unstakeESTND")}
                     >
                       unStake
+                    </button>
+                  </div>
+                  <div className="btn-custom-border rounded-[6px]">
+                    <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+                      onClick={onClaimEsTNDRewards}
+                    >
+                      Claim esTND Rewards
                     </button>
                   </div>
                 </>
