@@ -192,6 +192,16 @@ export default function Display({
                       />
                     </span>
                   </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#818987]">Current Leverage</span>
+                    <span>
+                      {(
+                        supplyBalanceInUsd /
+                        (supplyBalanceInUsd - borrowBalanceInUsd)
+                      ).toFixed(2)}
+                      x
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="custom__arrow__tooltip relative right-[10px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
