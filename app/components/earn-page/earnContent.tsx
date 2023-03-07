@@ -131,9 +131,11 @@ export function displayTND(amount: BigNumber) {
 }
 
 function displayETHWithUSD(amount: BigNumber, ethPrice: number) {
-  return `${formatUnits(amount, 18)} ($${formatUnits(
-    amount.mul(Math.round(ethPrice)),
-    18
+  let formatted = formatUnits(amount, 18);
+  let formattedUSD = formatUnits(amount.mul(Math.round(ethPrice)), 18);
+  return `${toCryptoString(formatted, 10)} ($${toCryptoString(
+    formattedUSD,
+    3
   )})`;
 }
 
