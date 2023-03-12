@@ -5,7 +5,6 @@ import AccountSummaryEmpty from "./empty";
 import { useContext } from "react";
 import { TenderContext } from "~/contexts/tender-context";
 import { useAccountSummary } from "~/hooks/use-account-summary";
-// import { useLiquidationThresholdUsed } from "~/hooks/use-liquidation-threshold-used";
 
 export default function AccountSummary() {
   const {

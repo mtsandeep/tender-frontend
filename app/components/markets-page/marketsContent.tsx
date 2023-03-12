@@ -213,7 +213,10 @@ export default function MarketsContent() {
               })}
             </div>
           </div>
-          {/* <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
+          {/*
+          This isn't working is it is commented out in case we want to make it work later.
+          
+          div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
             <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Reserves Volume</p>
               <p># of Borrowers</p>
