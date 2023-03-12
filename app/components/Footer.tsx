@@ -54,6 +54,17 @@ export default function Footer() {
             Report a Bug
           </a>
 
+          <a
+            className="font-normal text-base text-[#818987]"
+            aria-label={"Report a Bug"}
+            href={"https://github.com/tender-finance/tender-frontend/blob/main/termsofservice.md"}
+            key={"ghr"}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Terms
+          </a>
+
           {links.map((item) => {
             return (
               <a

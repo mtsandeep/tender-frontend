@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import NetworksDropdown from "./networksDropdown";
 import ConnectWallet from "./connect-wallet";
 import { useLocation } from "react-router-dom";
-import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
+import { useWeb3Signer } from "~/hooks/use-web3-signer";
+import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 
 const menuLinks = [
   {
@@ -38,14 +39,10 @@ export default function Header() {
   const burgerRef = useRef<any>(null);
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
-  const [dataClaimModal, setDataClaimModal] = useState<any>({ open: false });
-  // const [loadingTndBtn, setLoadingTndBtn] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoadingTndBtn(false);
-  //   }, 1000);
-  // }, []);
+  const provider = Web3Hooks.useProvider();
+  const signer = useWeb3Signer(provider);
+
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -77,27 +74,10 @@ export default function Header() {
       }
     };
     window.addEventListener("click", closeDropdown);
-  }, [handleClickBurger, handleChainChanged]);
+  }, [handleClickBurger, handleChainChanged, signer]);
 
   return (
     <header className="relative">
-      <ClaimRewardsModal
-        data={{
-          open: dataClaimModal.open,
-          rewards: [
-            {
-              title: "Protocol Rewards (esTND)",
-              exchange: "1 esTND = $0.0035",
-              unclaimed: "0 esTND",
-              unclaimedUsd: "$0",
-              onClickClaim: () => console.log(""),
-            },
-          ],
-        }}
-        handlerClose={() =>
-          setDataClaimModal({ ...dataClaimModal, open: false })
-        }
-      />
       <div className="header__block bg-black z-20 relative h-[71px] lg:h-[110px] flex items-center justify-between">
         <div className="flex w-full c items-center justify-between max-w-[1400px]">
           <div className="w-[104px] block lg:w-[196px] z-20 relative">
@@ -123,31 +103,6 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
-            {/* 
-            // hiding temporarily, will need it later
-            {loadingTndBtn ? (
-              <div className="show animate w-[34px] h-[34px] xl:w-[90px] xl:h-[44px] mr-[6px] xl:mr-[12px]"></div>
-            ) : (
-              <div className="relative z-10 w-[34px] xl:w-[auto] mr-[6px] xl:mr-[12px] h-[34px] xl:h-[44px]">
-                <button
-                  aria-label="Claim Rewards"
-                  tabIndex={0}
-                  className={`relative flex p-[9px] xl:mr-[0px] bg-[#181D1B] hover:bg-[#262C2A] cursor-pointer rounded-[6px] flex items-center h-[34px] xl:h-[44px]`}
-                  onClick={() =>
-                    setDataClaimModal({ ...dataClaimModal, open: true })
-                  }
-                >
-                  <img
-                    className="w-[16px] h-[16px] mr-[0px] xl:mr-[9px]"
-                    src="/images/wallet-icons/balance-icon.svg"
-                    alt="..."
-                  />
-                  <div className="whitespace-nowrap text-ellipsis overflow-hidden block text-sm font-semibold text-right leading-[14px] font-nova hidden xl:flex">
-                    $23.56
-                  </div>
-                </button>
-              </div>
-            )} */}
             <NetworksDropdown />
             <ConnectWallet />
             <button
