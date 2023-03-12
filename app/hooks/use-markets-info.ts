@@ -6,6 +6,7 @@ import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
 import { useInterval } from "./use-interval";
 import { useGmxApy } from "./use-gmx-apy";
+import { BigNumber } from "ethers";
 
 const getPercentageChange = function (
   currentValue: number,
@@ -23,7 +24,7 @@ type MarketMeta = {
 
 type MarketsInfo = {
   markets: Record<string, MarketMeta> | false;
-  total: number | false;
+  total: BigNumber | false;
 };
 
 export function useMarketsInfo() {

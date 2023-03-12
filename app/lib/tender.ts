@@ -2,6 +2,7 @@ import type { cToken, Token } from "~/types/global";
 import { Signer, Contract, utils } from "ethers";
 import { ethers, BigNumber } from "ethers";
 import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
+import { parseUnits } from "ethers/lib/utils";
 
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
@@ -306,7 +307,7 @@ async function projectBorrowLimit(
   comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tp: TokenPair,
-  tokenAmount: BigNumber
+  tokenAmount: string
 ): Promise<BigNumber> {
   let currentBorrowLimitInUsd = await getAccountBorrowLimitInUsd(
     signer,
@@ -319,7 +320,10 @@ async function projectBorrowLimit(
   // Borrow limit changes by the dollar amount of this amount of tokens
   // times its collateral factor (what % of that dollar amount you can borrow against).
   // `tokenAmount` might be a negative number and thus reduce the limit.
-  let borrowLimitChangeInUsd = tokenAmount.mul(Math.round(tp.token.priceInUsd * 100)).mul(collateralFactor).div(100);
+  let borrowLimitChangeInUsd = parseUnits(tokenAmount, tp.token.decimals)
+    .mul(Math.round(tp.token.priceInUsd * 100))
+    .mul(collateralFactor)
+    .div(100);
 
   console.log(
     "CF",

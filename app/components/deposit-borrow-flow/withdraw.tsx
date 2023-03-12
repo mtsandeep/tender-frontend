@@ -15,11 +15,9 @@ import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
 import { shrinkInputClass } from "~/lib/ui";
 import type { ActiveTab } from "./deposit-borrow-flow";
-import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
 import GlpCooldownTimer from "./GlpCooldownTimer";
 import { MAX_WITHDRAW_LIMIT_PERCENTAGE } from "~/lib/constants";
-import ESTNDAPR from "../shared/EstndApr";
 import APY from "../shared/APY";
 
 export interface WithdrawProps {

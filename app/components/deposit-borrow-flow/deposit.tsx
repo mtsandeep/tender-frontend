@@ -20,10 +20,9 @@ import { displayTransactionResult } from "../displayTransactionResult";
 import MaxV2 from "../MaxV2";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
-import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
-import ESTNDAPR from "../shared/EstndApr";
 import APY from "../shared/APY";
+import { BigNumber } from "ethers";
 
 export interface DepositProps {
   closeModal: Function;
