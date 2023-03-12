@@ -30,7 +30,7 @@ export function useMultiTooltip() {
     coins: [{}],
   });
 
-  let getOnClick = (market: Market, type: "supply" | "borrow") => {
+  let getOnClick = ((market: Market, type: "supply" | "borrow") => {
     // gets the onClick handler for a market apy
 
     return () => {
@@ -56,15 +56,16 @@ export function useMultiTooltip() {
         ],
       })
     }
-  }
+  })
   
-  return [multiTooltipData, setMultiTooltipData, getOnClick]
+  return {multiTooltipData, setMultiTooltipData, getOnClick}
+
 }
 
 export default function TwoPanels() {
   const tenderContextData = useContext(TenderContext);
 
-  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip()
+  let {multiTooltipData, setMultiTooltipData, getOnClick} = useMultiTooltip()
 
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
@@ -167,7 +168,7 @@ export default function TwoPanels() {
                     >
                       <td className="p-0">
                         <a
-                          className="flex items-center h-full  relative items-center justify-left text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
+                          className="flex h-full relative items-center justify-left text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
                           href={`/markets/${token.tokenPair.token.symbol}`}
                           target="_blank"
                           rel="noreferrer"
@@ -185,7 +186,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="p-0">
                         <a
-                          className="relative flex items-center h-full  whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
+                          className="flex h-full  whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
                           href={`/markets/${token.tokenPair.token.symbol}`}
                           target="_blank"
                           rel="noreferrer"
@@ -285,7 +286,7 @@ export default function TwoPanels() {
                     >
                       <td className="p-0">
                         <a
-                          className="relative flex items-center h-full  text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
+                          className="relative flex items-center h-full  text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
                           href={`/markets/${token.tokenPair.token.symbol}`}
                           target="_blank"
                           rel="noreferrer"
@@ -305,7 +306,7 @@ export default function TwoPanels() {
                       </td>
                       <td className="p-0">
                         <a
-                          className="flex items-center h-full relative whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
+                          className="flex items-center h-full relative whitespace-nowrap md:whitespace-normal  text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
                           href={`/markets/${token.tokenPair.token.symbol}`}
                           target="_blank"
                           rel="noreferrer"
@@ -409,7 +410,7 @@ export default function TwoPanels() {
                     >
                       <td className="p-0">
                         <a
-                          className="flex items-center h-full relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
+                          className="flex items-center h-full relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
                           href={`/markets/${token.tokenPair.token.symbol}`}
                           target="_blank"
                           rel="noreferrer"
@@ -525,7 +526,7 @@ export default function TwoPanels() {
                     >
                       <td className="p-0">
                         <a
-                          className="flex items-center h-full relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
+                          className="flex items-center h-full relative text-white font-nova font-normal  pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
                           href={`/markets/${token.tokenPair.token.symbol}`}
                           target="_blank"
                           rel="noreferrer"

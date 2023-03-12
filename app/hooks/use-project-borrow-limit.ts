@@ -1,12 +1,11 @@
-import type { JsonRpcSigner } from "@ethersproject/providers";
 import { useState, useEffect, useContext } from "react";
 import { projectBorrowLimit } from "~/lib/tender";
 import type { TokenPair } from "~/types/global";
 import { TenderContext } from "~/contexts/tender-context";
-import { BigNumber } from "ethers";
+import { BigNumber, Signer } from "ethers";
 
 export function useProjectBorrowLimit(
-  signer: JsonRpcSigner | undefined | null,
+  signer: Signer | undefined | null,
   comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tokenPair: TokenPair,

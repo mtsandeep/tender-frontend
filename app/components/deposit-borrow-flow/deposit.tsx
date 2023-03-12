@@ -3,7 +3,6 @@
 import { Market, NetworkData } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
@@ -22,13 +21,13 @@ import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { formatApy } from "~/lib/apy-calculations";
 import APY from "../shared/APY";
-import { BigNumber } from "ethers";
+import type { Signer } from "ethers";
 
 export interface DepositProps {
   closeModal: Function;
   market: Market;
   borrowLimit: number;
-  signer: JsonRpcSigner | null | undefined;
+  signer: Signer | null | undefined;
   borrowLimitUsed: string;
   walletBalance: string;
   totalBorrowedAmountInUsd: number;
@@ -87,7 +86,7 @@ export default function Deposit({
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
     totalBorrowedAmountInUsd,
-    newBorrowLimit
+    newBorrowLimit.toNumber() // this might be a USD, which has 2 decimals
   );
 
   const [isValid, validationDetail] = useValidInputV2(
@@ -224,7 +223,7 @@ export default function Deposit({
           </div>
           <div
             ref={scrollBlockRef}
-            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
+            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
@@ -268,7 +267,7 @@ export default function Deposit({
               value={initialValue}
               isValid={isValid}
               borrowLimit={borrowLimit}
-              newBorrowLimit={newBorrowLimit}
+              newBorrowLimit={newBorrowLimit.toNumber()}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-green.svg"

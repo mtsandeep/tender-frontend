@@ -6,7 +6,6 @@ import { parseUnits } from "ethers/lib/utils";
 
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
-import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SamplePriceOracleAbi from "~/config/sample-price-oracle-abi";
 import maximillionAbi from "~/config/abi/maximillion.json";
@@ -250,7 +249,6 @@ async function collateralFactorForToken(
 
 async function borrowLimitForTokenInUsd(
   signer: Signer,
-  comptrollerContract: Contract,
   tp: TokenPair
 ): Promise<BigNumber> {
   let suppliedAmount = await getCurrentlySupplying(signer, tp.cToken, tp.token);
@@ -282,15 +280,9 @@ async function getAccountBorrowLimitInUsd(
   comptrollerAddress: string,
   tokenPairs: TokenPair[]
 ): Promise<BigNumber> {
-  let comptrollerContract = new ethers.Contract(
-    comptrollerAddress,
-    SampleComptrollerAbi,
-    signer
-  );
-
   let tokenBalancesInUsd = await Promise.all(
     tokenPairs.map(async (tokenPair: TokenPair): Promise<BigNumber> => {
-      return borrowLimitForTokenInUsd(signer, comptrollerContract, tokenPair);
+      return borrowLimitForTokenInUsd(signer, tokenPair);
     })
   );
 
@@ -370,7 +362,6 @@ async function liquidationThresholdForToken(
 
 async function liquidationThresholdForTokenInUsd(
   signer: Signer,
-  comptrollerContract: Contract,
   tp: TokenPair
 ): Promise<BigNumber> {
   let suppliedAmount: BigNumber = await getCurrentlySupplying(
@@ -392,20 +383,12 @@ async function liquidationThresholdForTokenInUsd(
 
 async function getAccountLiquidationThresholdInUsd(
   signer: Signer,
-  comptrollerAddress: string,
   tokenPairs: TokenPair[]
 ): Promise<BigNumber> {
-  let comptrollerContract = new ethers.Contract(
-    comptrollerAddress,
-    SampleComptrollerAbi,
-    signer
-  );
-
   let tokenBalancesInUsd = await Promise.all(
     tokenPairs.map(async (tokenPair: TokenPair): Promise<BigNumber> => {
       return liquidationThresholdForTokenInUsd(
         signer,
-        comptrollerContract,
         tokenPair
       );
     })
@@ -421,7 +404,6 @@ async function getAccountLiquidationThresholdInUsd(
 
 async function projectLiquidationThreshold(
   signer: Signer,
-  comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tp: TokenPair,
   tokenAmount: BigNumber
@@ -429,7 +411,6 @@ async function projectLiquidationThreshold(
   let currentLiquidationThresholdInUsd =
     await getAccountLiquidationThresholdInUsd(
       signer,
-      comptrollerAddress,
       tokenPairs
     );
 
@@ -721,7 +702,7 @@ async function getMaxBorrowAmount(
 }
 
 async function getMaxBorrowLiquidity(
-  signer: JsonRpcSigner,
+  signer: Signer,
   tp: TokenPair
 ): Promise<number> {
   let cTokenContract = new ethers.Contract(

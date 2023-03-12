@@ -1,5 +1,5 @@
 import type { Signer, Contract, BigNumber, BigNumberish, ContractTransaction }  from "ethers";
-import type { TransactionReceipt } from "@ethersproject/providers";
+import type { JsonRpcSigner, Provider, TransactionReceipt } from "@ethersproject/providers";
 import type { IncentiveTracker, IncentiveToken } from "~/types/global";
 
 import { ethers } from "ethers";
@@ -72,7 +72,7 @@ export const getUnclaimedRewards = async (signer: Signer): Promise<BigNumber> =>
 }
 
 export const claimedRewards = async (signer: Signer): Promise<BigNumber> => {
-  // returns unclaimed supply / borrow incentives
+  // returns unclaimed supply / borrow incentives 
   let sdk = getArbitrumOneSdk(signer);
   return sdk.Comptroller.claimComp(await signer.getAddress());
 }
@@ -117,7 +117,6 @@ export async function quotePriceInUSDC(): Promise<number> {
   try {
     let response = await fetch(`https://api.tender.fi/api/tnd_price`)
     let json = await response.json() as {"usd": number}
-    console.log(json)
     return json.usd  
   } catch (e) {
     let contract = Tendies.Tokens.TND.address
@@ -128,7 +127,7 @@ export async function quotePriceInUSDC(): Promise<number> {
   }
 }
 
-export const getAllData = async (signer: Signer) => {
+export const getAllData = async (signer: Signer | JsonRpcSigner) => {
   let sdk = getArbitrumOneSdk(signer)
   let address = signer.getAddress()
   let vestedTND = sdk.vTND.getVestedAmount(address)

@@ -14,7 +14,7 @@ export const checkZeroValue = (value: number) => {
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
-  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip();
+  let {multiTooltipData, setMultiTooltipData, getOnClick} = useMultiTooltip();
 
   const context = useContext(TenderContext);
   const MARKETS = context.markets;

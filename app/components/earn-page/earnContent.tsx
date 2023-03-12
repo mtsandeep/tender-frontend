@@ -24,6 +24,7 @@ import Modal from "./modal";
 import ReactModal from "react-modal";
 import { Vault } from "./Vault";
 import UnstakeModal from "../unstakeModal";
+import { Signer } from "ethers";
 
 // gets the return type of an async function
 // https://stackoverflow.com/a/59774789
@@ -725,7 +726,7 @@ export default function EarnContent(): JSX.Element {
             </div>
 
             <div tabIndex={0} className="panel-custom">
-              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
                 Total Rewards
               </div>
               <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">

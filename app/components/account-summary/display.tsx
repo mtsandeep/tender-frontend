@@ -226,7 +226,7 @@ export default function Display({
       <div className="flex items-center">
         <div className="h-[5px] bg-[#1BD6CF] w-[16px] md:h-[4px] absolute bottom-0 left-0 zIndex-1"></div>
         <div
-          className="w-0 h-full bg-green-300 h-[5px] md:h-[4px] absolute bottom-0 left-[16px] zIndex-1 flex justify-end"
+          className="w-0  bg-green-300 h-[5px] md:h-[4px] absolute bottom-0 left-[16px] zIndex-1 flex justify-end"
           style={{
             background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
             width: `calc(${percentUsed}% - 16px)`,
