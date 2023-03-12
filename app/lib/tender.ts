@@ -1,6 +1,7 @@
 import type { cToken, Token } from "~/types/global";
 import { Signer, Contract, utils } from "ethers";
 import { ethers, BigNumber } from "ethers";
+import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
 
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
@@ -192,7 +193,7 @@ async function getCurrentlySupplying(
   signer: Signer,
   cToken: cToken,
   token: Token
-): Promise<number> {
+): Promise<BigNumber> {
   let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
   let contract = new ethers.Contract(cToken.address, abi, signer);
   let address = await signer.getAddress();
@@ -202,7 +203,7 @@ async function getCurrentlySupplying(
   let tokens = balance.mul(exchangeRateCurrent);
 
   // the exchange rate is scaled by 18 decimals
-  return formatBigNumber(tokens, token.decimals + 18);
+  return tokens;
 }
 
 /**
@@ -216,7 +217,7 @@ async function getCurrentlyBorrowing(
   signer: Signer,
   cToken: cToken,
   token: Token
-): Promise<number> {
+): Promise<BigNumber> {
   let abi = cToken.symbol === "tETH" ? SampleCEtherAbi : SampleCTokenAbi;
 
   let contract: Contract = new ethers.Contract(cToken.address, abi, signer);
@@ -225,35 +226,24 @@ async function getCurrentlyBorrowing(
     address
   );
 
-  return formatBigNumber(balance, token.decimals);
+  return balance;
 }
 
 async function collateralFactorForToken(
   signer: Signer,
-  comptrollerContract: Contract,
   tokenPair: TokenPair
-): Promise<number> {
-  let { 1: rawCollateralFactor } = await comptrollerContract.markets(
-    tokenPair.cToken.address
-  );
+): Promise<BigNumber> {
+  let sdk = getArbitrumOneSdk(signer);
+  let marketInfo = await sdk.Comptroller.markets(tokenPair.cToken.address);
+  let rawCollateralFactor = marketInfo[2];
+  let rawCollateralFactorVip = marketInfo[4];
 
-  let { 3: rawCollateralFactorVip } = await comptrollerContract.markets(
-    tokenPair.cToken.address
-  );
+  let isVIP = await sdk.Comptroller.getIsAccountVip(await signer.getAddress());
 
-  // Collateral factors are always 1e18
-  let collateralFactor: number = parseFloat(
-    formatUnits(rawCollateralFactor, 18)
-  );
-
-  let collateralFactorVip: number = parseFloat(
-    formatUnits(rawCollateralFactorVip, 18)
-  );
-
-  if ((await comptrollerContract.getIsAccountVip(signer)) === true) {
-    return collateralFactorVip;
+  if (isVIP) {
+    return rawCollateralFactorVip;
   } else {
-    return collateralFactor;
+    return rawCollateralFactor;
   }
 }
 
@@ -261,20 +251,15 @@ async function borrowLimitForTokenInUsd(
   signer: Signer,
   comptrollerContract: Contract,
   tp: TokenPair
-): Promise<number> {
-  let suppliedAmount: number = await getCurrentlySupplying(
-    signer,
-    tp.cToken,
-    tp.token
-  );
+): Promise<BigNumber> {
+  let suppliedAmount = await getCurrentlySupplying(signer, tp.cToken, tp.token);
 
-  let collateralFactor: number = await collateralFactorForToken(
-    signer,
-    comptrollerContract,
-    tp
-  );
+  let collateralFactor = await collateralFactorForToken(signer, tp);
 
-  let amount = suppliedAmount * tp.token.priceInUsd * collateralFactor;
+  let amount = suppliedAmount
+    .mul(Math.round(tp.token.priceInUsd * 100))
+    .mul(collateralFactor)
+    .div(100);
 
   return amount;
 }
@@ -295,7 +280,7 @@ async function getAccountBorrowLimitInUsd(
   signer: Signer,
   comptrollerAddress: string,
   tokenPairs: TokenPair[]
-): Promise<number> {
+): Promise<BigNumber> {
   let comptrollerContract = new ethers.Contract(
     comptrollerAddress,
     SampleComptrollerAbi,
@@ -303,12 +288,15 @@ async function getAccountBorrowLimitInUsd(
   );
 
   let tokenBalancesInUsd = await Promise.all(
-    tokenPairs.map(async (tokenPair: TokenPair): Promise<number> => {
+    tokenPairs.map(async (tokenPair: TokenPair): Promise<BigNumber> => {
       return borrowLimitForTokenInUsd(signer, comptrollerContract, tokenPair);
     })
   );
 
-  let borrowLimit = tokenBalancesInUsd.reduce((acc, curr) => acc + curr, 0);
+  let borrowLimit = tokenBalancesInUsd.reduce(
+    (acc, curr) => acc.add(curr),
+    BigNumber.from(0)
+  );
 
   return borrowLimit;
 }
@@ -318,31 +306,23 @@ async function projectBorrowLimit(
   comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tp: TokenPair,
-  tokenAmount: number
-): Promise<number> {
+  tokenAmount: BigNumber
+): Promise<BigNumber> {
   let currentBorrowLimitInUsd = await getAccountBorrowLimitInUsd(
     signer,
     comptrollerAddress,
     tokenPairs
   );
 
-  let comptrollerContract = new ethers.Contract(
-    comptrollerAddress,
-    SampleComptrollerAbi,
-    signer
-  );
-
-  let collateralFactor: number = await collateralFactorForToken(
-    signer,
-    comptrollerContract,
-    tp
-  );
+  let collateralFactor = await collateralFactorForToken(signer, tp);
 
   // Borrow limit changes by the dollar amount of this amount of tokens
   // times its collateral factor (what % of that dollar amount you can borrow against).
   // `tokenAmount` might be a negative number and thus reduce the limit.
-  let borrowLimitChangeInUsd: number =
-    tokenAmount * tp.token.priceInUsd * collateralFactor;
+  let borrowLimitChangeInUsd = tokenAmount
+    .mul(Math.round(tp.token.priceInUsd * 100))
+    .mul(collateralFactor)
+    .div(100);
 
   console.log(
     "CF",
@@ -351,7 +331,7 @@ async function projectBorrowLimit(
     "price",
     tp.token.priceInUsd
   );
-  return currentBorrowLimitInUsd + borrowLimitChangeInUsd;
+  return currentBorrowLimitInUsd.add(borrowLimitChangeInUsd);
 }
 
 /**
@@ -372,30 +352,18 @@ async function getBorrowLimitUsed(
 
 async function liquidationThresholdForToken(
   signer: Signer,
-  comptrollerContract: Contract,
   tokenPair: TokenPair
-): Promise<number> {
-  let { 2: rawLiquidationThreshold } = await comptrollerContract.markets(
-    tokenPair.cToken.address
-  );
+): Promise<BigNumber> {
+  let sdk = getArbitrumOneSdk(signer);
+  let marketInfo = await sdk.Comptroller.markets(tokenPair.cToken.address);
+  let rawLiquidationThreshold = marketInfo[2];
+  let rawLiquidationThresholdVip = marketInfo[4];
 
-  let { 4: rawLiquidationThresholdVip } = await comptrollerContract.markets(
-    tokenPair.cToken.address
-  );
-
-  // Collateral factors are always 1e18
-  let liquidationThresholdMantissa: number = parseFloat(
-    formatUnits(rawLiquidationThreshold, 18)
-  );
-
-  let liquidationThresholdMantissaVip: number = parseFloat(
-    formatUnits(rawLiquidationThresholdVip, 18)
-  );
-
-  if ((await comptrollerContract.getIsAccountVip(signer)) === true) {
-    return liquidationThresholdMantissaVip;
+  let isVIP = await sdk.Comptroller.getIsAccountVip(await signer.getAddress());
+  if (isVIP) {
+    return rawLiquidationThresholdVip;
   } else {
-    return liquidationThresholdMantissa;
+    return rawLiquidationThreshold;
   }
 }
 
@@ -403,21 +371,20 @@ async function liquidationThresholdForTokenInUsd(
   signer: Signer,
   comptrollerContract: Contract,
   tp: TokenPair
-): Promise<number> {
-  let suppliedAmount: number = await getCurrentlySupplying(
+): Promise<BigNumber> {
+  let suppliedAmount: BigNumber = await getCurrentlySupplying(
     signer,
     tp.cToken,
     tp.token
   );
 
-  let liquidationThresholdMantissa: number = await liquidationThresholdForToken(
-    signer,
-    comptrollerContract,
-    tp
-  );
+  let liquidationThresholdMantissa: BigNumber =
+    await liquidationThresholdForToken(signer, tp);
 
-  let amount =
-    suppliedAmount * tp.token.priceInUsd * liquidationThresholdMantissa;
+  let amount = suppliedAmount
+    .mul(Math.round(tp.token.priceInUsd * 100))
+    .mul(liquidationThresholdMantissa)
+    .div(100);
 
   return amount;
 }
@@ -426,7 +393,7 @@ async function getAccountLiquidationThresholdInUsd(
   signer: Signer,
   comptrollerAddress: string,
   tokenPairs: TokenPair[]
-): Promise<number> {
+): Promise<BigNumber> {
   let comptrollerContract = new ethers.Contract(
     comptrollerAddress,
     SampleComptrollerAbi,
@@ -434,7 +401,7 @@ async function getAccountLiquidationThresholdInUsd(
   );
 
   let tokenBalancesInUsd = await Promise.all(
-    tokenPairs.map(async (tokenPair: TokenPair): Promise<number> => {
+    tokenPairs.map(async (tokenPair: TokenPair): Promise<BigNumber> => {
       return liquidationThresholdForTokenInUsd(
         signer,
         comptrollerContract,
@@ -444,8 +411,8 @@ async function getAccountLiquidationThresholdInUsd(
   );
 
   let liquidationThresholdInUsd = tokenBalancesInUsd.reduce(
-    (acc, curr) => acc + curr,
-    0
+    (acc, curr) => acc.add(curr),
+    BigNumber.from(0)
   );
 
   return liquidationThresholdInUsd;
@@ -456,8 +423,8 @@ async function projectLiquidationThreshold(
   comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tp: TokenPair,
-  tokenAmount: number
-): Promise<number> {
+  tokenAmount: BigNumber
+): Promise<BigNumber> {
   let currentLiquidationThresholdInUsd =
     await getAccountLiquidationThresholdInUsd(
       signer,
@@ -465,23 +432,18 @@ async function projectLiquidationThreshold(
       tokenPairs
     );
 
-  let comptrollerContract = new ethers.Contract(
-    comptrollerAddress,
-    SampleComptrollerAbi,
-    signer
-  );
-
-  let liquidationThresholdMantissa: number = await liquidationThresholdForToken(
+  let liquidationThresholdMantissa = await liquidationThresholdForToken(
     signer,
-    comptrollerContract,
     tp
   );
 
   // Borrow limit changes by the dollar amount of this amount of tokens
   // times its collateral factor (what % of that dollar amount you can borrow against).
   // `tokenAmount` might be a negative number and thus reduce the limit.
-  let liquidationThesholdChangeInUsd: number =
-    tokenAmount * tp.token.priceInUsd * liquidationThresholdMantissa;
+  let liquidationThesholdChangeInUsd = tokenAmount
+    .mul(Math.round(tp.token.priceInUsd * 100))
+    .mul(liquidationThresholdMantissa)
+    .div(100);
 
   console.log(
     "CF",
@@ -490,7 +452,7 @@ async function projectLiquidationThreshold(
     "price",
     tp.token.priceInUsd
   );
-  return currentLiquidationThresholdInUsd + liquidationThesholdChangeInUsd;
+  return currentLiquidationThresholdInUsd.add(liquidationThesholdChangeInUsd);
 }
 
 /**
@@ -606,7 +568,10 @@ async function borrow(
   }
 }
 
-async function getTotalSupply(signer: Signer, tp: TokenPair): Promise<number> {
+async function getTotalSupply(
+  signer: Signer,
+  tp: TokenPair
+): Promise<BigNumber> {
   let contract = new ethers.Contract(
     tp.cToken.address,
     SampleCTokenAbi,
@@ -618,13 +583,13 @@ async function getTotalSupply(signer: Signer, tp: TokenPair): Promise<number> {
   let reserves: ethers.BigNumber = await contract.totalReserves();
   let value = cash.add(borrows).sub(reserves);
 
-  return formatBigNumber(value, tp.token.decimals);
+  return value;
 }
 
 async function getTotalBorrowed(
   signer: Signer,
   tp: TokenPair
-): Promise<number> {
+): Promise<BigNumber> {
   let contract = new ethers.Contract(
     tp.cToken.address,
     SampleCTokenAbi,
@@ -632,7 +597,7 @@ async function getTotalBorrowed(
   );
   let value: ethers.BigNumber = await contract.totalBorrows();
 
-  return formatBigNumber(value, tp.token.decimals);
+  return value;
 }
 
 // @deprecated moved to use markets hook
@@ -679,39 +644,45 @@ async function getAssetPriceInUsd(
 async function getTotalSupplyBalanceInUsd(
   signer: Signer,
   tokenPairs: TokenPair[]
-): Promise<number> {
+): Promise<BigNumber> {
   let suppliedAmounts = await Promise.all(
-    tokenPairs.map(async (tp: TokenPair): Promise<number> => {
-      let suppliedAmount: number = await getCurrentlySupplying(
+    tokenPairs.map(async (tp: TokenPair): Promise<BigNumber> => {
+      let suppliedAmount = await getCurrentlySupplying(
         signer,
         tp.cToken,
         tp.token
       );
 
-      return suppliedAmount * tp.token.priceInUsd;
+      return suppliedAmount.mul(Math.round(tp.token.priceInUsd * 100)).div(100);
     })
   );
 
-  return suppliedAmounts.reduce((acc, curr) => acc + curr, 0);
+  return suppliedAmounts.reduce(
+    (acc, curr) => acc.add(curr),
+    BigNumber.from(0)
+  );
 }
 
 async function getTotalBorrowedInUsd(
   signer: Signer,
   tokenPairs: TokenPair[]
-): Promise<number> {
+): Promise<BigNumber> {
   let borrowedAmounts = await Promise.all(
-    tokenPairs.map(async (tp: TokenPair): Promise<number> => {
-      let borrowedAmount: number = await getCurrentlyBorrowing(
+    tokenPairs.map(async (tp: TokenPair): Promise<BigNumber> => {
+      let borrowedAmount = await getCurrentlyBorrowing(
         signer,
         tp.cToken,
         tp.token
       );
 
-      return borrowedAmount * tp.token.priceInUsd;
+      return borrowedAmount.mul(Math.round(tp.token.priceInUsd * 100)).div(100);
     })
   );
 
-  return borrowedAmounts.reduce((acc, curr) => acc + curr, 0);
+  return borrowedAmounts.reduce(
+    (acc, curr) => acc.add(curr),
+    BigNumber.from(0)
+  );
 }
 
 /**
