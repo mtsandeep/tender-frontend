@@ -146,8 +146,8 @@ function displayETHWithUSD(amount: BigNumber, ethPrice: number) {
  * @param the price of TND in USD as a number
  * @returns string
  */
-function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
-  if (amount.eq(0)) return "0.00";
+export function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
+  if (amount.eq(0)) return "0.00"
 
   // BigNumber only works for ints, and price is in cents
   let TND_VALUE_IN_CENTS = amount.mul(Math.floor(tndPrice * 100));
@@ -211,7 +211,8 @@ export default function EarnContent(): JSX.Element {
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<Modals>(null);
-  const [data, setData] = useState<allData | null>(null);
+  const [data, setData] = useState<allData | null>(null)  
+  const [transactionInProgress, setTransactionInProgress] = useState(false);
 
   const { networkData, tndPrice, ethPrice } = useContext(TenderContext);
 
@@ -283,9 +284,42 @@ export default function EarnContent(): JSX.Element {
     RefreshData();
   };
 
-  const onClaimESTND = async () => {
-    if (!signer || data?.claimableESTND.eq(0)) return;
+  const onClaimEsTNDRewards = async () => {
+    if (transactionInProgress) return;
+
+    if (!signer) {
+      console.error(`Signer undefined (${signer})`);
+      return
+    }
+
     var id = toast.loading("Submitting transaction");
+
+    try {
+      setTransactionInProgress(true);
+
+      let esTNDBalance = data?.esTNDBalance ?? BigNumber.from(0)
+
+      let tx = await TND.claimRewards(signer);
+      await tx.wait(1)
+
+      let newEsTNDBalance = await TND.getESTNDBalance(signer)
+      let reward = newEsTNDBalance.sub(esTNDBalance)
+
+      toast.success(`Claim successful ${displayTND(reward)} esTND`);
+      RefreshData();
+    } catch (e) {
+      console.error(e);
+      displayErrorMessage(networkData, e, "Claim unsuccessful");
+    } finally {
+      setTransactionInProgress(false)
+      toast.dismiss(id);
+    }
+  }
+
+
+  const onClaimESTND = async ()=> {
+    if (!signer || data?.claimableESTND.eq(0)) return
+    var id = toast.loading("Submitting transaction")
     try {
       var tx = await TND.claimEsTnd(signer);
       await tx.wait(1);
@@ -499,6 +533,7 @@ export default function EarnContent(): JSX.Element {
             }
           />
         }
+
         <div tabIndex={0} className="max-w-[1080px] my-o mx-auto">
           <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
             Earn
@@ -524,7 +559,17 @@ export default function EarnContent(): JSX.Element {
                 Points.
               </span>
             )}
+          <br/><br/>
+
+          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+            onClick={onClaimEsTNDRewards}
+          >
+            Claim Supply Rewards
+          </button>
+
           </p>
+          <br/>
+          
           <div className="font-[ProximaNova] w-full flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2 ">
             <div tabIndex={0} className="panel-custom">
               <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">

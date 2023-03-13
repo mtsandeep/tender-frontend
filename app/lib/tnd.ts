@@ -65,16 +65,15 @@ export const unstakeEsTnd = async (signer: Signer, amount: BigNumberish): Promis
   return sdk.RewardRouter.unstakeEsTnd(amount)
 }
 
-export const getUnclaimedRewards = async (signer: Signer): Promise<BigNumber> => {
+export const claimRewards = async (signer: Signer): Promise<ContractTransaction> => {
   // returns unclaimed supply / borrow incentives
   let sdk = getArbitrumOneSdk(signer);
-  return sdk.Comptroller.compAccrued(await signer.getAddress());
+  return sdk.Comptroller["claimComp(address)"](await signer.getAddress())
 }
 
-export const claimedRewards = async (signer: Signer): Promise<BigNumber> => {
-  // returns unclaimed supply / borrow incentives 
-  let sdk = getArbitrumOneSdk(signer);
-  return sdk.Comptroller.claimComp(await signer.getAddress());
+export const getESTNDBalance = async (signer: Signer): Promise<BigNumber> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.esTND.balanceOf(await signer.getAddress());
 }
 
 export const compound = async (signer: Signer): Promise<ContractTransaction> => {
