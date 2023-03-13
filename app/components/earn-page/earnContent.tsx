@@ -390,7 +390,7 @@ export default function EarnContent(): JSX.Element {
           />
         )}
 
-        {currentModal === "unstake" && (
+        {currentModal === "unstake" && data && (
           <Modal
             closeModal={closeModal}
             balance={data?.stakedTND ?? BigNumber.from(0)}
@@ -417,7 +417,7 @@ export default function EarnContent(): JSX.Element {
           />
         )}
 
-        {currentModal === "unstakeESTND" && (
+        {currentModal === "unstakeESTND" && data && (
           <Modal
             closeModal={closeModal}
             balance={data?.stakedESTND ?? BigNumber.from(0)}
@@ -441,7 +441,7 @@ export default function EarnContent(): JSX.Element {
             sTNDAllowance={data?.vTNDAllowance}
             complete={onDeposit}
             action="Deposit"
-            symbol="ESTND"
+            symbol="esTND"
           />
         )}
         {/* { currentModal === "withdrawESTND" && <Modal
@@ -461,42 +461,44 @@ export default function EarnContent(): JSX.Element {
           isOpen={isWithdrawOpen}
           handlerClose={() => setIsWithdrawOpen(false)}
         />
-        <ClaimRewardsModal
-          title="Protocol Rewards (esTND)"
-          onClickClaim={onClaimESTND}
-          data={{
-            open: dataClaimModal.open,
-            rewards: [
-              {
-                exchange: `1 esTND = ${tndPrice ?? "?"}`,
-                unclaimed: data
-                  ? `${displayTND(data.claimableESTND)} esTND`
-                  : "?",
-                unclaimedUsd: `$${
-                  data
-                    ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0)
-                    : "?"
-                }`,
-              },
-              {
-                unclaimed: data
-                  ? `${formatUnits(data.claimableFees, 18)} ETH`
-                  : "?",
-                unclaimedUsd: data
-                  ? `$${parseFloat(
-                      formatUnits(
-                        data.claimableFees.mul(Math.round(ethPrice)),
-                        18
-                      )
-                    ).toPrecision(3)}`
-                  : "?",
-              },
-            ],
-          }}
-          handlerClose={() =>
-            setDataClaimModal({ ...dataClaimModal, open: false })
-          }
-        />
+        {data &&
+          <ClaimRewardsModal
+            title="Protocol Rewards (esTND)"
+            onClickClaim={onClaimESTND}
+            data={{
+              open: dataClaimModal.open,
+              rewards: [
+                {
+                  exchange: `1 esTND = ${tndPrice ?? "?"}`,
+                  unclaimed: data
+                    ? `${displayTND(data.claimableESTND)} esTND`
+                    : "?",
+                  unclaimedUsd: `$${
+                    data
+                      ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0)
+                      : "?"
+                  }`,
+                },
+                {
+                  unclaimed: data
+                    ? `${formatUnits(data.claimableFees, 18)} ETH`
+                    : "?",
+                  unclaimedUsd: data
+                    ? `$${parseFloat(
+                        formatUnits(
+                          data.claimableFees.mul(Math.round(ethPrice)),
+                          18
+                        )
+                      ).toPrecision(3)}`
+                    : "?",
+                },
+              ],
+            }}
+            handlerClose={() =>
+              setDataClaimModal({ ...dataClaimModal, open: false })
+            }
+          />
+        }
         <div tabIndex={0} className="max-w-[1080px] my-o mx-auto">
           <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
             Earn
@@ -865,7 +867,7 @@ export default function EarnContent(): JSX.Element {
             </div>
 
             <div tabIndex={0} className="panel-custom mt-[31px]">
-              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid">
                 ESCROWED TENDIES
               </div>
               <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">

@@ -71,7 +71,7 @@ const ClaimRewardsModal = ({ data, handlerClose, onClickClaim, title }: IProps) 
                 </thead>
                 <tbody>
                   {data?.rewards?.map((reward: IReward, index: number) => (
-                    <tr>
+                    <tr key={reward.unclaimedUsd}>
                       <td className="w-fit font-normal text-left">{reward.unclaimed}</td>
                       <td className="w-fit font-normal text-right">{reward.unclaimedUsd}</td>
                     </tr>

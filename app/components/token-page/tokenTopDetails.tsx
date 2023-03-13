@@ -8,7 +8,7 @@ import APY from "../shared/APY";
 
 function TokenTopDetails({ marketInfo }: { marketInfo: object | undefined }) {
   let context  = useTenderContext() 
-  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip()
+  let {multiTooltipData, setMultiTooltipData, getOnClick} = useMultiTooltip()
   let market = context?.markets.find(m => m.id === marketInfo?.tokenSymbol) 
 
   if (!market) return null

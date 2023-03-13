@@ -127,7 +127,7 @@ export async function quotePriceInUSDC(): Promise<number> {
   }
 }
 
-export const getAllData = async (signer: Signer | JsonRpcSigner) => {
+export const getAllData = async (signer: Signer | ethers.providers.JsonRpcSigner) => {
   let sdk = getArbitrumOneSdk(signer)
   let address = signer.getAddress()
   let vestedTND = sdk.vTND.getVestedAmount(address)
