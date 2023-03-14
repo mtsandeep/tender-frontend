@@ -10,10 +10,8 @@ export function useProjectBorrowLimit(
   tokenPairs: TokenPair[],
   tokenPair: TokenPair,
   value: string
-): BigNumber {
-  let [newBorrowLimit, setNewBorrowLimit] = useState<BigNumber>(
-    BigNumber.from(0)
-  );
+): number {
+  let [newBorrowLimit, setNewBorrowLimit] = useState<number>(0);
   let { currentTransaction } = useContext(TenderContext);
 
   useEffect(() => {

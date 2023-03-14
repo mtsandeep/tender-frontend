@@ -86,7 +86,7 @@ export default function Deposit({
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
     totalBorrowedAmountInUsd,
-    newBorrowLimit.toNumber() // this might be a USD, which has 2 decimals
+    newBorrowLimit,
   );
 
   const [isValid, validationDetail] = useValidInputV2(
@@ -267,7 +267,7 @@ export default function Deposit({
               value={initialValue}
               isValid={isValid}
               borrowLimit={borrowLimit}
-              newBorrowLimit={newBorrowLimit.toNumber()}
+              newBorrowLimit={newBorrowLimit}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-green.svg"

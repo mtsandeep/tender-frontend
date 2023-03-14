@@ -1,6 +1,11 @@
 import { Address } from "@dethcrypto/eth-sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 
+// Create a name for number, so it is clear
+// what units the function is returning in
+export type USD = number;
+export type Ratio = number;
+
 export interface cToken {
   name: string;
   address: Address;
