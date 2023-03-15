@@ -78,7 +78,6 @@ export default function Deposit({
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
-    comptrollerAddress,
     tokenPairs,
     market.tokenPair,
     initialValue ? initialValue : "0"

@@ -64,8 +64,6 @@ const getSafeMaxWithdrawAmountForToken = (
       (tokenPriceInUsd * collateralFactor)
   );
 
-  console.log("safeMaxWithdrawAmount", amount);
-
   return amount;
 };
 
@@ -99,11 +97,13 @@ export default function Withdraw({
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
-    market.comptrollerAddress,
     tokenPairs,
     market.tokenPair,
     initialValue ? `-${initialValue}` : "0"
   );
+
+  console.log("Borrow limit", borrowLimit, "NEW", borrowLimit);
+
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
     totalBorrowedAmountInUsd,

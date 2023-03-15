@@ -256,6 +256,7 @@ async function borrowLimitForTokenInUsd(
   let collateralFactor = await collateralFactorForToken(signer, tp);
 
   let amount = suppliedAmount * tp.token.priceInUsd * collateralFactor;
+  console.log("CF", collateralFactor, tp.token.priceInUsd, suppliedAmount)
 
   return amount;
 }
@@ -274,7 +275,6 @@ async function borrowLimitForTokenInUsd(
  */
 async function getAccountBorrowLimitInUsd(
   signer: Signer,
-  comptrollerAddress: string,
   tokenPairs: TokenPair[]
 ): Promise<USD> {
   let tokenBalancesInUsd = await Promise.all(
@@ -290,14 +290,12 @@ async function getAccountBorrowLimitInUsd(
 
 async function projectBorrowLimit(
   signer: Signer,
-  comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tp: TokenPair,
-  tokenAmount: string
+  tokenAmount: number
 ): Promise<USD> {
   let currentBorrowLimitInUsd = await getAccountBorrowLimitInUsd(
     signer,
-    comptrollerAddress,
     tokenPairs
   );
 
@@ -306,7 +304,7 @@ async function projectBorrowLimit(
   // Borrow limit changes by the dollar amount of this amount of tokens
   // times its collateral factor (what % of that dollar amount you can borrow against).
   // `tokenAmount` might be a negative number and thus reduce the limit.
-  let borrowLimitChangeInUsd = parseFloat(tokenAmount) * tp.token.priceInUsd * collateralFactor
+  let borrowLimitChangeInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
   console.log(currentBorrowLimitInUsd, tokenAmount, tp.token.priceInUsd , collateralFactor)
 
   return currentBorrowLimitInUsd + borrowLimitChangeInUsd

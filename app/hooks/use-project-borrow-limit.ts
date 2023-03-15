@@ -6,7 +6,6 @@ import { BigNumber, Signer } from "ethers";
 
 export function useProjectBorrowLimit(
   signer: Signer | undefined | null,
-  comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tokenPair: TokenPair,
   value: string
@@ -21,14 +20,12 @@ export function useProjectBorrowLimit(
 
     projectBorrowLimit(
       signer,
-      comptrollerAddress,
       tokenPairs,
       tokenPair,
-      value
+      parseFloat(value)
     ).then((v) => setNewBorrowLimit(v));
   }, [
     signer,
-    comptrollerAddress,
     tokenPairs,
     tokenPair,
     value,
