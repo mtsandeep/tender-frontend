@@ -515,24 +515,6 @@ async function borrow(
   }
 }
 
-async function getTotalSupply(
-  signer: Signer,
-  tp: TokenPair
-): Promise<BigNumber> {
-  let contract = new ethers.Contract(
-    tp.cToken.address,
-    SampleCTokenAbi,
-    signer
-  );
-
-  let cash: ethers.BigNumber = await contract.getCash();
-  let borrows: ethers.BigNumber = await contract.totalBorrows();
-  let reserves: ethers.BigNumber = await contract.totalReserves();
-  let value = cash.add(borrows).sub(reserves);
-
-  return value;
-}
-
 // @deprecated moved to use markets hook
 async function hasSufficientAllowance(
   signer: Signer,
@@ -656,7 +638,6 @@ export {
   getTotalSupplyBalanceInUsd,
   repay,
   borrow,
-  getTotalSupply,
   hasSufficientAllowance,
   projectBorrowLimit,
   projectLiquidationThreshold,
