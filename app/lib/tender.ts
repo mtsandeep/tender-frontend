@@ -1,4 +1,4 @@
-import type { cToken, Token } from "~/types/global";
+import type { cToken, Token, Ratio, USD } from "~/types/global";
 import { Signer, Contract, utils } from "ethers";
 import { ethers, BigNumber } from "ethers";
 
@@ -16,6 +16,8 @@ import type {
   JsonRpcSigner,
 } from "@ethersproject/providers";
 import sampleCEtherAbi from "~/config/sample-CEther-abi";
+
+import  { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
 
 // more info: https://github.com/ethereum/solidity/issues/533#issuecomment-218776352
 const NEGATIVE_UINT = BigNumber.from("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
@@ -430,35 +432,6 @@ async function borrow(
   }
 }
 
-async function getTotalSupply(signer: Signer, tp: TokenPair): Promise<number> {
-  let contract = new ethers.Contract(
-    tp.cToken.address,
-    SampleCTokenAbi,
-    signer
-  );
-
-  let cash: ethers.BigNumber = await contract.getCash();
-  let borrows: ethers.BigNumber = await contract.totalBorrows();
-  let reserves: ethers.BigNumber = await contract.totalReserves();
-  let value = cash.add(borrows).sub(reserves);
-
-  return formatBigNumber(value, tp.token.decimals);
-}
-
-async function getTotalBorrowed(
-  signer: Signer,
-  tp: TokenPair
-): Promise<number> {
-  let contract = new ethers.Contract(
-    tp.cToken.address,
-    SampleCTokenAbi,
-    signer
-  );
-  let value: ethers.BigNumber = await contract.totalBorrows();
-
-  return formatBigNumber(value, tp.token.decimals);
-}
-
 // @deprecated moved to use markets hook
 async function hasSufficientAllowance(
   signer: Signer,
@@ -518,25 +491,6 @@ async function getTotalSupplyBalanceInUsd(
   return suppliedAmounts.reduce((acc, curr) => acc + curr, 0);
 }
 
-async function getTotalBorrowedInUsd(
-  signer: Signer,
-  tokenPairs: TokenPair[]
-): Promise<number> {
-  let borrowedAmounts = await Promise.all(
-    tokenPairs.map(async (tp: TokenPair): Promise<number> => {
-      let borrowedAmount: number = await getCurrentlyBorrowing(
-        signer,
-        tp.cToken,
-        tp.token
-      );
-
-      return borrowedAmount * tp.token.priceInUsd;
-    })
-  );
-
-  return borrowedAmounts.reduce((acc, curr) => acc + curr, 0);
-}
-
 /**
  *
  * @param borrowLimit
@@ -584,6 +538,101 @@ async function getMaxBorrowLiquidity(
   return parseFloat(utils.formatUnits(balance, tp.token.decimals));
 }
 
+async function liquidationThresholdForToken(
+  signer: Signer,
+  tokenPair: TokenPair
+): Promise<Ratio> {
+  let sdk = getArbitrumOneSdk(signer);
+  let marketInfo = await sdk.Comptroller.markets(tokenPair.cToken.address);
+  let rawLiquidationThreshold = marketInfo[2];
+  let rawLiquidationThresholdVip = marketInfo[4];
+
+  let isVIP = await sdk.Comptroller.getIsAccountVip(await signer.getAddress());
+
+  let liquidationThreshold  = isVIP ? rawLiquidationThresholdVip : rawLiquidationThreshold;
+
+  // contract returns with 18 decimals
+  return parseFloat(formatUnits(liquidationThreshold, 18));
+}
+
+async function liquidationThresholdForTokenInUsd(
+  signer: Signer,
+  tp: TokenPair
+): Promise<USD> {
+  let suppliedAmount: number = await getCurrentlySupplying(
+    signer,
+    tp.cToken,
+    tp.token
+  );
+
+  let liquidationThreshold: number = await liquidationThresholdForToken(signer, tp);
+
+  let amount = suppliedAmount * tp.token.priceInUsd * liquidationThreshold
+
+  return amount;
+}
+
+async function getAccountLiquidationThresholdInUsd(
+  signer: Signer,
+  tokenPairs: TokenPair[]
+): Promise<USD> {
+  let tokenBalancesInUsd = await Promise.all(
+    tokenPairs.map(async (tokenPair: TokenPair): Promise<USD> => {
+      return liquidationThresholdForTokenInUsd(
+        signer,
+        tokenPair
+      );
+    })
+  );
+
+  let liquidationThresholdInUsd = tokenBalancesInUsd.reduce((a, b) => a + b, 0);
+
+  return liquidationThresholdInUsd;
+}
+
+async function projectLiquidationThreshold(
+  signer: Signer,
+  tokenPairs: TokenPair[],
+  tp: TokenPair,
+  tokenAmount: number
+): Promise<number > {
+  let currentLiquidationThresholdInUsd =
+    await getAccountLiquidationThresholdInUsd(
+      signer,
+      tokenPairs
+    );
+
+  let liquidationThreshold = await liquidationThresholdForToken(signer, tp);
+
+  // Borrow limit changes by the dollar amount of this amount of tokens
+  // times its collateral factor (what % of that dollar amount you can borrow against).
+  // `tokenAmount` might be a negative number and thus reduce the limit.
+  let liquidationThesholdChangeInUsd = tokenAmount * tp.token.priceInUsd * liquidationThreshold
+
+  return currentLiquidationThresholdInUsd + liquidationThesholdChangeInUsd;
+}
+
+/**
+ *
+ * @param borrowedAmount
+ * @param borrowedLimit
+ * @returns
+ */
+async function getliquidationThresholdUsed(
+  borrowedAmount: number,
+  liquidationThresholdInUsd: number
+): Promise<string> {
+  if (liquidationThresholdInUsd === 0) return "0"; // Infinite Protection
+
+  let liquidationThresholdUsed = (
+    (borrowedAmount / liquidationThresholdInUsd) *
+    100
+  ).toFixed(2);
+  return liquidationThresholdUsed === "NaN" ? "0" : liquidationThresholdUsed; // NaN safeguard for new wallets
+}
+
+
+
 export {
   enable,
   deposit,
@@ -592,16 +641,17 @@ export {
   getCurrentlySupplying,
   getCurrentlyBorrowing,
   getAccountBorrowLimitInUsd,
+  getAccountLiquidationThresholdInUsd,
+  projectLiquidationThreshold,
+  getliquidationThresholdUsed,
   getBorrowLimitUsed,
+  liquidationThresholdForToken,
   getTotalSupplyBalanceInUsd,
   repay,
   borrow,
-  getTotalSupply,
-  getTotalBorrowed,
   hasSufficientAllowance,
   projectBorrowLimit,
   getAssetPriceInUsd,
-  getTotalBorrowedInUsd,
   safeMaxBorrowAmountForToken,
   getMaxBorrowAmount,
   getMaxBorrowLiquidity,
