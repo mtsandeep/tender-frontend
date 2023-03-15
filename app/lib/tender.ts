@@ -307,6 +307,7 @@ async function projectBorrowLimit(
   // times its collateral factor (what % of that dollar amount you can borrow against).
   // `tokenAmount` might be a negative number and thus reduce the limit.
   let borrowLimitChangeInUsd = parseFloat(tokenAmount) * tp.token.priceInUsd * collateralFactor
+  console.log(currentBorrowLimitInUsd, tokenAmount, tp.token.priceInUsd , collateralFactor)
 
   return currentBorrowLimitInUsd + borrowLimitChangeInUsd
 }
