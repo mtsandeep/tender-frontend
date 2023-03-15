@@ -3,6 +3,7 @@
 import { Market, NetworkData } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
+  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
@@ -21,13 +22,12 @@ import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { formatApy } from "~/lib/apy-calculations";
 import APY from "../shared/APY";
-import type { Signer } from "ethers";
 
 export interface DepositProps {
   closeModal: Function;
   market: Market;
   borrowLimit: number;
-  signer: Signer | null | undefined;
+  signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: string;
   totalBorrowedAmountInUsd: number;
@@ -73,11 +73,12 @@ export default function Deposit({
     tokenPairs,
     updateTransaction,
     setIsWaitingToBeMined,
-    networkData,
+    networkData
   } = useContext(TenderContext);
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
+    comptrollerAddress,
     tokenPairs,
     market.tokenPair,
     initialValue ? initialValue : "0"
@@ -85,7 +86,7 @@ export default function Deposit({
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
     totalBorrowedAmountInUsd,
-    newBorrowLimit,
+    newBorrowLimit
   );
 
   const [isValid, validationDetail] = useValidInputV2(
@@ -253,7 +254,7 @@ export default function Deposit({
                 <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
                   <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
                     <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
-                      <APY market={market} type="supply" />
+                      <APY market={market} type="supply" />     
                     </div>
                   </div>
                   <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
@@ -334,11 +335,7 @@ export default function Deposit({
                         "Deposit successful"
                       );
                     } catch (e: any) {
-                      displayErrorMessage(
-                        networkData,
-                        e,
-                        "Deposit unsuccessful"
-                      );
+                      displayErrorMessage(networkData, e, "Deposit unsuccessful");
                       closeModal();
                     } finally {
                       setIsWaitingToBeMined(false);
