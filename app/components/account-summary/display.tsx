@@ -196,8 +196,9 @@ export default function Display({
                     <span className="text-[#818987]">Current Leverage</span>
                     <span>
                       {(
-                        supplyBalanceInUsd /
-                        (supplyBalanceInUsd - borrowBalanceInUsd)
+                        supplyBalanceInUsd > 0 ?
+                        supplyBalanceInUsd / (supplyBalanceInUsd - borrowBalanceInUsd)
+                        : 0
                       ).toFixed(2)}
                       x
                     </span>
