@@ -125,14 +125,11 @@ export default function DepositBorrowFlow({
             closeModal={closeModal}
             borrowedAmount={market.borrowBalance}
             signer={signer}
-            borrowLimitUsed={market.borrowLimitUsed}
             walletBalance={getAmountFloat(
               market.walletBalance,
               market.tokenPair.token.decimals
             )}
             tokenPairs={tokenPairs}
-            borrowLimit={market.borrowLimit}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueRepay}
             changeInitialValue={setInitialValueRepay}
             txnHash={txnHashRepay}
@@ -147,10 +144,7 @@ export default function DepositBorrowFlow({
             market={market}
             closeModal={closeModal}
             signer={signer}
-            borrowLimitUsed={market.borrowLimitUsed}
-            borrowLimit={market.borrowLimit}
             tokenPairs={tokenPairs}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueBorrow}
             changeInitialValue={setInitialValueBorrow}
             txnHash={txnHashBorrow}

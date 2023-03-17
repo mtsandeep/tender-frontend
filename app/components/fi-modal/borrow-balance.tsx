@@ -5,8 +5,8 @@ interface BorrowBalanceProps {
   value: string;
   urlArrow: string;
   isValid: boolean;
-  borrowBalance: number;
-  newBorrowBalance: number;
+  borrowAvalable: number;
+  newBorrowAvailable: number;
   borrowLimitUsed: string;
   newBorrowLimitUsed: string;
 }
@@ -16,8 +16,8 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
     value,
     urlArrow,
     isValid,
-    borrowBalance,
-    newBorrowBalance,
+    borrowAvalable,
+    newBorrowAvailable,
     borrowLimitUsed,
     newBorrowLimitUsed,
   } = props;
@@ -28,7 +28,7 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
         <div className="text-white text-base font-nova ">
           {(value == "0" || !isValid) && (
             <DisplayPrice
-              amount={borrowBalance.toString()}
+              amount={borrowAvalable.toString()}
               baseFactor="1"
               hideBaseCurrencyCode
             />
@@ -36,13 +36,13 @@ export default function BorrowBalance(props: BorrowBalanceProps) {
           {isValid && value != "0" && (
             <div className="flex items-center">
               <DisplayPrice
-                amount={borrowBalance.toString()}
+                amount={borrowAvalable.toString()}
                 baseFactor="1"
                 hideBaseCurrencyCode
               />
               <img className="mx-3" src={urlArrow} alt="" />
               <DisplayPrice
-                amount={newBorrowBalance.toString()}
+                amount={newBorrowAvailable.toString()}
                 baseFactor="1"
                 hideBaseCurrencyCode
               />

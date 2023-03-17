@@ -9,7 +9,7 @@ export function useProjectBorrowLimit(
   comptrollerAddress: string,
   tokenPairs: TokenPair[],
   tokenPair: TokenPair,
-  value: string
+  tokenAmount: string
 ): number {
   let [newBorrowLimit, setNewBorrowLimit] = useState<number>(0);
   let { currentTransaction } = useContext(TenderContext);
@@ -24,9 +24,9 @@ export function useProjectBorrowLimit(
       comptrollerAddress,
       tokenPairs,
       tokenPair,
-      parseFloat(value)
+      parseFloat(tokenAmount)
     ).then((v) => setNewBorrowLimit(v));
-  }, [signer, comptrollerAddress, tokenPairs, tokenPair, value, currentTransaction]);
+  }, [signer, comptrollerAddress, tokenPairs, tokenPair, tokenAmount, currentTransaction]);
 
   return newBorrowLimit;
 }

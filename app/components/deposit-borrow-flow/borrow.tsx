@@ -18,24 +18,20 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { useSafeMaxBorrowAmountForToken } from "~/hooks/use-safe-max-borrow-amount-for-token";
 import { TenderContext } from "~/contexts/tender-context";
-import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { shrinkInputClass } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
 import type { ActiveTab } from "./deposit-borrow-flow";
-import { checkColorClass } from "../two-panels/two-panels";
 import { MAX_BORROW_LIMIT_PERCENTAGE } from "~/lib/constants";
 import { displayErrorMessage } from "./displayErrorMessage";
 import APY from "../shared/APY";
+import { useAccountSummary } from "~/hooks/use-account-summary";
 
 export interface BorrowProps {
   market: Market;
   closeModal: Function;
   signer: JsonRpcSigner | null | undefined;
-  borrowLimitUsed: string;
-  borrowLimit: number;
   tokenPairs: TokenPair[];
-  totalBorrowedAmountInUsd: number;
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
@@ -49,9 +45,6 @@ export default function Borrow({
   market,
   closeModal,
   signer,
-  borrowLimit,
-  borrowLimitUsed,
-  totalBorrowedAmountInUsd,
   initialValue,
   changeInitialValue,
   activeTab,
@@ -71,22 +64,24 @@ export default function Borrow({
     networkData,
     currentTransaction,
     updateTransaction,
-    setIsWaitingToBeMined,
+    setIsWaitingToBeMined
   } = useContext(TenderContext);
+  const { borrowBalanceInUsd } = useAccountSummary();
 
-  const newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
-    market.tokenPair,
-    totalBorrowedAmountInUsd,
-    +initialValue
-  );
+  let { totalBorrowedAmountInUsd, borrowLimit: borrowAvalableInUsd, borrowLimitUsed } = market
+  let amount = parseFloat(initialValue)
+  let borrowValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
 
+  const newBorrowAvailable = borrowAvalableInUsd - borrowValueInUsd;
+
+  // the borrow percent used after borrowing
   const newBorrowLimitUsed = useBorrowLimitUsed(
-    newTotalBorrowedAmountInUsd,
-    borrowLimit
+    borrowValueInUsd + borrowBalanceInUsd,
+    borrowAvalableInUsd
   );
 
   const maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowLimit,
+    borrowAvalableInUsd,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
@@ -95,7 +90,7 @@ export default function Borrow({
   );
 
   const maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowLimit,
+    borrowAvalableInUsd,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
@@ -271,8 +266,8 @@ console.log('borrowLimit',borrowLimit)*/
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowBalance={borrowLimit}
-              newBorrowBalance={newTotalBorrowedAmountInUsd}
+              borrowAvalable={borrowAvalableInUsd}
+              newBorrowAvailable={newBorrowAvailable}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
