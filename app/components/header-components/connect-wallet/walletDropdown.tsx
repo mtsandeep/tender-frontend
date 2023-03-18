@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+import { useNetwork } from "wagmi";
+// import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useNetworkData } from "~/hooks/use-network-data";
 
 interface Props {
   inMenu?: boolean;
-  addresses: string[];
+  defaultAddress: string;
   walletIco: string;
   handlerDisconnect: () => void;
 }
@@ -13,12 +14,16 @@ const WalletDropdown = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [textButton, setTextButton] = useState<string>("Copy Address");
   const dropdownRef = useRef<any>(null);
-  const chainId = Web3Hooks.useChainId();
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
   const networkData = useNetworkData(chainId);
 
   function truncateAccount(account: string): string {
     return `${account.slice(0, 5)}...${account.slice(-4)}`;
   }
+
+  const currentAddress = props.defaultAddress;
+  const truncatedAddress = truncateAccount(currentAddress);
 
   useEffect(() => {
     const closeDropdown = (e: any) => {
@@ -44,6 +49,7 @@ const WalletDropdown = (props: Props) => {
       setTextButton("Copy Address");
     }, 1000);
   }, []);
+
   return (
     <div
       className={`relative z-40 xl:w-[auto] ${
@@ -84,7 +90,7 @@ const WalletDropdown = (props: Props) => {
             props.inMenu ? "block" : "hidden xl:block"
           } text-sm font-semibold text-right leading-[14px] font-nova mr-[8px]`}
         >
-          {truncateAccount(props.addresses[0])}
+          {truncatedAddress}
         </div>
         <svg
           className={`arrow__custom ${
@@ -123,13 +129,13 @@ const WalletDropdown = (props: Props) => {
             />
           </div>
           <p className="pl-[10px] text-base font-nova font-semibold text-right leading-[19.49px]">
-            {truncateAccount(props.addresses[0])}
+            {truncatedAddress}
           </p>
         </div>
         <button
           tabIndex={0}
           aria-label="Copy address"
-          onClick={() => handleCopy(props.addresses[0])}
+          onClick={() => handleCopy(currentAddress)}
           className="flex items-center justify-between p-[14px] hover:bg-[#2B302F] cursor-pointer w-full"
         >
           <div className="flex items-center">
@@ -148,7 +154,7 @@ const WalletDropdown = (props: Props) => {
           className="flex items-center p-[14px] hover:bg-[#2B302F] cursor-pointer"
           target="_blank"
           rel="noreferrer"
-          href={networkData?.userExplorerUrl + props.addresses[0] || ""}
+          href={networkData?.userExplorerUrl + currentAddress || ""}
         >
           <img
             aria-hidden={true}

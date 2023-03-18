@@ -1,14 +1,18 @@
+import { useNetwork } from "wagmi";
+import type { MetaFunction } from "remix";
+
 import { useTenderContext } from "~/hooks/use-tender-context";
-import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
 import MarketsContent from "~/components/markets-page/marketsContent";
 import MarketsContentEmpty from "~/components/markets-page/MarketsContentEmpty";
-import type { MetaFunction } from "remix";
 
 export default function Markets() {
   const tenderContextData = useTenderContext();
-  const chainId = metaMaskHooks.useChainId();
+
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
+
   const onSupportedChain = useOnSupportedNetwork(chainId);
 
   return (

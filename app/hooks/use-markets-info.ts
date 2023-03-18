@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
+import { useProvider, useSigner } from "wagmi";
 import { gql, request } from "graphql-request";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
 import { useInterval } from "./use-interval";
@@ -19,12 +18,12 @@ type MarketMeta = {
   icon: string;
   symbol: string;
   totalSupply: number;
-}
+};
 
 type MarketsInfo = {
-  markets: Record<string, MarketMeta>| false,
-  total: number | false
-}
+  markets: Record<string, MarketMeta> | false;
+  total: number | false;
+};
 
 export function useMarketsInfo() {
   const pollingKey = useInterval(7_000);
@@ -33,8 +32,9 @@ export function useMarketsInfo() {
     total: false,
   });
   const { networkData, tokenPairs } = useContext(TenderContext);
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+
+  const { data: signer } = useSigner();
+
   const getGlpApy = useGlpApy();
   const getGmxApy = useGmxApy();
 
@@ -55,8 +55,8 @@ export function useMarketsInfo() {
       const addresses: string[] = [];
 
       // arbitrum has a block time of ~.34 seconds, so sometimes
-      // the graph endpoint cannot keep up with the latest block 
-      const l2BlockNumber = await signer.provider.getBlockNumber() - 10
+      // the graph endpoint cannot keep up with the latest block
+      const l2BlockNumber = (await signer.provider.getBlockNumber()) - 10;
 
       if (l2BlockNumber === 0) {
         return;
@@ -77,13 +77,14 @@ export function useMarketsInfo() {
         addresses.push(address);
       });
 
-
       // make uri deterministic and more cacheable
-      addresses.sort()
+      addresses.sort();
       let host = "https://api.tender.fi";
       // if running on prod, use api.tender.fi, which is behind cloudflare
-      const request = await fetch(`${host}/api/marketsData?addresses=${addresses.join(",")}`);
-      const response = await request.json()
+      const request = await fetch(
+        `${host}/api/marketsData?addresses=${addresses.join(",")}`
+      );
+      const response = await request.json();
 
       if (
         !response ||
