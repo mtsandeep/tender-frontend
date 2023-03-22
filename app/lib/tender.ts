@@ -4,7 +4,6 @@ import { ethers, BigNumber } from "ethers";
 
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
-import SampleComptrollerAbi from "~/config/sample-comptroller-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SamplePriceOracleAbi from "~/config/sample-price-oracle-abi";
 import maximillionAbi from "~/config/abi/maximillion.json";
@@ -220,12 +219,12 @@ async function getCurrentlyBorrowing(
 
 async function collateralFactorForToken(
   signer: Signer,
-  comptrollerContract: Contract,
   tokenPair: TokenPair
 ): Promise<number> {
-  let { 1: rawCollateralFactor } = await comptrollerContract.markets(
-    tokenPair.cToken.address
-  );
+  let sdk = getArbitrumOneSdk(signer);
+
+  let marketInfo = await sdk.Comptroller.markets(tokenPair.cToken.address)
+  let rawCollateralFactor = marketInfo[1];
 
   // Collateral factors are always 1e18
   let collateralFactor: number = parseFloat(
@@ -237,7 +236,6 @@ async function collateralFactorForToken(
 
 async function borrowLimitForTokenInUsd(
   signer: Signer,
-  comptrollerContract: Contract,
   tp: TokenPair
 ): Promise<number> {
   let suppliedAmount: number = await getCurrentlySupplying(
@@ -246,11 +244,7 @@ async function borrowLimitForTokenInUsd(
     tp.token
   );
 
-  let collateralFactor: number = await collateralFactorForToken(
-    signer,
-    comptrollerContract,
-    tp
-  );
+  let collateralFactor: number = await collateralFactorForToken(signer, tp);
 
   let amount = suppliedAmount * tp.token.priceInUsd * collateralFactor;
 
@@ -274,15 +268,9 @@ async function getAccountBorrowLimitInUsd(
   comptrollerAddress: string,
   tokenPairs: TokenPair[]
 ): Promise<number> {
-  let comptrollerContract = new ethers.Contract(
-    comptrollerAddress,
-    SampleComptrollerAbi,
-    signer
-  );
-
   let tokenBalancesInUsd = await Promise.all(
     tokenPairs.map(async (tokenPair: TokenPair): Promise<number> => {
-      return borrowLimitForTokenInUsd(signer, comptrollerContract, tokenPair);
+      return borrowLimitForTokenInUsd(signer, tokenPair);
     })
   );
 
@@ -304,17 +292,7 @@ async function projectBorrowLimit(
     tokenPairs
   );
 
-  let comptrollerContract = new ethers.Contract(
-    comptrollerAddress,
-    SampleComptrollerAbi,
-    signer
-  );
-
-  let collateralFactor: number = await collateralFactorForToken(
-    signer,
-    comptrollerContract,
-    tp
-  );
+  let collateralFactor: number = await collateralFactorForToken(signer, tp);
 
   // Borrow limit changes by the dollar amount of this amount of tokens
   // times its collateral factor (what % of that dollar amount you can borrow against).

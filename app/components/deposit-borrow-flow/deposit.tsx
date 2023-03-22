@@ -35,8 +35,6 @@ export interface DepositProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -53,8 +51,6 @@ export default function Deposit({
   changeInitialValue,
   activeTab,
   setActiveTab,
-  txnHash,
-  changeTxnHash,
   tabs,
 }: DepositProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -154,9 +150,9 @@ export default function Deposit({
 
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
+          txnHash={currentTransaction}
           stopWaitingOnConfirmation={() => closeModal()}
         />
       ) : (
@@ -323,12 +319,12 @@ export default function Deposit({
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      changeTxnHash(txn.hash);
+                      updateTransaction(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
                       changeInitialValue("");
-                      changeTxnHash("");
+                      updateTransaction(null);
                       displayTransactionResult(
                         networkData,
                         tr.transactionHash,

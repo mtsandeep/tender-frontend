@@ -1,14 +1,17 @@
-export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constructor"}, {
-    "anonymous": false,
-    "inputs": [{"indexed": false, "internalType": "string", "name": "action", "type": "string"}, {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "pauseState",
-        "type": "bool"
-    }],
-    "name": "ActionPaused",
-    "type": "event"
-}, {
+export default [{"inputs": [], "stateMutability": "nonpayable", "type": "constructor"}, 
+// {
+//     "anonymous": false,
+//     "inputs": [
+//         {"indexed": false, "internalType": "string", "name": "action", "type": "string"}, {
+//         "indexed": false,
+//         "internalType": "bool",
+//         "name": "pauseState",
+//         "type": "bool"
+//     }],
+//     "name": "ActionPaused",
+//     "type": "event"
+// },
+ {
     "anonymous": false,
     "inputs": [{
         "indexed": false,

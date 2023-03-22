@@ -76,7 +76,7 @@ export type TenderContext = {
   networkData: NetworkData;
   markets: Market[];
   currentTransaction: string | null;
-  updateTransaction: Function;
+  updateTransaction: (arg0: string | null) => void;
   isWaitingToBeMined: boolean;
   setIsWaitingToBeMined: Function;
   blockNumber: number | boolean;

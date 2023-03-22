@@ -36,8 +36,6 @@ export interface RepayProps {
   changeInitialValue: (value: string) => void;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
 
@@ -51,8 +49,6 @@ export default function Repay({
   changeInitialValue,
   activeTab,
   setActiveTab,
-  txnHash,
-  changeTxnHash,
   tabs,
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -62,19 +58,24 @@ export default function Repay({
   );
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
   const [isRepaying, setIsRepaying] = useState<boolean>(false);
-
   const { borrowBalanceInUsd } = useAccountSummary();
 
-  let { borrowLimit: borrowAvalableUsd, borrowLimitUsed } = market
   let amount = parseFloat(initialValue)
   let repayValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
 
-  const newBorrowAvailable = borrowAvalableUsd - repayValueInUsd;
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
+  let newBorrowCapacity = borrowCapacity + repayValueInUsd;
+
+  // the current percent used after borrowing
+  const borrowLimitUsed = useBorrowLimitUsed(
+    borrowBalanceInUsd,
+    market.borrowLimit
+  );
 
   // the borrow percent used after borrowing
   const newBorrowLimitUsed = useBorrowLimitUsed(
     borrowBalanceInUsd - repayValueInUsd,
-    borrowAvalableUsd
+    market.borrowLimit
   );
 
   const inputEl = useRef<HTMLInputElement>(null);
@@ -153,10 +154,10 @@ export default function Repay({
 
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
-          stopWaitingOnConfirmation={() => closeModal()}
+          txnHash={currentTransaction}
+          stopWaitingOnConfirmation={closeModal}
         />
       ) : (
         <div>
@@ -264,8 +265,8 @@ export default function Repay({
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowAvalable={borrowAvalableUsd}
-              newBorrowAvailable={newBorrowAvailable}
+              borrowCapacity={borrowCapacity}
+              newBorrowCapacity={newBorrowCapacity}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
@@ -325,12 +326,12 @@ export default function Repay({
                         networkData.Contracts.Maximillion,
                         isMax
                       );
-                      changeTxnHash(txn.hash);
+                      updateTransaction(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
                       updateTransaction(tr.blockHash);
                       changeInitialValue("");
-                      changeTxnHash("");
+                      updateTransaction(null);
                       toast.success("Repayment successful");
                     } catch (e) {
                       displayErrorMessage(networkData, e, "Repayment unsuccessful");

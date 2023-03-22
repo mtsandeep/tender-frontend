@@ -35,8 +35,6 @@ export interface BorrowProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -49,12 +47,11 @@ export default function Borrow({
   changeInitialValue,
   activeTab,
   setActiveTab,
-  changeTxnHash,
-  txnHash,
   tabs,
 }: BorrowProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
+  const { borrowBalanceInUsd,  } = useAccountSummary();
   const [isBorrowing, setIsBorrowing] = useState<boolean>(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
@@ -62,26 +59,32 @@ export default function Borrow({
 
   const {
     networkData,
-    currentTransaction,
     updateTransaction,
-    setIsWaitingToBeMined
+    currentTransaction,
+    setIsWaitingToBeMined,
   } = useContext(TenderContext);
-  const { borrowBalanceInUsd } = useAccountSummary();
 
-  let { totalBorrowedAmountInUsd, borrowLimit: borrowAvalableInUsd, borrowLimitUsed } = market
+  let { totalBorrowedAmountInUsd } = market
   let amount = parseFloat(initialValue)
   let borrowValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
 
-  const newBorrowAvailable = borrowAvalableInUsd - borrowValueInUsd;
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd
+  let newBorrowCapacity = borrowCapacity - borrowValueInUsd;
+
+  // the current percent used after borrowing
+  const borrowLimitUsed = useBorrowLimitUsed(
+    borrowBalanceInUsd,
+    market.borrowLimit
+  );
 
   // the borrow percent used after borrowing
   const newBorrowLimitUsed = useBorrowLimitUsed(
-    borrowValueInUsd + borrowBalanceInUsd,
-    borrowAvalableInUsd
+    borrowBalanceInUsd + borrowValueInUsd,
+    market.borrowLimit
   );
 
   const maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowAvalableInUsd,
+    borrowCapacity,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
@@ -90,7 +93,7 @@ export default function Borrow({
   );
 
   const maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowAvalableInUsd,
+    borrowCapacity,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
@@ -158,16 +161,12 @@ export default function Borrow({
 
   const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
   const borrowApyFormatted = formatApy(borrowApy);
-  /*console.log('maxBorrowLimit',maxBorrowLimit)
-console.log('maxSafeBorrowLimit',maxSafeBorrowLimit)
-console.log('market.maxBorrowLiquidity',market.maxBorrowLiquidity)
-console.log('borrowLimit',borrowLimit)*/
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
-          stopWaitingOnConfirmation={() => closeModal()}
+          txnHash={currentTransaction}
+          stopWaitingOnConfirmation={closeModal}
         />
       ) : (
         <div>
@@ -266,8 +265,8 @@ console.log('borrowLimit',borrowLimit)*/
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowAvalable={borrowAvalableInUsd}
-              newBorrowAvailable={newBorrowAvailable}
+              borrowCapacity={borrowCapacity}
+              newBorrowCapacity={newBorrowCapacity}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
@@ -330,18 +329,17 @@ console.log('borrowLimit',borrowLimit)*/
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      changeTxnHash(txn.hash);
+                      updateTransaction(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
                       changeInitialValue("");
-                      changeTxnHash("");
+                      updateTransaction(null);
                       displayTransactionResult(
                         networkData,
                         tr.transactionHash,
                         "Borrow successful"
                       );
-                      closeModal();
                     } catch (e: any) {
                       displayErrorMessage(
                         networkData,

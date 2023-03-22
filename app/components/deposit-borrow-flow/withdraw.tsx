@@ -30,8 +30,6 @@ export interface WithdrawProps {
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -43,21 +41,7 @@ const getSafeMaxWithdrawAmountForToken = (
     collateralFactor: number,
     borrowLimitUsed: number,
 ) => {
-  /**
-   * //getBorrowLimitUsed
-   * (borrowedAmount / borrowedLimit) * 100
-   *
-   * //projectBorrowLimit
-   * borrowLimitChangeInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
-   * borrowedLimit = currentBorrowLimitInUsd + borrowLimitChangeInUsd
-   *
-   * //result
-   * borrowLimitUsed = (borrowedAmount / (currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor))) * 100
-   * borrowLimitUsed / 100 = borrowedAmount / (currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor))
-   * borrowedAmount / (borrowLimitUsed / 100) = currentBorrowLimitInUsd + (tokenAmount * tp.token.priceInUsd * collateralFactor)
-   * (borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd = tokenAmount * tp.token.priceInUsd * collateralFactor
-   * (((borrowedAmount / (borrowLimitUsed / 100)) - currentBorrowLimitInUsd)) / (tp.token.priceInUsd * collateralFactor) = tokenAmount
-   * */
+
   const amount: number = Math.abs(
       (totalBorrowedAmountInUsd / (borrowLimitUsed / 100) -
           currentBorrowLimitInUsd) /
@@ -80,12 +64,8 @@ export default function Withdraw({
   changeInitialValue,
   activeTab,
   setActiveTab,
-  txnHash,
-  changeTxnHash,
   tabs,
 }: WithdrawProps) {
-  const tokenDecimals = market.tokenPair.token.decimals;
-
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const [isGlpCoolingdown, setIsGlpCoolingdown] = useState(false);
   const inputEl = useRef<HTMLInputElement>(null);
@@ -200,9 +180,9 @@ export default function Withdraw({
 
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
+          txnHash={currentTransaction}
           stopWaitingOnConfirmation={() => closeModal()}
         />
       ) : (
@@ -396,12 +376,12 @@ export default function Withdraw({
                             market.tokenPair.token,
                             isMax
                           );
-                          changeTxnHash(txn.hash);
+                          updateTransaction(txn.hash);
                           setIsWaitingToBeMined(true);
                           const tr = await txn.wait(2); // TODO: error handle if transaction fails
                           updateTransaction(tr.blockHash);
                           changeInitialValue("");
-                          changeTxnHash("");
+                          updateTransaction(null);
                           toast.success("Withdraw successful");
                         } catch (e) {
                           toast.error("Withdraw unsuccessful");
