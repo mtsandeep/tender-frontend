@@ -26,6 +26,7 @@ export default function DepositBorrowFlow({
   activeTab,
   setActiveTab,
 }: Props) {
+  // hold the state here, so that it stays when switching tabs
   const [initialValueDeposit, setInitialValueDeposit] = useState<string>("");
   const [initialValueWithdraw, setInitialValueWithdraw] = useState<string>("");
   const [initialValueRepay, setInitialValueRepay] = useState<string>("");
@@ -83,11 +84,9 @@ export default function DepositBorrowFlow({
           <Deposit
             closeModal={closeModal}
             market={market}
-            borrowLimit={market.borrowLimit}
             borrowLimitUsed={market.borrowLimitUsed}
             signer={signer}
             walletBalance={market.walletBalance}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             comptrollerAddress={market.comptrollerAddress}
             initialValue={initialValueDeposit}
             changeInitialValue={setInitialValueDeposit}
@@ -100,10 +99,8 @@ export default function DepositBorrowFlow({
           <Withdraw
             market={market}
             closeModal={closeModal}
-            borrowLimit={market.borrowLimit}
             borrowLimitUsed={market.borrowLimitUsed}
             signer={signer}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueWithdraw}
             changeInitialValue={setInitialValueWithdraw}
             activeTab={activeTab}

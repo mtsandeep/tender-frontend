@@ -19,14 +19,13 @@ import { formatApy } from "~/lib/apy-calculations";
 import GlpCooldownTimer from "./GlpCooldownTimer";
 import { MAX_WITHDRAW_LIMIT_PERCENTAGE } from "~/lib/constants";
 import APY from "../shared/APY";
+import { useAccountSummary } from "~/hooks/use-account-summary";
 
 export interface WithdrawProps {
   market: Market;
   closeModal: Function;
-  borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
-  totalBorrowedAmountInUsd: number;
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
@@ -56,10 +55,8 @@ const getSafeMaxWithdrawAmountForToken = (
 export default function Withdraw({
   market,
   closeModal,
-  borrowLimit,
   signer,
   borrowLimitUsed,
-  totalBorrowedAmountInUsd,
   initialValue,
   changeInitialValue,
   activeTab,
@@ -70,12 +67,15 @@ export default function Withdraw({
   const [isGlpCoolingdown, setIsGlpCoolingdown] = useState(false);
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
+  const { borrowBalanceInUsd } = useAccountSummary();
   const {
     currentTransaction,
     tokenPairs,
     updateTransaction,
     setIsWaitingToBeMined,
   } = useContext(TenderContext);
+
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
 
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
@@ -86,14 +86,14 @@ export default function Withdraw({
   );
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
-    totalBorrowedAmountInUsd,
+    borrowBalanceInUsd,
     newBorrowLimit
   );
 
   const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
       market.tokenPair.token.priceInUsd,
-      totalBorrowedAmountInUsd,
-      borrowLimit,
+      borrowBalanceInUsd,
+      borrowCapacity,
       market.collateralFactor,
       100
   );
@@ -106,8 +106,8 @@ export default function Withdraw({
 
   const rawSafeMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
       market.tokenPair.token.priceInUsd,
-      totalBorrowedAmountInUsd,
-      borrowLimit,
+      borrowBalanceInUsd,
+      borrowCapacity,
       market.collateralFactor,
       MAX_WITHDRAW_LIMIT_PERCENTAGE
   );
@@ -281,7 +281,7 @@ export default function Withdraw({
             <BorrowLimit
               value={initialValue}
               isValid={isValid}
-              borrowLimit={borrowLimit}
+              borrowLimit={borrowCapacity}
               newBorrowLimit={newBorrowLimit}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}

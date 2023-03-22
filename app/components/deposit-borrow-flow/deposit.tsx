@@ -22,15 +22,14 @@ import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import { formatApy } from "~/lib/apy-calculations";
 import APY from "../shared/APY";
+import { useAccountSummary } from "~/hooks/use-account-summary";
 
 export interface DepositProps {
   closeModal: Function;
   market: Market;
-  borrowLimit: number;
   signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: string;
-  totalBorrowedAmountInUsd: number;
   comptrollerAddress: string;
   initialValue: string;
   activeTab: ActiveTab;
@@ -41,11 +40,9 @@ export interface DepositProps {
 export default function Deposit({
   closeModal,
   comptrollerAddress,
-  borrowLimit,
   signer,
   borrowLimitUsed,
   walletBalance,
-  totalBorrowedAmountInUsd,
   market,
   initialValue,
   changeInitialValue,
@@ -72,6 +69,10 @@ export default function Deposit({
     networkData
   } = useContext(TenderContext);
 
+  const { borrowBalanceInUsd } = useAccountSummary();
+
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
+
   const newBorrowLimit = useProjectBorrowLimit(
     signer,
     comptrollerAddress,
@@ -81,7 +82,7 @@ export default function Deposit({
   );
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
-    totalBorrowedAmountInUsd,
+    borrowBalanceInUsd,
     newBorrowLimit
   );
 
@@ -262,7 +263,7 @@ export default function Deposit({
             <BorrowLimit
               value={initialValue}
               isValid={isValid}
-              borrowLimit={borrowLimit}
+              borrowLimit={borrowCapacity}
               newBorrowLimit={newBorrowLimit}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
