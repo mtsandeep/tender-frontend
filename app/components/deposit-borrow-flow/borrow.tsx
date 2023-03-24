@@ -84,7 +84,7 @@ export default function Borrow({
   );
 
   const maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowCapacity,
+    market.borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
@@ -93,13 +93,14 @@ export default function Borrow({
   );
 
   const maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowCapacity,
+    market.borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
     market.maxBorrowLiquidity,
     MAX_BORROW_LIMIT_PERCENTAGE
   );
+  console.log(maxSafeBorrowLimit)
 
   const [isValid, validationDetail] = useValidInputV2(
     getAmount(initialValue, market.tokenPair.token.decimals),

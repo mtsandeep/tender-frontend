@@ -9,7 +9,6 @@ import { getAmount, toExactString } from "~/lib/ui";
 import { redeem } from "~/lib/tender";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
 import BorrowLimit from "../fi-modal/borrow-limit";
-import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
@@ -75,19 +74,16 @@ export default function Withdraw({
     setIsWaitingToBeMined,
   } = useContext(TenderContext);
 
-  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
+  let amount = parseFloat(initialValue)
+  let withdrawValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
+  let collateralValue = withdrawValueInUsd * market.collateralFactor
 
-  const newBorrowLimit = useProjectBorrowLimit(
-    signer,
-    market.comptrollerAddress,
-    tokenPairs,
-    market.tokenPair,
-    initialValue ? `-${initialValue}` : "0"
-  );
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
+  let newBorrowCapacity = borrowCapacity - collateralValue;
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
     borrowBalanceInUsd,
-    newBorrowLimit
+    market.borrowLimit - collateralValue,
   );
 
   const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
@@ -282,7 +278,7 @@ export default function Withdraw({
               value={initialValue}
               isValid={isValid}
               borrowLimit={borrowCapacity}
-              newBorrowLimit={newBorrowLimit}
+              newBorrowLimit={newBorrowCapacity}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-green.svg"

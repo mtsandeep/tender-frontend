@@ -87,7 +87,6 @@ export default function DepositBorrowFlow({
             borrowLimitUsed={market.borrowLimitUsed}
             signer={signer}
             walletBalance={market.walletBalance}
-            comptrollerAddress={market.comptrollerAddress}
             initialValue={initialValueDeposit}
             changeInitialValue={setInitialValueDeposit}
             activeTab={activeTab}
