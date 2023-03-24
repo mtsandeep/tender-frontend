@@ -1,16 +1,20 @@
+import type { MetaFunction } from "remix";
+import { useNetwork } from "wagmi";
+
 import AccountSummary from "~/components/account-summary/account-summary";
 import AccountSummaryEmpty from "~/components/account-summary/empty";
 import { useTenderContext } from "~/hooks/use-tender-context";
 import TwoPanels from "~/components/two-panels/two-panels";
 import TwoPanelsEmpty from "~/components/two-panels/two-panels-empty";
-import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
-import type { MetaFunction } from "remix";
 
 export default function Home() {
   let tenderContextData = useTenderContext();
-  const chainId = metaMaskHooks.useChainId();
+
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
+
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   return (

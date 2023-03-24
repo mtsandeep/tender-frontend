@@ -1,28 +1,31 @@
-import type { ProviderRpcError } from "@web3-react/types";
 import { useState, useRef, useEffect } from "react";
+import { useAccount, useNetwork, useProvider } from "wagmi";
+
 import networks from "~/config/networks";
-import { hooks, metaMask } from "~/connectors/meta-mask";
 import type { NetworkData } from "~/types/global";
 import useAuth from "~/hooks/use-auth";
 
-export const switchNetwork = async (p: any, networkData: NetworkData) => {
-  if (!p) {
+export const switchNetwork = async (
+  provider: any,
+  networkData: NetworkData
+) => {
+  if (!provider) {
     return;
   }
   const targetNetworkId = networkData.ChainId;
   const targetNetworkIdHex = `0x${targetNetworkId.toString(16)}`;
 
-  p?.provider?.request &&
-    p.provider
+  provider?.request &&
+    provider
       .request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: targetNetworkIdHex }],
       })
-      .catch((error: ProviderRpcError) => {
+      .catch((error: any) => {
         if (error.code === 4902) {
           return (
-            p?.provider?.request &&
-            p.provider!.request({
+            provider?.request &&
+            provider!.request({
               method: "wallet_addEthereumChain",
               params: [
                 {
@@ -76,11 +79,11 @@ const actualNetworks = [
 ];
 
 const NetworksDropdown = () => {
-  const { useIsActive } = hooks;
-  const provider = hooks.useProvider();
-  const chainId = hooks.useChainId();
+  const { isConnected: isActive } = useAccount();
+  const provider = useProvider();
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
   const { connect, isDisconnected } = useAuth();
-  const isActive = useIsActive();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<any>(null);
@@ -89,7 +92,7 @@ const NetworksDropdown = () => {
 
   useEffect(() => {
     if (!isDisconnected()) {
-      void metaMask.connectEagerly();
+      void connect();
     }
   }, [isDisconnected]);
 

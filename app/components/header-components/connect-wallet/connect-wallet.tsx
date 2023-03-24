@@ -1,19 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
-import { hooks as Web3Hooks, metaMask } from "~/connectors/meta-mask";
+// import { hooks as Web3Hooks, metaMask } from "~/connectors/meta-mask";
+import { useAccount, useSigner } from "wagmi";
 import useAuth from "~/hooks/use-auth";
 import WalletDropdown from "./walletDropdown";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
 
 export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
-  const { useAccounts, useIsActive } = Web3Hooks;
-  const accounts = useAccounts();
-  const isActive = useIsActive();
+  const { address: defaultAddress, isConnected: isActive } = useAccount();
   const { connect, disconnect, isDisconnected } = useAuth();
   const [onClient, setOnClient] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+  const { data: signer } = useSigner();
 
   const handleChainChanged = useCallback((ethereum: any) => {
     ethereum.on("chainChanged", () => {
@@ -30,7 +27,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   useEffect(() => {
     setOnClient(true);
     if (!isDisconnected()) {
-      void metaMask.connectEagerly();
+      void connect();
     }
   }, [isDisconnected]);
 
@@ -43,7 +40,7 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
   return (
     <div>
       {loading ? (
-        isActive && accounts ? (
+        isActive && defaultAddress ? (
           <div className="show animate w-[34px] h-[34px] xl:w-[160px] xl:h-[44px]"></div>
         ) : (
           <div className="show animate w-[34px] h-[34px] xl:w-[160px] xl:h-[44px]"></div>
@@ -51,10 +48,10 @@ export default function ConnectWallet({ inMenu }: { inMenu?: boolean }) {
       ) : (
         onClient && (
           <>
-            {isActive && accounts && (
+            {isActive && defaultAddress && (
               <WalletDropdown
                 inMenu={inMenu}
-                addresses={accounts}
+                defaultAddress={defaultAddress}
                 walletIco={"/images/wallet-icons/metamask.svg"}
                 handlerDisconnect={() => disconnect()}
               />

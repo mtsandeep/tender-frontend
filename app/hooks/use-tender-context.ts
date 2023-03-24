@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNetwork, useSigner } from "wagmi";
 import type { Market, TenderContext } from "~/types/global";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import { useTokenPairs } from "./use-token-pairs";
 import { useOnSupportedNetwork } from "./use-on-supported-network";
 import { useNetworkData } from "./use-network-data";
 import { useMarkets } from "./use-markets";
 import { useInterval } from "./use-interval";
-import { useWeb3Signer } from "./use-web3-signer";
 import { useBlockNumber } from "~/hooks/use-block-number";
 import { useTndPrice } from "./useTndPrice";
 
@@ -16,11 +15,12 @@ export function useTenderContext() {
   let [prevMarkets, setPrevMarkets] = useState<Market[] | null>(null);
   let [tenderContext, setTenderContext] = useState<TenderContext | null>();
   let [isWaitingToBeMined, setIsWaitingToBeMined] = useState<boolean>(false);
-  let tndPrice = useTndPrice()
+  let tndPrice = useTndPrice();
 
-  const chainId = Web3Hooks.useChainId();
-  let provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
+
+  const { data: signer } = useSigner();
 
   let networkData = useNetworkData(chainId);
   let onSupportedNetwork = useOnSupportedNetwork(chainId);
@@ -36,9 +36,9 @@ export function useTenderContext() {
     networkData?.secondsPerBlock
   );
 
-  let ethPrice = markets.find(
-    m => m.tokenPair.token.symbol === "ETH"
-  )?.tokenPair.token.priceInUsd ?? 0
+  let ethPrice =
+    markets.find((m) => m.tokenPair.token.symbol === "ETH")?.tokenPair.token
+      .priceInUsd ?? 0;
 
   const blockNumber = useBlockNumber();
 
@@ -69,7 +69,7 @@ export function useTenderContext() {
     currentTransaction,
     isWaitingToBeMined,
     blockNumber,
-    tndPrice
+    tndPrice,
   ]);
 
   useEffect(() => {

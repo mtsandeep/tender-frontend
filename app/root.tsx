@@ -6,7 +6,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "remix";
+import { useNetwork } from "wagmi";
 
 import LogRocket from "logrocket";
 import TagManager from "react-gtm-module";
@@ -19,8 +21,10 @@ import globalStyles from "./styles/global.css";
 import Header from "~/components/header-components/Header";
 import Footer from "~/components/Footer";
 
-import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
+import { WagmiConfig } from "wagmi";
+
+import { client as wagmiClient } from "~/connectors/wagmi";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -33,8 +37,20 @@ export const meta: MetaFunction = () => {
 if (process.env.NODE_ENV === "production")
   LogRocket.init("6bquwn/tender-frontend");
 
+export function loader() {
+  const env = process.env;
+  return {
+    ENV: {
+      ALCHEMY_API_KEY: env.ALCHEMY_API_KEY,
+    },
+  };
+}
 export default function App() {
-  const chainId = metaMaskHooks.useChainId();
+  const data = useLoaderData<typeof loader>();
+
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
+
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   useEffect(() => {
@@ -44,6 +60,12 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
@@ -51,10 +73,13 @@ export default function App() {
       </head>
       <body className={`${!onSupportedChain ? "switch__to__network" : ""}`}>
         <div id="m"></div>
-        <Toaster />
-        <Header />
-        <Outlet />
-        <Footer />
+
+        <WagmiConfig client={wagmiClient}>
+          <Toaster />
+          <Header />
+          <Outlet />
+          <Footer />
+        </WagmiConfig>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

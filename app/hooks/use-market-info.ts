@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
+import { useProvider, useSigner } from "wagmi";
 import { gql, request } from "graphql-request";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
 import {
@@ -13,8 +12,6 @@ import { BigNumber } from "ethers";
 import { parseUnits } from "ethers/lib/utils";
 import { useInterval } from "~/hooks/use-interval";
 import { useGmxApy } from "./use-gmx-apy";
-
-
 
 const getStatsQuery = function (
   address: string,
@@ -67,8 +64,9 @@ export function useMarketInfo(tokenId: string | undefined) {
   const pollingKey = useInterval(30_000);
   const { networkData, tokenPairs, currentTransaction } =
     useContext(TenderContext);
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+
+  const { data: signer } = useSigner();
+
   const tokenPair = tokenPairs.find(
     (tp) => tp.token.symbol === String(tokenId)
   );
@@ -97,7 +95,7 @@ export function useMarketInfo(tokenId: string | undefined) {
 
       // sometimes there is a lag between this block and the graph indexer,
       // so subtract 10
-      const blockNumber = await signer.provider.getBlockNumber() - 10 
+      const blockNumber = (await signer.provider.getBlockNumber()) - 10;
 
       if (blockNumber === 0) {
         return;

@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WalletConnectArea } from "./connect-wallet";
 import { useLocation } from "react-router-dom";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
 import ConnectWallet from "./connect-wallet/connect-wallet";
 
 const menuLinks = [

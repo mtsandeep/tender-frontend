@@ -1,10 +1,9 @@
 import { ethers } from "ethers";
+import { useProvider, useSigner } from "wagmi";
 import sampleCTokenAbi from "~/config/sample-ctoken-abi";
 import jumpRateModelV2Abi from "~/config/abi/jump-rate-model-v2.json";
 import { useContext, useEffect, useState } from "react";
 import { TenderContext } from "~/contexts/tender-context";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { calculateApy } from "~/lib/apy-calculations";
 import { providers as mcProviders } from "@0xsequence/multicall";
 import { toExactString } from "~/lib/ui";
@@ -14,8 +13,10 @@ import { TokenPair } from "~/types/global";
 export default function useInterestRateModel(tokenId: string | undefined) {
   const [interestRateModel, setInterestRateModel] = useState<object[]>([]);
   const { networkData, tokenPairs } = useContext(TenderContext);
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+
+  const provider = useProvider();
+  const { data: signer } = useSigner();
+
   const getGmxApy = useGmxApy();
 
   useEffect(() => {

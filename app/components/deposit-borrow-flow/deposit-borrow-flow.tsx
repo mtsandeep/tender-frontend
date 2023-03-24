@@ -1,15 +1,14 @@
 import type { Market } from "~/types/global";
 import { useContext, useState } from "react";
+import { useSigner } from "wagmi";
 
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
-
+import { TenderContext } from "~/contexts/tender-context";
 import Deposit from "~/components/deposit-borrow-flow/deposit";
 import Withdraw from "~/components/deposit-borrow-flow/withdraw";
+import { getAmountFloat } from "~/lib/ui";
+
 import Borrow from "./borrow";
 import Repay from "./repay";
-import { TenderContext } from "~/contexts/tender-context";
-import { getAmountFloat } from "~/lib/ui";
 
 export type ActiveTab = "supply" | "withdraw" | "borrow" | "repay";
 
@@ -59,8 +58,7 @@ export default function DepositBorrowFlow({
     },
   ];
 
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+  const { data: signer } = useSigner();
 
   return (
     <div className="flex w-full h-full">

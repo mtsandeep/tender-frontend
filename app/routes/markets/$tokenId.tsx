@@ -1,15 +1,18 @@
+import { useEffect } from "react";
 import { MetaFunction, useParams } from "remix";
+import { useNetwork } from "wagmi";
 import { useTenderContext } from "~/hooks/use-tender-context";
-import { hooks as metaMaskHooks } from "~/connectors/meta-mask";
 import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
 import { TenderContext } from "~/contexts/tender-context";
 import Token from "~/components/token-page/Token";
 import TokenEmpty from "~/components/token-page/TokenEmpty";
-import { useEffect } from "react";
 
 export default function TokenPage() {
   const tenderContextData = useTenderContext();
-  const chainId = metaMaskHooks.useChainId();
+
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
+
   const onSupportedChain = useOnSupportedNetwork(chainId);
   const { tokenId } = useParams();
 
