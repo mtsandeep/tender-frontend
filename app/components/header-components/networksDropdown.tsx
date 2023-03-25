@@ -58,7 +58,7 @@ const actualNetworks = [
     links: [
       { linkName: "Arbitrum Bridge", url: "https://bridge.arbitrum.io" },
       { linkName: "Arbiscan", url: "https://arbiscan.io" },
-      { linkName: "Helpcenter", url: "https://support.uniswap.org/hc/en-us" },
+      // { linkName: "Helpcenter", url: "https://support.uniswap.org/hc/en-us" },
     ],
     networkData: networks.arbitrum,
   },
