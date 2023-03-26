@@ -21,7 +21,7 @@ export default {
       symbol: "ARB",
       decimals: 18,
       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
-      icon: "/images/coin-icons/arb.webp",
+      icon: "/images/coin-icons/arb.svg",
       cToken: {
         name: "tARB",
         symbol: "tARB",
