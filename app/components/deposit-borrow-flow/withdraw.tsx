@@ -19,6 +19,7 @@ import GlpCooldownTimer from "./GlpCooldownTimer";
 import { MAX_WITHDRAW_LIMIT_PERCENTAGE } from "~/lib/constants";
 import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
+import { useSigner } from "wagmi";
 
 export interface WithdrawProps {
   market: Market;
@@ -54,7 +55,6 @@ const getSafeMaxWithdrawAmountForToken = (
 export default function Withdraw({
   market,
   closeModal,
-  signer,
   borrowLimitUsed,
   initialValue,
   changeInitialValue,
@@ -74,6 +74,8 @@ export default function Withdraw({
     setIsWaitingToBeMined,
   } = useContext(TenderContext);
 
+  const { data: signer } = useSigner();
+ 
   let amount = parseFloat(initialValue)
   let withdrawValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
   let collateralValue = withdrawValueInUsd * market.collateralFactor

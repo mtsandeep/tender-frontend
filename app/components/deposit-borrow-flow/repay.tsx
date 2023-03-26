@@ -2,7 +2,6 @@
 import type { Market, TokenPair } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 import { getAmount, toMaxString } from "~/lib/ui";
@@ -24,10 +23,10 @@ import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
 import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
+import { useSigner } from "wagmi";
 
 export interface RepayProps {
   closeModal: Function;
-  signer: JsonRpcSigner | null | undefined;
   borrowedAmount: number;
   walletBalance: number;
   tokenPairs: TokenPair[];
@@ -42,7 +41,6 @@ export interface RepayProps {
 export default function Repay({
   market,
   closeModal,
-  signer,
   borrowedAmount,
   walletBalance,
   initialValue,
@@ -65,6 +63,8 @@ export default function Repay({
 
   let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
   let newBorrowCapacity = borrowCapacity + repayValueInUsd;
+
+  const { data: signer } = useSigner();
 
   // the current percent used after borrowing
   const borrowLimitUsed = useBorrowLimitUsed(

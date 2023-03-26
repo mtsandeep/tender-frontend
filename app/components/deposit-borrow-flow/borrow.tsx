@@ -2,7 +2,6 @@
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 
@@ -10,6 +9,7 @@ import { getAmount, toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
+import { useSigner } from "wagmi";
 import { borrow } from "~/lib/tender";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
 import BorrowBalance from "../fi-modal/borrow-balance";
@@ -30,7 +30,6 @@ import { useAccountSummary } from "~/hooks/use-account-summary";
 export interface BorrowProps {
   market: Market;
   closeModal: Function;
-  signer: JsonRpcSigner | null | undefined;
   tokenPairs: TokenPair[];
   initialValue: string;
   activeTab: ActiveTab;
@@ -42,7 +41,6 @@ export interface BorrowProps {
 export default function Borrow({
   market,
   closeModal,
-  signer,
   initialValue,
   changeInitialValue,
   activeTab,
@@ -56,6 +54,7 @@ export default function Borrow({
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
+  const { data: signer } = useSigner();
 
   const {
     networkData,

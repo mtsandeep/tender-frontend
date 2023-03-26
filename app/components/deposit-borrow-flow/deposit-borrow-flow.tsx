@@ -1,15 +1,13 @@
 import type { Market } from "~/types/global";
 import { useContext, useState } from "react";
 
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
-
+import { TenderContext } from "~/contexts/tender-context";
 import Deposit from "~/components/deposit-borrow-flow/deposit";
 import Withdraw from "~/components/deposit-borrow-flow/withdraw";
+import { getAmountFloat } from "~/lib/ui";
+
 import Borrow from "./borrow";
 import Repay from "./repay";
-import { TenderContext } from "~/contexts/tender-context";
-import { getAmountFloat } from "~/lib/ui";
 
 export type ActiveTab = "supply" | "withdraw" | "borrow" | "repay";
 
@@ -56,9 +54,6 @@ export default function DepositBorrowFlow({
     },
   ];
 
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
-
   return (
     <div className="flex w-full h-full">
       <div className="hidden md:flex flex-col border-[#B5CFCC2B] border-r-[1px] p-[30px]">
@@ -85,7 +80,6 @@ export default function DepositBorrowFlow({
             closeModal={closeModal}
             market={market}
             borrowLimitUsed={market.borrowLimitUsed}
-            signer={signer}
             walletBalance={market.walletBalance}
             initialValue={initialValueDeposit}
             changeInitialValue={setInitialValueDeposit}
@@ -99,7 +93,6 @@ export default function DepositBorrowFlow({
             market={market}
             closeModal={closeModal}
             borrowLimitUsed={market.borrowLimitUsed}
-            signer={signer}
             initialValue={initialValueWithdraw}
             changeInitialValue={setInitialValueWithdraw}
             activeTab={activeTab}
@@ -112,7 +105,6 @@ export default function DepositBorrowFlow({
             market={market}
             closeModal={closeModal}
             borrowedAmount={market.borrowBalance}
-            signer={signer}
             walletBalance={getAmountFloat(
               market.walletBalance,
               market.tokenPair.token.decimals
@@ -129,7 +121,6 @@ export default function DepositBorrowFlow({
           <Borrow
             market={market}
             closeModal={closeModal}
-            signer={signer}
             tokenPairs={tokenPairs}
             initialValue={initialValueBorrow}
             changeInitialValue={setInitialValueBorrow}

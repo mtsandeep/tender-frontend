@@ -1,30 +1,25 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { hooks, metaMask } from "~/connectors/meta-mask";
+import { useContext, useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { useAccount, useSigner } from "wagmi";
+import toast from "react-hot-toast";
+import ReactModal from "react-modal";
+import { BigNumber } from "@ethersproject/bignumber";
+import { formatUnits } from "@ethersproject/units";
+
+import { TenderContext } from "~/contexts/tender-context";
 import useAuth from "~/hooks/use-auth";
+import * as TND from "~/lib/tnd";
+import { getAllData } from "~/lib/tnd";
+import { toCryptoString } from "~/lib/ui";
+
 import ClaimRewardsModal from "../claimRewardsModal/claimRewardsModal";
 import type { IReward } from "../claimRewardsModal/claimRewardsModal";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
-import { getAllData } from "~/lib/tnd";
-import * as TND from "~/lib/tnd";
-import { toCryptoString } from "~/lib/ui";
-import toast from "react-hot-toast";
-import { TenderContext } from "~/contexts/tender-context";
 import { displayErrorMessage } from "../deposit-borrow-flow/displayErrorMessage";
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
-import { formatUnits } from "@ethersproject/units";
-import Modal from "./modal";
-import ReactModal from "react-modal";
-import { Vault } from "./Vault";
 import UnstakeModal from "../unstakeModal";
-import { Signer } from "ethers";
+
+import Modal from "./modal";
+import { Vault } from "./Vault";
+
 
 // gets the return type of an async function
 // https://stackoverflow.com/a/59774789
@@ -147,7 +142,7 @@ function displayETHWithUSD(amount: BigNumber, ethPrice: number) {
  * @returns string
  */
 export function displayTNDInUSD(amount: BigNumber, tndPrice: number): string {
-  if (amount.eq(0)) return "0.00"
+  if (amount.eq(0)) return "0.00";
 
   // BigNumber only works for ints, and price is in cents
   let TND_VALUE_IN_CENTS = amount.mul(Math.floor(tndPrice * 100));
@@ -202,7 +197,6 @@ export type Modals =
   | null;
 
 export default function EarnContent(): JSX.Element {
-  const { useIsActive } = hooks;
   const [dataClaimModal, setDataClaimModal] = useState<{
     open: boolean;
     rewards: IReward[];
@@ -211,15 +205,15 @@ export default function EarnContent(): JSX.Element {
   const [tabFocus, setTabFocus] = useState<number>(0);
   const [onClient, setOnClient] = useState<boolean>(false);
   const [currentModal, setCurrentModal] = useState<Modals>(null);
-  const [data, setData] = useState<allData | null>(null)  
+  const [data, setData] = useState<allData | null>(null);
   const [transactionInProgress, setTransactionInProgress] = useState(false);
 
   const { networkData, tndPrice, ethPrice } = useContext(TenderContext);
 
   const { connect, isDisconnected } = useAuth();
-  const isActive = useIsActive();
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+  const { isConnected: isActive } = useAccount();
+
+  const { data: signer } = useSigner();
 
   function closeModal() {
     return setCurrentModal(null);
@@ -234,7 +228,7 @@ export default function EarnContent(): JSX.Element {
 
     setOnClient(true);
     if (isDisconnected()) {
-      metaMask.connectEagerly();
+      connect();
     }
   }, [isDisconnected, signer]);
 
@@ -289,7 +283,7 @@ export default function EarnContent(): JSX.Element {
 
     if (!signer) {
       console.error(`Signer undefined (${signer})`);
-      return
+      return;
     }
 
     var id = toast.loading("Submitting transaction");
@@ -297,13 +291,13 @@ export default function EarnContent(): JSX.Element {
     try {
       setTransactionInProgress(true);
 
-      let esTNDBalance = data?.esTNDBalance ?? BigNumber.from(0)
+      let esTNDBalance = data?.esTNDBalance ?? BigNumber.from(0);
 
       let tx = await TND.claimRewards(signer);
-      await tx.wait(1)
+      await tx.wait(1);
 
-      let newEsTNDBalance = await TND.getESTNDBalance(signer)
-      let reward = newEsTNDBalance.sub(esTNDBalance)
+      let newEsTNDBalance = await TND.getESTNDBalance(signer);
+      let reward = newEsTNDBalance.sub(esTNDBalance);
 
       toast.success(`Claim successful ${displayTND(reward)} esTND`);
       RefreshData();
@@ -311,15 +305,14 @@ export default function EarnContent(): JSX.Element {
       console.error(e);
       displayErrorMessage(networkData, e, "Claim unsuccessful");
     } finally {
-      setTransactionInProgress(false)
+      setTransactionInProgress(false);
       toast.dismiss(id);
     }
-  }
+  };
 
-
-  const onClaimESTND = async ()=> {
-    if (!signer || data?.claimableESTND.eq(0)) return
-    var id = toast.loading("Submitting transaction")
+  const onClaimESTND = async () => {
+    if (!signer || data?.claimableESTND.eq(0)) return;
+    var id = toast.loading("Submitting transaction");
     try {
       var tx = await TND.claimEsTnd(signer);
       await tx.wait(1);

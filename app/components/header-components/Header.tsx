@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useRef, useState, useContext } from "react";
-import NetworksDropdown from "./networksDropdown";
-import ConnectWallet from "./connect-wallet";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { WalletConnectArea } from "./connect-wallet";
 import { useLocation } from "react-router-dom";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
+import ConnectWallet from "./connect-wallet/connect-wallet";
 
 const menuLinks = [
   {
@@ -40,9 +38,6 @@ export default function Header() {
   const menuRef = useRef<any>(null);
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
 
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
-
   const handleClickBurger = useCallback((value: boolean) => {
     setActivePopupMenu(value);
     if (value) {
@@ -52,17 +47,7 @@ export default function Header() {
     }
   }, []);
 
-  const handleChainChanged = useCallback((ethereum: any) => {
-    ethereum.on("chainChanged", () => {
-      window.location.reload();
-    });
-  }, []);
-
   useEffect(() => {
-    if (window.ethereum) {
-      handleChainChanged(window.ethereum);
-    }
-
     const closeDropdown = (e: any) => {
       if (
         menuRef.current &&
@@ -74,7 +59,7 @@ export default function Header() {
       }
     };
     window.addEventListener("click", closeDropdown);
-  }, [handleClickBurger, handleChainChanged, signer]);
+  }, [handleClickBurger]);
 
   return (
     <header className="relative">
@@ -103,8 +88,7 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
-            <NetworksDropdown />
-            <ConnectWallet />
+            <WalletConnectArea />
             <button
               aria-label="menu"
               className={`flex lg:hidden header__burg ${

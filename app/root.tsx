@@ -6,7 +6,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "remix";
+import { useNetwork } from "wagmi";
 
 import LogRocket from "logrocket";
 import TagManager from "react-gtm-module";
@@ -16,16 +18,13 @@ import type { MetaFunction, LinksFunction } from "remix";
 import tailwindStyles from "./tailwind.css";
 import globalStyles from "./styles/global.css";
 
+import Header from "~/components/header-components/Header";
 import Footer from "~/components/Footer";
 
-import type { Web3ReactHooks } from "@web3-react/core";
-import { Web3ReactProvider } from "@web3-react/core";
-import type { MetaMask } from "@web3-react/metamask";
+import { useOnSupportedNetwork } from "~/hooks/use-on-supported-network";
+import { WagmiConfig } from "wagmi";
 
-import { hooks as metaMaskHooks, metaMask } from "~/connectors/meta-mask";
-
-import { useOnSupportedNetwork } from "./hooks/use-on-supported-network";
-import Header from "./components/header-components/Header";
+import { client as wagmiClient } from "~/connectors/wagmi";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStyles },
@@ -38,10 +37,20 @@ export const meta: MetaFunction = () => {
 if (process.env.NODE_ENV === "production")
   LogRocket.init("6bquwn/tender-frontend");
 
-const connectors: [MetaMask, Web3ReactHooks][] = [[metaMask, metaMaskHooks]];
-
+export function loader() {
+  const env = process.env;
+  return {
+    ENV: {
+      ALCHEMY_API_KEY: env.ALCHEMY_API_KEY,
+    },
+  };
+}
 export default function App() {
-  const chainId = metaMaskHooks.useChainId();
+  const data = useLoaderData<typeof loader>();
+
+  const { chain } = useNetwork();
+  const chainId = chain?.id;
+
   let onSupportedChain = useOnSupportedNetwork(chainId);
 
   useEffect(() => {
@@ -51,6 +60,12 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+          }}
+        />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
@@ -58,12 +73,13 @@ export default function App() {
       </head>
       <body className={`${!onSupportedChain ? "switch__to__network" : ""}`}>
         <div id="m"></div>
-        <Toaster />
-        <Web3ReactProvider connectors={connectors}>
+
+        <WagmiConfig client={wagmiClient}>
+          <Toaster />
           <Header />
           <Outlet />
-        </Web3ReactProvider>
-        <Footer />
+          <Footer />
+        </WagmiConfig>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

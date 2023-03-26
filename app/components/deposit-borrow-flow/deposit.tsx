@@ -3,11 +3,11 @@
 import { Market, NetworkData } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
+import { useSigner } from "wagmi";
 
 import { enable, deposit } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
@@ -26,7 +26,6 @@ import { useAccountSummary } from "~/hooks/use-account-summary";
 export interface DepositProps {
   closeModal: Function;
   market: Market;
-  signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: string;
   initialValue: string;
@@ -37,7 +36,6 @@ export interface DepositProps {
 }
 export default function Deposit({
   closeModal,
-  signer,
   borrowLimitUsed,
   walletBalance,
   market,
@@ -66,6 +64,8 @@ export default function Deposit({
   } = useContext(TenderContext);
 
   const { borrowBalanceInUsd } = useAccountSummary();
+  
+  const { data: signer } = useSigner();
 
   let amount = parseFloat(initialValue)
   let supplyValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)

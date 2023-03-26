@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
+import { useProvider, useSigner } from "wagmi";
 import { gql, request } from "graphql-request";
-import { hooks as Web3Hooks } from "~/connectors/meta-mask";
-import { useWeb3Signer } from "~/hooks/use-web3-signer";
 import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
 import { useInterval } from "./use-interval";
@@ -24,7 +23,7 @@ type MarketMeta = {
 
 type MarketsInfo = {
   markets: Record<string, MarketMeta> | false;
-  total: BigNumber | false;
+  total: number | false;
 };
 
 export function useMarketsInfo() {
@@ -34,8 +33,9 @@ export function useMarketsInfo() {
     total: false,
   });
   const { networkData, tokenPairs } = useContext(TenderContext);
-  const provider = Web3Hooks.useProvider();
-  const signer = useWeb3Signer(provider);
+
+  const { data: signer } = useSigner();
+
   const getGlpApy = useGlpApy();
   const getGmxApy = useGmxApy();
 
