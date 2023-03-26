@@ -54,7 +54,7 @@ export default function MarketsContent() {
           })
         }
       />
-      <div className="switch__to__network max-w-[1068px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-3">
+      <div className="switch__to__network max-w-[1068px] mx-[auto] flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2">
         <div
           tabIndex={0}
           className="focus:outline-none panel-custom border-custom"
@@ -121,7 +121,7 @@ export default function MarketsContent() {
               })}
             </div>
           </div>
-          <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
+          {/* <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
             <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Supply Volume</p>
               <p># of Suppliers</p>
@@ -145,106 +145,8 @@ export default function MarketsContent() {
                 <span>{total?.supply?.count}</span>
               </div>
             </div>
-          </div>
-        </div>
-        {/* start */}
-        <div
-          tabIndex={0}
-          className="focus:outline-none panel-custom border-custom"
-        >
-          <div className="px-[15px] textSize22 py-[19px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
-            Total Reserves
-          </div>
-          <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
-            <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
-              <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
-                <DisplayPrice
-                  amount={totalReservesUsd.toString()}
-                  baseFactor="1"
-                  isCompact
-                  hideBaseCurrencyCode
-                />
-              </div>
-              {totalReservesDiff !== 0 && (
-                <div
-                  className={`text-[14] md:text-lg leading-[14px] md:leading-[18px] ${checkColorClass(
-                    totalReservesDiff
-                  )}`}
-                >
-                  {totalReservesDiff > 0 ? "+" : ""}
-                  {`${totalReservesDiff}%`}
-                </div>
-              )}
-            </div>
-            <div className="font-nova text-xs md:text-sm leading-[17px] md:leading-[20px] text-[#818987] mb-[15px] md:mb-[15px]">
-              Top 3 Markets
-            </div>
-            <div className="font-nova flex flex-col font-space gap-y-[15px] md:gap-y-[24px]">
-              {total?.reserves?.topMarkets.map((id: string, index: number) => {
-                const m = markets[id];
-                const marketPercentage = (
-                  (m.reserves * 100) /
-                  total.reserves.usd
-                )?.toFixed(2);
-
-                return (
-                  <div key={index} className="flex flex-col gap-y-[10px]">
-                    <label className="flex justify-between text-sm md:text-base leading-[20px] md:leading-[22px]">
-                      <p className="uppercase">{m.symbol}</p>
-                      <div className="text-[#00E0FF]">
-                        <span>{marketPercentage}</span>
-                        <span>%</span>
-                      </div>
-                    </label>
-                    <div className="border-custom px-3 relative top__custom">
-                      <div
-                        className="w-full bg-green-300 mr-2 h-[3px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
-                        style={{
-                          background: "#00E0FF",
-                          width: `${marketPercentage}%`,
-                          transition: "width 1s ease-out",
-                        }}
-                      ></div>
-                      <div className="w-full flex absolute bottom-0 left-0">
-                        <div className="bg-[#262D2A] h-[3px] flex-grow"></div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          {/*
-          This isn't working is it is commented out in case we want to make it work later.
-          
-          div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
-            <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
-              <p>24H Reserves Volume</p>
-              <p># of Borrowers</p>
-            </div>
-            <div className="flex justify-between items-center font-space font-normal text-base leading-[16px] md:text-xl md:leading-[20px]">
-              <div
-                className={checkColorClass(
-                  checkZeroValue(total?.reserves?.volume)
-                    ? 0
-                    : total?.reserves?.volume
-                )}
-              >
-                <DisplayPrice
-                  amount={total?.reserves?.volume}
-                  baseFactor="1"
-                  isCompact
-                  hideBaseCurrencyCode
-                />
-              </div>
-              <div>
-                <span>{total?.borrow?.count}</span>
-              </div>
-            </div>
           </div> */}
         </div>
-
-        {/* end  */}
         <div
           tabIndex={0}
           className="focus:outline-none panel-custom border-custom"
@@ -311,7 +213,7 @@ export default function MarketsContent() {
               })}
             </div>
           </div>
-          <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
+          {/* THese numbers are wrong! <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
             <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Borrow Volume</p>
               <p># of Borrowers</p>
@@ -335,7 +237,7 @@ export default function MarketsContent() {
                 <span>{total?.borrow?.count}</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
