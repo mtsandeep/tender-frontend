@@ -12,10 +12,24 @@ export default {
   graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e", // address of unitroller contract
-    PriceOracle: "0xa11BAde71dF9005f4Cfb6FfeCd266eD8046Fd5c6",
+    PriceOracle: "0x89963548ec3e76e92B3B4217A34f3B42432171dB",
     Maximillion: "0x1834a5C13EE814ADCCd8D012E0356A3E836208Fc",
   },
   Tokens: {
+    ARB: {
+      name: "Arbitrum",
+      symbol: "ARB",
+      decimals: 18,
+      address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+      icon: "/images/coin-icons/arb.svg",
+      cToken: {
+        name: "tARB",
+        symbol: "tARB",
+        decimals: 8,
+        address: "0xC6121d58E01B3F5C88EB8a661770DB0046523539",
+        isVault: false,
+      },
+    },
     GLP: {
       name: "GLP",
       symbol: "GLP",

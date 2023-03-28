@@ -47,7 +47,7 @@ export default function Footer() {
             className="font-normal text-base text-[#818987]"
             aria-label={"Report a Bug"}
             href={"https://github.com/tender-finance/tender-frontend/issues/new"}
-            key={"ghr"}
+            key={"report"}
             target="_blank"
             rel="noreferrer"
           >
