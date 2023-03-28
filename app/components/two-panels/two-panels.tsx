@@ -9,6 +9,10 @@ import * as math from "mathjs";
 import DisplayPrice from "~/components/shared/DisplayPrice";
 import { HoverableAPY, getAPY } from "../shared/APY";
 
+import type { ActiveTab } from "../deposit-borrow-flow/deposit-borrow-flow";
+import ReactModal from "react-modal";
+import DepositBorrowFlow from "../deposit-borrow-flow/deposit-borrow-flow";
+
 export const checkColorClass = (value: number | string) => {
   const valueNumber = parseFloat(
     math.format(value, { notation: "fixed", precision: 2 })
@@ -24,7 +28,6 @@ export const checkColorClass = (value: number | string) => {
 };
 
 export function useMultiTooltip() {
-  
   let [multiTooltipData, setMultiTooltipData] = useState({
     open: false,
     coins: [{}],
@@ -48,23 +51,22 @@ export function useMultiTooltip() {
           },
           {
             coinTitle: "esTND",
-            iconSrc:
-              "/images/wallet-icons/balance-icon.svg",
+            iconSrc: "/images/wallet-icons/balance-icon.svg",
             data: "%" + info.formattedESTND,
             color: "text-white  ",
           },
         ],
-      })
-    }
-  }
-  
-  return [multiTooltipData, setMultiTooltipData, getOnClick]
+      });
+    };
+  };
+
+  return [multiTooltipData, setMultiTooltipData, getOnClick];
 }
 
 export default function TwoPanels() {
   const tenderContextData = useContext(TenderContext);
 
-  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip()
+  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip();
 
   let [mobileTooltipData, setMobileTooltipData] = useState<{
     open: boolean;
@@ -86,14 +88,21 @@ export default function TwoPanels() {
     (token: Market) => token.borrowBalance && token.borrowBalanceInUsd > 0
   );
 
+  const [activeTab, setActiveTab] = useState<ActiveTab>("supply");
+  let [openMarket, setOpenMarket] = useState<Market | false>(false);
+
+  const handlerClickChangeTab = (tab: ActiveTab, token: Market) => {
+    setActiveTab(tab);
+    setOpenMarket(token);
+  };
+
   const marketsWithoutBorrow = tenderContextData.markets
     .filter((token: Market) => token.tokenPair.token.symbol !== "GLP")
     .filter(
       (token: Market) => !token.borrowBalance || token.borrowBalanceInUsd <= 0
     );
 
-
-    return tenderContextData.markets.length ? (
+  return tenderContextData.markets.length ? (
     <div className="flex flex-col xl:grid grid-cols-2 gap-[60px] xl:gap-[20px] mb-14">
       <TooltipMobile
         mobileTooltipData={mobileTooltipData}
@@ -117,7 +126,31 @@ export default function TwoPanels() {
           })
         }
       />
-
+      {openMarket && (
+        <ReactModal
+          shouldCloseOnOverlayClick={true}
+          isOpen={true}
+          onRequestClose={() => setOpenMarket(false)}
+          portalClassName="modal"
+          style={{
+            content: {
+              inset: "unset",
+              margin: "20px auto",
+              zoom: window.innerWidth > 768 ? "75%" : "100%",
+              position: "relative",
+              maxWidth: 650,
+            },
+          }}
+          closeTimeoutMS={200}
+        >
+          <DepositBorrowFlow
+            closeModal={() => setOpenMarket(false)}
+            market={openMarket}
+            activeTab={activeTab}
+            setActiveTab={(tab) => handlerClickChangeTab(tab, openMarket)}
+          />
+        </ReactModal>
+      )}
       <div>
         {marketsWithSupply.length > 0 && (
           <div className="pb-[5px] panel-custom main border-custom mb-[20px] md:pb-[0px] md:mb-[40px]">
@@ -168,8 +201,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="flex items-center h-full  relative items-center justify-left text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <img
@@ -186,8 +218,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="relative flex items-center h-full  whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("supply", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -206,13 +237,16 @@ export default function TwoPanels() {
                         </a>
                       </td>
                       <td className="p-0">
-                        <HoverableAPY type="supply" market={token} onClick={getOnClick(token, "supply")} />
+                        <HoverableAPY
+                          type="supply"
+                          market={token}
+                          onClick={() => handlerClickChangeTab("supply", token)}
+                        />
                       </td>
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("supply", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -275,6 +309,7 @@ export default function TwoPanels() {
                       tabIndex={0}
                       role="row"
                       className="p-0 h-[80px] md:h-auto text-gray-400 border-t border__top__custom cursor-pointer"
+                      onClick={() => handlerClickChangeTab("supply", token)}
                       onKeyUp={(e) =>
                         e.key === "Enter" &&
                         window.open(
@@ -286,8 +321,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="relative flex items-center h-full  text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("supply", token)}
                           rel="noreferrer"
                         >
                           <div className="flex items-center justify-left">
@@ -306,8 +340,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("supply", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -326,13 +359,16 @@ export default function TwoPanels() {
                         </a>
                       </td>
                       <td className="p-0">
-                        <HoverableAPY type="supply" market={token} onClick={getOnClick(token, "supply")} />
+                        <HoverableAPY
+                          type="supply"
+                          market={token}
+                          onClick={() => handlerClickChangeTab("supply", token)}
+                        />
                       </td>
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("supply", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -410,8 +446,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <div className="flex items-center justify-left">
@@ -430,8 +465,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="flex items-center h-full whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -450,13 +484,16 @@ export default function TwoPanels() {
                         </a>
                       </td>
                       <td className="p-0">
-                         <HoverableAPY type="borrow" market={token} onClick={getOnClick(token, "borrow")} />
+                        <HoverableAPY
+                          type="borrow"
+                          market={token}
+                          onClick={() => handlerClickChangeTab("borrow", token)}
+                        />
                       </td>
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -526,8 +563,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative text-white font-nova font-normal pl-[14px] pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <div className="flex items-center justify-left">
@@ -546,8 +582,7 @@ export default function TwoPanels() {
                       <td className="p-0">
                         <a
                           className="flex items-center h-full whitespace-nowrap md:whitespace-normal relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
@@ -566,13 +601,16 @@ export default function TwoPanels() {
                         </a>
                       </td>
                       <td className="p-0">
-                        <HoverableAPY market={token} type={"borrow"} onClick={getOnClick(token, "borrow")} />
+                        <HoverableAPY
+                          market={token}
+                          type={"borrow"}
+                          onClick={() => handlerClickChangeTab("borrow", token)}
+                        />
                       </td>
                       <td className="p-0">
                         <a
                           className="flex items-center h-full relative text-white font-nova font-normal pb-[30px] md:pt-[24px] md:pb-[39px] pl-[15px] pr-[20px text-sm md:text-base]"
-                          href={`/markets/${token.tokenPair.token.symbol}`}
-                          target="_blank"
+                          onClick={() => handlerClickChangeTab("borrow", token)}
                           rel="noreferrer"
                         >
                           <div className="custom__hidden">
