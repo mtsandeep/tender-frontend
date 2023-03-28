@@ -28,6 +28,7 @@ export function HoverableAPY({ market, type, onClick }: HoverableAPYProps) {
     <a
       className="flex items-center h-full relative pb-[30px] text-white font-nova font-normal md:pt-[24px] md:pb-[39px] pl-[15px] pr-[15px] text-sm md:text-base"
       rel="noreferrer"
+      onClick={onClick}
     >
       <div className={`custom__hidden ${checkColorClass(info.APY)} `}>
         {info.formattedTotalAPY}
