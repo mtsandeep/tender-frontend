@@ -14,6 +14,7 @@ const TokenGettingStarted = ({ market }: Props) => {
   let [openMarket, setOpenMarket] = useState<boolean>(false);
 
   const handlerClickChangeTab = (tab: ActiveTab) => {
+    
     setActiveTab(tab);
     setOpenMarket(true);
   };
