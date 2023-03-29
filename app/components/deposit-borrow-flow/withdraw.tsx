@@ -24,7 +24,6 @@ import { useSigner } from "wagmi";
 export interface WithdrawProps {
   market: Market;
   closeModal: Function;
-  signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   initialValue: string;
   activeTab: ActiveTab;
@@ -69,7 +68,6 @@ export default function Withdraw({
   const { borrowBalanceInUsd } = useAccountSummary();
   const {
     currentTransaction,
-    tokenPairs,
     updateTransaction,
     setIsWaitingToBeMined,
   } = useContext(TenderContext);
@@ -93,7 +91,7 @@ export default function Withdraw({
       borrowBalanceInUsd,
       borrowCapacity,
       market.collateralFactor,
-      100
+      MAX_WITHDRAW_LIMIT_PERCENTAGE
   );
 
   const maxWithdrawAmount: number = Math.min(
@@ -105,7 +103,7 @@ export default function Withdraw({
   const rawSafeMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
       market.tokenPair.token.priceInUsd,
       borrowBalanceInUsd,
-      borrowCapacity,
+      market.borrowLimit,
       market.collateralFactor,
       MAX_WITHDRAW_LIMIT_PERCENTAGE
   );
