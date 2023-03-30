@@ -5,8 +5,8 @@ export function Vault({ data, setCurrentModal }: VaultProps) {
 
   return <div className="font-[ProximaNova] w-full" id="vest">
     <div tabIndex={0} className="panel-custom">
-      <div className="text-[#818987]     font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
-        Coming Soon: TENDIES Vault
+      <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+        TENDIES Vault
     </div>
       <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
         <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
@@ -104,10 +104,9 @@ export function Vault({ data, setCurrentModal }: VaultProps) {
             </div>
           </div>
         </div>
-        <div className="font-space opacity-60 flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
+        <div className="font-space flex flex-wrap items-center pt-[31px] gap-[10px] gap-y-[13px] md:gap-x-[17px]">
           <div className="btn-custom-border rounded-[6px]">
             <button
-              disabled
               onClick={() => setCurrentModal("depositESTND")}
               className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
               Deposit
@@ -115,10 +114,9 @@ export function Vault({ data, setCurrentModal }: VaultProps) {
           </div>
           <div className="btn-custom-border rounded-[6px]">
             <button
-              disabled
               onClick={() => setCurrentModal("withdrawESTND")}
               className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
-              Withdraw
+              Withdraw all esTND
           </button>
           </div>
         </div>

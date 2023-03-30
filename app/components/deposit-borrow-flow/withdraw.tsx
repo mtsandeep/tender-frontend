@@ -20,6 +20,7 @@ import { MAX_WITHDRAW_LIMIT_PERCENTAGE } from "~/lib/constants";
 import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
 import { useSigner } from "wagmi";
+import { Signer } from "@ethersproject/abstract-signer";
 
 export interface WithdrawProps {
   market: Market;
@@ -72,7 +73,7 @@ export default function Withdraw({
     setIsWaitingToBeMined,
   } = useContext(TenderContext);
 
-  const { data: signer } = useSigner();
+  const signer = useSigner().data as Signer | undefined;
  
   let amount = parseFloat(initialValue)
   let withdrawValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)

@@ -39,10 +39,15 @@ export const getClaimable = async (token: IncentiveToken, signer: Signer): Promi
   return trackerContract.claimable(await signer.getAddress());
 }
 
-export const enable = async (token: IncentiveToken, signer: Signer): Promise<Txn> => {
+export const enable = async (token: IncentiveToken, signer: Signer): Promise<ContractTransaction> => {
   const tokenContract = getTokenContract(token, signer);
   const trackerAddress = getTokenTracker(token).address
   return tokenContract.approve(trackerAddress, UINT_MAX)
+}
+
+export const enableVault = async (signer: Signer): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.esTND.approve(sdk.vTND.address, UINT_MAX);
 }
 
 export const stakeTnd = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
@@ -163,7 +168,7 @@ export const getAllData = async (signer: Signer | ethers.providers.JsonRpcSigner
     ethEmissionsPerSecond: sdk.EthRewardDistributor.tokensPerInterval(),  
 
     // Vester
-    // claimableTND: sdk.v
+    // claimableTND: sdk.vTND
     vestedTND: vestedTND,
     claimableTND: sdk.vTND.claimable(address),
     claimedTND: sdk.vTND.claimedAmounts(address),

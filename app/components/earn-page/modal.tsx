@@ -5,16 +5,18 @@ import type {
 } from "@ethersproject/providers";
 import Max from "~/components/max";
 
-import { enable, TND_DECIMALS } from "~/lib/tnd";
+import * as tnd from "~/lib/tnd";
 import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits, parseUnits } from "@ethersproject/units";
 import toast from "react-hot-toast";
+import { Signer } from "@ethersproject/abstract-signer";
 
 export interface EarnModalProps {
   closeModal: Function;
   balance: BigNumber;
-  signer?: JsonRpcSigner;
+  signer?: Signer;
   sTNDAllowance?: BigNumber;
+  enable?: typeof tnd.enable;
   complete: (amount: BigNumber) => void;
   action: string;
   symbol?: "TND" | "esTND";
@@ -27,26 +29,25 @@ export default function Modal({
   balance,
   signer,
   sTNDAllowance,
+  enable=tnd.enable,
   complete,
   action="Stake",
   symbol="TND",
   totalStaked,
   totalBonusPoints,
 }: EarnModalProps) {
-  const tokenDecimals = TND_DECIMALS;
-  
   const [isEnabled, setIsEnabled] = useState<boolean>(sTNDAllowance?.gt(1) ?? false );
   const [validationDetail, setValidationDetail] = useState<string | null>(null);
   const [willLose, setWillLose] = useState<string | null>(null);
   const inputEl = useRef<HTMLInputElement>(null);
   const isValid = validationDetail === null
 
-  const maxAmount = parseFloat(formatUnits(balance, tokenDecimals))
+  const maxAmount = parseFloat(formatUnits(balance, tnd.TND_DECIMALS))
 
   const onChange = () => {
       if (null === inputEl.current) { return }
       try {
-        var value = parseUnits(inputEl.current.value.replace(/,/g, "") , tokenDecimals)
+        var value = parseUnits(inputEl.current.value.replace(/,/g, "") , tnd.TND_DECIMALS)
       } catch (e) {
         setValidationDetail("Invalid input")           
         return
@@ -60,8 +61,8 @@ export default function Modal({
 
       if (action === "Unstake" && totalStaked && totalBonusPoints && value.gt(0)) {
         let withdrawAmount = parseFloat(inputEl.current.value)
-        let staked = parseFloat(formatUnits(totalStaked, TND_DECIMALS))
-        let downAmount =  parseFloat(formatUnits(totalBonusPoints, TND_DECIMALS)) * withdrawAmount / staked
+        let staked = parseFloat(formatUnits(totalStaked, tnd.TND_DECIMALS))
+        let downAmount =  parseFloat(formatUnits(totalBonusPoints, tnd.TND_DECIMALS)) * withdrawAmount / staked
         setWillLose(
           `You will lose ${downAmount.toPrecision(4)} (${(100 * withdrawAmount / staked).toPrecision(4)}%)
           Multiplier Points when you unstake`)

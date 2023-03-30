@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { useAccount, useSigner } from "wagmi";
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ import UnstakeModal from "../unstakeModal";
 
 import Modal from "./modal";
 import { Vault } from "./Vault";
+import type { Signer } from "ethers";
 
 
 // gets the return type of an async function
@@ -213,15 +214,24 @@ export default function EarnContent(): JSX.Element {
   const { connect, isDisconnected } = useAuth();
   const { isConnected: isActive } = useAccount();
 
-  const { data: signer } = useSigner();
+  const signer = useSigner().data as Signer | undefined;
 
   function closeModal() {
     return setCurrentModal(null);
   }
 
-  function RefreshData() {
-    if (signer) getAllData(signer).then(setData);
-  }
+  let RefreshData = useCallback(()=> {
+    if (signer) {
+      console.log(1, signer);
+      getAllData(signer).then(setData);
+    }
+  }, [signer])
+
+  let enableESTNDOnVault = useCallback(async (_: any, signer: Signer) => {
+    let result = await TND.enableVault(signer)
+    RefreshData()
+    return result;
+  }, [RefreshData])
 
   useEffect(() => {
     RefreshData();
@@ -358,7 +368,7 @@ export default function EarnContent(): JSX.Element {
     RefreshData();
   };
 
-  const onWithdraw = async (amount?: BigNumber) => {
+  const onWithdraw = async () => {
     if (!signer) return;
     var id = toast.loading("Submitting transaction");
     try {
@@ -466,21 +476,12 @@ export default function EarnContent(): JSX.Element {
             balance={data?.maxVestableAmount ?? BigNumber.from(0)}
             signer={signer}
             sTNDAllowance={data?.vTNDAllowance}
+            enable={enableESTNDOnVault}
             complete={onDeposit}
             action="Deposit"
             symbol="esTND"
           />
         )}
-        {/* { currentModal === "withdrawESTND" && <Modal
-        closeModal={closeModal}
-        balance={data?.sdsad ?? BigNumber.from(0)}
-        signer={signer}
-        sTNDAllowance={data?.vTNDAllowance}
-        complete={onWithdraw}
-        action="Withdraw"
-        symbol="ESTND"
-      />
-    } */}
       </ReactModal>
 
       <div className="c focus:outline-none mt-[30px] mb-[60px] md:mb-[100px] font-nova">
