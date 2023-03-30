@@ -17,7 +17,7 @@ import { providers as mcProviders } from "@0xsequence/multicall";
 import { formatUnits } from "ethers/lib/utils";
 import { useGlpApy } from "./use-glp-apy";
 import { useGmxApy } from "./use-gmx-apy";
-import  { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
+import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
@@ -158,8 +158,10 @@ export function useMarkets(
           });
         }
 
-        let sdk = getArbitrumOneSdk(signer)
-        let compSupplySpeedsPromise = sdk.Comptroller.compSupplySpeeds(tp.cToken.address)
+        let sdk = getArbitrumOneSdk(signer);
+        let compSupplySpeedsPromise = sdk.Comptroller.compSupplySpeeds(
+          tp.cToken.address
+        );
 
         return {
           borrowBalance: borrowBalancePromise,
@@ -211,7 +213,7 @@ export function useMarkets(
           isGLP: await tokenPromise.isGLP,
           borrowCaps: await tokenPromise.borrowCaps,
           supplyCaps: await tokenPromise.supplyCaps,
-          compSupplySpeeds: await tokenPromise.compSupplySpeeds
+          compSupplySpeeds: await tokenPromise.compSupplySpeeds,
         });
       }
 
@@ -248,6 +250,29 @@ export function useMarkets(
 
           return (
             suppliedAmount * token.tokenPair.token.priceInUsd * collateralFactor
+          );
+        })
+        .reduce((acc, curr) => acc + curr, 0);
+
+      const accountLiquidationThresholdInUsd = tokens
+        .map((token) => {
+          // the exchange rate is scaled by 18 decimals
+          const suppliedAmount = formatBigNumber(
+            token.balance.mul(token.exchangeRateCurrent),
+            token.tokenPair.token.decimals + 18
+          );
+
+          const liquidationThresholdMantissa = parseFloat(
+            formatUnits(
+              token.comptrollerMarkets.liquidationThresholdMantissa,
+              18
+            )
+          );
+
+          return (
+            suppliedAmount *
+            token.tokenPair.token.priceInUsd *
+            liquidationThresholdMantissa
           );
         })
         .reduce((acc, curr) => acc + curr, 0);
@@ -300,6 +325,11 @@ export function useMarkets(
           token.tokenPair.token.decimals
         );
 
+        const reserves = formatBigNumber(
+          token.totalReserves,
+          token.tokenPair.token.decimals
+        );
+
         let marketSize = formatBigNumber(
           token.cash.add(token.totalBorrows).sub(token.totalReserves),
           token.tokenPair.token.decimals
@@ -320,6 +350,7 @@ export function useMarkets(
             borrowApy,
             totalBorrowed,
             marketSize,
+            reserves,
           },
           walletBalance,
           supplyBalance,
@@ -328,6 +359,7 @@ export function useMarkets(
           borrowBalanceInUsd,
           comptrollerAddress,
           borrowLimit: accountBorrowLimitInUsd,
+          liquidationThresholdInUsd: accountLiquidationThresholdInUsd,
           totalBorrowedAmountInUsd,
           borrowLimitUsedOfToken: await getBorrowLimitUsed(
             borrowBalanceInUsd,

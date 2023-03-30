@@ -1,5 +1,5 @@
 import type { Signer, Contract, BigNumber, BigNumberish, ContractTransaction }  from "ethers";
-import type { TransactionReceipt } from "@ethersproject/providers";
+import type { JsonRpcSigner, Provider, TransactionReceipt } from "@ethersproject/providers";
 import type { IncentiveTracker, IncentiveToken } from "~/types/global";
 
 import { ethers } from "ethers";
@@ -126,7 +126,7 @@ export async function quotePriceInUSDC(): Promise<number> {
   }
 }
 
-export const getAllData = async (signer: Signer) => {
+export const getAllData = async (signer: Signer | ethers.providers.JsonRpcSigner) => {
   let sdk = getArbitrumOneSdk(signer)
   let address = signer.getAddress()
   let vestedTND = sdk.vTND.getVestedAmount(address)

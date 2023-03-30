@@ -3,15 +3,14 @@
 import { Market, NetworkData } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
 import toast from "react-hot-toast";
+import { useSigner } from "wagmi";
 
 import { enable, deposit } from "~/lib/tender";
 import BorrowLimit from "../fi-modal/borrow-limit";
-import { useProjectBorrowLimit } from "~/hooks/use-project-borrow-limit";
 import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
@@ -20,43 +19,30 @@ import { displayTransactionResult } from "../displayTransactionResult";
 import MaxV2 from "../MaxV2";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
-import { checkColorClass } from "../two-panels/two-panels";
 import { formatApy } from "~/lib/apy-calculations";
-import ESTNDAPR from "../shared/EstndApr";
 import APY from "../shared/APY";
+import { useAccountSummary } from "~/hooks/use-account-summary";
 
 export interface DepositProps {
   closeModal: Function;
   market: Market;
-  borrowLimit: number;
-  signer: JsonRpcSigner | null | undefined;
   borrowLimitUsed: string;
   walletBalance: string;
-  totalBorrowedAmountInUsd: number;
-  comptrollerAddress: string;
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
 export default function Deposit({
   closeModal,
-  comptrollerAddress,
-  borrowLimit,
-  signer,
   borrowLimitUsed,
   walletBalance,
-  totalBorrowedAmountInUsd,
   market,
   initialValue,
   changeInitialValue,
   activeTab,
   setActiveTab,
-  txnHash,
-  changeTxnHash,
   tabs,
 }: DepositProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -72,23 +58,25 @@ export default function Deposit({
   const scrollBlockRef = useRef<HTMLDivElement>(null);
   const {
     currentTransaction,
-    tokenPairs,
     updateTransaction,
     setIsWaitingToBeMined,
     networkData
   } = useContext(TenderContext);
 
-  const newBorrowLimit = useProjectBorrowLimit(
-    signer,
-    comptrollerAddress,
-    tokenPairs,
-    market.tokenPair,
-    initialValue ? initialValue : "0"
-  );
+  const { borrowBalanceInUsd } = useAccountSummary();
+  
+  const { data: signer } = useSigner();
+
+  let amount = parseFloat(initialValue)
+  let supplyValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
+  let collateralValue = supplyValueInUsd * market.collateralFactor
+
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
+  let newBorrowCapacity = borrowCapacity + collateralValue;
 
   const newBorrowLimitUsed = useBorrowLimitUsed(
-    totalBorrowedAmountInUsd,
-    newBorrowLimit
+    borrowBalanceInUsd,
+    market.borrowLimit + collateralValue,
   );
 
   const [isValid, validationDetail] = useValidInputV2(
@@ -156,9 +144,9 @@ export default function Deposit({
 
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
+          txnHash={currentTransaction}
           stopWaitingOnConfirmation={() => closeModal()}
         />
       ) : (
@@ -225,7 +213,7 @@ export default function Deposit({
           </div>
           <div
             ref={scrollBlockRef}
-            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
+            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
@@ -268,8 +256,8 @@ export default function Deposit({
             <BorrowLimit
               value={initialValue}
               isValid={isValid}
-              borrowLimit={borrowLimit}
-              newBorrowLimit={newBorrowLimit}
+              borrowLimit={borrowCapacity}
+              newBorrowLimit={newBorrowCapacity}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-green.svg"
@@ -325,12 +313,12 @@ export default function Deposit({
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      changeTxnHash(txn.hash);
+                      updateTransaction(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
                       changeInitialValue("");
-                      changeTxnHash("");
+                      updateTransaction(null);
                       displayTransactionResult(
                         networkData,
                         tr.transactionHash,

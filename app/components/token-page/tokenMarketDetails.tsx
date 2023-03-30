@@ -261,7 +261,7 @@ function TokenMarketDetails({
                       })
                     : false
                 }
-                className="relative group font-normal text-sm md:text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
+                className="relative group font-normal text-sm leading-[19px] text-[#818987] md:text-base  md:leading-[22px]"
               >
                 <span
                   aria-hidden={true}
@@ -295,7 +295,7 @@ function TokenMarketDetails({
                   </div>
                 )}
               </div>
-              <span className="font-normal text-sm md:text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
+              <span className="font-normal text-sm leading-[19px] md:font-medium md:text-base  md:leading-[22px]">
                 {item.itemData}
               </span>
             </div>

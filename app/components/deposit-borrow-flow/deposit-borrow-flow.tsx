@@ -1,6 +1,5 @@
 import type { Market } from "~/types/global";
 import { useContext, useState } from "react";
-import { useSigner } from "wagmi";
 
 import { TenderContext } from "~/contexts/tender-context";
 import Deposit from "~/components/deposit-borrow-flow/deposit";
@@ -25,14 +24,11 @@ export default function DepositBorrowFlow({
   activeTab,
   setActiveTab,
 }: Props) {
+  // hold the state here, so that it stays when switching tabs
   const [initialValueDeposit, setInitialValueDeposit] = useState<string>("");
   const [initialValueWithdraw, setInitialValueWithdraw] = useState<string>("");
   const [initialValueRepay, setInitialValueRepay] = useState<string>("");
   const [initialValueBorrow, setInitialValueBorrow] = useState<string>("");
-  const [txnHashDeposit, setTxnHashDeposit] = useState<string>("");
-  const [txnHashWithdraw, setTxnHashWithdraw] = useState<string>("");
-  const [txnHashRepay, setTxnHashRepay] = useState<string>("");
-  const [txnHashBorrow, setTxnHashBorrow] = useState<string>("");
 
   const { tokenPairs } = useContext(TenderContext);
   const tabs: { name: ActiveTab; color: string; show: boolean }[] = [
@@ -57,8 +53,6 @@ export default function DepositBorrowFlow({
       show: market.isBorrowable,
     },
   ];
-
-  const { data: signer } = useSigner();
 
   return (
     <div className="flex w-full h-full">
@@ -85,16 +79,10 @@ export default function DepositBorrowFlow({
           <Deposit
             closeModal={closeModal}
             market={market}
-            borrowLimit={market.borrowLimit}
             borrowLimitUsed={market.borrowLimitUsed}
-            signer={signer}
             walletBalance={market.walletBalance}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
-            comptrollerAddress={market.comptrollerAddress}
             initialValue={initialValueDeposit}
             changeInitialValue={setInitialValueDeposit}
-            txnHash={txnHashDeposit}
-            changeTxnHash={setTxnHashDeposit}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}
@@ -104,14 +92,9 @@ export default function DepositBorrowFlow({
           <Withdraw
             market={market}
             closeModal={closeModal}
-            borrowLimit={market.borrowLimit}
             borrowLimitUsed={market.borrowLimitUsed}
-            signer={signer}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueWithdraw}
             changeInitialValue={setInitialValueWithdraw}
-            txnHash={txnHashWithdraw}
-            changeTxnHash={setTxnHashWithdraw}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}
@@ -122,19 +105,13 @@ export default function DepositBorrowFlow({
             market={market}
             closeModal={closeModal}
             borrowedAmount={market.borrowBalance}
-            signer={signer}
-            borrowLimitUsed={market.borrowLimitUsed}
             walletBalance={getAmountFloat(
               market.walletBalance,
               market.tokenPair.token.decimals
             )}
             tokenPairs={tokenPairs}
-            borrowLimit={market.borrowLimit}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueRepay}
             changeInitialValue={setInitialValueRepay}
-            txnHash={txnHashRepay}
-            changeTxnHash={setTxnHashRepay}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}
@@ -144,15 +121,9 @@ export default function DepositBorrowFlow({
           <Borrow
             market={market}
             closeModal={closeModal}
-            signer={signer}
-            borrowLimitUsed={market.borrowLimitUsed}
-            borrowLimit={market.borrowLimit}
             tokenPairs={tokenPairs}
-            totalBorrowedAmountInUsd={market.totalBorrowedAmountInUsd}
             initialValue={initialValueBorrow}
             changeInitialValue={setInitialValueBorrow}
-            txnHash={txnHashBorrow}
-            changeTxnHash={setTxnHashBorrow}
             activeTab={activeTab}
             setActiveTab={(tab: ActiveTab) => setActiveTab(tab)}
             tabs={tabs}

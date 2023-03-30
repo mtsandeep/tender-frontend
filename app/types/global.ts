@@ -1,6 +1,11 @@
 import { Address } from "@dethcrypto/eth-sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 
+// Create a name for number, so it is clear
+// what units the function is returning in
+export type USD = number;
+export type Ratio = number;
+
 export interface cToken {
   name: string;
   address: Address;
@@ -71,7 +76,7 @@ export type TenderContext = {
   networkData: NetworkData;
   markets: Market[];
   currentTransaction: string | null;
-  updateTransaction: Function;
+  updateTransaction: (arg0: string | null) => void;
   isWaitingToBeMined: boolean;
   setIsWaitingToBeMined: Function;
   blockNumber: number | boolean;
@@ -89,6 +94,7 @@ export type Market = {
     marketSize?: number;
     totalBorrowedUsd?: string;
     marketSizeUsd?: string;
+    reserves: number;
   };
   compSupplySpeeds?: BigNumber;
   compBorrowSpeeds?: BigNumber;
@@ -109,9 +115,10 @@ export type Market = {
   withdrawFee: number;
   isBorrowable: boolean;
   liquidationThreshold: number;
+  liquidationThresholdInUsd: number;
   liquidationPenalty: number;
-  borrowCaps: string,
-  supplyCaps: string,
+  borrowCaps: string;
+  supplyCaps: string;
   collateralFactor: number;
 };
 
@@ -123,22 +130,22 @@ export type IncentiveConfig = {
   address: Address;
   decimals: number;
   symbol: string;
-}
+};
 
 export type IncentiveTokenConfig = IncentiveConfig & {
-  tracker: IncentiveTracker
-}
+  tracker: IncentiveTracker;
+};
 
 export type IncentiveContractsConfig = {
-  RewardRouter: Address,
-  RewardDistributor: Address,
-  EthRewardDistributor: Address,
-  TND_USDC_UNISWAP_POOL: Address,
-  UNISWAP_QUOTER: Address,
+  RewardRouter: Address;
+  RewardDistributor: Address;
+  EthRewardDistributor: Address;
+  TND_USDC_UNISWAP_POOL: Address;
+  UNISWAP_QUOTER: Address;
   Tokens: {
     [key in IncentiveToken]: IncentiveTokenConfig;
-  }
+  };
   Trackers: {
     [key in IncentiveTracker]: IncentiveConfig;
-  }
-}
+  };
+};

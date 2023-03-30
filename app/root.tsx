@@ -98,7 +98,7 @@ export function CatchBoundary() {
         <Links />
       </head>
       <body className="h-[100vh] relative flex flex-col justify-between">
-        <header className="mt-0 mb-0 flex w-full c items-center justify-between max-w-[1400px] relative h-[71px] lg:h-[110px] flex items-center">
+        <header className="mt-0 mb-0 w-full c justify-between max-w-[1400px] relative h-[71px] lg:h-[110px] flex items-center">
           <a
             href="https://tender.fi"
             className="w-[104px] block lg:w-[196px] z-20 relative"

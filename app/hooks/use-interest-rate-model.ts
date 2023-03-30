@@ -10,13 +10,20 @@ import { toExactString } from "~/lib/ui";
 import { useGmxApy } from "./use-gmx-apy";
 import { TokenPair } from "~/types/global";
 
+type InterestRateModel = {
+  aa: string; // utilizationPercent
+  ss: string; // Supply APY
+  dd: string; // borrowAPY
+  isCurrent: boolean;
+  isOptimal: boolean;
+}
+
 export default function useInterestRateModel(tokenId: string | undefined) {
-  const [interestRateModel, setInterestRateModel] = useState<object[]>([]);
-  const { networkData, tokenPairs } = useContext(TenderContext);
+  const [interestRateModel, setInterestRateModel] = useState<InterestRateModel[]>([]);
+  const { networkData } = useContext(TenderContext);
 
   const provider = useProvider();
   const { data: signer } = useSigner();
-
   const getGmxApy = useGmxApy();
 
   useEffect(() => {
@@ -117,27 +124,7 @@ export default function useInterestRateModel(tokenId: string | undefined) {
         isOptimal: kinkPercentage === utilPercentage,
       };
 
-      /*console.time('test')
-            const rates = await Promise.all(
-                Array.from({length: 100}, (_, i) => i + 1).map(
-                    (i) => {
-                        const util = i * 1e16;
-                        const cash = Math.round(currentBorrows * BASE / util);
 
-                        return interestRateModelContract.getBorrowRate(cash.toString(), currentBorrows, currentBorrows);
-                    }
-                ).concat(Array.from({length: 100}, (_, i) => i + 1).map(
-                    (i) => {
-                        const util = i * 1e16;
-                        const cash = Math.round(currentBorrows * BASE / util);
-
-                        return interestRateModelContract.getSupplyRate(cash.toString(), currentBorrows, currentBorrows, reserveFactorMantissa);
-                    }
-                ))
-            );
-            console.timeEnd('test')
-            console.log('supplyRates', rates);return*/
-      // console.time('test')
       const values = await Promise.all(
         [...Array(101).keys()].map(async (i) => {
           if (i === 0) {

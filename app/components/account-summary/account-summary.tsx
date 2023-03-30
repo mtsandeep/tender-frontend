@@ -4,7 +4,7 @@ import type { Market } from "~/types/global";
 import AccountSummaryEmpty from "./empty";
 import { useContext } from "react";
 import { TenderContext } from "~/contexts/tender-context";
-import {useAccountSummary} from "~/hooks/use-account-summary";
+import { useAccountSummary } from "~/hooks/use-account-summary";
 
 export default function AccountSummary() {
   const {
@@ -13,9 +13,10 @@ export default function AccountSummary() {
     borrowLimit,
     netApy,
     ltv,
+    liquidationThresholdInUsd,
   } = useAccountSummary();
   const tenderContextData = useContext(TenderContext);
-  
+
   const totalSuppliedUsd = tenderContextData.markets
     .map(
       (token: Market) =>
@@ -45,6 +46,7 @@ export default function AccountSummary() {
       borrowLimitUsed={borrowLimitUsed}
       percentUsed={percentUsed}
       borrowLimit={borrowLimit}
+      liquidationThresholdInUsd={liquidationThresholdInUsd}
     />
   ) : (
     <AccountSummaryEmpty loading={true} />

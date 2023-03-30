@@ -6,9 +6,15 @@ import { getAPY } from "../shared/APY";
 import { useTenderContext } from "~/hooks/use-tender-context";
 import APY from "../shared/APY";
 
-function TokenTopDetails({ marketInfo }: { marketInfo: object | undefined }) {
+type marketInfoType = {
+  tokenSymbol: string;
+  totalSupplyUSD: number;
+  totalBorrowUSD: number;
+}
+
+function TokenTopDetails({ marketInfo }: { marketInfo: marketInfoType | undefined }) {
   let context  = useTenderContext() 
-  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip()
+  let {multiTooltipData, setMultiTooltipData, getOnClick} = useMultiTooltip()
   let market = context?.markets.find(m => m.id === marketInfo?.tokenSymbol) 
 
   if (!market) return null
@@ -73,15 +79,17 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | undefined }) {
             </p>
           </div>
           <div className="w-[auto]">
-            <p className="text-[10px] text-[#818987] leading-[14px] font-semibold mb-[4px] whitespace-nowrap md:text-sm md:leading-[19px] mb-[4px]">
+            <p className="text-[10px] text-[#818987] leading-[14px] font-semibold whitespace-nowrap md:text-sm md:leading-[19px] mb-[4px]">
               Total Supply
             </p>
-            <p className="text-sm text-start md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
+            <p className="text-sm md:text-center font-medium leading-[19px] text-center md:text-[22px] md:leading-[31px]">
+            {marketInfo &&              
               <DisplayPrice
                 amount={marketInfo.totalSupplyUSD.toString()}
                 baseFactor="1"
                 isCompact
               />
+              }
             </p>
           </div>
           {market.isBorrowable && (
@@ -120,11 +128,13 @@ function TokenTopDetails({ marketInfo }: { marketInfo: object | undefined }) {
                 Total Borrow
               </p>
               <p className="mt-[4px] text-sm font-medium leading-[19px] md:text-[22px] md:leading-[31px]">
+              {marketInfo &&              
                 <DisplayPrice
                   amount={marketInfo.totalBorrowUSD.toString()}
                   baseFactor="1"
                   isCompact
                 />
+              }
               </p>
             </div>
           )}

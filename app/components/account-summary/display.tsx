@@ -10,6 +10,7 @@ interface props {
   borrowLimitUsed: string;
   percentUsed: number;
   borrowLimit: number;
+  liquidationThresholdInUsd: number;
 }
 
 export default function Display({
@@ -22,6 +23,7 @@ export default function Display({
   borrowLimitUsed,
   percentUsed,
   borrowLimit,
+  liquidationThresholdInUsd,
 }: props) {
   return (
     <div
@@ -40,7 +42,39 @@ export default function Display({
             </div>
 
             <div className="font-space font-normal text-[24px] md:text-[35px]">
-              {netApy?.toFixed(2) + "%"}
+              {netApy && (
+                <div
+                  tabIndex={0}
+                  className="group relative md:w-fit p-[0px] md:pb-[6px]"
+                >
+                  <span className="justify-self-start">
+                    {netApy.toFixed(2) + "%"}
+                  </span>
+                  <div className="hidden z-10 flex-col absolute right-[10px] bottom-[40px] items-end group-hover:flex group-focus:flex rounded-[10px]">
+                    <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
+                      <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-xs leading-[17px]">
+                        <div className="flex justify-between items-center">
+                          <span className="text-[#818987]">
+                            Net Annual Revenue
+                          </span>
+                          <span>
+                            <DisplayPrice
+                              amount={(
+                                (netApy / 100) *
+                                (supplyBalanceInUsd - borrowBalanceInUsd)
+                              ).toFixed(2)}
+                              baseFactor="1"
+                              isCompact
+                              hideBaseCurrencyCode
+                            />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="custom__arrow__tooltip relative right-[10px] top-[-6px] z-[11] !mt-[0] !border-none w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="absolute top-0 right-0"></div>
             <div className="absolute top-0 right-0"></div>
@@ -120,7 +154,7 @@ export default function Display({
             className="group relative md:w-fit p-[0px] md:pb-[6px]"
           >
             <span className="justify-self-start text-xs text-[#818987] font-nova font-normal underline decoration-dashed underline-offset-[2px] cursor-pointer">
-              Borrow Used
+              Account Liquidity
             </span>
             <div className="hidden z-10 flex-col absolute left-0 bottom-[18px] items-start group-hover:flex group-focus:flex rounded-[10px]">
               <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[220px] panel-custom !rounded-[10px]">
@@ -151,11 +185,22 @@ export default function Display({
                     </span>
                     <span>
                       <DisplayPrice
-                        amount={borrowLimit.toString()}
+                        amount={liquidationThresholdInUsd.toString()}
                         baseFactor="1"
                         isCompact
                         hideBaseCurrencyCode
                       />
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#818987]">Current Leverage</span>
+                    <span>
+                      {(
+                        supplyBalanceInUsd > 0 ?
+                        supplyBalanceInUsd / (supplyBalanceInUsd - borrowBalanceInUsd)
+                        : 0
+                      ).toFixed(2)}
+                      x
                     </span>
                   </div>
                 </div>
@@ -165,7 +210,9 @@ export default function Display({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <div className="mr-2 font-nova text-sm text-white">0%</div>
+          <div className="mr-2 font-nova text-sm text-white">
+            {(supplyBalanceInUsd - borrowBalanceInUsd).toFixed(2)}$
+          </div>
           <div className="font-nova text-sm text-white">
             <DisplayPrice
               amount={borrowLimit.toString()}
@@ -180,7 +227,7 @@ export default function Display({
       <div className="flex items-center">
         <div className="h-[5px] bg-[#1BD6CF] w-[16px] md:h-[4px] absolute bottom-0 left-0 zIndex-1"></div>
         <div
-          className="w-0 h-full bg-green-300 h-[5px] md:h-[4px] absolute bottom-0 left-[16px] zIndex-1 flex justify-end"
+          className="w-0  bg-green-300 h-[5px] md:h-[4px] absolute bottom-0 left-[16px] zIndex-1 flex justify-end"
           style={{
             background: "linear-gradient(270deg, #1BD6CF 0%, #00E5AF 100%)",
             width: `calc(${percentUsed}% - 16px)`,

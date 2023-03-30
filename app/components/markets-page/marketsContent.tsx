@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useContext } from "react";
 import { useMarketsInfo } from "~/hooks/use-markets-info";
 import MarketsContentEmpty from "./MarketsContentEmpty";
@@ -14,24 +15,25 @@ export const checkZeroValue = (value: number) => {
 
 export default function MarketsContent() {
   const { markets, total } = useMarketsInfo();
-  let [multiTooltipData, setMultiTooltipData, getOnClick] = useMultiTooltip()
+  let {multiTooltipData, setMultiTooltipData, getOnClick} = useMultiTooltip();
 
   const context = useContext(TenderContext);
-  const MARKETS = context.markets
+  const MARKETS = context.markets;
 
-  const totalSuppliedUsd = MARKETS
-    .map(
-      (token: Market) =>
-        token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
-    )
-    .reduce((a: any, b: any) => a + b, 0);
+  const totalSuppliedUsd = MARKETS.map(
+    (token: Market) =>
+      token.tokenPair.token.priceInUsd * (token.marketData.marketSize ?? 0)
+  ).reduce((a: any, b: any) => a + b, 0);
 
-  const totalBorrowedUsd = MARKETS
-    .map(
-      (token: Market) =>
-        token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
-    )
-    .reduce((a: any, b: any) => a + b, 0);
+  const totalReservesUsd = MARKETS.map(
+    (token: Market) =>
+      token.tokenPair.token.priceInUsd * (token.marketData.reserves ?? 0)
+  ).reduce((a: any, b: any) => a + b, 0);
+
+  const totalBorrowedUsd = MARKETS.map(
+    (token: Market) =>
+      token.tokenPair.token.priceInUsd * (token.marketData.totalBorrowed ?? 0)
+  ).reduce((a: any, b: any) => a + b, 0);
 
   if (!markets || !total || !MARKETS.length) {
     return <MarketsContentEmpty />;
@@ -39,6 +41,8 @@ export default function MarketsContent() {
 
   const totalSupplyDiff = parseFloat(total.supply.usdDiff.toFixed(2));
   const totalBorrowDiff = parseFloat(total.borrow.usdDiff.toFixed(2));
+  const totalReservesDiff = parseFloat(total.reserves.usdDiff.toFixed(2));
+
   return (
     <div>
       <TooltipMobileMulti
@@ -55,7 +59,7 @@ export default function MarketsContent() {
           tabIndex={0}
           className="focus:outline-none panel-custom border-custom"
         >
-          <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
+          <div className="px-[15px] textSize22 py-[19px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Supply
           </div>
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
@@ -89,7 +93,7 @@ export default function MarketsContent() {
                   (m.totalSupplyUsd * 100) /
                   total?.supply?.usd
                 )?.toFixed(2);
-                
+
                 return (
                   <div key={index} className="flex flex-col gap-y-[10px]">
                     <label className="flex justify-between text-sm md:text-base leading-[20px] md:leading-[22px]">
@@ -101,7 +105,7 @@ export default function MarketsContent() {
                     </label>
                     <div className="border-custom px-3 relative top__custom">
                       <div
-                        className="w-full h-full bg-green-300 mr-2 h-[3px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
+                        className="w-full bg-green-300 mr-2 h-[3px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
                         style={{
                           background: "#14F195",
                           width: `${marketPercentage}%`,
@@ -117,7 +121,7 @@ export default function MarketsContent() {
               })}
             </div>
           </div>
-          <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
+          {/* <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
             <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Supply Volume</p>
               <p># of Suppliers</p>
@@ -141,13 +145,13 @@ export default function MarketsContent() {
                 <span>{total?.supply?.count}</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           tabIndex={0}
           className="focus:outline-none panel-custom border-custom"
         >
-          <div className="px-[15px] textSize22 py-[19px] md:py-[17px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
+          <div className="px-[15px] textSize22 py-[19px] border-b border-[#282C2B] md:py-[20px] font-space font-bold text-lg leading-[23px] md:leading-[28px] md:px-[30px] md:pt-[19px] md:pb-[19px] md:text-xl">
             Total Borrow
           </div>
           <div className="font-space py-[20px] px-[15px] border-b border-[#282C2B] md:py-[24px] md:px-[30px]">
@@ -193,7 +197,7 @@ export default function MarketsContent() {
                     </label>
                     <div className="border-custom px-3 relative top__custom">
                       <div
-                        className="w-full h-full bg-green-300 mr-2 h-[3px] absolute bottom-0 left-0 zIndex-1 flex justify-end"
+                        className="w-full h-full bg-green-300 mr-2 absolute bottom-0 left-0 zIndex-1 flex justify-end"
                         style={{
                           background: "#00E0FF",
                           width: `${marketPercentage}%`,
@@ -209,7 +213,7 @@ export default function MarketsContent() {
               })}
             </div>
           </div>
-          <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
+          {/* THese numbers are wrong! <div className="flex flex-col pt-[19px] pb-[25px] px-[15px] md:py-[23px] md:px-[30px]">
             <div className="flex justify-between items-center mb-[11px] md:mb-[15px] font-nova text-xs leading-[17px] md:text-sm md:leading-[20px] font-semibold text-[#818987]">
               <p>24H Borrow Volume</p>
               <p># of Borrowers</p>
@@ -233,7 +237,7 @@ export default function MarketsContent() {
                 <span>{total?.borrow?.count}</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="max-w-[1068px] mx-[auto] mb-[60px] md:mb-[100px]">
@@ -268,7 +272,7 @@ export default function MarketsContent() {
               {Object.keys(markets).map((id: string, index: number) => {
                 const m = markets[id];
                 const isBorrowable = m.symbol !== "GLP";
-                let market = MARKETS.find(M => M.id === m.symbol)
+                let market = MARKETS.find((M) => M.id === m.symbol);
                 return (
                   <tr
                     key={index}
@@ -276,7 +280,7 @@ export default function MarketsContent() {
                   >
                     <td>
                       <a
-                        className="relative text-white font-nova font-normal flex items-center w-full h-full pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px] flex items-center justify-left text-sm md:text-base"
+                        className="relative text-white font-nova font-normal flex items-center w-full h-full pb-[30px] pt-[15px] md:pt-[24px] md:pb-[39px] pl-[15px] md:pl-[30px] pr-[15px] justify-left text-sm md:text-base"
                         href={`/markets/${m.symbol}`}
                         target="_blank"
                         rel="noreferrer"
@@ -313,7 +317,13 @@ export default function MarketsContent() {
                       </a>
                     </td>
                     <td>
-                      {market && <HoverableAPY type="supply" market={market} onClick={getOnClick(market, "supply")} /> }
+                      {market && (
+                        <HoverableAPY
+                          type="supply"
+                          market={market}
+                          onClick={getOnClick(market, "supply")}
+                        />
+                      )}
                     </td>
                     <td>
                       <a
@@ -342,7 +352,13 @@ export default function MarketsContent() {
                       </a>
                     </td>
                     <td>
-                      {market && <HoverableAPY type="borrow" market={market} onClick={getOnClick(market, "borrow")} /> }
+                      {market && (
+                        <HoverableAPY
+                          type="borrow"
+                          market={market}
+                          onClick={getOnClick(market, "borrow")}
+                        />
+                      )}
                     </td>
                   </tr>
                 );

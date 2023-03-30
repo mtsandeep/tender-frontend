@@ -2,7 +2,6 @@
 import type { Market, TokenPair } from "~/types/global";
 import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 
@@ -10,6 +9,7 @@ import { getAmount, toMaxString } from "~/lib/ui";
 import toast from "react-hot-toast";
 import Max from "~/components/max";
 
+import { useSigner } from "wagmi";
 import { borrow } from "~/lib/tender";
 import { useValidInputV2 } from "~/hooks/use-valid-input";
 import BorrowBalance from "../fi-modal/borrow-balance";
@@ -18,29 +18,22 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { useSafeMaxBorrowAmountForToken } from "~/hooks/use-safe-max-borrow-amount-for-token";
 import { TenderContext } from "~/contexts/tender-context";
-import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { shrinkInputClass } from "~/lib/ui";
 import { displayTransactionResult } from "../displayTransactionResult";
 import { formatApy } from "~/lib/apy-calculations";
 import type { ActiveTab } from "./deposit-borrow-flow";
-import { checkColorClass } from "../two-panels/two-panels";
 import { MAX_BORROW_LIMIT_PERCENTAGE } from "~/lib/constants";
 import { displayErrorMessage } from "./displayErrorMessage";
 import APY from "../shared/APY";
+import { useAccountSummary } from "~/hooks/use-account-summary";
 
 export interface BorrowProps {
   market: Market;
   closeModal: Function;
-  signer: JsonRpcSigner | null | undefined;
-  borrowLimitUsed: string;
-  borrowLimit: number;
   tokenPairs: TokenPair[];
-  totalBorrowedAmountInUsd: number;
   initialValue: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
@@ -48,42 +41,49 @@ export interface BorrowProps {
 export default function Borrow({
   market,
   closeModal,
-  signer,
-  borrowLimit,
-  borrowLimitUsed,
-  totalBorrowedAmountInUsd,
   initialValue,
   changeInitialValue,
   activeTab,
   setActiveTab,
-  changeTxnHash,
-  txnHash,
   tabs,
 }: BorrowProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
+  const { borrowBalanceInUsd,  } = useAccountSummary();
   const [isBorrowing, setIsBorrowing] = useState<boolean>(false);
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
+  const { data: signer } = useSigner();
 
   const {
-    networkData, currentTransaction, updateTransaction, setIsWaitingToBeMined
+    networkData,
+    updateTransaction,
+    currentTransaction,
+    setIsWaitingToBeMined,
   } = useContext(TenderContext);
 
-  const newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
-    market.tokenPair,
-    totalBorrowedAmountInUsd,
-    +initialValue
+  let { totalBorrowedAmountInUsd } = market
+  let amount = parseFloat(initialValue)
+  let borrowValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
+
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd
+  let newBorrowCapacity = borrowCapacity - borrowValueInUsd;
+
+  // the current percent used after borrowing
+  const borrowLimitUsed = useBorrowLimitUsed(
+    borrowBalanceInUsd,
+    market.borrowLimit
   );
 
+  // the borrow percent used after borrowing
   const newBorrowLimitUsed = useBorrowLimitUsed(
-    newTotalBorrowedAmountInUsd,
-    borrowLimit
+    borrowBalanceInUsd + borrowValueInUsd,
+    market.borrowLimit
   );
 
   const maxBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowLimit,
+    market.borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
@@ -92,14 +92,15 @@ export default function Borrow({
   );
 
   const maxSafeBorrowLimit: number = useSafeMaxBorrowAmountForToken(
-    borrowLimit,
+    market.borrowLimit,
     totalBorrowedAmountInUsd,
     market.comptrollerAddress,
     market.tokenPair,
     market.maxBorrowLiquidity,
     MAX_BORROW_LIMIT_PERCENTAGE
   );
-  
+  console.log(maxSafeBorrowLimit)
+
   const [isValid, validationDetail] = useValidInputV2(
     getAmount(initialValue, market.tokenPair.token.decimals),
     market.tokenPair.token.floor ?? "0",
@@ -160,16 +161,12 @@ export default function Borrow({
 
   const borrowApy = parseFloat(market.marketData.borrowApy) * -1;
   const borrowApyFormatted = formatApy(borrowApy);
-  /*console.log('maxBorrowLimit',maxBorrowLimit)
-console.log('maxSafeBorrowLimit',maxSafeBorrowLimit)
-console.log('market.maxBorrowLiquidity',market.maxBorrowLiquidity)
-console.log('borrowLimit',borrowLimit)*/
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
-          stopWaitingOnConfirmation={() => closeModal()}
+          txnHash={currentTransaction}
+          stopWaitingOnConfirmation={closeModal}
         />
       ) : (
         <div>
@@ -226,7 +223,7 @@ console.log('borrowLimit',borrowLimit)*/
           </div>
           <div
             ref={scrollBlockRef}
-            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
+            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
@@ -268,8 +265,8 @@ console.log('borrowLimit',borrowLimit)*/
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowBalance={borrowLimit}
-              newBorrowBalance={newTotalBorrowedAmountInUsd}
+              borrowCapacity={borrowCapacity}
+              newBorrowCapacity={newBorrowCapacity}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
@@ -332,20 +329,23 @@ console.log('borrowLimit',borrowLimit)*/
                         market.tokenPair.cToken,
                         market.tokenPair.token
                       );
-                      changeTxnHash(txn.hash);
+                      updateTransaction(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2);
                       updateTransaction(tr.blockHash);
                       changeInitialValue("");
-                      changeTxnHash("");
+                      updateTransaction(null);
                       displayTransactionResult(
                         networkData,
                         tr.transactionHash,
                         "Borrow successful"
                       );
-                      closeModal();
                     } catch (e: any) {
-                      displayErrorMessage(networkData, e, "Borrow unsuccessful");
+                      displayErrorMessage(
+                        networkData,
+                        e,
+                        "Borrow unsuccessful"
+                      );
                     } finally {
                       setIsWaitingToBeMined(false);
                       setIsBorrowing(false);

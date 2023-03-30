@@ -2,7 +2,6 @@
 import type { Market, TokenPair } from "~/types/global";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
-  JsonRpcSigner,
   TransactionReceipt,
 } from "@ethersproject/providers";
 import { getAmount, toMaxString } from "~/lib/ui";
@@ -18,49 +17,36 @@ import { useBorrowLimitUsed } from "~/hooks/use-borrow-limit-used";
 
 import ConfirmingTransaction from "../fi-modal/confirming-transition";
 import { TenderContext } from "~/contexts/tender-context";
-import { useNewTotalBorrowedAmountInUsd } from "~/hooks/use-new-total-borrowed-amount-in-usd";
 import { shrinkInputClass } from "~/lib/ui";
 import { formatApy } from "~/lib/apy-calculations";
 import { displayErrorMessage } from "./displayErrorMessage";
 import type { ActiveTab } from "./deposit-borrow-flow";
-import { checkColorClass } from "../two-panels/two-panels";
-import ESTNDAPR from "../shared/EstndApr";
 import APY from "../shared/APY";
+import { useAccountSummary } from "~/hooks/use-account-summary";
+import { useSigner } from "wagmi";
 
 export interface RepayProps {
   closeModal: Function;
-  signer: JsonRpcSigner | null | undefined;
   borrowedAmount: number;
-  borrowLimitUsed: string;
   walletBalance: number;
-  borrowLimit: number;
   tokenPairs: TokenPair[];
-  totalBorrowedAmountInUsd: number;
   market: Market;
   initialValue: string;
   changeInitialValue: (value: string) => void;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
-  txnHash: string;
-  changeTxnHash: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
 }
 
 export default function Repay({
   market,
   closeModal,
-  signer,
   borrowedAmount,
-  borrowLimit,
-  borrowLimitUsed,
   walletBalance,
-  totalBorrowedAmountInUsd,
   initialValue,
   changeInitialValue,
   activeTab,
   setActiveTab,
-  txnHash,
-  changeTxnHash,
   tabs,
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
@@ -69,26 +55,34 @@ export default function Repay({
     market.hasSufficientAllowance
   );
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
-
   const [isRepaying, setIsRepaying] = useState<boolean>(false);
+  const { borrowBalanceInUsd } = useAccountSummary();
 
-  const maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
+  let amount = parseFloat(initialValue)
+  let repayValueInUsd = (isNaN(amount) ? 0 : amount * market.tokenPair.token.priceInUsd)
+
+  let borrowCapacity = market.borrowLimit - borrowBalanceInUsd;
+  let newBorrowCapacity = borrowCapacity + repayValueInUsd;
+
+  const { data: signer } = useSigner();
+
+  // the current percent used after borrowing
+  const borrowLimitUsed = useBorrowLimitUsed(
+    borrowBalanceInUsd,
+    market.borrowLimit
+  );
+
+  // the borrow percent used after borrowing
+  const newBorrowLimitUsed = useBorrowLimitUsed(
+    borrowBalanceInUsd - repayValueInUsd,
+    market.borrowLimit
+  );
 
   const inputEl = useRef<HTMLInputElement>(null);
   const scrollBlockRef = useRef<HTMLDivElement>(null);
   const inputTextClass = shrinkInputClass(initialValue.length);
 
-  const newTotalBorrowedAmountInUsd = useNewTotalBorrowedAmountInUsd(
-    market.tokenPair,
-    totalBorrowedAmountInUsd,
-    // Value is negative because you're repaying which is reducing the $ amount that you have borrowed
-    -initialValue
-  );
-
-  const newBorrowLimitUsed = useBorrowLimitUsed(
-    newTotalBorrowedAmountInUsd,
-    borrowLimit
-  );
+  const maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
 
   const [isValid, validationDetail] = useValidInputV2(
     getAmount(initialValue, market.tokenPair.token.decimals),
@@ -160,10 +154,10 @@ export default function Repay({
 
   return (
     <div>
-      {txnHash !== "" || currentTransaction ? (
+      {currentTransaction !== null || currentTransaction ? (
         <ConfirmingTransaction
-          txnHash={txnHash}
-          stopWaitingOnConfirmation={() => closeModal()}
+          txnHash={currentTransaction}
+          stopWaitingOnConfirmation={closeModal}
         />
       ) : (
         <div>
@@ -230,7 +224,7 @@ export default function Repay({
           </div>
           <div
             ref={scrollBlockRef}
-            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll flex md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
+            className="hidden__scroll px-[16px] pt-[20px] pb-[3px] w-full overflow-x-scroll md:hidden border-b-[1px] border-[#B5CFCC2B] flex items-center h-[76px] md:h-[auto]"
           >
             {tabs.map(
               (tab: { name: ActiveTab; color: string; show: boolean }) =>
@@ -271,8 +265,8 @@ export default function Repay({
             <BorrowBalance
               value={initialValue}
               isValid={isValid}
-              borrowBalance={borrowLimit}
-              newBorrowBalance={newTotalBorrowedAmountInUsd}
+              borrowCapacity={borrowCapacity}
+              newBorrowCapacity={newBorrowCapacity}
               borrowLimitUsed={borrowLimitUsed}
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
@@ -332,12 +326,12 @@ export default function Repay({
                         networkData.Contracts.Maximillion,
                         isMax
                       );
-                      changeTxnHash(txn.hash);
+                      updateTransaction(txn.hash);
                       setIsWaitingToBeMined(true);
                       const tr: TransactionReceipt = await txn.wait(2); // TODO: error handle if transaction fails
                       updateTransaction(tr.blockHash);
                       changeInitialValue("");
-                      changeTxnHash("");
+                      updateTransaction(null);
                       toast.success("Repayment successful");
                     } catch (e) {
                       displayErrorMessage(networkData, e, "Repayment unsuccessful");

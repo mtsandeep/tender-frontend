@@ -7,7 +7,7 @@ import type { JsonRpcSigner } from "@ethersproject/providers";
 import { useState, useEffect } from "react";
 
 export function useWeb3Signer(
-  provider: Web3Provider | Provider | undefined | null
+  provider: Web3Provider | Provider | AlchemyProvider | undefined | null
 ) {
   let [signer, setSigner] = useState<JsonRpcSigner>();
   useEffect(() => {

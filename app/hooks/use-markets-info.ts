@@ -5,6 +5,7 @@ import { TenderContext } from "~/contexts/tender-context";
 import { useGlpApy } from "./use-glp-apy";
 import { useInterval } from "./use-interval";
 import { useGmxApy } from "./use-gmx-apy";
+import { BigNumber } from "ethers";
 
 const getPercentageChange = function (
   currentValue: number,
@@ -112,6 +113,13 @@ export function useMarketsInfo() {
           volume: 0,
           topMarkets: [],
         },
+        reserves: {
+          count: 0,
+          usd: 0,
+          usdDiff: 0,
+          volume: 0,
+          topMarkets: [],
+        },
       };
 
       const daysPerYear = 365;
@@ -135,6 +143,7 @@ export function useMarketsInfo() {
 
       let prevSupplyUsd = 0;
       let prevBorrowUsd = 0;
+      let prevReservesUsd = 0;
 
       const usdPricesByCToken = {};
       const usdPricesByToken = {};
@@ -192,6 +201,9 @@ export function useMarketsInfo() {
           markets[id].totalBorrow = parseFloat(m.totalBorrows);
           markets[id].totalBorrowUsd = m.totalBorrows * underlyingPriceUSD;
 
+          markets[id].reserves = parseFloat(m.reserves);
+          markets[id].totalReservesUsd = m.reserves * underlyingPriceUSD;
+
           markets[id].totalBorrowersCount = response.accountCTokens.filter(
             (account: { id: string; totalUnderlyingBorrowed: number }) => {
               const [accountMarketId, accountId] = account.id.split("-");
@@ -225,6 +237,7 @@ export function useMarketsInfo() {
           // total in usd
           total.borrow.usd += markets[id].totalBorrow * underlyingPriceUSD;
           total.supply.usd += markets[id].totalSupply * underlyingPriceUSD;
+          total.reserves.usd += markets[id].reserves * underlyingPriceUSD;
 
           usdPricesByCToken[m.symbol] = underlyingPriceUSD;
           usdPricesByToken[m.underlyingSymbol] = underlyingPriceUSD;
@@ -250,6 +263,9 @@ export function useMarketsInfo() {
             const prevTotalBorrowUsd =
               prevMarkets[id].totalBorrows * prevMarkets[id].underlyingPriceUSD;
 
+            const prevTotalReservesUsd =
+              prevMarkets[id].reserves * prevMarkets[id].underlyingPriceUSD;
+
             markets[id].supplyApyDiff = markets[id].supplyApy - prevSupplyApy;
             markets[id].totalSupplyUsdDiff =
               markets[id].totalSupplyUsd !== 0
@@ -268,8 +284,17 @@ export function useMarketsInfo() {
                   )
                 : 0;
 
+            markets[id].totalReservesUsdDiff =
+              markets[id].totalReservesUsd !== 0
+                ? getPercentageChange(
+                    markets[id].totalReservesUsd,
+                    prevTotalReservesUsd
+                  )
+                : 0;
+
             prevBorrowUsd += prevTotalBorrowUsd;
             prevSupplyUsd += prevTotalSupplyUsd;
+            prevReservesUsd += prevTotalReservesUsd;
 
             // console.log('prevMarkets',{prevSupplyApy,prevTotalSupplyUsd,prevBorrowApy,prevTotalBorrowUsd})
             // console.log('markets',markets[id])
@@ -278,6 +303,7 @@ export function useMarketsInfo() {
             markets[id].totalSupplyUsdDiff = 0;
             markets[id].borrowApyDiff = 0;
             markets[id].totalBorrowUsdDiff = 0;
+            markets[id].totalReservesUsdDiff = 0;
           }
         }
       );
@@ -289,6 +315,10 @@ export function useMarketsInfo() {
       total.borrow.usdDiff = getPercentageChange(
         total.borrow.usd,
         prevBorrowUsd
+      );
+      total.reserves.usdDiff = getPercentageChange(
+        total.reserves.usd,
+        prevReservesUsd
       );
 
       total.borrow.count = Object.keys(uniqueBorrowers).length;
@@ -303,6 +333,11 @@ export function useMarketsInfo() {
         return markets[b].totalBorrowUsd - markets[a].totalBorrowUsd;
       });
       total.borrow.topMarkets.length = 3;
+
+      total.reserves.topMarkets = Object.keys(markets).sort((a, b) => {
+        return markets[b].reserves - markets[a].reserves;
+      });
+      total.reserves.topMarkets.length = 3;
 
       // volumes
       const supplyVolume = response.supplyVolume

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useAccount, useSigner } from "wagmi";
 import toast from "react-hot-toast";
 import ReactModal from "react-modal";
-import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import { BigNumber } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
 
 import { TenderContext } from "~/contexts/tender-context";
@@ -19,6 +19,7 @@ import UnstakeModal from "../unstakeModal";
 
 import Modal from "./modal";
 import { Vault } from "./Vault";
+
 
 // gets the return type of an async function
 // https://stackoverflow.com/a/59774789
@@ -126,9 +127,11 @@ export function displayTND(amount: BigNumber) {
 }
 
 function displayETHWithUSD(amount: BigNumber, ethPrice: number) {
-  return `${formatUnits(amount, 18)} ($${formatUnits(
-    amount.mul(Math.round(ethPrice)),
-    18
+  let formatted = formatUnits(amount, 18);
+  let formattedUSD = formatUnits(amount.mul(Math.round(ethPrice)), 18);
+  return `${toCryptoString(formatted, 10)} ($${toCryptoString(
+    formattedUSD,
+    3
   )})`;
 }
 
@@ -414,7 +417,7 @@ export default function EarnContent(): JSX.Element {
           />
         )}
 
-        {currentModal === "unstake" && (
+        {currentModal === "unstake" && data && (
           <Modal
             closeModal={closeModal}
             balance={data?.stakedTND ?? BigNumber.from(0)}
@@ -441,7 +444,7 @@ export default function EarnContent(): JSX.Element {
           />
         )}
 
-        {currentModal === "unstakeESTND" && (
+        {currentModal === "unstakeESTND" && data && (
           <Modal
             closeModal={closeModal}
             balance={data?.stakedESTND ?? BigNumber.from(0)}
@@ -465,7 +468,7 @@ export default function EarnContent(): JSX.Element {
             sTNDAllowance={data?.vTNDAllowance}
             complete={onDeposit}
             action="Deposit"
-            symbol="ESTND"
+            symbol="esTND"
           />
         )}
         {/* { currentModal === "withdrawESTND" && <Modal
@@ -485,43 +488,46 @@ export default function EarnContent(): JSX.Element {
           isOpen={isWithdrawOpen}
           handlerClose={() => setIsWithdrawOpen(false)}
         />
-        <ClaimRewardsModal
-          title="Protocol Rewards (esTND)"
-          onClickClaim={onClaimESTND}
-          data={{
-            open: dataClaimModal.open,
-            rewards: [
-              {
-                exchange: `1 esTND = ${tndPrice ?? "?"}`,
-                unclaimed: data
-                  ? `${displayTND(data.claimableESTND)} esTND`
-                  : "?",
-                unclaimedUsd: `$${
-                  data
-                    ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0)
-                    : "?"
-                }`,
-              },
-              {
-                unclaimed: data
-                  ? `${formatUnits(data.claimableFees, 18)} ETH`
-                  : "?",
-                unclaimedUsd: data
-                  ? `$${parseFloat(
-                      formatUnits(
-                        data.claimableFees.mul(Math.round(ethPrice)),
-                        18
-                      )
-                    ).toPrecision(3)}`
-                  : "?",
-              },
-            ],
-          }}
-          handlerClose={() =>
-            setDataClaimModal({ ...dataClaimModal, open: false })
-          }
-        />
-        <div tabIndex={0} className="max-w-[820px] my-o mx-auto">
+        {data &&
+          <ClaimRewardsModal
+            title="Protocol Rewards (esTND)"
+            onClickClaim={onClaimESTND}
+            data={{
+              open: dataClaimModal.open,
+              rewards: [
+                {
+                  exchange: `1 esTND = ${tndPrice ?? "?"}`,
+                  unclaimed: data
+                    ? `${displayTND(data.claimableESTND)} esTND`
+                    : "?",
+                  unclaimedUsd: `$${
+                    data
+                      ? displayTNDInUSD(data.claimableESTND, tndPrice ?? 0)
+                      : "?"
+                  }`,
+                },
+                {
+                  unclaimed: data
+                    ? `${formatUnits(data.claimableFees, 18)} ETH`
+                    : "?",
+                  unclaimedUsd: data
+                    ? `$${parseFloat(
+                        formatUnits(
+                          data.claimableFees.mul(Math.round(ethPrice)),
+                          18
+                        )
+                      ).toPrecision(3)}`
+                    : "?",
+                },
+              ],
+            }}
+            handlerClose={() =>
+              setDataClaimModal({ ...dataClaimModal, open: false })
+            }
+          />
+        }
+
+        <div tabIndex={0} className="max-w-[1080px] my-o mx-auto">
           <p className="font-space text-3xl leading-[38px] md:text-[42px] font-bold md:leading-[54px] mb-[16px] md:mb-[15px]">
             Earn
           </p>
@@ -546,16 +552,18 @@ export default function EarnContent(): JSX.Element {
                 Points.
               </span>
             )}
-            <br />
-            <br />
-            <button
-              className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
-              onClick={onClaimEsTNDRewards}
-            >
-              Claim Supply Rewards
-            </button>
+          <br/><br/>
+
+          <button className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]"
+            onClick={onClaimEsTNDRewards}
+          >
+            Claim Supply Rewards
+          </button>
+
           </p>
-          <div className="font-[ProximaNova] w-full">
+          <br/>
+          
+          <div className="font-[ProximaNova] w-full flex flex-col gap-[22px] mb-[71px] md:mb-[40px] md:gap-[20px] mt-[32px] md:mt-[31px] md:grid grid-cols-2 ">
             <div tabIndex={0} className="panel-custom">
               <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
                 TENDIES
@@ -757,8 +765,8 @@ export default function EarnContent(): JSX.Element {
               </div>
             </div>
 
-            <div tabIndex={0} className="panel-custom mt-[32px]">
-              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
+            <div tabIndex={0} className="panel-custom">
+              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] py-[19px] pb-[18px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px] uppercase">
                 Total Rewards
               </div>
               <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
@@ -897,7 +905,7 @@ export default function EarnContent(): JSX.Element {
             </div>
 
             <div tabIndex={0} className="panel-custom mt-[31px]">
-              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid px-[15px]">
+              <div className="font-space text-lg md:text-xl leading-[23px] md:leading-[26px] px-[15px] py-[19px] md:px-[30px] md:pt-[23px] md:pb-[20px] border-b-[1px] border-[#282C2B] border-solid">
                 ESCROWED TENDIES
               </div>
               <div className="px-[15px] pt-[20px] pb-[15.9px] md:px-[30px] md:pt-[23px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
