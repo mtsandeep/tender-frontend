@@ -333,6 +333,7 @@ export default function Repay({
                       changeInitialValue("");
                       updateTransaction(null);
                       toast.success("Repayment successful");
+                      closeModal();
                     } catch (e) {
                       displayErrorMessage(networkData, e, "Repayment unsuccessful");
                       closeModal();

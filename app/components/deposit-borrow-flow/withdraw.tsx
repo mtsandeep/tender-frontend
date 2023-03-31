@@ -377,6 +377,7 @@ export default function Withdraw({
                           changeInitialValue("");
                           updateTransaction(null);
                           toast.success("Withdraw successful");
+                          closeModal();
                         } catch (e) {
                           toast.error("Withdraw unsuccessful");
                           closeModal();

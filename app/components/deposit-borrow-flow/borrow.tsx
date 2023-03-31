@@ -346,6 +346,7 @@ export default function Borrow({
                         "Borrow unsuccessful"
                       );
                     } finally {
+                      closeModal();
                       setIsWaitingToBeMined(false);
                       setIsBorrowing(false);
                     }
