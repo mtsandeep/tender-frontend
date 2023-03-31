@@ -324,6 +324,7 @@ export default function Deposit({
                         tr.transactionHash,
                         "Deposit successful"
                       );
+                      closeModal();
                     } catch (e: any) {
                       displayErrorMessage(networkData, e, "Deposit unsuccessful");
                       closeModal();

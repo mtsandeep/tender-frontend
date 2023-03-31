@@ -12,7 +12,6 @@ import { useTndPrice } from "./useTndPrice";
 export function useTenderContext() {
   let [currentTransaction, updateTransaction] = useState<string | null>(null);
   let [transactionCompleted, setTransactionCompleted] = useState(false);
-  let [prevMarkets, setPrevMarkets] = useState<Market[] | null>(null);
   let [tenderContext, setTenderContext] = useState<TenderContext | null>();
   let [isWaitingToBeMined, setIsWaitingToBeMined] = useState<boolean>(false);
   let tndPrice = useTndPrice();
@@ -76,17 +75,12 @@ export function useTenderContext() {
     setTransactionCompleted(!isWaitingToBeMined);
   }, [isWaitingToBeMined]);
 
-  useEffect(() => {
-    if (markets !== prevMarkets) {
-      setPrevMarkets(markets);
-    }
-  }, [markets, prevMarkets]);
 
   useEffect(() => {
-    if (currentTransaction && transactionCompleted && markets !== prevMarkets) {
+    if (currentTransaction && transactionCompleted) {
       updateTransaction(null);
     }
-  }, [transactionCompleted, markets, currentTransaction, prevMarkets]);
+  }, [transactionCompleted, markets, currentTransaction]);
 
   return tenderContext;
 }

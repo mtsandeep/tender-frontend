@@ -1,8 +1,9 @@
 import { formatUnits } from "@ethersproject/units";
-import { useTenderContext } from "~/hooks/use-tender-context";
+import { useContext } from "react";
+import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 import { TND_DECIMALS } from "~/lib/tnd";
-import { Market, TenderContext } from "~/types/global";
+import { Market } from "~/types/global";
 import { checkColorClass } from "../two-panels/two-panels";
 
 type APY_PROPS = {
@@ -81,9 +82,8 @@ type APYObject = {
 export function getAPY(
   type: string,
   market: Market,
-  context?: TenderContext | null | undefined
 ): APYObject {
-  context = context ?? useTenderContext();
+  const context = useContext(TenderContext);
   let tndPrice = context?.tndPrice;
 
   let apyString =

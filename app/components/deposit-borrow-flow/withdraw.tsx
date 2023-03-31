@@ -46,8 +46,6 @@ const getSafeMaxWithdrawAmountForToken = (
       (tokenPriceInUsd * collateralFactor)
   );
 
-  console.log("safeMaxWithdrawAmount", amount);
-
   return amount;
 };
 
@@ -87,12 +85,12 @@ export default function Withdraw({
   );
 
   const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
-      market.tokenPair.token.priceInUsd,
-      borrowBalanceInUsd,
-      borrowCapacity,
-      market.collateralFactor,
-      MAX_WITHDRAW_LIMIT_PERCENTAGE
-  );
+    market.tokenPair.token.priceInUsd,
+    borrowBalanceInUsd,
+    market.borrowLimit,
+    market.collateralFactor,
+    100
+);
 
   const maxWithdrawAmount: number = Math.min(
     rawMaxWithdrawAmount,
@@ -379,6 +377,7 @@ export default function Withdraw({
                           changeInitialValue("");
                           updateTransaction(null);
                           toast.success("Withdraw successful");
+                          closeModal();
                         } catch (e) {
                           toast.error("Withdraw unsuccessful");
                           closeModal();
