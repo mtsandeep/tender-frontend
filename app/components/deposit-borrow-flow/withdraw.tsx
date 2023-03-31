@@ -85,12 +85,12 @@ export default function Withdraw({
   );
 
   const rawMaxWithdrawAmount = getSafeMaxWithdrawAmountForToken(
-      market.tokenPair.token.priceInUsd,
-      borrowBalanceInUsd,
-      borrowCapacity,
-      market.collateralFactor,
-      MAX_WITHDRAW_LIMIT_PERCENTAGE
-  );
+    market.tokenPair.token.priceInUsd,
+    borrowBalanceInUsd,
+    market.borrowLimit,
+    market.collateralFactor,
+    100
+);
 
   const maxWithdrawAmount: number = Math.min(
     rawMaxWithdrawAmount,
