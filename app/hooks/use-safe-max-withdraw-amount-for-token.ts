@@ -75,7 +75,6 @@ export function useSafeMaxWithdrawAmountForToken(
           currentBorrowLimitInUsd) /
           (tp.token.priceInUsd * collateralFactor)
       );
-      console.log("safeMaxWithdrawAmount", amount);
       setSafeMaxWithdrawAmountForToken(amount);
     };
 

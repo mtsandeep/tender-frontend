@@ -46,8 +46,6 @@ const getSafeMaxWithdrawAmountForToken = (
       (tokenPriceInUsd * collateralFactor)
   );
 
-  console.log("safeMaxWithdrawAmount", amount);
-
   return amount;
 };
 

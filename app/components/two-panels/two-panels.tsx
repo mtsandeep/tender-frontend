@@ -129,6 +129,7 @@ export default function TwoPanels() {
       />
       {openMarket && (
         <ReactModal
+          ariaHideApp={false}
           shouldCloseOnOverlayClick={true}
           isOpen={true}
           onRequestClose={() => setOpenMarket(false)}

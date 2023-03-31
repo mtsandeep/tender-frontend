@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { Market, TokenPair } from "~/types/global";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import { calculateApy, formatApy } from "~/lib/apy-calculations";
@@ -18,6 +18,10 @@ import { formatUnits } from "ethers/lib/utils";
 import { useGlpApy } from "./use-glp-apy";
 import { useGmxApy } from "./use-gmx-apy";
 import { getArbitrumOneSdk } from ".dethcrypto/eth-sdk-client";
+
+// used to cache ethsdk
+var cachedSDK: any;
+var cachedSigner: any;
 
 // @todo maybe refactor (remove duplicate code from tender.ts, merge changes, etc.)
 export function useMarkets(
@@ -158,7 +162,10 @@ export function useMarkets(
           });
         }
 
-        let sdk = getArbitrumOneSdk(signer);
+        let sdk = (signer === cachedSigner ? cachedSDK : getArbitrumOneSdk(signer));
+        cachedSigner = signer;
+        cachedSDK = sdk;
+
         let compSupplySpeedsPromise = sdk.Comptroller.compSupplySpeeds(
           tp.cToken.address
         );
@@ -395,11 +402,8 @@ export function useMarkets(
     signer,
     supportedTokenPairs,
     comptrollerAddress,
-    pollingKey,
-    secondsPerBlock,
-    getGlpApy,
     priceOracleAddress,
-    getGmxApy,
+    pollingKey,
   ]);
 
   return markets;

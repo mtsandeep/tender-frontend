@@ -99,7 +99,6 @@ export default function Borrow({
     market.maxBorrowLiquidity,
     MAX_BORROW_LIMIT_PERCENTAGE
   );
-  console.log(maxSafeBorrowLimit)
 
   const [isValid, validationDetail] = useValidInputV2(
     getAmount(initialValue, market.tokenPair.token.decimals),

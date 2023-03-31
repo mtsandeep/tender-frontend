@@ -3,8 +3,9 @@ import { checkColorClass, useMultiTooltip } from "../two-panels/two-panels";
 import { checkZeroValue } from "../markets-page/marketsContent";
 import DisplayPrice from "../shared/DisplayPrice";
 import { getAPY } from "../shared/APY";
-import { useTenderContext } from "~/hooks/use-tender-context";
 import APY from "../shared/APY";
+import { useContext } from "react";
+import { TenderContext } from "~/contexts/tender-context";
 
 type marketInfoType = {
   tokenSymbol: string;
@@ -13,14 +14,14 @@ type marketInfoType = {
 }
 
 function TokenTopDetails({ marketInfo }: { marketInfo: marketInfoType | undefined }) {
-  let context  = useTenderContext() 
+  let context  = useContext(TenderContext) 
   let {multiTooltipData, setMultiTooltipData, getOnClick} = useMultiTooltip()
   let market = context?.markets.find(m => m.id === marketInfo?.tokenSymbol) 
 
   if (!market) return null
 
-  let supplyAPYInfo = getAPY("supply", market, context)
-  let borrowAPYInfo = getAPY("borrow", market, context)
+  let supplyAPYInfo = getAPY("supply", market)
+  let borrowAPYInfo = getAPY("borrow", market)
 
   return (
     <>
