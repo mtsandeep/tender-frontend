@@ -114,7 +114,7 @@ export const getTNDIncentives = async (signer: Signer, cToken: Address): Promise
 export async function quotePriceInUSDC(): Promise<number> {
   // try the server and fallback to coingecko
   try {
-    let response = await fetch(`https://api.tender.fi/api/tnd_price`)
+    let response = await fetch(`https://api.tender.fi/api/tnd_price.json`)
     let json = await response.json() as {"usd": number}
     return json.usd  
   } catch (e) {
