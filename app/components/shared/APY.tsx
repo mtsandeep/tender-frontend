@@ -94,14 +94,18 @@ export function getAPY(
     type === "supply" ? market.compSupplySpeeds : market.compBorrowSpeeds;
   var apy = parseFloat(apyString) * (type === "borrow" ? -1 : 1);
   var ESTNDAPY = 0;
+  let marketType =
+    type === "supply"
+      ? market.marketData.marketSize
+      : market.marketData.totalBorrowed;
 
-  if (context && tndPrice && compSeeds && market.marketData.marketSize) {
+  if (context && tndPrice && compSeeds && marketType) {
     let seeds = parseFloat(formatUnits(compSeeds, TND_DECIMALS));
     let esTNDPerYear =
       seeds * getBlocksPerYear(context.networkData.secondsPerBlock);
     ESTNDAPY =
       (100 * esTNDPerYear * tndPrice) /
-      (market.marketData.marketSize * market.tokenPair.token.priceInUsd);
+      (marketType * market.tokenPair.token.priceInUsd);
   }
 
   let formattedESTND = formatApy(ESTNDAPY);
