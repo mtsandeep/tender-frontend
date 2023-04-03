@@ -9,7 +9,7 @@ export default {
   userExplorerUrl: "https://arbiscan.io/address/",
   secondsPerBlock: 12, // L1 value
   l2SecondsPerBlock: 0.31, // L2 value
-  graphUrl: "http://35.223.117.39:8000/subgraphs/name/tender-finance/tender-subgraph",
+  graphUrl: "https://graph.tender.fi/",
   Contracts: {
     Comptroller: "0xeed247Ba513A8D6f78BE9318399f5eD1a4808F8e", // address of unitroller contract
     PriceOracle: "0x89963548ec3e76e92B3B4217A34f3B42432171dB",
