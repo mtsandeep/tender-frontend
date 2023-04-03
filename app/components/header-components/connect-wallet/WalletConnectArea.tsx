@@ -1,11 +1,12 @@
+import { AuthsType } from "~/hooks/use-auth";
 import ConnectWallet from "./connect-wallet";
 import NetworksDropdown from "./networksDropdown";
 
-export const WalletConnectArea = () => {
+export const WalletConnectArea = ({ connect, disconnect, isDisconnected } : AuthsType ) => {
   return (
     <>
-      <NetworksDropdown />
-      <ConnectWallet />
+      <NetworksDropdown connect={connect} disconnect={disconnect} isDisconnected={isDisconnected} />
+      <ConnectWallet connect={connect} disconnect={disconnect} isDisconnected={isDisconnected} />
     </>
   );
 };

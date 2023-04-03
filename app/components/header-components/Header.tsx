@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { WalletConnectArea } from "./connect-wallet";
 import { useLocation } from "react-router-dom";
 import ConnectWallet from "./connect-wallet/connect-wallet";
+import useAuth from "~/hooks/use-auth";
 
 const menuLinks = [
   {
@@ -36,6 +37,7 @@ export default function Header() {
   let location = useLocation();
   const burgerRef = useRef<any>(null);
   const menuRef = useRef<any>(null);
+  const { connect, disconnect, isDisconnected } = useAuth();
   const [activePopupMenu, setActivePopupMenu] = useState<boolean>(false);
 
   const handleClickBurger = useCallback((value: boolean) => {
@@ -88,7 +90,9 @@ export default function Header() {
             )}
           </div>
           <div className="flex items-center z-20 relative">
-            <WalletConnectArea />
+            <WalletConnectArea
+              connect={connect} disconnect={disconnect}
+              isDisconnected={isDisconnected}  />
             <button
               aria-label="menu"
               className={`flex lg:hidden header__burg ${
@@ -125,7 +129,11 @@ export default function Header() {
                 )}
               </div>
               <div className="mt-[40px] flex justify-center">
-                <ConnectWallet inMenu={true} />
+                <ConnectWallet inMenu
+                  connect={connect}
+                  disconnect={disconnect}
+                  isDisconnected={isDisconnected}
+                />
               </div>
             </div>
           </div>

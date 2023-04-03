@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { arbitrum } from "@wagmi/chains";
+import { useCallback, useEffect, useState } from "react";
+import { useConnect, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
-// import { metaMask } from "~/connectors/meta-mask";
+// import { MetaMaskConnector } from "@wagmi/connectors/metaMask";
 
 const DISCONNECTED_LOCAL_STORAGE_KEY = "tenderWalletDisconnected";
 
@@ -9,22 +10,36 @@ const isDisconnected = () => {
   return window.localStorage.getItem(DISCONNECTED_LOCAL_STORAGE_KEY) === "1";
 };
 
+export type AuthsType = ReturnType<typeof useAuth>;
+
 const useAuth = () => {
-  const { address: defaultAddress, isConnected: isActive } = useAccount();
-  const { connect: _connect } = useConnect({
-    connector: new InjectedConnector(),
+  let [isConnecting, setIsConnecting] = useState(false)
+
+  const connector = useConnect({
+    // connector: new MetaMaskConnector(),
+    connector: new InjectedConnector({chains: [arbitrum]}),
   });
+
   const { disconnect: _disconnect } = useDisconnect();
 
-  const connect = async () => {
-    await _connect();
-    window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, "0");
-  };
+  const connect = useCallback(async () => {
+    if (isConnecting) return
+    try {
+      setIsConnecting(true)
+      await connector.connectAsync();
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setIsConnecting(false)
+    }
 
-  const disconnect = async () => {
+    window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, "0");
+  }, [connector]);
+
+  const disconnect = useCallback(async () => {
     await _disconnect();
     window.localStorage.setItem(DISCONNECTED_LOCAL_STORAGE_KEY, "1");
-  };
+  }, [_disconnect]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -42,7 +57,7 @@ const useAuth = () => {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, [connect, disconnect]);
 
   return { connect, disconnect, isDisconnected };
 };

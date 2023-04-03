@@ -1,56 +1,40 @@
 import { useState, useRef, useEffect } from "react";
-import { useAccount, useNetwork, useProvider } from "wagmi";
+import { useAccount, useNetwork, useProvider, useSwitchNetwork } from "wagmi";
 
 import networks from "~/config/networks";
 import type { NetworkData } from "~/types/global";
-import useAuth from "~/hooks/use-auth";
-
-export const switchNetwork = async (
+import { AuthsType } from "~/hooks/use-auth";
+export const addNetwork = async (
   provider: any,
   networkData: NetworkData
 ) => {
   if (!provider) {
     return;
   }
-  const targetNetworkId = networkData.ChainId;
-  const targetNetworkIdHex = `0x${targetNetworkId.toString(16)}`;
 
-  provider?.request &&
-    provider
-      .request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: targetNetworkIdHex }],
-      })
-      .catch((error: any) => {
-        if (error.code === 4902) {
-          return (
-            provider?.request &&
-            provider!.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  chainName: networkData.name,
-                  nativeCurrency: {
-                    name: networkData.Tokens[Object.keys(networkData.Tokens)[0]]
-                      .name,
-                    symbol:
-                      networkData.Tokens[Object.keys(networkData.Tokens)[0]]
-                        .symbol,
-                    decimals:
-                      networkData.Tokens[Object.keys(networkData.Tokens)[0]]
-                        .decimals,
-                  },
-                  rpcUrls: networkData.rpcUrls,
-                  blockExplorerUrls: [networkData.blockExplorerUrl],
-                  chainId: targetNetworkIdHex,
-                },
-              ],
-            })
-          );
-        } else {
-          throw error;
-        }
-      });
+  const targetNetworkId = networkData.ChainId;
+  // const targetNetworkIdHex = utils.hexValue(targetNetworkId);
+  provider?.request && provider!.request({
+    method: "wallet_addEthereumChain",
+    params: [
+      {
+        chainName: networkData.name,
+        nativeCurrency: {
+          name: networkData.Tokens[Object.keys(networkData.Tokens)[0]]
+            .name,
+          symbol:
+            networkData.Tokens[Object.keys(networkData.Tokens)[0]]
+              .symbol,
+          decimals:
+            networkData.Tokens[Object.keys(networkData.Tokens)[0]]
+              .decimals,
+        },
+        rpcUrls: networkData.rpcUrls,
+        blockExplorerUrls: [networkData.blockExplorerUrl],
+        chainId:  `0x${Number(targetNetworkId).toString(16)}`,
+      },
+    ],
+  })
 };
 
 const actualNetworks = [
@@ -78,12 +62,15 @@ const actualNetworks = [
   // },
 ];
 
-const NetworksDropdown = () => {
+const NetworksDropdown = ({
+  connect, isDisconnected
+}: AuthsType ) => {
+  const { switchNetwork } = useSwitchNetwork()
+
   const { isConnected: isActive } = useAccount();
   const provider = useProvider();
   const { chain } = useNetwork();
   const chainId = chain?.id;
-  const { connect, isDisconnected } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<any>(null);
@@ -122,23 +109,24 @@ const NetworksDropdown = () => {
     }
   }, [chainId]);
 
-  const handlerCLickNetwork = (p: any, networkData: NetworkData) => {
-    if (!window.ethereum) {
-      return window.open("https://metamask.io");
-    } else if (window.ethereum && !isActive) {
-      return (async () => {
-        await connect();
-        await switchNetwork(p, networkData);
-      })();
-    } else {
-      return switchNetwork(p, networkData);
+  const handlerCLickNetwork = async (p: any, networkData: NetworkData) => {
+    await connect();
+
+    if(switchNetwork) {       
+      try {
+        switchNetwork(networkData.ChainId);
+      } catch (e) {
+        console.error(e)
+        addNetwork(provider, networkData);
+        switchNetwork(networkData.ChainId);
+      }
     }
-  };
+  }
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
   }, []);
 
   return (
