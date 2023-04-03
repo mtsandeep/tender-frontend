@@ -169,6 +169,9 @@ export function useMarkets(
         let compSupplySpeedsPromise = sdk.Comptroller.compSupplySpeeds(
           tp.cToken.address
         );
+        let compBorrowSpeedsPromise = sdk.Comptroller.compBorrowSpeeds(
+          tp.cToken.address
+        );
 
         return {
           borrowBalance: borrowBalancePromise,
@@ -190,6 +193,7 @@ export function useMarkets(
           borrowCaps: borrowCapsPromise,
           supplyCaps: supplyCapsPromise,
           compSupplySpeeds: compSupplySpeedsPromise,
+          compBorrowSpeeds: compBorrowSpeedsPromise,
         };
       });
 
@@ -221,6 +225,7 @@ export function useMarkets(
           borrowCaps: await tokenPromise.borrowCaps,
           supplyCaps: await tokenPromise.supplyCaps,
           compSupplySpeeds: await tokenPromise.compSupplySpeeds,
+          compBorrowSpeeds: await tokenPromise.compBorrowSpeeds,
         });
       }
 
@@ -391,6 +396,7 @@ export function useMarkets(
           supplyCaps: token.supplyCaps.toString(),
           collateralFactor,
           compSupplySpeeds: token.compSupplySpeeds,
+          compBorrowSpeeds: token.compBorrowSpeeds,
         };
       });
 
