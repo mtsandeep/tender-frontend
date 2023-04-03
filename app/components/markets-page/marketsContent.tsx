@@ -66,7 +66,7 @@ export default function MarketsContent() {
             <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
                 <DisplayPrice
-                  amount={totalSuppliedUsd.toString()}
+                  amount={totalSuppliedUsd?.toString() ?? ""}
                   baseFactor="1"
                   isCompact
                   hideBaseCurrencyCode
@@ -158,7 +158,7 @@ export default function MarketsContent() {
             <div className="flex items-center gap-x-[10px] mb-[25px] md:mb-[30px] font-normal">
               <div className="text-lg md:text-2xl leading-[18px] md:leading-[24px]">
                 <DisplayPrice
-                  amount={totalBorrowedUsd.toString()}
+                  amount={totalBorrowedUsd?.toString() ?? ""}
                   baseFactor="1"
                   isCompact
                   hideBaseCurrencyCode
@@ -303,13 +303,13 @@ export default function MarketsContent() {
                       >
                         <div className="custom__hidden text-sm md:text-base">
                           <DisplayPrice
-                            amount={m?.totalSupply.toString()}
+                            amount={m?.totalSupply?.toString() ?? ""}
                             tokenSymbol={m.symbol}
                           />
                         </div>
                         <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
                           <DisplayPrice
-                            amount={m.totalSupplyUsd.toString()}
+                            amount={m.totalSupplyUsd?.toString() ?? ""}
                             baseFactor="1"
                             isCompact
                           />
@@ -336,13 +336,13 @@ export default function MarketsContent() {
                           <>
                             <div className="custom__hidden text-sm md:text-base">
                               <DisplayPrice
-                                amount={m.totalBorrow.toString()}
+                                amount={m.totalBorrow?.toString() ?? ""}
                                 tokenSymbol={m.symbol}
                               />
                             </div>
                             <div className="!flex items-center break-words bg-dark-green text-dark-green rounded-md text-[11px] md:text-xs text-center h-[20px] md:h-[22px] px-[5px] absolute top-[40px] md:top-[61px] left-[15px]">
                               <DisplayPrice
-                                amount={m.totalBorrowUsd.toString()}
+                                amount={m.totalBorrowUsd?.toString() ?? ""}
                                 baseFactor="1"
                                 isCompact
                               />

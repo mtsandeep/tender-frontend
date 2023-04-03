@@ -10,11 +10,11 @@ const menuLinks = [
     link: "/",
     target: "_self",
   },
-  {
-    name: "Markets",
-    link: "/markets",
-    target: "_self",
-  },
+  // {
+  //   name: "Markets",
+  //   link: "/markets",
+  //   target: "_self",
+  // },
   // hiding temporarily, will need it later
   {
     name: "Earn",
