@@ -24,6 +24,7 @@ import type { ActiveTab } from "./deposit-borrow-flow";
 import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
 import { useSigner } from "wagmi";
+import { parseUnits } from "@ethersproject/units";
 
 export interface RepayProps {
   closeModal: Function;
@@ -51,9 +52,7 @@ export default function Repay({
 }: RepayProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  const [isEnabled, setIsEnabled] = useState<boolean>(
-    market.hasSufficientAllowance
-  );
+  const [isEnabled, setIsEnabled] = useState<boolean>(true);
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
   const [isRepaying, setIsRepaying] = useState<boolean>(false);
   const { borrowBalanceInUsd } = useAccountSummary();
@@ -95,9 +94,11 @@ export default function Repay({
   const { currentTransaction, updateTransaction, setIsWaitingToBeMined, networkData } =
     useContext(TenderContext);
 
-  useEffect(() => {
-    setIsEnabled(market.hasSufficientAllowance);
-  }, [market.hasSufficientAllowance]);
+    useEffect(() => {
+      if (isValid) {
+        setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(market.tokenAllowance));
+      }
+    }, [initialValue, market.tokenAllowance, isValid]);    
 
   useEffect(() => {
     inputEl?.current && inputEl.current.focus();

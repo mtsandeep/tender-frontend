@@ -8,7 +8,7 @@ import {
   MINIMUM_REQUIRED_APPROVAL_BALANCE,
 } from "~/lib/tender";
 import { useInterval } from "./use-interval";
-import { ethers, utils } from "ethers";
+import { BigNumber, ethers, utils } from "ethers";
 import SampleCTokenAbi from "~/config/sample-ctoken-abi";
 import SampleCEtherAbi from "~/config/sample-CEther-abi";
 import SampleErc20Abi from "~/config/sample-erc20-abi";
@@ -128,22 +128,19 @@ export function useMarkets(
           walletBalancePromise = tokenContract.balanceOf(address);
         }
 
-        // hasSufficientAllowance
-        let allowancePromise;
-        const allowanceAddress = tp.token.sGLPAddress || tp.token.address;
+        const allowancePromise: Promise<BigNumber> = (async ()=> {
+          const allowanceAddress = tp.token.sGLPAddress || tp.token.address;
+            // workaround for native token that has no address
+            if (!allowanceAddress) return BigNumber.from(0)
 
-        if (allowanceAddress) {
-          // workaround for native token
-          let allowanceContract = new ethers.Contract(
-            allowanceAddress,
-            SampleErc20Abi,
-            mcProvider
-          );
-          allowancePromise = allowanceContract.allowance(
-            address,
-            tp.cToken.address
-          );
-        }
+            let allowanceContract = new ethers.Contract(
+              allowanceAddress,
+              SampleErc20Abi,
+              mcProvider
+            );
+
+            return allowanceContract.allowance(address, tp.cToken.address);
+        })()
 
         const autocompoundPromise = cTokenContract.autocompound();
 
@@ -215,9 +212,7 @@ export function useMarkets(
           totalReserves: await tokenPromise.totalReserves,
           tokenPair: tokenPromise.tokenPair,
           walletBalance: await tokenPromise.walletBalance,
-          allowance: tokenPromise.allowance
-            ? await tokenPromise.allowance
-            : MINIMUM_REQUIRED_APPROVAL_BALANCE,
+          allowance: await tokenPromise.allowance,
           autocompound: await tokenPromise.autocompound,
           performanceFee: await tokenPromise.performanceFee,
           withdrawFee: await tokenPromise.withdrawFee,
@@ -382,9 +377,7 @@ export function useMarkets(
             accountBorrowLimitInUsd
           ),
           maxBorrowLiquidity,
-          hasSufficientAllowance: token.allowance.gte(
-            MINIMUM_REQUIRED_APPROVAL_BALANCE
-          ),
+          tokenAllowance: token.allowance,
           autocompound: token.autocompound,
           performanceFee: token.performanceFee,
           withdrawFee: token.withdrawFee,

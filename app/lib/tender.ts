@@ -410,25 +410,6 @@ async function borrow(
   }
 }
 
-// @deprecated moved to use markets hook
-async function hasSufficientAllowance(
-  signer: Signer,
-  token: Token,
-  cToken: cToken
-): Promise<boolean> {
-  const contractAddress = token.sGLPAddress || token.address;
-
-  if (!contractAddress) { // workaround for native token
-    return true;
-  }
-
-  // @ts-ignore
-  let contract = new ethers.Contract(contractAddress, SampleErc20Abi, signer);
-  let address = await signer.getAddress();
-  let allowance: BigNumber = await contract.allowance(address, cToken.address);
-
-  return allowance.gte(MINIMUM_REQUIRED_APPROVAL_BALANCE);
-}
 
 async function getAssetPriceInUsd(
   signer: Signer,

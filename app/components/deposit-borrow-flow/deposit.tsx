@@ -22,6 +22,7 @@ import type { ActiveTab } from "./deposit-borrow-flow";
 import { formatApy } from "~/lib/apy-calculations";
 import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
+import { parseUnits } from "@ethersproject/units";
 
 export interface DepositProps {
   closeModal: Function;
@@ -47,9 +48,7 @@ export default function Deposit({
 }: DepositProps) {
   const tokenDecimals = market.tokenPair.token.decimals;
 
-  const [isEnabled, setIsEnabled] = useState<boolean>(
-    market.hasSufficientAllowance
-  );
+  const [isEnabled, setIsEnabled] = useState<boolean>(true);
   const [isEnabling, setIsEnabling] = useState<boolean>(false);
   const [isDepositing, setIsDepositing] = useState<boolean>(false);
   const inputTextClass = shrinkInputClass(initialValue.length);
@@ -86,9 +85,12 @@ export default function Deposit({
     newBorrowLimitUsed,
     true
   );
+
   useEffect(() => {
-    setIsEnabled(market.hasSufficientAllowance);
-  }, [market.hasSufficientAllowance]);
+    if (isValid) {
+      setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(market.tokenAllowance));
+    }
+  }, [initialValue, market.tokenAllowance, isValid]);
 
   useEffect(() => {
     inputEl?.current && inputEl.current.focus();
