@@ -17,6 +17,7 @@ export default defineConfig({
       TND_USDC_UNISWAP_POOL: Tendies.TND_USDC_UNISWAP_POOL,
       UNISWAP_QUOTER: Tendies.UNISWAP_QUOTER,
 
+      InstantVester: Tendies.InstantVester,
       TND: Tendies.Tokens.TND.address,
       esTND: Tendies.Tokens.esTND.address,
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import type { JsonRpcSigner } from "@ethersproject/providers";
+import type { Signer } from "ethers";
 import type { TokenPair } from "~/types/global";
 import { useGlpCooldown } from "~/hooks/use-glp-cooldown";
 import Timer from "../shared/Timer";
 
 type GlpCooldownTimerProps = {
-  signer: JsonRpcSigner;
+  signer: Signer;
   tokenPair: TokenPair;
   onRunning: (isRunning: boolean) => void;
   onExpire: () => void;

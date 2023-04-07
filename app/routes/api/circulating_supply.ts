@@ -4,7 +4,7 @@ import { Alchemy, Network, OwnedToken } from "alchemy-sdk";
 const tndAddress = "0xC47D9753F3b32aA9548a7C3F30b6aEc3B2d2798C";
 const multisigAddress = "0x80b54e18e5Bb556C6503e1C6F2655749c9e41Da2";
 const teamVestingAddress = "0xE356aB88bA1a4f9D36928407fEAD0FbA50Eb139d";
-const esTNDvesterAddress = "0x2da1594d3642B85CD83b9e13d70756337F4c5C7e";
+const esTNDvesterAddress = "0xc5888f8D3663a6c27E4a2767a20C0CF347b2bb0e";
 const advisorVestingAddress = esTNDvesterAddress;
 
 async function getTokenData(address: string) {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import type { JsonRpcSigner } from "@ethersproject/providers";
+import type { Signer } from "ethers";
 import GlpManager from "~/config/abi/gmx/GlpManager.json";
 import { providers as mcProviders } from "@0xsequence/multicall";
 import { useInterval } from "./use-interval";
 
 export function useGlpCooldown(
-  signer: JsonRpcSigner | undefined | null,
+  signer: Signer | undefined | null,
   glpManagerAddress: string,
   cTokenAddress: string
 ) {
@@ -15,7 +15,7 @@ export function useGlpCooldown(
   let pollingKey = useInterval(5_000);
 
   useEffect(() => {
-    if (!signer) {
+    if (signer?.provider === undefined) {
       return;
     }
     const mcProvider = new mcProviders.MulticallProvider(signer.provider);
