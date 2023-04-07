@@ -139,6 +139,7 @@ export type IncentiveTokenConfig = IncentiveConfig & {
 export type IncentiveContractsConfig = {
   RewardRouter: Address;
   RewardDistributor: Address;
+  InstantVester: Address;
   EthRewardDistributor: Address;
   TND_USDC_UNISWAP_POOL: Address;
   UNISWAP_QUOTER: Address;
