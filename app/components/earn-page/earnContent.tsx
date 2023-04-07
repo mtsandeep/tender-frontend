@@ -48,9 +48,6 @@ function MultiplierPointsExplainer() {
   );
 }
 
-function getDescription(amount: BigNumber): string {
-  return amount.div(10).toString()
-}
 const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber): number => {
   if (totalStaked.eq(0)) return 0;
   // unlike compound markets, staking markets are coded to pay in terms of seconds, not blocks
@@ -201,6 +198,12 @@ export type Modals =
   | "instantVest"
   | null;
 
+function getDescription(amount: BigNumber): string {
+  return amount.div(10).toString()
+}
+const getMaxDepositable = (data: allData): BigNumber => {
+  return data.totalTNDStaked
+}
 export default function EarnContent(): JSX.Element {
   const [dataClaimModal, setDataClaimModal] = useState<{
     open: boolean;
@@ -492,9 +495,13 @@ export default function EarnContent(): JSX.Element {
         {currentModal === "depositESTND" && (
           <Modal
             closeModal={closeModal}
-            balance={data?.maxVestableAmount.sub(data?.reservedForVesting) ?? BigNumber.from(0)}
+            balance={(()=>{
+              const esBalance = data?.esTNDBalance ?? BigNumber.from(0);
+              const maxVest = data?.maxVestableAmount ?? esBalance ?? BigNumber.from(0);
+              return esBalance.lte(maxVest) ? esBalance : maxVest;
+            })()}
             signer={signer}
-            sTNDAllowance={data?.vTNDAllowance}
+            sTNDAllowance={BigNumber.from(2)}
             enable={enableESTNDOnVault}
             complete={onDeposit}
             action="Deposit"
