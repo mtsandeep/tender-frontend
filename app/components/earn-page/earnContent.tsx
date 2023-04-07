@@ -48,6 +48,9 @@ function MultiplierPointsExplainer() {
   );
 }
 
+function getDescription(amount: BigNumber): string {
+  return amount.div(10).toString()
+}
 const APR = (totalStaked: BigNumber, rewardPerBlock: BigNumber): number => {
   if (totalStaked.eq(0)) return 0;
   // unlike compound markets, staking markets are coded to pay in terms of seconds, not blocks
@@ -195,6 +198,7 @@ export type Modals =
   | "unstakeESTND"
   | "depositESTND"
   | "withdrawESTND"
+  | "instantVest"
   | null;
 
 export default function EarnContent(): JSX.Element {
@@ -242,6 +246,21 @@ export default function EarnContent(): JSX.Element {
     }
   }, [isDisconnected, signer]);
 
+  const onInstantVest = async (amount: BigNumber) => {
+    if (!signer || amount.lte(0)) return;
+    var id = toast.loading("Submitting transaction");
+    try {
+      var tx = await TND.instantVest(signer, amount);
+      await tx.wait(1);
+      toast.success("Instant Vest successful");
+      toast.success(`Recieved: ${displayTND(amount.div(10))} TND`)
+    } catch (e) {
+      displayErrorMessage(networkData, e, "Instant Vest unsuccessful");
+    } finally {
+      toast.dismiss(id);
+    }
+    RefreshData();
+  };
   const onStake = async (
     amount: BigNumber,
     symbol: "TND" | "ESTND" = "TND"
@@ -473,12 +492,24 @@ export default function EarnContent(): JSX.Element {
         {currentModal === "depositESTND" && (
           <Modal
             closeModal={closeModal}
-            balance={data?.maxVestableAmount ?? BigNumber.from(0)}
+            balance={data?.maxVestableAmount.sub(data?.reservedForVesting) ?? BigNumber.from(0)}
             signer={signer}
             sTNDAllowance={data?.vTNDAllowance}
             enable={enableESTNDOnVault}
             complete={onDeposit}
             action="Deposit"
+            symbol="esTND"
+          />
+        )}
+        {currentModal === "instantVest" && (
+          <Modal
+            description={getDescription}
+            closeModal={closeModal}
+            balance={data?.esTNDBalance ?? BigNumber.from(0)}
+            sTNDAllowance={data?.esTNDBalance?.add(1)} // prevent enable
+            signer={signer}
+            complete={(amount) => onInstantVest(amount)}
+            action="Instant Vest"
             symbol="esTND"
           />
         )}
@@ -1027,13 +1058,16 @@ export default function EarnContent(): JSX.Element {
             </a>{" "}
             before using the vault.
           </p>
+          <p className="md:text-base md:leading-[22px] text-sm leading-5 mb-[31px] text-[#ADB5B3]">Instant Vest allows you to vest 10 esTND immediately. You will receive 1 TND, the DAO Treasury will recieve 4 TND and the remaining 5 are burned, reducing the total supply.</p>
           {data && (
             <Vault
               data={data}
               setCurrentModal={(m) =>
                 m === "withdrawESTND"
                   ? onWithdraw()
-                  : setCurrentModal("depositESTND")
+                  : (m === "depositESTND")
+                  ? setCurrentModal("depositESTND")
+                  : setCurrentModal("instantVest")
               }
             />
           )}

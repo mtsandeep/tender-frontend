@@ -10,23 +10,18 @@ export function Vault({ data, setCurrentModal }: VaultProps) {
     </div>
       <div className="px-[15px] pt-[20px] pb-[15px] md:px-[30px] md:pt-[24px] md:pb-[30px] text-sm leading-5 md:text-base md:leading-[22px]">
         <div className="flex flex-col gap-y-[12px] md:gap-y-[15px]">
-          <Row left="Staked Tokens" right={!data ? "?" :
+          <Row left="Max Vestable Amount" right={!data ? "?" :
             <div
               className="line-dashed group relative cursor-pointer md:w-fit text-right text-xs leading-[17px]"
               tabIndex={0}
             >
-              <span className="text-sm md:text-base">{displayTND(data.stakedAmounts)}</span>
+              <span className="text-sm md:text-base">{displayTND(data.maxVestableAmount)}</span>
               <div className="hidden z-10 flex-col absolute right-[-5px] bottom-[18px] items-center group-hover:flex group-focus:flex rounded-[10px]">
                 <div className="relative z-11 leading-none whitespace-no-wrap shadow-lg w-[242px] panel-custom !rounded-[10px]">
                   <div className="w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] p-[14px] pr-[16px] pl-[14px] pb-[15px] text-[#818987]">
                     <div className="flex justify-between items-center mb-[8px]">
                       <span className="text-xs leading-[17px]">
                         {displayTND(data.stakedTND)} TND
-                  </span>
-                    </div>
-                    <div className="flex justify-between items-center mb-[8px]">
-                      <span className="text-xs leading-[17px]">
-                        {displayTND(data.stakedESTND)} esTND
                   </span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -117,6 +112,13 @@ export function Vault({ data, setCurrentModal }: VaultProps) {
               onClick={() => setCurrentModal("withdrawESTND")}
               className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
               Withdraw all esTND
+          </button>
+          </div>
+          <div className="btn-custom-border rounded-[6px]">
+            <button
+              onClick={() => setCurrentModal("instantVest")}
+              className="px-[12px] pt-[6px] py-[7px] md:px-[16px] md:py-[8px] text-[#14F195] text-xs leading-5 md:text-sm md:leading-[22px] rounded-[6px] bg-[#0e3625] relative z-[2] uppercase hover:bg-[#1e573fb5]">
+              Instant Vest - Ratio 1:10
           </button>
           </div>
         </div>

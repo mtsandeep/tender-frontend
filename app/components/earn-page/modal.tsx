@@ -22,6 +22,7 @@ export interface EarnModalProps {
   symbol?: "TND" | "esTND";
   totalStaked?: BigNumber;
   totalBonusPoints?: BigNumber;
+  description?: (amount: BigNumber) => string;
 }
 
 export default function Modal({
@@ -35,6 +36,7 @@ export default function Modal({
   symbol="TND",
   totalStaked,
   totalBonusPoints,
+  description,
 }: EarnModalProps) {
   const [isEnabled, setIsEnabled] = useState<boolean>(sTNDAllowance?.gt(1) ?? false );
   const [validationDetail, setValidationDetail] = useState<string | null>(null);
@@ -114,6 +116,7 @@ export default function Modal({
               <Max
                 maxValue={maxAmount}
                 updateValue={() => {
+                  let tokenDecimals = 18;
                   inputEl?.current && inputEl.current.focus();
                   if (inputEl.current) inputEl.current.value = formatUnits(balance, tokenDecimals)
                 }}
@@ -143,6 +146,7 @@ export default function Modal({
                 <button disabled={!isValid} onClick={() => {
                     if (isValid && inputEl.current) { 
                         closeModal()
+                        let tokenDecimals = 18;
                         complete(parseUnits(inputEl.current.value, tokenDecimals))
                     }
                 }}

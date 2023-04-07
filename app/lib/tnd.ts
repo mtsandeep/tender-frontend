@@ -111,6 +111,11 @@ export const withdrawESTND = async (signer: Signer): Promise<ContractTransaction
   return sdk.vTND.withdraw()
 }
 
+export const instantVest = async (signer: Signer, amount: BigNumber): Promise<ContractTransaction> => {
+  let sdk = getArbitrumOneSdk(signer)
+  return sdk.InstantVester.instantVest(amount)
+}
+
 export const getTNDIncentives = async (signer: Signer, cToken: Address): Promise<BigNumber> => {
   let sdk = getArbitrumOneSdk(signer)
   return sdk.Comptroller.compSpeeds(cToken)
