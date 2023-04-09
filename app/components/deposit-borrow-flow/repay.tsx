@@ -101,6 +101,8 @@ export default function Repay({
     useEffect(() => {
       if (isValid && !isNaN(parseFloat(initialValue))) {
         setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(tokenAllowance));
+      } else {
+        setIsEnabled(true)
       }
     }, [initialValue, tokenAllowance, isValid]);    
 
