@@ -23,6 +23,8 @@ import { formatApy } from "~/lib/apy-calculations";
 import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
 import { parseUnits } from "@ethersproject/units";
+import { Allowance } from "./Allowance";
+import { BigNumber } from "ethers";
 
 export interface DepositProps {
   closeModal: Function;
@@ -34,8 +36,10 @@ export interface DepositProps {
   setActiveTab: (tab: ActiveTab) => void;
   changeInitialValue: (value: string) => void;
   tabs: { name: ActiveTab; color: string; show: boolean }[];
+  tokenAllowance: BigNumber;
 }
 export default function Deposit({
+  tokenAllowance,
   closeModal,
   borrowLimitUsed,
   walletBalance,
@@ -88,9 +92,9 @@ export default function Deposit({
 
   useEffect(() => {
     if (isValid && !isNaN(parseFloat(initialValue))) {
-      setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(market.tokenAllowance));
+      setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(tokenAllowance));
     }
-  }, [initialValue, market.tokenAllowance, isValid]);
+  }, [initialValue, tokenAllowance, isValid]);
 
   useEffect(() => {
     inputEl?.current && inputEl.current.focus();
@@ -141,9 +145,6 @@ export default function Deposit({
     [tokenDecimals, changeInitialValue]
   );
 
-  const borrowApy = parseFloat(market.marketData.depositApy);
-  const supplyApyFormatted = formatApy(borrowApy);
-
   return (
     <div>
       {currentTransaction !== null || currentTransaction ? (
@@ -175,43 +176,29 @@ export default function Deposit({
               />
               {market.tokenPair.token.symbol}
             </div>
-            {!isEnabled ? (
-              <div className="flex flex-col items-center mt-[29px] md:mt-[34px] rounded-2xl px-4">
-                <img
-                  src={market.tokenPair.token.icon}
-                  className="w-[58px] h-[58px]"
-                  alt="icon"
-                />
-                <div className="max-w-sm text-center mt-[29px] md:mt-[34px] font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
-                  To supply or withdraw {market.tokenPair.token.symbol} on the
-                  Tender.fi protocol, you need to enable it first.
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
-                <input
-                  tabIndex={0}
-                  ref={inputEl}
-                  value={initialValue}
-                  onChange={(e) => handleCheckValue(e)}
-                  style={{ height: 70, minHeight: 70 }}
-                  className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
-                    !initialValue && "pl-[80px]"
-                  } ${inputTextClass}`}
-                  placeholder="0"
-                />
-                <MaxV2
-                  amount={walletBalance}
-                  decimals={market.tokenPair.token.decimals}
-                  onMaxClick={(value: string) => {
-                    changeInitialValue(value);
-                    inputEl?.current && inputEl.current.focus();
-                  }}
-                  tokenSymbol={market.tokenPair.token.symbol}
-                  color="#14F195"
-                />
-              </div>
-            )}
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
+              <input
+                tabIndex={0}
+                ref={inputEl}
+                value={initialValue}
+                onChange={(e) => handleCheckValue(e)}
+                style={{ height: 70, minHeight: 70 }}
+                className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                  !initialValue && "pl-[80px]"
+                } ${inputTextClass}`}
+                placeholder="0"
+              />
+              <MaxV2
+                amount={walletBalance}
+                decimals={market.tokenPair.token.decimals}
+                onMaxClick={(value: string) => {
+                  changeInitialValue(value);
+                  inputEl?.current && inputEl.current.focus();
+                }}
+                tokenSymbol={market.tokenPair.token.symbol}
+                color="#14F195"
+              />
+            </div>
           </div>
           <div
             ref={scrollBlockRef}
@@ -235,25 +222,8 @@ export default function Deposit({
             )}
           </div>
           <div className="py-[20px] px-[15px] md:p-[30px] bg-[#0D0D0D] md:bg-[#151515]">
-            <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-white justify-between mb-[10px]">
-              <div
-                tabIndex={0}
-                className="relative flex flex-col items-start group"
-              >
-                <p className="underline decoration-dashed underline-offset-[2px] cursor-pointer text-[#ADB5B3]">
-                  Supply APY
-                </p>
-                <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
-                  <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
-                    <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
-                      <APY market={market} type="supply" />     
-                    </div>
-                  </div>
-                  <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
-                </div>
-              </div>
-              <div>{supplyApyFormatted}</div>
-            </div>
+
+            <SupplyAPY market={market} />
 
             <BorrowLimit
               value={initialValue}
@@ -265,7 +235,9 @@ export default function Deposit({
               urlArrow="/images/ico/arrow-green.svg"
             />
 
-            <div className="flex justify-center h-[50px] md:h-[60px]">
+            <Allowance tokenAllowance={tokenAllowance} decimals={tokenDecimals} />
+
+            <div className="flex justify-center h-[50px] md:h-[60px] mt-8">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isEnabled && (
                 <button
@@ -273,12 +245,13 @@ export default function Deposit({
                   onClick={async () => {
                     try {
                       setIsEnabling(true);
-                      await enable(
+                      let tx = await enable(
                         signer,
                         market.tokenPair.token,
-                        market.tokenPair.cToken
+                        market.tokenPair.cToken,
+                        walletBalance
                       );
-                      setIsEnabled(true);
+                      await tx.wait(3)
                     } catch (e) {
                       displayErrorMessage(networkData, e, "Could not enable.");
                     } finally {
@@ -347,3 +320,30 @@ export default function Deposit({
     </div>
   );
 }
+
+
+function SupplyAPY({market}: {market: Market}){
+  const borrowApy = parseFloat(market.marketData.depositApy);
+  const supplyApyFormatted = formatApy(borrowApy);
+
+  return <div className="relative flex w-full sm:w-full items-center font-nova text-sm sm:text-base text-white justify-between mb-[10px]">
+  <div
+    tabIndex={0}
+    className="relative flex flex-col items-start group"
+  >
+    <p className="underline decoration-dashed underline-offset-[2px] cursor-pointer text-[#ADB5B3]">
+      Supply APY
+    </p>
+    <div className="hidden flex-col absolute items-start bottom-5 group-hover:hidden lg:group-hover:flex group-focus:flex rounded-[10px]">
+      <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
+        <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-4 pb-[14px] pl-4">
+          <APY market={market} type="supply" />     
+        </div>
+      </div>
+      <div className="custom__arrow__tooltip relative top-[-6px] left-5 w-3 h-3 rotate-45 bg-[#181D1B]"></div>
+    </div>
+  </div>
+  <div>{supplyApyFormatted}</div>
+</div>
+}
+

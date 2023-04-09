@@ -52,7 +52,7 @@ export default function BorrowLimit(props: BorrowLimitProps) {
           {}
         </div>
       </div>
-      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[24px] md:mb-[30px]">
+      <div className="flex items-center text-[#ADB5B3] font-nova text-sm sm:text-base mb-[8px]">
         <div className="flex-grow">Borrow Used</div>
         <div className="text-white text-sm sm:text-base font-nova">
           {(value == "0" ||

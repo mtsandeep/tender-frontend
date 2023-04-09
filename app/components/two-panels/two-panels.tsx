@@ -147,7 +147,7 @@ export default function TwoPanels() {
         >
           <DepositBorrowFlow
             closeModal={() => setOpenMarket(false)}
-            market={openMarket}
+            marketId={openMarket.id}
             activeTab={activeTab}
             setActiveTab={(tab) => openMarket && handlerClickChangeTab(tab, openMarket)}
           />

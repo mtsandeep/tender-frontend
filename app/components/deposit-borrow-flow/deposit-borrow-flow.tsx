@@ -1,5 +1,5 @@
 import type { Market } from "~/types/global";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 
 import { TenderContext } from "~/contexts/tender-context";
 import Deposit from "~/components/deposit-borrow-flow/deposit";
@@ -13,14 +13,14 @@ export type ActiveTab = "supply" | "withdraw" | "borrow" | "repay";
 
 interface Props {
   closeModal: Function;
-  market: Market;
+  marketId: string;
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
 }
 
 export default function DepositBorrowFlow({
   closeModal,
-  market,
+  marketId,
   activeTab,
   setActiveTab,
 }: Props) {
@@ -30,7 +30,9 @@ export default function DepositBorrowFlow({
   const [initialValueRepay, setInitialValueRepay] = useState<string>("");
   const [initialValueBorrow, setInitialValueBorrow] = useState<string>("");
 
-  const { tokenPairs } = useContext(TenderContext);
+  const { tokenPairs, markets } = useContext(TenderContext);
+  const market = markets.filter((m)=> m.id === marketId)[0]
+
   const tabs: { name: ActiveTab; color: string; show: boolean }[] = [
     {
       name: "supply",
@@ -53,6 +55,7 @@ export default function DepositBorrowFlow({
       show: market.isBorrowable,
     },
   ];
+
 
   return (
     <div className="flex w-full h-full">
@@ -77,6 +80,7 @@ export default function DepositBorrowFlow({
       <div className="w-full md:w-[500px]">
         {activeTab === "supply" && (
           <Deposit
+            tokenAllowance={market.tokenAllowance}
             closeModal={closeModal}
             market={market}
             borrowLimitUsed={market.borrowLimitUsed}
@@ -104,6 +108,7 @@ export default function DepositBorrowFlow({
           <Repay
             market={market}
             closeModal={closeModal}
+            tokenAllowance={market.tokenAllowance}
             borrowedAmount={market.borrowBalance}
             walletBalance={getAmountFloat(
               market.walletBalance,

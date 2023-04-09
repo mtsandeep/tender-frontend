@@ -25,10 +25,13 @@ import APY from "../shared/APY";
 import { useAccountSummary } from "~/hooks/use-account-summary";
 import { useSigner } from "wagmi";
 import { parseUnits } from "@ethersproject/units";
+import { Allowance } from "./Allowance";
+import { BigNumber } from "ethers";
 
 export interface RepayProps {
   closeModal: Function;
   borrowedAmount: number;
+  tokenAllowance: BigNumber;
   walletBalance: number;
   tokenPairs: TokenPair[];
   market: Market;
@@ -42,6 +45,7 @@ export interface RepayProps {
 export default function Repay({
   market,
   closeModal,
+  tokenAllowance,
   borrowedAmount,
   walletBalance,
   initialValue,
@@ -96,9 +100,9 @@ export default function Repay({
 
     useEffect(() => {
       if (isValid && !isNaN(parseFloat(initialValue))) {
-        setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(market.tokenAllowance));
+        setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(tokenAllowance));
       }
-    }, [initialValue, market.tokenAllowance, isValid]);    
+    }, [initialValue, tokenAllowance, isValid]);    
 
   useEffect(() => {
     inputEl?.current && inputEl.current.focus();
@@ -184,44 +188,30 @@ export default function Repay({
               />
               {market.tokenPair.token.symbol}
             </div>
-            {!isEnabled ? (
-              <div className="flex flex-col items-center mt-[29px] md:mt-[34px] rounded-2xl px-4">
-                <img
-                  src={market.tokenPair.token.icon}
-                  className="w-[58px] h-[58px]"
-                  alt="icon"
-                />
-                <div className="max-w-sm text-center mt-[29px] md:mt-[34px] font-normal font-nova text-white text-sm px-0 md:px-4 mb-[10px] md:mb-0">
-                  To borrow or repay {market.tokenPair.token.symbol} on the
-                  Tender.fi protocol, you need to enable it first.
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
-                <input
-                  tabIndex={0}
-                  ref={inputEl}
-                  value={initialValue}
-                  onChange={(e) => handleCheckValue(e)}
-                  style={{ height: 70, minHeight: 70 }}
-                  className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
-                    !initialValue && "pl-[80px]"
-                  } ${inputTextClass}`}
-                  placeholder="0"
-                />
-                <Max
-                  maxValue={maxRepayableAmount}
-                  updateValue={() => {
-                    inputEl?.current && inputEl.current.focus();
-                    changeInitialValue(
-                      toMaxString(maxRepayableAmount, tokenDecimals)
-                    );
-                  }}
-                  maxValueLabel={market.tokenPair.token.symbol}
-                  color="#00E0FF"
-                />
-              </div>
-            )}
+            <div className="flex flex-col justify-center items-center overflow-hidden font-space min-h-[70px] h-[70px] pt-[96px] box-content">
+              <input
+                tabIndex={0}
+                ref={inputEl}
+                value={initialValue}
+                onChange={(e) => handleCheckValue(e)}
+                style={{ height: 70, minHeight: 70 }}
+                className={`input__center__custom z-20 w-full px-[40px] bg-transparent text-white text-center outline-none ${
+                  !initialValue && "pl-[80px]"
+                } ${inputTextClass}`}
+                placeholder="0"
+              />
+              <Max
+                maxValue={maxRepayableAmount}
+                updateValue={() => {
+                  inputEl?.current && inputEl.current.focus();
+                  changeInitialValue(
+                    toMaxString(maxRepayableAmount, tokenDecimals)
+                  );
+                }}
+                maxValueLabel={market.tokenPair.token.symbol}
+                color="#00E0FF"
+              />
+            </div>
           </div>
           <div
             ref={scrollBlockRef}
@@ -272,7 +262,10 @@ export default function Repay({
               newBorrowLimitUsed={newBorrowLimitUsed}
               urlArrow="/images/ico/arrow-blue.svg"
             />
-            <div className="flex justify-center h-[50px] md:h-[60px]">
+
+            <Allowance tokenAllowance={market.tokenAllowance} decimals={tokenDecimals} />
+
+            <div className="flex justify-center h-[50px] md:h-[60px] mt-8">
               {!signer && <div>Connect wallet to get started</div>}
               {signer && !isEnabled && (
                 <button
@@ -281,11 +274,13 @@ export default function Repay({
                     try {
                       setIsEnabling(true);
                       // @ts-ignore existence of signer is gated above.
-                      await enable(
+                      let tx = await enable(
                         signer,
                         market.tokenPair.token,
-                        market.tokenPair.cToken
+                        market.tokenPair.cToken,
+                        walletBalance.toString()
                       );
+                      await tx.wait(3)
                       setIsEnabled(true);
                     } catch (e) {
                     } finally {

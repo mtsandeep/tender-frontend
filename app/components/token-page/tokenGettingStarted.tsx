@@ -40,7 +40,7 @@ const TokenGettingStarted = ({ market }: Props) => {
         <DepositBorrowFlow
           key={market.id}
           closeModal={() => setOpenMarket(false)}
-          market={market}
+          marketId={market.id}
           activeTab={activeTab}
           setActiveTab={handlerClickChangeTab}
         />

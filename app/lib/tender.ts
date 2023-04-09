@@ -50,15 +50,18 @@ export function roundNumber(val: number): number {
 async function enable(
   signer: Signer,
   token: Token,
-  cToken: cToken
-): Promise<void> {
+  cToken: cToken,
+  amount?: string
+): Promise<Txn> {
   // Eth is always enabled
   if (token.symbol === "ETH") return
 
+  amount = amount ?? BigNumber.from(2).pow(256).sub(1).toString() // Max approval value, 2^256 - 1
+
   // @ts-ignore
   let contract = new ethers.Contract(token.sGLPAddress || token.address, SampleErc20Abi, signer);
-  let approvalVal = BigNumber.from(2).pow(256).sub(1).toString(); // Max approval value, 2^256 - 1
-  await contract.approve(cToken.address, approvalVal);
+  
+  return await contract.approve(cToken.address, amount);
 }
 
 /**
@@ -608,7 +611,6 @@ export {
   getTotalSupplyBalanceInUsd,
   repay,
   borrow,
-  hasSufficientAllowance,
   projectBorrowLimit,
   getAssetPriceInUsd,
   safeMaxBorrowAmountForToken,

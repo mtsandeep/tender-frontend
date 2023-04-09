@@ -292,9 +292,8 @@ export default function Withdraw({
               />
             )}
 
-            <div className="flex justify-center h-[50px] md:h-[60px]">
+            <div className="flex justify-center h-[50px] md:h-[60px] mt-8">
               {!signer && <div>Connect wallet to get started</div>}
-
               {signer &&
                 !isValid &&
                 (validationDetail === "Insufficient liquidity" ? (
