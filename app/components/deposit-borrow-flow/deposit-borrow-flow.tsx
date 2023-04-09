@@ -110,10 +110,7 @@ export default function DepositBorrowFlow({
             closeModal={closeModal}
             tokenAllowance={market.tokenAllowance}
             borrowedAmount={market.borrowBalance}
-            walletBalance={getAmountFloat(
-              market.walletBalance,
-              market.tokenPair.token.decimals
-            )}
+            walletBalance={market.walletBalance}
             tokenPairs={tokenPairs}
             initialValue={initialValueRepay}
             changeInitialValue={setInitialValueRepay}

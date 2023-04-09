@@ -4,7 +4,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type {
   TransactionReceipt,
 } from "@ethersproject/providers";
-import { getAmount, toMaxString } from "~/lib/ui";
+import { getAmount, getAmountFloat, toMaxString } from "~/lib/ui";
 
 import toast from "react-hot-toast";
 
@@ -32,7 +32,7 @@ export interface RepayProps {
   closeModal: Function;
   borrowedAmount: number;
   tokenAllowance: BigNumber;
-  walletBalance: number;
+  walletBalance: string;
   tokenPairs: TokenPair[];
   market: Market;
   initialValue: string;
@@ -85,7 +85,7 @@ export default function Repay({
   const scrollBlockRef = useRef<HTMLDivElement>(null);
   const inputTextClass = shrinkInputClass(initialValue.length);
 
-  const maxRepayableAmount = Math.min(borrowedAmount, walletBalance);
+  const maxRepayableAmount = Math.min(borrowedAmount, getAmountFloat(walletBalance, tokenDecimals));
 
   const [isValid, validationDetail] = useValidInputV2(
     getAmount(initialValue, market.tokenPair.token.decimals),
@@ -275,16 +275,18 @@ export default function Repay({
                   onClick={async () => {
                     try {
                       setIsEnabling(true);
+                      console.log("bal", maxRepayableAmount, walletBalance)
                       // @ts-ignore existence of signer is gated above.
                       let tx = await enable(
                         signer,
                         market.tokenPair.token,
                         market.tokenPair.cToken,
-                        walletBalance.toString()
+                        walletBalance
                       );
                       await tx.wait(3)
                       setIsEnabled(true);
                     } catch (e) {
+                      console.error(e)
                     } finally {
                       setIsEnabling(false);
                     }
