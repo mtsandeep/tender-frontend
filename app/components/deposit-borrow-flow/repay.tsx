@@ -99,15 +99,16 @@ export default function Repay({
     useContext(TenderContext);
 
     let isEth = market.tokenPair.token.symbol === "ETH";
+
     useEffect(() => {
       if (isEth) {
         setIsEnabled(true)
-      } if (isValid && !isNaN(parseFloat(initialValue))) {
+      } else if (isValid && !isNaN(parseFloat(initialValue))) {
         setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(tokenAllowance));
       } else {
         setIsEnabled(true)
       }
-    }, [initialValue, tokenAllowance, isValid]);    
+    }, [initialValue, tokenAllowance, isValid, isEth]);    
 
   useEffect(() => {
     inputEl?.current && inputEl.current.focus();
