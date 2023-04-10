@@ -98,8 +98,11 @@ export default function Repay({
   const { currentTransaction, updateTransaction, setIsWaitingToBeMined, networkData } =
     useContext(TenderContext);
 
+    let isEth = market.tokenPair.token.symbol === "ETH";
     useEffect(() => {
-      if (isValid && !isNaN(parseFloat(initialValue))) {
+      if (isEth) {
+        setIsEnabled(true)
+      } if (isValid && !isNaN(parseFloat(initialValue))) {
         setIsEnabled(parseUnits(initialValue, tokenDecimals).lte(tokenAllowance));
       } else {
         setIsEnabled(true)
@@ -265,7 +268,7 @@ export default function Repay({
               urlArrow="/images/ico/arrow-blue.svg"
             />
 
-            <Allowance tokenAllowance={market.tokenAllowance} decimals={tokenDecimals} />
+            {!isEth && <Allowance tokenAllowance={market.tokenAllowance} decimals={tokenDecimals} />}
 
             <div className="flex justify-center h-[50px] md:h-[60px] mt-8">
               {!signer && <div>Connect wallet to get started</div>}
