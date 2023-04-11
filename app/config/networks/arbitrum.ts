@@ -80,6 +80,40 @@ export default {
         isVault: false,
       },
     },
+    GMX: {
+      name: "GMX",
+      symbol: "GMX",
+      decimals: 18,
+      address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+      rewardTracker: "0xd2D1162512F927a7e282Ef43a362659E4F2a728F",
+      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
+      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
+      icon: "/images/coin-icons/gmx.svg",
+      // min transaction amount
+      // GMX fails for small amounts
+      floor: "500",
+      cToken: {
+        name: "tGMX",
+        symbol: "tGMX",
+        decimals: 8,
+        address: "0x20a6768F6AABF66B787985EC6CE0EBEa6D7Ad497",
+        isVault: true,
+      },
+    },
+    MAGIC: {
+      name: "MAGIC",
+      symbol: "MAGIC",
+      decimals: 18,
+      address: "0x539bdE0d7Dbd336b79148AA742883198BBF60342",
+      icon: "/images/coin-icons/magic.png",
+      cToken: {
+        name: "tMAGIC",
+        symbol: "tMAGIC",
+        decimals: 8,
+        address: "0x4180f39294c94F046362c2DBC89f2DF7786842c3",
+        isVault: false,
+      },
+    },
     USDC: {
       name: "USDC",
       symbol: "USDC",
@@ -108,7 +142,6 @@ export default {
         isVault: false,
       },
     },
-
     DAI: {
       name: "DAI",
       symbol: "DAI",
@@ -164,40 +197,6 @@ export default {
         symbol: "tLINK",
         decimals: 8,
         address: "0x87D06b55e122a0d0217d9a4f85E983AC3d7a1C35",
-        isVault: false,
-      },
-    },
-    GMX: {
-      name: "GMX",
-      symbol: "GMX",
-      decimals: 18,
-      address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
-      rewardTracker: "0xd2D1162512F927a7e282Ef43a362659E4F2a728F",
-      vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A",
-      nativeToken: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1", //WETH
-      icon: "/images/coin-icons/gmx.svg",
-      // min transaction amount
-      // GMX fails for small amounts
-      floor: "500",
-      cToken: {
-        name: "tGMX",
-        symbol: "tGMX",
-        decimals: 8,
-        address: "0x20a6768F6AABF66B787985EC6CE0EBEa6D7Ad497",
-        isVault: true,
-      },
-    },
-    MAGIC: {
-      name: "MAGIC",
-      symbol: "MAGIC",
-      decimals: 18,
-      address: "0x539bdE0d7Dbd336b79148AA742883198BBF60342",
-      icon: "/images/coin-icons/magic.png",
-      cToken: {
-        name: "tMAGIC",
-        symbol: "tMAGIC",
-        decimals: 8,
-        address: "0x4180f39294c94F046362c2DBC89f2DF7786842c3",
         isVault: false,
       },
     },
