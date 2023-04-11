@@ -203,6 +203,7 @@ export default {
     },
   },
 };
+
 export const Tendies: IncentiveContractsConfig= {
   RewardRouter: "0xe881DbdA0b8D76d7aD4157805178cEf7Ec8C96Ad",
   RewardDistributor: "0x705B3d2DF6e8F8E0e7007f52A7BD66086A12E9aE",
