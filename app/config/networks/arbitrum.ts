@@ -187,6 +187,20 @@ export default {
         isVault: true,
       },
     },
+    MAGIC: {
+      name: "MAGIC",
+      symbol: "MAGIC",
+      decimals: 18,
+      address: "0x539bdE0d7Dbd336b79148AA742883198BBF60342",
+      icon: "/images/coin-icons/magic.png",
+      cToken: {
+        name: "tMAGIC",
+        symbol: "tMAGIC",
+        decimals: 8,
+        address: "0x4180f39294c94F046362c2DBC89f2DF7786842c3",
+        isVault: false,
+      },
+    },
   },
 };
 export const Tendies: IncentiveContractsConfig= {
