@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 import { TND_DECIMALS } from "~/lib/tnd";
-import { Market } from "~/types/global";
+import type { Market } from "~/types/global";
 import { checkColorClass } from "../two-panels/two-panels";
 
 type APY_PROPS = {
@@ -41,7 +41,6 @@ export function HoverableAPY({ market, type, onClick }: HoverableAPYProps) {
       >
         <div className="absolute top-[25px] md:top-[61px] left-[15px] h-[22px]">
           <div
-            onClick={onClick}
             className="!flex items-center break-words bg-[#181D1B] text-[#A3AEAC] rounded-md text-[11px] text-center h-[20px] px-[5px]"
           >
             <img
@@ -57,7 +56,7 @@ export function HoverableAPY({ market, type, onClick }: HoverableAPYProps) {
               alt="..."
             />
           </div>
-          <div className="hidden flex-col absolute bottom__custom items-center group-hover:hidden lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
+          <div className="hidden flex-col absolute bottom__custom items-center group-hover:flex lg:group-hover:flex lg:group-focus:flex rounded-[10px]">
             <div className="relative z-10 leading-none whitespace-no-wrap shadow-lg w-[100%] mx-[0px] !rounded-[10px] panel-custom">
               <div className="flex-col w-full h-full bg-[#181D1B] shadow-lg rounded-[10px] pt-[14px] pr-[16px] pb-[14px] pl-[16px]">
                 <APY market={market} type={type} />
