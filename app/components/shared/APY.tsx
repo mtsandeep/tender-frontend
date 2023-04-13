@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { TenderContext } from "~/contexts/tender-context";
 import { formatApy } from "~/lib/apy-calculations";
 import { TND_DECIMALS } from "~/lib/tnd";
-import type { Market } from "~/types/global";
+import { Market } from "~/types/global";
 import { checkColorClass } from "../two-panels/two-panels";
 
 type APY_PROPS = {
