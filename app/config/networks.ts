@@ -5,6 +5,7 @@ import rinkeby from "./networks/rinkeby";
 import metisStartdust from "./networks/metisStardust";
 import metisMainnet from "./networks/metisMainnet";
 import arbitrum from "./networks/arbitrum";
+import fantom from "./networks/fantom";
 import avalanche from "./networks/avalanche";
 
 const networks: Networks = {
@@ -12,6 +13,7 @@ const networks: Networks = {
   [NetworkName.metisStartdust]: metisStartdust,
   [NetworkName.metisMainnet]: metisMainnet,
   [NetworkName.arbitrum]: arbitrum,
+  [NetworkName.fantom]: fantom,
   [NetworkName.avalanche]: avalanche,
 };
 

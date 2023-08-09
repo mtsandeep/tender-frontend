@@ -21,8 +21,8 @@ export default function Ring({ percent }: { percent?: number }) {
             r="60"
           ></circle>
           <linearGradient id="myGradientLight" gradientTransform="rotate(90)">
-            <stop offset="0%" stopColor="#14F195" />
-            <stop offset="100%" stopColor="#14F1D6" />
+            <stop offset="0%" stopColor="#00ABFF" />
+            <stop offset="100%" stopColor="#00ABFF" />
           </linearGradient>
         </svg>
       </div>

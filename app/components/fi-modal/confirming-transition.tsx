@@ -12,17 +12,17 @@ export default function ConfirmingTransaction({
   stopWaitingOnConfirmation,
   txnHash,
 }: Props) {
-  let { isWaitingToBeMined } = useContext(TenderContext);
+  let { isWaitingToBeMined, currentTransaction } = useContext(TenderContext);
   let { blockExplorerUrl } = useBlockchainExplorer();
 
   return (
-    <div className="flex flex-col items-center overflow-hidden pb-[30px] md:pb-[80px] pr-[15px] pl-[15px] md:pr-[88px] md:pl-[88px]">
+    <div className="flex flex-col items-center justify-center overflow-hidden py-[30px] md:py-[40px] h-[542px] md:h-[510px] pr-[15px] pl-[15px] md:pr-[88px] md:pl-[88px] relative">
       <svg
         onClick={() => stopWaitingOnConfirmation()}
         width="24"
         height="24"
         viewBox="0 0 24 24"
-        className="absolute cursor-pointer top-[35px] right-[30px] group"
+        className="absolute right-[16px] sm:right-[22px] top-[24px] cursor-pointer group"
       >
         <path
           className="group-hover:fill-[#14f195]"
@@ -30,31 +30,31 @@ export default function ConfirmingTransaction({
           fill="white"
         />
       </svg>
-      {isWaitingToBeMined ? (
-        <div className="flex w-full max-w-[100%] justify-center mt-[71px] mb-[20px] md:mt-[130px] md:mb-[70px]">
+      <div className="flex w-[120px] h-[120px] md:w-[160px] md:h-[160px] max-w-[100%] items-end justify-center mb-[20px] md:mb-[70px] svg_animation_custom">
+        {isWaitingToBeMined || currentTransaction ? (
           <Lottie
             loop={true}
             animationData={animationData}
-            className="w-[120px] h-[120px] md:w-[200px] md:h-[200px]"
+            className="w-full h-full"
           />
-        </div>
-      ) : (
-        <div className="flex w-full justify-center mt-[58px] mb-[37px] md:mt-[94px] md:mb-[66px]">
+        ) : (
           <img
             className="w-[84px] h-[84px] md:w-[120px] md:h-[120px]"
             src="/images/ico/done.svg"
             alt="..."
           />
-        </div>
-      )}
-      <div className="text-center font-nova font-bold text-[24px] md:text-[33px] leading-[120%] md:leading-[40px] mb-[30px] md:mb-[37px]">
-        {isWaitingToBeMined ? "Confirming transaction" : "Done!"}
+        )}
+      </div>
+      <div className="text-center font-nova font-bold text-2xl md:text-[33px] leading-[120%] md:leading-[40px] mb-[30px] md:mb-[37px]">
+        {isWaitingToBeMined || currentTransaction
+          ? "Confirming transaction"
+          : "Done!"}
       </div>
       <a
-        href={`${blockExplorerUrl}/${txnHash}`}
+        href={`${blockExplorerUrl}/tx/${txnHash}`}
         rel="noreferrer"
         target="_blank"
-        className="uppercase font-space font-bold text-base w-full max-w-[375px] flex justify-center items-center bg-[#14F195] text-[#000] rounded-[6px] h-[60px] md:h-[60px]"
+        className="uppercase font-space font-bold text-base w-full max-w-[375px] flex justify-center items-center bg-[#14F195] text-[#000] rounded-[6px] h-[50px] md:h-[60px] hover:bg-[#14f195ce]"
       >
         VIEW ON EXPLORER
       </a>

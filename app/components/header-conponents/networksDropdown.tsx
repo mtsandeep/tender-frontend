@@ -62,6 +62,15 @@ const actualNetworks = [
     ],
     networkData: networks.arbitrum,
   },
+  {
+    chainId: networks.fantom.ChainId,
+    networkName: networks.fantom.blockExplorerName,
+    iconsSrc: "/images/ico/fantom_network.png",
+    links: [
+
+    ],
+    networkData: networks.fantom,
+  },
   // {
   //   chainId: networks.avalanche.ChainId,
   //   networkName: networks.avalanche.blockExplorerName,
